@@ -26,17 +26,17 @@
 
 Glassmorphism flip card 💎 floating labels, glowing border, shake-on-error, show/hide password 👁️:
 
-- **🎒 Pupil login:** Registration No + Password + Remember me + **Treasure captcha** (school-made: match letters & pictures — no Google!)
+- **🎒 Pupil login:** Phone number + Password + Remember me + **Treasure captcha** (school-made: match letters & pictures — no Google!)
 - **✨ Create Password (OTP style):** for reg numbers without password — 4-digit code → 4 boxes → new + confirm → Activate → loading → success toast
 - **🔑 Forgot Password modal** on wrong password: Try Again 🔄 or Reset with OTP
-- **👩‍🏫 Staff tab:** Admin/Teacher ID + PIN (portals unchanged)
+- **👩‍🏫 Staff tab:** Phone number + PIN (old T001/HEAD001 IDs still work)
 - **📝 Registration (flip side):** 3-step wizard with progress bar — **Step 1** Ward info (surname, first, other names, DOB, gender, class, blood group…) • **Step 2** Guardian 1 & 2 (name, phone, gender) + address • **Step 3** Payment (Pay now demo / Pay at school) • Treasure check • ⏰ must visit school **within 2 weeks** or it expires!
 
 | Demo login | ID | Password |
 |---|---|---|
-| 🎒 Pupil (has password) | `TA/2023/001` | `1234` |
-| 🆕 Pupil (no password — try Create Password!) | `TA/2023/003` | — |
-| 👩‍🏫 Teacher | `T001` | PIN `1234` |
+| 🎒 Pupil (has password) | `0805 111 2222` | `1234` |
+| 🆕 Pupil (no password — try Create Password!) | `0805 555 6666` | — |
+| 👩‍🏫 Teacher | `0803 100 0001` | PIN `1234` |
 | 👩‍💼 Headmistress | `HEAD001` | PIN `1234` |
 
 ## 👩‍💼 Headmistress Admin (`portal/admin.html`)
@@ -54,6 +54,15 @@ Everything from before (Overview, Pupils, Teachers, Duty Roster + instant dashbo
 
 - Data lives in the browser (`localStorage`) — old demo data **auto-migrates**; reset anytime via **Admin → Settings → Reset Demo Data**.
 - Try the magic flow: **Register online → Admin admits → Pupil creates password → checks result. 🎉**
+
+## 💳 Payments roadmap (Moniepoint/Monnify — researched Sept 2026, build later)
+
+- Online collection = **Monnify** (Moniepoint Group). Secret keys stay on a backend server, never in site JS.
+- Recommended: one **reserved virtual account per pupil** (guardian BVN/NIN collected at admission). Parent pays every term into the same number; the webhook marks the bill **Paid** automatically.
+- Fallback: ONE static school account + unique narration code per invoice (e.g. `TA-2026-0042`), with an unmatched-payment queue for admin to pair by hand.
+- **Cost:** ₦0 to start (no setup/monthly). Per successful transfer: **1.5% capped ₦2,000** or **₦500 flat**; the fee can be passed to parents. Same-day settlement by 10pm. NIN check ₦60 / BVN check ₦10 once per guardian.
+- Phases: manual claim flow (live now, ₦0) → backend + database → Monnify sandbox → go live with portal receipts.
+- Sources: monnify.com/pricing, support.monnify.com, developers.monnify.com, support.paystack.com (school rates).
 
 ## 📁 Files
 

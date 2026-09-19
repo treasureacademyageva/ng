@@ -46,13 +46,13 @@ function seedDB(){
     school,
     admins: [{id:"HEAD001", pin:"1234", name:"Mrs. Salihu Nanahawa", title:"Headmistress"}],
     teachers: [
-      {id:"T001", pin:"1234", name:"Uncle Ebenezer", phone:"—", class:"Primary 3", subjects:["English Language","Mathematics"],dob:"1988-02-14"},
-      {id:"T002", pin:"1234", name:"Aunty Rafatu",   phone:"—", class:"Primary 1", subjects:["Mathematics","Basic Science"],dob:"1992-06-21"},
-      {id:"T003", pin:"1234", name:"Aunty Rachel",   phone:"—", class:"Nursery 2", subjects:["Literacy","Numeracy","Phonics"],dob:"1990-11-03"},
-      {id:"T004", pin:"1234", name:"Aunty Nanahawa", phone:"—", class:"Pre-Nursery", subjects:["Literacy","Numeracy","Rhymes & Songs"],dob:"1995-08-30"},
+      {id:"T001", pin:"1234", name:"Uncle Ebenezer", phone:"0803 100 0001", class:"Primary 3", subjects:["English Language","Mathematics"],dob:"1988-02-14"},
+      {id:"T002", pin:"1234", name:"Aunty Rafatu",   phone:"0803 100 0002", class:"Primary 1", subjects:["Mathematics","Basic Science"],dob:"1992-06-21"},
+      {id:"T003", pin:"1234", name:"Aunty Rachel",   phone:"0803 100 0003", class:"Nursery 2", subjects:["Literacy","Numeracy","Phonics"],dob:"1990-11-03"},
+      {id:"T004", pin:"1234", name:"Aunty Nanahawa", phone:"0803 100 0004", class:"Pre-Nursery", subjects:["Literacy","Numeracy","Rhymes & Songs"],dob:"1995-08-30"},
       {id:"T005", pin:"1234", name:"Mr. Tunde Bakare (demo)", phone:"0803 999 0000", class:"Primary 4", subjects:["English Language","Social Studies"],dob:"1985-09-16"},
       {id:"T006", pin:"1234", name:"Mrs. Ngozi Obi (demo)",   phone:"0803 222 3333", class:"Creche",    subjects:["Rhymes & Songs","Social Habits"],dob:"1993-12-09"},
-      {id:"T007", pin:"1234", name:"Mrs Salihu Nanahawa", phone:"-", class:"Nursery 1", subjects:["Literacy","Numeracy","Phonics"],dob:"1991-05-22"}
+      {id:"T007", pin:"1234", name:"Mrs Salihu Nanahawa", phone:"0803 100 0007", class:"Nursery 1", subjects:["Literacy","Numeracy","Phonics"],dob:"1991-05-22"}
     ],
     pupils: [
       {id:"P001", adm:"TA/2023/001", pin:"1234", password:"1234", name:"Adaeze Okafor",   gender:"Female", class:"Primary 1", dob:"2019-03-12", parent:"Mrs. Okafor",  phone:"0805 111 2222"},
@@ -71,7 +71,7 @@ function seedDB(){
       {id:"P014", adm:"TA/2025/014", pin:"1234", password:null, name:"Peter Udo",      gender:"Male",   class:"Primary 4", dob:"2016-07-09", parent:"Mr. Udo",      phone:"0805 321 3210"},
       {id:"P015", adm:"TA/2026/015", pin:"1234", password:null, name:"Zara Ali",   gender:"Female", class:"Creche",    dob:"2024-05-20", parent:"Mrs. Ali",     phone:"0805 654 6543"},
       {id:"P016", adm:"TA/2026/016", pin:"1234", password:null, name:"Tobi Alabi",      gender:"Male",   class:"Creche",    dob:"2024-09-11", parent:"Mr. Alabi",    phone:"0805 987 9876"},
-      {id:"P017", adm:"TA/2026/017", pin:"1234", password:null, name:"Majebi Benita", gender:"Female", class:"Primary 3", dob:"", parent:"—", phone:"—"}
+      {id:"P017", adm:"TA/2026/017", pin:"1234", password:null, name:"Majebi Benita", gender:"Female", class:"Primary 3", dob:"", parent:"Mrs. Benita", phone:"0805 100 0017"}
     ],
     duty: [
       {day:"Monday",    teachers:["T001","T003"]},
@@ -219,13 +219,13 @@ function seedDB(){
     classPages: [
       {class:"Creche", tagline:"Gentle care for our littlest treasures.", about:"Our Creche gives babies a safe, clean and loving second home. Trained nannies care for each child with patience while building early speech, movement and social smiles.", activities:["Rhymes & cuddles","Tummy time & play","Early speech sounds","Nap & meal routine"], image:"assets/img/hero-kids.png", visible:true},
       {class:"Pre-Nursery", tagline:"First steps into happy learning.", about:"Pre-Nursery blends play with early learning. Children sing, paint, build and begin to recognise letters, numbers and colours in a warm classroom.", activities:["Letter & number play","Painting & building","Rhymes & stories","Table manners"], image:"assets/img/classroom.png", visible:true},
-      {class:"Nursery 1", tagline:"Sounds, letters and numbers come alive.", about:"In Nursery 1 we build strong reading and writing foundations with phonics, handwriting practice and simple numeracy — all through joyful daily activities.", activities:["Phonics & reading","Handwriting","Simple counting","Colouring & craft"], image:"assets/img/library.png", visible:true},
+      {class:"Nursery 1", tagline:"Sounds, letters and numbers come alive.", about:"In Nursery 1 we build strong reading and writing foundations with phonics, handwriting practice and simple numeracy, all through joyful daily activities.", activities:["Phonics & reading","Handwriting","Simple counting","Colouring & craft"], image:"assets/img/library.png", visible:true},
       {class:"Nursery 2", tagline:"Confident readers, ready for Primary.", about:"Nursery 2 polishes reading fluency, spelling and number work so every child steps into Primary 1 with confidence and excellent habits.", activities:["Fluent reading","Spelling & dictation","Addition & subtraction","Show & tell"], image:"assets/img/library.png", visible:true},
       {class:"Primary 1", tagline:"Strong start, bright future.", about:"Primary 1 lays the blocks for all future learning: English, Mathematics, handwriting and good study habits, with caring guidance every step.", activities:["English & comprehension","Mental maths","Handwriting mastery","Computer time"], image:"assets/img/classroom.png", visible:true},
       {class:"Primary 2", tagline:"Growing minds, deeper skills.", about:"Primary 2 stretches vocabulary, multiplication tables and writing skills while growing confidence through class presentations and teamwork.", activities:["Grammar & writing","Times tables","Reading club","Team projects"], image:"assets/img/classroom.png", visible:true},
       {class:"Primary 3", tagline:"Thinking, reasoning, excelling.", about:"Primary 3 introduces deeper reasoning, science discovery and computer skills. Pupils take pride in neat work and strong continuous assessment.", activities:["Reasoning skills","Science discovery","Coding club","Debate & quiz"], image:"assets/img/sports.png", visible:true},
       {class:"Primary 4", tagline:"Independent learners emerge.", about:"Primary 4 pupils read widely, solve tougher maths and express ideas clearly in writing. Leadership roles like class captain build responsibility.", activities:["Essay writing","Problem solving","Library research","Leadership roles"], image:"assets/img/sports.png", visible:true},
-      {class:"Primary 5", tagline:"Almost there — excellence in sight.", about:"Primary 5 prepares pupils for the final lap with advanced topics, exam technique and Common Entrance awareness woven into daily lessons.", activities:["Exam technique","Advanced maths","Moral leadership","Excursions"], image:"assets/img/graduation.png", visible:true},
+      {class:"Primary 5", tagline:"Almost there: excellence in sight.", about:"Primary 5 prepares pupils for the final lap with advanced topics, exam technique and Common Entrance awareness woven into daily lessons.", activities:["Exam technique","Advanced maths","Moral leadership","Excursions"], image:"assets/img/graduation.png", visible:true},
       {class:"Primary 6", tagline:"Finish strong, soar higher.", about:"Primary 6 is our graduation class — intensive Common Entrance preparation, interviews and secondary-school readiness, crowned with our prize-giving celebration.", activities:["Entrance practice","Interview skills","Valedictory prep","Legacy project"], image:"assets/img/graduation.png", visible:true}
     ],
     shopItems: [
@@ -258,6 +258,7 @@ function seedDB(){
     timetable: null,
     readTop: [],
     readLog: [],
+    resultViews: [],
     bestStudent: {name:"",class:"",score:0,parts:{},term:"",session:"",published:false,date:""},
     comments: {NE1:[{name:"Mrs. Okafor",text:"Beautiful! My daughter came home so happy that day.",date:"2026-09-09"},{name:"Mr. Nwosu",text:"Well done Treasure Academy. Keep it up!",date:"2026-09-10"}]},
     orders: [],
@@ -349,6 +350,7 @@ const DB = {
     if(!db.sickbay) db.sickbay = [];
     if(!db.readTop) db.readTop = [];
     if(!db.readLog) db.readLog = [];
+    if(!db.resultViews) db.resultViews = [];
     if(!db.bestStudent) db.bestStudent = {name:"",class:"",score:0,parts:{},term:"",session:"",published:false,date:""};
     if(!("timetable" in db)) db.timetable = null;
     (db.alumni||[]).forEach(a=>{ if(!a.status) a.status="Approved"; });
@@ -397,6 +399,9 @@ const DB = {
   reset(){ localStorage.removeItem(DB_KEY); OLD_DB_KEYS.forEach(k=>localStorage.removeItem(k)); return DB.load(); },
   expireRegs(db){
     let changed=false; const now=Date.now();
+    (db.lostfound||[]).forEach(l=>{
+      if(!l.claimed&&!l.archived&&l.date&&U.daysUntil(l.date)<-60){ l.archived=true; changed=true; }
+    });
     (db.registrations||[]).forEach(r=>{
       if(r.status==="Pending" && new Date(r.expiry).getTime() < now){ r.status="Expired"; changed=true; }
     });
@@ -414,27 +419,37 @@ const Auth = {
       if(a) return {role, refId:a.id, name:a.name, label:"Headmistress / Admin"};
     }
     if(role==="teacher"){
-      const t = db.teachers.find(x=>x.id.toUpperCase()===id && x.pin===pin);
+      const key = U.phoneKey(id);
+      const t = db.teachers.find(x=>((x.id||"").toUpperCase()===id||(key&&U.phoneKey(x.phone)===key)) && x.pin===pin);
       if(t) return {role, refId:t.id, name:t.name, label:"Teacher • "+t.class};
     }
     return null;
   },
   pupilFind(adm){
-    const db = DB.load();
-    return db.pupils.find(x=>x.adm.toUpperCase()===(adm||"").trim().toUpperCase()||x.id.toUpperCase()===(adm||"").trim().toUpperCase())||null;
+    const db = DB.load(), q=(adm||"").trim().toUpperCase(), key=U.phoneKey(adm);
+    return db.pupils.find(x=>((x.adm||"").toUpperCase()===q||(x.id||"").toUpperCase()===q||(key&&U.phoneKey(x.phone)===key)))||null;
   },
   pupilLogin(adm, password){
-    const p = Auth.pupilFind(adm);
-    if(!p) return {ok:false, reason:"notfound"};
-    if(!p.password) return {ok:false, reason:"nopassword", pupil:p};
-    if(p.password !== (password||"")) return {ok:false, reason:"wrongpass", pupil:p};
-    return {ok:true, session:{role:"pupil", refId:p.id, name:p.name, label:"Pupil • "+p.class}};
+    const db = DB.load(), q=(adm||"").trim().toUpperCase(), key=U.phoneKey(adm), pw=password||"";
+    const cands = db.pupils.filter(x=>((x.adm||"").toUpperCase()===q||(x.id||"").toUpperCase()===q||(key&&U.phoneKey(x.phone)===key)));
+    if(!cands.length) return {ok:false, reason:"notfound"};
+    const exact = cands.find(x=>((x.adm||"").toUpperCase()===q||(x.id||"").toUpperCase()===q));
+    if(exact){
+      if(!exact.password) return {ok:false, reason:"nopassword", pupil:exact};
+      if(exact.password!==pw) return {ok:false, reason:"wrongpass", pupil:exact};
+      return {ok:true, session:{role:"pupil", refId:exact.id, name:exact.name, label:"Pupil • "+exact.class}};
+    }
+    const withPw = cands.filter(p=>p.password);
+    if(!withPw.length) return {ok:false, reason:"nopassword", pupil:cands[0]};
+    const hit = withPw.find(p=>p.password===pw);
+    if(!hit) return {ok:false, reason:"wrongpass", pupil:withPw[0]};
+    return {ok:true, session:{role:"pupil", refId:hit.id, name:hit.name, label:"Pupil • "+hit.class}};
   },
   setPassword(adm, password){
-    const db = DB.load();
-    const p = db.pupils.find(x=>x.adm.toUpperCase()===(adm||"").trim().toUpperCase());
-    if(!p) return false;
-    p.password = password; DB.save(db); return true;
+    const db = DB.load(), q=(adm||"").trim().toUpperCase(), key=U.phoneKey(adm);
+    const cands = db.pupils.filter(x=>((x.adm||"").toUpperCase()===q||(x.id||"").toUpperCase()===q||(key&&U.phoneKey(x.phone)===key)));
+    if(!cands.length) return false;
+    cands.forEach(p=>{ p.password=password; }); DB.save(db); return true;
   },
   /* persistent=true → remembered on this device until logout */
   set(s, persistent){
@@ -605,6 +620,7 @@ const U = {
   getTimetable(db,cls){ return db.timetable||((db.timetables||{})[cls])||U.timetable(cls); },
   ttSlots(){ return ["Assembly","1st Period","2nd Period","3rd Period","Break","4th Period","5th Period","6th Period","Closing"]; },
   todayStr(){ return new Date().toISOString().slice(0,10); },
+  phoneKey(ph){ const d=String(ph||"").replace(/\D/g,""); return d.length>=7?d.slice(-10):""; },
   compressPhotos(input,max,cb){
     const files=[...(input&&input.files||[])].slice(0,max||3);
     if(!files.length){ cb([]); return; }

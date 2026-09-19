@@ -11,9 +11,9 @@
 <link rel="icon" href="assets/img/logo.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/main.css?v=20260919-17">
-<link rel="stylesheet" href="assets/css/extra.css?v=20260919-17">
-<link rel="stylesheet" href="assets/css/corporate.css?v=20260919-17">
+<link rel="stylesheet" href="assets/css/main.css?v=20260919-20">
+<link rel="stylesheet" href="assets/css/extra.css?v=20260919-20">
+<link rel="stylesheet" href="assets/css/corporate.css?v=20260919-20">
 <noscript><style>#siteLoader{display:none!important}</style></noscript>
 </head>
 <body data-page="homework" data-assets="assets/">
@@ -43,8 +43,8 @@
 </div></section>
 <footer id="siteFooter"></footer>
 <div id="toast"></div>
-<script src="assets/js/store.js?v=20260919-17"></script>
-<script src="assets/js/site.js?v=20260919-17"></script>
+<script src="assets/js/store.js?v=20260919-20"></script>
+<script src="assets/js/site.js?v=20260919-20"></script>
 <script>
 (function(){
   const db = DB.load();
@@ -52,12 +52,15 @@
   const classes = [...new Set(list.map(h=>h.class))];
   const sel = document.getElementById("hwClass");
   sel.innerHTML = '<option value="">All classes</option>' + classes.map(c=>`<option>${U.esc(c)}</option>`).join("");
+  const doneMap=()=>{ try{ return JSON.parse(localStorage.getItem("treasure_hwdone")||"{}"); }catch(e){ return {}; } };
+  window.tickHW=id=>{ const m=doneMap(); if(m[id])delete m[id]; else m[id]=1;
+    try{ localStorage.setItem("treasure_hwdone",JSON.stringify(m)); }catch(e){} render(); };
   function render(){
-    const f = sel.value;
+    const f = sel.value, done=doneMap();
     const rows = list.filter(h=>!f||h.class===f);
     document.getElementById("hwList").innerHTML = rows.length ? rows.map(h=>`
       <div class="hw-row clip-up"><div class="avatar" style="background:${U.avatarColor(h.subject)}">${U.initials(h.subject)}</div>
-        <div style="flex:1"><b>${U.esc(h.class)} — ${U.esc(h.subject)}</b><br><span>${U.esc(h.note)}</span><br><small style="color:var(--muted)">Given: ${U.prettyDate(h.date)}</small>${(h.photos||[]).length?`<div style="display:flex;gap:8px;margin-top:8px;flex-wrap:wrap">${h.photos.map(p=>`<img src="${p}" alt="homework photo" style="width:110px;height:82px;object-fit:cover;border-radius:8px;border:1px solid var(--line);cursor:zoom-in" onclick="window.open(this.src,'_blank')">`).join("")}</div>`:""}</div>
+        <div style="flex:1"><b>${U.esc(h.class)} — ${U.esc(h.subject)}</b><br><span>${U.esc(h.note)}</span><br><small style="color:var(--muted)">Given: ${U.prettyDate(h.date)}</small> ${done[h.id]?'<span class="badge b-green">Done ✓</span>':`<button class="icon-btn" style="font-size:.75rem" onclick="tickHW('${h.id}')">We finished it ✓</button>`}${(h.photos||[]).length?`<div style="display:flex;gap:8px;margin-top:8px;flex-wrap:wrap">${h.photos.map(p=>`<img src="${p}" alt="homework photo" style="width:110px;height:82px;object-fit:cover;border-radius:8px;border:1px solid var(--line);cursor:zoom-in" onclick="window.open(this.src,'_blank')">`).join("")}</div>`:""}</div>
       </div>`).join("") : '<div class="empty">No homework posted yet. Check back soon!</div>';
   }
   sel.onchange = render; render();

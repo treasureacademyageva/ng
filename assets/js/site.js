@@ -176,7 +176,7 @@ function renderFooter(){
     <div class="foot-main">
       <div class="foot-brand">
         <a class="logo" href="index.html" style="color:#fff"><span>${U.esc(s.name)}</span></a>
-        <p>"${U.esc(s.motto)}"<br>Creche, Nursery and Primary education in Ageva, Okene — discipline, character and results since 2015.</p>
+        <p>"${U.esc(s.motto)}"<br>Creche, Nursery and Primary education in Ageva, Okene. Discipline, character and results since 2015.</p>
               </div>
       <div class="foot-col foot-contact foot-center"><h4>Contact</h4>
         <div class="foot-contact-row"><span class="foot-line"><span class="fi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg></span>${U.esc(s.email)}</span><span class="foot-line"><span class="fi"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg></span>${U.esc(s.phone)}</div>
@@ -509,7 +509,7 @@ const Chatbot = {
     const exs=(db.exams||[]).filter(x=>x.date&&x.date>=today).sort((a,b)=>a.date.localeCompare(b.date));
     const pta=(db.ptaMeetings||[]).filter(m=>m.date>=today).sort((a,b)=>a.date.localeCompare(b.date));
     const news=(db.newsEvents||[]).filter(n=>!n.publishAt||n.publishAt<=today).sort((a,b)=>b.date.localeCompare(a.date));
-    const lf=(db.lostfound||[]).filter(l=>!l.claimed);
+    const lf=(db.lostfound||[]).filter(l=>!l.claimed&&!l.archived);
     const when=d=>{ const n=U.daysUntil(d); return n===0?"<b>today</b>":n===1?"<b>tomorrow</b>":"in <b>"+n+" days</b> ("+U.prettyDate(d)+")"; };
     /* status */
     F.status=emg.on

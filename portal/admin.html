@@ -11,21 +11,22 @@
 <title>Admin Dashboard — Treasure Academy, Ageva</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../assets/css/main.css?v=20260919-17">
-<link rel="stylesheet" href="../assets/css/extra.css?v=20260919-17">
-<link rel="stylesheet" href="../assets/css/corporate.css?v=20260919-17">
+<link rel="stylesheet" href="../assets/css/main.css?v=20260919-20">
+<link rel="stylesheet" href="../assets/css/extra.css?v=20260919-20">
+<link rel="stylesheet" href="../assets/css/corporate.css?v=20260919-20">
 <noscript><style>#siteLoader{display:none!important}</style></noscript>
 </head>
 <body class="portal-body">
 <div id="siteLoader"><img src="../assets/img/logo.jpg" alt="Treasure Academy"><div class="spin"></div></div>
 <div class="portal-layout">
-  <aside class="sidebar">
-    <div class="side-logo">
-      <img class="mark-img" src="../assets/img/logo.jpg" alt="Treasure Academy logo">
-      <span data-school-name>Treasure Academy</span>
-   </div>
-    <div class="side-user"><div class="avatar" id="userAvatar">H</div><div><b id="userName">Headmistress</b><span>Admin / Headmistress</span></div></div>
-    <nav class="side-nav" id="sideNav">
+  <div class="topbar"><div class="container">
+    <div class="tb-contact"><span><b>Admissions</b> <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg><a data-school-phone href="tel:"></a></span><span class="tb-sep">•</span><span data-school-email></span></div>
+    <div class="tb-right"><span class="tb-loc">Ageva, Okene, Kogi State</span><span class="portal-user"><span class="avatar" id="userAvatar">H</span><span><b id="userName">Headmistress</b> <small id="userClass">Admin / Headmistress</small></span></span><a href="../index.html">View Website</a><button class="portal-link" onclick="Auth.logout()">Logout</button></div>
+  </div></div>
+  <nav class="navbar"><div class="container">
+    <a class="logo" href="../index.html"><img class="mark-img" src="../assets/img/logo.jpg" alt="Treasure Academy logo"></a>
+    <div class="brand-name"><span data-school-name>Treasure Academy</span><small>Headmistress Portal</small></div>
+    <div class="nav-links" id="sideNav">
       <button data-view="overview" class="on">Overview</button>
       <button data-view="regs">Registrations <span class="badge b-sun" id="regCount">0</span></button>
       <button data-view="apps">Applications <span class="badge b-sun" id="appCount">0</span></button>
@@ -47,18 +48,15 @@
       <button data-view="extras">Website Extras <span class="badge b-sun" id="exCount">0</span></button>
       <button data-view="shop">Shop & Orders <span class="badge b-sun" id="ordCount">0</span></button>
       <button data-view="settings">Settings</button>
-    </nav>
-    <div class="side-foot">
-      <a class="btn btn-white btn-sm btn-block" href="../index.html">View Website</a>
-      <button class="btn btn-coral btn-sm btn-block" onclick="Auth.logout()"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="M16 17l5-5-5-5"/><path d="M21 12H9"/></svg> Logout</button>
-   </div>
-  </aside>
+    
+    </div>
+    <div class="nav-cta-row"><button class="theme-btn" title="Switch to night"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4 8.5 8.5 0 1 0 20 14.5z"/></svg></button></div>
+  </div></nav>
 
   <main class="main">
     <div class="p-topbar">
       <div style="display:flex;gap:12px;align-items:center">
-        <button class="btn btn-sun btn-sm side-toggle" onclick="document.body.classList.toggle('side-open')" aria-label="Menu"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
-        <div><h1 id="pageTitle">Overview</h1><p id="pageSub">Welcome back! Here's your school at a glance.</p></div>
+                <div><h1 id="pageTitle">Overview</h1><p id="pageSub">Welcome back! Here's your school at a glance.</p></div>
      </div>
       <span class="pill-date"><span id="todayLbl"></span></span>
    </div>
@@ -137,8 +135,9 @@
           <span class="spacer"></span>
           <button class="btn btn-mint btn-sm" onclick="publishAll()">Publish All Approved</button>
           <button class="btn btn-sky btn-sm" onclick="printClassReports()">Print Whole Class</button>
+          <button class="btn btn-white btn-sm" onclick="printBroadsheet()">Print Broadsheet</button>
        </div>
-        <div style="overflow-x:auto"><table class="tbl"><thead><tr><th>Pupil</th><th>Class</th><th>Avg</th><th>Status</th><th>Updated</th><th>Actions</th></tr></thead><tbody id="resultRows"></tbody></table></div>
+        <div style="overflow-x:auto"><table class="tbl"><thead><tr><th>Pupil</th><th>Class</th><th>Avg</th><th>Status</th><th>Seen</th><th>Updated</th><th>Actions</th></tr></thead><tbody id="resultRows"></tbody></table></div>
      </div>
       <div class="panel"><h2>Best Student of the Session</h2><p class="sub">Scored from attendance (20) + fees paid (20) + parent review (10) + textbooks (10) + results (40). Compute, review, then crown.</p>
         <div style="display:flex;gap:10px;margin-bottom:12px;flex-wrap:wrap"><button class="btn btn-sun btn-sm" onclick="computeBest()">Compute Scores</button></div>
@@ -516,7 +515,7 @@
 <div id="toast"></div>
 
 <script>
-/* unified sidebar router: one delegated handler + render-on-navigate + hash restore */
+/* unified portal router: one delegated handler + render-on-navigate + hash restore */
 (function(){
 var T={overview:["Overview","Welcome back! Here is your school at a glance."],regs:["Registrations","Online forms and payments."],apps:["Applications","Admission enquiries."],pupils:["Pupils","Manage all pupils."],teachers:["Teachers","Manage staff."],duty:["Duty Roster","Who is on duty each day."],results:["Results","Review, approve and publish report cards."],attendance:["Attendance","Daily registers."],promos:["Promotions","Promo slider."],newsevents:["News/Events","Videos, gallery and stories."],messages:["Messages","Contact inbox."],whatsapp:["WhatsApp","Chat contacts."],practice:["Entrance Qs","Common Entrance questions."],testimonials:["Testimonials","Website testimonials."],notices:["Notices","Talk to staff and parents."],classpages:["Class Pages","One page per class."],calendar:["Calendar","Term dates and events."],timetable:["Timetable","One grid for the whole school."],extras:["Website Extras","Stars, ticker, homework and more."],shop:["Shop and Orders","Items and pickup orders."],settings:["Settings","School details, term and session."]};
 function navRender(v){
@@ -548,7 +547,8 @@ if(nav)nav.addEventListener("click",function(e){
 try{var h=String(location.hash||"").replace(/^#\/?/,""); if(h){var bb=document.querySelector('#sideNav button[data-view="'+h+'"]'); if(bb&&!bb.classList.contains("on"))bb.click();}}catch(e7){}
 })();
 </script>
-<script src="../assets/js/store.js?v=20260919-17"></script>
+<script src="../assets/js/store.js?v=20260919-20"></script>
+<script src="../assets/js/site.js?v=20260919-20"></script>
 <script>
 const S = Auth.guard("admin");
 if(!S){location.href="login.html";throw new Error("no-session");}
@@ -714,13 +714,25 @@ function admitReg(id){
   const pw=U.genPassword(fullName);
   const p={id:"P"+String(db.seq.pupil++).padStart(3,"0"),adm,pin:"1234",password:pw,name:fullName,gender:r.ward.gender,class:r.ward.classApply,dob:r.ward.dob,parent:r.guardian.g1.name,phone:r.guardian.g1.phone};
   db.pupils.push(p); r.status="Admitted";
-  db.notices.unshift({id:"NT"+(db.seq.notice++),to:"parents",toId:p.id,title:" Admission approved!",text:`Welcome! ${p.name} is admitted into ${p.class}. Login: ${adm} / Password: ${pw} (changeable via OTP reset)`,date:U.todayStr(),readBy:[]});
+  db.notices.unshift({id:"NT"+(db.seq.notice++),to:"parents",toId:p.id,title:" Admission approved!",text:`Welcome! ${p.name} is admitted into ${p.class}. Login with parent phone ${p.phone} / Password: ${pw} (changeable via OTP reset)`,date:U.todayStr(),readBy:[]});
   DB.save(db); renderRegs(); renderPupils(); renderOverview();
   openModal(`<h2> ${U.esc(fullName)} Admitted!</h2><p style="font-weight:700">Share this login with the parent:</p>
-    <div class="notice"><span class="dot" style="background:var(--mint)"></span><div>Registration No: <b>${adm}</b><br>Password: <b>${pw}</b> <small>(auto-generated from name )</small></div></div>
+    <div class="notice"><span class="dot" style="background:var(--mint)"></span><div>Login phone: <b>${p.phone}</b><br>Password: <b>${pw}</b> <small>(auto-generated from name)</small><br><small style="color:var(--muted)">Record No: ${adm}</small></div></div>
     <button class="btn btn-sun btn-sm" onclick="closeModal()">Done</button>`);
 }
 
+window.printBroadsheet=function(){
+  const c=document.getElementById("resClassFilter").value;
+  if(!c){U.toast("Pick a class first.");return;}
+  const d=DB.load(), term=d.school.term, sess=d.school.session, subs=subjectsFor(c);
+  const rows=d.pupils.filter(p=>p.class===c).map(p=>({p,r:d.results.find(x=>x.pupilId===p.id&&x.class===c&&x.term===term&&x.session===sess&&x.status==="Published")})).filter(x=>x.r)
+    .map(x=>({x,sm:U.reportSummary(d,x.p.id,c,term,sess)||{avg:0}})).sort((a,b)=>(b.sm.avg||0)-(a.sm.avg||0));
+  if(!rows.length){U.toast("No published results for "+c+" this term.");return;}
+  if(!document.getElementById("printSlip")){ const dv=document.createElement("div"); dv.id="printSlip"; dv.style.display="none"; document.body.appendChild(dv); }
+  document.getElementById("printSlip").innerHTML='<div style="font-family:Arial,sans-serif"><h2 style="text-align:center">'+U.esc(d.school.name)+' — Broadsheet ('+U.esc(c)+', '+U.esc(term)+')</h2><table border="1" cellpadding="4" cellspacing="0" style="width:100%;border-collapse:collapse;font-size:11px"><thead><tr><th>#</th><th>Pupil</th>'+subs.map(s=>'<th>'+U.esc(s)+'</th>').join("")+'<th>AVG</th><th>POS</th></tr></thead><tbody>'+rows.map((r,i)=>'<tr><td>'+(i+1)+'</td><td><b>'+U.esc(r.x.p.name)+'</b></td>'+subs.map(s=>'<td>'+U.total(r.x.r.scores[s]||{})+'</td>').join("")+'<td><b>'+Math.round(r.sm.avg||0)+'</b></td><td><b>'+(i+1)+'</b></td></tr>').join("")+'</tbody></table></div>';
+  document.body.classList.add("printing"); window.print();
+  setTimeout(()=>document.body.classList.remove("printing"),800);
+};
 window.printClassReports=function(){
   const c=document.getElementById("resClassFilter").value;
   if(!c){U.toast("Pick a class first.");return;}
@@ -760,7 +772,7 @@ function renderApps(){
     <td><b>${U.esc(a.pupilName)}</b><br><small style="color:var(--muted)">${a.gender} • ${a.dob}</small></td>
     <td>${U.esc(a.classApply)}</td><td>${U.esc(a.parent)}</td><td>${U.esc(a.phone)}</td><td style="font-size:.8rem">${a.date}</td>
     <td><span class="badge ${a.status==="Pending"?"b-sun":a.status==="Admitted"?"b-green":"b-coral"}">${a.status}</span></td>
-    <td>${a.status==="Pending"?`<div class="row-actions"><button class="icon-btn ok" onclick="approveApp('${a.id}')">Admit</button><button class="icon-btn del" onclick="rejectApp('${a.id}')">Reject</button></div>`:"—"}</td></tr>`).join("")
+    <td>${a.status==="Pending"?`<div class="row-actions"><button class="icon-btn ok" onclick="approveApp('${a.id}')">Admit</button><button class="icon-btn del" onclick="rejectApp('${a.id}')">Reject</button></div>`:a.status==="Admitted"?`<div class="row-actions"><button class="icon-btn ok" onclick="printAdmLetter('${a.id}')">Letter</button></div>`:"—"}</td></tr>`).join("")
     ||'<tr><td colspan="7"><div class="empty">No applications yet.</div></td></tr>';
   refreshCounts();
 }
@@ -772,20 +784,46 @@ function approveApp(id){
   db.pupils.push(p); a.status="Admitted";
   DB.save(db); renderApps(); renderPupils(); renderOverview();
   openModal(`<h2> ${U.esc(p.name)} Admitted!</h2>
-    <div class="notice"><span class="dot" style="background:var(--mint)"></span><div>Registration No: <b>${adm}</b><br>Password: <b>${pw}</b></div></div>
-    <button class="btn btn-sun btn-sm" onclick="closeModal()">Done</button>`);
+    <div class="notice"><span class="dot" style="background:var(--mint)"></span><div>Login phone: <b>${p.phone}</b><br>Password: <b>${pw}</b><br><small style="color:var(--muted)">Record No: ${adm}</small></div></div>
+    <div style="display:flex;gap:10px;flex-wrap:wrap"><button class="btn btn-mint btn-sm" onclick="closeModal();printAdmLetter('${id}')">Print Admission Letter</button><button class="btn btn-sun btn-sm" onclick="closeModal()">Done</button></div>`);
 }
 function rejectApp(id){ db=DB.load(); db.applications.find(x=>x.id===id).status="Rejected"; DB.save(db); renderApps(); U.toast("Application rejected."); }
+window.printAdmLetter=function(id){
+  if(!document.getElementById("printSlip")){ const dv=document.createElement("div"); dv.id="printSlip"; dv.style.display="none"; document.body.appendChild(dv); }
+  db=DB.load(); const a=db.applications.find(x=>x.id===id); if(!a)return;
+  const p=db.pupils.find(x=>x.name===a.pupilName&&x.class===a.classApply)||{};
+  const fee=(db.school.fees||{})[a.classApply]||0;
+  const ref="TA/ADM/"+new Date().getFullYear()+"/"+String(a.id).replace(/\\D/g,"").padStart(3,"0");
+  document.getElementById("printSlip").innerHTML=`<div class="slip" style="font-family:Arial,sans-serif;max-width:640px;margin:0 auto">
+    <div style="text-align:center;border-bottom:3px solid #14532D;padding-bottom:10px;margin-bottom:14px">
+      <h2 style="margin:0;letter-spacing:1px">${U.esc(db.school.name).toUpperCase()}</h2>
+      <div style="font-size:.8rem">"${U.esc(db.school.motto)}"</div>
+      <div style="font-size:.8rem">${U.esc(db.school.address)} • ${U.esc(db.school.phone)} • ${U.esc(db.school.email)}</div>
+    </div>
+    <div style="display:flex;justify-content:space-between;font-size:.85rem"><span><b>Ref:</b> ${ref}</span><span><b>Date:</b> ${U.prettyDate()}</span></div>
+    <p>Dear Parent/Guardian of <b>${U.esc(a.pupilName)}</b>,</p>
+    <h3 style="text-align:center;text-decoration:underline">OFFER OF ADMISSION</h3>
+    <p>Following your application, we are pleased to offer <b>${U.esc(a.pupilName)}</b> admission into <b>${U.esc(a.classApply)}</b> for the <b>${U.esc(db.school.term)} ${U.esc(db.school.session)}</b>.</p>
+    <p><b>1. School fees:</b> ${fee?"NGN "+fee.toLocaleString("en-NG")+" for "+U.esc(a.classApply)+". ":"Fees as given by the office. "}Pay by bank transfer to the school account and bring your receipt to the office.</p>
+    <p><b>2. To accept this offer,</b> visit the school office within <b>two weeks</b> with: birth certificate, two passport photos and the last report card (if any).</p>
+    <p><b>3. Portal login:</b> phone <b>${U.esc(p.phone||a.phone||"")}</b>${p.password?"; password <b>"+U.esc(p.password)+"</b>":""}. Record No: <b>${U.esc(p.adm||"")}</b>.</p>
+    <p>We congratulate you and welcome you warmly to the Treasure family!</p>
+    <p>Yours faithfully,</p><br>
+    <p><b>${U.esc(db.school.headName)}</b><br>${U.esc(db.school.headTitle)}</p>
+    <p style="text-align:center;font-size:.8rem">"${U.esc(db.school.motto)}"</p></div>`;
+  document.body.classList.add("printing"); window.print();
+  setTimeout(()=>document.body.classList.remove("printing"),800);
+};
 
 /* ---- pupils (+passwords) ---- */
 function pupilFilters(){ document.getElementById("pupilClassFilter").innerHTML='<option value="">All classes</option>'+CLASSES.map(c=>`<option>${c}</option>`).join(""); }
 function renderPupils(){
   db=DB.load();
   const q=(document.getElementById("pupilSearch").value||"").toLowerCase(), cf=document.getElementById("pupilClassFilter").value;
-  const list=db.pupils.filter(p=>(!cf||p.class===cf)&&(!q||p.name.toLowerCase().includes(q)||p.adm.toLowerCase().includes(q)));
+  const list=db.pupils.filter(p=>(!cf||p.class===cf)&&(!q||p.name.toLowerCase().includes(q)||(p.adm||"").toLowerCase().includes(q)||(p.phone||"").toLowerCase().includes(q)));
   document.getElementById("pupilRows").innerHTML=list.map(p=>`<tr>
     <td><div style="display:flex;gap:10px;align-items:center"><div class="avatar" style="width:36px;height:36px;flex-basis:36px;background:${U.avatarColor(p.name)};font-size:.85rem">${U.initials(p.name)}</div><b>${U.esc(p.name)}</b></div></td>
-    <td><span class="badge b-grape">${p.adm}</span></td><td>${p.class}</td><td>${U.esc(p.parent)}</td>
+    <td><span class="badge b-grape">${p.adm}</span></td><td>${p.class}</td><td>${U.esc(p.parent)}<br><small style="color:var(--muted)">${U.esc(p.phone||"")}</small></td>
     <td>${p.password?`<code>${U.esc(p.password)}</code>`:'<span class="badge b-sun">Not created</span>'}</td>
     <td><div class="row-actions"><button class="icon-btn" onclick="openPupilModal('${p.id}')">Edit</button><button class="icon-btn del" onclick="delPupil('${p.id}')">Del</button></div></td></tr>`).join("")
     ||'<tr><td colspan="6"><div class="empty">No pupils found.</div></td></tr>';
@@ -913,7 +951,7 @@ function renderResults(){
   document.getElementById("resultRows").innerHTML=list.map(r=>{
     const p=U.pupil(db,r.pupilId), sm=U.reportSummary(db,r.pupilId,r.class,r.term,r.session);
     return `<tr><td><b>${U.esc(p?p.name:"?")}</b><br><small style="color:var(--muted)">${p?p.adm:""}</small></td><td>${r.class}</td>
-    <td><b>${sm?sm.avg.toFixed(1):"—"}</b></td><td><span class="badge ${badge[r.status]}">${r.status}</span></td>
+    <td><b>${sm?sm.avg.toFixed(1):"—"}</b></td><td><span class="badge ${badge[r.status]}">${r.status}</span></td><td>${(()=>{const v=(db.resultViews||[]).find(x=>x.resultId===r.id);return v?`<span class="badge b-green">✓ ${v.date}</span>`:"—";})()}</td>
     <td style="font-size:.8rem">${(r.updatedAt||"").slice(0,10)}</td>
     <td><div class="row-actions"><button class="icon-btn" onclick="viewResult('${r.id}')">View</button>
     ${r.status==="Submitted"?`<button class="icon-btn ok" onclick="setResultStatus('${r.id}','Approved')">Approve</button>`:""}
@@ -1149,7 +1187,7 @@ window.postThanks=function(name){ db=DB.load(); const nm=name||db.school.headNam
   DB.save(db); renderOverview(); U.toast("Thank-you note posted on the Birthdays page!"); };
 function renderLF(){
   db=DB.load();
-  document.getElementById("lfRows").innerHTML=(db.lostfound||[]).map(l=>`<div class="notice"><span class="dot" style="background:${l.claimed?"var(--mint)":"var(--sun)"}"></span>${l.photo?`<img src="${l.photo}" alt="" style="width:52px;height:52px;object-fit:cover;border-radius:10px;flex:none">`:""}<div style="flex:1"><b>${U.esc(l.item)}</b>${l.claimed?' <span class="badge b-green">Claimed</span>':""}<br><small style="color:var(--muted)">${U.esc(l.desc||"")} • ${l.date}</small></div>${l.claimed?"":`<button class="icon-btn" onclick="claimLF('${l.id}')">Claimed</button>`}<button class="icon-btn del" onclick="delLF('${l.id}')">×</button></div>`).join("")||'<div class="empty">Nothing listed.</div>';
+  document.getElementById("lfRows").innerHTML=(db.lostfound||[]).map(l=>`<div class="notice"><span class="dot" style="background:${l.claimed?"var(--mint)":"var(--sun)"}"></span>${l.photo?`<img src="${l.photo}" alt="" style="width:52px;height:52px;object-fit:cover;border-radius:10px;flex:none">`:""}<div style="flex:1"><b>${U.esc(l.item)}</b>${l.claimed?' <span class="badge b-green">Claimed</span>':""}${l.archived?' <span class="badge b-sun">Archived</span>':""}<br><small style="color:var(--muted)">${U.esc(l.desc||"")} • ${l.date}</small></div>${l.claimed?"":`<button class="icon-btn" onclick="claimLF('${l.id}')">Claimed</button>`}<button class="icon-btn del" onclick="delLF('${l.id}')">×</button></div>`).join("")||'<div class="empty">Nothing listed.</div>';
 }
 window.saveLF=function(){
   const t=document.getElementById("lfItem").value.trim(); if(!t){U.toast("Item name required.");return;}
@@ -1534,7 +1572,7 @@ window.saveMeeting=function(){ const g=id=>document.getElementById(id).value.tri
 };
 window.delMeeting=function(id){ db=DB.load(); db.meetings=(db.meetings||[]).filter(x=>String(x.id)!==String(id)); DB.save(db); renderMeetings(); };
 function renderAlumni(){ db=DB.load();
-  document.getElementById("alRows").innerHTML=(db.alumni||[]).map(a=>`<div class="notice"><span class="dot" style="background:${a.status==="Pending"?"var(--coral)":"var(--sun)"}"></span><div style="flex:1"><b>${U.esc(a.name)}</b> - Class of ${U.esc(a.year)}${a.status==="Pending"?' <span class="badge b-coral">Pending</span>':""}<br><small style="color:var(--muted)">Now at ${U.esc(a.school)} - ${U.esc(a.note)}</small></div><div class="row-actions">${a.status==="Pending"?`<button class="icon-btn ok" onclick="approveAlumni('${a.id}')">Approve</button>`:""}<button class="icon-btn del" onclick="delAlumni('${a.id}')">x</button></div></div>`).join("")||'<div class="empty">No alumni yet.</div>';
+  document.getElementById("alRows").innerHTML=(db.alumni||[]).map(a=>`<div class="notice"><span class="dot" style="background:${a.status==="Pending"?"var(--coral)":"var(--sun)"}"></span><div style="flex:1"><b>${U.esc(a.name)}</b> - Class of ${U.esc(a.year)}${a.status==="Pending"?' <span class="badge b-coral">Pending</span>':""}${a.mentor?' <span class="badge b-green">Mentor</span>':""}<br><small style="color:var(--muted)">Now at ${U.esc(a.school)} - ${U.esc(a.note)}</small></div><div class="row-actions">${a.status==="Pending"?`<button class="icon-btn ok" onclick="approveAlumni('${a.id}')">Approve</button>`:""}<button class="icon-btn del" onclick="delAlumni('${a.id}')">x</button></div></div>`).join("")||'<div class="empty">No alumni yet.</div>';
 }
 window.saveAlumni=function(){ const g=id=>document.getElementById(id).value.trim();
   if(!g("alName")){U.toast("Alumni name is required.");return;}

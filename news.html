@@ -11,9 +11,9 @@
 <link rel="icon" href="assets/img/logo.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/main.css?v=20260919-17">
-<link rel="stylesheet" href="assets/css/extra.css?v=20260919-17">
-<link rel="stylesheet" href="assets/css/corporate.css?v=20260919-17">
+<link rel="stylesheet" href="assets/css/main.css?v=20260919-20">
+<link rel="stylesheet" href="assets/css/extra.css?v=20260919-20">
+<link rel="stylesheet" href="assets/css/corporate.css?v=20260919-20">
 <noscript><style>#siteLoader{display:none!important}</style></noscript>
 </head>
 <body data-page="news" data-assets="assets/">
@@ -46,7 +46,8 @@
       <input type="date" id="dateFilter" title="Pick a date">
    </div>
 
-    <h2 class="clip-up" id="vidHead" style="margin-bottom:14px">Event Videos</h2>
+    <div id="newsFeatured"></div>
+    <div class="news-sec-head clip-up"><h2 id="vidHead">Event Videos</h2><span class="rule"></span><span class="count" id="vidCount"></span></div>
     <div style="position:relative" class="clip" id="vidWrap">
       <div class="yt-rail" id="videoRail"></div>
    </div>
@@ -71,8 +72,8 @@
 
 <footer id="siteFooter"></footer>
 <div id="toast"></div>
-<script src="assets/js/store.js?v=20260919-17"></script>
-<script src="assets/js/site.js?v=20260919-17"></script>
+<script src="assets/js/store.js?v=20260919-20"></script>
+<script src="assets/js/site.js?v=20260919-20"></script>
 <script>
 (function(){
   const db = DB.load();
@@ -93,15 +94,17 @@
   function renderVideos(){
     const list=filtered();
     const vids=list.filter(n=>n.videoUrl);
-    const vh=document.getElementById("vidHead"), vw=document.getElementById("vidWrap");
-    if(!vids.length){ vh.style.display="none"; vw.style.display="none"; return; }
-    vh.style.display=""; vw.style.display="";
-    document.getElementById("videoRail").innerHTML = vids.map((n,i)=>`
+    document.getElementById("vidCount").textContent = vids.length ? (vids.length + (vids.length===1?" video":" videos")) : "";
+    document.getElementById("videoRail").innerHTML = vids.length ? vids.map((n,i)=>`
       <div class="yt-card is-video clip ${i<4?"revealed":""}" onclick="playVideo('${n.id}')">
         <div class="yt-thumb"><img src="${U.esc(n.image||"assets/img/hero-kids.png")}" alt=""><div class="play"><span>▶</span></div>
         <span class="dur">▶ VIDEO</span><span class="m-tag ${n.type==="event"?"b-coral":"b-sky"}">${n.type==="event"?"EVENT":"NEWS"}</span></div>
         <div class="yt-meta"><div class="yt-avatar"></div><div><b>${U.esc(n.title)}</b> ${U.isNew(n.date)?'<span class="tag-new">NEW</span>':""}<small>${U.esc(db.school.name)} • ${n.views||0} views • ${U.shortDate(n.date)} • <a href="story.html?id=${n.id}" onclick="event.stopPropagation()" style="color:var(--sky);font-weight:700">Full story</a></small></div></div>
-     </div>`).join("");
+     </div>`).join("") : `
+      <div class="yt-card vid-soon clip revealed" onclick="U.toast('Our school tour video is coming soon!')">
+        <div class="yt-thumb soon-thumb"><div class="play"><span>▶</span></div><span class="m-tag b-sky">VIDEO</span></div>
+        <div class="yt-meta"><div><b>School Tour Video &mdash; Coming Soon</b><small>We are putting finishing touches to our campus tour video. Check back in a few days!</small></div></div>
+     </div>`;
   }
   window.playVideo=id=>{
     const n=(DB.load().newsEvents||[]).find(x=>x.id===id); if(!n||!n.videoUrl)return;
@@ -159,7 +162,23 @@
         <b style="color:var(--sky);font-size:1.4rem">›</b>
      </div>`).join("") : '<div class="empty">Nothing here yet. Try another filter!</div>';
   }
-  function renderAll(){ renderVideos(); renderAlbums(); renderMasonry(); renderList(); initReveal(); }
+  function renderFeatured(){
+    const n=filtered()[0];
+    const box=document.getElementById("newsFeatured");
+    if(!n){ box.innerHTML=""; return; }
+    box.innerHTML=`
+    <div class="news-featured clip-up revealed" onclick="location.href='story.html?id=${n.id}'">
+      ${n.image?`<img src="${U.esc(n.image)}" alt="">`:`<div class="nf-noimg"></div>`}
+      <div class="nf-txt">
+        <div><span class="badge b-sun">LATEST</span> <span class="badge ${n.type==="event"?"b-coral":"b-sky"}">${n.type==="event"?"EVENT":"NEWS"}</span>${U.isNew(n.date)?' <span class="tag-new">NEW</span>':""}</div>
+        <h2>${U.esc(n.title)}</h2>
+        <p>${U.esc(n.text)}</p>
+        <div class="nf-meta"><span>${U.shortDate(n.date)}</span><span>${n.views||0} views</span><span>${n.likes||0} likes</span></div>
+        <div><span class="btn btn-mint btn-sm">Read Full Story &rsaquo;</span></div>
+      </div>
+    </div>`;
+  }
+  function renderAll(){ renderFeatured(); renderVideos(); renderAlbums(); renderMasonry(); renderList(); initReveal(); }
   renderAll();
   /* gallery rail: mouse drag-to-scroll (touch uses native swipe) + arrow buttons */
   (function(){

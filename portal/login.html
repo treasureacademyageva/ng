@@ -11,9 +11,9 @@
 <link rel="icon" href="../assets/img/logo.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../assets/css/main.css?v=20260919-17">
-<link rel="stylesheet" href="../assets/css/extra.css?v=20260919-17">
-<link rel="stylesheet" href="../assets/css/corporate.css?v=20260919-17">
+<link rel="stylesheet" href="../assets/css/main.css?v=20260919-20">
+<link rel="stylesheet" href="../assets/css/extra.css?v=20260919-20">
+<link rel="stylesheet" href="../assets/css/corporate.css?v=20260919-20">
 <style>
 .top-left{position:absolute;top:20px;left:20px;z-index:3;display:flex;gap:10px}
 .field label .caret{display:inline-block;width:2px;height:1em;background:var(--mint);vertical-align:-2px;animation:blink 1s infinite;margin-left:1px}
@@ -44,7 +44,7 @@
 
           <!-- UNIFIED LOGIN -->
           <form id="pupilForm" autocomplete="off">
-            <div class="float-field"><input id="pReg" placeholder=" "><label data-tlabel="ID / Reg No (e.g. TAA/P/0001)"></label></div>
+            <div class="float-field"><input id="pReg" placeholder=" "><label data-tlabel="Phone Number (e.g. 0805 123 4567)"></label></div>
             <div class="float-field"><input id="pPass" type="password" placeholder=" "><label data-tlabel="Password / PIN"></label><button type="button" class="eye" data-eye="pPass"></button></div>
             <div class="remember-row">
               <label><input type="checkbox" id="rememberMe" checked> Remember this device</label>
@@ -55,10 +55,10 @@
             <p style="text-align:center;margin-top:14px;font-size:.85rem;color:var(--muted)">First time here? Just enter your ID —<br>pupils without a password get setup automatically. Staff use Staff ID + PIN.</p>
             <p style="text-align:center;margin-top:8px;font-weight:600;font-size:.88rem">Not admitted yet? <button type="button" class="link-btn" style="font-size:.9rem" onclick="flip(true)">Register here</button></p>
             <div class="demo-box"><b>Demo</b> (tap to enter):<br>
-              <button type="button" class="icon-btn" onclick="fillDemo('TA/2023/001')">Adaeze — TA/2023/001</button>
-              <button type="button" class="icon-btn" onclick="fillDemo('TA/2023/003')">Fatima — no password yet</button><br>
+              <button type="button" class="icon-btn" onclick="fillDemo('0805 111 2222')">Adaeze — 0805 111 2222</button>
+              <button type="button" class="icon-btn" onclick="fillDemo('0805 555 6666')">Fatima — no password yet</button><br>
               <button type="button" class="icon-btn" onclick="fillStaff('admin','HEAD001')">HEAD001 (Admin)</button>
-              <button type="button" class="icon-btn" onclick="fillStaff('teacher','T001')">T001 (Teacher)</button>
+              <button type="button" class="icon-btn" onclick="fillStaff('teacher','0803 100 0001')">Teacher — 0803 100 0001</button>
               <div style="margin-top:6px">Password/PIN for demo: <code>1234</code></div>
            </div>
           </form>
@@ -132,11 +132,11 @@
     <img class="auth-art" src="../assets/img/login-art.png" alt="Happy pupils learning">
     <div class="side-card" id="genCard">
       <h3>Password Generator</h3>
-      <p>Enter a Registration No from the school system to generate a strong password suggestion based on the pupil's name.</p>
+      <p>Enter a phone number from the school system to generate a strong password suggestion based on the pupil's name.</p>
       <div class="field"><input id="genReg" placeholder="e.g. TAA/P/0001"></div>
       <div style="display:flex;gap:8px;margin-top:10px">
         <button class="btn btn-sun btn-sm" style="flex:1" onclick="genSuggest()">Generate</button>
-        <button class="btn btn-white btn-sm" onclick="document.getElementById('genReg').value=document.getElementById('pReg').value">Use login Reg No</button>
+        <button class="btn btn-white btn-sm" onclick="document.getElementById('genReg').value=document.getElementById('pReg').value">Use login phone</button>
      </div>
       <div class="gen-out" id="genOut"></div>
       <p style="margin-top:10px;margin-bottom:0">Note: this only <b>suggests</b> — the password is set through the secure Create/Reset flow.</p>
@@ -147,8 +147,8 @@
 
 <div class="modal-bg" id="modalBg"><div class="modal" id="modalBox" style="max-width:480px"></div></div>
 <div id="toast"></div>
-<script src="../assets/js/store.js?v=20260919-17"></script>
-<script src="../assets/js/site.js?v=20260919-17"></script>
+<script src="../assets/js/store.js?v=20260919-20"></script>
+<script src="../assets/js/site.js?v=20260919-20"></script>
 <script>
 (function(){
   /* already logged in on this device? go straight in */
@@ -198,7 +198,7 @@
   window.genSuggest=()=>{
     const adm=document.getElementById("genReg").value.trim();
     const p=Auth.pupilFind(adm), out=document.getElementById("genOut");
-    if(!p){ out.style.display="block"; out.textContent="Reg No not in school system."; return; }
+    if(!p){ out.style.display="block"; out.textContent="Phone number not in school system."; return; }
     out.style.display="block"; out.textContent=U.genPassword(p.name);
     U.toast("Suggestion ready for "+p.name.split(" ")[0]+".");
   };
@@ -218,10 +218,10 @@
   document.getElementById("pupilForm").addEventListener("submit",e=>{
     e.preventDefault();
     const adm=document.getElementById("pReg").value.trim(), pw=document.getElementById("pPass").value;
-    if(!adm||!pw){ shake("loginCard"); U.toast("Enter your ID and Password."); return; }
+    if(!adm||!pw){ shake("loginCard"); U.toast("Enter your phone number and password."); return; }
     if(!passed.loginTreasure){ shake("loginCard"); U.toast("Please complete the human verification first."); return; }
-    const low=adm.toLowerCase(), d0=DB.load();
-    const isStaff=(d0.teachers||[]).some(t=>(t.id||"").toLowerCase()===low)||(d0.admins||[]).some(a=>(a.id||"").toLowerCase()===low);
+    const low=adm.toLowerCase(), d0=DB.load(), key=U.phoneKey(adm);
+    const isStaff=(d0.teachers||[]).some(t=>(t.id||"").toLowerCase()===low||(key&&U.phoneKey(t.phone)===key))||(d0.admins||[]).some(a=>(a.id||"").toLowerCase()===low);
     if(isStaff){
       const role=(d0.admins||[]).some(a=>(a.id||"").toLowerCase()===low)?"admin":"teacher";
       const s=Auth.staffLogin(role,adm,pw);
@@ -233,7 +233,7 @@
       return;
     }
     const r=Auth.pupilLogin(adm,pw);
-    if(!r.ok && r.reason==="notfound"){ shake("loginCard"); U.toast("ID not found. Check it and try again."); return; }
+    if(!r.ok && r.reason==="notfound"){ shake("loginCard"); U.toast("Phone number not found. Check it and try again."); return; }
     if(!r.ok && r.reason==="nopassword"){ openCreate(adm); return; }
     if(!r.ok && r.reason==="wrongpass"){
       const k=adm.toUpperCase(); fails[k]=(fails[k]||0)+1;
@@ -254,7 +254,7 @@
   window.openCreate=(adm)=>{
     otpAdm=adm||document.getElementById("pReg").value.trim();
     const p=Auth.pupilFind(otpAdm);
-    if(!p){ U.toast("That Registration No is not in the school system."); return; }
+    if(!p){ U.toast("That phone number is not in the school system."); return; }
     if(p.password){ U.toast("This account already has a password — just login."); return; }
     lastChecked=otpAdm;
     openModal(`<div style="text-align:center"><h2>Create Password</h2>
@@ -308,7 +308,7 @@
     openModal(`<div style="text-align:center"><h2>Reset Password</h2>
       <p style="color:var(--muted);font-size:.87rem">Verify it is you, then set a new password for <b>${U.esc(otpAdm||"your account")}</b>.</p></div>
       <div id="fgStep1">
-        <div class="float-field"><input id="fReg" placeholder=" " value="${U.esc(otpAdm)}"><label data-tlabel="Registration No"></label></div>
+        <div class="float-field"><input id="fReg" placeholder=" " value="${U.esc(otpAdm)}"><label data-tlabel="Phone Number"></label></div>
         ${needPhone?`<div class="float-field"><input id="fPhone" placeholder=" " inputmode="numeric"><label data-tlabel="Parent phone — last 4 digits"></label></div>
         <p style="font-size:.8rem;color:var(--muted)">Criteria 1 of 2: confirm the parent phone on record (ends with ••••${U.esc(p.phone.replace(/\D/g,"").slice(-4))}).</p>`
         :`<p style="font-size:.8rem;color:var(--muted)">No parent phone on record — continue with activation code only.</p>`}

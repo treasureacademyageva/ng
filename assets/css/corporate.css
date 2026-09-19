@@ -915,3 +915,58 @@ body:not(.portal-body)::before{z-index:-1}
 .search-res a.sel{background:rgba(27,77,62,.1);outline:2px solid var(--green,#1b4d3e);border-radius:8px}
 .search-res mark{background:var(--butter,#ffe9a8);color:inherit;border-radius:3px;padding:0 2px}
 .link-btn{background:none;border:0;color:var(--green,#1b4d3e);cursor:pointer;text-decoration:underline;font:inherit;padding:0}
+
+/* ---- batch19: footer titles centered, even spacing (bodies keep their places) ---- */
+.foot-brand .logo{display:block;text-align:center;margin-bottom:10px}
+.foot-col h4{text-align:center;margin-bottom:10px}
+.foot-main{gap:32px;margin-bottom:20px;align-items:start}
+.foot-brand p{margin:0;line-height:1.6}
+.foot-col p{margin:6px 0;line-height:1.6}
+.foot-contact-row{margin-bottom:8px}
+.foot-visit p{margin:0 0 10px}
+.foot-bottom{padding:12px 0}
+@media(max-width:860px){.foot-main{gap:24px;margin-bottom:18px}}
+@media(max-width:560px){.foot-main{gap:20px;margin-bottom:16px}}
+/* ---- batch19: news redesign ---- */
+#newsFeatured{margin:4px 0 6px}
+.news-featured{display:grid;grid-template-columns:1.05fr 1fr;background:var(--white);border:2px solid var(--green);border-radius:18px;overflow:hidden;cursor:pointer;box-shadow:0 10px 30px rgba(14,59,33,.10);transition:transform .2s ease,box-shadow .2s ease}
+.news-featured:hover{transform:translateY(-3px);box-shadow:0 16px 36px rgba(14,59,33,.16)}
+.news-featured>img{width:100%;height:100%;min-height:260px;object-fit:cover;display:block}
+.nf-noimg{background:linear-gradient(135deg,#0E9A46,#095C2A);min-height:260px}
+.nf-txt{padding:26px;display:flex;flex-direction:column;gap:10px;justify-content:center}
+.nf-txt h2{margin:2px 0;font-size:clamp(1.3rem,2.6vw,1.7rem);line-height:1.25}
+.nf-txt p{margin:0;color:var(--muted);line-height:1.6}
+.nf-meta{display:flex;gap:14px;flex-wrap:wrap;font-size:.82rem;color:var(--muted);font-weight:600}
+.news-sec-head{display:flex;align-items:center;gap:12px;margin:28px 0 14px}
+.news-sec-head h2{margin:0;font-size:1.35rem;white-space:nowrap}
+.news-sec-head .rule{flex:1;height:3px;border-radius:3px;background:linear-gradient(90deg,var(--green),var(--sun))}
+.news-sec-head .count{background:var(--sun);color:#203040;font-size:.75rem;font-weight:800;padding:3px 12px;border-radius:20px}
+.news-sec-head .count:empty{display:none}
+.rail-head h2{border-left:5px solid var(--green);padding-left:10px}
+.yt-card.is-video{outline:none;border:2px solid var(--green);border-radius:16px;background:var(--white);overflow:hidden}
+.yt-card.is-video .yt-thumb{border-radius:0}
+.yt-thumb .play span{background:var(--sun);color:var(--green);border:2px solid #fff;box-shadow:0 6px 16px rgba(0,0,0,.35)}
+.yt-thumb .dur{background:var(--green)}
+.yt-card.vid-soon{border:2px dashed var(--green);background:#FFFDF4}
+.soon-thumb{background:linear-gradient(135deg,#0E9A46,#095C2A);aspect-ratio:16/9;display:block}
+[data-theme="dark"] .news-featured{background:#182434;border-color:#2E7D4F}
+[data-theme="dark"] .yt-card.vid-soon{background:#1A1408}
+@media(max-width:700px){.news-featured{grid-template-columns:1fr}.news-featured>img,.nf-noimg{min-height:200px}.nf-txt{padding:20px}}
+
+/* ---- batch20: portal top nav, same look as landing ---- */
+.portal-layout{display:block;min-height:100vh}
+.nav-links button[data-view]{background:none;border:none;font:inherit;font-weight:700;font-size:.9rem;color:var(--ink);padding:10px 14px;border-radius:10px;cursor:pointer;white-space:nowrap;position:relative;transition:color .18s ease,background .18s ease}
+.nav-links button[data-view]:hover{background:#EDF3EE;color:#0E5A2E}
+.nav-links button[data-view]::after{content:"";position:absolute;left:14px;right:14px;bottom:5px;height:2px;border-radius:2px;background:#C9A227;transform:scaleX(0);transform-origin:left;transition:transform .22s ease}
+.nav-links button[data-view]:hover::after{transform:scaleX(1)}
+.nav-links button[data-view].on{background:var(--sun);color:#203040}
+.nav-links button[data-view].on::after{transform:scaleX(1)}
+.nav-links button[data-view] .badge{margin-left:6px}
+.portal-user{display:inline-flex;gap:8px;align-items:center;font-weight:700}
+.portal-user .avatar{width:26px;height:26px;font-size:.7rem}
+.portal-user small{font-weight:400;opacity:.8}
+.topbar button.portal-link{border:none;cursor:pointer;font:inherit}
+.tb-right{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+[data-theme="dark"] .nav-links button[data-view]{color:var(--ink)}
+[data-theme="dark"] .nav-links button[data-view]:hover{background:#1C2A24;color:var(--sun)}
+[data-theme="dark"] .nav-links button[data-view].on{background:var(--sun);color:#203040}

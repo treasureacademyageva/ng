@@ -11,21 +11,22 @@
 <title>Teacher Dashboard — Treasure Academy, Ageva</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../assets/css/main.css?v=20260919-17">
-<link rel="stylesheet" href="../assets/css/extra.css?v=20260919-17">
-<link rel="stylesheet" href="../assets/css/corporate.css?v=20260919-17">
+<link rel="stylesheet" href="../assets/css/main.css?v=20260919-20">
+<link rel="stylesheet" href="../assets/css/extra.css?v=20260919-20">
+<link rel="stylesheet" href="../assets/css/corporate.css?v=20260919-20">
 <noscript><style>#siteLoader{display:none!important}</style></noscript>
 </head>
 <body class="portal-body">
 <div id="siteLoader"><img src="../assets/img/logo.jpg" alt="Treasure Academy"><div class="spin"></div></div>
 <div class="portal-layout">
-  <aside class="sidebar">
-    <div class="side-logo">
-      <img class="mark-img" src="../assets/img/logo.jpg" alt="Treasure Academy logo">
-      <span data-school-name>Treasure Academy</span>
-   </div>
-    <div class="side-user"><div class="avatar" id="userAvatar">T</div><div><b id="userName">Teacher</b><span id="userClass">Teacher</span></div></div>
-    <nav class="side-nav" id="sideNav">
+  <div class="topbar"><div class="container">
+    <div class="tb-contact"><span><b>Admissions</b> <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg><a data-school-phone href="tel:"></a></span><span class="tb-sep">•</span><span data-school-email></span></div>
+    <div class="tb-right"><span class="tb-loc">Ageva, Okene, Kogi State</span><span class="portal-user"><span class="avatar" id="userAvatar">T</span><span><b id="userName">Teacher</b> <small id="userClass">Teacher</small></span></span><a href="../index.html">View Website</a><button class="portal-link" onclick="Auth.logout()">Logout</button></div>
+  </div></div>
+  <nav class="navbar"><div class="container">
+    <a class="logo" href="../index.html"><img class="mark-img" src="../assets/img/logo.jpg" alt="Treasure Academy logo"></a>
+    <div class="brand-name"><span data-school-name>Treasure Academy</span><small>Teacher Portal</small></div>
+    <div class="nav-links" id="sideNav">
       <button data-view="overview" class="on">Home</button>
       <button data-view="register">Mark Register</button>
       <button data-view="results">Input Results</button>
@@ -34,18 +35,15 @@
       <button data-view="duty">Duty Roster</button>
       <button data-view="notices">Notifications <span class="badge b-coral" id="ntCount">0</span></button>
       <button data-view="meetings">Meetings <span class="badge b-grape" id="mtCount">0</span></button>
-    </nav>
-    <div class="side-foot">
-      <a class="btn btn-white btn-sm btn-block" href="../index.html">View Website</a>
-      <button class="btn btn-coral btn-sm btn-block" onclick="Auth.logout()"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="M16 17l5-5-5-5"/><path d="M21 12H9"/></svg> Logout</button>
-   </div>
-  </aside>
+    
+    </div>
+    <div class="nav-cta-row"><button class="theme-btn" title="Switch to night"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4 8.5 8.5 0 1 0 20 14.5z"/></svg></button></div>
+  </div></nav>
 
   <main class="main">
     <div class="p-topbar">
       <div style="display:flex;gap:12px;align-items:center">
-        <button class="btn btn-sun btn-sm side-toggle" onclick="document.body.classList.toggle('side-open')" aria-label="Menu"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
-        <div><h1 id="pageTitle">Welcome!</h1><p id="pageSub">Here is your class at a glance.</p></div>
+                <div><h1 id="pageTitle">Welcome!</h1><p id="pageSub">Here is your class at a glance.</p></div>
      </div>
       <span class="pill-date"><span id="todayLbl"></span></span>
    </div>
@@ -141,7 +139,7 @@
 <div id="toast"></div>
 
 <script>
-/* unified sidebar router: one delegated handler + render-on-navigate + hash restore */
+/* unified portal router: one delegated handler + render-on-navigate + hash restore */
 (function(){
 var T={overview:["Welcome!","Here is your class at a glance."],register:["Mark Register","Daily attendance."],results:["Input Results","Enter pupil scores."],pupils:["My Pupils","Your class pupils."],duty:["Duty Roster","Your duty days this week."],notices:["Notifications","Messages from the headmistress."],meetings:["Staff Meetings","Notes to read and acknowledge."],homework:["Homework","Post homework for your class."]};
 function navRender(v){
@@ -173,8 +171,8 @@ if(nav)nav.addEventListener("click",function(e){
 try{var h=String(location.hash||"").replace(/^#\/?/,""); if(h){var bb=document.querySelector('#sideNav button[data-view="'+h+'"]'); if(bb&&!bb.classList.contains("on"))bb.click();}}catch(e7){}
 })();
 </script>
-<script src="../assets/js/store.js?v=20260919-17"></script>
-<script src="../assets/js/site.js?v=20260919-17"></script>
+<script src="../assets/js/store.js?v=20260919-20"></script>
+<script src="../assets/js/site.js?v=20260919-20"></script>
 <script>
 const S = Auth.guard("teacher");
 if(!S){location.href="login.html";throw new Error("no-session");}

@@ -11,9 +11,9 @@
 <link rel="icon" href="assets/img/logo.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/main.css?v=20260919-17">
-<link rel="stylesheet" href="assets/css/extra.css?v=20260919-17">
-<link rel="stylesheet" href="assets/css/corporate.css?v=20260919-17">
+<link rel="stylesheet" href="assets/css/main.css?v=20260919-20">
+<link rel="stylesheet" href="assets/css/extra.css?v=20260919-20">
+<link rel="stylesheet" href="assets/css/corporate.css?v=20260919-20">
 <noscript><style>#siteLoader{display:none!important}</style></noscript>
 </head>
 <body data-page="admissions" data-assets="assets/">
@@ -33,7 +33,7 @@
   <div class="container">
     <span class="sec-tag">Admissions</span>
     <h1>Join Treasure Academy</h1>
-    <p>Simple steps to give your child a joyful, brilliant start — Creche to Primary 6.</p>
+    <p>Simple steps to give your child a joyful, brilliant start. Creche to Primary 6.</p>
  </div>
 </div>
 <section><div class="container">
@@ -75,8 +75,8 @@
 </div></section>
 <footer id="siteFooter"></footer>
 <div id="toast"></div>
-<script src="assets/js/store.js?v=20260919-17"></script>
-<script src="assets/js/site.js?v=20260919-17"></script>
+<script src="assets/js/store.js?v=20260919-20"></script>
+<script src="assets/js/site.js?v=20260919-20"></script>
 <script>
 function normPhone(p){ let d=String(p||"").replace(/\D/g,""); if(d.startsWith("234"))d="0"+d.slice(3); return d; }
 window.verifyReceipt=function(){
@@ -105,14 +105,14 @@ window.trackApp=function(){
     const bc=st==="Admitted"?"b-green":st==="Expired"?"b-coral":st==="Pending"?"b-sun":"b-sky";
     const dl=(r.expiry&&st==="Pending")?U.daysUntil(r.expiry):null;
     const step=st==="Admitted"?"Congratulations! Visit the school office to collect portal login details and your resumption date."
-      :st==="Expired"?"This application has expired — please register again or contact the office."
-      :(r.payment&&r.payment.status==="Paid")?"Payment received — the school will confirm and admit your child soon."
+      :st==="Expired"?"This application has expired. Please register again or contact the office."
+      :(r.payment&&r.payment.status==="Paid")?"Payment received. The school will confirm and admit your child soon."
       :"Complete your fee payment by bank transfer, then come to the school within 2 weeks with your documents.";
     return `<div class="track-card"><div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap"><b>${U.esc(w.first||"")} ${U.esc(w.surname||"")}</b><span class="badge ${bc}">${U.esc(st)}</span><span style="color:var(--muted);font-size:.85rem">${r.id} • ${U.shortDate(r.date)} • ${U.esc(w.classApply||w.class||"")}</span></div>
     <div style="margin-top:6px;font-size:.9rem">Payment: <b>${U.esc((r.payment||{}).status||"Unpaid")}</b></div>
-    ${dl===null?"":dl<0?'<div style="margin-top:6px"><span class="badge b-coral">Time expired — visit the school immediately</span></div>':'<div style="margin-top:6px"><span class="badge '+(dl>3?'b-green':'b-sun')+'">'+dl+' day'+(dl===1?'':'s')+' left to complete registration</span></div>'}
+    ${dl===null?"":dl<0?'<div style="margin-top:6px"><span class="badge b-coral">Time expired. Visit the school immediately</span></div>':'<div style="margin-top:6px"><span class="badge '+(dl>3?'b-green':'b-sun')+'">'+dl+' day'+(dl===1?'':'s')+' left to complete registration</span></div>'}
     <div style="margin-top:6px">${U.esc(step)}</div></div>`;
-  }).join("")+apps.map(a=>`<div class="track-card"><b>${U.esc(a.pupilName||a.name||"Enquiry")}</b> <span style="color:var(--muted);font-size:.85rem">• ${U.esc(a.classApply||a.class||"")} • ${U.shortDate(a.date)}</span><div style="margin-top:6px">Enquiry received — the school office will contact you shortly.</div></div>`).join("")+'</div>';
+  }).join("")+apps.map(a=>`<div class="track-card"><b>${U.esc(a.pupilName||a.name||"Enquiry")}</b> <span style="color:var(--muted);font-size:.85rem">• ${U.esc(a.classApply||a.class||"")} • ${U.shortDate(a.date)}</span><div style="margin-top:6px">Enquiry received. The school office will contact you shortly.</div></div>`).join("")+'</div>';
 };
 try{ const cal=DB.load().calendar||[];
   const res=[...cal].filter(c=>/resump/i.test(c.title||"")).sort((a,b)=>a.date.localeCompare(b.date));
@@ -126,16 +126,16 @@ try{ const cal=DB.load().calendar||[];
 }catch(e){}
 try{ const f=(DB.load().school||{}).fees||{};
   const rows=CLASSES.filter(c=>f[c]).map(c=>`<tr><td>${U.esc(c)}</td><td style="text-align:right"><b>${U.naira(f[c])}</b></td></tr>`).join("");
-  document.getElementById("feesTable").innerHTML=rows?`<div style="overflow-x:auto"><table class="tbl"><thead><tr><th>Class</th><th style="text-align:right">Amount</th></tr></thead><tbody>${rows}</tbody></table></div><p class="sub">Pay by bank transfer. Sibling discounts may apply — ask the office.</p>`:"";
+  document.getElementById("feesTable").innerHTML=rows?`<div style="overflow-x:auto"><table class="tbl"><thead><tr><th>Class</th><th style="text-align:right">Amount</th></tr></thead><tbody>${rows}</tbody></table></div><p class="sub">Pay by bank transfer. Sibling discounts may apply. Ask the office.</p>`:"";
 }catch(e){}
 try{const bk=(DB.load().school||{}).bank||{};if(bk.number){document.getElementById("bankLine").innerHTML="<br> "+U.esc(bk.name)+" • "+U.esc(bk.number);}}catch(e){}
 (function(){
   const FAQS=[
-    ["How much are the fees?","Fees depend on the class — see the fee table below, or message us and we will send the full schedule. All payments by bank transfer."],
+    ["How much are the fees?","Fees depend on the class. See the fee table below, or message us and we will send the full schedule. All payments by bank transfer."],
     ["What ages do you accept?","Creche from 6 months, Pre-Nursery & Nursery from 2 years, Primary from 5 years."],
     ["What documents do I need?","Your child's birth certificate and two passport photos, plus your bank transfer receipt. Bring them when you visit within 2 weeks."],
     ["Is there school transport?","Yes! Supervised routes with morning pickup and afternoon drop-off — see the Transport page for routes and fees."],
-    ["Where do we buy uniforms?","At the school shop after admission — full price list on the Uniform page."],
+    ["Where do we buy uniforms?","At the school shop after admission. Full price list on the Uniform page."],
     ["How do I track my application?","Use the tracker on this page with the phone number you registered with."]
   ];
   document.getElementById("admFaq").innerHTML=FAQS.map((f,i)=>`<div class="faq-item clip-up"><button class="faq-q" data-i="${i}">${U.esc(f[0])}<span class="plus">+</span></button><div class="faq-a"><div>${U.esc(f[1])}</div></div></div>`).join("");
