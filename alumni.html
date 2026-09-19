@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<style>#siteLoader{position:fixed;inset:0;z-index:1200;background:#fff;display:flex;flex-direction:column;gap:14px;align-items:center;justify-content:center;transition:opacity .4s}#siteLoader img{width:84px;height:84px;object-fit:contain}#siteLoader .spin{width:38px;height:38px;border-radius:50%;border:4px solid #FDF6D8;border-top-color:#0B7A37;animation:lspin .8s linear infinite}@keyframes lspin{to{transform:rotate(360deg)}}#siteLoader.done{opacity:0;pointer-events:none}</style>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Alumni — Treasure Academy, Ageva</title>
+<link rel="icon" href="assets/img/logo.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/main.css?v=20260919-17">
+<link rel="stylesheet" href="assets/css/extra.css?v=20260919-17">
+<link rel="stylesheet" href="assets/css/corporate.css?v=20260919-17">
+<noscript><style>#siteLoader{display:none!important}</style></noscript>
+</head>
+<body data-page="alumni" data-assets="assets/">
+<div id="siteLoader"><img src="assets/img/logo.jpg" alt="Treasure Academy"><div class="spin"></div></div>
+<div class="topbar"><div class="container">
+  <div class="tb-contact"><span><b>Admissions</b> <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg><a data-school-phone href="tel:"></a></span><span class="tb-sep">•</span><span data-school-email></span></div>
+  <div class="tb-right"><span>Ageva, Okene, Kogi State</span><a class="portal-link" href="portal/login.html">Portal Login</a></div>
+</div></div>
+<nav class="navbar"><div class="container">
+  <a class="logo" href="index.html">
+    <img class="mark-img" src="assets/img/logo.jpg" alt="Treasure Academy logo">
+    </a>
+  <div class="brand-name"><span data-school-name></span><small>Creche to Primary 6</small></div>
+  <div class="nav-links" id="navLinks"><div id="mainNav" style="display:contents"><a href="index.html">Home</a><a href="news.html">News/Event</a><a href="about.html">About Us</a><a href="contact.html">Contact Us</a><a href="portal/login.html" class="btn btn-mint btn-sm" style="margin-left:6px">Login/Register</a></div></div>
+</div></nav>
+<div class="page-hero">
+  <div class="container">
+    <span class="sec-tag">Alumni</span>
+    <h1>Our Alumni</h1>
+    <p>Treasure Academy graduates succeed in top secondary schools — and make us proud.</p>
+ </div>
+</div>
+<section><div class="container">
+<div class="mv-grid">
+  <div class="mv-card clip-up" style="background:var(--sun-soft)"><h3>Common Entrance Success</h3><p>Our Primary 6 graduates pass into great secondary schools year after year — the Treasure Academy foundation shows.</p></div>
+  <div class="mv-card clip-up" style="background:var(--sky-soft)"><h3>Once Treasure Academy, Always Treasure Academy</h3><p>Graduated from Treasure Academy? We would love to hear from you — share your story and inspire our pupils.</p></div>
+</div>
+<div style="text-align:center;margin-top:26px"><a class="btn btn-mint" href="graduates.html">Meet Our Graduates</a> <a class="btn btn-white" href="contact.html">Share Your Story</a></div>
+<div class="sec-head clip-up" style="margin-top:34px"><span class="sec-tag">Where Are They Now?</span><h2>Alumni Spotlight</h2></div>
+<div class="track-card clip-up" style="max-width:640px;margin:0 auto 8px">
+  <h3 style="margin-top:0">Are You Our Graduate? Share Your Story</h3>
+  <div class="form-grid">
+    <div class="field"><label>Your Name</label><input id="alSubName" placeholder="e.g. Blessing O."></div>
+    <div class="field"><label>Year You Left</label><input id="alSubYear" placeholder="e.g. 2023"></div>
+    <div class="field full"><label>School You Attend Now</label><input id="alSubSchool" placeholder="e.g. Government Science Secondary School"></div>
+    <div class="field full"><label>Your Success Story</label><textarea id="alSubNote" rows="3" placeholder="What are you doing now? Make us proud..."></textarea></div>
+  </div>
+  <div style="margin-top:10px"><button class="btn btn-mint" onclick="submitAlumni()">Send My Story</button></div>
+  <p class="sub" style="margin-bottom:0">Stories appear on this wall after the headmistress approves them.</p>
+</div>
+<div class="stars-week" id="alumWall"></div>
+</div></section>
+<footer id="siteFooter"></footer>
+<div id="toast"></div>
+<script src="assets/js/store.js?v=20260919-17"></script>
+<script src="assets/js/site.js?v=20260919-17"></script>
+<script>
+(function(){
+  const db = DB.load();
+  window.submitAlumni=function(){
+    const g=id=>document.getElementById(id).value.trim();
+    if(!g("alSubName")||!g("alSubNote")){U.toast("Your name and story are required.");return;}
+    const d=DB.load(); d.alumni=d.alumni||[];
+    d.alumni.unshift({id:"AL"+Date.now(),status:"Pending",name:g("alSubName"),year:g("alSubYear"),school:g("alSubSchool"),note:g("alSubNote")});
+    DB.save(d);
+    ["alSubName","alSubYear","alSubSchool","alSubNote"].forEach(id=>document.getElementById(id).value="");
+    U.toast("Story sent! It will appear after approval.");
+  };
+  document.getElementById("alumWall").innerHTML = (db.alumni||[]).filter(a=>a.status!=="Pending").map(a=>`
+    <div class="star-card clip-up"><div class="avatar-big">${U.initials(a.name)}</div>
+      <span class="badge b-sun">Class of ${U.esc(a.year)}</span>
+      <h3>${U.esc(a.name)}</h3>
+      <p class="sub" style="margin:2px 0 0">Now at ${U.esc(a.school)}</p>
+      <p style="margin:8px 0 0;font-size:.9rem">${U.esc(a.note)}</p>
+    </div>`).join("") || '<div class="empty">Spotlight coming soon.</div>';
+})();
+</script>
+</body>
+</html>

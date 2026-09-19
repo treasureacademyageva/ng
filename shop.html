@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<style>#siteLoader{position:fixed;inset:0;z-index:1200;background:#fff;display:flex;flex-direction:column;gap:14px;align-items:center;justify-content:center;transition:opacity .4s}#siteLoader img{width:84px;height:84px;object-fit:contain}#siteLoader .spin{width:38px;height:38px;border-radius:50%;border:4px solid #FDF6D8;border-top-color:#0B7A37;animation:lspin .8s linear infinite}@keyframes lspin{to{transform:rotate(360deg)}}#siteLoader.done{opacity:0;pointer-events:none}</style>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>School Shop — Treasure Academy, Ageva</title>
+<link rel="icon" href="assets/img/logo.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/main.css?v=20260919-17">
+<link rel="stylesheet" href="assets/css/extra.css?v=20260919-17">
+<link rel="stylesheet" href="assets/css/corporate.css?v=20260919-17">
+<noscript><style>#siteLoader{display:none!important}</style></noscript>
+</head>
+<body data-page="shop" data-assets="assets/">
+<div id="siteLoader"><img src="assets/img/logo.jpg" alt="Treasure Academy"><div class="spin"></div></div>
+<div class="topbar"><div class="container">
+  <div class="tb-contact"><span><b>Admissions</b> <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg><a data-school-phone href="tel:"></a></span><span class="tb-sep">•</span><span data-school-email></span></div>
+  <div class="tb-right"><span>Ageva, Okene, Kogi State</span><a class="portal-link" href="portal/login.html">Portal Login</a></div>
+</div></div>
+<nav class="navbar"><div class="container">
+  <a class="logo" href="index.html">
+    <img class="mark-img" src="assets/img/logo.jpg" alt="Treasure Academy logo">
+    </a>
+  <div class="brand-name"><span data-school-name></span><small>Creche to Primary 6</small></div>
+  <div class="nav-links" id="navLinks"><div id="mainNav" style="display:contents"><a href="index.html">Home</a><a href="news.html">News/Event</a><a href="about.html">About Us</a><a href="contact.html">Contact Us</a><a href="portal/login.html" class="btn btn-mint btn-sm" style="margin-left:6px">Login/Register</a></div></div>
+</div></nav>
+<div class="page-hero">
+  <div class="container">
+    <span class="sec-tag">Shop</span>
+    <h1>School Shop</h1>
+    <p>Tap your child's class, add items to cart, pay once — collect at school.</p>
+  </div>
+</div>
+<section><div class="container">
+<img class="shop-banner" src="assets/img/shop-banner.png" alt="School shop items">
+<div class="steps" style="margin-bottom:22px">
+  <div class="step"><div class="num">1</div><h3>Pick Items</h3><p>Choose class, tap + and Add to Cart.</p></div>
+  <div class="step"><div class="num">2</div><h3>Pay Once</h3><p>Transfer or pay on our POS.</p></div>
+  <div class="step"><div class="num">3</div><h3>Collect</h3><p>Show your reference at the office.</p></div>
+</div>
+<div class="class-chips" id="chipBox"></div>
+<div class="toolbar" style="margin-bottom:14px"><input id="shopSearch" placeholder="Search items... e.g. Maths, pen, uniform" style="flex:1;min-width:200px"><button class="icon-btn" id="cartBtn" onclick="openCart()">Cart (<span id="cartBtnCount">0</span>)</button><button class="icon-btn" onclick="openMyOrders()">My Orders</button></div>
+<div class="prod-grid" id="prodGrid"></div>
+<div class="cart-bar" id="cartBar" style="display:none">
+  <span id="cartCount" style="font-weight:800">0 items</span>
+  <span class="spacer"></span>
+  <span class="tot" id="cartTotal">₦0</span>
+  <button class="btn btn-sun btn-sm" onclick="openCart()">View Cart & Pay</button>
+</div>
+<div style="text-align:center;margin-top:26px"><a class="btn btn-white" href="contact.html">Questions? Contact the Office</a></div>
+</div></section>
+<footer id="siteFooter"></footer>
+<div class="modal-bg" id="modalBg"><div class="modal" id="modalBox"></div></div>
+<div id="printSlip"></div>
+<div id="toast"></div>
+<script src="assets/js/store.js?v=20260919-17"></script>
+<script src="assets/js/site.js?v=20260919-17"></script>
+<script>
+(function(){
+  const pre = new URLSearchParams(location.search).get("class");
+  let chip = (pre && CLASSES.includes(pre)) ? pre : "All";
+  let q = "";
+  let cart = {};
+  try{ cart = JSON.parse(localStorage.getItem("treasure_cart_v1") || "{}"); }catch(e){ cart = {}; }
+  const saveCart = () => { try{ localStorage.setItem("treasure_cart_v1", JSON.stringify(cart)); }catch(e){} };
+  const items = () => (DB.load().shopItems || []);
+  const byId = id => items().find(i => i.id === id);
+  const qtyOf = id => cart[id] || 0;
+
+  function renderChips(){
+    document.getElementById("chipBox").innerHTML = ["All"].concat(CLASSES).map(c =>
+      `<button class="chip ${chip===c?"on":""}" data-c="${U.esc(c)}">${U.esc(c==="All"?"All Items":c)}</button>`).join("");
+    document.querySelectorAll("#chipBox .chip").forEach(b => b.onclick = () => { chip = b.dataset.c; renderAll(); });
+  }
+  function clsLabel(it){
+    if(it.classes.length >= CLASSES.length) return "All classes";
+    if(it.classes.length <= 2) return it.classes.join(" • ");
+    return it.classes.slice(0,2).join(" • ") + ` +${it.classes.length-2} more`;
+  }
+  function renderGrid(){
+    const list = items().filter(i => (chip==="All" || i.classes.includes(chip)) && (!q || i.name.toLowerCase().includes(q)));
+    document.getElementById("prodGrid").innerHTML = list.map(it => {
+      const n = qtyOf(it.id);
+      return `<div class="prod">
+        ${it.img?`<img class="prod-img" src="${it.img}" alt="" loading="lazy">`:`<div class="prod-ico">${U.icon(it.icon || U.autoIcon(it.name), 28)}</div>`}
+        <b>${U.esc(it.name)}</b>
+        <span class="cls">${U.esc(clsLabel(it))}</span>
+        <span class="price">${U.naira(it.price)}</span>
+        ${(it.qty==null||it.qty>0)?`<span class="stock">${it.qty==null?"In stock":it.qty+" left"}</span>`:`<span class="stock out">No current quantity</span><small class="backorder">You can still order — you'll get it when new stock arrives.</small><br><button class="btn btn-white btn-sm" style="margin-top:6px" onclick="restockAsk('${it.id}')">Notify Me</button>`}
+        <div class="qty-row">
+          <div class="qty"><button onclick="chQty('${it.id}',-1)" aria-label="less">−</button><b>${n}</b><button onclick="chQty('${it.id}',1)" aria-label="more">+</button></div>
+          <button class="btn btn-mint btn-sm" style="flex:1" onclick="addIt('${it.id}')">Add</button>
+        </div>
+      </div>`; }).join("") || '<div class="empty">No items found. Try another class or search.</div>';
+  }
+  function totals(){
+    let n = 0, t = 0;
+    Object.keys(cart).forEach(id => { const it = byId(id); if(it && cart[id] > 0){ n += cart[id]; t += cart[id] * (+it.price || 0); } });
+    return {n, t};
+  }
+  function renderBar(){
+    const {n, t} = totals();
+    const bar = document.getElementById("cartBar");
+    bar.style.display = n ? "" : "none";
+    document.getElementById("cartCount").textContent = `${n} item${n===1?"":"s"} in cart`;
+    document.getElementById("cartTotal").textContent = U.naira(t);
+    document.getElementById("cartBtnCount").textContent = n;
+  }
+  function renderAll(){ renderChips(); renderGrid(); renderBar(); }
+  window.chQty = (id, d) => {
+    cart[id] = Math.max(0, (cart[id] || 0) + d);
+    if(!cart[id]) delete cart[id];
+    saveCart(); renderGrid(); renderBar();
+    if(d>0){ const it=byId(id); if(it && it.qty!=null && (cart[id]||0)>it.qty) U.toast(`${it.name}: only ${it.qty} in stock — extra comes with new stock.`); }
+  };
+  window.addIt = id => { cart[id] = (cart[id] || 0) + 1; saveCart(); renderGrid(); renderBar(); const it = byId(id);
+    U.toast((it.qty!=null && cart[id]>it.qty) ? `${it.name}: only ${it.qty} in stock — extra comes with new stock.` : `${it.name} added to cart.`); };
+
+  /* ---------- cart + checkout ---------- */
+  window.openModal = html => { document.getElementById("modalBox").innerHTML = html; document.getElementById("modalBg").classList.add("show"); };
+  window.closeModal = () => document.getElementById("modalBg").classList.remove("show");
+  document.getElementById("modalBg").addEventListener("click", e => { if(e.target.id === "modalBg") closeModal(); });
+
+  window.openCart = () => {
+    const lines = Object.keys(cart).map(id => ({it: byId(id), n: cart[id]})).filter(x => x.it && x.n > 0);
+    if(!lines.length){ U.toast("Your cart is empty."); return; }
+    const {t} = totals();
+    openModal(`<h2>Your Cart</h2><p class="sub">Check items, then pay once</p>
+      ${lines.map(x => `<div class="cart-line">
+        ${x.it.img?`<img class="cart-thumb" src="${x.it.img}" alt="">`:`<div class="prod-ico" style="width:40px;height:40px;flex-basis:40px">${U.icon(x.it.icon || "bag", 22)}</div>`}
+        <div style="flex:1"><b>${U.esc(x.it.name)}</b><br><small style="color:var(--muted)">${U.naira(x.it.price)} each${(x.it.qty!=null&&x.n>x.it.qty)?` • <b style="color:#B8860B">only ${x.it.qty} in stock — rest comes later</b>`:""}</small></div>
+        <div class="qty"><button onclick="chQty('${x.it.id}',-1);openCart()" aria-label="less">−</button><b>${x.n}</b><button onclick="chQty('${x.it.id}',1);openCart()" aria-label="more">+</button></div>
+        <b style="min-width:70px;text-align:right">${U.naira(x.it.price * x.n)}</b>
+      </div>`).join("")}
+      <div style="display:flex;justify-content:space-between;align-items:center;margin:14px 0"><b>Total to pay:</b><b style="font-size:1.4rem;color:#0E3B21">${U.naira(t)}</b></div>
+      <div style="display:flex;gap:10px"><button class="btn btn-mint" style="flex:1" onclick="openCheckout()">Pay ${U.naira(t)}</button><button class="btn btn-white" onclick="closeModal()">Continue Shopping</button></div>`);
+  };
+  window.openCheckout = () => {
+    const db = DB.load(), {t} = totals();
+    if(!t){ U.toast("Your cart is empty."); return; }
+    openModal(`<h2>Pay ${U.naira(t)}</h2><p class="sub">Fill this, then pay by transfer or POS</p>
+      <div class="form-grid">
+        <div class="field"><label>Your Name *</label><input id="oName" placeholder="e.g. Mrs. Okafor"></div>
+        <div class="field"><label>Your Phone *</label><input id="oPhone" placeholder="e.g. 0805..."></div>
+        <div class="field"><label>Pupil Name *</label><input id="oPupil" placeholder="Child collecting items"></div>
+        <div class="field"><label>Pupil Class</label><select id="oClass">${CLASSES.map(c=>`<option ${chip===c?"selected":""}>${c}</option>`).join("")}</select></div>
+        <div class="field full"><label>How will you pay? *</label>
+          <label class="quiz-opt"><input type="radio" name="oMethod" value="Bank transfer" checked><span>Bank transfer (from my phone)</span></label>
+          <label class="quiz-opt"><input type="radio" name="oMethod" value="POS at office"><span>POS machine at the school office</span></label>
+        </div>
+      </div>
+      <div style="margin-top:12px">${U.payAccountsHTML(db)}</div>
+      <div style="display:flex;gap:10px;margin-top:14px"><button class="btn btn-mint" style="flex:1" onclick="placeOrder()">Place Order — ${U.naira(t)}</button><button class="btn btn-white" onclick="openCart()">Back</button></div>`);
+  };
+  window.placeOrder = () => {
+    const g = id => document.getElementById(id).value.trim();
+    if(!g("oName") || !g("oPhone") || !g("oPupil")){ U.toast("Please fill name, phone and pupil."); return; }
+    const method = (document.querySelector('input[name=oMethod]:checked') || {}).value || "Bank transfer";
+    const db = DB.load();
+    const lines = Object.keys(cart).map(id => ({it: byId(id), n: cart[id]})).filter(x => x.it && x.n > 0);
+    if(!lines.length){ U.toast("Your cart is empty."); return; }
+    const total = lines.reduce((a,x) => a + x.n * (+x.it.price || 0), 0);
+    const id = "ORD" + String(db.seq.order++).padStart(4, "0");
+    db.orders.unshift({id, buyer: g("oName"), phone: g("oPhone"), pupil: g("oPupil"), pclass: document.getElementById("oClass").value,
+      method, items: lines.map(x => ({id: x.it.id, name: x.it.name, price: +x.it.price || 0, qty: x.n})),
+      total, status: "Pending", date: U.todayStr()});
+    DB.save(db);
+    try{ const mine=JSON.parse(localStorage.getItem("treasure_myorders_v1")||"[]"); mine.unshift(id); localStorage.setItem("treasure_myorders_v1",JSON.stringify(mine.slice(0,20))); }catch(e){}
+    cart = {}; saveCart(); renderAll();
+    const bk = (db.school.bank || {});
+    openModal(`<div style="text-align:center;color:#177A3F">${U.icon("check", 46)}</div>
+      <h2 style="text-align:center">Order received!</h2>
+      <div class="ref-big">${id} • ${U.naira(total)}</div>
+      ${method === "POS at office"
+        ? `<div class="notice"><span class="dot" style="background:var(--mint)"></span><div>Come to the school office and pay <b>${U.naira(total)}</b> on our <b>POS machine</b>. Tell them order <b>${id}</b>.</div></div>`
+        : `<div class="notice"><span class="dot" style="background:var(--sun)"></span><div>Transfer <b>${U.naira(total)}</b> to:<br><b>${U.esc(bk.name || "—")}</b> • <b>${U.esc(bk.number || "ask office")}</b><br>${U.esc(bk.holder || "")}<br>Write <b>${id}</b> as the narration/description.</div></div>`}
+      <div class="notice"><span class="dot" style="background:var(--sky)"></span><div>Collect your items at the school office <b>from tomorrow</b>. Show this reference: <b>${id}</b>.</div></div>
+      <div style="display:flex;gap:10px;margin-top:14px;flex-wrap:wrap"><button class="btn btn-mint" style="flex:1" onclick="closeModal()">Done</button><button class="btn btn-white" onclick="openReceipt('${id}')">Receipt</button><button class="btn btn-white" onclick="printSlip('${id}')">Print</button></div>`);
+  };
+  /* ---------- my orders + receipts ---------- */
+  const myIds = () => { try{ return JSON.parse(localStorage.getItem("treasure_myorders_v1") || "[]"); }catch(e){ return []; } };
+  window.openMyOrders = () => {
+    const db = DB.load(), mine = myIds();
+    const list = (db.orders || []).filter(o => mine.includes(o.id));
+    openModal(`<h2>My Orders</h2><p class="sub">Your pickup orders on this phone</p>
+      <div style="display:flex;gap:8px;margin-bottom:12px"><input id="ordFind" inputmode="text" placeholder="Type order ref, e.g. ORD0001" style="flex:1"><button class="btn btn-mint btn-sm" onclick="findOrder()">Find</button></div>
+      ${list.length ? list.map(o => `<div class="cart-line">
+        <div style="flex:1"><b>${o.id}</b> • ${U.shortDate(o.date)}<br><small style="color:var(--muted)">${o.items.reduce((a,x)=>a+x.qty,0)} items • ${U.naira(o.total)} • ${U.esc(o.pupil||"")}</small></div>
+        <span class="badge ${o.status==="Collected"?"b-green":o.status==="Paid"?"b-sky":"b-sun"}">${o.status}</span>
+        <button class="btn btn-white btn-sm" onclick="openReceipt('${o.id}')">Receipt</button>
+      </div>`).join("") : '<div class="empty">No orders yet on this phone. Your orders will appear here after checkout.</div>'}
+      <div style="display:flex;gap:10px;margin-top:14px"><button class="btn btn-white" style="flex:1" onclick="closeModal()">Close</button></div>`);
+  };
+  window.findOrder = () => {
+    let v = (document.getElementById("ordFind").value || "").trim().toUpperCase();
+    if(!v) return;
+    if(/^\d+$/.test(v)) v = "ORD" + v.padStart(4, "0");
+    else if(!v.startsWith("ORD")) v = "ORD" + v.padStart(4, "0");
+    const o = (DB.load().orders || []).find(x => x.id === v);
+    if(!o){ U.toast("Order " + v + " not found. Check the reference."); return; }
+    try{ const mine = JSON.parse(localStorage.getItem("treasure_myorders_v1") || "[]");
+      if(!mine.includes(v)){ mine.unshift(v); localStorage.setItem("treasure_myorders_v1", JSON.stringify(mine.slice(0,20))); } }catch(e){}
+    openReceipt(v);
+  };
+  function slipHTML(o){
+    const s = DB.load().school, bk = (s.bank || {});
+    return `<div class="slip">
+      <div class="slip-head"><b>${U.esc(s.name)}</b><small>${U.esc(s.address)} • ${U.esc(s.phone)}</small></div>
+      <h3>ORDER RECEIPT</h3>
+      <div class="ref-big">${o.id} • ${U.naira(o.total)}</div>
+      <table class="slip-tbl"><tr><td>Date</td><td><b>${U.shortDate(o.date)}</b></td></tr>
+        <tr><td>Buyer</td><td><b>${U.esc(o.buyer||"")}</b> (${U.esc(o.phone||"")})</td></tr>
+        <tr><td>Pupil</td><td><b>${U.esc(o.pupil||"")}</b>${o.pclass?" • "+U.esc(o.pclass):""}</td></tr>
+        <tr><td>Payment</td><td><b>${U.esc(o.method||"")}</b></td></tr>
+        <tr><td>Status</td><td><b>${U.esc(o.status||"Pending")}</b></td></tr></table>
+      <table class="slip-tbl items"><thead><tr><th>Item</th><th>Qty</th><th>Price</th><th>Total</th></tr></thead>
+      <tbody>${o.items.map(x=>`<tr><td>${U.esc(x.name)}</td><td>${x.qty}</td><td>${U.naira(x.price)}</td><td>${U.naira(x.price*x.qty)}</td></tr>`).join("")}</tbody></table>
+      <div class="slip-total">TOTAL: ${U.naira(o.total)}</div>
+      ${o.method!=="POS at office"?`<p class="slip-note">Transfer to <b>${U.esc(bk.name||"—")} • ${U.esc(bk.number||"ask office")}</b> ${U.esc(bk.holder||"")} — write <b>${o.id}</b> as narration.</p>`:`<p class="slip-note">Pay <b>${U.naira(o.total)}</b> on our POS at the school office — mention order <b>${o.id}</b>.</p>`}
+      <p class="slip-note">Collect at the school office. "${U.esc(s.motto)}"</p>
+    </div>`;
+  }
+  window.openReceipt = id => {
+    const o = (DB.load().orders || []).find(x => x.id === id);
+    if(!o){ U.toast("Order not found."); return; }
+    openModal(`${slipHTML(o)}<div style="display:flex;gap:10px;margin-top:14px"><button class="btn btn-mint" style="flex:1" onclick="printSlip('${o.id}')">Print Receipt</button><button class="btn btn-white" onclick="copyPickup('${o.id}')">Copy Message</button><button class="btn btn-white" onclick="openMyOrders()">My Orders</button></div>`);
+  };
+  window.restockAsk = id => {
+    const it = byId(id); if(!it) return;
+    openModal(`<h2>Get Notified</h2><p class="sub">${U.esc(it.name)} is out of stock. Leave your number and we will call you when it arrives.</p>
+      <div class="form-grid"><div class="field"><label>Your Name *</label><input id="rsName"></div>
+      <div class="field"><label>Your Phone *</label><input id="rsPhone" inputmode="tel" placeholder="080..."></div></div>
+      <div style="display:flex;gap:10px;margin-top:14px"><button class="btn btn-mint" style="flex:1" onclick="restockSave('${it.id}')">Notify Me</button><button class="btn btn-white" onclick="closeModal()">Cancel</button></div>`);
+  };
+  window.restockSave = id => {
+    const g = x => document.getElementById(x).value.trim();
+    if(!g("rsName") || g("rsPhone").replace(/\D/g,"").length < 10){ U.toast("Please enter name and valid phone."); return; }
+    const db = DB.load(); db.restock = db.restock || [];
+    db.restock.unshift({ id: "RS" + Date.now(), item: id, name: g("rsName"), phone: g("rsPhone"), date: U.todayStr() });
+    DB.save(db); closeModal(); U.toast("Saved! We will call you when it arrives.");
+  };
+  window.copyPickup = id => {
+    const o = (DB.load().orders || []).find(x => x.id === id);
+    if(!o){ U.toast("Order not found."); return; }
+    const s = DB.load().school, bk = (s.bank || {});
+    const msg = s.name + " - ORDER " + o.id + "\nPupil: " + o.pupil + (o.pclass?" ("+o.pclass+")":"") + "\nItems: " + o.items.map(x=>x.qty+"x "+x.name).join(", ") + "\nTotal: " + U.naira(o.total) + "\nPayment: " + o.method + (o.method!=="POS at office"?" to "+(bk.name||"")+" "+(bk.number||"")+" ("+(bk.holder||"")+") - narration: "+o.id:" at school office - mention "+o.id) + "\nCollect at the school office from tomorrow. " + s.motto;
+    const done = () => U.toast("Pickup message copied - paste it in WhatsApp.");
+    if(navigator.clipboard && navigator.clipboard.writeText){ navigator.clipboard.writeText(msg).then(done).catch(()=>fallbackCopy(msg, done)); }
+    else fallbackCopy(msg, done);
+  };
+  function fallbackCopy(text, done){
+    const ta = document.createElement("textarea"); ta.value = text; ta.style.position = "fixed"; ta.style.opacity = "0";
+    document.body.appendChild(ta); ta.select();
+    try{ document.execCommand("copy"); done(); }catch(e){ U.toast("Copy failed - screenshot the receipt instead."); }
+    ta.remove();
+  }
+  window.printSlip = id => {
+    const o = (DB.load().orders || []).find(x => x.id === id);
+    if(!o){ U.toast("Order not found."); return; }
+    document.getElementById("printSlip").innerHTML = slipHTML(o);
+    document.body.classList.add("printing");
+    window.print();
+    setTimeout(()=>{ document.body.classList.remove("printing"); }, 600);
+  };
+  document.getElementById("shopSearch").addEventListener("input", e => { q = e.target.value.toLowerCase().trim(); renderGrid(); });
+  renderAll();
+})();
+</script>
+</body>
+</html>

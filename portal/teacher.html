@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<style>#siteLoader{position:fixed;inset:0;z-index:1200;background:#fff;display:flex;flex-direction:column;gap:14px;align-items:center;justify-content:center;transition:opacity .4s}#siteLoader img{width:84px;height:84px;object-fit:contain}#siteLoader .spin{width:38px;height:38px;border-radius:50%;border:4px solid #FDF6D8;border-top-color:#0B7A37;animation:lspin .8s linear infinite}@keyframes lspin{to{transform:rotate(360deg)}}#siteLoader.done{opacity:0;pointer-events:none}</style>
+<link rel="icon" href="../assets/img/logo.jpg">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Teacher Dashboard — Treasure Academy, Ageva</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/main.css?v=20260919-17">
+<link rel="stylesheet" href="../assets/css/extra.css?v=20260919-17">
+<link rel="stylesheet" href="../assets/css/corporate.css?v=20260919-17">
+<noscript><style>#siteLoader{display:none!important}</style></noscript>
+</head>
+<body class="portal-body">
+<div id="siteLoader"><img src="../assets/img/logo.jpg" alt="Treasure Academy"><div class="spin"></div></div>
+<div class="portal-layout">
+  <aside class="sidebar">
+    <div class="side-logo">
+      <img class="mark-img" src="../assets/img/logo.jpg" alt="Treasure Academy logo">
+      <span data-school-name>Treasure Academy</span>
+   </div>
+    <div class="side-user"><div class="avatar" id="userAvatar">T</div><div><b id="userName">Teacher</b><span id="userClass">Teacher</span></div></div>
+    <nav class="side-nav" id="sideNav">
+      <button data-view="overview" class="on">Home</button>
+      <button data-view="register">Mark Register</button>
+      <button data-view="results">Input Results</button>
+      <button data-view="homework">Homework</button>
+      <button data-view="pupils">My Pupils</button>
+      <button data-view="duty">Duty Roster</button>
+      <button data-view="notices">Notifications <span class="badge b-coral" id="ntCount">0</span></button>
+      <button data-view="meetings">Meetings <span class="badge b-grape" id="mtCount">0</span></button>
+    </nav>
+    <div class="side-foot">
+      <a class="btn btn-white btn-sm btn-block" href="../index.html">View Website</a>
+      <button class="btn btn-coral btn-sm btn-block" onclick="Auth.logout()"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="M16 17l5-5-5-5"/><path d="M21 12H9"/></svg> Logout</button>
+   </div>
+  </aside>
+
+  <main class="main">
+    <div class="p-topbar">
+      <div style="display:flex;gap:12px;align-items:center">
+        <button class="btn btn-sun btn-sm side-toggle" onclick="document.body.classList.toggle('side-open')" aria-label="Menu"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+        <div><h1 id="pageTitle">Welcome!</h1><p id="pageSub">Here is your class at a glance.</p></div>
+     </div>
+      <span class="pill-date"><span id="todayLbl"></span></span>
+   </div>
+
+    <!-- OVERVIEW -->
+    <div class="view-section on" id="v-overview">
+      <div class="duty-banner" id="dutyBanner"></div>
+      <div id="myBdayZone"></div>
+      <div class="p-grid4" id="statCards"></div>
+      <div class="p-grid2">
+        <div class="panel"><h2>Quick Actions</h2><p class="sub">Your daily tasks</p>
+          <div style="display:flex;gap:10px;flex-wrap:wrap">
+            <button class="btn btn-mint btn-sm" onclick="go('register')">Mark Register</button>
+            <button class="btn btn-sky btn-sm" onclick="go('results')">Input Results</button>
+            <button class="btn btn-sun btn-sm" onclick="go('duty')">My Duty Days</button>
+            <button class="btn btn-white btn-sm" onclick="Testimonials.open(S.name,'Teacher')">Share Testimonial</button>
+         </div>
+          <h2 style="margin-top:20px">My Duty Days</h2><p class="sub">This week</p><div id="myDutyDays"></div>
+       </div>
+        <div class="panel"><h2>Latest Notifications</h2><p class="sub">From the headmistress</p><div id="latestNt"></div></div>
+     </div>
+   </div>
+
+    <!-- REGISTER -->
+    <div class="view-section" id="v-register">
+      <div class="panel">
+        <h2>Mark Class Register</h2><p class="sub" id="regSub">Tap Present / Absent / Late for each pupil</p>
+        <div class="toolbar"><input type="date" id="regDate"><button class="btn btn-white btn-sm" onclick="markAll('P')">All Present</button><span class="spacer"></span><button class="btn btn-mint btn-sm" onclick="saveRegister()">Save Register</button></div>
+        <div id="regSaved"></div>
+        <div style="overflow-x:auto"><table class="tbl"><thead><tr><th>#</th><th>Pupil</th><th>Mark</th></tr></thead><tbody id="regRows"></tbody></table></div>
+     </div>
+   </div>
+
+    <!-- RESULTS -->
+    <div class="view-section" id="v-results">
+      <div class="panel">
+        <h2>Input Results</h2><p class="sub">CA1 (20) + CA2 (20) + Exam (60) = 100 • Grade is automatic</p>
+        <div class="toolbar">
+          <select id="resPupil"></select>
+          <select id="resTerm"><option>First Term</option><option>Second Term</option><option>Third Term</option></select>
+          <span class="badge b-grape" id="resStatus">New</span>
+       </div>
+        <div id="resLock"></div>
+        <div style="overflow-x:auto"><table class="tbl"><thead><tr><th>Subject</th><th>CA1 /20</th><th>CA2 /20</th><th>Exam /60</th><th>Total</th><th>Grade</th></tr></thead><tbody id="scoreRows"></tbody></table></div>
+        <div class="field" style="max-width:460px;margin-top:12px"><label>Class Teacher's Remark</label><select id="resRemark"></select></div>
+        <div style="display:flex;gap:10px;margin-top:16px;flex-wrap:wrap;align-items:center">
+          <button class="btn btn-white btn-sm" onclick="saveScores('Draft')">Save Draft</button>
+          <button class="btn btn-sky btn-sm" onclick="saveScores('Submitted')">Submit to Headmistress</button>
+          <b id="avgLbl" style="margin-left:auto"></b>
+       </div>
+     </div>
+      <div class="panel"><h2>My Submissions</h2><p class="sub">Status of results for your class this term</p><div id="mySubs"></div></div>
+   </div>
+
+    <!-- PUPILS -->
+    <div class="view-section" id="v-homework">
+      <div class="panel"><h2>Homework for My Class</h2><p class="sub" id="hwSub">Parents read this on the Homework Board page</p>
+        <div class="form-grid">
+          <div class="field"><label>Subject</label><input id="tHwSubj" placeholder="e.g. Mathematics"></div>
+          <div class="field"><label>Date Given</label><input id="tHwDate" type="date"></div>
+          <div class="field full"><label>Homework</label><input id="tHwNote" placeholder="e.g. Page 42, exercise 3"></div>
+          <div class="field full"><label>Photos (optional, max 3)</label><input id="tHwPhotos" type="file" accept="image/*" multiple></div>
+        </div>
+        <div style="margin-top:10px"><button class="btn btn-mint btn-sm" onclick="saveTHW()">Post Homework</button></div>
+        <div id="tHwRows" style="margin-top:12px"></div>
+      </div>
+   </div>
+    <div class="view-section" id="v-pupils">
+      <div class="panel"><h2>My Pupils</h2><p class="sub" id="myPupilSub"></p>
+        <div class="toolbar"><input id="myPupilSearch" placeholder="Search name / admission no..." style="flex:1;min-width:200px"><span class="spacer"></span><a class="btn btn-white btn-sm" id="viewClassBtn" href="#">Class Page</a><button class="btn btn-mint btn-sm" id="addPupilBtn" onclick="openPupilModal()">Add Pupil</button></div>
+        <div class="pupil-cards" id="pupilCards"></div>
+     </div>
+   </div>
+
+    <!-- DUTY -->
+    <div class="view-section" id="v-duty">
+      <div class="panel"><h2>Weekly Duty Roster</h2><p class="sub">Your days are highlighted</p>
+        <div style="overflow-x:auto"><table class="tbl"><thead><tr><th>Day</th><th> Early Duty</th><th> Closing Duty</th></tr></thead><tbody id="dutyRows"></tbody></table></div>
+     </div>
+   </div>
+
+    <!-- NOTICES -->
+    <div class="view-section" id="v-notices">
+      <div class="panel"><h2>Notifications</h2><p class="sub">Duty alerts &amp; messages from admin — tap to mark as read</p><div id="noticeList"></div></div>
+   </div>
+    <div class="view-section" id="v-meetings">
+      <div class="panel"><h2>Staff Meeting Notes</h2><p class="sub">Read each one, then tap Acknowledge</p><div id="meetList"></div></div>
+   </div>
+  </main>
+</div>
+<div class="menu-veil" onclick="document.body.classList.remove('side-open')"></div>
+<div class="modal-bg" id="modalBg"><div class="modal" id="modalBox"></div></div>
+<div id="toast"></div>
+
+<script>
+/* unified sidebar router: one delegated handler + render-on-navigate + hash restore */
+(function(){
+var T={overview:["Welcome!","Here is your class at a glance."],register:["Mark Register","Daily attendance."],results:["Input Results","Enter pupil scores."],pupils:["My Pupils","Your class pupils."],duty:["Duty Roster","Your duty days this week."],notices:["Notifications","Messages from the headmistress."],meetings:["Staff Meetings","Notes to read and acknowledge."],homework:["Homework","Post homework for your class."]};
+function navRender(v){
+  try{ var R={overview:function(){renderOverview();},register:function(){renderRegister();},results:function(){resInit();renderScores();},pupils:function(){renderMyPupils();},duty:function(){renderDuty();},notices:function(){renderNotices();},meetings:function(){renderMeetingsT();},homework:function(){renderTHW();}}; if(R[v])R[v](); }catch(e){ if(window.console&&console.warn)console.warn("view render skipped:",e&&e.message); }
+}
+window.navRender=navRender;
+var nav=document.getElementById("sideNav");
+if(nav)nav.addEventListener("click",function(e){
+  var b=e.target&&e.target.closest?e.target.closest("button[data-view]"):null;
+  if(!b||!nav.contains(b))return;
+  var v=b.dataset.view, btns=nav.querySelectorAll("button"), i;
+  for(i=0;i<btns.length;i++)btns[i].classList.remove("on");
+  b.classList.add("on");
+  var secs=document.querySelectorAll(".view-section");
+  for(i=0;i<secs.length;i++)secs[i].classList.remove("on");
+  var sec=document.getElementById("v-"+v);
+  if(!sec){ try{U.toast("That page is not ready yet.");}catch(e2){} return; }
+  sec.classList.add("on");
+  var GT=null; try{ GT=(typeof TITLES!=="undefined")?TITLES:null; }catch(e3){}
+  var t=((GT||{})[v]||T[v]||[]);
+  var pt=document.getElementById("pageTitle"), ps=document.getElementById("pageSub");
+  if(t[0]&&pt)pt.textContent=t[0];
+  if(t[1]&&ps)ps.textContent=t[1];
+  document.body.classList.remove("side-open");
+  try{ if(history.replaceState)history.replaceState(null,"","#/"+v); else location.hash="#/"+v; }catch(e4){ try{location.hash="#/"+v;}catch(e5){} }
+  if(window.scrollTo)try{window.scrollTo(0,0);}catch(e6){}
+  navRender(v);
+});
+try{var h=String(location.hash||"").replace(/^#\/?/,""); if(h){var bb=document.querySelector('#sideNav button[data-view="'+h+'"]'); if(bb&&!bb.classList.contains("on"))bb.click();}}catch(e7){}
+})();
+</script>
+<script src="../assets/js/store.js?v=20260919-17"></script>
+<script src="../assets/js/site.js?v=20260919-17"></script>
+<script>
+const S = Auth.guard("teacher");
+if(!S){location.href="login.html";throw new Error("no-session");}
+let db = DB.load();
+let T = db.teachers.find(t=>t.id===S.refId);
+if(!T){location.href="login.html";throw new Error("no-record");}
+document.getElementById("userName").textContent = T.name;
+document.getElementById("userClass").textContent = T.class;
+document.getElementById("userAvatar").textContent = U.initials(T.name);
+document.getElementById("userAvatar").style.background = U.avatarColor(T.name);
+document.getElementById("todayLbl").textContent = U.prettyDate();
+document.querySelectorAll("[data-school-name]").forEach(e=>e.textContent=db.school.name);
+
+const TITLES={overview:["Welcome, "+T.name.split(" ").slice(-1)+"!","Here is your class at a glance."],register:["Mark Register",T.class+" • daily attendance."],results:["Input Results",T.class+" • "+db.school.term+"."],pupils:["My Pupils",T.class+"."],duty:["Duty Roster","Your duty days this week."],notices:["Notifications","Messages from the headmistress."],meetings:["Staff Meetings","Notes to read and acknowledge."],homework:["Homework",T.class+" • homework."]};
+function openModal(html){ document.getElementById("modalBox").innerHTML=html; document.getElementById("modalBg").classList.add("show"); }
+function closeModal(){ document.getElementById("modalBg").classList.remove("show"); }
+document.getElementById("modalBg").addEventListener("click",e=>{ if(e.target.id==="modalBg") closeModal(); });
+function go(v){ document.querySelector(`#sideNav button[data-view="${v}"]`).click(); }
+
+
+const NAVICONS={overview:"home",register:"clipboard",results:"award",pupils:"users",duty:"calendar",notices:"bell",meetings:"filetext"};
+document.querySelectorAll("#sideNav button").forEach(b=>{ b.insertAdjacentHTML("afterbegin",U.icon(NAVICONS[b.dataset.view]||"chev",17)); });
+
+function myNotices(){
+  db=DB.load();
+  return db.notices.filter(n=>(n.to==="teachers"||n.to==="all")&&(!n.toId||n.toId===T.id)&&U.noticeActive(n));
+}
+
+/* ---- overview ---- */
+function renderOverview(){
+  db=DB.load(); T=db.teachers.find(t=>t.id===S.refId);
+  (function(){ const z=document.getElementById("myBdayZone"); if(!z)return;
+    const isT=(T.dob||"").slice(5)===U.todayStr().slice(5)&&(T.dob||"").length>=10;
+    const thanked=(db.bdayThanks||[]).some(t=>t.name===T.name&&t.date===U.todayStr());
+    z.innerHTML=isT?`<div class="count-bar" style="margin-top:0"><span class="count-num">★</span><span><b>Happy Birthday, ${U.esc(T.name.split(" ")[0])}!</b> ${thanked?"Your thank-you note is on the Birthdays page.":"The school is celebrating you today."}</span>${thanked?"":'<button class="btn btn-sun btn-sm" style="margin-left:auto" onclick="postThanks()">Thank Everyone</button>'}</div>`:"";
+  })();
+  const dt=U.dutyToday(db), onDuty=dt.teachers.includes(T.id);
+  const myDays=U.myDutyDays(db,T.id);
+  const banner=document.getElementById("dutyBanner");
+  if(onDuty){ banner.classList.add("onduty");
+    banner.innerHTML=`<span class="big" style="color:#fff">${U.icon("mega",30)}</span><div><b style="font-size:1.15rem">You are ON DUTY today (${dt.day})!</b><br>Please report early for assembly &amp; stay for closing duty. With: ${dt.teachers.filter(t=>t!==T.id).map(t=>U.esc(U.teacherName(db,t))).join(", ")||"—"}</div>`;
+  } else { banner.classList.remove("onduty");
+    banner.innerHTML=`<span class="big" style="color:#fff">${U.icon("calendar",30)}</span><div><b>Not on duty today (${dt.day}).</b><br>On duty: ${dt.teachers.map(t=>U.esc(U.teacherName(db,t))).join(" • ")||"—"}<br>${myDays.length?` Your duty days: <b>${myDays.join(", ")}</b>`:"You have no duty this week."}</div>`;
+  }
+  const pupils=db.pupils.filter(p=>p.class===T.class);
+  const marked=db.attendance.find(a=>a.date===U.todayStr()&&a.class===T.class);
+  const subs=db.results.filter(r=>r.class===T.class&&r.term===db.school.term&&r.session===db.school.session);
+  const unread=myNotices().filter(n=>!n.readBy.includes(T.id)).length;
+  document.getElementById("statCards").innerHTML=`
+    <div class="p-stat"><div class="ic" style="background:var(--sun-soft);color:#B8860B">${U.icon("users",26)}</div><div><b>${pupils.length}</b><span>My Pupils</span></div></div>
+    <div class="p-stat"><div class="ic" style="background:var(--mint-soft);color:#177A3F">${U.icon("clipboard",26)}</div><div><b>${marked?Object.keys(marked.records).length:0}</b><span>Marked Today</span></div></div>
+    <div class="p-stat"><div class="ic" style="background:var(--sky-soft);color:#2563EB">${U.icon("award",26)}</div><div><b>${subs.length}</b><span>Results Done</span></div></div>
+    <div class="p-stat"><div class="ic" style="background:var(--coral-soft);color:#E5485D">${U.icon("bell",26)}</div><div><b>${unread}</b><span>Unread Alerts</span></div></div>`;
+  document.getElementById("myDutyDays").innerHTML=myDays.length?myDays.map(d=>`<span class="badge b-sun" style="margin:0 6px 6px 0"> ${d}</span>`).join(""):"<span style='color:var(--muted);font-weight:700'>No duty assigned this week.</span>";
+  document.getElementById("latestNt").innerHTML=myNotices().slice(0,3).map(n=>`<div class="notice ${n.readBy.includes(T.id)?"read":""}"><span class="dot"></span><div><b>${U.esc(n.title)}</b> <button class="icon-btn" title="Read aloud" style="padding:2px 8px;font-size:.75rem" onclick="event.stopPropagation();speakNotice('${n.id}')">Listen</button><br>${U.esc(n.text)}${n.audio?`<br><audio controls src="${n.audio}" style="max-width:100%;height:36px;margin-top:6px"></audio>`:""}</div></div>`).join("")||'<div class="empty">No notifications.</div>';
+  document.getElementById("ntCount").textContent=unread;
+}
+
+window.postThanks=function(){ db=DB.load(); const T=db.teachers.find(t=>t.id===S.refId)||{};
+  db.bdayThanks=db.bdayThanks||[]; db.bdayThanks.unshift({name:T.name||"Staff",msg:"Thank you all so much for the lovely birthday wishes!",date:U.todayStr()});
+  DB.save(db); renderOverview(); U.toast("Thank-you note posted on the Birthdays page!"); };
+/* ---- register ---- */
+let regMarks={};
+function renderRegister(){
+  db=DB.load();
+  const d=document.getElementById("regDate").value||U.todayStr();
+  document.getElementById("regDate").value=d;
+  const pupils=db.pupils.filter(p=>p.class===T.class);
+  const saved=db.attendance.find(a=>a.date===d&&a.class===T.class);
+  regMarks=saved?{...saved.records}:{};
+  pupils.forEach(p=>{ if(!regMarks[p.id]) regMarks[p.id]="P"; });
+  document.getElementById("regSub").textContent=`${T.class} • ${U.prettyDate(d)} • ${pupils.length} pupils`;
+  document.getElementById("regSaved").innerHTML=saved?`<div class="notice"><span class="dot" style="background:var(--mint)"></span><div>Register for this date is <b>saved</b>. You can still change &amp; re-save.</div></div>`:"";
+  document.getElementById("regRows").innerHTML=pupils.map((p,i)=>`<tr><td>${i+1}</td>
+    <td><div style="display:flex;gap:10px;align-items:center"><div class="avatar" style="width:34px;height:34px;flex-basis:34px;background:${U.avatarColor(p.name)};font-size:.8rem">${U.initials(p.name)}</div><b>${U.esc(p.name)}</b></div></td>
+    <td><div class="att-btns">
+      <button class="p ${regMarks[p.id]==="P"?"on":""}" onclick="setMark('${p.id}','P')">Present</button>
+      <button class="a ${regMarks[p.id]==="A"?"on":""}" onclick="setMark('${p.id}','A')">Absent</button>
+      <button class="l ${regMarks[p.id]==="L"?"on":""}" onclick="setMark('${p.id}','L')">Late</button>
+   </div></td></tr>`).join("")||'<tr><td colspan="3"><div class="empty">No pupils in your class yet.</div></td></tr>';
+}
+function setMark(pid,v){ regMarks[pid]=v; renderRegister(); }
+function markAll(v){ Object.keys(regMarks).forEach(k=>regMarks[k]=v); renderRegister(); }
+function saveRegister(){
+  db=DB.load();
+  const d=document.getElementById("regDate").value;
+  let rec=db.attendance.find(a=>a.date===d&&a.class===T.class);
+  if(rec) rec.records={...regMarks}; else db.attendance.push({date:d,class:T.class,records:{...regMarks}});
+  DB.save(db); renderRegister(); renderOverview(); U.toast("Register saved!");
+}
+
+/* ---- results input ---- */
+function resInit(){
+  db=DB.load();
+  document.getElementById("resPupil").innerHTML=db.pupils.filter(p=>p.class===T.class).map(p=>`<option value="${p.id}">${U.esc(p.name)} (${p.adm})</option>`).join("")||"<option value=''>No pupils</option>";
+  document.getElementById("resTerm").value=db.school.term;
+}
+function currentResult(){
+  db=DB.load();
+  const pid=document.getElementById("resPupil").value, term=document.getElementById("resTerm").value;
+  return db.results.find(r=>r.pupilId===pid&&r.class===T.class&&r.term===term&&r.session===db.school.session);
+}
+function renderScores(){
+  db=DB.load();
+  const r=currentResult(), subs=subjectsFor(T.class);
+  const locked=r&&(r.status==="Approved"||r.status==="Published");
+  const badge={Draft:"b-grey",Submitted:"b-sun",Approved:"b-sky",Published:"b-green"};
+  document.getElementById("resStatus").innerHTML=r?`<span class="badge ${badge[r.status]}">${r.status}</span>`:'<span class="badge b-grey">New</span>';
+  document.getElementById("resLock").innerHTML=locked?`<div class="notice"><span class="dot" style="background:var(--sky)"></span><div>This result is <b>${r.status}</b> — contact admin to make changes.</div></div>`:"";
+  document.getElementById("scoreRows").innerHTML=subs.map(s=>{
+    const sc=(r&&r.scores[s])||{ca1:"",ca2:"",exam:""};
+    return `<tr><td><b>${U.esc(s)}</b></td>
+      <td><input class="score-input" data-sub="${U.esc(s)}" data-part="ca1" type="number" min="0" max="20" value="${sc.ca1}" ${locked?"disabled":""}></td>
+      <td><input class="score-input" data-sub="${U.esc(s)}" data-part="ca2" type="number" min="0" max="20" value="${sc.ca2}" ${locked?"disabled":""}></td>
+      <td><input class="score-input" data-sub="${U.esc(s)}" data-part="exam" type="number" min="0" max="60" value="${sc.exam}" ${locked?"disabled":""}></td>
+      <td><b id="t-${U.esc(s)}">–</b></td><td><b id="g-${U.esc(s)}">–</b></td></tr>`;}).join("");
+  document.querySelectorAll(".score-input").forEach(inp=>inp.addEventListener("input",calcScores));
+  db.commentBank=db.commentBank||[];
+  const rmk=document.getElementById("resRemark");
+  rmk.innerHTML='<option value="">— No remark —</option>'+db.commentBank.map(c=>`<option ${r&&r.tremark===c?"selected":""}>${U.esc(c)}</option>`).join("")+(r&&r.tremark&&!db.commentBank.includes(r.tremark)?`<option selected>${U.esc(r.tremark)}</option>`:"");
+  rmk.disabled=!!locked;
+  calcScores(); renderMySubs();
+}
+function calcScores(){
+  const subs=subjectsFor(T.class); let sum=0,n=0;
+  subs.forEach(s=>{
+    const g=p=>{const el=document.querySelector(`.score-input[data-sub="${CSS.escape(s)}"][data-part="${p}"]`);return el?+el.value||0:0;};
+    const t=Math.min(100,g("ca1")+g("ca2")+g("exam"));
+    const has=document.querySelector(`.score-input[data-sub="${CSS.escape(s)}"][data-part="ca1"]`).value!==""||document.querySelector(`.score-input[data-sub="${CSS.escape(s)}"][data-part="exam"]`).value!=="";
+    document.getElementById("t-"+s).textContent=has?t:"–";
+    document.getElementById("g-"+s).textContent=has?U.grade(t):"–";
+    if(has){sum+=t;n++;}
+  });
+  document.getElementById("avgLbl").textContent=n?`Average: ${(sum/n).toFixed(1)}%`:"";
+}
+function saveScores(status){
+  const pid=document.getElementById("resPupil").value;
+  if(!pid){U.toast("No pupil selected"); return;}
+  const term=document.getElementById("resTerm").value, subs=subjectsFor(T.class), scores={};
+  let filled=false;
+  for(const s of subs){
+    const g=p=>{const el=document.querySelector(`.score-input[data-sub="${CSS.escape(s)}"][data-part="${p}"]`);return el?+el.value||0:0;};
+    const ca1=g("ca1"),ca2=g("ca2"),exam=g("exam");
+    if(ca1>20||ca2>20||exam>60){U.toast("CA max is 20, Exam max is 60!"); return;}
+    if(ca1||ca2||exam) filled=true;
+    scores[s]={ca1,ca2,exam};
+  }
+  if(!filled){U.toast("Enter at least one score"); return;}
+  db=DB.load();
+  let r=db.results.find(x=>x.pupilId===pid&&x.class===T.class&&x.term===term&&x.session===db.school.session);
+  if(r&&(r.status==="Approved"||r.status==="Published")){U.toast("Locked by admin"); return;}
+  const tremark=document.getElementById("resRemark").value;
+  if(r){ r.scores=scores; r.status=status; r.tremark=tremark; r.updatedAt=new Date().toISOString(); }
+  else db.results.push({id:"R"+(db.seq.result++),pupilId:pid,class:T.class,term,session:db.school.session,scores,tremark,status,updatedAt:new Date().toISOString()});
+  DB.save(db); renderScores(); renderOverview();
+  U.toast(status==="Submitted"?" Submitted to headmistress!":" Draft saved.");
+}
+function renderMySubs(){
+  db=DB.load(); const term=document.getElementById("resTerm").value;
+  const pupils=db.pupils.filter(p=>p.class===T.class);
+  const badge={Draft:"b-grey",Submitted:"b-sun",Approved:"b-sky",Published:"b-green"};
+  document.getElementById("mySubs").innerHTML=pupils.length?`<div style="overflow-x:auto"><table class="tbl"><thead><tr><th>Pupil</th><th>Avg</th><th>Status</th><th></th></tr></thead><tbody>${pupils.map(p=>{
+    const r=db.results.find(x=>x.pupilId===p.id&&x.class===T.class&&x.term===term&&x.session===db.school.session);
+    const sm=r?U.reportSummary(db,p.id,T.class,term,db.school.session):null;
+    return `<tr><td><b>${U.esc(p.name)}</b></td><td>${sm?sm.avg.toFixed(1):"—"}</td>
+    <td>${r?`<span class="badge ${badge[r.status]}">${r.status}</span>`:'<span class="badge b-grey">Not started</span>'}</td>
+    <td><button class="icon-btn" onclick="document.getElementById('resPupil').value='${p.id}';renderScores();window.scrollTo(0,0);">Open</button></td></tr>`;}).join("")}</tbody></table></div>`:'<div class="empty">No pupils in your class.</div>';
+}
+
+/* ---- my pupils: manage class ---- */
+function myPupilList(){
+  db=DB.load();
+  const q=(document.getElementById("myPupilSearch").value||"").toLowerCase();
+  return db.pupils.filter(p=>p.class===T.class&&(!q||p.name.toLowerCase().includes(q)||p.adm.toLowerCase().includes(q)));
+}
+function renderMyPupils(){
+  const all=db.pupils.filter(p=>p.class===T.class);
+  const pupils=myPupilList();
+  document.getElementById("myPupilSub").textContent=`${T.class} • ${all.length} pupil${all.length===1?"":"s"} • tap a card action to manage`;
+  const badge={Draft:"b-grey",Submitted:"b-sun",Approved:"b-sky",Published:"b-green"};
+  document.getElementById("pupilCards").innerHTML=pupils.map(p=>{
+    const pct=U.attendancePct(db,p.id);
+    const att=pct===null?["—","#9AA7B8",0]:pct>=80?[pct+"%","#177A3F",pct]:pct>=60?[pct+"%","#B8860B",pct]:[pct+"%","#E5485D",pct];
+    const r=db.results.find(x=>x.pupilId===p.id&&x.class===T.class&&x.term===db.school.term&&x.session===db.school.session);
+    return `<div class="p-card">
+      <div class="p-card-top"><div class="avatar" style="width:46px;height:46px;flex-basis:46px;background:${U.avatarColor(p.name)};font-size:1rem">${U.initials(p.name)}</div>
+      <div style="flex:1;min-width:0"><b>${U.esc(p.name)}</b><br><span class="badge b-grape">${p.adm}</span></div>
+      <div class="row-actions"><button class="icon-btn" title="Edit pupil" onclick="openPupilModal('${p.id}')">${U.icon("edit",14)}</button><button class="icon-btn del" title="Remove pupil" onclick="delPupilT('${p.id}')">${U.icon("trash",14)}</button></div></div>
+      <div class="p-card-meta"><span>${U.icon("user",13)} ${p.gender||"—"}</span><span>${U.icon("card",13)} ${p.dob||"DOB —"}</span></div>
+      <div class="p-card-meta"><span>${U.icon("phone",13)} ${U.esc(p.parent||"—")} • ${U.esc(p.phone||"—")}</span></div>
+      <div class="att-bar"><i style="width:${att[2]}%;background:${att[1]}"></i></div>
+      <div class="p-card-foot"><span style="color:${att[1]};font-weight:800;font-size:.82rem">${U.icon("calcheck",13)} ${att[0]} attendance</span>
+      ${r?`<span class="badge ${badge[r.status]}">${r.status}</span>`:'<span class="badge b-grey">No result</span>'}</div>
+      <button class="btn btn-sky btn-sm btn-block" style="margin-top:10px" onclick="jumpToScores('${p.id}')">${U.icon("award",14)} Enter Scores</button>
+      <button class="btn btn-white btn-sm btn-block" style="margin-top:8px" onclick="openSickModal('${p.id}')"> Log Sick-Bay Visit</button>
+    </div>`;}).join("")||'<div class="empty">No pupils found. Click “Add Pupil” to enrol your first pupil.</div>';
+}
+function jumpToScores(pid){ document.getElementById("resPupil").value=pid; renderScores(); go("results"); }
+function openSickModal(pid){
+  db=DB.load(); const p=db.pupils.find(x=>x.id===pid); if(!p){U.toast("Pupil not found");return;}
+  openModal(`<h2>Sick-Bay Visit — ${U.esc(p.name)}</h2>
+    <div class="form-grid">
+      <div class="field full"><label>Complaint / Symptoms *</label><input id="skComp" placeholder="e.g. Headache and fever"></div>
+      <div class="field full"><label>Treatment Given</label><input id="skTreat" placeholder="e.g. Rested 1 hour, paracetamol"></div>
+      <div class="field"><label>Date</label><input id="skDate" type="date" value="${U.todayStr()}"></div>
+      <div class="field"><label>Parent Called?</label><select id="skCall"><option value="no">No</option><option value="yes">Yes</option></select></div>
+    </div>
+    <div style="display:flex;gap:10px;margin-top:16px"><button class="btn btn-mint btn-sm" onclick="saveSick('${p.id}')">Save Visit</button><button class="btn btn-white btn-sm" onclick="closeModal()">Cancel</button></div>`);
+}
+window.speakNotice=function(id){ db=DB.load(); const n=(db.notices||[]).find(x=>x.id===id); if(n)U.speak(n.title+". "+n.text); };
+function renderTHW(){ db=DB.load();
+  document.getElementById("hwSub").textContent=T.class+" • parents read this on the Homework Board page";
+  const list=(db.homework||[]).filter(h=>h.class===T.class);
+  document.getElementById("tHwRows").innerHTML=list.map(h=>`<div class="notice"><span class="dot" style="background:var(--sky)"></span><div style="flex:1"><b>${U.esc(h.subject)}</b> — ${U.esc(h.note)}<br><small style="color:var(--muted)">${U.esc(h.date||"")}${(h.photos||[]).length?` • ${h.photos.length} photo(s)`:""}</small></div><button class="icon-btn del" onclick="delTHW('${h.id}')">x</button></div>`).join("")||'<div class="empty">Nothing posted for your class yet.</div>';
+}
+window.saveTHW=function(){ const g=id=>document.getElementById(id).value.trim();
+  if(!g("tHwNote")){U.toast("Homework text is required.");return;}
+  U.compressPhotos(document.getElementById("tHwPhotos"),3,photos=>{
+    db=DB.load(); db.homework=db.homework||[];
+    db.homework.unshift({id:"HW"+Date.now(),class:T.class,subject:g("tHwSubj")||"General",note:g("tHwNote"),date:g("tHwDate")||U.todayStr(),photos,by:T.name});
+    try{ document.getElementById("tHwPhotos").value=""; }catch(e){}
+    DB.save(db); document.getElementById("tHwNote").value=""; renderTHW(); U.toast("Homework posted!");
+  });
+};
+window.delTHW=function(id){ db=DB.load(); db.homework=(db.homework||[]).filter(x=>String(x.id)!==String(id)); DB.save(db); renderTHW(); };
+window.saveSick=function(pid){
+  const c=document.getElementById("skComp").value.trim(); if(!c){U.toast("Complaint required.");return;}
+  db=DB.load(); db.sickbay=db.sickbay||[]; const p=db.pupils.find(x=>x.id===pid)||{};
+  db.sickbay.unshift({id:"S"+Date.now(),pupil:p.name||"",class:p.class||"",complaint:c,treatment:document.getElementById("skTreat").value.trim(),date:document.getElementById("skDate").value||U.todayStr(),parentCalled:document.getElementById("skCall").value==="yes",by:T.name});
+  db.notices=db.notices||[];
+  db.notices.unshift({id:"NT"+(db.seq.notice++),to:"parents",toId:pid,title:"Sick-bay visit — "+(p.name||"your child"),text:`${p.name||"Your child"} visited the sick bay on ${document.getElementById("skDate").value||U.todayStr()} for: ${c}. Treatment: ${document.getElementById("skTreat").value.trim()||"observed and rested"}. Please call the school if you have questions.`,date:U.todayStr(),readBy:[]});
+  DB.save(db); closeModal(); U.toast("Sick-bay visit logged. Parent notified.");
+};
+function openPupilModal(id){
+  db=DB.load(); const p=id?db.pupils.find(x=>x.id===id):{name:"",password:"",gender:"Female",dob:"",parent:"",phone:""};
+  const adm=id?p.adm:"TAA/P/"+String(db.seq.pupil).padStart(4,"0");
+  openModal(`<h2>${id?"Edit Pupil":"Add Pupil — "+U.esc(T.class)}</h2>
+    <p class="sub">${id?"Update details for "+U.esc(p.name):"New pupil joins <b>"+U.esc(T.class)+"</b> • admission no auto-assigned"}</p>
+    <div class="form-grid">
+      <div class="field full"><label>Full Name *</label><input id="mpName" value="${U.esc(p.name)}"></div>
+      <div class="field"><label>Admission No</label><input value="${adm}" disabled></div>
+      <div class="field"><label>Login Password</label><div style="display:flex;gap:6px"><input id="mpPw" value="${U.esc(p.password||"")}" placeholder="empty = create via OTP" style="flex:1"><button type="button" class="icon-btn" title="Generate from name" onclick="document.getElementById('mpPw').value=U.genPassword(document.getElementById('mpName').value)">Gen</button></div></div>
+      <div class="field"><label>Gender</label><select id="mpGender"><option ${p.gender==="Female"?"selected":""}>Female</option><option ${p.gender==="Male"?"selected":""}>Male</option></select></div>
+      <div class="field"><label>Date of Birth</label><input id="mpDob" type="date" value="${p.dob||""}"></div>
+      <div class="field"><label>Parent Name</label><input id="mpParent" value="${U.esc(p.parent)}"></div>
+      <div class="field"><label>Parent Phone</label><input id="mpPhone" value="${U.esc(p.phone)}"></div>
+    </div>
+    <div style="display:flex;gap:10px;margin-top:18px"><button class="btn btn-mint btn-sm" onclick="savePupilT('${id||""}')">${id?"Save Changes":"Add Pupil"}</button><button class="btn btn-white btn-sm" onclick="closeModal()">Cancel</button></div>`);
+}
+function savePupilT(id){
+  const v=x=>document.getElementById(x).value.trim();
+  if(!v("mpName")){U.toast("Pupil name is required"); return;}
+  db=DB.load();
+  if(id){ Object.assign(db.pupils.find(x=>x.id===id),{name:v("mpName"),password:v("mpPw")||null,gender:v("mpGender"),dob:v("mpDob"),parent:v("mpParent"),phone:v("mpPhone")}); }
+  else{
+    const adm="TAA/P/"+String(db.seq.pupil).padStart(4,"0");
+    db.pupils.push({id:"P"+String(db.seq.pupil++).padStart(3,"0"),adm,pin:"1234",password:v("mpPw")||null,name:v("mpName"),gender:v("mpGender"),class:T.class,dob:v("mpDob"),parent:v("mpParent"),phone:v("mpPhone")});
+  }
+  DB.save(db); closeModal(); refreshAfterPupils(); U.toast(id?"Pupil updated.":"Pupil added to "+T.class+".");
+}
+function delPupilT(id){
+  db=DB.load(); const p=db.pupils.find(x=>x.id===id);
+  if(!p||p.class!==T.class) return;
+  if(!confirm(`Remove ${p.name} from ${T.class}? Their register marks and results will also be removed.`))return;
+  db.pupils=db.pupils.filter(x=>x.id!==id);
+  db.results=db.results.filter(r=>r.pupilId!==id);
+  db.attendance.forEach(a=>{ delete a.records[id]; });
+  DB.save(db); refreshAfterPupils(); U.toast("Pupil removed.");
+}
+function refreshAfterPupils(){ resInit(); renderRegister(); renderScores(); renderOverview(); renderMyPupils(); }
+
+/* ---- duty ---- */
+function renderDuty(){
+  db=DB.load(); const today=U.weekdayName();
+  document.getElementById("dutyRows").innerHTML=db.duty.map(r=>{
+    const mine=r.teachers.includes(T.id);
+    return `<tr style="${r.day===today?'background:#FFF3D1':''}"><td><b>${r.day}</b> ${r.day===today?'<span class="badge b-sun">Today</span>':""} ${mine?'<span class="badge b-coral">You</span>':""}</td>
+    ${r.teachers.map(t=>`<td style="${t===T.id?"font-weight:800;color:var(--coral)":""}">${U.esc(U.teacherName(db,t))}</td>`).join("")}</tr>`;}).join("");
+}
+
+/* ---- notices ---- */
+function renderNotices(){
+  const list=myNotices();
+  document.getElementById("noticeList").innerHTML=list.map(n=>{const read=n.readBy.includes(T.id);
+    return `<div class="notice ${read?"read":""}" style="cursor:pointer" onclick="markRead('${n.id}')"><span class="dot"></span><div style="flex:1"><b>${U.esc(n.title)}</b> <button class="icon-btn" title="Read aloud" style="padding:2px 8px;font-size:.75rem" onclick="event.stopPropagation();speakNotice('${n.id}')">Listen</button><br>${U.esc(n.text)}${n.audio?`<br><audio controls src="${n.audio}" style="max-width:100%;height:36px;margin-top:6px"></audio>`:""}<br><small style="color:var(--muted)">${n.date}${read?" • ✓ read":" • tap to mark read"}</small></div></div>`;}).join("")||'<div class="empty">No notifications.</div>';
+  document.getElementById("ntCount").textContent=list.filter(n=>!n.readBy.includes(T.id)).length;
+}
+function markRead(id){ db=DB.load(); const n=db.notices.find(x=>x.id===id); if(n&&!n.readBy.includes(T.id))n.readBy.push(T.id); DB.save(db); renderNotices(); renderOverview(); }
+
+/* ---- init ---- */
+document.getElementById("regDate").addEventListener("change",renderRegister);
+document.getElementById("resPupil").addEventListener("change",renderScores);
+document.getElementById("resTerm").addEventListener("change",renderScores);
+document.getElementById("myPupilSearch").addEventListener("input",renderMyPupils);
+document.getElementById("addPupilBtn").insertAdjacentHTML("afterbegin",U.icon("plus",15)+" ");
+document.getElementById("viewClassBtn").href="../class.html?class="+encodeURIComponent(T.class);
+function __safe(f){ try{ f(); }catch(e){ console.error("boot step skipped:", e&&e.message); } }
+__safe(()=>{ document.getElementById("regDate").value=U.todayStr(); }); __safe(()=>{ resInit(); }); __safe(()=>{ renderOverview(); }); __safe(()=>{ renderRegister(); }); __safe(()=>{ renderScores(); }); __safe(()=>{ renderMyPupils(); }); __safe(()=>{ renderTHW(); }); __safe(()=>{ renderDuty(); }); __safe(()=>{ renderNotices(); }); __safe(()=>{ renderMeetingsT(); }); __safe(()=>{ IdleLogout.init(); });
+function renderMeetingsT(){ db=DB.load();
+  const list=db.meetings||[];
+  document.getElementById("mtCount").textContent=list.filter(m=>!(m.ack||[]).includes(T.id)).length;
+  document.getElementById("meetList").innerHTML=list.map(m=>{ const ack=(m.ack||[]).includes(T.id);
+    return `<div class="notice ${ack?"read":""}"><span class="dot" style="background:${ack?"var(--mint)":"var(--grape)"}"></span><div style="flex:1"><b>${U.esc(m.title)}</b> - ${U.esc(m.date||"")}<br>${U.esc(m.notes||"")}</div>${ack?'<span class="badge b-green">Read</span>':`<button class="icon-btn ok" onclick="ackMeeting('${m.id}')">Acknowledge</button>`}</div>`; }).join("")||'<div class="empty">No meeting notes yet.</div>';
+}
+window.ackMeeting=function(id){ db=DB.load(); const m=(db.meetings||[]).find(x=>String(x.id)===String(id));
+  if(m){ m.ack=m.ack||[]; if(!m.ack.includes(T.id))m.ack.push(T.id); }
+  DB.save(db); renderMeetingsT(); U.toast("Acknowledged. Thank you!");
+};
+</script>
+<script>
+/* portal theme (day/night) + dark sky — major pages only, same switch everywhere */
+(function(){
+  var KEY="treasure_theme";
+  function cur(){ try{return localStorage.getItem(KEY)||"light";}catch(e){return "light";} }
+  function apply(t){ document.documentElement.dataset.theme=t; try{localStorage.setItem(KEY,t);}catch(e){} }
+  apply(cur());
+  if(!document.getElementById("portalDark")){
+    var st=document.createElement("style"); st.id="portalDark";
+    st.textContent='[data-theme="dark"] body.portal-body{background:#0B1220;color:#E8EEF5}'
+      +'[data-theme="dark"] .sidebar{background:#101B28;color:#DCE4EE}'
+      +'[data-theme="dark"] .side-nav button{color:#C4CEDB}'
+      +'[data-theme="dark"] .side-nav button.on{background:#1B3A28;color:#fff}'
+      +'[data-theme="dark"] .panel,[data-theme="dark"] .p-card,[data-theme="dark"] .stat-card,[data-theme="dark"] .prog-card,[data-theme="dark"] .modal,[data-theme="dark"] .notice,[data-theme="dark"] .toolbar{background:#182434;color:#E8EEF5;border-color:#2A3A4E}'
+      +'[data-theme="dark"] h1,[data-theme="dark"] h2,[data-theme="dark"] h3,[data-theme="dark"] h4{color:#F4F7FA}'
+      +'[data-theme="dark"] p,[data-theme="dark"] td,[data-theme="dark"] th,[data-theme="dark"] label,[data-theme="dark"] small,[data-theme="dark"] .sub{color:#C4CEDB}'
+      +'[data-theme="dark"] input,[data-theme="dark"] select,[data-theme="dark"] textarea{background:#0F1722;color:#F2F5F0;border-color:#2A3A4E}'
+      +'[data-theme="dark"] .btn-white{background:#24344A;color:#F2F5F0;border-color:#2A3A4E}'
+      +'[data-theme="dark"] .pill-date{background:#182434;color:#E8EEF5;border-color:#2A3A4E}'
+      +'[data-theme="dark"] .side-user,[data-theme="dark"] .side-foot{border-color:#2A3A4E}'
+      +'.portal-theme{width:42px;height:42px;border-radius:50%;border:1.5px solid #C9A227;background:linear-gradient(135deg,#FFFFFF,#F4EFDF);color:#8A6D1B;cursor:pointer;font-size:1.15rem;line-height:1;flex:none}'
+      +'[data-theme="dark"] .portal-theme{background:linear-gradient(135deg,#24344A,#101B28);color:#E7B94B;border-color:#E7B94B}'
+      +'#starCanvas{position:fixed;inset:0;z-index:1;pointer-events:none;display:none}'
+      +'[data-theme="dark"] #starCanvas{display:block}';
+    document.head.appendChild(st);
+  }
+  var bar=document.querySelector(".p-topbar");
+  if(bar&&!bar.querySelector(".portal-theme")){
+    var b=document.createElement("button"); b.className="portal-theme"; b.title="Switch day/night";
+    var paint=function(){ b.textContent=document.documentElement.dataset.theme==="dark"?"\u2600":"\u25D0"; };
+    b.onclick=function(){ apply(document.documentElement.dataset.theme==="dark"?"light":"dark"); paint(); };
+    paint(); bar.appendChild(b);
+  }
+  if(!document.getElementById("starCanvas")){
+    var cv=document.createElement("canvas"); cv.id="starCanvas"; document.body.appendChild(cv);
+    var ctx=cv.getContext("2d"),W,H,stars=[],flies=[];
+    var size=function(){ W=cv.width=innerWidth; H=cv.height=innerHeight;
+      stars=[]; for(var i=0;i<Math.min(90,Math.floor(W/14));i++)stars.push({x:Math.random()*W,y:Math.random()*H,r:.6+Math.random()*1.5,p:Math.random()*6.28,s:.5+Math.random()*1.5});
+      flies=[]; for(var j=0;j<14;j++)flies.push({x:Math.random()*W,y:Math.random()*H,vx:.15+Math.random()*.35,p:Math.random()*6.28}); };
+    size(); addEventListener("resize",size);
+    (function loop(){ requestAnimationFrame(loop);
+      if(document.documentElement.dataset.theme!=="dark"||document.hidden)return;
+      ctx.clearRect(0,0,W,H); var t=Date.now()/1000,i;
+      for(i=0;i<stars.length;i++){ var s=stars[i];
+        ctx.globalAlpha=.25+.55*Math.abs(Math.sin(t*s.s+s.p)); ctx.fillStyle="#CFE3FF";
+        ctx.beginPath(); ctx.arc(s.x,s.y,s.r,0,7); ctx.fill(); }
+      for(i=0;i<flies.length;i++){ var f=flies[i]; f.x+=f.vx; if(f.x>W+10)f.x=-10;
+        var g=.5+.5*Math.sin(t*2+f.p);
+        ctx.globalAlpha=.25+.5*g; ctx.fillStyle="#FFE9A3"; ctx.shadowColor="#FFD94D"; ctx.shadowBlur=12*g+4;
+        ctx.beginPath(); ctx.arc(f.x,f.y,1.8,0,7); ctx.fill(); ctx.shadowBlur=0; }
+      ctx.globalAlpha=1;
+    })();
+  }
+})();
+</script>
+</body>
+</html>

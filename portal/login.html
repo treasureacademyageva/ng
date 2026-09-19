@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<style>#siteLoader{position:fixed;inset:0;z-index:1200;background:#fff;display:flex;flex-direction:column;gap:14px;align-items:center;justify-content:center;transition:opacity .4s}#siteLoader img{width:84px;height:84px;object-fit:contain}#siteLoader .spin{width:38px;height:38px;border-radius:50%;border:4px solid #FDF6D8;border-top-color:#0B7A37;animation:lspin .8s linear infinite}@keyframes lspin{to{transform:rotate(360deg)}}#siteLoader.done{opacity:0;pointer-events:none}</style>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login / Register — Treasure Academy, Ageva</title>
+<link rel="icon" href="../assets/img/logo.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/main.css?v=20260919-17">
+<link rel="stylesheet" href="../assets/css/extra.css?v=20260919-17">
+<link rel="stylesheet" href="../assets/css/corporate.css?v=20260919-17">
+<style>
+.top-left{position:absolute;top:20px;left:20px;z-index:3;display:flex;gap:10px}
+.field label .caret{display:inline-block;width:2px;height:1em;background:var(--mint);vertical-align:-2px;animation:blink 1s infinite;margin-left:1px}
+.field label{min-height:1.3em;display:block}
+</style>
+<noscript><style>#siteLoader{display:none!important}</style></noscript>
+</head>
+<body data-page="login" data-assets="../assets/">
+<div id="siteLoader"><img src="../assets/img/logo.jpg" alt="Treasure Academy"><div class="spin"></div></div>
+<div class="auth-wrap">
+  <div class="top-left">
+    <a class="btn btn-white btn-sm" href="../index.html">← Home</a>
+    <button class="theme-btn">◐</button>
+ </div>
+
+  <div class="auth-layout">
+  <div class="flip-scene" id="flipScene">
+    <div class="flip-inner">
+      <!-- ============ FRONT: LOGIN ============ -->
+      <div class="flip-face flip-front">
+        <div class="glass glow-focus" id="loginCard">
+          <div class="auth-logo" style="text-align:center">
+            <img class="mark-img" src="../assets/img/logo.jpg" alt="Treasure Academy logo">
+            <h1 data-school-name>Treasure Academy</h1>
+            <p>School Portal — Login</p>
+         </div>
+          <!-- single unified login: ID routes to pupil / teacher / admin -->
+
+          <!-- UNIFIED LOGIN -->
+          <form id="pupilForm" autocomplete="off">
+            <div class="float-field"><input id="pReg" placeholder=" "><label data-tlabel="ID / Reg No (e.g. TAA/P/0001)"></label></div>
+            <div class="float-field"><input id="pPass" type="password" placeholder=" "><label data-tlabel="Password / PIN"></label><button type="button" class="eye" data-eye="pPass"></button></div>
+            <div class="remember-row">
+              <label><input type="checkbox" id="rememberMe" checked> Remember this device</label>
+              <span style="color:var(--muted);font-size:.78rem">Stays logged in until you logout</span>
+           </div>
+            <div class="treasure-box" id="loginTreasure" onclick="passTreasure('loginTreasure')"><span class="box">✓</span><span>Tap to verify you are human</span></div>
+            <button class="btn btn-mint btn-block" type="submit">Login</button>
+            <p style="text-align:center;margin-top:14px;font-size:.85rem;color:var(--muted)">First time here? Just enter your ID —<br>pupils without a password get setup automatically. Staff use Staff ID + PIN.</p>
+            <p style="text-align:center;margin-top:8px;font-weight:600;font-size:.88rem">Not admitted yet? <button type="button" class="link-btn" style="font-size:.9rem" onclick="flip(true)">Register here</button></p>
+            <div class="demo-box"><b>Demo</b> (tap to enter):<br>
+              <button type="button" class="icon-btn" onclick="fillDemo('TA/2023/001')">Adaeze — TA/2023/001</button>
+              <button type="button" class="icon-btn" onclick="fillDemo('TA/2023/003')">Fatima — no password yet</button><br>
+              <button type="button" class="icon-btn" onclick="fillStaff('admin','HEAD001')">HEAD001 (Admin)</button>
+              <button type="button" class="icon-btn" onclick="fillStaff('teacher','T001')">T001 (Teacher)</button>
+              <div style="margin-top:6px">Password/PIN for demo: <code>1234</code></div>
+           </div>
+          </form>
+
+       </div>
+     </div>
+
+      <!-- ============ BACK: REGISTRATION ============ -->
+      <div class="flip-face flip-back">
+        <div class="glass glow-focus" id="regCard">
+          <div class="auth-logo" style="text-align:center">
+            <img class="mark-img" src="../assets/img/logo.jpg" alt="Treasure Academy logo">
+            <h1>New Registration</h1><p id="wizSub">Step 1 of 3 — Ward Information</p>
+         </div>
+          <div class="wizard-steps"><div class="ws on" id="ws1">1 • Ward</div><div class="ws" id="ws2">2 • Guardian</div><div class="ws" id="ws3">3 • Payment</div></div>
+          <div class="wizard-progress"><i id="wizBar"></i></div>
+
+          <form id="regForm" autocomplete="off">
+            <div class="wstep" id="wstep1">
+              <div class="form-grid">
+                <div class="field"><label data-tlabel="Surname *"></label><input required id="rSurname" data-alpha></div>
+                <div class="field"><label data-tlabel="First Name *"></label><input required id="rFirst" data-alpha></div>
+                <div class="field"><label data-tlabel="Other Names"></label><input id="rOther" data-alpha></div>
+                <div class="field"><label data-tlabel="Date of Birth *"></label><input required type="date" id="rDob"></div>
+                <div class="field"><label data-tlabel="Gender *"></label><select required id="rGender"><option value="">— Select —</option><option>Female</option><option>Male</option></select></div>
+                <div class="field"><label data-tlabel="Class Applying For *"></label><select required id="rClass"></select></div>
+                <div class="field"><label data-tlabel="Blood Group"></label><select id="rBlood"><option value="">— Optional —</option><option>O+</option><option>O-</option><option>A+</option><option>A-</option><option>B+</option><option>B-</option><option>AB+</option><option>AB-</option></select></div>
+                <div class="field"><label data-tlabel="Previous School"></label><input id="rPrev" data-alpha></div>
+             </div>
+           </div>
+            <div class="wstep" id="wstep2" style="display:none">
+              <div class="form-grid">
+                <div class="field full"><label data-tlabel="Guardian 1 — Full Name *"></label><input required id="rG1Name" data-alpha></div>
+                <div class="field"><label data-tlabel="Guardian 1 Phone *"></label><div style="display:flex;gap:8px;align-items:stretch"><span style="display:inline-flex;align-items:center;padding:0 10px;border:1px solid var(--line);border-radius:10px;background:#F1F4F8;font-weight:800">+234</span><input required id="rG1Phone" data-phone maxlength="10" placeholder="801 234 5678" style="flex:1;min-width:0"><button type="button" class="icon-btn pick-contact" data-for="rG1Phone" title="Pick from phone contacts">Contacts</button></div></div>
+                <div class="field"><label data-tlabel="Guardian 1 Gender *"></label><select required id="rG1Gender"><option value="">— Select —</option><option>Female</option><option>Male</option></select></div>
+                <div class="field full"><label data-tlabel="Guardian 2 — Full Name"></label><input id="rG2Name" data-alpha></div>
+                <div class="field"><label data-tlabel="Guardian 2 Phone"></label><div style="display:flex;gap:8px;align-items:stretch"><span style="display:inline-flex;align-items:center;padding:0 10px;border:1px solid var(--line);border-radius:10px;background:#F1F4F8;font-weight:800">+234</span><input id="rG2Phone" data-phone maxlength="10" placeholder="801 234 5678" style="flex:1;min-width:0"><button type="button" class="icon-btn pick-contact" data-for="rG2Phone" title="Pick from phone contacts">Contacts</button></div></div>
+                <div class="field"><label data-tlabel="Guardian 2 Gender"></label><select id="rG2Gender"><option value="">—</option><option>Female</option><option>Male</option></select></div>
+                <div class="field"><label data-tlabel="Relationship to Ward *"></label><select required id="rRel"><option value="">— Select —</option><option>Mother</option><option>Father</option><option>Guardian</option><option>Other</option></select></div>
+                <div class="field"><label data-tlabel="Guardian Email"></label><input type="email" id="rEmail"></div>
+                <div class="field full"><label data-tlabel="Home Address *"></label><input required id="rAddr"></div>
+             </div>
+           </div>
+            <div class="wstep" id="wstep3" style="display:none">
+                            <div id="bankBox"></div>
+              <div class="pay-card sel" id="payLater" onclick="pickPay('later')"><span class="radio"></span><div><b>I Have Transferred Already</b><br><small>Paid to the school account above? Enter your transfer details below for confirmation.</small></div></div>
+              <div class="pay-card" id="payNow" onclick="pickPay('now')"><span class="radio"></span><div><b>I Will Pay Within 2 Weeks</b><br><small>Submit now, then transfer to the school account before admission closes.</small></div></div>
+              <div class="form-grid" id="claimBox" style="margin-top:10px">
+                <div class="field"><label>Sender Account Name *</label><input id="rSender" data-alpha placeholder="e.g. Musa Ibrahim"></div>
+                <div class="field"><label>Amount Paid (NGN) *</label><input id="rAmount" data-num inputmode="numeric" placeholder="e.g. 25000"></div>
+                <div class="field"><label>Transfer Date</label><input id="rDate" type="date"></div>
+                <div class="field"><label>Bank / Reference / Narration</label><input id="rRef" placeholder="e.g. GTB ...4521 / TAA/P/0001"></div>
+             </div>
+              <div class="treasure-box" id="regTreasure" onclick="passTreasure('regTreasure')"><span class="box">✓</span><span>Tap to verify you are human</span></div>
+              <div class="notice"><span class="dot" style="background:var(--sun)"></span><div style="font-size:.84rem">After submitting, please <b>visit the school within 2 weeks</b> to complete admission — or the application will expire.</div></div>
+           </div>
+            <div class="wizard-nav">
+              <button type="button" class="btn btn-white btn-sm" id="wizBack" onclick="wizGo(curStep-1)" style="visibility:hidden">← Back</button>
+              <span style="flex:1"></span>
+              <button type="button" class="btn btn-white btn-sm" onclick="flip(false)">Have an account already? Login</button>
+              <button type="button" class="btn btn-mint btn-sm" id="wizNext" onclick="wizGo(curStep+1)">Next →</button>
+           </div>
+          </form>
+       </div>
+     </div>
+   </div>
+ </div>
+
+  <!-- SIDE PANEL -->
+  <div class="auth-side">
+    <img class="auth-art" src="../assets/img/login-art.png" alt="Happy pupils learning">
+    <div class="side-card" id="genCard">
+      <h3>Password Generator</h3>
+      <p>Enter a Registration No from the school system to generate a strong password suggestion based on the pupil's name.</p>
+      <div class="field"><input id="genReg" placeholder="e.g. TAA/P/0001"></div>
+      <div style="display:flex;gap:8px;margin-top:10px">
+        <button class="btn btn-sun btn-sm" style="flex:1" onclick="genSuggest()">Generate</button>
+        <button class="btn btn-white btn-sm" onclick="document.getElementById('genReg').value=document.getElementById('pReg').value">Use login Reg No</button>
+     </div>
+      <div class="gen-out" id="genOut"></div>
+      <p style="margin-top:10px;margin-bottom:0">Note: this only <b>suggests</b> — the password is set through the secure Create/Reset flow.</p>
+   </div>
+ </div>
+ </div>
+</div>
+
+<div class="modal-bg" id="modalBg"><div class="modal" id="modalBox" style="max-width:480px"></div></div>
+<div id="toast"></div>
+<script src="../assets/js/store.js?v=20260919-17"></script>
+<script src="../assets/js/site.js?v=20260919-17"></script>
+<script>
+(function(){
+  /* already logged in on this device? go straight in */
+  const ex = Auth.get();
+  if(ex && ex.role){
+    location.href = ex.role==="admin"?"admin.html":ex.role==="teacher"?"teacher.html":"pupil.html"; return;
+  }
+  const db0=DB.load();
+  document.querySelectorAll("[data-school-name]").forEach(e=>e.textContent=db0.school.name);
+  document.getElementById("rClass").innerHTML=CLASSES.map(c=>`<option>${c}</option>`).join("");
+  try{ const preCls=new URLSearchParams(location.search).get("class"); if(preCls&&CLASSES.includes(preCls)){ document.getElementById("rClass").value=preCls; } }catch(e){}
+  window.flip=on=>{document.getElementById("flipScene").classList.toggle("flipped",!!on);const gc=document.getElementById("genCard");if(gc)gc.style.display=on?"none":"";};
+  if(new URLSearchParams(location.search).get("mode")==="register") flip(true);
+  
+  try{ document.getElementById("bankBox").innerHTML=U.payAccountsHTML(DB.load()); }catch(e){}
+
+
+  /* single login: role is detected from the ID entered */
+  document.querySelectorAll("[data-eye]").forEach(b=>b.onclick=()=>{const i=document.getElementById(b.dataset.eye);i.type=i.type==="password"?"text":"password";b.textContent=i.type==="password"?"Show":"Hide";});
+
+  const remembered=Auth.rememberGet();
+  if(remembered){ document.getElementById("pReg").value=remembered; }
+
+  const passed={};
+  window.passTreasure=id=>{ if(passed[id])return; Treasure.open(()=>{ passed[id]=true;
+    const box=document.getElementById(id); box.classList.add("passed"); box.querySelector(".box").textContent="✓";
+    box.querySelector("span:last-child").textContent="Verified. You may continue."; }); };
+
+  function shake(id){ const c=document.getElementById(id); c.classList.remove("shake"); void c.offsetWidth; c.classList.add("shake"); }
+  function openModal(html){ document.getElementById("modalBox").innerHTML=html; document.getElementById("modalBg").classList.add("show"); }
+  function closeModal(){ document.getElementById("modalBg").classList.remove("show"); }
+  document.getElementById("modalBg").addEventListener("click",e=>{ if(e.target.id==="modalBg") closeModal(); });
+
+  window.autoPassTreasure=()=>{ passed.loginTreasure=true;
+    const box=document.getElementById("loginTreasure"); box.classList.add("passed"); box.querySelector(".box").textContent="✓";
+    box.querySelector("span:last-child").textContent="Verified. You may continue."; };
+  window.demoSubmit=()=>{ autoPassTreasure();
+    const f=document.getElementById("pupilForm");
+    if(f.requestSubmit)f.requestSubmit(); else f.dispatchEvent(new Event("submit",{cancelable:true})); };
+  window.fillDemo=adm=>{ document.getElementById("pReg").value=adm;
+    const p=Auth.pupilFind(adm);
+    if(p&&!p.password){ checkRegNo(); U.toast("Demo pupil has no password yet — create one to enter."); return; }
+    document.getElementById("pPass").value="1234"; U.toast("Entering demo portal..."); setTimeout(demoSubmit,350); };
+  window.fillStaff=(role,id)=>{ document.getElementById("pReg").value=id; document.getElementById("pPass").value="1234"; U.toast("Entering staff demo..."); setTimeout(demoSubmit,350); };
+
+  /* side-panel generator */
+  window.genSuggest=()=>{
+    const adm=document.getElementById("genReg").value.trim();
+    const p=Auth.pupilFind(adm), out=document.getElementById("genOut");
+    if(!p){ out.style.display="block"; out.textContent="Reg No not in school system."; return; }
+    out.style.display="block"; out.textContent=U.genPassword(p.name);
+    U.toast("Suggestion ready for "+p.name.split(" ")[0]+".");
+  };
+
+  /* ---- AUTO-DETECT: reg no in system without password → create-password pops up ---- */
+  let lastChecked="";
+  function checkRegNo(){
+    const adm=document.getElementById("pReg").value.trim();
+    if(!adm || adm===lastChecked) return;
+    const p=Auth.pupilFind(adm);
+    if(p && !p.password){ lastChecked=adm; openCreate(adm); }
+  }
+  document.getElementById("pReg").addEventListener("change",checkRegNo);
+
+  /* ---- UNIFIED LOGIN: one form, route by ID (pupil / teacher / admin) ---- */
+  const fails={};
+  document.getElementById("pupilForm").addEventListener("submit",e=>{
+    e.preventDefault();
+    const adm=document.getElementById("pReg").value.trim(), pw=document.getElementById("pPass").value;
+    if(!adm||!pw){ shake("loginCard"); U.toast("Enter your ID and Password."); return; }
+    if(!passed.loginTreasure){ shake("loginCard"); U.toast("Please complete the human verification first."); return; }
+    const low=adm.toLowerCase(), d0=DB.load();
+    const isStaff=(d0.teachers||[]).some(t=>(t.id||"").toLowerCase()===low)||(d0.admins||[]).some(a=>(a.id||"").toLowerCase()===low);
+    if(isStaff){
+      const role=(d0.admins||[]).some(a=>(a.id||"").toLowerCase()===low)?"admin":"teacher";
+      const s=Auth.staffLogin(role,adm,pw);
+      if(!s){ shake("loginCard"); U.toast("Wrong PIN. Contact the headmistress to reset it."); return; }
+      Auth.rememberSet(document.getElementById("rememberMe").checked?adm:"");
+      Auth.set(s, document.getElementById("rememberMe").checked);
+      U.toast("Welcome, "+s.name.split(" ").slice(0,2).join(" ")+".");
+      setTimeout(()=>location.href=role==="admin"?"admin.html":"teacher.html",700);
+      return;
+    }
+    const r=Auth.pupilLogin(adm,pw);
+    if(!r.ok && r.reason==="notfound"){ shake("loginCard"); U.toast("ID not found. Check it and try again."); return; }
+    if(!r.ok && r.reason==="nopassword"){ openCreate(adm); return; }
+    if(!r.ok && r.reason==="wrongpass"){
+      const k=adm.toUpperCase(); fails[k]=(fails[k]||0)+1;
+      if(fails[k]>=2){ fails[k]=0; openForgot(adm); }
+      else { shake("loginCard"); U.toast("Wrong password. One more failed attempt opens password reset."); }
+      return;
+    }
+    Auth.rememberSet(document.getElementById("rememberMe").checked?adm:"");
+    Auth.set(r.session, document.getElementById("rememberMe").checked);
+    openModal(`<div style="text-align:center"><h2>Welcome, ${U.esc(r.session.name.split(" ")[0])}!</h2><p style="color:var(--muted)">Taking you to your dashboard...</p><div class="loading-bar"><i id="loadBar()"></i></div></div>`);
+    let w=0; const t=setInterval(()=>{ w+=20; const b=document.getElementById("loadBar()"); if(b)b.style.width=w+"%";
+      if(w>=100){ clearInterval(t); location.href="pupil.html"; } },150);
+  });
+
+
+  /* ---- CREATE PASSWORD (OTP style) ---- */
+  let otpCode="", otpAdm="";
+  window.openCreate=(adm)=>{
+    otpAdm=adm||document.getElementById("pReg").value.trim();
+    const p=Auth.pupilFind(otpAdm);
+    if(!p){ U.toast("That Registration No is not in the school system."); return; }
+    if(p.password){ U.toast("This account already has a password — just login."); return; }
+    lastChecked=otpAdm;
+    openModal(`<div style="text-align:center"><h2>Create Password</h2>
+      <p style="color:var(--muted);font-size:.87rem">Hello <b>${U.esc(p.name)}</b> (${U.esc(p.adm)}) — let's secure your account.</p></div>
+      <button class="btn btn-sky btn-sm btn-block" onclick="sendCode()">Send Activation Code</button>
+      <div id="otpZone" style="display:none">
+        <p style="text-align:center;font-weight:600;margin:14px 0 0">Enter the 4-digit code <span id="demoCode" style="color:var(--coral)"></span></p>
+        <div class="otp-row"><input maxlength="1" inputmode="numeric"><input maxlength="1" inputmode="numeric"><input maxlength="1" inputmode="numeric"><input maxlength="1" inputmode="numeric"></div>
+        <div class="float-field"><input id="cPass1" type="password" placeholder=" "><label data-tlabel="New Password (min 4 chars)"></label><button type="button" class="eye" onclick="eyeIn('cPass1',this)"></button></div>
+        <div class="float-field"><input id="cPass2" type="password" placeholder=" "><label data-tlabel="Confirm Password"></label><button type="button" class="eye" onclick="eyeIn('cPass2',this)"></button></div>
+        <div style="display:flex;gap:8px;margin-bottom:12px"><button class="btn btn-white btn-sm" style="flex:1" onclick="suggestPw()">Suggest one for me</button></div>
+        <button class="btn btn-mint btn-sm btn-block" onclick="activatePw()">Activate</button>
+        <div id="actLoad" style="display:none"><div class="loading-bar"><i id="actBar"></i></div></div>
+     </div>
+      <p style="text-align:center;margin-top:12px"><button class="link-btn" onclick="document.getElementById('modalBg').classList.remove('show')">← Back to login</button></p>`);
+  };
+  window.suggestPw=()=>{ const p=Auth.pupilFind(otpAdm); const s=U.genPassword(p?p.name:"Treasure");
+    document.getElementById("cPass1").value=s; document.getElementById("cPass2").value=s; U.toast("Suggestion filled — you can edit it."); };
+  window.eyeIn=(id,btn)=>{const i=document.getElementById(id);i.type=i.type==="password"?"text":"password";btn.textContent=i.type==="password"?"Show":"Hide";};
+  window.sendCode=()=>{
+    const p=Auth.pupilFind(otpAdm);
+    if(!p){ U.toast("Registration number not found."); return; }
+    otpCode=String(Math.floor(1000+Math.random()*9000));
+    document.getElementById("otpZone").style.display="";
+    document.getElementById("demoCode").textContent="(demo code: "+otpCode+")";
+    typeLabels(document.getElementById("modalBox"));
+    U.toast("Code sent. (demo: "+otpCode+")");
+    const boxes=[...document.querySelectorAll(".otp-row input")]; boxes[0].focus();
+    boxes.forEach((b,i)=>{ b.oninput=()=>{ b.value=b.value.replace(/\D/g,""); if(b.value&&i<3)boxes[i+1].focus(); };
+      b.onkeydown=e=>{ if(e.key==="Backspace"&&!b.value&&i>0)boxes[i-1].focus(); }; });
+  };
+  window.activatePw=()=>{
+    const code=[...document.querySelectorAll(".otp-row input")].map(b=>b.value).join("");
+    if(code!==otpCode){ U.toast("Wrong code — check and try again."); return; }
+    const a=document.getElementById("cPass1").value, b=document.getElementById("cPass2").value;
+    if(a.length<4){ U.toast("Password must be at least 4 characters."); return; }
+    if(a!==b){ U.toast("Passwords do not match."); return; }
+    Auth.setPassword(otpAdm,a);
+    document.getElementById("actLoad").style.display="";
+    let w=0; const t=setInterval(()=>{ w+=25; const bar=document.getElementById("actBar"); if(bar)bar.style.width=w+"%";
+      if(w>=100){ clearInterval(t); closeModal();
+        document.getElementById("pReg").value=otpAdm; document.getElementById("pPass").value=""; document.getElementById("pPass").focus();
+        U.toast("Password activated. Now enter it to login."); } },170);
+  };
+
+  /* ---- FORGOT PASSWORD (with verification criteria) ---- */
+  window.openForgot=adm=>{
+    otpAdm=adm||document.getElementById("pReg").value.trim()||"";
+    const p=Auth.pupilFind(otpAdm);
+    const needPhone=p&&p.phone&&p.phone.replace(/\D/g,"").length>=7;
+    openModal(`<div style="text-align:center"><h2>Reset Password</h2>
+      <p style="color:var(--muted);font-size:.87rem">Verify it is you, then set a new password for <b>${U.esc(otpAdm||"your account")}</b>.</p></div>
+      <div id="fgStep1">
+        <div class="float-field"><input id="fReg" placeholder=" " value="${U.esc(otpAdm)}"><label data-tlabel="Registration No"></label></div>
+        ${needPhone?`<div class="float-field"><input id="fPhone" placeholder=" " inputmode="numeric"><label data-tlabel="Parent phone — last 4 digits"></label></div>
+        <p style="font-size:.8rem;color:var(--muted)">Criteria 1 of 2: confirm the parent phone on record (ends with ••••${U.esc(p.phone.replace(/\D/g,"").slice(-4))}).</p>`
+        :`<p style="font-size:.8rem;color:var(--muted)">No parent phone on record — continue with activation code only.</p>`}
+        <div style="display:flex;gap:10px;margin-top:12px"><button class="btn btn-white btn-sm" style="flex:1" onclick="document.getElementById('modalBg').classList.remove('show');document.getElementById('pPass').focus()">Try Again</button>
+        <button class="btn btn-sky btn-sm" style="flex:1" onclick="forgotStep2(${needPhone?1:0})">Continue →</button></div>
+     </div>
+      <div id="fgStep2" style="display:none">
+        <p style="text-align:center;font-weight:600">Enter the 4-digit code <span id="fDemoCode" style="color:var(--coral)"></span></p>
+        <div class="otp-row"><input maxlength="1" inputmode="numeric"><input maxlength="1" inputmode="numeric"><input maxlength="1" inputmode="numeric"><input maxlength="1" inputmode="numeric"></div>
+        <div class="float-field"><input id="fPass1" type="password" placeholder=" "><label data-tlabel="New Password (min 4 chars)"></label><button type="button" class="eye" onclick="eyeIn('fPass1',this)"></button></div>
+        <div class="float-field"><input id="fPass2" type="password" placeholder=" "><label data-tlabel="Confirm Password"></label><button type="button" class="eye" onclick="eyeIn('fPass2',this)"></button></div>
+        <button class="btn btn-mint btn-sm btn-block" onclick="forgotReset()">Reset Password</button>
+     </div>`);
+    typeLabels(document.getElementById("modalBox"));
+  };
+  window.forgotStep2=needPhone=>{
+    otpAdm=document.getElementById("fReg").value.trim();
+    const p=Auth.pupilFind(otpAdm);
+    if(!p){ U.toast("Registration number not found."); return; }
+    if(needPhone){
+      const last4=(document.getElementById("fPhone").value||"").replace(/\D/g,"").slice(-4);
+      if(last4!==p.phone.replace(/\D/g,"").slice(-4)){ U.toast("Phone digits do not match our record."); return; }
+    }
+    otpCode=String(Math.floor(1000+Math.random()*9000));
+    document.getElementById("fgStep1").style.display="none";
+    document.getElementById("fgStep2").style.display="";
+    document.getElementById("fDemoCode").textContent="(demo code: "+otpCode+")";
+    typeLabels(document.getElementById("modalBox"));
+    U.toast("Code sent. (demo: "+otpCode+")");
+    const boxes=[...document.querySelectorAll("#fgStep2 .otp-row input")]; boxes[0].focus();
+    boxes.forEach((b,i)=>{ b.oninput=()=>{ b.value=b.value.replace(/\D/g,""); if(b.value&&i<3)boxes[i+1].focus(); };
+      b.onkeydown=e=>{ if(e.key==="Backspace"&&!b.value&&i>0)boxes[i-1].focus(); }; });
+  };
+  window.forgotReset=()=>{
+    const code=[...document.querySelectorAll("#fgStep2 .otp-row input")].map(b=>b.value).join("");
+    if(code!==otpCode){ U.toast("Wrong code."); return; }
+    const a=document.getElementById("fPass1").value, b=document.getElementById("fPass2").value;
+    if(a.length<4){ U.toast("Password must be at least 4 characters."); return; }
+    if(a!==b){ U.toast("Passwords do not match."); return; }
+    Auth.setPassword(otpAdm,a); closeModal();
+    document.getElementById("pReg").value=otpAdm; document.getElementById("pPass").value=""; document.getElementById("pPass").focus();
+    U.toast("Password reset. Enter it to login.");
+  };
+
+  /* ---- CONTACT PICKER (guardian phones) ---- */
+  window.pickContact=async id=>{
+    try{
+      if(!("contacts" in navigator)||!navigator.contacts.select){ U.toast("Contacts not supported here — type the number manually."); return; }
+      const list=await navigator.contacts.select(["telephone"],{multiple:false});
+      const tel=(((list||[])[0]||{}).telephone||[])[0]||"";
+      const d=String(tel).replace(/\D/g,"").replace(/^234/,"0");
+      if(d){ document.getElementById(id).value=d.slice(0,11); U.toast("Number filled from contacts."); }
+    }catch(e){}
+  };
+  document.querySelectorAll(".pick-contact").forEach(b=>{
+    b.onclick=()=>pickContact(b.dataset.for);
+    try{ if(!("contacts" in navigator)||!navigator.contacts.select) b.style.display="none"; }catch(e){ b.style.display="none"; }
+  });
+
+  /* ---- REGISTRATION WIZARD ---- */
+  window.curStep=1; let payMethod="later";
+  window.pickPay=m=>{ payMethod=m; document.getElementById("payLater").classList.toggle("sel",m==="later"); document.getElementById("payNow").classList.toggle("sel",m==="now"); document.getElementById("claimBox").style.display=m==="later"?"":"none"; regProgress(); };
+  const names={1:"Step 1 of 3 — Ward Information",2:"Step 2 of 3 — Guardian / Parent",3:"Step 3 of 3 — Payment"};
+  window.wizGo=n=>{
+    if(n>curStep){
+      const req=[...document.querySelectorAll("#wstep"+curStep+" [required]")];
+      for(const f of req){ if(!f.value.trim()){ shake("regCard"); f.focus(); U.toast("Please fill all required fields."); return; } }
+      if(curStep===2){
+        const clean=v=>{ v=String(v||"").replace(/\D/g,""); if(v.length===11&&v[0]==="0")v=v.slice(1); return v; };
+        const p1=clean(document.getElementById("rG1Phone").value);
+        const p2=clean(document.getElementById("rG2Phone").value);
+        if(p1.length!==10){ shake("regCard"); document.getElementById("rG1Phone").focus(); U.toast("Guardian 1 phone must be 10 digits (without the first 0)."); return; }
+        if(p2 && p2.length!==10){ shake("regCard"); document.getElementById("rG2Phone").focus(); U.toast("Guardian 2 phone must be 10 digits (without the first 0)."); return; }
+      }
+    }
+    if(n>3){ submitReg(); return; }
+    curStep=Math.max(1,Math.min(3,n));
+    [1,2,3].forEach(i=>{ document.getElementById("wstep"+i).style.display=i===curStep?"":"none";
+      const ws=document.getElementById("ws"+i); ws.classList.toggle("on",i===curStep); ws.classList.toggle("done",i<curStep); });
+    regProgress();
+    document.getElementById("wizSub").textContent=names[curStep];
+    document.getElementById("wizBack").style.visibility=curStep===1?"hidden":"visible";
+    document.getElementById("wizNext").textContent=curStep===3?"Submit":"Next →";
+  };
+  wizGo(1);
+  /* auto-advance: when all required fields on step 1 or 2 are filled, glide forward (Back stays available) */
+  let autoN=0;
+  function maybeAuto(){
+    if(curStep>2) return;
+    const req=[...document.querySelectorAll("#wstep"+curStep+" [required]")];
+    if(req.length&&req.every(f=>f.value.trim())){
+      const my=++autoN;
+      setTimeout(()=>{ if(my!==autoN||curStep>2) return;
+        const rq=[...document.querySelectorAll("#wstep"+curStep+" [required]")];
+        if(rq.every(f=>f.value.trim())) wizGo(curStep+1);
+      },700);
+    }
+  }
+  document.querySelectorAll("#wstep1 [required],#wstep2 [required]").forEach(f=>{
+    f.addEventListener("input",maybeAuto); f.addEventListener("change",maybeAuto);
+  });
+  /* progress bar follows real form completion (steps 1-2 fields + payment decision) */
+  function regProgress(){
+    const req=[...document.querySelectorAll("#wstep1 [required],#wstep2 [required]")];
+    const filled=req.filter(f=>f.value.trim()).length;
+    const payDone=((payMethod==="now")||(document.getElementById("rSender").value.trim()&&document.getElementById("rAmount").value.trim()))?1:0;
+    const pct=req.length?Math.round((filled+payDone)/(req.length+1)*100):0;
+    document.getElementById("wizBar").style.width=pct+"%";
+  }
+  document.querySelectorAll("#wstep1 input,#wstep1 select,#wstep2 input,#wstep2 select,#claimBox input").forEach(f=>{
+    f.addEventListener("input",regProgress); f.addEventListener("change",regProgress);
+  });
+  regProgress();
+  function submitReg(){
+    if(!passed.regTreasure){ shake("regCard"); U.toast("Please complete the human verification first."); return; }
+    const g=id=>document.getElementById(id).value.trim();
+    if(payMethod==="later"&&(!g("rSender")||!g("rAmount"))){ U.toast("Please enter the sender name and amount paid."); return; }
+    const d=DB.load();
+    const exp=new Date(); exp.setDate(exp.getDate()+14);
+    const disc=0;
+    const r={id:"REG"+String(d.seq.reg++).padStart(3,"0"),
+      ward:{surname:g("rSurname"),first:g("rFirst"),other:g("rOther"),dob:g("rDob"),gender:g("rGender"),classApply:g("rClass"),blood:g("rBlood"),prev:g("rPrev")},
+      guardian:{g1:{name:g("rG1Name"),phone:g("rG1Phone"),gender:g("rG1Gender")},g2:{name:g("rG2Name"),phone:g("rG2Phone"),gender:g("rG2Gender")},rel:g("rRel"),email:g("rEmail"),address:g("rAddr")},
+      payment:(payMethod==="later"?{method:"Bank transfer (claim submitted)",status:"Claimed",claim:{sender:g("rSender"),amount:g("rAmount"),date:g("rDate"),ref:g("rRef")}}:{method:"Bank transfer (not yet paid)",status:"Unpaid",claim:null}),
+      date:U.todayStr(),expiry:exp.toISOString().slice(0,10),status:"Pending"};
+    d.registrations.unshift(r); DB.save(d);
+    openModal(`<div style="text-align:center"><h2>Registration Received</h2>
+      <div class="notice" style="text-align:left"><span class="dot" style="background:var(--mint)"></span><div>Application ID: <b>${r.id}</b><br>Ward: <b>${U.esc(r.ward.first+" "+r.ward.surname)}</b> → ${U.esc(r.ward.classApply)}<br>Payment: <b>${r.payment.status}</b> (${U.esc(r.payment.method)})${r.payment.status==="Claimed"?`<br>Transfer claim recorded — the school will <b>confirm</b> it shortly and issue your <b>receipt number</b>`:""}</div></div>
+      <div class="notice" style="text-align:left"><span class="dot" style="background:var(--sun)"></span><div>Please <b>visit the school within 2 weeks</b> (before <b>${U.shortDate(r.expiry)}</b>) to complete admission — or this application will <b>expire</b>.</div></div>
+      <button class="btn btn-mint btn-sm" onclick="document.getElementById('modalBg').classList.remove('show');flip(false)">Done (back to login)</button></div>`);
+    document.getElementById("regForm").reset(); wizGo(1);
+  }
+})();
+</script>
+</body>
+</html>

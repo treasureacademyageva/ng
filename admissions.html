@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<style>#siteLoader{position:fixed;inset:0;z-index:1200;background:#fff;display:flex;flex-direction:column;gap:14px;align-items:center;justify-content:center;transition:opacity .4s}#siteLoader img{width:84px;height:84px;object-fit:contain}#siteLoader .spin{width:38px;height:38px;border-radius:50%;border:4px solid #FDF6D8;border-top-color:#0B7A37;animation:lspin .8s linear infinite}@keyframes lspin{to{transform:rotate(360deg)}}#siteLoader.done{opacity:0;pointer-events:none}</style>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admissions — Treasure Academy, Ageva</title>
+<link rel="icon" href="assets/img/logo.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/main.css?v=20260919-17">
+<link rel="stylesheet" href="assets/css/extra.css?v=20260919-17">
+<link rel="stylesheet" href="assets/css/corporate.css?v=20260919-17">
+<noscript><style>#siteLoader{display:none!important}</style></noscript>
+</head>
+<body data-page="admissions" data-assets="assets/">
+<div id="siteLoader"><img src="assets/img/logo.jpg" alt="Treasure Academy"><div class="spin"></div></div>
+<div class="topbar"><div class="container">
+  <div class="tb-contact"><span><b>Admissions</b> <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg><a data-school-phone href="tel:"></a></span><span class="tb-sep">•</span><span data-school-email></span></div>
+  <div class="tb-right"><span>Ageva, Okene, Kogi State</span><a class="portal-link" href="portal/login.html">Portal Login</a></div>
+</div></div>
+<nav class="navbar"><div class="container">
+  <a class="logo" href="index.html">
+    <img class="mark-img" src="assets/img/logo.jpg" alt="Treasure Academy logo">
+    </a>
+  <div class="brand-name"><span data-school-name></span><small>Creche to Primary 6</small></div>
+  <div class="nav-links" id="navLinks"><div id="mainNav" style="display:contents"><a href="index.html">Home</a><a href="news.html">News/Event</a><a href="about.html">About Us</a><a href="contact.html">Contact Us</a><a href="portal/login.html" class="btn btn-mint btn-sm" style="margin-left:6px">Login/Register</a></div></div>
+</div></nav>
+<div class="page-hero">
+  <div class="container">
+    <span class="sec-tag">Admissions</span>
+    <h1>Join Treasure Academy</h1>
+    <p>Simple steps to give your child a joyful, brilliant start — Creche to Primary 6.</p>
+ </div>
+</div>
+<section><div class="container">
+<div class="track-card clip-up" style="margin:18px 0;border-left:6px solid #C9A227"><h2>New here? Start in 3 easy steps</h2>
+<p class="sub">1. Fill the <b>Ward</b> form &nbsp;•&nbsp; 2. Add <b>Guardian</b> details &nbsp;•&nbsp; 3. Pay by <b>bank transfer</b>, then <b>visit the school within 2 weeks</b> with your receipt to complete admission.</p>
+<div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:10px"><a class="btn btn-mint" href="portal/login.html?mode=register">Start Registration</a><a class="btn btn-white" href="welcome.html">Read the Welcome Pack</a></div></div>
+<div id="admDeadline"></div>
+<div class="sec-head clip-up" style="margin-top:8px"><span class="sec-tag">Questions</span><h2>Admission FAQs</h2></div>
+<div id="admFaq"></div>
+<div class="track-card clip-up" id="tracker" style="margin:18px 0">
+  <h2>Track Your Application</h2>
+  <p class="sub">Enter the phone number you used during registration to see your admission status.</p>
+  <div style="display:flex;gap:8px;flex-wrap:wrap"><input id="trkPhone" inputmode="tel" placeholder="e.g. 0805 123 4567" style="flex:1;min-width:200px"><button class="btn btn-mint" onclick="trackApp()">Check Status</button></div>
+  <div id="trkOut"></div>
+</div>
+<div class="track-card clip-up" style="margin:18px 0">
+  <h2>Verify a Receipt</h2>
+  <p class="sub">Got a school-fee or PTA receipt? Enter the receipt number to confirm it is genuine.</p>
+  <div style="display:flex;gap:8px;flex-wrap:wrap"><input id="rcNo" placeholder="e.g. TA/2026/0001" style="flex:1;min-width:200px"><button class="btn btn-sun" onclick="verifyReceipt()">Verify</button></div>
+  <div id="rcOut"></div>
+</div>
+<div class="steps">
+  <div class="step clip-up"><div class="num">1</div><h3>Register Online</h3><p>Fill the 3-step form: ward info, guardian info, payment.</p></div>
+  <div class="step clip-up"><div class="num">2</div><h3>Fee Payment</h3><p>Pay to the school account.<span id="bankLine"></span></p></div>
+  <div class="step clip-up"><div class="num">3</div><h3>Visit School</h3><p>Come within 2 weeks with documents to finish up.</p></div>
+  <div class="step clip-up"><div class="num">4</div><h3>Resumption</h3><p>Get portal login details + start date. Welcome!</p></div>
+</div>
+<div class="split" style="margin-top:26px">
+  <div class="clip-up"><h2>Required Documents</h2>
+    <ul class="req-list"><li>Birth certificate (photocopy)</li><li>2 passport photographs</li><li>Previous report card (Primary transfers)</li><li>Immunisation record (Creche/Nursery)</li></ul>
+    <p class="sub">The school office will confirm the full list for your class.</p></div>
+  <div class="clip-up"><h2>Classes Open</h2>
+    <p><span class="chip">Creche</span><span class="chip">Pre-Nursery</span><span class="chip">Nursery 1–2</span><span class="chip">Primary 1–6</span></p>
+    <h2 style="margin-top:14px">School Fees (per term)</h2>
+    <div id="feesTable"></div>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:14px"><a class="btn btn-mint" href="portal/login.html?mode=register">Register Now</a><a class="btn btn-white" href="contact.html">Contact Us</a></div>
+ </div>
+</div>
+</div></section>
+<footer id="siteFooter"></footer>
+<div id="toast"></div>
+<script src="assets/js/store.js?v=20260919-17"></script>
+<script src="assets/js/site.js?v=20260919-17"></script>
+<script>
+function normPhone(p){ let d=String(p||"").replace(/\D/g,""); if(d.startsWith("234"))d="0"+d.slice(3); return d; }
+window.verifyReceipt=function(){
+  const no=document.getElementById("rcNo").value.trim().toLowerCase(), out=document.getElementById("rcOut");
+  if(!no){U.toast("Enter a receipt number first.");return;}
+  const db=DB.load();
+  const reg=(db.registrations||[]).find(r=>String(((r.payment||{}).receipt)||"").toLowerCase()===no);
+  const pta=(db.pta||[]).find(p=>String(p.receipt||"").toLowerCase()===no);
+  if(reg){ const paid=((reg.payment||{}).parts||[]).reduce((a,p)=>a+(+p.amount||0),0)+(+(((reg.payment||{}).claim||{}).amount)||0);
+    out.innerHTML=`<div class="notice" style="margin-top:12px"><span class="dot" style="background:var(--mint)"></span><div><span class="badge b-green">GENUINE RECEIPT</span><br><b>School Fee</b> — ${U.esc(reg.ward.first+" "+reg.ward.surname)} (${U.esc(reg.ward.classApply||"")})<br>Amount recorded: <b>${U.naira(paid)}</b> • Status: <b>${U.esc(reg.payment.status)}</b><br><small style="color:var(--muted)">${U.esc(reg.id)} • ${U.esc(no).toUpperCase()}</small></div></div>`; return; }
+  if(pta){ out.innerHTML=`<div class="notice" style="margin-top:12px"><span class="dot" style="background:var(--mint)"></span><div><span class="badge b-green">GENUINE RECEIPT</span><br><b>PTA Levy</b> — ${U.esc(pta.family||"")} family<br>Amount: <b>${U.naira(pta.amount)}</b> • Date: ${U.esc(pta.date||"")}<br><small style="color:var(--muted)">${U.esc(pta.receipt||"")}</small></div></div>`; return; }
+  out.innerHTML=`<div class="notice" style="margin-top:12px"><span class="dot" style="background:var(--coral)"></span><div><span class="badge b-coral">NOT FOUND</span><br>No receipt with this number. Check the number and try again, or call the school office.</div></div>`;
+};
+window.trackApp=function(){
+  const v=normPhone(document.getElementById("trkPhone").value);
+  const out=document.getElementById("trkOut");
+  if(v.length<10){ out.innerHTML='<div class="notice" style="margin-top:12px"><span class="dot" style="background:var(--coral)"></span><div>Please enter a valid phone number.</div></div>'; return; }
+  const db=DB.load();
+  const hit=o=>{ const vals=[]; const walk=x=>{ if(typeof x==="string")vals.push(x); else if(x&&typeof x==="object")Object.values(x).forEach(walk); }; walk(o||{});
+    return vals.some(x=>{ const d=normPhone(x); return d.length>=7&&(d.endsWith(v.slice(-10))||v.endsWith(d.slice(-10))); }); };
+  const regs=(db.registrations||[]).filter(r=>hit(r.guardian)||hit(r.ward));
+  const apps=(db.applications||[]).filter(a=>hit(a));
+  if(!regs.length&&!apps.length){ out.innerHTML='<div class="notice" style="margin-top:12px"><span class="dot" style="background:var(--coral)"></span><div>No application found for this number. Check the digits or contact the school office.</div></div>'; return; }
+  out.innerHTML='<div style="margin-top:12px">'+regs.map(r=>{
+    const w=r.ward||{}, st=r.status||"Pending";
+    const bc=st==="Admitted"?"b-green":st==="Expired"?"b-coral":st==="Pending"?"b-sun":"b-sky";
+    const dl=(r.expiry&&st==="Pending")?U.daysUntil(r.expiry):null;
+    const step=st==="Admitted"?"Congratulations! Visit the school office to collect portal login details and your resumption date."
+      :st==="Expired"?"This application has expired — please register again or contact the office."
+      :(r.payment&&r.payment.status==="Paid")?"Payment received — the school will confirm and admit your child soon."
+      :"Complete your fee payment by bank transfer, then come to the school within 2 weeks with your documents.";
+    return `<div class="track-card"><div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap"><b>${U.esc(w.first||"")} ${U.esc(w.surname||"")}</b><span class="badge ${bc}">${U.esc(st)}</span><span style="color:var(--muted);font-size:.85rem">${r.id} • ${U.shortDate(r.date)} • ${U.esc(w.classApply||w.class||"")}</span></div>
+    <div style="margin-top:6px;font-size:.9rem">Payment: <b>${U.esc((r.payment||{}).status||"Unpaid")}</b></div>
+    ${dl===null?"":dl<0?'<div style="margin-top:6px"><span class="badge b-coral">Time expired — visit the school immediately</span></div>':'<div style="margin-top:6px"><span class="badge '+(dl>3?'b-green':'b-sun')+'">'+dl+' day'+(dl===1?'':'s')+' left to complete registration</span></div>'}
+    <div style="margin-top:6px">${U.esc(step)}</div></div>`;
+  }).join("")+apps.map(a=>`<div class="track-card"><b>${U.esc(a.pupilName||a.name||"Enquiry")}</b> <span style="color:var(--muted);font-size:.85rem">• ${U.esc(a.classApply||a.class||"")} • ${U.shortDate(a.date)}</span><div style="margin-top:6px">Enquiry received — the school office will contact you shortly.</div></div>`).join("")+'</div>';
+};
+try{ const cal=DB.load().calendar||[];
+  const res=[...cal].filter(c=>/resump/i.test(c.title||"")).sort((a,b)=>a.date.localeCompare(b.date));
+  const next=res.find(c=>c.date>=U.todayStr())||res[res.length-1];
+  if(next){ const dl=new Date(next.date+"T12:00:00"); dl.setDate(dl.getDate()+14);
+    const dlStr=dl.toISOString().slice(0,10), dd=U.daysUntil(dlStr);
+    document.getElementById("admDeadline").innerHTML=dd>=0
+      ? `<div class="count-bar" style="margin:0 0 18px"><span class="count-num">${dd}</span><span><b>${dd===0?"Registration closes TODAY":dd+" days left"}:</b> new admissions close <b>${U.prettyDate(dlStr)}</b> (2 weeks after resumption).</span></div>`
+      : `<div class="count-bar" style="margin:0 0 18px"><span class="count-num">!</span><span>Registration for this term has <b>closed</b> — contact the school office for late admission.</span></div>`;
+  }
+}catch(e){}
+try{ const f=(DB.load().school||{}).fees||{};
+  const rows=CLASSES.filter(c=>f[c]).map(c=>`<tr><td>${U.esc(c)}</td><td style="text-align:right"><b>${U.naira(f[c])}</b></td></tr>`).join("");
+  document.getElementById("feesTable").innerHTML=rows?`<div style="overflow-x:auto"><table class="tbl"><thead><tr><th>Class</th><th style="text-align:right">Amount</th></tr></thead><tbody>${rows}</tbody></table></div><p class="sub">Pay by bank transfer. Sibling discounts may apply — ask the office.</p>`:"";
+}catch(e){}
+try{const bk=(DB.load().school||{}).bank||{};if(bk.number){document.getElementById("bankLine").innerHTML="<br> "+U.esc(bk.name)+" • "+U.esc(bk.number);}}catch(e){}
+(function(){
+  const FAQS=[
+    ["How much are the fees?","Fees depend on the class — see the fee table below, or message us and we will send the full schedule. All payments by bank transfer."],
+    ["What ages do you accept?","Creche from 6 months, Pre-Nursery & Nursery from 2 years, Primary from 5 years."],
+    ["What documents do I need?","Your child's birth certificate and two passport photos, plus your bank transfer receipt. Bring them when you visit within 2 weeks."],
+    ["Is there school transport?","Yes! Supervised routes with morning pickup and afternoon drop-off — see the Transport page for routes and fees."],
+    ["Where do we buy uniforms?","At the school shop after admission — full price list on the Uniform page."],
+    ["How do I track my application?","Use the tracker on this page with the phone number you registered with."]
+  ];
+  document.getElementById("admFaq").innerHTML=FAQS.map((f,i)=>`<div class="faq-item clip-up"><button class="faq-q" data-i="${i}">${U.esc(f[0])}<span class="plus">+</span></button><div class="faq-a"><div>${U.esc(f[1])}</div></div></div>`).join("");
+  document.querySelectorAll("#admFaq .faq-q").forEach(q=>q.onclick=()=>{
+    const item=q.parentElement, ans=item.querySelector(".faq-a"), open=item.classList.contains("open");
+    document.querySelectorAll("#admFaq .faq-item").forEach(o=>{o.classList.remove("open");o.querySelector(".faq-a").style.maxHeight=null;});
+    if(!open){ item.classList.add("open"); ans.style.maxHeight=ans.scrollHeight+"px"; }
+  });
+})();
+</script>
+</body>
+</html>
