@@ -11,9 +11,9 @@
 <link rel="icon" href="assets/img/logo.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/main.css?v=20260919-23">
-<link rel="stylesheet" href="assets/css/extra.css?v=20260919-23">
-<link rel="stylesheet" href="assets/css/corporate.css?v=20260919-23">
+<link rel="stylesheet" href="assets/css/main.css?v=20260919-31">
+<link rel="stylesheet" href="assets/css/extra.css?v=20260919-31">
+<link rel="stylesheet" href="assets/css/corporate.css?v=20260919-31">
 <noscript><style>#siteLoader{display:none!important}</style></noscript>
 <script defer src="/_vercel/insights/script.js"></script>
 </head>
@@ -21,12 +21,12 @@
 <div id="siteLoader"><img src="assets/img/logo.jpg" alt="Treasure Academy"><div class="spin"></div></div>
 
 <div class="topbar"><div class="container">
-  <div class="tb-contact"><span><b>Admissions</b> <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg><a data-school-phone href="tel:"></a></span><span class="tb-sep">•</span><span data-school-email></span></div>
+  <div class="tb-contact"><span><b>Admissions</b> <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg><a data-school-phone aria-label="Call the school" href="tel:"></a></span><span class="tb-sep">•</span><span data-school-email></span></div>
   <div class="tb-right"><span>Ageva, Okene, Kogi State</span><a class="portal-link" href="portal/login.html">Portal Login</a></div>
 </div></div>
 
 <nav class="navbar"><div class="container">
-  <a class="logo" href="index.html">
+  <a class="logo" aria-label="Treasure Academy — go to homepage" href="index.html">
     <img class="mark-img" src="assets/img/logo.jpg" alt="Treasure Academy logo">
     </a>
   <div class="brand-name"><span data-school-name></span><small>Creche to Primary 6</small></div>
@@ -44,9 +44,9 @@
 
 <footer id="siteFooter"></footer>
 <div id="toast"></div>
-<script src="assets/js/store.js?v=20260919-23"></script>
-<script src="assets/js/sync.js?v=20260919-23"></script>
-<script src="assets/js/site.js?v=20260919-23"></script>
+<script src="assets/js/store.js?v=20260919-31"></script>
+<script src="assets/js/sync.js?v=20260919-31"></script>
+<script src="assets/js/site.js?v=20260919-31"></script>
 <script>
 (function(){
   const id=new URLSearchParams(location.search).get("id");
@@ -83,7 +83,7 @@
     <span> ${U.prettyDate(n.date)}</span><span> ${n.views} views</span><span> ${n.likes||0} likes</span><span> ${Math.max(1,Math.round(((n.story||n.text||"").split(/\s+/).length)/200))} min read</span>${U.isNew(n.date)?'<span class="tag-new">NEW</span>':""}</div>
     <h1 style="font-size:clamp(1.6rem,4vw,2.4rem);margin-bottom:18px">${U.esc(n.title)}</h1>
     ${isMp4?`<div class="video-frame"><video src="${U.esc(n.videoUrl)}" controls playsinline></video></div>`:emb?`<div class="video-frame"><iframe src="${emb}" allowfullscreen title=" video"></iframe></div>`:n.image?`<div class="story-hero clip revealed"><img id="storyHero" style="cursor:zoom-in" onclick="Lightbox.open(window._storyImgs.map(s=>({src:s,cap:window._storyTitle,storyId:window._storyId})),0)" src="${U.esc(n.image)}" alt=""></div>`:""}
-    ${(emb||isMp4)&&n.image?`<div class="story-hero"><img id="storyHero" style="cursor:zoom-in" onclick="Lightbox.open(window._storyImgs.map(s=>({src:s,cap:window._storyTitle,storyId:window._storyId})),0)" src="${U.esc(n.image)}" alt=""></div>`:""}
+    ${(emb||isMp4)&&n.image?`<div class="story-hero"><img id="storyHeroAlt" style="cursor:zoom-in" onclick="Lightbox.open(window._storyImgs.map(s=>({src:s,cap:window._storyTitle,storyId:window._storyId})),0)" src="${U.esc(n.image)}" alt=""></div>`:""}
     ${(n.images&&n.images.length)?`<div class="story-thumbs">${[n.image,...n.images].filter(Boolean).map((src,i)=>`<img src="${U.esc(src)}" class="${i===0?"on":""}" onclick="swapHero(this,'${U.esc(src)}')" alt="photo ${i+1}">`).join("")}</div>`:""}
     <div class="story-body"><p>${U.esc(n.story||n.text)}</p>
       <div style="margin-top:18px;display:flex;gap:10px;flex-wrap:wrap">
@@ -117,7 +117,7 @@
       <div class="date">${r.type==="event"?"":""} ${U.shortDate(r.date)}</div>
       <div class="body"><h3>${U.esc(r.title)}</h3><p>${U.esc(r.text).slice(0,90)}...</p><b style="color:var(--sky);font-size:.85rem">Read →</b></div>
    </div>`).join("");
-  window.swapHero=(el,src)=>{ const h=document.getElementById("storyHero"); if(h)h.src=src;
+  window.swapHero=(el,src)=>{ const h=document.getElementById("storyHero")||document.getElementById("storyHeroAlt"); if(h)h.src=src;
     document.querySelectorAll(".story-thumbs img").forEach(t=>t.classList.remove("on")); el.classList.add("on"); };
   window.shareStory=async()=>{
     const data={title:n.title, text:n.title, url:location.href};

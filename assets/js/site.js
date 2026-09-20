@@ -18,17 +18,20 @@ const Theme = {
     const t = storedOv || autoDark();
     document.documentElement.dataset.theme = t;
     if(!storedOv){ try{ setInterval(()=>{ if(!localStorage.getItem("treasure_theme")){ document.documentElement.dataset.theme=autoDark(); setTC(document.documentElement.dataset.theme); } },10*60*1000); }catch(e){} }
-    const setTC=th=>{ let m=document.querySelector('meta[name="theme-color"]'); if(!m){ m=document.createElement("meta"); m.name="theme-color"; document.head.appendChild(m); } m.content=th==="dark"?"#0C1B14":"#0B7A37"; };
+    const setTC=th=>{ let m=document.querySelector('meta[name="theme-color"]'); if(!m){ m=document.createElement("meta"); m.name="theme-color"; document.head.appendChild(m); } m.content=th==="dark"?"#0C1B14":th==="dark-hc"?"#05080D":"#0B7A37"; };
     setTC(t);
     document.querySelectorAll(".theme-btn").forEach(b=>{
-      b.innerHTML = t==="dark" ? ICON_SUN : ICON_MOON;
-      b.title = t==="dark" ? "Switch to daytime" : "Switch to night";
+      b.innerHTML = t==="light" ? ICON_MOON : ICON_SUN;
+      b.title = t==="light" ? "Switch to night" : t==="dark" ? "Switch to high-contrast night" : "Switch to daytime";
       b.onclick = ()=>{
-        const nt = document.documentElement.dataset.theme==="dark" ? "light" : "dark";
+        /* batch30: day -> night -> high-contrast night -> day (tap moon again for even deeper dark) */
+        const cur = document.documentElement.dataset.theme||"light";
+        const nt = cur==="light" ? "dark" : cur==="dark" ? "dark-hc" : "light";
         document.documentElement.dataset.theme = nt; setTC(nt);
         localStorage.setItem("treasure_theme", nt);
-        b.innerHTML = nt==="dark" ? ICON_SUN : ICON_MOON;
-        b.title = nt==="dark" ? "Switch to daytime" : "Switch to night";
+        b.innerHTML = nt==="light" ? ICON_MOON : ICON_SUN;
+        b.title = nt==="light" ? "Switch to night" : nt==="dark" ? "Switch to high-contrast night" : "Switch to daytime";
+        try{ U.toast(nt==="dark-hc"?"High-contrast night on \u2014 tap again for day.":nt==="dark"?"Night mode on \u2014 tap again for high contrast.":"Day mode on."); }catch(e){}
       };
     });
   }
@@ -46,7 +49,7 @@ const SEARCH_INDEX=[
  {t:"E-Learning",u:"elearning.html",k:"elearning practice cbt common entrance primary 6 past questions"},
  {t:"Shop",u:"shop.html",k:"shop buy books uniform price textbook notebook order pickup"},
  {t:"PTA",u:"pta.html",k:"pta parents association meeting levy"},
- {t:"Alumni",u:"alumni.html",k:"alumni graduates old pupils secondary success wall share story"},
+ {t:"Alumni & Graduates",u:"alumni.html",k:"alumni graduates old pupils secondary success wall share story class of hall of fame"},
  {t:"Birthdays",u:"birthdays.html",k:"birthday staff celebrate wish song headmistress"},
  {t:"Calendar",u:"calendar.html",k:"calendar term dates resumption holiday events countdown"},
  {t:"Notice Board",u:"board.html",k:"notice board announcements news"},
@@ -59,9 +62,13 @@ const SEARCH_INDEX=[
  {t:"Exam Timetable",u:"exams.html",k:"exam timetable test date papers revision"},
  {t:"Holiday Assignments",u:"holiday.html",k:"holiday assignment break work home"},
  {t:"Welcome Pack",u:"welcome.html",k:"welcome pack new parents guide steps start"},
- {t:"Graduates",u:"graduates.html",k:"graduates primary 6 class of sendforth"},
  {t:"Transport",u:"transport.html",k:"transport bus route pickup dropoff fees driver"},
  {t:"Volunteer",u:"volunteer.html",k:"volunteer help event sign up parents support"},
+ {t:"Careers",u:"careers.html",k:"careers jobs teach at treasure vacancy apply staff recruitment teacher work hiring"},
+ {t:"School Fees",u:"fees.html",k:"fees school fees price per class pay bank transfer term charges print"},
+ {t:"Anthem & Creed",u:"anthem.html",k:"anthem creed pledge song lyrics audio hymn school song"},
+ {t:"Support Us",u:"support.html",k:"support donate pledge give project library fans thank you wall well-wisher"},
+ {t:"Search",u:"search.html",k:"search find pages everything results lookup"},
  {t:"Portal Login",u:"portal/login.html",k:"portal login register results password dashboard pupil parent teacher admin"},
  {t:"Parent Reviews",u:"testimonials.html",k:"testimonials reviews parents say rating all reviews"},
  {t:"Class Pages",u:"class.html",k:"class page creche nursery primary activities gallery"}
@@ -107,7 +114,8 @@ const Search={
   if(q.length<2){
     const rec=this.recent();
     box.innerHTML=(rec.length?'<p class="sub">Your recent searches <button class="link-btn" id="clearRec" style="font-size:.78rem">Clear</button></p>'+rec.map(r=>`<a href="#" data-re="${U.esc(r)}">${U.esc(r)} &#8594;</a>`).join(""):'')
-     +'<p class="sub">Popular pages</p>'+SEARCH_INDEX.slice(0,6).map(p=>`<a href="${p.u}"><b>${U.esc(p.t)}</b></a>`).join("");
+     +'<p class="sub">Popular pages</p>'+SEARCH_INDEX.slice(0,6).map(p=>`<a href="${p.u}"><b>${U.esc(p.t)}</b></a>`).join("")
+     +'<p class="sub" style="margin-top:8px"><a href="search.html" style="font-weight:800;color:var(--green)">Open the full search page \u2192</a></p>';
     return;
   }
   const stem=w=>w.length>4&&w.endsWith("ies")?w.slice(0,-3)+"y":w.length>4&&w.endsWith("es")?w.slice(0,-2):w.length>3&&w.endsWith("s")?w.slice(0,-1):w;
@@ -194,10 +202,47 @@ function renderFooter(){
       </div>
     </div>
   </div>
-  <div class="foot-bottom"><div class="container foot-center"><span>\u00A9 ${year} ${U.esc(s.name)}. All Rights Reserved.</span></div></div>
+  <div class="foot-bottom"><div class="container foot-center" style="display:flex;gap:14px;align-items:center;justify-content:center;flex-wrap:wrap"><span>\u00A9 ${year} ${U.esc(s.name)}. All Rights Reserved.</span><span id="textSizeBtns" title="Text size"><button type="button" data-fs="s" aria-label="Small text">S</button><button type="button" data-fs="m" aria-label="Normal text" class="on">A</button><button type="button" data-fs="l" aria-label="Large text">L</button></span></div></div>
   </div>`;
 }
+/* batch30: remember-able text size for weaker eyes */
+(function(){
+  try{
+    const cur=localStorage.getItem("treasure_fontsize")||"m";
+    if(cur!=="m")document.documentElement.dataset.fontsize=cur;
+    document.addEventListener("click",e=>{
+      const b=e.target&&e.target.closest&&e.target.closest("#textSizeBtns button"); if(!b)return;
+      const fs=b.dataset.fs;
+      if(fs==="m")delete document.documentElement.dataset.fontsize; else document.documentElement.dataset.fontsize=fs;
+      try{localStorage.setItem("treasure_fontsize",fs);}catch(err){}
+      document.querySelectorAll("#textSizeBtns button").forEach(x=>x.classList.toggle("on",x===b));
+    });
+    document.addEventListener("DOMContentLoaded",()=>{
+      const on=document.querySelector('#textSizeBtns button[data-fs="'+cur+'"]'); if(on)on.classList.add("on");
+      document.querySelectorAll("#textSizeBtns button").forEach(x=>x.classList.toggle("on",x.dataset.fs===cur));
+    });
+  }catch(e){}
+})();
 window.soonSocial=function(net){ U.toast("The school has not gotten "+net+" yet — check back soon!"); return false; };
+/* batch30: social share card + app icon + browser chrome color on every page */
+(function(){
+  try{
+    const d=document, inPortal=/portal\/(admin|teacher|pupil|login)\.html$/.test(location.pathname)||location.pathname.indexOf("/portal/")>=0;
+    const pre=inPortal?"../":"";
+    if(!d.querySelector('meta[property="og:title"]')){
+      const mk=(tag,attrs)=>{ const e=d.createElement(tag); for(const k in attrs)e.setAttribute(k,attrs[k]); d.head.appendChild(e); };
+      if(!d.querySelector(String.raw`meta[name="theme-color"]`)) mk("meta",{name:"theme-color",content:"#0B7A37"});
+      mk("meta",{property:"og:title",content:"Treasure Academy, Ageva"});
+      mk("meta",{property:"og:description",content:"Discipline, character and results — Creche to Primary 6 in Ageva, Okene, Kogi State."});
+      mk("meta",{property:"og:image",content:pre+"assets/img/og-cover.png"});
+      mk("meta",{name:"twitter:card",content:"summary_large_image"});
+      const fav=d.querySelector('link[rel="icon"]');
+      const icon=d.createElement("link"); icon.rel="icon"; icon.type="image/png"; icon.href=pre+"assets/img/icon-512.png";
+      if(fav)fav.after(icon); else d.head.appendChild(icon);
+      const apple=d.createElement("link"); apple.rel="apple-touch-icon"; apple.href=pre+"assets/img/icon-512.png"; d.head.appendChild(apple);
+    }
+  }catch(e){}
+})();
 function injectSchool(){
   let s = {...SCHOOL_DEFAULTS};
   try{ s = DB.load().school; }catch(e){}
@@ -240,6 +285,11 @@ function initSliders(){
 
 /* ---------------- Back-to-top (widgets hide at footer) ---------------- */
 function initTopBtn(){
+  /* batch30: progress ring + available on every page (not only those calling initTopBtn) */
+  if(document.querySelector('link[href*="corporate"]')&&!window.__topBtnBooted){ window.__topBtnBooted=1;
+    addEventListener("scroll",()=>{ const d=document.documentElement; const max=d.scrollHeight-innerHeight;
+      document.querySelectorAll("#topBtn").forEach(b=>{ if(max>0)b.style.setProperty("--prog",Math.min(100,Math.round(scrollY/max*100))); }); },{passive:true});
+  }
   if(!document.querySelector('link[href*="corporate"]'))return;
   let b=document.getElementById("topBtn");
   if(!b){ b=document.createElement("button"); b.id="topBtn"; b.title="Back to top";
@@ -253,6 +303,13 @@ function initTopBtn(){
   };
   addEventListener("scroll",onScroll,{passive:true}); onScroll();
 }
+/* batch30: boot the back-to-top button everywhere automatically */
+(function(){
+  if(!document.querySelector('link[href*="corporate"]'))return;
+  if(document.getElementById("topBtn"))return;
+  if(/portal\/(admin|teacher|pupil)\.html$/.test(location.pathname))return;
+  try{ bootSafe(()=>initTopBtn()); }catch(e){ initTopBtn(); }
+})();
 
 /* ---------------- Reveal on scroll ---------------- */
 function initReveal(){
@@ -505,7 +562,9 @@ const Chatbot = {
     F.dayName=now.toLocaleDateString("en-NG",{weekday:"long"});
     let per=["",""]; try{ per=ClockWidget.schedule(now.getHours(),now.getMinutes(),dow); }catch(e){}
     const sch=db.school||{}, emg=sch.emergency||{};
-    const open=!(dow===0||dow===6)&&!emg.on;
+    /* batch25: banner schedule window — empty dates mean always */
+    const emgOn=!!(emg.on&&emg.text&&(!emg.start||today>=emg.start)&&(!emg.end||today<=emg.end));
+    const open=!(dow===0||dow===6)&&!emgOn;
     const evs=(db.calendar||[]).filter(c=>c.date>=today).sort((a,b)=>a.date.localeCompare(b.date));
     const exs=(db.exams||[]).filter(x=>x.date&&x.date>=today).sort((a,b)=>a.date.localeCompare(b.date));
     const pta=(db.ptaMeetings||[]).filter(m=>m.date>=today).sort((a,b)=>a.date.localeCompare(b.date));
@@ -513,16 +572,16 @@ const Chatbot = {
     const lf=(db.lostfound||[]).filter(l=>!l.claimed&&!l.archived);
     const when=d=>{ const n=U.daysUntil(d); return n===0?"<b>today</b>":n===1?"<b>tomorrow</b>":"in <b>"+n+" days</b> ("+U.prettyDate(d)+")"; };
     /* status */
-    F.status=emg.on
+    F.status=emgOn
       ? `<b>School is closed:</b> ${esc(emg.text)}<br>The time is <b>${F.time}</b> (${F.dayName}).`
       : open
       ? `Yes — there is school today (${F.dayName}). The time is <b>${F.time}</b> and right now is <b>${esc(per[0])}</b>: ${esc(per[1])}<br>School hours: <b>Mon–Fri, 7:30am–3:00pm</b>.`
       : (dow===0||dow===6)
         ? `No school today — it's <b>${F.dayName}</b> (weekend). The time is <b>${F.time}</b>.<br>School resumes back on <b>Monday, 7:30am</b>.`
-        : `The time is <b>${F.time}</b>. ${emg.on?("<b>School is closed:</b> "+esc(emg.text)):"School is not in session right now."}`;
+        : `The time is <b>${F.time}</b>. ${emgOn?("<b>School is closed:</b> "+esc(emg.text)):"School is not in session right now."}`;
     /* emergency */
-    F.emergency=emg.on
-      ? `<b>Yes — take note:</b> ${esc(emg.text)}<br>This red banner is showing at the top of every page until the headmistress removes it.`
+    F.emergency=emgOn
+      ? `<b>Yes — take note:</b> ${esc(emg.text)}<br>This red banner is showing at the top of every page while it is scheduled.`
       : `No emergency — school is running normally. If school ever closes unexpectedly, a red <b>emergency banner</b> appears at the very top of every page.`;
     /* lost & found */
     F.lostfound=lf.length
@@ -809,7 +868,8 @@ function renderTicker(){
   const anchor=document.getElementById("mottoRibbon")||document.querySelector(".navbar");
   if(!anchor)return;
   const html=items.map(x=>`<span>${U.esc(x)}</span>`).join('<span class="tick-sep">•</span>');
-  anchor.insertAdjacentHTML("afterend",`<div class="ticker" id="newsTicker" role="marquee" aria-label="School announcements"><div class="ticker-inner">${html}<span class="tick-sep">•</span><span aria-hidden="true">${html}</span></div></div>`);
+  const half=html+'<span class="tick-sep">•</span>'; /* batch24: two identical halves = seamless -50% loop */
+  anchor.insertAdjacentHTML("afterend",`<div class="ticker" id="newsTicker" role="marquee" aria-label="School announcements"><div class="ticker-inner"><span class="tick-half">${half}</span><span class="tick-half" aria-hidden="true">${half}</span></div></div>`);
 }
 /* ---------- staff birthday bell (homepage) ---------- */
 function renderBday(){
@@ -849,7 +909,11 @@ function renderBdayCount(){
 function renderEmergency(){
   if(document.getElementById("emgBanner"))return;
   let e={}; try{ e=DB.load().school.emergency||{}; }catch(err){}
+  /* batch25: optional auto show/hide window — blank dates mean always */
+  const today=U.todayStr();
   if(!e.on||!e.text)return;
+  if(e.start&&today<e.start)return;
+  if(e.end&&today>e.end)return;
   const top=document.body.firstElementChild;
   const d=document.createElement("div");
   d.className="emg-banner"; d.id="emgBanner";
@@ -927,23 +991,32 @@ const Stars = {
     document.body.appendChild(cv);
     const ctx=cv.getContext("2d");
     let W,H,stars=[],flies=[];
+    /* batch24: pre-rendered glow sprite replaces the costly per-frame canvas shadow (the night-mode lag culprit on phones) */
+    const glow=document.createElement("canvas"); glow.width=glow.height=48;
+    const gx=glow.getContext("2d"), grd=gx.createRadialGradient(24,24,2,24,24,24);
+    grd.addColorStop(0,"rgba(255,233,163,1)"); grd.addColorStop(.35,"rgba(255,217,77,.85)"); grd.addColorStop(1,"rgba(255,217,77,0)");
+    gx.fillStyle=grd; gx.fillRect(0,0,48,48);
     const size=()=>{ W=cv.width=innerWidth; H=cv.height=innerHeight;
-      stars=Array.from({length:Math.min(90,Math.floor(W/14))},()=>({x:Math.random()*W,y:Math.random()*H,r:.6+Math.random()*1.5,p:Math.random()*6.28,s:.5+Math.random()*1.5}));
-      flies=Array.from({length:18},()=>({x:Math.random()*W,y:Math.random()*H,vx:.15+Math.random()*.35,vy:.1+Math.random()*.3,r:1.4+Math.random()*1.5,p:Math.random()*6.28,q:Math.random()*6.28}));
+      stars=Array.from({length:Math.min(70,Math.floor(W/18))},()=>({x:Math.random()*W,y:Math.random()*H,r:.6+Math.random()*1.5,p:Math.random()*6.28,s:.5+Math.random()*1.5}));
+      flies=Array.from({length:innerWidth<640?10:16},()=>({x:Math.random()*W,y:Math.random()*H,vx:.15+Math.random()*.35,vy:.1+Math.random()*.3,r:1.4+Math.random()*1.5,p:Math.random()*6.28,q:Math.random()*6.28}));
     };
     size(); addEventListener("resize",size);
+    /* batch29: reduced-motion users get stillness — no drifting sparkles */
+    try{ if(window.matchMedia&&matchMedia("(prefers-reduced-motion: reduce)").matches)return; }catch(e){}
+    let frame=0;
     (function loop(){
       requestAnimationFrame(loop);
       if(document.documentElement.dataset.theme!=="dark"||document.hidden) return;
+      if(++frame%2) return; /* batch24: 30fps halves night-mode GPU load so the ticker stays smooth */
       ctx.clearRect(0,0,W,H);
       const t=Date.now()/1000;
       stars.forEach(s=>{ const a=.25+.55*Math.abs(Math.sin(t*s.s+s.p));
         ctx.globalAlpha=a; ctx.fillStyle="#CFE3FF"; ctx.beginPath(); ctx.arc(s.x,s.y,s.r,0,7); ctx.fill(); });
-      flies.forEach(f=>{ f.x+=f.vx; if(f.x>W+12)f.x=-12;
+      flies.forEach(f=>{ f.x+=f.vx*2; if(f.x>W+12)f.x=-12;
         const fy=(f.y+t*9*f.vy)%(H+24)-12;
         const g=.5+.5*Math.sin(t*2+f.p), tw=.55+.45*Math.sin(t*3.2+f.q);
-        ctx.globalAlpha=Math.min(1,(.2+.6*g)*tw+.18); ctx.fillStyle="#FFE9A3"; ctx.shadowColor="#FFD94D"; ctx.shadowBlur=14*g+4;
-        ctx.beginPath(); ctx.arc(f.x,fy,f.r,0,7); ctx.fill(); ctx.shadowBlur=0; });
+        ctx.globalAlpha=Math.min(1,(.2+.6*g)*tw+.18);
+        const sz=f.r*9; ctx.drawImage(glow,f.x-sz/2,fy-sz/2,sz,sz); });
       ctx.globalAlpha=1;
     })();
   }

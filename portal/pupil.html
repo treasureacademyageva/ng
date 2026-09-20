@@ -11,9 +11,9 @@
 <title>My Report Card — Treasure Academy, Ageva</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../assets/css/main.css?v=20260919-23">
-<link rel="stylesheet" href="../assets/css/extra.css?v=20260919-23">
-<link rel="stylesheet" href="../assets/css/corporate.css?v=20260919-23">
+<link rel="stylesheet" href="../assets/css/main.css?v=20260919-31">
+<link rel="stylesheet" href="../assets/css/extra.css?v=20260919-31">
+<link rel="stylesheet" href="../assets/css/corporate.css?v=20260919-31">
 <noscript><style>#siteLoader{display:none!important}</style></noscript>
 <script defer src="/_vercel/insights/script.js"></script>
 </head>
@@ -21,11 +21,11 @@
 <div id="siteLoader"><img src="../assets/img/logo.jpg" alt="Treasure Academy"><div class="spin"></div></div>
 <div class="portal-layout">
   <div class="topbar"><div class="container">
-    <div class="tb-contact"><span><b>Admissions</b> <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg><a data-school-phone href="tel:"></a></span><span class="tb-sep">•</span><span data-school-email></span></div>
-    <div class="tb-right"><span class="tb-loc">Ageva, Okene, Kogi State</span><span class="portal-user"><span class="avatar" id="userAvatar">P</span><span><b id="userName">Pupil</b> <small id="userClass">Pupil</small></span></span><a href="../index.html">View Website</a><button class="portal-link" onclick="Auth.logout()">Logout</button></div>
+    <div class="tb-contact"><span><b>Admissions</b> <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg><a data-school-phone aria-label="Call the school" href="tel:"></a></span><span class="tb-sep">•</span><span data-school-email></span></div>
+    <div class="tb-right"><span class="tb-loc">Ageva, Okene, Kogi State</span><span class="portal-user"><span class="avatar" id="userAvatar">P</span><span><b id="userName">Pupil</b> <small id="userClass">Pupil</small></span></span><a href="../index.html">View Website</a></div>
   </div></div>
   <nav class="navbar"><div class="container">
-    <a class="logo" href="../index.html"><img class="mark-img" src="../assets/img/logo.jpg" alt="Treasure Academy logo"></a>
+    <a class="logo" aria-label="Treasure Academy — go to homepage" href="../index.html"><img class="mark-img" src="../assets/img/logo.jpg" alt="Treasure Academy logo"></a>
     <div class="brand-name"><span data-school-name>Treasure Academy</span><small>Pupil Portal</small></div>
     <div class="nav-links" id="sideNav">
       <button data-view="overview" class="on">Home</button>
@@ -37,7 +37,7 @@
       <button data-view="lostfound">Found Items</button>
     
     </div>
-    <div class="nav-cta-row"><button class="theme-btn" title="Switch to night"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4 8.5 8.5 0 1 0 20 14.5z"/></svg></button></div>
+    <div class="nav-cta-row"><button class="theme-btn" title="Switch to night"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4 8.5 8.5 0 1 0 20 14.5z"/></svg></button><button class="nav-logout" onclick="Auth.logout()" title="Logout"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="M16 17l5-5-5-5"/><path d="M21 12H9"/></svg></button></div>
   </div></nav>
 
   <main class="main">
@@ -162,9 +162,9 @@ if(nav)nav.addEventListener("click",function(e){
 try{var h=String(location.hash||"").replace(/^#\/?/,""); if(h){var bb=document.querySelector('#sideNav button[data-view="'+h+'"]'); if(bb&&!bb.classList.contains("on"))bb.click();}}catch(e7){}
 })();
 </script>
-<script src="../assets/js/store.js?v=20260919-23"></script>
-<script src="../assets/js/sync.js?v=20260919-23"></script>
-<script src="../assets/js/site.js?v=20260919-23"></script>
+<script src="../assets/js/store.js?v=20260919-31"></script>
+<script src="../assets/js/sync.js?v=20260919-31"></script>
+<script src="../assets/js/site.js?v=20260919-31"></script>
 <script>
 const S = Auth.guard("pupil");
 if(!S){location.href="login.html";throw new Error("no-session");}
@@ -236,10 +236,10 @@ function renderTT(){
 }
 function feeSlipHTML(r){
   const c=r.payment.claim||{}, paid=r.payment.status==="Paid";
-  return `<div style="border:2px dashed #0E3B21;border-radius:14px;padding:16px;margin-top:12px;background:#fff;color:#1D2733">
+  return `<div style="border:2px dashed var(--green);border-radius:14px;padding:16px;margin-top:12px;background:var(--white);color:var(--ink)">
     <div style="text-align:center"><b style="font-size:1.05rem">${U.esc(db.school.name)}</b><br><small style="color:#5B6472">${U.esc(db.school.address||"")} • ${U.esc(db.school.phone||"")}</small></div>
     <h3 style="text-align:center;margin:10px 0">SCHOOL FEE RECEIPT</h3>
-    <div style="text-align:center;font-weight:800;background:#F1F4F8;border-radius:10px;padding:8px;margin-bottom:10px">${r.id} • ${U.esc(r.payment.status)}</div>
+    <div style="text-align:center;font-weight:800;background:var(--white);border-radius:10px;padding:8px;margin-bottom:10px">${r.id} • ${U.esc(r.payment.status)}</div>
     <div style="text-align:center;font-weight:800;color:#0E5A2E;margin-bottom:10px">Receipt No: ${U.esc(r.payment.receipt||"To be issued on confirmation")}</div>
     <table style="width:100%;font-size:.9rem;border-collapse:collapse">
       <tr><td style="padding:5px 0;color:#5B6472">Pupil</td><td style="text-align:right"><b>${U.esc(P.name)}</b></td></tr>

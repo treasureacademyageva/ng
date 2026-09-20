@@ -11,9 +11,9 @@
 <title>Admin Dashboard — Treasure Academy, Ageva</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../assets/css/main.css?v=20260919-23">
-<link rel="stylesheet" href="../assets/css/extra.css?v=20260919-23">
-<link rel="stylesheet" href="../assets/css/corporate.css?v=20260919-23">
+<link rel="stylesheet" href="../assets/css/main.css?v=20260919-31">
+<link rel="stylesheet" href="../assets/css/extra.css?v=20260919-31">
+<link rel="stylesheet" href="../assets/css/corporate.css?v=20260919-31">
 <noscript><style>#siteLoader{display:none!important}</style></noscript>
 <script defer src="/_vercel/insights/script.js"></script>
 </head>
@@ -21,11 +21,11 @@
 <div id="siteLoader"><img src="../assets/img/logo.jpg" alt="Treasure Academy"><div class="spin"></div></div>
 <div class="portal-layout">
   <div class="topbar"><div class="container">
-    <div class="tb-contact"><span><b>Admissions</b> <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg><a data-school-phone href="tel:"></a></span><span class="tb-sep">•</span><span data-school-email></span></div>
-    <div class="tb-right"><span class="tb-loc">Ageva, Okene, Kogi State</span><span class="portal-user"><span class="avatar" id="userAvatar">H</span><span><b id="userName">Headmistress</b> <small id="userClass">Admin / Headmistress</small></span></span><a href="../index.html">View Website</a><button class="portal-link" onclick="Auth.logout()">Logout</button></div>
+    <div class="tb-contact"><span><b>Admissions</b> <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg><a data-school-phone aria-label="Call the school" href="tel:"></a></span><span class="tb-sep">•</span><span data-school-email></span></div>
+    <div class="tb-right"><span class="tb-loc">Ageva, Okene, Kogi State</span><span class="portal-user"><span class="avatar" id="userAvatar">H</span><span><b id="userName">Headmistress</b> <small id="userClass">Admin / Headmistress</small></span></span><a href="../index.html">View Website</a></div>
   </div></div>
   <nav class="navbar"><div class="container">
-    <a class="logo" href="../index.html"><img class="mark-img" src="../assets/img/logo.jpg" alt="Treasure Academy logo"></a>
+    <a class="logo" aria-label="Treasure Academy — go to homepage" href="../index.html"><img class="mark-img" src="../assets/img/logo.jpg" alt="Treasure Academy logo"></a>
     <div class="brand-name"><span data-school-name>Treasure Academy</span><small>Headmistress Portal</small></div>
     <div class="nav-links" id="sideNav">
       <button data-view="overview" class="on">Overview</button>
@@ -51,7 +51,7 @@
       <button data-view="settings">Settings</button>
     
     </div>
-    <div class="nav-cta-row"><button class="theme-btn" title="Switch to night"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4 8.5 8.5 0 1 0 20 14.5z"/></svg></button></div>
+    <div class="nav-cta-row"><button class="theme-btn" title="Switch to night"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4 8.5 8.5 0 1 0 20 14.5z"/></svg></button><button class="nav-logout" onclick="Auth.logout()" title="Logout"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="M16 17l5-5-5-5"/><path d="M21 12H9"/></svg></button></div>
   </div></nav>
 
   <main class="main">
@@ -70,6 +70,7 @@
         <div class="panel"><h2>Pupils per Class</h2><p class="sub">Enrolment distribution</p><div id="classBars"></div></div>
         <div class="panel"><h2>Latest Notices</h2><p class="sub">What staff &amp; parents see</p><div id="latestNotices"></div></div>
      </div>
+      <div class="panel"><h2>Admission Forms</h2><p class="sub">Paid form sales at a glance</p><div id="formStats"></div></div>
       <div class="panel"><h2>Results Needing Review</h2><p class="sub">Submitted by teachers, waiting for approval</p><div id="pendingResults"></div></div>
    </div>
 
@@ -227,6 +228,14 @@
           <div id="ntPreview" style="margin-top:14px"></div>
        </div>
         <h2 style="margin-top:22px">All Notices</h2><div id="noticeList"></div>
+        <h2 style="margin-top:22px">Staff Meeting Minutes</h2><p class="sub">Teachers read these in their portal and tap &ldquo;Mark as read&rdquo; &mdash; you see exactly who has read.</p>
+        <div class="form-grid">
+          <div class="field"><label>Title</label><input id="minTitle" placeholder="e.g. Mid-term Staff Meeting"></div>
+          <div class="field"><label>Date</label><input id="minDate" type="date"></div>
+          <div class="field full"><label>Minutes / notes</label><textarea id="minNotes" rows="3" placeholder="What was discussed and decided..."></textarea></div>
+          <div><button class="btn btn-grape btn-sm" onclick="postMinutes()">Post Minutes</button></div>
+        </div>
+        <div id="minList" style="margin-top:12px"></div>
         <h2 style="margin-top:22px">Lost & Found</h2><p class="sub">Shows on the public Lost &amp; Found page</p>
         <div class="form-grid">
           <div class="field"><label>Item *</label><input id="lfItem" placeholder="e.g. Blue cardigan"></div>
@@ -266,6 +275,8 @@
         <div id="ttEdit" style="overflow-x:auto"></div>
         <div style="display:flex;gap:10px;margin-top:12px;flex-wrap:wrap"><button class="btn btn-mint btn-sm" onclick="saveTT()">Save Timetable</button><button class="btn btn-sun btn-sm" onclick="autoFillTT()">Auto-Fill Default</button><button class="btn btn-white btn-sm" onclick="resetTT()">Reset to Automatic</button><button class="btn btn-sky btn-sm" onclick="printTT()">Print (PDF)</button></div>
      </div>
+      <div class="panel"><h2>Job Applications</h2><p class="sub">Teachers who applied on the Careers page &mdash; shortlist, then call them</p><div id="jobAppList"></div></div>
+      <div class="panel"><h2>Support Pledges</h2><p class="sub">Pledges from the Support Us page &mdash; approve after bank transfer confirms</p><div id="pledgeList"></div></div>
    </div>
     <!-- SHOP -->
     <div class="view-section" id="v-shop">
@@ -492,9 +503,12 @@
             <div class="field"><label>Moniepoint Acct No</label><input id="setMpAcct" placeholder="e.g. 0123456789"></div>
             <div class="field"><label>POS at Office?</label><select id="setMpPos"><option value="1">Yes — we have POS</option><option value="0">No</option></select></div>
             <div class="field full"><label>Welcome Video URL (MP4 link — shows on homepage)</label><input id="setVideo" placeholder="https://.../welcome.mp4"></div>
+            <div class="field full"><label>School Anthem Audio (MP3 link — plays on the Anthem page)</label><input id="setAnthem" placeholder="https://.../anthem.mp3"></div>
             <div class="field"><label>Headmistress Birthday</label><input id="setHeadDob" type="date"></div>
             <div class="field"><label>Headmistress Photo</label><div style="display:flex;gap:8px"><input id="setHeadPhoto" placeholder="photo link..." style="flex:1;min-width:0"><label class="btn btn-white btn-sm" style="cursor:pointer">File<input type="file" id="setHeadPhotoFile" accept="image/*" style="display:none" onchange="photoFile(this,'setHeadPhoto','setHeadPhotoPrev')"></label></div><img id="setHeadPhotoPrev" src="" style="width:52px;height:52px;border-radius:50%;object-fit:cover;margin-top:6px;display:none" alt=""></div>
             <div class="field"><label>Emergency Banner</label><select id="setEmgOn"><option value="0">Off</option><option value="1">ON — show on all pages</option></select></div>
+            <div class="field"><label>Auto show from (optional)</label><input id="setEmgStart" type="date" title="Leave empty to show immediately"></div>
+            <div class="field"><label>Auto hide after (optional)</label><input id="setEmgEnd" type="date" title="Leave empty to hide only yourself"></div>
             <div class="field full"><label>Emergency Message (red banner when ON)</label><input id="setEmgText" placeholder="e.g. School closes early today at 12 noon.">
               <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px">
                 <button type="button" class="icon-btn" onclick="emgPreset('School is CLOSED today. Pupils should stay at home.')">School closed today</button>
@@ -538,7 +552,7 @@
 (function(){
 var T={overview:["Overview","Welcome back! Here is your school at a glance."],regs:["Registrations","Online forms and payments."],apps:["Applications","Admission enquiries."],pupils:["Pupils","Manage all pupils."],teachers:["Teachers","Manage staff."],duty:["Duty Roster","Who is on duty each day."],results:["Results","Review, approve and publish report cards."],attendance:["Attendance","Daily registers."],promos:["Promotions","Promo slider."],newsevents:["News/Events","Videos, gallery and stories."],messages:["Messages","Contact inbox."],whatsapp:["WhatsApp","Chat contacts."],practice:["Entrance Qs","Common Entrance questions."],testimonials:["Testimonials","Website testimonials."],notices:["Notices","Talk to staff and parents."],classpages:["Class Pages","One page per class."],calendar:["Calendar","Term dates and events."],timetable:["Timetable","One grid for the whole school."],extras:["Website Extras","Stars, ticker, homework and more."],shop:["Shop and Orders","Items and pickup orders."],settings:["Settings","School details, term and session."]};
 function navRender(v){
-  try{ var R={overview:function(){renderOverview();refreshCounts();},regs:function(){renderRegs();},apps:function(){renderApps();renderFormClaims();},pupils:function(){renderPupils();},teachers:function(){renderTeachers();},duty:function(){renderDuty();},results:function(){renderResults();},attendance:function(){renderAttendance();},promos:function(){renderPromos();},newsevents:function(){renderNE();},messages:function(){renderMsgs();},whatsapp:function(){renderWA();},practice:function(){renderPQ();},testimonials:function(){Testimonials.adminList("tmList");},notices:function(){renderNotices();},classpages:function(){renderClassPages();},calendar:function(){renderCal();},timetable:function(){renderTT();},extras:function(){renderExtras();},shop:function(){renderShopAdmin();renderRestock();},settings:function(){loadSettings();buildFeesGrid();renderSup();}}; if(R[v])R[v](); }catch(e){ if(window.console&&console.warn)console.warn("view render skipped:",e&&e.message); }
+  try{ var R={overview:function(){renderOverview();refreshCounts();},regs:function(){renderRegs();},apps:function(){renderApps();renderFormClaims();},pupils:function(){renderPupils();},teachers:function(){renderTeachers();},duty:function(){renderDuty();},results:function(){renderResults();},attendance:function(){renderAttendance();},promos:function(){renderPromos();},newsevents:function(){renderNE();},messages:function(){renderMsgs();},whatsapp:function(){renderWA();},practice:function(){renderPQ();},testimonials:function(){Testimonials.adminList("tmList");},notices:function(){renderNotices();renderMinutesA();},classpages:function(){renderClassPages();},calendar:function(){renderCal();},timetable:function(){renderTT();},extras:function(){renderExtras();},shop:function(){renderShopAdmin();renderRestock();},settings:function(){loadSettings();buildFeesGrid();renderSup();}}; if(R[v])R[v](); }catch(e){ if(window.console&&console.warn)console.warn("view render skipped:",e&&e.message); }
 }
 window.navRender=navRender;
 var nav=document.getElementById("sideNav");
@@ -566,9 +580,9 @@ if(nav)nav.addEventListener("click",function(e){
 try{var h=String(location.hash||"").replace(/^#\/?/,""); if(h){var bb=document.querySelector('#sideNav button[data-view="'+h+'"]'); if(bb&&!bb.classList.contains("on"))bb.click();}}catch(e7){}
 })();
 </script>
-<script src="../assets/js/store.js?v=20260919-23"></script>
-<script src="../assets/js/sync.js?v=20260919-23"></script>
-<script src="../assets/js/site.js?v=20260919-23"></script>
+<script src="../assets/js/store.js?v=20260919-31"></script>
+<script src="../assets/js/sync.js?v=20260919-31"></script>
+<script src="../assets/js/site.js?v=20260919-31"></script>
 <script>
 const S = Auth.guard("admin");
 if(!S){location.href="login.html";throw new Error("no-session");}
@@ -626,6 +640,19 @@ function renderOverview(){
     return `<tr><td><b>${U.esc(p?p.name:"?")}</b></td><td>${r.class}</td><td><b>${sm?sm.avg.toFixed(1):"—"}</b></td>
     <td><div class="row-actions"><button class="icon-btn ok" onclick="setResultStatus('${r.id}','Approved')">Approve</button><button class="icon-btn" onclick="viewResult('${r.id}')">View</button></div></td></tr>`;}).join("")}</tbody></table></div>`
     : '<div class="empty">All caught up! No results waiting for review.</div>';
+  /* batch24: admission form sales stats */
+  (function(){ const z=document.getElementById("formStats"); if(!z)return;
+    const fc=db.formClaims||[];
+    const sold=fc.length, conf=fc.filter(c=>c.status==="Confirmed").length,
+      filled=fc.filter(c=>c.form).length, adm=fc.filter(c=>c.status==="Admitted").length,
+      got=fc.filter(c=>c.receipt).reduce((a,c)=>a+(+c.amount||0),0);
+    z.innerHTML=`<div class="p-grid4">`
+      +`<div class="p-stat"><div class="ic" style="background:var(--sun-soft);color:#B8860B">${U.icon("filetext",26)}</div><div><b>${sold}</b><span>Forms Sold</span></div></div>`
+      +`<div class="p-stat"><div class="ic" style="background:var(--sky-soft);color:#2563EB">${U.icon("calcheck",26)}</div><div><b>${conf}</b><span>Confirmed</span></div></div>`
+      +`<div class="p-stat"><div class="ic" style="background:var(--grape-soft);color:#6D28D9">${U.icon("edit",26)}</div><div><b>${filled}</b><span>Filled</span></div></div>`
+      +`<div class="p-stat"><div class="ic" style="background:var(--mint-soft);color:#177A3F">${U.icon("check",26)}</div><div><b>${adm}</b><span>Admitted</span></div></div>`
+      +`</div><div class="notice" style="margin-top:10px"><span class="dot" style="background:var(--mint)"></span><div style="flex:1">Collected on confirmed forms: <b>${U.naira(got)}</b></div><button class="btn btn-white btn-sm" onclick="document.querySelector('#sideNav button[data-view=apps]').click()">Open Paid Forms</button></div>`;
+  })();
   refreshCounts();
 }
 
@@ -672,6 +699,13 @@ window.copyReminder=function(id){ const r=db.registrations.find(x=>x.id===id); i
   if(navigator.clipboard&&navigator.clipboard.writeText){ navigator.clipboard.writeText(t).then(()=>U.toast("Reminder copied! Paste it in WhatsApp or SMS."),()=>window.prompt("Copy this reminder:",t)); }
   else{ window.prompt("Copy this reminder:",t); }
 };
+/* batch25: one tap copies every unpaid-fee reminder for WhatsApp/SMS broadcast */
+window.copyAllReminders=function(){ db=DB.load();
+  const list=db.registrations.filter(r=>(r.payment&&r.payment.status!=="Paid")&&(r.status==="Admitted"||(r.expiry&&U.daysUntil(r.expiry)<0)));
+  if(!list.length){ U.toast("No unpaid fees right now."); return; }
+  const t=list.map((r,i)=>`(${i+1}) `+reminderText(r)).join("\n\n");
+  if(navigator.clipboard&&navigator.clipboard.writeText){ navigator.clipboard.writeText(t).then(()=>U.toast(list.length+" reminders copied \u2014 paste into WhatsApp or SMS."),()=>window.prompt("Copy all reminders:",t)); }
+  else{ window.prompt("Copy all reminders:",t); } };
 window.printInvoice=function(id){
   if(!document.getElementById("printSlip")){ const dv=document.createElement("div"); dv.id="printSlip"; dv.style.display="none"; document.body.appendChild(dv); }
   db=DB.load(); const r=db.registrations.find(x=>x.id===id); if(!r)return;
@@ -695,7 +729,7 @@ function renderDefaulters(){
   const z=document.getElementById("defZone"); if(!z)return;
   db=DB.load();
   const list=db.registrations.filter(r=>(r.payment&&r.payment.status!=="Paid")&&(r.status==="Admitted"||(r.expiry&&U.daysUntil(r.expiry)<0)));
-  z.innerHTML=list.length?`<h3 style="margin:0 0 8px">Fee Reminders — message these parents</h3>`+list.map(r=>{
+  z.innerHTML=list.length?`<h3 style="margin:0 0 8px;display:flex;align-items:center;gap:10px;flex-wrap:wrap">Fee Reminders — message these parents<button class="icon-btn ok" style="margin-left:auto" onclick="copyAllReminders()">Copy all ${list.length} reminders</button></h3>`+list.map(r=>{
     const g=((r.guardian||{}).g1||{}), fee=((db.school.fees||{})[r.ward.classApply]||0);
     const paid=((r.payment||{}).parts||[]).reduce((a,p)=>a+(+p.amount||0),0)+(+(((r.payment||{}).claim||{}).amount)||0);
     const bal=Math.max(0,fee-paid);
@@ -857,18 +891,23 @@ window.printAdmLetter=function(id){
 };
 
 /* ---- paid admission forms ---- */
+const FORM_ARCHIVE_DAYS=120; /* batch24: claims older than a term auto-hide from the queue */
+let showArchived=false;
 function formClaimAge(c){ const d0=c.confirmedAt||c.submitted||""; if(!d0)return 0; return Math.max(0,Math.round((Date.now()-new Date(d0+"T12:00:00").getTime())/864e5)); }
+function formClaimSubmitAge(c){ const d0=c.submitted||""; if(!d0)return 0; return Math.max(0,Math.round((Date.now()-new Date(d0+"T12:00:00").getTime())/864e5)); }
+function toggleArchive(){ showArchived=!showArchived; renderFormClaims(); }
 function renderFormClaims(){
   db=DB.load();
   const z=document.getElementById("formClaimRows"); if(!z)return;
-  const list=db.formClaims||[];
+  const all=(db.formClaims||[]), arch=all.filter(c=>formClaimSubmitAge(c)>FORM_ARCHIVE_DAYS);
+  const list=showArchived?all:all.filter(c=>formClaimSubmitAge(c)<=FORM_ARCHIVE_DAYS);
   const admittable=list.filter(c=>c.status==="Confirmed"&&c.form);
-  z.innerHTML=(admittable.length>1?`<div style="margin-bottom:10px"><button class="btn btn-sun btn-sm" onclick="admitAllForms()">Admit All (${admittable.length})</button></div>`:"")+list.map(c=>{
+  z.innerHTML=(arch.length?`<div style="margin-bottom:10px"><button class="btn btn-white btn-sm" onclick="toggleArchive()">${showArchived?"Hide":"Show"} archived (${arch.length})</button></div>`:"")+(admittable.length>1?`<div style="margin-bottom:10px"><button class="btn btn-sun btn-sm" onclick="admitAllForms()">Admit All (${admittable.length})</button></div>`:"")+list.map(c=>{
     const age=formClaimAge(c), stale=c.status==="Confirmed"&&!c.form&&age>7;
     const digits=String(c.phone||"").replace(/\D/g,"").replace(/^0/,"234");
     const msg=`Dear ${c.parent||"Parent"}, this is ${db.school.name}. You paid for admission form ${c.code} (${c.pupil||""}) but it has not been filled yet (${age} days). Please complete it so we can process admission. Thank you!`;
     const bc=c.status==="Pending"?"b-sun":c.status==="Admitted"?"b-sky":"b-green";
-    return `<div class="notice"><span class="dot" style="background:${c.status==="Pending"?"var(--sun)":"var(--mint)"}"></span><div style="flex:1"><b>${U.esc(c.code)}</b> — ${U.esc(c.pupil)} • ${U.esc(c.parent)} • ${U.esc(c.phone)}<br><small style="color:var(--muted)">${U.naira(+c.amount||0)} • Ref ${U.esc(c.ref||"")} • ${U.esc(c.submitted||"")}${c.receipt?` • Receipt <b>${U.esc(c.receipt)}</b>`:""} • ${c.form?"Filled":"Not filled"}</small>${stale?` <span class="badge b-coral">Unfilled ${age} days</span>`:""}</div><span class="badge ${bc}">${U.esc(c.status)}</span><div class="row-actions">${c.status==="Pending"?`<button class="icon-btn ok" onclick="confirmFormClaim('${c.id}')">Confirm</button>`:""}${c.status==="Confirmed"&&c.form?`<button class="icon-btn ok" onclick="admitFormClaim('${c.id}')">Admit</button>`:""}${stale&&digits?`<a class="icon-btn" target="_blank" rel="noopener" href="https://wa.me/${digits}?text=${encodeURIComponent(msg)}">Nudge</a>`:""}${c.form?`<button class="icon-btn" onclick="viewFormClaim('${c.id}')">View</button>`:""}</div></div>`;
+    return `<div class="notice"><span class="dot" style="background:${c.status==="Pending"?"var(--sun)":"var(--mint)"}"></span><div style="flex:1"><b>${U.esc(c.code)}</b> — ${U.esc(c.pupil)} • ${U.esc(c.parent)} • ${U.esc(c.phone)}<br><small style="color:var(--muted)">${U.naira(+c.amount||0)} • Ref ${U.esc(c.ref||"")} • ${U.esc(c.submitted||"")}${c.receipt?` • Receipt <b>${U.esc(c.receipt)}</b>`:""} • ${c.form?"Filled":"Not filled"}</small>${stale?` <span class="badge b-coral">Unfilled ${age} days</span>`:""}${formClaimSubmitAge(c)>FORM_ARCHIVE_DAYS?` <span class="badge b-grape">Archived</span>`:""}</div><span class="badge ${bc}">${U.esc(c.status)}</span><div class="row-actions">${c.status==="Pending"?`<button class="icon-btn ok" onclick="confirmFormClaim('${c.id}')">Confirm</button>`:""}${c.status==="Confirmed"&&c.form?`<button class="icon-btn ok" onclick="admitFormClaim('${c.id}')">Admit</button>`:""}${stale&&digits?`<a class="icon-btn" target="_blank" rel="noopener" href="https://wa.me/${digits}?text=${encodeURIComponent(msg)}">Nudge</a>`:""}${c.form?`<button class="icon-btn" onclick="viewFormClaim('${c.id}')">View</button>`:""}</div></div>`;
   }).join("")||'<div class="empty">No paid forms yet.</div>';
 }
 function confirmFormClaim(id){ db=DB.load(); const c=(db.formClaims||[]).find(x=>x.id===id); if(!c)return; c.status="Confirmed"; c.confirmedAt=U.todayStr(); if(!c.receipt){ db.seq.rcpt=(db.seq.rcpt||0)+1; c.receipt="TA/RCPT/"+new Date().getFullYear()+"/"+String(db.seq.rcpt).padStart(4,"0"); } DB.save(db); renderFormClaims(); U.toast(c.code+" confirmed! Receipt "+c.receipt); }
@@ -981,7 +1020,7 @@ function delTeacher(id){ if(!confirm("Remove this teacher?"))return;
 function renderDuty(){
   db=DB.load(); const today=U.weekdayName();
   const opts=sel=>db.teachers.map(t=>`<option value="${t.id}" ${sel===t.id?"selected":""}>${U.esc(t.name)} (${t.id})</option>`).join("");
-  document.getElementById("dutyRows").innerHTML=db.duty.map(r=>`<tr style="${r.day===today?'background:#FFF3D1':''}">
+  document.getElementById("dutyRows").innerHTML=db.duty.map(r=>`<tr style="${r.day===today?'background:var(--sun-soft)':''}">
     <td><b>${r.day}</b> ${r.day===today?'<span class="badge b-sun">Today</span>':""}</td>
     <td><select class="score-input" style="width:100%;text-align:left" data-day="${r.day}" data-slot="0">${opts(r.teachers[0])}</select></td>
     <td><select class="score-input" style="width:100%;text-align:left" data-day="${r.day}" data-slot="1">${opts(r.teachers[1])}</select></td></tr>`).join("");
@@ -1210,6 +1249,23 @@ function saveWA(id){
   DB.save(db); closeModal(); renderWA(); U.toast("WhatsApp contact saved!");
 }
 function delWA(id){ if(!confirm("Delete this contact?"))return; db=DB.load(); db.whatsapp=db.whatsapp.filter(w=>w.id!==id); DB.save(db); renderWA(); }
+/* batch25: staff meeting minutes — headmistress posts, teachers acknowledge */
+function renderMinutesA(){
+  db=DB.load(); const z=document.getElementById("minList"); if(!z)return;
+  const ms=db.meetings||[], tt=db.teachers||[];
+  z.innerHTML=ms.length?ms.map(m=>{
+    const names=(m.ack||[]).map(a=>{ const t=tt.find(x=>String(x.id)===String(a)); return t?String(t.name||"").split(" ")[0]:a; });
+    return `<div class="notice" style="align-items:flex-start"><span class="dot" style="background:#7C63E8"></span><div style="flex:1"><b>${U.esc(m.title)}</b> <small style="color:var(--muted)">&bull; ${U.esc(m.date||"")}</small><br><small style="color:var(--muted)">${U.esc(m.notes||"")}</small><br><small style="font-weight:800;color:var(--green)">Read by ${names.length} of ${tt.length} teachers${names.length?": "+U.esc(names.join(", ")):""}</small></div><button class="icon-btn del" onclick="delMinutes('${m.id}')">&times;</button></div>`;
+  }).join(""):'<div class="empty">No minutes posted yet.</div>';
+}
+window.postMinutes=function(){
+  const t=document.getElementById("minTitle").value.trim(), n=document.getElementById("minNotes").value.trim(), d=document.getElementById("minDate").value||U.todayStr();
+  if(!t||!n){ U.toast("Give the minutes a title and some notes."); return; }
+  db=DB.load(); db.meetings=db.meetings||[]; db.meetings.unshift({id:"MT"+Date.now(),title:t,notes:n,date:d,ack:[]});
+  DB.save(db); document.getElementById("minTitle").value=""; document.getElementById("minNotes").value="";
+  renderMinutesA(); U.toast("Minutes posted \u2014 teachers will see them in their portal.");
+};
+window.delMinutes=function(id){ if(!confirm("Delete these minutes?"))return; db=DB.load(); db.meetings=(db.meetings||[]).filter(m=>String(m.id)!==String(id)); DB.save(db); renderMinutesA(); };
 
 /* ---- notices ---- */
 function renderNotices(){
@@ -1248,12 +1304,23 @@ function sendNotice(){
   DB.save(db); document.getElementById("ntTitle").value=""; document.getElementById("ntText").value=""; document.getElementById("ntExpiry").value="";
   document.getElementById("ntAudio").value=""; document.getElementById("recStat").textContent=""; renderNotices(); renderOverview(); U.toast("Notice sent!");
 }
-window.emgPreset=function(text){ db=DB.load(); db.school.emergency={on:!!text,text:text||""}; DB.save(db);
+window.emgPreset=function(text){ db=DB.load(); db.school.emergency={on:!!text,text:text||"",start:(db.school.emergency||{}).start||"",end:(db.school.emergency||{}).end||""}; DB.save(db);
   document.getElementById("setEmgOn").value=text?"1":"0"; document.getElementById("setEmgText").value=text||"";
   U.toast(text?"Emergency banner is ON — showing on all pages.":"Emergency banner turned OFF."); };
 window.postThanks=function(name){ db=DB.load(); const nm=name||db.school.headName||"Headmistress";
   db.bdayThanks=db.bdayThanks||[]; db.bdayThanks.unshift({name:nm,msg:"Thank you all so much for the lovely birthday wishes!",date:U.todayStr()});
-  DB.save(db); renderOverview(); U.toast("Thank-you note posted on the Birthdays page!"); };
+  /* batch25: the thank-you note also flows into the public News feed automatically */
+  try{ db.newsEvents=db.newsEvents||[]; db.newsEvents.unshift({id:"NETH"+Date.now(),type:"news",title:nm+" says thank you!",date:U.todayStr(),image:"assets/img/hero-kids.png",videoUrl:"",views:0,likes:0,images:[],text:nm+" thanked everyone for the lovely birthday wishes.",story:nm+" writes: \u201cThank you all so much for the lovely birthday wishes! Your kindness means the world to me.\u201d\n\nThe Treasure family celebrates its own \u2014 the staff and teachers who care for our pupils every single day."}); }catch(e){}
+  DB.save(db); renderOverview(); U.toast("Thank-you note posted on the Birthdays page + News feed!"); };
+/* batch31: careers applications + support pledges */
+function renderJobApps(){ db=DB.load(); const z=document.getElementById("jobAppList"); if(!z)return;
+  z.innerHTML=(db.jobApps||[]).map(a=>`<div class="notice"><span class="dot" style="background:var(--sky)"></span><div style="flex:1"><b>${U.esc(a.name)}</b> \u2014 ${U.esc(a.role)} <span class="badge ${a.status==="Shortlisted"?"b-green":"b-sun"}">${U.esc(a.status||"Pending")}</span><br><small style="color:var(--muted)">${U.esc(a.phone)} \u2022 ${U.esc(a.quals||"")} \u2022 applied ${U.esc(a.date||"")}</small><br><small>${U.esc(a.exp||"")}</small></div><div class="row-actions">${a.status!=="Shortlisted"?`<button class="icon-btn ok" onclick="setJobApp('${a.id}','Shortlisted')">Shortlist</button>`:""}<button class="icon-btn del" onclick="delJobApp('${a.id}')">\u00d7</button></div></div>`).join("")||'<div class="empty">No applications yet. Share the Careers page!</div>'; }
+window.setJobApp=function(id,st){ db=DB.load(); const a=(db.jobApps||[]).find(x=>x.id===id); if(a){a.status=st;DB.save(db);renderJobApps();U.toast("Marked "+st+" \u2014 call the applicant.");} };
+window.delJobApp=function(id){ if(!confirm("Remove this application?"))return; db=DB.load(); db.jobApps=(db.jobApps||[]).filter(x=>x.id!==id); DB.save(db); renderJobApps(); };
+function renderSupport(){ db=DB.load(); const z=document.getElementById("pledgeList"); if(!z)return;
+  z.innerHTML=(db.supportPledges||[]).map(p=>`<div class="notice"><span class="dot" style="background:${p.status==="Approved"?"var(--mint)":"var(--sun)"}"></span><div style="flex:1"><b>${U.esc(p.name)}</b> \u2014 ${U.naira(p.amount)} <span class="badge ${p.status==="Approved"?"b-green":"b-sun"}">${U.esc(p.status||"Pending")}</span><br><small style="color:var(--muted)">${U.esc(p.msg||"")} \u2022 ${U.esc(p.date||"")}</small></div><div class="row-actions">${p.status!=="Approved"?`<button class="icon-btn ok" onclick="setPledge('${p.id}','Approved')">Approve</button>`:""}<button class="icon-btn del" onclick="delPledge('${p.id}')">\u00d7</button></div></div>`).join("")||'<div class="empty">No pledges yet.</div>'; }
+window.setPledge=function(id,st){ db=DB.load(); const p=(db.supportPledges||[]).find(x=>x.id===id); if(p){p.status=st;DB.save(db);renderSupport();U.toast(st==="Approved"?"Approved \u2014 it now shows on the thank-you wall.":"Updated.");} };
+window.delPledge=function(id){ if(!confirm("Remove this pledge?"))return; db=DB.load(); db.supportPledges=(db.supportPledges||[]).filter(x=>x.id!==id); DB.save(db); renderSupport(); };
 function renderLF(){
   db=DB.load();
   document.getElementById("lfRows").innerHTML=(db.lostfound||[]).map(l=>`<div class="notice"><span class="dot" style="background:${l.claimed?"var(--mint)":"var(--sun)"}"></span>${l.photo?`<img src="${l.photo}" alt="" style="width:52px;height:52px;object-fit:cover;border-radius:10px;flex:none">`:""}<div style="flex:1"><b>${U.esc(l.item)}</b>${l.claimed?' <span class="badge b-green">Claimed</span>':""}${l.archived?' <span class="badge b-sun">Archived</span>':""}<br><small style="color:var(--muted)">${U.esc(l.desc||"")} • ${l.date}</small></div>${l.claimed?"":`<button class="icon-btn" onclick="claimLF('${l.id}')">Claimed</button>`}<button class="icon-btn del" onclick="delLF('${l.id}')">×</button></div>`).join("")||'<div class="empty">Nothing listed.</div>';
@@ -1275,7 +1342,7 @@ function loadSettings(){
   set("setName",s.name);set("setMotto",s.motto);set("setPhone",s.phone);set("setEmail",s.email);
   set("setAddress",s.address);set("setTerm",s.term);set("setFormFee",s.formFee||5000);set("setSession",s.session);set("setHead",s.headName);set("setGrad",s.gradDate||"");
   const bk=s.bank||{}; set("setBank",bk.name||""); set("setAcct",bk.number||""); set("setHolder",bk.holder||"");
-  const mp=s.moniepoint||{}; set("setMpAcct",mp.account||""); document.getElementById("setMpPos").value=mp.pos===false?"0":"1"; set("setVideo",s.videoUrl||""); set("setHeadDob",s.headDob||""); set("setHeadPhoto",s.headPhoto||""); const hpp=document.getElementById("setHeadPhotoPrev"); if(s.headPhoto){hpp.src=s.headPhoto;hpp.style.display="";}else{hpp.style.display="none";} const emg=s.emergency||{}; document.getElementById("setEmgOn").value=emg.on?"1":"0"; set("setEmgText",emg.text||"");
+  const mp=s.moniepoint||{}; set("setMpAcct",mp.account||""); document.getElementById("setMpPos").value=mp.pos===false?"0":"1"; set("setVideo",s.videoUrl||""); set("setAnthem",s.anthemUrl||""); set("setHeadDob",s.headDob||""); set("setHeadPhoto",s.headPhoto||""); const hpp=document.getElementById("setHeadPhotoPrev"); if(s.headPhoto){hpp.src=s.headPhoto;hpp.style.display="";}else{hpp.style.display="none";} const emg=s.emergency||{}; document.getElementById("setEmgOn").value=emg.on?"1":"0"; set("setEmgText",emg.text||""); set("setEmgStart",emg.start||""); set("setEmgEnd",emg.end||"");
 }
 function saveSettings(){
   db=DB.load();
@@ -1286,7 +1353,7 @@ function saveSettings(){
   if(document.getElementById("setPromote").checked&&g("setSession")!==oldSess){ promoteCore(); db=DB.load(); renderPupils(); document.getElementById("setPromote").checked=false; U.toast("Session changed - all pupils promoted automatically."); }
   db.school.bank={name:g("setBank"),number:g("setAcct"),holder:g("setHolder")};
   db.school.moniepoint={account:g("setMpAcct"),bank:"Moniepoint MFB",pos:document.getElementById("setMpPos").value==="1",monnifyKey:(db.school.moniepoint||{}).monnifyKey||""};
-  db.school.videoUrl=g("setVideo"); db.school.formFee=+String(g("setFormFee")).replace(/,/g,"")||0; db.school.headDob=g("setHeadDob"); db.school.headPhoto=g("setHeadPhoto"); db.school.emergency={on:document.getElementById("setEmgOn").value==="1",text:g("setEmgText")};
+  db.school.videoUrl=g("setVideo"); db.school.anthemUrl=g("setAnthem"); db.school.formFee=+String(g("setFormFee")).replace(/,/g,"")||0; db.school.headDob=g("setHeadDob"); db.school.headPhoto=g("setHeadPhoto"); db.school.emergency={on:document.getElementById("setEmgOn").value==="1",text:g("setEmgText"),start:g("setEmgStart"),end:g("setEmgEnd")};
   DB.save(db); document.querySelectorAll("[data-school-name]").forEach(e=>e.textContent=db.school.name);
   U.toast("Settings saved! Website updated too.");
 }
@@ -1442,7 +1509,7 @@ window.printTT=window.printAllTT=function(){
 };
 window.resetTT=function(){ db=DB.load(); db.timetable=null; DB.save(db); renderTT(); U.toast("Timetable reset to automatic."); };
 function __safe(f){ try{ f(); }catch(e){ console.error("boot step skipped:", e&&e.message); } }
-__safe(()=>{ renderOverview(); }); __safe(()=>{ renderRegs(); }); __safe(()=>{ renderApps(); }); __safe(()=>{ renderPupils(); }); __safe(()=>{ renderTeachers(); }); __safe(()=>{ renderDuty(); }); __safe(()=>{ renderResults(); }); __safe(()=>{ renderBest(); }); __safe(()=>{ renderAttendance(); }); __safe(()=>{ renderPromos(); }); __safe(()=>{ renderNE(); }); __safe(()=>{ renderMsgs(); }); __safe(()=>{ renderWA(); }); __safe(()=>{ renderNotices(); }); __safe(()=>{ Testimonials.adminList("tmList"); }); __safe(()=>{ renderPQ(); }); __safe(()=>{ renderClassPages(); }); __safe(()=>{ renderCal(); }); __safe(()=>{ renderTT(); }); __safe(()=>{ renderShopAdmin(); }); __safe(()=>{ renderRestock(); }); __safe(()=>{ renderLF(); }); __safe(()=>{ buildFeesGrid(); }); __safe(()=>{ ntPreview(); }); __safe(()=>{ renderExtras(); }); __safe(()=>{ IdleLogout.init(); });
+__safe(()=>{ renderOverview(); }); __safe(()=>{ renderRegs(); }); __safe(()=>{ renderApps(); }); __safe(()=>{ renderPupils(); }); __safe(()=>{ renderTeachers(); }); __safe(()=>{ renderDuty(); }); __safe(()=>{ renderResults(); }); __safe(()=>{ renderBest(); }); __safe(()=>{ renderAttendance(); }); __safe(()=>{ renderPromos(); }); __safe(()=>{ renderNE(); }); __safe(()=>{ renderMsgs(); }); __safe(()=>{ renderWA(); }); __safe(()=>{ renderNotices(); }); __safe(()=>{ renderMinutesA(); }); __safe(()=>{ Testimonials.adminList("tmList"); }); __safe(()=>{ renderPQ(); }); __safe(()=>{ renderClassPages(); }); __safe(()=>{ renderCal(); }); __safe(()=>{ renderTT(); }); __safe(()=>{ renderShopAdmin(); }); __safe(()=>{ renderRestock(); }); __safe(()=>{ renderLF(); }); __safe(()=>{ buildFeesGrid(); }); __safe(()=>{ ntPreview(); }); __safe(()=>{ renderExtras(); }); __safe(()=>{ renderJobApps(); }); __safe(()=>{ renderSupport(); }); __safe(()=>{ IdleLogout.init(); });
 /* ---- website extras ---- */
 function renderPTA(){
   db=DB.load(); db.pta=db.pta||[]; db.ptaLevy=db.ptaLevy||{amount:0};
@@ -1559,7 +1626,7 @@ function renderExtras(){ db=DB.load();
   document.getElementById("swPClass").value=sw.pupil.class||""; document.getElementById("swPWeek").value=sw.pupil.week||"";
   const t=db.ticker||{}; document.getElementById("tickOn").value=t.on?"1":"0"; document.getElementById("tickText").value=t.text||"";
   const ws=db.weekStrip||{on:true}; document.getElementById("weekOn").value=ws.on===false?"0":"1"; document.getElementById("weekNote").value=ws.note||"";
-  renderHW(); renderClaims(); renderSlots(); renderSG(); renderUniform(); renderOpenday(); renderReading(); renderMeetings(); renderAlumni(); renderExams(); renderHoliday(); renderVotes(); renderPTA(); renderSick(); renderTransport(); renderComments(); renderVols(); renderPtaMt();
+  renderHW(); renderClaims(); renderSlots(); renderSG(); renderUniform(); renderOpenday(); renderReading(); renderMeetings(); renderAlumni(); renderExams(); renderHoliday(); renderVotes(); renderPTA(); renderSick(); renderTransport(); renderComments(); renderVols(); renderPtaMt(); renderJobApps(); renderSupport();
   const od=db.openday||{}; document.getElementById("odDate").value=od.date||""; document.getElementById("odTime").value=od.time||"";
   document.getElementById("odTheme").value=od.theme||""; document.getElementById("odVenue").value=od.venue||"";
   const rd=db.reading||{}, bk=rd.book||{}, st=rd.story||{};

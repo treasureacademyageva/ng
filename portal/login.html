@@ -11,9 +11,9 @@
 <link rel="icon" href="../assets/img/logo.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../assets/css/main.css?v=20260919-23">
-<link rel="stylesheet" href="../assets/css/extra.css?v=20260919-23">
-<link rel="stylesheet" href="../assets/css/corporate.css?v=20260919-23">
+<link rel="stylesheet" href="../assets/css/main.css?v=20260919-31">
+<link rel="stylesheet" href="../assets/css/extra.css?v=20260919-31">
+<link rel="stylesheet" href="../assets/css/corporate.css?v=20260919-31">
 <style>
 .top-left{position:absolute;top:20px;left:20px;z-index:3;display:flex;gap:10px}
 .field label .caret{display:inline-block;width:2px;height:1em;background:var(--mint);vertical-align:-2px;animation:blink 1s infinite;margin-left:1px}
@@ -41,18 +41,25 @@
             <h1 data-school-name>Treasure Academy</h1>
             <p>School Portal — Login</p>
          </div>
+          <div id="sessCard"></div>
           <!-- single unified login: ID routes to pupil / teacher / admin -->
 
           <!-- UNIFIED LOGIN -->
           <form id="pupilForm" autocomplete="off">
             <div class="float-field"><input id="pReg" placeholder=" "><label data-tlabel="Phone Number (e.g. 0805 123 4567)"></label></div>
-            <div class="float-field"><input id="pPass" type="password" placeholder=" "><label data-tlabel="Password / PIN"></label><button type="button" class="eye" data-eye="pPass"></button></div>
+            <div class="float-field"><input id="pPass" type="password" placeholder=" "><label data-tlabel="Password / PIN"></label><button type="button" class="eye" data-eye="pPass" aria-label="Show or hide password"></button></div>
             <div class="remember-row">
               <label><input type="checkbox" id="rememberMe" checked> Remember this device</label>
               <span style="color:var(--muted);font-size:.78rem">Stays logged in until you logout</span>
            </div>
             <div class="treasure-box" id="loginTreasure" onclick="passTreasure('loginTreasure')"><span class="box">✓</span><span>Tap to verify you are human</span></div>
             <button class="btn btn-mint btn-block" type="submit">Login</button>
+            <div style="display:flex;justify-content:flex-end;margin-top:10px"><button type="button" class="link-btn" onclick="toggleFP()">Forgot password / PIN?</button></div>
+            <div id="fpCard" class="notice" style="display:none;margin-top:10px"><span class="dot" style="background:var(--sun)"></span><div style="flex:1"><b>Reset it on WhatsApp</b><br><small style="color:var(--muted)">We reply with your reset code during school hours.</small>
+              <div class="float-field" style="margin-top:8px"><input id="fpName" placeholder=" "><label>Your name</label></div>
+              <div class="float-field"><input id="fpId" placeholder=" " inputmode="tel"><label>Your login phone / staff ID</label></div>
+              <button type="button" class="btn btn-mint btn-sm" style="margin-top:8px" onclick="sendFP()">Send request on WhatsApp</button>
+            </div></div>
             <p style="text-align:center;margin-top:14px;font-size:.85rem;color:var(--muted)">First time here? Just enter your ID —<br>pupils without a password get setup automatically. Staff use Staff ID + PIN.</p>
             <p style="text-align:center;margin-top:8px;font-weight:600;font-size:.88rem">Not admitted yet? <button type="button" class="link-btn" style="font-size:.9rem" onclick="flip(true)">Register here</button></p>
             <div class="demo-box"><b>Demo</b> (tap to enter):<br>
@@ -93,10 +100,10 @@
             <div class="wstep" id="wstep2" style="display:none">
               <div class="form-grid">
                 <div class="field full"><label data-tlabel="Guardian 1 — Full Name *"></label><input required id="rG1Name" data-alpha></div>
-                <div class="field"><label data-tlabel="Guardian 1 Phone *"></label><div style="display:flex;gap:8px;align-items:stretch"><span style="display:inline-flex;align-items:center;padding:0 10px;border:1px solid var(--line);border-radius:10px;background:#F1F4F8;font-weight:800">+234</span><input required id="rG1Phone" data-phone maxlength="10" placeholder="801 234 5678" style="flex:1;min-width:0"><button type="button" class="icon-btn pick-contact" data-for="rG1Phone" title="Pick from phone contacts">Contacts</button></div></div>
+                <div class="field"><label data-tlabel="Guardian 1 Phone *"></label><div style="display:flex;gap:8px;align-items:stretch"><span style="display:inline-flex;align-items:center;padding:0 10px;border:1px solid var(--line);border-radius:10px;background:var(--white);font-weight:800">+234</span><input required id="rG1Phone" data-phone maxlength="10" placeholder="801 234 5678" style="flex:1;min-width:0"><button type="button" class="icon-btn pick-contact" data-for="rG1Phone" title="Pick from phone contacts">Contacts</button></div></div>
                 <div class="field"><label data-tlabel="Guardian 1 Gender *"></label><select required id="rG1Gender"><option value="">— Select —</option><option>Female</option><option>Male</option></select></div>
                 <div class="field full"><label data-tlabel="Guardian 2 — Full Name"></label><input id="rG2Name" data-alpha></div>
-                <div class="field"><label data-tlabel="Guardian 2 Phone"></label><div style="display:flex;gap:8px;align-items:stretch"><span style="display:inline-flex;align-items:center;padding:0 10px;border:1px solid var(--line);border-radius:10px;background:#F1F4F8;font-weight:800">+234</span><input id="rG2Phone" data-phone maxlength="10" placeholder="801 234 5678" style="flex:1;min-width:0"><button type="button" class="icon-btn pick-contact" data-for="rG2Phone" title="Pick from phone contacts">Contacts</button></div></div>
+                <div class="field"><label data-tlabel="Guardian 2 Phone"></label><div style="display:flex;gap:8px;align-items:stretch"><span style="display:inline-flex;align-items:center;padding:0 10px;border:1px solid var(--line);border-radius:10px;background:var(--white);font-weight:800">+234</span><input id="rG2Phone" data-phone maxlength="10" placeholder="801 234 5678" style="flex:1;min-width:0"><button type="button" class="icon-btn pick-contact" data-for="rG2Phone" title="Pick from phone contacts">Contacts</button></div></div>
                 <div class="field"><label data-tlabel="Guardian 2 Gender"></label><select id="rG2Gender"><option value="">—</option><option>Female</option><option>Male</option></select></div>
                 <div class="field"><label data-tlabel="Relationship to Ward *"></label><select required id="rRel"><option value="">— Select —</option><option>Mother</option><option>Father</option><option>Guardian</option><option>Other</option></select></div>
                 <div class="field"><label data-tlabel="Guardian Email"></label><input type="email" id="rEmail"></div>
@@ -148,15 +155,19 @@
 
 <div class="modal-bg" id="modalBg"><div class="modal" id="modalBox" style="max-width:480px"></div></div>
 <div id="toast"></div>
-<script src="../assets/js/store.js?v=20260919-23"></script>
-<script src="../assets/js/sync.js?v=20260919-23"></script>
-<script src="../assets/js/site.js?v=20260919-23"></script>
+<script src="../assets/js/store.js?v=20260919-31"></script>
+<script src="../assets/js/sync.js?v=20260919-31"></script>
+<script src="../assets/js/site.js?v=20260919-31"></script>
 <script>
 (function(){
-  /* already logged in on this device? go straight in */
+  /* batch24: already logged in? show who + Continue/Logout (demo switching) instead of bouncing away */
   const ex = Auth.get();
   if(ex && ex.role){
-    location.href = ex.role==="admin"?"admin.html":ex.role==="teacher"?"teacher.html":"pupil.html"; return;
+    const dest=ex.role==="admin"?"admin.html":ex.role==="teacher"?"teacher.html":"pupil.html";
+    const zc=document.getElementById("sessCard");
+    if(zc)zc.innerHTML=`<div class="notice"><span class="dot" style="background:var(--mint)"></span><div style="flex:1">Logged in as <b>${U.esc(ex.name||ex.refId||"")}</b> <span class="badge b-sky">${U.esc(ex.role||"")}</span><br><small style="color:var(--muted)">Trying another demo? Logout first.</small></div><div class="row-actions"><a class="icon-btn ok" href="${dest}">Continue</a> <button class="icon-btn" onclick="Auth.logout()">Logout</button></div></div>`;
+    const pf=document.getElementById("pupilForm"); if(pf)pf.style.display="none";
+    return;
   }
   const db0=DB.load();
   document.querySelectorAll("[data-school-name]").forEach(e=>e.textContent=db0.school.name);
@@ -195,6 +206,16 @@
     if(p&&!p.password){ checkRegNo(); U.toast("Demo pupil has no password yet — create one to enter."); return; }
     document.getElementById("pPass").value="1234"; U.toast("Entering demo portal..."); setTimeout(demoSubmit,350); };
   window.fillStaff=(role,id)=>{ document.getElementById("pReg").value=id; document.getElementById("pPass").value="1234"; U.toast("Entering staff demo..."); setTimeout(demoSubmit,350); };
+  /* batch25: password reset request goes straight to the school WhatsApp line */
+  window.toggleFP=function(){ var c=document.getElementById("fpCard"); if(c)c.style.display=(c.style.display==="none"||!c.style.display)?"flex":"none"; };
+  window.sendFP=function(){
+    var n=(document.getElementById("fpName").value||"").trim(), id=(document.getElementById("fpId").value||"").trim();
+    if(!n||!id){ U.toast("Enter your name and your login number first."); return; }
+    var school="Treasure Academy"; try{ school=DB.load().school.name||school; }catch(e){}
+    var msg="Hello "+school+", I forgot my portal password. Name: "+n+". My login number: "+id+". Please help me reset it. Thank you.";
+    window.open("https://wa.me/2349063932487?text="+encodeURIComponent(msg),"_blank");
+    U.toast("Opening WhatsApp... just press send.");
+  };
 
   /* side-panel generator */
   window.genSuggest=()=>{
@@ -265,8 +286,8 @@
       <div id="otpZone" style="display:none">
         <p style="text-align:center;font-weight:600;margin:14px 0 0">Enter the 4-digit code <span id="demoCode" style="color:var(--coral)"></span></p>
         <div class="otp-row"><input maxlength="1" inputmode="numeric"><input maxlength="1" inputmode="numeric"><input maxlength="1" inputmode="numeric"><input maxlength="1" inputmode="numeric"></div>
-        <div class="float-field"><input id="cPass1" type="password" placeholder=" "><label data-tlabel="New Password (min 4 chars)"></label><button type="button" class="eye" onclick="eyeIn('cPass1',this)"></button></div>
-        <div class="float-field"><input id="cPass2" type="password" placeholder=" "><label data-tlabel="Confirm Password"></label><button type="button" class="eye" onclick="eyeIn('cPass2',this)"></button></div>
+        <div class="float-field"><input id="cPass1" type="password" placeholder=" "><label data-tlabel="New Password (min 4 chars)"></label><button type="button" class="eye" aria-label="Show or hide password" onclick="eyeIn('cPass1',this)"></button></div>
+        <div class="float-field"><input id="cPass2" type="password" placeholder=" "><label data-tlabel="Confirm Password"></label><button type="button" class="eye" aria-label="Show or hide password" onclick="eyeIn('cPass2',this)"></button></div>
         <div style="display:flex;gap:8px;margin-bottom:12px"><button class="btn btn-white btn-sm" style="flex:1" onclick="suggestPw()">Suggest one for me</button></div>
         <button class="btn btn-mint btn-sm btn-block" onclick="activatePw()">Activate</button>
         <div id="actLoad" style="display:none"><div class="loading-bar"><i id="actBar"></i></div></div>
@@ -320,8 +341,8 @@
       <div id="fgStep2" style="display:none">
         <p style="text-align:center;font-weight:600">Enter the 4-digit code <span id="fDemoCode" style="color:var(--coral)"></span></p>
         <div class="otp-row"><input maxlength="1" inputmode="numeric"><input maxlength="1" inputmode="numeric"><input maxlength="1" inputmode="numeric"><input maxlength="1" inputmode="numeric"></div>
-        <div class="float-field"><input id="fPass1" type="password" placeholder=" "><label data-tlabel="New Password (min 4 chars)"></label><button type="button" class="eye" onclick="eyeIn('fPass1',this)"></button></div>
-        <div class="float-field"><input id="fPass2" type="password" placeholder=" "><label data-tlabel="Confirm Password"></label><button type="button" class="eye" onclick="eyeIn('fPass2',this)"></button></div>
+        <div class="float-field"><input id="fPass1" type="password" placeholder=" "><label data-tlabel="New Password (min 4 chars)"></label><button type="button" class="eye" aria-label="Show or hide password" onclick="eyeIn('fPass1',this)"></button></div>
+        <div class="float-field"><input id="fPass2" type="password" placeholder=" "><label data-tlabel="Confirm Password"></label><button type="button" class="eye" aria-label="Show or hide password" onclick="eyeIn('fPass2',this)"></button></div>
         <button class="btn btn-mint btn-sm btn-block" onclick="forgotReset()">Reset Password</button>
      </div>`);
     typeLabels(document.getElementById("modalBox"));

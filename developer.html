@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<style>#siteLoader{position:fixed;inset:0;z-index:1200;background:#fff;display:flex;flex-direction:column;gap:14px;align-items:center;justify-content:center;transition:opacity .4s}#siteLoader img{width:84px;height:84px;object-fit:contain}#siteLoader .spin{width:38px;height:38px;border-radius:50%;border:4px solid #FDF6D8;border-top-color:#0B7A37;animation:lspin .8s linear infinite}@keyframes lspin{to{transform:rotate(360deg)}}#siteLoader.done{opacity:0;pointer-events:none}</style>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Treasure Academy</title>
+<link rel="icon" href="assets/img/logo.jpg">
+<noscript><style>#siteLoader{display:none!important}</style></noscript>
+<script defer src="/_vercel/insights/script.js"></script>
+<style>
+:root{--bg:#0D1417;--panel:#141D21;--panel2:#18232A;--line:#24333B;--ink:#E8F0EC;--mut:#8FA8A0;--grn:#2FA05C;--sun:#D9A41F;--red:#E5485D}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:radial-gradient(1100px 500px at 80% -10%,#122019 0%,var(--bg) 55%);color:var(--ink);font:15px/1.55 ui-sans-serif,system-ui,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;min-height:100vh}
+.wrap{max-width:1060px;margin:0 auto;padding:26px 18px 60px}
+.top{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:22px}
+.top img{width:44px;height:44px;border-radius:12px}
+.top h1{font-size:1.15rem;font-weight:800;letter-spacing:.01em}
+.top small{display:block;color:var(--mut);font-weight:600;font-size:.78rem}
+.pill{margin-left:auto;background:var(--panel2);border:1px solid var(--line);color:var(--sun);font-weight:700;font-size:.75rem;padding:5px 10px;border-radius:99px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px 16px 14px}
+.panel h2{font-size:.8rem;text-transform:uppercase;letter-spacing:.09em;color:var(--mut);margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.panel h2 .dot{width:8px;height:8px;border-radius:50%;background:var(--grn);display:inline-block}
+.kv{display:flex;justify-content:space-between;gap:10px;padding:6px 0;border-bottom:1px dashed var(--line);font-size:.88rem}
+.kv:last-child{border-bottom:0}
+.kv b{font-weight:700;color:var(--ink);text-align:right;word-break:break-all}
+.kv span{color:var(--mut)}
+button{font:inherit;cursor:pointer;border-radius:10px;border:1px solid var(--line);background:var(--panel2);color:var(--ink);padding:9px 13px;font-weight:700;font-size:.85rem;transition:all .15s ease}
+button:hover{border-color:var(--grn);transform:translateY(-1px)}
+button:disabled{opacity:.45;cursor:not-allowed;transform:none}
+button.grn{background:#123B26;border-color:#1F5C39}
+button.red{background:#2A1216;border-color:#5C1F28;color:#FFB4B8}
+.row{display:flex;gap:8px;flex-wrap:wrap;margin-top:4px}
+.note{color:var(--mut);font-size:.8rem;margin-top:8px}
+.modules-empty{border:1.5px dashed var(--line);border-radius:12px;padding:22px;text-align:center;color:var(--mut);font-size:.88rem}
+pre.view{background:#0A1114;border:1px solid var(--line);border-radius:10px;padding:10px;max-height:200px;overflow:auto;font:12px/1.5 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;color:#B9D4C6;margin-top:8px;white-space:pre-wrap;word-break:break-all}
+/* gate */
+#dvGate{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
+.gate-card{width:min(400px,100%);background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:30px 26px;text-align:center;box-shadow:0 30px 80px rgba(0,0,0,.5)}
+.gate-card img{width:64px;height:64px;border-radius:16px;margin-bottom:12px}
+.gate-card h1{font-size:1.2rem;font-weight:800}
+.gate-card p{color:var(--mut);font-size:.85rem;margin:4px 0 18px}
+.gate-card input{width:100%;background:var(--panel2);border:1px solid var(--line);border-radius:10px;color:var(--ink);padding:12px 14px;font:inherit;margin-bottom:10px;outline:none}
+.gate-card input:focus{border-color:var(--grn)}
+#dvErr{color:var(--red);font-size:.82rem;min-height:1.2em;margin-bottom:8px;font-weight:700}
+.gate-foot{margin-top:16px;color:#5E776E;font-size:.72rem}
+.hide{display:none!important}
+/* toast */
+#dvToast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%) translateY(20px);background:#123B26;border:1px solid #1F5C39;color:#EAF6EE;font-weight:700;font-size:.85rem;padding:10px 16px;border-radius:12px;opacity:0;pointer-events:none;transition:all .25s ease;z-index:99}
+#dvToast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+</style>
+</head>
+<body>
+<div id="siteLoader"><img src="assets/img/logo.jpg" alt="Treasure Academy"><div class="spin"></div></div>
+
+<div id="dvGate">
+  <form class="gate-card" id="dvForm" autocomplete="off">
+    <img src="assets/img/logo.jpg" alt="">
+    <h1>Developer Console</h1>
+    <p>Treasure Academy &middot; internal access only</p>
+    <input id="dvPhone" inputmode="tel" placeholder="Phone number">
+    <input id="dvPass" type="password" placeholder="Password">
+    <div id="dvErr"></div>
+    <button class="grn" id="dvGo" style="width:100%" type="submit">Unlock Console</button>
+    <div class="gate-foot">Private area &middot; all actions are logged on this device</div>
+  </form>
+</div>
+
+<div class="wrap hide" id="dvConsole">
+  <div class="top">
+    <img src="assets/img/logo.jpg" alt="">
+    <div><h1>Developer Console</h1><small>Treasure Academy, Ageva &middot; internal tools</small></div>
+    <span class="pill" id="dvVer">build —</span>
+    <button id="dvOut">Logout</button>
+  </div>
+  <div class="grid">
+    <div class="panel"><h2><span class="dot"></span>Site Snapshot</h2><div id="dvSnap"></div></div>
+    <div class="panel"><h2><span class="dot"></span>Data &amp; Backup</h2>
+      <div class="row"><button class="grn" id="dvBak">Download backup</button><button id="dvCopy">Copy DB JSON</button></div>
+      <div class="row"><button id="dvRes">Restore from file</button><button class="red" id="dvReset">Reset demo data</button></div>
+      <input type="file" id="dvFile" accept="application/json,.json" class="hide">
+      <p class="note">Backup saves the whole school database as one JSON file. Restore replaces everything on this device.</p>
+    </div>
+    <div class="panel"><h2><span class="dot"></span>Storage Inspector</h2><div id="dvStore"></div></div>
+    <div class="panel"><h2><span class="dot"></span>Performance &amp; Cache</h2>
+      <div class="row"><button id="dvCache">Clear caches &amp; reload</button><button id="dvSw">Unregister service worker</button></div>
+      <p class="note" id="dvCacheNote"></p>
+    </div>
+    <div class="panel"><h2><span class="dot"></span>Session</h2><div id="dvSess"></div></div>
+    <div class="panel" style="grid-column:1/-1"><h2><span class="dot"></span>Developer Modules</h2>
+      <div class="modules-empty" id="dvModules">No modules moved here yet.<br>Features the school moves to the developer area will appear in this space.</div>
+    </div>
+  </div>
+</div>
+<div id="dvToast"></div>
+<script src="assets/js/store.js?v=20260919-31"></script>
+<script src="assets/js/sync.js?v=20260919-31"></script>
+<script>
+(function(){
+  "use strict";
+  var HASH = "3133076b53086ef8cc6a3f0ce07d2ab3fca6cb3dcbc8b245b32a4862048ce148";
+  var BUILD = "treasure-v31";
+  var GATE = "treasure_dev_gate", LOCK = "treasure_dev_lock";
+  var PAGES = 36;
+
+  function $(id){ return document.getElementById(id); }
+  function toast(m){ var t=$("dvToast"); t.textContent=m; t.classList.add("show"); clearTimeout(t._h); t._h=setTimeout(function(){ t.classList.remove("show"); },2600); }
+  function sha256(s){
+    if(!(window.crypto && crypto.subtle)) return Promise.reject(new Error("no-crypto"));
+    return crypto.subtle.digest("SHA-256", new TextEncoder().encode(s)).then(function(b){
+      return Array.prototype.map.call(new Uint8Array(b), function(x){ return ("0"+x.toString(16)).slice(-2); }).join("");
+    });
+  }
+  function kb(n){ return n<1024 ? n+" B" : (n/1024).toFixed(1)+" KB"; }
+  function db(){ try{ return DB.load(); }catch(e){ return null; } }
+
+  /* loader (self-managed: this page does not load corporate.css) */
+  function dropLoader(){ var l=$("siteLoader"); if(l){ l.classList.add("done"); setTimeout(function(){ if(l.parentNode) l.parentNode.removeChild(l); },500); } }
+
+  function showGate(){
+    $("dvGate").classList.remove("hide"); $("dvConsole").classList.add("hide");
+  }
+  function showConsole(){
+    $("dvGate").classList.add("hide"); $("dvConsole").classList.remove("hide");
+    fillSnap(); fillStore(); fillSess(); fillCache();
+    $("dvVer").textContent = "build " + BUILD;
+  }
+
+  /* ---- gate ---- */
+  $("dvForm").addEventListener("submit", function(e){
+    e.preventDefault();
+    var lock = 0; try{ lock = +(sessionStorage.getItem(LOCK)||0); }catch(err){}
+    if(lock && Date.now() < lock){ $("dvErr").textContent = "Too many tries. Wait " + Math.ceil((lock-Date.now())/1000) + "s."; return; }
+    var ph = $("dvPhone").value.replace(/[\s-]/g,""), pw = $("dvPass").value;
+    if(!ph || !pw){ $("dvErr").textContent = "Enter both fields."; return; }
+    $("dvGo").disabled = true;
+    sha256(ph+"|"+pw).then(function(h){
+      $("dvGo").disabled = false;
+      if(h === HASH){
+        try{ sessionStorage.removeItem(LOCK); sessionStorage.setItem(GATE, String(Date.now())); }catch(err){}
+        $("dvErr").textContent = ""; $("dvPass").value = "";
+        showConsole(); toast("Welcome back, Developer.");
+      }else{
+        var tries = 0; try{ tries = +(sessionStorage.getItem("treasure_dev_tries")||0)+1; sessionStorage.setItem("treasure_dev_tries",String(tries)); }catch(err){}
+        $("dvErr").textContent = "Wrong phone or password.";
+        if(tries >= 5){ try{ sessionStorage.setItem(LOCK, String(Date.now()+60000)); sessionStorage.setItem("treasure_dev_tries","0"); }catch(err){} $("dvErr").textContent = "Locked for 60 seconds."; }
+      }
+    }).catch(function(){ $("dvGo").disabled=false; $("dvErr").textContent="This browser cannot verify the password (no crypto)."; });
+  });
+  $("dvOut").addEventListener("click", function(){ try{ sessionStorage.removeItem(GATE); }catch(e){} showGate(); toast("Logged out."); });
+
+  /* ---- snapshot ---- */
+  function fillSnap(){
+    var d = db(), raw = ""; try{ raw = localStorage.getItem("treasure_db_v5")||""; }catch(e){}
+    var s = (d && d.school) || {};
+    var rows = [
+      ["Pages on site", PAGES],
+      ["Database size", raw ? kb(raw.length) : "—"],
+      ["School term", (s.term||"—") + " · " + (s.session||"—")],
+      ["Pupils / staff", ((d&&d.pupils||[]).length) + " / " + ((d&&d.teachers||[]).length)],
+      ["Online", navigator.onLine ? "yes" : "offline"],
+      ["Screen", screen.width + "×" + screen.height],
+      ["Browser", (navigator.userAgent||"").split(") ").pop().slice(0,40)]
+    ];
+    $("dvSnap").innerHTML = rows.map(function(r){ return '<div class="kv"><span>'+r[0]+'</span><b>'+(r[1]==null?"—":String(r[1]))+"</b></div>"; }).join("");
+  }
+
+  /* ---- storage inspector ---- */
+  function fillStore(){
+    var keys=[]; for(var i=0;i<localStorage.length;i++) keys.push(localStorage.key(i));
+    keys.sort();
+    $("dvStore").innerHTML = keys.map(function(k){
+      var v=""; try{ v=localStorage.getItem(k)||""; }catch(e){}
+      return '<div class="kv"><span>'+k+'</span><b><button style="padding:3px 9px;font-size:.72rem" data-k="'+k+'">view · '+kb(v.length)+"</button></b></div>";
+    }).join("") || '<p class="note">Storage is empty.</p>';
+    $("dvStore").querySelectorAll("button[data-k]").forEach(function(b){
+      b.addEventListener("click", function(){
+        var old = $("dvStore").querySelector("pre.view"); if(old) old.remove();
+        var pre = document.createElement("pre"); pre.className = "view";
+        var v=""; try{ v=localStorage.getItem(b.dataset.k)||""; }catch(e){}
+        pre.textContent = v.length > 1200 ? v.slice(0,1200)+"\n… (truncated)" : v;
+        b.closest(".panel").appendChild(pre);
+      });
+    });
+  }
+
+  /* ---- data tools ---- */
+  $("dvBak").addEventListener("click", function(){
+    var d = db(); if(!d){ toast("Could not read the database."); return; }
+    var blob = new Blob([JSON.stringify(d,null,2)], {type:"application/json"});
+    var a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = "treasure-backup-" + new Date().toISOString().slice(0,10) + ".json";
+    document.body.appendChild(a); a.click(); a.remove();
+    toast("Backup downloaded.");
+  });
+  $("dvCopy").addEventListener("click", function(){
+    var t = JSON.stringify(db(),null,0);
+    if(navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(t).then(function(){ toast("DB JSON copied."); }, function(){ toast("Copy failed."); });
+    else toast("Copy not supported here.");
+  });
+  $("dvRes").addEventListener("click", function(){ $("dvFile").click(); });
+  $("dvFile").addEventListener("change", function(){
+    var f = this.files && this.files[0]; if(!f) return;
+    var r = new FileReader();
+    r.onload = function(){
+      try{
+        var d = JSON.parse(String(r.result));
+        if(!d || !d.school) throw new Error("bad shape");
+        localStorage.setItem("treasure_db_v5", JSON.stringify(d));
+        toast("Restored. Reloading…"); setTimeout(function(){ location.reload(); }, 700);
+      }catch(e){ toast("That file is not a valid backup."); }
+    };
+    r.readAsText(f);
+  });
+  $("dvReset").addEventListener("click", function(){
+    if(!confirm("Reset ALL school data on this device back to the demo seed?")) return;
+    if(!confirm("Last chance — this cannot be undone. Reset now?")) return;
+    try{ localStorage.removeItem("treasure_db_v5"); }catch(e){}
+    toast("Reset. Reloading…"); setTimeout(function(){ location.reload(); }, 700);
+  });
+
+  /* ---- cache tools ---- */
+  function fillCache(){ $("dvCacheNote").textContent = "Service worker build: " + BUILD + " · page asset version: 20260919-31."; }
+  $("dvCache").addEventListener("click", function(){
+    if(!(window.caches && caches.keys)){ toast("Cache API not available."); return; }
+    caches.keys().then(function(ks){ return Promise.all(ks.map(function(k){ return caches.delete(k); })); })
+      .then(function(){ toast("Caches cleared. Reloading…"); setTimeout(function(){ location.reload(); }, 700); })
+      .catch(function(){ toast("Could not clear caches."); });
+  });
+  $("dvSw").addEventListener("click", function(){
+    if(!(navigator.serviceWorker && navigator.serviceWorker.getRegistrations)){ toast("No service worker here."); return; }
+    navigator.serviceWorker.getRegistrations().then(function(rs){
+      return Promise.all(rs.map(function(r){ return r.unregister(); }));
+    }).then(function(n){ toast(n.length + " service worker(s) removed."); }).catch(function(){ toast("Could not unregister."); });
+  });
+
+  /* ---- session ---- */
+  function fillSess(){
+    var t = "this session";
+    try{ t = sessionStorage.getItem(GATE); if(t) t = "opened " + new Date(+t).toLocaleTimeString(); }catch(e){}
+    $("dvSess").innerHTML = '<div class="kv"><span>Console</span><b>'+t+"</b></div><div class=\"kv\"><span>Device</span><b>"+(navigator.platform||"unknown")+"</b></div>";
+  }
+
+  /* ---- boot ---- */
+  try{ if(sessionStorage.getItem(GATE)) showConsole(); else showGate(); }catch(e){ showGate(); }
+  if(document.readyState === "complete") dropLoader(); else addEventListener("load", dropLoader);
+  setTimeout(dropLoader, 2500); /* safety: never trap the page behind the loader */
+})();
+</script>
+</body>
+</html>

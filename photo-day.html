@@ -11,20 +11,20 @@
 <link rel="icon" href="assets/img/logo.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/main.css?v=20260919-23">
-<link rel="stylesheet" href="assets/css/extra.css?v=20260919-23">
-<link rel="stylesheet" href="assets/css/corporate.css?v=20260919-23">
+<link rel="stylesheet" href="assets/css/main.css?v=20260919-31">
+<link rel="stylesheet" href="assets/css/extra.css?v=20260919-31">
+<link rel="stylesheet" href="assets/css/corporate.css?v=20260919-31">
 <noscript><style>#siteLoader{display:none!important}</style></noscript>
 <script defer src="/_vercel/insights/script.js"></script>
 </head>
 <body data-page="photoday" data-assets="assets/">
 <div id="siteLoader"><img src="assets/img/logo.jpg" alt="Treasure Academy"><div class="spin"></div></div>
 <div class="topbar"><div class="container">
-  <div class="tb-contact"><span><b>Admissions</b> <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg><a data-school-phone href="tel:"></a></span><span class="tb-sep">•</span><span data-school-email></span></div>
+  <div class="tb-contact"><span><b>Admissions</b> <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg><a data-school-phone aria-label="Call the school" href="tel:"></a></span><span class="tb-sep">•</span><span data-school-email></span></div>
   <div class="tb-right"><span>Ageva, Okene, Kogi State</span><a class="portal-link" href="portal/login.html">Portal Login</a></div>
 </div></div>
 <nav class="navbar"><div class="container">
-  <a class="logo" href="index.html">
+  <a class="logo" aria-label="Treasure Academy — go to homepage" href="index.html">
     <img class="mark-img" src="assets/img/logo.jpg" alt="Treasure Academy logo">
     </a>
   <div class="brand-name"><span data-school-name></span><small>Creche to Primary 6</small></div>
@@ -51,12 +51,26 @@
     <div style="margin-top:12px"><button class="btn btn-mint" onclick="bookSlot()">Book Slot</button></div>
     <div id="pdDone" style="margin-top:12px"></div>
   </div>
+  <div class="track-card clip-up" style="margin-top:18px">
+    <h3 style="margin-top:0">Order Photo Packages</h3>
+    <p class="sub" style="margin-top:0">Tick a package and place your order, then pay by <b>bank transfer</b> to the school account. We confirm your payment and the prints are ready on photo day.</p>
+    <div id="pkgGrid" class="slot-grid"></div>
+    <div class="form-grid" style="margin-top:12px">
+      <div class="field"><label>Package</label><select id="poPkg"></select></div>
+      <div class="field"><label>Parent name *</label><input id="poBuyer" placeholder="Your name"></div>
+      <div class="field"><label>Pupil name *</label><input id="poName" placeholder="Child's full name"></div>
+      <div class="field"><label>Class *</label><input id="poClass" placeholder="e.g. Primary 3"></div>
+      <div class="field"><label>Parent phone *</label><input id="poPhone" inputmode="tel" placeholder="080..."></div>
+    </div>
+    <div style="margin-top:12px"><button class="btn btn-mint" onclick="placePhotoOrder()">Place Order</button></div>
+    <div id="poDone" style="margin-top:12px"></div>
+  </div>
 </div></section>
 <footer id="siteFooter"></footer>
 <div id="toast"></div>
-<script src="assets/js/store.js?v=20260919-23"></script>
-<script src="assets/js/sync.js?v=20260919-23"></script>
-<script src="assets/js/site.js?v=20260919-23"></script>
+<script src="assets/js/store.js?v=20260919-31"></script>
+<script src="assets/js/sync.js?v=20260919-31"></script>
+<script src="assets/js/site.js?v=20260919-31"></script>
 <script>
 (function(){
   let picked = "";
@@ -94,7 +108,39 @@
     document.getElementById("pdPhone").value = ""; document.getElementById("pdSlot").value = "";
     render(); U.toast("Photo slot booked!");
   };
+  /* batch25: photo packages — orders land in the admin Shop & Orders list (pay by bank transfer) */
+  var PKGS=[
+    {id:"P1",name:"Single Portrait — 2 prints",price:3000},
+    {id:"P2",name:"With Siblings — 4 prints",price:5000},
+    {id:"P3",name:"Full Family Set — 8 prints + digital copy",price:9000}
+  ];
+  function renderPkgs(){
+    var sel=document.getElementById("poPkg");
+    sel.innerHTML=PKGS.map(p=>`<option value="${p.id}">${U.esc(p.name)} — ${U.naira(p.price)}</option>`).join("");
+    document.getElementById("pkgGrid").innerHTML=PKGS.map(p=>`<div class="slot" style="cursor:pointer" onclick="pickPkg('${p.id}')"><b>${U.naira(p.price)}</b><br><small>${U.esc(p.name)}</small></div>`).join("");
+  }
+  window.pickPkg=function(id){
+    document.getElementById("poPkg").value=id;
+    document.querySelectorAll("#pkgGrid .slot").forEach(function(el,i){ el.classList.toggle("picked",PKGS[i].id===id); });
+  };
+  window.placePhotoOrder=function(){
+    var p=PKGS.find(function(x){ return x.id===document.getElementById("poPkg").value; })||PKGS[0];
+    var buyer=document.getElementById("poBuyer").value.trim(), name=document.getElementById("poName").value.trim(),
+        cls=document.getElementById("poClass").value.trim(), phone=document.getElementById("poPhone").value.trim();
+    if(!buyer||!name||!cls||!phone){ U.toast("Please fill parent name, pupil name, class and phone."); return; }
+    var d=DB.load(); d.orders=d.orders||[];
+    var id="ORD"+String(d.seq.order++).padStart(4,"0");
+    d.orders.unshift({id:id,buyer:buyer,phone:phone,pupil:name,pclass:cls,method:"Bank transfer to school account",
+      items:[{id:p.id,name:"Photo Day — "+p.name,price:p.price,qty:1}],total:p.price,status:"Pending",date:U.todayStr()});
+    DB.save(d);
+    document.getElementById("poDone").innerHTML=`<div class="notice"><span class="dot" style="background:var(--mint)"></span><div style="flex:1"><b>Order ${id} placed!</b> ${U.esc(p.name)} for <b>${U.esc(name)}</b> (${U.esc(cls)}) — total <b>${U.naira(p.price)}</b>.<br><small style="color:var(--muted)">Pay by bank transfer to the school account below, then send the receipt to the school WhatsApp. Your order ref is <b>${id}</b>.</small><div style="margin-top:8px" id="poBankBox"></div></div></div>`;
+    try{ document.getElementById("poBankBox").innerHTML=U.payAccountsHTML(d); }catch(e){}
+    document.getElementById("poBuyer").value=""; document.getElementById("poName").value="";
+    document.getElementById("poClass").value=""; document.getElementById("poPhone").value="";
+    renderPkgs(); U.toast("Photo order placed \u2014 ref "+id);
+  };
   render();
+  renderPkgs();
 })();
 </script>
 </body>

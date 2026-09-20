@@ -27,7 +27,7 @@ const SCHOOL_DEFAULTS = {
   headDob: "",
   gradDate: "2027-07-23",
   formFee: 5000,
-  emergency: {on:false, text:""},
+  emergency: {on:false, text:"", start:"", end:""},
   photoWeek: {src:"", cap:""},
   fees: {Creche:30000,"Pre-Nursery":25000,"Nursery 1":25000,"Nursery 2":25000,"Primary 1":30000,"Primary 2":30000,"Primary 3":30000,"Primary 4":35000,"Primary 5":35000,"Primary 6":35000}
 };
@@ -341,6 +341,11 @@ const DB = {
     if(!db.rsvps) db.rsvps = [];
     if(!db.reading) db.reading = seedDB().reading;
     if(!db.meetings) db.meetings = seedDB().meetings;
+    if(!db.jobApps) db.jobApps = [];
+    if(!db.supportPledges) db.supportPledges = [
+      {id:"SP1",name:"Blessing O.",amount:20000,msg:"For the library books. Once a Treasure pupil, always Treasure!",date:"2026-09-18",status:"Approved"},
+      {id:"SP2",name:"Anonymous well-wisher",amount:5000,msg:"For classroom fans. God bless the children.",date:"2026-09-19",status:"Approved"}
+    ];
     if(!db.alumni) db.alumni = seedDB().alumni;
     if(!db.exams) db.exams = seedDB().exams;
     if(!db.holiday) db.holiday = seedDB().holiday;
@@ -381,6 +386,8 @@ const DB = {
     if(!db.classPages) db.classPages = seedDB().classPages;
     if(!db.shopItems) db.shopItems = seedDB().shopItems;
     if(!db.school.emergency) db.school.emergency = {on:false,text:""};
+    if(db.school.emergency.start===undefined) db.school.emergency.start="";
+    if(db.school.emergency.end===undefined) db.school.emergency.end="";
     if(!db.timetables) db.timetables = {};
     if(!db.calendar) db.calendar = seedDB().calendar;
     db.calendar=(db.calendar||[]).filter(c=>c.date>=U.todayStr());

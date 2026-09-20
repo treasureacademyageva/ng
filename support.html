@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<style>#siteLoader{position:fixed;inset:0;z-index:1200;background:#fff;display:flex;flex-direction:column;gap:14px;align-items:center;justify-content:center;transition:opacity .4s}#siteLoader img{width:84px;height:84px;object-fit:contain}#siteLoader .spin{width:38px;height:38px;border-radius:50%;border:4px solid #FDF6D8;border-top-color:#0B7A37;animation:lspin .8s linear infinite}@keyframes lspin{to{transform:rotate(360deg)}}#siteLoader.done{opacity:0;pointer-events:none}</style>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Support Us — Treasure Academy, Ageva</title>
+<link rel="icon" href="assets/img/logo.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/main.css?v=20260919-31">
+<link rel="stylesheet" href="assets/css/extra.css?v=20260919-31">
+<link rel="stylesheet" href="assets/css/corporate.css?v=20260919-31">
+<noscript><style>#siteLoader{display:none!important}</style></noscript>
+<script defer src="/_vercel/insights/script.js"></script>
+</head>
+<body data-page="support" data-assets="assets/">
+<div id="siteLoader"><img src="assets/img/logo.jpg" alt="Treasure Academy"><div class="spin"></div></div>
+<div class="topbar"><div class="container">
+  <div class="tb-contact"><span><b>Admissions</b> <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg><a data-school-phone aria-label="Call the school" href="tel:"></a></span><span class="tb-sep">•</span><span data-school-email></span></div>
+  <div class="tb-right"><span>Ageva, Okene, Kogi State</span><a class="portal-link" href="portal/login.html">Portal Login</a></div>
+</div></div>
+<nav class="navbar"><div class="container">
+  <a class="logo" aria-label="Treasure Academy — go to homepage" href="index.html">
+    <img class="mark-img" src="assets/img/logo.jpg" alt="Treasure Academy logo">
+    </a>
+  <div class="brand-name"><span data-school-name></span><small>Creche to Primary 6</small></div>
+  <div class="nav-links" id="navLinks"><div id="mainNav" style="display:contents"><a href="index.html">Home</a><a href="news.html">News/Event</a><a href="about.html">About Us</a><a href="contact.html">Contact Us</a><a href="portal/login.html" class="btn btn-mint btn-sm" style="margin-left:6px">Login/Register</a></div></div>
+</div></nav>
+<div class="page-hero">
+  <div class="container">
+    <span class="sec-tag">Give Back</span>
+    <h1>Support Your School</h1>
+    <p>Alumni, parents and friends — every pledge builds something the children touch every day.</p>
+  </div>
+</div>
+<section><div class="container">
+  <div class="mv-grid">
+    <div class="mv-card clip-up" style="background:var(--sun-soft)"><h3>📚 Library Books</h3><p>More storybooks and textbooks for the library pupils borrow home every Friday.</p></div>
+    <div class="mv-card clip-up" style="background:var(--sky-soft)"><h3>🌀 Classroom Fans</h3><p>Ceiling fans so our hot afternoons never stop a lesson.</p></div>
+    <div class="mv-card clip-up" style="background:var(--mint-soft)"><h3>🪑 Pupil Benches</h3><p>Replacing old desks so every child writes comfortably.</p></div>
+    <div class="mv-card clip-up" style="background:var(--coral-soft)"><h3>⚽ Sports Kits</h3><p>Jerseys and a football for inter-house sports.</p></div>
+  </div>
+
+  <div class="track-card clip-up" style="max-width:680px;margin:26px auto 8px">
+    <h3 style="margin-top:0">Make a Pledge</h3>
+    <p class="sub" style="margin-top:0">Pledge any amount, pay by <b>bank transfer</b> to the school account below, and send the receipt to the school WhatsApp. Every pledge is announced on the thank-you wall (or kept anonymous — your choice).</p>
+    <div class="form-grid">
+      <div class="field"><label>Your name *</label><input id="spName" placeholder="Name or write Anonymous"></div>
+      <div class="field"><label>Phone (optional)</label><input id="spPhone" inputmode="tel" placeholder="080... so we can say thank you"></div>
+      <div class="field"><label>Amount (₦) *</label><input id="spAmount" inputmode="numeric" placeholder="e.g. 10000"></div>
+      <div class="field"><label>For which project?</label><select id="spProject"><option>General support</option><option>Library books</option><option>Classroom fans</option><option>Pupil benches</option><option>Sports kits</option></select></div>
+      <div class="field full"><label>Message (optional)</label><input id="spMsg" placeholder="A word for the children..."></div>
+    </div>
+    <div style="margin-top:10px"><button class="btn btn-mint" onclick="pledgeNow()">Send My Pledge</button></div>
+    <div id="spDone" style="margin-top:12px"></div>
+  </div>
+  <div class="track-card clip-up no-print" style="max-width:680px;margin:0 auto 26px">
+    <h3 style="margin-top:0">School Bank Account</h3>
+    <div id="bankBox"></div>
+  </div>
+
+  <div class="sec-head clip-up"><span class="sec-tag">Gratitude</span><h2>Thank-You Wall</h2><p>Our honoured supporters — confirmed pledges only.</p></div>
+  <div class="stars-week" id="thanksWall"></div>
+</div></section>
+<footer id="siteFooter"></footer>
+<div id="toast"></div>
+<script src="assets/js/store.js?v=20260919-31"></script>
+<script src="assets/js/sync.js?v=20260919-31"></script>
+<script src="assets/js/site.js?v=20260919-31"></script>
+<script>
+(function(){
+  function wall(){
+    const list=(DB.load().supportPledges||[]).filter(p=>p.status==="Approved");
+    document.getElementById("thanksWall").innerHTML=list.length?list.map(p=>`
+      <div class="star-card clip-up"><div class="avatar-big">${U.initials(p.name)}</div>
+        <span class="badge b-sun">${U.naira(p.amount)}</span>
+        <h3>${U.esc(p.name)}</h3>
+        <p style="margin:8px 0 0;font-size:.9rem">${U.esc(p.msg||"Thank you for giving!")}</p>
+      </div>`).join(""):'<div class="empty">Be the first on our thank-you wall — pledge today.</div>';
+  }
+  window.pledgeNow=function(){
+    const g=id=>document.getElementById(id).value.trim();
+    const amt=+String(g("spAmount")||"").replace(/[, ]/g,"");
+    let name=g("spName");
+    if(!name){ U.toast("Tell us your name — or write Anonymous."); return; }
+    if(!amt||amt<100){ U.toast("Enter a valid amount (from ₦100)."); return; }
+    const d=DB.load(); d.supportPledges=d.supportPledges||[];
+    d.supportPledges.unshift({id:"SP"+Date.now(),name:name,phone:g("spPhone"),amount:amt,msg:g("spMsg")+" • "+document.getElementById("spProject").value,date:U.todayStr(),status:"Pending"});
+    DB.save(d);
+    document.getElementById("spDone").innerHTML=`<div class="notice"><span class="dot" style="background:var(--mint)"></span><div style="flex:1"><b>Pledge received — thank you, ${U.esc(name)}!</b><br><small style="color:var(--muted)">Now pay ${U.naira(amt)} by bank transfer to the school account below and send the receipt on WhatsApp. It appears on the thank-you wall once confirmed.</small><div style="margin-top:8px" id="spBank"></div></div></div>`;
+    try{ document.getElementById("spBank").innerHTML=U.payAccountsHTML(d); }catch(e){}
+    ["spName","spPhone","spAmount","spMsg"].forEach(id=>document.getElementById(id).value="");
+    U.toast("Pledge recorded. God bless you!");
+  };
+  const bb=document.getElementById("bankBox"); try{ if(bb) bb.innerHTML=U.payAccountsHTML(DB.load()); }catch(e){}
+  wall();
+})();
+</script>
+</body>
+</html>

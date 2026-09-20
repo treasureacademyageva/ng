@@ -7,7 +7,8 @@
 <meta http-equiv="Expires" content="0">
 <style>#siteLoader{position:fixed;inset:0;z-index:1200;background:#fff;display:flex;flex-direction:column;gap:14px;align-items:center;justify-content:center;transition:opacity .4s}#siteLoader img{width:84px;height:84px;object-fit:contain}#siteLoader .spin{width:38px;height:38px;border-radius:50%;border:4px solid #FDF6D8;border-top-color:#0B7A37;animation:lspin .8s linear infinite}@keyframes lspin{to{transform:rotate(360deg)}}#siteLoader.done{opacity:0;pointer-events:none}</style>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Open Day — Treasure Academy, Ageva</title>
+<style>@media print{#siteLoader,.topbar,.navbar,.motto-ribbon,.page-hero,#siteFooter,#toast,.no-print{display:none!important}body{background:#fff}section{padding:8px 0}}</style>
+<title>School Fees — Treasure Academy, Ageva</title>
 <link rel="icon" href="assets/img/logo.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -17,7 +18,7 @@
 <noscript><style>#siteLoader{display:none!important}</style></noscript>
 <script defer src="/_vercel/insights/script.js"></script>
 </head>
-<body data-page="openday" data-assets="assets/">
+<body data-page="fees" data-assets="assets/">
 <div id="siteLoader"><img src="assets/img/logo.jpg" alt="Treasure Academy"><div class="spin"></div></div>
 <div class="topbar"><div class="container">
   <div class="tb-contact"><span><b>Admissions</b> <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg><a data-school-phone aria-label="Call the school" href="tel:"></a></span><span class="tb-sep">•</span><span data-school-email></span></div>
@@ -32,25 +33,23 @@
 </div></nav>
 <div class="page-hero">
   <div class="container">
-    <span class="sec-tag">Visit Us</span>
-    <h1>Open Day</h1>
-    <p>Tour our classrooms, meet the teachers, and see why parents trust Treasure Academy.</p>
+    <span class="sec-tag">Fees</span>
+    <h1>School Fees Per Class</h1>
+    <p id="feeTermSub">Every payment is by bank transfer to the school account below. No cash, no agents.</p>
   </div>
 </div>
-<section><div class="container" style="max-width:760px">
-  <img class="page-banner" src="assets/img/openday-banner.png" alt="Parents touring Treasure Academy on open day">
-  <div class="track-card clip-up" id="odCard"></div>
-  <div class="track-card clip-up">
-    <h3 style="margin-top:0">Reserve your seat (free)</h3>
-    <div class="form-grid">
-      <div class="field"><label>Your name *</label><input id="rsvName" placeholder="Parent name"></div>
-      <div class="field"><label>Phone *</label><input id="rsvPhone" inputmode="tel" placeholder="080..."></div>
-      <div class="field"><label>How many children?</label><input id="rsvKids" type="number" min="1" value="1"></div>
-      <div class="field"><label>Class interested in</label><input id="rsvClass" placeholder="e.g. Nursery 1"></div>
-    </div>
-    <div style="margin-top:12px"><button class="btn btn-mint" onclick="sendRSVP()">Reserve Seat</button></div>
-    <div id="rsvDone" style="margin-top:10px"></div>
+<section><div class="container">
+  <div class="notice"><span class="dot" style="background:var(--sun)"></span><div style="flex:1"><b>How to pay</b><br><small style="color:var(--muted)">Transfer the exact amount to the school account, then send the receipt to the school WhatsApp or bring the print-out to the office. Instalments are allowed — talk to the headmistress first. Keep every receipt.</small></div></div>
+  <div class="track-card clip-up" style="overflow-x:auto">
+    <h3 style="margin-top:0" id="feeTermHead">Fees for the current term</h3>
+    <table class="tbl fee-tbl" style="width:100%"><thead><tr><th>Class</th><th>Fees per term</th></tr></thead><tbody id="feeRows"></tbody></table>
+    <p class="sub" id="feeExtra" style="margin-bottom:0"></p>
   </div>
+  <div class="track-card clip-up no-print" style="margin-top:16px">
+    <h3 style="margin-top:0">School Bank Account</h3>
+    <div id="bankBox"></div>
+  </div>
+  <div class="no-print" style="text-align:center;margin:20px 0 8px"><button class="btn btn-mint" onclick="window.print()">Print this fees sheet</button> <a class="btn btn-white" href="contact.html">Ask a question</a></div>
 </div></section>
 <footer id="siteFooter"></footer>
 <div id="toast"></div>
@@ -59,23 +58,15 @@
 <script src="assets/js/site.js?v=20260919-31"></script>
 <script>
 (function(){
-  const db = DB.load(), od = db.openday||{};
-  document.getElementById("odCard").innerHTML = od.date ? `
-    <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap"><span class="badge b-green">${U.prettyDate(od.date)}</span><span class="badge b-sun">${U.esc(od.time||"")}</span></div>
-    <h3 style="margin:10px 0 4px">${U.esc(od.theme||"Open Day")}</h3>
-    <p class="sub" style="margin:0">Venue: ${U.esc(od.venue||"School compound")}</p>`
-    : '<div class="empty">Next open day date coming soon.</div>';
-  window.sendRSVP = function(){
-    const name = document.getElementById("rsvName").value.trim();
-    const phone = document.getElementById("rsvPhone").value.trim();
-    if(!name || !phone){ U.toast("Please add your name and phone number."); return; }
-    const d = DB.load(); d.rsvps = d.rsvps||[];
-    d.rsvps.unshift({id:"RS"+Date.now(), name, phone, kids:document.getElementById("rsvKids").value||"1", cls:document.getElementById("rsvClass").value.trim(), date:U.todayStr()});
-    DB.save(d);
-    document.getElementById("rsvDone").innerHTML = '<p style="color:var(--green);font-weight:700">Seat reserved! We look forward to seeing you, ' + U.esc(name) + '.</p>';
-    document.getElementById("rsvName").value = ""; document.getElementById("rsvPhone").value = "";
-    U.toast("RSVP received!");
-  };
+  const db=DB.load(), s=db.school||{}, fees=s.fees||{};
+  const cls=(typeof CLASSES!=="undefined"&&CLASSES.length?CLASSES:Object.keys(fees)).filter(c=>fees[c]);
+  document.getElementById("feeTermHead").textContent="Fees for "+(s.term||"this term")+" — "+(s.session||"");
+  document.getElementById("feeRows").innerHTML=cls.length?cls.map(c=>`<tr><td>${U.esc(c)}</td><td><b>${U.naira(fees[c])}</b></td></tr>`).join(""):'<tr><td colspan="2"><div class="empty">Fees for the new term are being updated — please check back or call the office.</div></td></tr>';
+  const extras=[];
+  if(s.formFee) extras.push("Admission form: <b>"+U.naira(s.formFee)+"</b> (paid on the Admissions page)");
+  extras.push("Books, uniform and shop items: see the <a href='uniform.html'>Uniform List</a> and the <a href='shop.html'>Shop</a>.");
+  document.getElementById("feeExtra").innerHTML=extras.join("<br>");
+  const bb=document.getElementById("bankBox"); if(bb) bb.innerHTML=U.payAccountsHTML(db);
 })();
 </script>
 </body>
