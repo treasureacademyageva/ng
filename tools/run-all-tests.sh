@@ -9,7 +9,7 @@ cd "$(dirname "$0")/.." || exit 1
 TESTS="tools/tests"
 
 total_pass=0; total_fail=0; bad=""
-for n in 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21; do
+for n in 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22; do
   f="$TESTS/verify-batch$n.js"
   [ -f "$f" ] || continue
   out=$(node "$f" 2>&1); code=$?

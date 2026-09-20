@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<style>#siteLoader{position:fixed;inset:0;z-index:1200;background:#fff;display:flex;flex-direction:column;gap:14px;align-items:center;justify-content:center;transition:opacity .4s}#siteLoader img{width:84px;height:84px;object-fit:contain}#siteLoader .spin{width:38px;height:38px;border-radius:50%;border:4px solid #FDF6D8;border-top-color:#0B7A37;animation:lspin .8s linear infinite}@keyframes lspin{to{transform:rotate(360deg)}}#siteLoader.done{opacity:0;pointer-events:none}</style>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Paid Admission Form — Treasure Academy, Ageva</title>
+<link rel="icon" href="assets/img/logo.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/main.css?v=20260919-22">
+<link rel="stylesheet" href="assets/css/extra.css?v=20260919-22">
+<link rel="stylesheet" href="assets/css/corporate.css?v=20260919-22">
+<style>
+@media print{
+  .topbar,.navbar,.page-hero,#siteFooter,#toast,.no-print,#siteLoader,.chat-fab,.chat-panel,.clock-widget{display:none!important}
+  body{background:#fff}
+  section{padding:0}
+  #previewWrap{display:block!important}
+  .adm-replica{border-width:2px;max-width:none}
+}
+</style>
+<script defer src="/_vercel/insights/script.js"></script>
+<noscript><style>#siteLoader{display:none!important}</style></noscript>
+</head>
+<body data-page="admission-form" data-assets="assets/">
+<div id="siteLoader"><img src="assets/img/logo.jpg" alt="Treasure Academy"><div class="spin"></div></div>
+
+<div class="topbar"><div class="container">
+  <div class="tb-contact"><span><b>Admissions</b> <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg><a data-school-phone href="tel:"></a></span><span class="tb-sep">•</span><span data-school-email></span></div>
+  <div class="tb-right"><span>Ageva, Okene, Kogi State</span><a class="portal-link" href="portal/login.html">Portal Login</a></div>
+</div></div>
+
+<nav class="navbar"><div class="container">
+  <a class="logo" href="index.html">
+    <img class="mark-img" src="assets/img/logo.jpg" alt="Treasure Academy logo">
+    </a>
+  <div class="brand-name"><span data-school-name></span><small>Creche to Primary 6</small></div>
+  <div class="nav-links" id="navLinks"><div id="mainNav" style="display:contents"><a href="index.html">Home</a><a href="news.html">News/Event</a><a href="about.html">About Us</a><a href="contact.html">Contact Us</a><a href="portal/login.html" class="btn btn-mint btn-sm" style="margin-left:6px">Login/Register</a></div></div>
+</div></nav>
+
+<div class="page-hero"><div class="container">
+  <span class="sec-tag">Admissions</span>
+  <h1>Paid Admission Form</h1>
+  <p>Pay for the entrance form by bank transfer, fill it online, then print or download your copy.</p>
+</div></div>
+
+<section><div class="container">
+  <div class="panel clip-up no-print">
+    <h2>Step 1 — Pay for the Form</h2>
+    <p class="sub">Form price: <b id="formFeeAmt">—</b> • <span id="formBank">—</span></p>
+    <div class="form-grid">
+      <div class="field"><label>Parent Name *</label><input id="cParent" placeholder="e.g. Mrs. Okafor"></div>
+      <div class="field"><label>Parent Phone *</label><input id="cPhone" inputmode="tel" placeholder="080..."></div>
+      <div class="field"><label>Child Name *</label><input id="cPupil" placeholder="Child's full name"></div>
+      <div class="field"><label>Amount Paid *</label><input id="cAmount" inputmode="numeric" placeholder="e.g. 5000"></div>
+      <div class="field"><label>Sender Name *</label><input id="cSender" placeholder="Name on the transfer"></div>
+      <div class="field"><label>Transfer Date *</label><input id="cDate" type="date"></div>
+      <div class="field full"><label>Transfer Reference *</label><input id="cRef" placeholder="e.g. 1234567890 / TRF-..."></div>
+    </div>
+    <div style="margin-top:10px"><button class="btn btn-mint" onclick="submitClaim()">I Have Paid — Get My Form Code</button></div>
+    <div id="claimDone" style="margin-top:12px"></div>
+  </div>
+
+  <div class="panel clip-up no-print" style="margin-top:16px">
+    <h2>Step 2 — Track &amp; Fill</h2>
+    <p class="sub">Enter your phone number to find your form. Filling opens after the school confirms your payment.</p>
+    <div style="display:flex;gap:8px;flex-wrap:wrap"><input id="trkFormPhone" inputmode="tel" placeholder="e.g. 0805 123 4567" style="flex:1;min-width:200px"><button class="btn btn-mint" onclick="trackForm()">Find My Form</button></div>
+    <div id="myClaims" style="margin-top:12px"></div>
+  </div>
+
+  <div class="panel clip-up no-print" id="fillPanel" style="margin-top:16px;display:none">
+    <h2>Step 3 — Fill the Form (<span id="fillCode"></span>)</h2>
+    <p class="sub">Use CAPITAL LETTERS like the paper form.</p>
+    <div class="form-grid">
+      <div class="field"><label>Surname *</label><input id="fSurname"></div>
+      <div class="field"><label>Middle Name</label><input id="fMiddle"></div>
+      <div class="field"><label>First Name *</label><input id="fFirst"></div>
+      <div class="field"><label>Date of Birth</label><input id="fDob" type="date"></div>
+      <div class="field"><label>Sex</label><select id="fSex"><option value="">—</option><option>Male</option><option>Female</option></select></div>
+      <div class="field"><label>Age</label><input id="fAge" inputmode="numeric"></div>
+      <div class="field"><label>Place of Birth</label><input id="fPob"></div>
+      <div class="field"><label>L.G.A</label><input id="fLga"></div>
+      <div class="field"><label>State of Origin</label><input id="fState"></div>
+      <div class="field"><label>Home Town</label><input id="fTown"></div>
+      <div class="field"><label>Tribe</label><input id="fTribe"></div>
+      <div class="field"><label>Nationality</label><input id="fNation"></div>
+      <div class="field"><label>Religion</label><input id="fReligion"></div>
+      <div class="field"><label>Height</label><input id="fHeight" placeholder="e.g. 1.2m"></div>
+      <div class="field full"><label>Candidate Address</label><input id="fAddress"></div>
+      <div class="field full"><label>Schools Attended (with dates)</label><textarea id="fSchools" rows="2" placeholder="e.g. ABC Nursery 2022-2024"></textarea></div>
+      <div class="field"><label>Class Last Attended</label><input id="fLastClass"></div>
+      <div class="field"><label>Present Class Requested *</label><input id="fReqClass" placeholder="e.g. Primary 1"></div>
+      <div class="field"><label>Father/Guardian Name</label><input id="fFather"></div>
+      <div class="field"><label>Father Occupation</label><input id="fFatherOcc"></div>
+      <div class="field"><label>Father GSM No</label><input id="fFatherGsm" inputmode="tel"></div>
+      <div class="field"><label>Mother/Guardian Name</label><input id="fMother"></div>
+      <div class="field"><label>Mother Occupation</label><input id="fMotherOcc"></div>
+      <div class="field"><label>Mother GSM No</label><input id="fMotherGsm" inputmode="tel"></div>
+      <div class="field"><label>Any health problems?</label><select id="fHealth"><option>No</option><option>Yes</option></select></div>
+      <div class="field full"><label>If yes, state details</label><input id="fHealthDet"></div>
+      <div class="field"><label>Passport Photo (optional)</label><input type="file" accept="image/*" onchange="U.photoFile(this,'fPhoto','fPhotoPrev')"><input type="hidden" id="fPhoto"></div>
+      <div class="field"><label>&nbsp;</label><img id="fPhotoPrev" alt="" style="display:none;max-width:120px;border-radius:10px"></div>
+    </div>
+    <div style="margin-top:10px"><button class="btn btn-mint" onclick="saveAdmForm()">Save &amp; Preview Form</button></div>
+  </div>
+
+  <div id="previewWrap" style="margin-top:16px;display:none">
+    <div id="formPreview"></div>
+    <div class="no-print" style="text-align:center;margin-top:14px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
+      <button class="btn btn-mint" onclick="window.print()">Print / Download PDF</button>
+      <button class="btn btn-white" onclick="document.getElementById('fillPanel').scrollIntoView({behavior:'smooth'})">Edit Details</button>
+    </div>
+  </div>
+</div></section>
+
+<footer id="siteFooter"></footer>
+<div id="toast"></div>
+<script src="assets/js/store.js?v=20260919-22"></script>
+<script src="assets/js/sync.js?v=20260919-22"></script>
+<script src="assets/js/site.js?v=20260919-22"></script>
+<script>
+(function(){
+  const db0 = DB.load();
+  document.getElementById("formFeeAmt").textContent = U.naira((db0.school||{}).formFee || 5000);
+  const bk = (db0.school||{}).bank || {};
+  document.getElementById("formBank").textContent = "Pay to: " + (bk.name || "Ask the office") + " • " + (bk.number || "—") + (bk.holder ? " (" + bk.holder + ")" : "");
+  document.getElementById("cDate").value = U.todayStr();
+  let current = null;
+  const g = id => document.getElementById(id).value.trim();
+  window.submitClaim = function(){
+    const o = {parent: g("cParent"), phone: g("cPhone"), pupil: g("cPupil"), amount: g("cAmount"), sender: g("cSender"), date: g("cDate"), ref: g("cRef")};
+    if(!o.parent || !o.phone || !o.pupil || !o.amount || !o.sender || !o.date || !o.ref){ U.toast("Fill all payment boxes first."); return; }
+    const d = DB.load(); d.formClaims = d.formClaims || [];
+    const code = "TF-" + Date.now().toString(36).toUpperCase().slice(-6);
+    const c = {id: "FC" + Date.now(), code, status: "Pending", submitted: U.todayStr(), form: null,
+      parent: o.parent, phone: o.phone, pupil: o.pupil, amount: o.amount, sender: o.sender, date: o.date, ref: o.ref};
+    d.formClaims.unshift(c); DB.save(d);
+    document.getElementById("claimDone").innerHTML = `<div class="notice"><span class="dot" style="background:var(--sun)"></span><div>Payment claim received! Your form code is <b style="font-size:1.2rem">${code}</b> — write it down.<br><small style="color:var(--muted)">The school will confirm your transfer, then you can fill the form below.</small></div></div>
+      <div style="margin-top:8px"><button class="btn btn-white btn-sm" onclick="document.getElementById('trkFormPhone').value='${U.esc(o.phone)}';trackForm()">Track My Form</button></div>`;
+    U.toast("Claim saved! Keep your form code safe.");
+  };
+  window.trackForm = function(){
+    const v = g("trkFormPhone");
+    if(!v){ U.toast("Enter your phone number."); return; }
+    const key = v.replace(/\D/g, "").replace(/^(234|\+234)/, "0");
+    const list = (DB.load().formClaims || []).filter(c => String(c.phone || "").replace(/\D/g, "").replace(/^(234|\+234)/, "0") === key || String(c.phone || "") === v);
+    document.getElementById("myClaims").innerHTML = list.length ? list.map(c => `
+      <div class="notice"><span class="dot" style="background:${c.status === "Confirmed" ? "var(--mint)" : "var(--sun)"}"></span>
+      <div style="flex:1"><b>${U.esc(c.code)}</b> — ${U.esc(c.pupil)} • ${U.naira(+c.amount || 0)} • <span class="badge ${c.status === "Confirmed" ? "b-green" : "b-sun"}">${U.esc(c.status)}</span>
+      <br><small style="color:var(--muted)">Submitted ${U.esc(c.submitted || "")} • Ref ${U.esc(c.ref || "")}</small></div>
+      ${c.status === "Confirmed" ? `<button class="btn btn-mint btn-sm" onclick="openFill('${c.code}')">Fill / Print Form</button>` : ""}</div>`).join("") :
+      '<div class="empty">No form found for that number. Pay first in Step 1.</div>';
+  };
+  const FIDS = ["Surname", "Middle", "First", "Dob", "Sex", "Age", "Pob", "Lga", "State", "Town", "Tribe", "Nation", "Religion", "Height", "Address", "Schools", "LastClass", "ReqClass", "Father", "FatherOcc", "FatherGsm", "Mother", "MotherOcc", "MotherGsm", "Health", "HealthDet", "Photo"];
+  window.openFill = function(code){
+    const d = DB.load();
+    current = (d.formClaims || []).find(c => c.code === code);
+    if(!current || current.status !== "Confirmed"){ U.toast("Form not confirmed yet."); return; }
+    const f = current.form || {};
+    FIDS.forEach(k => { const el = document.getElementById("f" + k); if(el && !el.type || el && el.tagName === "TEXTAREA") el.value = ""; });
+    FIDS.forEach(k => { const el = document.getElementById("f" + k); if(el && f[k.toLowerCase()] !== undefined) el.value = f[k.toLowerCase()]; });
+    const pv = document.getElementById("fPhotoPrev");
+    if(f.photo){ pv.src = f.photo; pv.style.display = ""; } else { pv.style.display = "none"; }
+    document.getElementById("fillCode").textContent = code;
+    document.getElementById("fillPanel").style.display = "";
+    if(current.form) previewCurrent();
+    document.getElementById("fillPanel").scrollIntoView({behavior: "smooth"});
+  };
+  window.saveAdmForm = function(){
+    if(!current){ U.toast("Open your form first."); return; }
+    if(!g("fSurname") || !g("fFirst") || !g("fReqClass")){ U.toast("Surname, First Name and Class Requested are a must."); return; }
+    const f = {};
+    FIDS.forEach(k => { f[k.toLowerCase()] = g("f" + k); });
+    f.health = document.getElementById("fHealth").value;
+    const d = DB.load();
+    const c = (d.formClaims || []).find(x => x.code === current.code);
+    if(!c) return;
+    c.form = f; DB.save(d); current = c;
+    previewCurrent();
+    U.toast("Form saved! Preview below.");
+  };
+  function previewCurrent(){
+    document.getElementById("formPreview").innerHTML = U.admFormHTML(current, DB.load().school || {});
+    document.getElementById("previewWrap").style.display = "";
+    document.getElementById("previewWrap").scrollIntoView({behavior: "smooth"});
+  }
+  const qc = new URLSearchParams(location.search).get("code");
+  if(qc){ document.getElementById("trkFormPhone").value = ""; }
+})();
+</script>
+</body>
+</html>

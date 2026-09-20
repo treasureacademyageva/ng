@@ -11,10 +11,11 @@
 <title>Admin Dashboard — Treasure Academy, Ageva</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../assets/css/main.css?v=20260919-21">
-<link rel="stylesheet" href="../assets/css/extra.css?v=20260919-21">
-<link rel="stylesheet" href="../assets/css/corporate.css?v=20260919-21">
+<link rel="stylesheet" href="../assets/css/main.css?v=20260919-22">
+<link rel="stylesheet" href="../assets/css/extra.css?v=20260919-22">
+<link rel="stylesheet" href="../assets/css/corporate.css?v=20260919-22">
 <noscript><style>#siteLoader{display:none!important}</style></noscript>
+<script defer src="/_vercel/insights/script.js"></script>
 </head>
 <body class="portal-body">
 <div id="siteLoader"><img src="../assets/img/logo.jpg" alt="Treasure Academy"><div class="spin"></div></div>
@@ -87,6 +88,10 @@
       <div class="panel">
         <h2>Admission Applications</h2><p class="sub">Quick enquiries — approve to create pupil + login instantly</p>
         <div style="overflow-x:auto"><table class="tbl"><thead><tr><th>Child</th><th>Class</th><th>Parent</th><th>Phone</th><th>Date</th><th>Status</th><th>Actions</th></tr></thead><tbody id="appRows"></tbody></table></div>
+     </div>
+      <div class="panel" style="margin-top:16px">
+        <h2>Paid Admission Forms</h2><p class="sub">Confirm transfers, then parents can fill and print</p>
+        <div id="formClaimRows"></div>
      </div>
    </div>
 
@@ -501,6 +506,7 @@
        </div>
           <div class="panel" style="margin-top:16px"><h2>Fees Schedule (per class, per term)</h2><p class="sub">Shown on the Admissions page</p>
             <div class="form-grid" id="feesGrid"></div>
+            <div class="field" style="margin-top:10px;max-width:260px"><label>Admission Form Price (₦)</label><input id="setFormFee" inputmode="numeric"></div>
          </div>
           <div class="panel" style="margin-top:16px"><h2>Cloud Sync (Supabase)</h2><p class="sub">Same data on every phone. Paste the Project URL + anon key once per device.</p>
             <div class="form-grid">
@@ -532,7 +538,7 @@
 (function(){
 var T={overview:["Overview","Welcome back! Here is your school at a glance."],regs:["Registrations","Online forms and payments."],apps:["Applications","Admission enquiries."],pupils:["Pupils","Manage all pupils."],teachers:["Teachers","Manage staff."],duty:["Duty Roster","Who is on duty each day."],results:["Results","Review, approve and publish report cards."],attendance:["Attendance","Daily registers."],promos:["Promotions","Promo slider."],newsevents:["News/Events","Videos, gallery and stories."],messages:["Messages","Contact inbox."],whatsapp:["WhatsApp","Chat contacts."],practice:["Entrance Qs","Common Entrance questions."],testimonials:["Testimonials","Website testimonials."],notices:["Notices","Talk to staff and parents."],classpages:["Class Pages","One page per class."],calendar:["Calendar","Term dates and events."],timetable:["Timetable","One grid for the whole school."],extras:["Website Extras","Stars, ticker, homework and more."],shop:["Shop and Orders","Items and pickup orders."],settings:["Settings","School details, term and session."]};
 function navRender(v){
-  try{ var R={overview:function(){renderOverview();refreshCounts();},regs:function(){renderRegs();},apps:function(){renderApps();},pupils:function(){renderPupils();},teachers:function(){renderTeachers();},duty:function(){renderDuty();},results:function(){renderResults();},attendance:function(){renderAttendance();},promos:function(){renderPromos();},newsevents:function(){renderNE();},messages:function(){renderMsgs();},whatsapp:function(){renderWA();},practice:function(){renderPQ();},testimonials:function(){Testimonials.adminList("tmList");},notices:function(){renderNotices();},classpages:function(){renderClassPages();},calendar:function(){renderCal();},timetable:function(){renderTT();},extras:function(){renderExtras();},shop:function(){renderShopAdmin();renderRestock();},settings:function(){loadSettings();buildFeesGrid();renderSup();}}; if(R[v])R[v](); }catch(e){ if(window.console&&console.warn)console.warn("view render skipped:",e&&e.message); }
+  try{ var R={overview:function(){renderOverview();refreshCounts();},regs:function(){renderRegs();},apps:function(){renderApps();renderFormClaims();},pupils:function(){renderPupils();},teachers:function(){renderTeachers();},duty:function(){renderDuty();},results:function(){renderResults();},attendance:function(){renderAttendance();},promos:function(){renderPromos();},newsevents:function(){renderNE();},messages:function(){renderMsgs();},whatsapp:function(){renderWA();},practice:function(){renderPQ();},testimonials:function(){Testimonials.adminList("tmList");},notices:function(){renderNotices();},classpages:function(){renderClassPages();},calendar:function(){renderCal();},timetable:function(){renderTT();},extras:function(){renderExtras();},shop:function(){renderShopAdmin();renderRestock();},settings:function(){loadSettings();buildFeesGrid();renderSup();}}; if(R[v])R[v](); }catch(e){ if(window.console&&console.warn)console.warn("view render skipped:",e&&e.message); }
 }
 window.navRender=navRender;
 var nav=document.getElementById("sideNav");
@@ -560,9 +566,9 @@ if(nav)nav.addEventListener("click",function(e){
 try{var h=String(location.hash||"").replace(/^#\/?/,""); if(h){var bb=document.querySelector('#sideNav button[data-view="'+h+'"]'); if(bb&&!bb.classList.contains("on"))bb.click();}}catch(e7){}
 })();
 </script>
-<script src="../assets/js/store.js?v=20260919-21"></script>
-<script src="../assets/js/sync.js?v=20260919-21"></script>
-<script src="../assets/js/site.js?v=20260919-21"></script>
+<script src="../assets/js/store.js?v=20260919-22"></script>
+<script src="../assets/js/sync.js?v=20260919-22"></script>
+<script src="../assets/js/site.js?v=20260919-22"></script>
 <script>
 const S = Auth.guard("admin");
 if(!S){location.href="login.html";throw new Error("no-session");}
@@ -825,6 +831,25 @@ window.printAdmLetter=function(id){
     <p>Yours faithfully,</p><br>
     <p><b>${U.esc(db.school.headName)}</b><br>${U.esc(db.school.headTitle)}</p>
     <p style="text-align:center;font-size:.8rem">"${U.esc(db.school.motto)}"</p></div>`;
+  document.body.classList.add("printing"); window.print();
+  setTimeout(()=>document.body.classList.remove("printing"),800);
+};
+
+/* ---- paid admission forms ---- */
+function renderFormClaims(){
+  db=DB.load();
+  const z=document.getElementById("formClaimRows"); if(!z)return;
+  z.innerHTML=(db.formClaims||[]).map(c=>`<div class="notice"><span class="dot" style="background:${c.status==="Confirmed"?"var(--mint)":"var(--sun)"}"></span><div style="flex:1"><b>${U.esc(c.code)}</b> — ${U.esc(c.pupil)} • ${U.esc(c.parent)} • ${U.esc(c.phone)}<br><small style="color:var(--muted)">${U.naira(+c.amount||0)} • Ref ${U.esc(c.ref||"")} • ${U.esc(c.submitted||"")} • ${c.form?"Filled":"Not filled"}</small></div><span class="badge ${c.status==="Confirmed"?"b-green":"b-sun"}">${U.esc(c.status)}</span><div class="row-actions">${c.status==="Pending"?`<button class="icon-btn ok" onclick="confirmFormClaim('${c.id}')">Confirm</button>`:""}${c.form?`<button class="icon-btn" onclick="viewFormClaim('${c.id}')">View</button>`:""}</div></div>`).join("")||'<div class="empty">No paid forms yet.</div>';
+}
+function confirmFormClaim(id){ db=DB.load(); const c=(db.formClaims||[]).find(x=>x.id===id); if(!c)return; c.status="Confirmed"; DB.save(db); renderFormClaims(); U.toast(c.code+" confirmed! Parent can now fill the form."); }
+function viewFormClaim(id){
+  db=DB.load(); const c=(db.formClaims||[]).find(x=>x.id===id); if(!c||!c.form)return;
+  openModal(`<h2>${U.esc(c.code)} — ${U.esc(c.pupil)}</h2><div style="max-height:60vh;overflow:auto">${U.admFormHTML(c,db.school)}</div><div style="display:flex;gap:10px;margin-top:12px;flex-wrap:wrap"><button class="btn btn-mint btn-sm" onclick="closeModal();printClaimForm('${c.id}')">Print</button><button class="btn btn-white btn-sm" onclick="closeModal()">Close</button></div>`);
+}
+window.printClaimForm=function(id){
+  if(!document.getElementById("printSlip")){ const dv=document.createElement("div"); dv.id="printSlip"; dv.style.display="none"; document.body.appendChild(dv); }
+  db=DB.load(); const c=(db.formClaims||[]).find(x=>x.id===id); if(!c)return;
+  document.getElementById("printSlip").innerHTML=`<div style="font-family:Arial,sans-serif">${U.admFormHTML(c,db.school)}</div>`;
   document.body.classList.add("printing"); window.print();
   setTimeout(()=>document.body.classList.remove("printing"),800);
 };
@@ -1218,7 +1243,7 @@ function loadSettings(){
   db=DB.load(); const s=db.school;
   const set=(id,v)=>document.getElementById(id).value=v;
   set("setName",s.name);set("setMotto",s.motto);set("setPhone",s.phone);set("setEmail",s.email);
-  set("setAddress",s.address);set("setTerm",s.term);set("setSession",s.session);set("setHead",s.headName);set("setGrad",s.gradDate||"");
+  set("setAddress",s.address);set("setTerm",s.term);set("setFormFee",s.formFee||5000);set("setSession",s.session);set("setHead",s.headName);set("setGrad",s.gradDate||"");
   const bk=s.bank||{}; set("setBank",bk.name||""); set("setAcct",bk.number||""); set("setHolder",bk.holder||"");
   const mp=s.moniepoint||{}; set("setMpAcct",mp.account||""); document.getElementById("setMpPos").value=mp.pos===false?"0":"1"; set("setVideo",s.videoUrl||""); set("setHeadDob",s.headDob||""); set("setHeadPhoto",s.headPhoto||""); const hpp=document.getElementById("setHeadPhotoPrev"); if(s.headPhoto){hpp.src=s.headPhoto;hpp.style.display="";}else{hpp.style.display="none";} const emg=s.emergency||{}; document.getElementById("setEmgOn").value=emg.on?"1":"0"; set("setEmgText",emg.text||"");
 }
@@ -1231,7 +1256,7 @@ function saveSettings(){
   if(document.getElementById("setPromote").checked&&g("setSession")!==oldSess){ promoteCore(); db=DB.load(); renderPupils(); document.getElementById("setPromote").checked=false; U.toast("Session changed - all pupils promoted automatically."); }
   db.school.bank={name:g("setBank"),number:g("setAcct"),holder:g("setHolder")};
   db.school.moniepoint={account:g("setMpAcct"),bank:"Moniepoint MFB",pos:document.getElementById("setMpPos").value==="1",monnifyKey:(db.school.moniepoint||{}).monnifyKey||""};
-  db.school.videoUrl=g("setVideo"); db.school.headDob=g("setHeadDob"); db.school.headPhoto=g("setHeadPhoto"); db.school.emergency={on:document.getElementById("setEmgOn").value==="1",text:g("setEmgText")};
+  db.school.videoUrl=g("setVideo"); db.school.formFee=+String(g("setFormFee")).replace(/,/g,"")||0; db.school.headDob=g("setHeadDob"); db.school.headPhoto=g("setHeadPhoto"); db.school.emergency={on:document.getElementById("setEmgOn").value==="1",text:g("setEmgText")};
   DB.save(db); document.querySelectorAll("[data-school-name]").forEach(e=>e.textContent=db.school.name);
   U.toast("Settings saved! Website updated too.");
 }

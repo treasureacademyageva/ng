@@ -48,7 +48,7 @@ const ADMIN = { role: 'admin', refId: 'HEAD001', name: 'Mrs. Salihu Nanahawa' };
     .concat(['portal/login.html', 'portal/admin.html', 'portal/teacher.html', 'portal/pupil.html'].map(f => SITE + '/' + f));
   const noLoader = pages.filter(p => !fs.readFileSync(p, 'utf8').includes('id="siteLoader"'));
   const noNs = pages.filter(p => !fs.readFileSync(p, 'utf8').includes('<noscript>'));
-  ok('static loader on all pages', noLoader.length === 0 && pages.length === 34, `pages=${pages.length} missing=${noLoader.join(',')}`);
+  ok('static loader on all pages', noLoader.length === 0 && pages.length === 35, `pages=${pages.length} missing=${noLoader.join(',')}`);
   ok('noscript fallback everywhere', noNs.length === 0, noNs.join(','));
   const imgs = ['openday-banner.png', 'reading-banner.png', 'uniform-banner.png', 'photoday-banner.png', 'homework-banner.png', 'lostfound-banner.png'];
   ok('6 banners exist', imgs.every(i => fs.existsSync(SITE + '/assets/img/' + i)));

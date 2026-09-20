@@ -38,6 +38,7 @@ const SEARCH_INDEX=[
  {t:"Home",u:"index.html",k:"home main start treasure academy ageva"},
  {t:"About Us",u:"about.html",k:"about story headmistress founder motto mission history"},
  {t:"Admissions",u:"admissions.html",k:"admissions apply enrol register form join track application requirements receipt verify payment check confirm authentic"},
+ {t:"Admission Form",u:"admission-form.html",k:"admission form buy entrance paid price download print fill code track"},
  {t:"Academics",u:"academics.html",k:"academics classes creche nursery primary curriculum subjects"},
  {t:"Contact Us",u:"contact.html",k:"contact phone call whatsapp address location map email message faq directions suggestion box idea vote"},
  {t:"News & Events",u:"news.html",k:"news event sport party excursion graduation video photo gallery story rsvp seats reserve"},

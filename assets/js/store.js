@@ -26,6 +26,7 @@ const SCHOOL_DEFAULTS = {
   videoUrl: "",
   headDob: "",
   gradDate: "2027-07-23",
+  formFee: 5000,
   emergency: {on:false, text:""},
   photoWeek: {src:"", cap:""},
   fees: {Creche:30000,"Pre-Nursery":25000,"Nursery 1":25000,"Nursery 2":25000,"Primary 1":30000,"Primary 2":30000,"Primary 3":30000,"Primary 4":35000,"Primary 5":35000,"Primary 6":35000}
@@ -324,7 +325,7 @@ const DB = {
 
     if(!db.testimonials) db.testimonials = seedDB().testimonials;
     if(!db.seq.tm) db.seq.tm = (db.testimonials?db.testimonials.length:0)+1;
-    ["promotions","newsEvents","registrations","messages","whatsapp","notices","orders"].forEach(k=>{ if(!db[k]) db[k]=[]; });
+    ["promotions","newsEvents","registrations","messages","whatsapp","notices","orders","formClaims"].forEach(k=>{ if(!db[k]) db[k]=[]; });
     if(Array.isArray(db.whatsapp)&&db.whatsapp.length>1&&db.whatsapp.every(w=>["W1","W2","W3"].includes(w.id)&&["234814194378","2349063932487"].includes(String(w.phone)))) db.whatsapp=seedDB().whatsapp;
     if(!db.weekStrip) db.weekStrip = {on:true,note:""};
     if(!db.bdayThanks) db.bdayThanks = [];
@@ -766,6 +767,49 @@ const U = {
       const a=document.createElement("a"); a.href=URL.createObjectURL(b); a.download=filename||url.split("/").pop().split("?")[0]||"download";
       document.body.appendChild(a); a.click(); a.remove(); setTimeout(()=>URL.revokeObjectURL(a.href),4000);
     }).catch(()=>{ window.open(url,"_blank"); });
+  },
+  photoFile(inp,targetId,prevId){
+    const f=inp.files&&inp.files[0]; if(!f)return;
+    if(f.size>800*1024){ U.toast("Photo too big — use an image under 800KB."); inp.value=""; return; }
+    const r=new FileReader();
+    r.onload=()=>{ document.getElementById(targetId).value=r.result; const pv=document.getElementById(prevId); if(pv){ pv.src=r.result; pv.style.display=""; } };
+    r.readAsDataURL(f);
+  },
+  admFormHTML(c,s){
+    c=c||{}; s=s||{}; const f=(c.form||{});
+    const v=k=>U.esc(f[k]||"");
+    const row=(label,val,full)=>`<div class="adm-f${full?" full":""}"><b>${label}</b><br>${val||"&nbsp;"}</div>`;
+    const paid=c.status==="Confirmed";
+    const initials=String(s.name||"TA").split(/\s+/).map(w=>w[0]).join("").slice(0,3);
+    return `<div class="adm-replica">
+      <div class="adm-head"><div class="adm-crest">${U.esc(initials)}<br>★</div>
+      <div class="adm-title"><h2>${U.esc((s.name||"").toUpperCase())}</h2>
+      <p>${U.esc(s.address||"")}</p><p>MOTTO: ${U.esc((s.motto||"").toUpperCase())}</p>
+      <p>TELL: ${U.esc(s.phone||"")} &nbsp; EMAIL: ${U.esc(s.email||"")}</p></div></div>
+      <div class="adm-formname">ENTRANCE APPLICATION FORM</div>
+      <div class="adm-pass">${f.photo?`<img src="${U.esc(f.photo)}" alt="passport">`:"Passport"}</div>
+      <div class="adm-instr"><b>Instruction:</b> Fill this form carefully IN CAPITAL LETTERS and return it to the school office with your payment receipt <b>within two weeks</b>. Form Code: <b>${U.esc(c.code||"")}</b></div>
+      <div style="clear:both"></div>
+      <div class="adm-grid">
+        ${row("Surname",v("surname"))}${row("Middle Name",v("middle"))}${row("First Name",v("first"))}
+        ${row("Date of Birth",v("dob"))}${row("Sex",v("sex"))}${row("Age",v("age"))}
+        ${row("Place of Birth",v("pob"))}${row("L.G.A",v("lga"))}${row("State of Origin",v("state"))}
+        ${row("Home Town",v("town"))}${row("Tribe",v("tribe"))}${row("Nationality",v("nation"))}
+        ${row("Religion",v("religion"))}${row("Height",v("height"))}${row("Candidate Address",v("address"),1)}
+        ${row("Schools Attended (with dates)",v("schools"),1)}
+        ${row("Class Last Attended",v("lastclass"))}${row("Present Class Requested",v("reqclass"))}
+        ${row("Father/Guardian Name",v("father"))}${row("Occupation",v("fatherocc"))}${row("GSM No",v("fathergsm"))}
+        ${row("Mother/Guardian Name",v("mother"))}${row("Occupation",v("motherocc"))}${row("GSM No",v("mothergsm"))}
+        ${row("Any health problems?",v("health"))}${row("If yes, state details",v("healthdet"))}
+      </div>
+      <div class="adm-sec">UNDERTAKING</div>
+      <p style="font-size:.85rem">I <b>${v("first")} ${v("surname")}</b> hereby undertake that I will be of good behaviour within and without being in school. I shall keep the rules and regulations of the school, society at large. So help me God.</p>
+      <div class="adm-sig"><div>Parent's Signature/Date: ....................</div><div>Candidate Signature/Date: ....................</div></div>
+      <div class="adm-sec">FOR OFFICE USE</div>
+      <p style="font-size:.85rem">Principal Recommendation: ....................................................................................</p>
+      <p style="font-size:.85rem">Authority Signature/Date: .................... &nbsp; Form Fee: <b>${U.naira(+c.amount||0)}</b> • Ref: ${U.esc(c.ref||"")}</p>
+      <div style="text-align:center"><span class="adm-stamp${paid?"":" unpaid"}">${paid?"PAID":"PAYMENT UNCONFIRMED"}</span></div>
+    </div>`;
   },
   /* download a report card as a standalone file */
   downloadReport(resultId){
