@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<style>#siteLoader{position:fixed;inset:0;z-index:1200;background:#fff;display:flex;flex-direction:column;gap:14px;align-items:center;justify-content:center;transition:opacity .4s}#siteLoader img{width:84px;height:84px;object-fit:contain}#siteLoader .spin{width:38px;height:38px;border-radius:50%;border:4px solid #FDF6D8;border-top-color:#0B7A37;animation:lspin .8s linear infinite}@keyframes lspin{to{transform:rotate(360deg)}}#siteLoader.done{opacity:0;pointer-events:none}</style>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Story — Treasure Academy, Ageva</title>
+<link rel="icon" href="assets/img/logo.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/main.css?v=20260919-20">
+<link rel="stylesheet" href="assets/css/extra.css?v=20260919-20">
+<link rel="stylesheet" href="assets/css/corporate.css?v=20260919-20">
+<noscript><style>#siteLoader{display:none!important}</style></noscript>
+</head>
+<body data-page="news" data-assets="assets/">
+<div id="siteLoader"><img src="assets/img/logo.jpg" alt="Treasure Academy"><div class="spin"></div></div>
+
+<div class="topbar"><div class="container">
+  <div class="tb-contact"><span><b>Admissions</b> <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg><a data-school-phone href="tel:"></a></span><span class="tb-sep">•</span><span data-school-email></span></div>
+  <div class="tb-right"><span>Ageva, Okene, Kogi State</span><a class="portal-link" href="portal/login.html">Portal Login</a></div>
+</div></div>
+
+<nav class="navbar"><div class="container">
+  <a class="logo" href="index.html">
+    <img class="mark-img" src="assets/img/logo.jpg" alt="Treasure Academy logo">
+    </a>
+  <div class="brand-name"><span data-school-name></span><small>Creche to Primary 6</small></div>
+  <div class="nav-links" id="navLinks"><div id="mainNav" style="display:contents"><a href="index.html">Home</a><a href="news.html">News/Event</a><a href="about.html">About Us</a><a href="contact.html">Contact Us</a><a href="portal/login.html" class="btn btn-mint btn-sm" style="margin-left:6px">Login/Register</a></div></div>
+</div></nav>
+
+<section>
+  <div class="container" style="max-width:820px">
+    <a class="btn btn-white btn-sm" href="news.html" style="margin-bottom:20px">← Back to News &amp; Events</a>
+    <div id="storyBox"></div>
+    <h2 style="margin:34px 0 14px">More Stories</h2>
+    <div class="news-grid" id="relatedGrid" style="grid-template-columns:repeat(3,1fr)"></div>
+ </div>
+</section>
+
+<footer id="siteFooter"></footer>
+<div id="toast"></div>
+<script src="assets/js/store.js?v=20260919-20"></script>
+<script src="assets/js/site.js?v=20260919-20"></script>
+<script>
+(function(){
+  const id=new URLSearchParams(location.search).get("id");
+  const db=DB.load();
+  const n=db.newsEvents.find(x=>x.id===id) || [...db.newsEvents].sort((a,b)=>b.date.localeCompare(a.date))[0];
+  if(!n){ document.getElementById("storyBox").innerHTML='<div class="empty">Story not found.</div>'; return; }
+  n.views=(n.views||0)+1; DB.save(db);
+  document.title=n.title+" — "+db.school.name;
+  window._storyImgs=[n.image,...(n.images||[])].filter(Boolean); window._storyTitle=n.title; window._storyId=n.id;
+  const rsvpTaken=x=>(db.rsvps||[]).filter(r=>r.eventId===x.id).reduce((a,r)=>a+(+r.seats||1),0);
+  window.rsvpHTML=x=>{ const total=x.seats||50, taken=rsvpTaken(x), left=Math.max(0,total-taken);
+    return `<div class="track-card" style="margin-top:18px"><h3 style="margin-top:0">Reserve Your Seat</h3>
+      <p class="sub" style="margin-top:0"><b>${left}</b> of ${total} seats left</p>
+      ${left?`<div class="form-grid"><div class="field"><label>Your Name</label><input id="rsvName" placeholder="e.g. Mrs. Okafor"></div>
+      <div class="field"><label>Phone</label><input id="rsvPhone" inputmode="tel" placeholder="e.g. 0805..."></div>
+      <div class="field"><label>Seats</label><input id="rsvSeats" type="number" min="1" max="${left}" value="1"></div></div>
+      <div style="margin-top:10px"><button class="btn btn-mint btn-sm" onclick="rsvpEvent('${x.id}')">Reserve Seat</button></div>`
+      :'<div class="empty">This event is fully booked.</div>'}</div>`; };
+  window.rsvpEvent=id=>{ const g=x=>document.getElementById(x).value.trim();
+    if(!g("rsvName")){U.toast("Please enter your name.");return;}
+    const d=DB.load(), ev=d.newsEvents.find(e=>e.id===id);
+    const total=ev.seats||50, taken=(d.rsvps||[]).filter(r=>r.eventId===id).reduce((a,r)=>a+(+r.seats||1),0);
+    const want=Math.max(1,+g("rsvSeats")||1);
+    if(taken+want>total){U.toast("Only "+(total-taken)+" seat(s) left.");return;}
+    d.rsvps=d.rsvps||[];
+    d.rsvps.unshift({id:"RS"+Date.now(),eventId:id,name:g("rsvName"),phone:g("rsvPhone"),seats:want,date:U.todayStr()});
+    DB.save(d); U.toast("Seat reserved! See you there."); location.reload();
+  };
+  window.listenStory=()=>{ U.speak(n.title+". "+(n.story||n.text||"")); };
+  const emb=U.youtubeEmbed(n.videoUrl);
+  const isMp4=U.isMp4(n.videoUrl);
+  document.getElementById("storyBox").innerHTML=`
+    <div class="ne-meta" style="margin-bottom:12px"><span class="badge ${n.type==="event"?"b-coral":"b-sky"}" style="font-size:.85rem">${n.type==="event"?" EVENT":" NEWS"}</span>
+    <span> ${U.prettyDate(n.date)}</span><span> ${n.views} views</span><span> ${n.likes||0} likes</span><span> ${Math.max(1,Math.round(((n.story||n.text||"").split(/\s+/).length)/200))} min read</span>${U.isNew(n.date)?'<span class="tag-new">NEW</span>':""}</div>
+    <h1 style="font-size:clamp(1.6rem,4vw,2.4rem);margin-bottom:18px">${U.esc(n.title)}</h1>
+    ${isMp4?`<div class="video-frame"><video src="${U.esc(n.videoUrl)}" controls playsinline></video></div>`:emb?`<div class="video-frame"><iframe src="${emb}" allowfullscreen title=" video"></iframe></div>`:n.image?`<div class="story-hero clip revealed"><img id="storyHero" style="cursor:zoom-in" onclick="Lightbox.open(window._storyImgs.map(s=>({src:s,cap:window._storyTitle,storyId:window._storyId})),0)" src="${U.esc(n.image)}" alt=""></div>`:""}
+    ${(emb||isMp4)&&n.image?`<div class="story-hero"><img id="storyHero" style="cursor:zoom-in" onclick="Lightbox.open(window._storyImgs.map(s=>({src:s,cap:window._storyTitle,storyId:window._storyId})),0)" src="${U.esc(n.image)}" alt=""></div>`:""}
+    ${(n.images&&n.images.length)?`<div class="story-thumbs">${[n.image,...n.images].filter(Boolean).map((src,i)=>`<img src="${U.esc(src)}" class="${i===0?"on":""}" onclick="swapHero(this,'${U.esc(src)}')" alt="photo ${i+1}">`).join("")}</div>`:""}
+    <div class="story-body"><p>${U.esc(n.story||n.text)}</p>
+      <div style="margin-top:18px;display:flex;gap:10px;flex-wrap:wrap">
+        <button class="btn btn-sky btn-sm" onclick="shareStory()">Share Story</button>
+        <button class="btn btn-white btn-sm" onclick="listenStory()">Listen</button>
+        <button class="btn btn-mint btn-sm" onclick="U.downloadFile('${n.image}','${n.id}.png')">Download</button>${isMp4?`<button class="btn btn-white btn-sm" onclick="U.downloadFile('${n.videoUrl}','${n.id}.mp4')">Download Video</button>`:""}
+        <a class="btn btn-white btn-sm" href="news.html">All Stories</a>
+     </div>
+     ${n.type==="event"?rsvpHTML(n):""}
+     <div class="like-row">
+       <button class="like-btn" id="likeBtn" onclick="toggleLike()">${U.icon("thumb",30)}<span class="lc" id="likeCount"></span></button>
+       <span style="color:var(--muted);font-weight:600" id="cmtCount"></span>
+     </div>
+     <div class="cmt-box">
+       <h3 style="margin-bottom:4px">Comments</h3>
+       <div class="form-grid" style="grid-template-columns:1fr;margin-top:10px">
+         <div class="field"><label>Your Name</label><input id="cmtName" maxlength="40" placeholder="e.g. Mrs. Okafor"></div>
+         <div class="field"><label>Your Comment</label><textarea id="cmtText" rows="3" maxlength="500" placeholder="Write something kind..."></textarea></div>
+       </div>
+       <div style="display:flex;gap:10px;align-items:center;margin-top:10px;flex-wrap:wrap">
+         <button class="btn btn-mint btn-sm" onclick="postComment()">Post Comment</button>
+         <span style="flex:1"></span>
+         <label style="font-size:.83rem;font-weight:700">Show: <select id="cmtSort" onchange="renderComments()"><option value="new">Latest first</option><option value="old">Oldest first</option></select></label>
+       </div>
+       <div id="cmtList" style="margin-top:8px"></div>
+     </div>
+   </div>`;
+  const rel=db.newsEvents.filter(x=>x.id!==n.id).slice(0,3);
+  document.getElementById("relatedGrid").innerHTML=rel.map(r=>`
+    <div class="news-card" onclick="location.href='story.html?id=${r.id}'" style="cursor:pointer">
+      <div class="date">${r.type==="event"?"":""} ${U.shortDate(r.date)}</div>
+      <div class="body"><h3>${U.esc(r.title)}</h3><p>${U.esc(r.text).slice(0,90)}...</p><b style="color:var(--sky);font-size:.85rem">Read →</b></div>
+   </div>`).join("");
+  window.swapHero=(el,src)=>{ const h=document.getElementById("storyHero"); if(h)h.src=src;
+    document.querySelectorAll(".story-thumbs img").forEach(t=>t.classList.remove("on")); el.classList.add("on"); };
+  window.shareStory=async()=>{
+    const data={title:n.title, text:n.title, url:location.href};
+    try{
+      if(navigator.share){ await navigator.share(data); }
+      else if(navigator.clipboard){ await navigator.clipboard.writeText(location.href); U.toast("Story link copied — send it to anyone!"); }
+      else { prompt("Copy this story link:", location.href); }
+    }catch(e){}
+  };
+  const likedIds=()=>{ try{return JSON.parse(localStorage.getItem("treasure_likes")||"[]");}catch(e){return [];} };
+  function paintLike(){ const on=likedIds().includes(n.id);
+    document.getElementById("likeBtn").classList.toggle("on",on);
+    document.getElementById("likeCount").textContent=(n.likes||0)+" like"+((n.likes||0)===1?"":"s"); }
+  window.toggleLike=()=>{ const L=likedIds(), i=L.indexOf(n.id);
+    if(i>=0){ L.splice(i,1); n.likes=Math.max(0,(n.likes||1)-1); } else { L.push(n.id); n.likes=(n.likes||0)+1; }
+    try{localStorage.setItem("treasure_likes",JSON.stringify(L));}catch(e){}
+    const d=DB.load(); const rec=d.newsEvents.find(x=>x.id===n.id); if(rec)rec.likes=n.likes; DB.save(d);
+    paintLike(); };
+  paintLike();
+  window.postComment=()=>{ const nm=document.getElementById("cmtName").value.trim(), tx=document.getElementById("cmtText").value.trim();
+    if(!nm||!tx){ U.toast("Please enter your name and comment."); return; }
+    const d=DB.load(); d.comments=d.comments||{}; (d.comments[n.id]=d.comments[n.id]||[]).unshift({name:nm,text:tx,date:U.todayStr()});
+    DB.save(d); document.getElementById("cmtText").value=""; renderComments(); U.toast("Comment posted. Thank you!"); };
+  window.renderComments=()=>{ const d=DB.load(); const all=(((d.comments||{})[n.id]||[]).slice());
+    const mode=(document.getElementById("cmtSort")||{}).value||"new";
+    if(mode==="old")all.reverse();
+    document.getElementById("cmtCount").textContent=all.length+" comment"+(all.length===1?"":"s");
+    document.getElementById("cmtList").innerHTML=all.length?all.map(c=>`
+      <div class="cmt"><b>${U.esc(c.name)}</b> <small>• ${U.shortDate(c.date)}</small><p>${U.esc(c.text)}</p></div>`).join("")
+      :'<div class="empty" style="margin:10px 0">No comments yet — be the first!</div>'; };
+  renderComments();
+})();
+</script>
+</body>
+</html>

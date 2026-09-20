@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<style>#siteLoader{position:fixed;inset:0;z-index:1200;background:#fff;display:flex;flex-direction:column;gap:14px;align-items:center;justify-content:center;transition:opacity .4s}#siteLoader img{width:84px;height:84px;object-fit:contain}#siteLoader .spin{width:38px;height:38px;border-radius:50%;border:4px solid #FDF6D8;border-top-color:#0B7A37;animation:lspin .8s linear infinite}@keyframes lspin{to{transform:rotate(360deg)}}#siteLoader.done{opacity:0;pointer-events:none}</style>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Our Classes — Treasure Academy, Ageva</title>
+<link rel="icon" href="assets/img/logo.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/main.css?v=20260919-20">
+<link rel="stylesheet" href="assets/css/extra.css?v=20260919-20">
+<link rel="stylesheet" href="assets/css/corporate.css?v=20260919-20">
+<noscript><style>#siteLoader{display:none!important}</style></noscript>
+</head>
+<body data-page="class" data-assets="assets/">
+<div id="siteLoader"><img src="assets/img/logo.jpg" alt="Treasure Academy"><div class="spin"></div></div>
+<div class="topbar"><div class="container">
+  <div class="tb-contact"><span><b>Admissions</b> <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg><a data-school-phone href="tel:"></a></span><span class="tb-sep">•</span><span data-school-email></span></div>
+  <div class="tb-right"><span>Ageva, Okene, Kogi State</span><a class="portal-link" href="portal/login.html">Portal Login</a></div>
+</div></div>
+<nav class="navbar"><div class="container">
+  <a class="logo" href="index.html">
+    <img class="mark-img" src="assets/img/logo.jpg" alt="Treasure Academy logo">
+    </a>
+  <div class="brand-name"><span data-school-name></span><small>Creche to Primary 6</small></div>
+  <div class="nav-links" id="navLinks"><div id="mainNav" style="display:contents"><a href="index.html">Home</a><a href="news.html">News/Event</a><a href="about.html">About Us</a><a href="contact.html">Contact Us</a><a href="portal/login.html" class="btn btn-mint btn-sm" style="margin-left:6px">Login/Register</a></div></div>
+</div></nav>
+<div class="page-hero">
+  <div class="container" id="classHero">
+    <span class="sec-tag">Our Classes</span>
+    <h1 id="classTitle">Our Classes</h1>
+    <p id="classTag">Creche to Primary 6 — tap a class to open its page.</p>
+  </div>
+</div>
+<section><div class="container" id="classBody"><div class="empty">Loading…</div></div></section>
+<footer id="siteFooter"></footer>
+<div id="printSlip"></div>
+<div id="toast"></div>
+<script src="assets/js/store.js?v=20260919-20"></script>
+<script src="assets/js/site.js?v=20260919-20"></script>
+<script>
+(function(){
+  const db = DB.load();
+  const pages = db.classPages || [];
+  const want = new URLSearchParams(location.search).get("class");
+  const cp = pages.find(p => p.class === want && p.visible !== false);
+  const body = document.getElementById("classBody");
+  if(!cp){
+    document.getElementById("classTitle").textContent = "Our Classes";
+    body.innerHTML = `<div class="class-grid">` + pages.filter(p=>p.visible!==false).map(p=>`
+      <a class="class-card" href="class.html?class=${encodeURIComponent(p.class)}">
+        <h3>${U.esc(p.class)}</h3><p style="color:var(--muted);font-size:.88rem">${U.esc(p.tagline||"")}</p>
+        <span style="color:#177A3F;font-weight:800;font-size:.88rem">Open class page →</span>
+      </a>`).join("") + `</div>
+      <div style="text-align:center;margin-top:26px"><a class="btn btn-mint" href="portal/login.html?mode=register">Enrol Your Child</a></div>`;
+    return;
+  }
+  document.title = cp.class + " — Treasure Academy, Ageva";
+  document.getElementById("classTitle").textContent = cp.class;
+  document.getElementById("classTag").textContent = cp.tagline || "";
+  const teacher = (db.teachers || []).find(t => t.class === cp.class);
+  const nPupils = (db.pupils || []).filter(p => p.class === cp.class).length;
+  const tt = U.getTimetable(db, cp.class), ttDays = Object.keys(tt);
+  window._ttCls = cp.class;
+  window.printTT = function(){
+    const d=DB.load(), t=U.getTimetable(d,window._ttCls), slots=U.ttSlots();
+    document.getElementById("printSlip").innerHTML=`<div class="slip"><div class="slip-head"><b>${U.esc(d.school.name)}</b><small>${U.esc(d.school.address||"")}</small></div><h3>TIMETABLE — ${U.esc(window._ttCls)}</h3><table class="slip-tbl items"><thead><tr><th>Day</th>${slots.map(x=>`<th>${x}</th>`).join("")}</tr></thead><tbody>${Object.keys(t).map(dy=>`<tr><td><b>${dy}</b></td>${t[dy].map(x=>`<td>${U.esc(x)}</td>`).join("")}</tr>`).join("")}</tbody></table><p class="slip-note">"${U.esc(d.school.motto)}"</p></div>`;
+    document.body.classList.add("printing"); window.print();
+    setTimeout(()=>document.body.classList.remove("printing"),600);
+  };
+  window._cpCls = cp.class;
+  window.printBrochure = function(){
+    const d=DB.load(), pg=(d.classPages||[]).find(p=>p.class===window._cpCls)||{};
+    const t=(d.teachers||[]).find(x=>x.class===window._cpCls)||{};
+    const np=(d.pupils||[]).filter(p=>p.class===window._cpCls).length;
+    const tm=U.getTimetable(d,window._cpCls), slots=U.ttSlots();
+    document.getElementById("printSlip").innerHTML=`<div class="slip"><div class="slip-head"><b>${U.esc(d.school.name)}</b><small>${U.esc(d.school.address||"")} • ${U.esc(d.school.phone||"")}</small></div><h3>${U.esc(window._cpCls)} — CLASS BROCHURE</h3>
+    <p><b>${U.esc(pg.tagline||"")}</b></p><p>${U.esc(pg.about||"")}</p>
+    <table class="slip-tbl"><tr><td>Class Teacher</td><td><b>${U.esc(t.name||"—")}</b></td></tr><tr><td>Pupils</td><td><b>${np}</b></td></tr></table>
+    <p><b>What we do:</b> ${(pg.activities||[]).map(a=>U.esc(a)).join(" • ")||"—"}</p>
+    <table class="slip-tbl items"><thead><tr><th>Day</th>${slots.map(x=>`<th>${x}</th>`).join("")}</tr></thead><tbody>${Object.keys(tm).map(dy=>`<tr><td><b>${dy}</b></td>${tm[dy].map(x=>`<td>${U.esc(x)}</td>`).join("")}</tr>`).join("")}</tbody></table>
+    <p class="slip-note">Admissions open — "${U.esc(d.school.motto)}"</p></div>`;
+    document.body.classList.add("printing"); window.print();
+    setTimeout(()=>document.body.classList.remove("printing"),600);
+  };
+  body.innerHTML = `
+    <img class="class-hero-img" src="${U.esc(cp.image || "assets/img/classroom.png")}" alt="${U.esc(cp.class)} classroom" onerror="this.style.display='none'">
+    <div class="p-grid2">
+      <div class="panel"><h2>About ${U.esc(cp.class)}</h2><p>${U.esc(cp.about || "")}</p>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:14px">
+          <a class="btn btn-mint" href="portal/login.html?mode=register&class=${encodeURIComponent(cp.class)}">Enrol in ${U.esc(cp.class)}</a>
+          <button class="btn btn-white" onclick="printBrochure()">Print Brochure</button>
+          <a class="btn btn-white" href="shop.html?class=${encodeURIComponent(cp.class)}">Shop ${U.esc(cp.class)} Items</a>
+        </div>
+      </div>
+      <div class="panel"><h2>Class Teacher</h2>
+        ${teacher ? `<div style="display:flex;gap:12px;align-items:center"><div class="avatar" style="width:52px;height:52px;flex-basis:52px;background:${U.avatarColor(teacher.name)};font-size:1.1rem">${U.initials(teacher.name)}</div><div><b style="font-size:1.1rem">${U.esc(teacher.name)}</b><br><span style="color:var(--muted);font-size:.86rem">${U.esc((teacher.subjects||[]).join(", "))}</span></div></div>`
+        : `<p style="color:var(--muted)">Class teacher to be announced.</p>`}
+        <p style="margin-top:12px"><span class="badge b-green">${nPupils} pupil${nPupils===1?"":"s"}</span></p>
+        <p class="sub">Admission into this class is approved by the headmistress after you apply.</p>
+      </div>
+    </div>
+    <h2 style="margin-top:6px">What We Do in ${U.esc(cp.class)}</h2>
+    <div class="act-grid">${(cp.activities||[]).map(a=>`<div class="act-card">${U.icon("check",18)} ${U.esc(a)}</div>`).join("")}</div>
+    <div style="display:flex;align-items:center;gap:12px;margin-top:26px;flex-wrap:wrap"><h2 style="margin:0">Weekly Timetable</h2><span style="flex:1"></span><button class="btn btn-mint btn-sm" onclick="printTT()">Print Timetable</button></div>
+    <div style="overflow-x:auto"><table class="tbl tt"><thead><tr><th>Day</th>${U.ttSlots().map(s=>`<th>${s}</th>`).join("")}</tr></thead><tbody>${ttDays.map(d=>`<tr><td>${d}</td>${tt[d].map(x=>`<td>${U.esc(x)}</td>`).join("")}</tr>`).join("")}</tbody></table></div>
+    <div class="steps" style="margin-top:26px">
+      <div class="step"><div class="num">1</div><h3>Apply</h3><p>Fill the 3-step form online in minutes.</p></div>
+      <div class="step"><div class="num">2</div><h3>Get Approved</h3><p>The headmistress reviews and admits.</p></div>
+      <div class="step"><div class="num">3</div><h3>Start Class</h3><p>Login details are sent to the parent.</p></div>
+    </div>
+    <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:26px">
+      <a class="btn btn-mint" href="portal/login.html?mode=register&class=${encodeURIComponent(cp.class)}">Enrol in ${U.esc(cp.class)}</a>
+      <a class="btn btn-white" href="class.html">All Classes</a>
+    </div>`;
+})();
+</script>
+</body>
+</html>

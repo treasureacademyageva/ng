@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<style>#siteLoader{position:fixed;inset:0;z-index:1200;background:#fff;display:flex;flex-direction:column;gap:14px;align-items:center;justify-content:center;transition:opacity .4s}#siteLoader img{width:84px;height:84px;object-fit:contain}#siteLoader .spin{width:38px;height:38px;border-radius:50%;border:4px solid #FDF6D8;border-top-color:#0B7A37;animation:lspin .8s linear infinite}@keyframes lspin{to{transform:rotate(360deg)}}#siteLoader.done{opacity:0;pointer-events:none}</style>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Term Calendar — Treasure Academy, Ageva</title>
+<link rel="icon" href="assets/img/logo.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/main.css?v=20260919-20">
+<link rel="stylesheet" href="assets/css/extra.css?v=20260919-20">
+<link rel="stylesheet" href="assets/css/corporate.css?v=20260919-20">
+<style>
+.print-head{display:none}
+@media print{
+  .topbar,.navbar,.page-hero,#siteFooter,#toast,.no-print,#siteLoader{display:none!important}
+  body{background:#fff}
+  section{padding:0}
+  .print-head{display:block!important;text-align:center;margin-bottom:18px;color:#000;border-bottom:3px solid #14532D;padding-bottom:10px}
+  .print-head h1{font-size:1.4rem;margin:0}
+  .print-head p{margin:2px 0;font-size:.85rem}
+  #calList .track-card{box-shadow:none;border:1px solid #999;break-inside:avoid;margin-bottom:10px}
+}
+</style>
+<noscript><style>#siteLoader{display:none!important}</style></noscript>
+</head>
+<body data-page="calendar" data-assets="assets/">
+<div id="siteLoader"><img src="assets/img/logo.jpg" alt="Treasure Academy"><div class="spin"></div></div>
+<div class="topbar"><div class="container">
+  <div class="tb-contact"><span><b>Admissions</b> <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg><a data-school-phone href="tel:"></a></span><span class="tb-sep">•</span><span data-school-email></span></div>
+  <div class="tb-right"><span>Ageva, Okene, Kogi State</span><a class="portal-link" href="portal/login.html">Portal Login</a></div>
+</div></div>
+<nav class="navbar"><div class="container">
+  <a class="logo" href="index.html">
+    <img class="mark-img" src="assets/img/logo.jpg" alt="Treasure Academy logo">
+    </a>
+  <div class="brand-name"><span data-school-name></span><small>Creche to Primary 6</small></div>
+  <div class="nav-links" id="navLinks"><div id="mainNav" style="display:contents"><a href="index.html">Home</a><a href="news.html">News/Event</a><a href="about.html">About Us</a><a href="contact.html">Contact Us</a><a href="portal/login.html" class="btn btn-mint btn-sm" style="margin-left:6px">Login/Register</a></div></div>
+</div></nav>
+<div class="page-hero">
+  <div class="container">
+    <span class="sec-tag">Calendar</span>
+    <h1>Term Calendar</h1>
+    <p id="calSess">Important dates for this term — resumption, breaks, exams and closing.</p>
+  </div>
+</div>
+<section><div class="container">
+  <div class="print-head" id="printHead"></div>
+  <div id="calList"></div>
+  <div class="no-print" style="text-align:center;margin-top:22px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
+    <button class="btn btn-mint" onclick="window.print()">Print Calendar</button>
+    <a class="btn btn-white" href="admissions.html">Admissions</a>
+  </div>
+</div></section>
+<footer id="siteFooter"></footer>
+<div id="toast"></div>
+<script src="assets/js/store.js?v=20260919-20"></script>
+<script src="assets/js/site.js?v=20260919-20"></script>
+<script>
+(function(){
+  const db = DB.load();
+  document.getElementById("calSess").textContent = (db.school.term||"") + " " + (db.school.session||"") + ". Important dates: resumption, breaks, exams and closing.";
+  document.getElementById("printHead").innerHTML="<h1>"+U.esc(db.school.name)+"</h1><p>"+U.esc(db.school.address)+" • "+U.esc(db.school.phone)+"</p><p><b>"+U.esc(db.school.term)+" "+U.esc(db.school.session)+" • Term Calendar</b></p>";
+  const today = U.todayStr();
+  const list = [...(db.calendar||[])].sort((a,b)=>a.date.localeCompare(b.date));
+  document.getElementById("calList").innerHTML = list.length ? list.map(c=>{
+    const past = c.date < today;
+    return `<div class="track-card" style="${past?"opacity:.65":""}">
+      <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap">
+        <span class="badge ${past?"b-sky":"b-green"}">${U.prettyDate(c.date)}</span>
+        ${past?"":'<span class="tag-new">UPCOMING</span>'}
+        <b style="font-size:1.05rem">${U.esc(c.title)}</b>
+      </div>
+      ${c.desc?`<p style="margin:8px 0 0;color:var(--muted)">${U.esc(c.desc)}</p>`:""}
+    </div>`; }).join("") : '<div class="empty">No dates published yet. Check back soon!</div>';
+})();
+</script>
+</body>
+</html>
