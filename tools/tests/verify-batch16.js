@@ -3,7 +3,7 @@
 const fs = require('fs');
 const vm = require('vm');
 const { JSDOM } = require('jsdom');
-const SITE = '/home/user/mums-school-website';
+const SITE = require('path').resolve(__dirname, '..', '..');
 const store = fs.readFileSync(SITE + '/assets/js/store.js', 'utf8');
 const site = fs.readFileSync(SITE + '/assets/js/site.js', 'utf8');
 let pass = 0, fail = 0;
@@ -70,13 +70,13 @@ for (const [page, sess, n] of [['portal/pupil.html', PUPIL, 6], ['portal/teacher
   // NOTE: jsdom+vm never fires inline onclick attributes (harness limit, real browsers fine),
   // so demo entry is invoked exactly as the button would invoke it.
   const { window: w, run } = loadPage('portal/login.html');
-  run('fillDemo("TA/2023/001");');
+  run('fillDemo("0805 111 2222");');
   setTimeout(() => {
     let sess = null;
     try { sess = w.localStorage.getItem('treasure_session_v1'); } catch (e) {}
     ok('demo tap logs in (session set)', !!sess && sess.includes('P001'), String(sess).slice(0, 80));
     const { window: w2, run: run2 } = loadPage('portal/login.html');
-    run2('fillDemo("TA/2023/003");');
+    run2('fillDemo("0805 555 6666");');
     ok('password-less demo routes to create-password', w2.document.getElementById('toast').textContent.includes('no password yet'));
     finish();
   }, 900);

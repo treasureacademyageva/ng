@@ -1,6 +1,6 @@
 // verify2.js — deep checks for batch 2026-09-16
 const fs = require('fs'), vm = require('vm'), { JSDOM } = require('jsdom');
-const SITE = '/home/user/mums-school-website';
+const SITE = require('path').resolve(__dirname, '..', '..');
 function load(page, query = '') {
   const html = fs.readFileSync(SITE + '/' + page, 'utf8');
   const dom = new JSDOM(html, { url: 'http://localhost/' + page + query, pretendToBeVisual: true });

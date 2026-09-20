@@ -3,7 +3,7 @@
 const fs = require('fs');
 const vm = require('vm');
 const { JSDOM } = require('jsdom');
-const SITE = '/home/user/mums-school-website';
+const SITE = require('path').resolve(__dirname, '..', '..');
 const store = fs.readFileSync(SITE + '/assets/js/store.js', 'utf8');
 const site = fs.readFileSync(SITE + '/assets/js/site.js', 'utf8');
 let pass = 0, fail = 0;

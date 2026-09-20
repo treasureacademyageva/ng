@@ -66,14 +66,31 @@ Everything from before (Overview, Pupils, Teachers, Duty Roster + instant dashbo
 
 ## 📁 Files
 
+The site lives at the **repo root** — there is exactly one copy of every file.
+
 ```
-mums-school-website/
-├── index.html  about.html  contact.html  news.html  story.html
-├── portal/  login.html  admin.html  teacher.html  pupil.html
-├── assets/css/  main.css  extra.css
-├── assets/js/  store.js (database)  site.js (theme/chatbot/clock Sliders/captcha)
-└── assets/img/  6x kiddies artwork  +  README.md
+/  (repo root = the website)
+├── index.html  about.html  contact.html  news.html  story.html  … (30 pages)
+├── portal/      login.html  admin.html  teacher.html  pupil.html
+├── assets/css/  main.css  extra.css  corporate.css
+├── assets/js/   store.js (database)  site.js (theme/chatbot/clock/sliders/captcha)
+├── assets/img/  38 images
+├── docs/        SUPABASE-SETUP.md  moniepoint-payments-plan.md
+├── tools/       run-all-tests.sh  tests/ (verify-batch2..20, 769 checks)
+├── sw.js  supabase-schema.sql
+└── PROJECT-STATE.md
 ```
+
+## ▶️ Run it locally
+
+```bash
+npm install                    # jsdom — needed only for the tests
+python3 -m http.server 8080    # static site, no build step
+bash tools/run-all-tests.sh    # full regression suite (769 checks)
+```
+
+Open the site through a web server, **not** `file://` — localStorage and fetch
+misbehave on `file://`.
 
 ## 🚀 Going live (when ready)
 

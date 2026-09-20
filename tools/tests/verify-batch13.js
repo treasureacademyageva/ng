@@ -2,7 +2,7 @@
 // print, call button, idle logout
 const fs = require('fs'), vm = require('vm');
 const { JSDOM } = require('jsdom');
-const SITE = '/home/user/mums-school-website';
+const SITE = require('path').resolve(__dirname, '..', '..');
 const store = fs.readFileSync(SITE + '/assets/js/store.js', 'utf8');
 const site = fs.readFileSync(SITE + '/assets/js/site.js', 'utf8');
 let pass = 0, fail = 0;
@@ -119,7 +119,7 @@ function loadPage(page, session, seedFn) {
   ok('bell + countdown coexist', b.window.document.getElementById('bdayBell').textContent.includes('Today Star') && b.window.document.getElementById('bdayCount').textContent.includes('Future Star'));
   const path = require('path');
   const pages = [];
-  (function walk(dd) { for (const f of fs.readdirSync(dd)) { const p = path.join(dd, f); if (fs.statSync(p).isDirectory()) walk(p); else if (f.endsWith('.html')) pages.push(p); } })(SITE);
+  (function walk(dd) { for (const f of fs.readdirSync(dd)) { if (['node_modules','.git','tools'].includes(f)) continue; const p = path.join(dd, f); if (fs.statSync(p).isDirectory()) walk(p); else if (f.endsWith('.html')) pages.push(p); } })(SITE);
   const stale = pages.filter(p => { const s = fs.readFileSync(p, 'utf8'); return [...s.matchAll(/(?:href|src)="((?:\.\.\/)?assets\/[^"]+\.(?:css|js))"/g)].some(m => !m[1].includes('?v=20260916-13')); });
   ok('cache-bust v13 everywhere', stale.length === 0, stale.slice(0, 3).join(','));
   ok('misc clean', a.errors.length === 0 && i.errors.length === 0 && d.errors.length === 0 && t.errors.length === 0 && b.errors.length === 0,

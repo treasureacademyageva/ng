@@ -2,7 +2,7 @@
 // admissions banner, PTA meetings
 const fs = require('fs'), vm = require('vm');
 const { JSDOM } = require('jsdom');
-const SITE = '/home/user/mums-school-website';
+const SITE = require('path').resolve(__dirname, '..', '..');
 const store = fs.readFileSync(SITE + '/assets/js/store.js', 'utf8');
 const site = fs.readFileSync(SITE + '/assets/js/site.js', 'utf8');
 let pass = 0, fail = 0;
@@ -60,7 +60,7 @@ function loadPage(page, session, seedFn, opts = {}) {
   ok('mobile sidebar above veil', css.includes('z-index:450') && css.includes('.menu-veil{position:fixed;inset:0;background:rgba(20,30,45,.45);z-index:90'));
   const path = require('path');
   const pages = [];
-  (function walk(d) { for (const f of fs.readdirSync(d)) { const p = path.join(d, f); if (fs.statSync(p).isDirectory()) walk(p); else if (f.endsWith('.html')) pages.push(p); } })(SITE);
+  (function walk(d) { for (const f of fs.readdirSync(d)) { if (['node_modules','.git','tools'].includes(f)) continue; const p = path.join(d, f); if (fs.statSync(p).isDirectory()) walk(p); else if (f.endsWith('.html')) pages.push(p); } })(SITE);
   const stale = pages.filter(p => { const s = fs.readFileSync(p, 'utf8'); return [...s.matchAll(/(?:href|src)="((?:\.\.\/)?assets\/[^"]+\.(?:css|js))"/g)].some(m => !m[1].includes('?v=20260916-12')); });
   ok('cache-bust v12 everywhere', stale.length === 0, stale.slice(0, 3).join(','));
 }

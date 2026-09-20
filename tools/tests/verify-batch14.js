@@ -1,7 +1,7 @@
 // verify-batch14.js
 const fs = require('fs'), vm = require('vm');
 const { JSDOM } = require('jsdom');
-const SITE = '/home/user/mums-school-website';
+const SITE = require('path').resolve(__dirname, '..', '..');
 const store = fs.readFileSync(SITE + '/assets/js/store.js', 'utf8');
 const site = fs.readFileSync(SITE + '/assets/js/site.js', 'utf8');
 const css = fs.readFileSync(SITE + '/assets/css/corporate.css', 'utf8');
@@ -161,7 +161,7 @@ const dstr = off => { const d = new Date(); d.setDate(d.getDate() + off); return
   const src = fs.readFileSync(SITE + '/portal/login.html', 'utf8');
   ok('login +234 x2', (src.match(/\+234<\/span>/g) || []).length === 2);
   ok('login maxlength 10', src.includes('id="rG1Phone" data-phone maxlength="10"'));
-  ok('login new reg hints', src.includes('TAA/P/0001') && !src.includes('TA/2023/001') === false); // demos keep old working numbers
+  ok('login phone hints', src.includes('0805 123 4567') && src.includes("fillDemo('0805 111 2222')")); // batch18: phone is the login ID
   ok('login alt fixed', src.includes('alt="Happy pupils learning"'));
   const adm = fs.readFileSync(SITE + '/portal/admin.html', 'utf8'), tch = fs.readFileSync(SITE + '/portal/teacher.html', 'utf8');
   const fmt = '"TAA/P/"+String(db.seq.pupil).padStart(4,"0")';
@@ -277,7 +277,7 @@ const dstr = off => { const d = new Date(); d.setDate(d.getDate() + off); return
   const old = [];
   const walk = d => fs.readdirSync(d, { withFileTypes: true }).forEach(e => {
     const p = d + '/' + e.name;
-    if (e.isDirectory()) { if (!['node_modules', '.git'].includes(e.name)) walk(p); }
+    if (e.isDirectory()) { if (!['node_modules', '.git', 'tools'].includes(e.name)) walk(p); }
     else if (/\.(html|js|css)$/.test(e.name) && fs.readFileSync(p, 'utf8').includes('20260916-13')) old.push(p);
   });
   walk(SITE);
