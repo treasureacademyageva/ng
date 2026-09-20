@@ -76,7 +76,7 @@ The site lives at the **repo root** — there is exactly one copy of every file.
 ├── assets/js/   store.js (database)  site.js (theme/chatbot/clock/sliders/captcha)
 ├── assets/img/  38 images
 ├── docs/        SUPABASE-SETUP.md  moniepoint-payments-plan.md
-├── tools/       run-all-tests.sh  tests/ (verify-batch2..35, 1160 checks)
+├── tools/       run-all-tests.sh  tests/ (verify-batch2..36, 1173 checks)
 ├── sw.js  supabase-schema.sql
 └── PROJECT-STATE.md
 ```
@@ -86,7 +86,7 @@ The site lives at the **repo root** — there is exactly one copy of every file.
 ```bash
 npm install                    # jsdom — needed only for the tests
 python3 -m http.server 8080    # static site, no build step
-bash tools/run-all-tests.sh    # full regression suite (1160 checks)
+bash tools/run-all-tests.sh    # full regression suite (1173 checks)
 ```
 
 Open the site through a web server, **not** `file://` — localStorage and fetch

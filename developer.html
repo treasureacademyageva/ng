@@ -64,6 +64,8 @@ pre.view{background:#0A1114;border:1px solid var(--line);border-radius:10px;padd
 /* toast */
 #dvToast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%) translateY(20px);background:#123B26;border:1px solid #1F5C39;color:#EAF6EE;font-weight:700;font-size:.85rem;padding:10px 16px;border-radius:12px;opacity:0;pointer-events:none;transition:all .25s ease;z-index:99}
 #dvToast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.dv-notes{width:100%;min-height:150px;background:#0A1114;border:1px solid var(--line);border-radius:10px;color:var(--ink);padding:11px 12px;font:inherit;line-height:1.55;outline:none;resize:vertical}
+.dv-notes:focus{border-color:var(--grn)}
 </style>
 </head>
 <body>
@@ -109,6 +111,10 @@ pre.view{background:#0A1114;border:1px solid var(--line);border-radius:10px;padd
       <div class="row"><button class="grn" id="dvBioReg">Register fingerprint</button><button class="red" id="dvBioDel">Remove</button></div>
       <p class="note">Once registered, YOUR fingerprint unlocks this console on this device &mdash; nobody else's. Password still works everywhere.</p>
     </div>
+    <div class="panel"><h2><span class="dot"></span>Developer Notes</h2>
+      <textarea id="dvNotes" class="dv-notes" placeholder="Private notepad: build ideas, reminders, things to move next..." spellcheck="false"></textarea>
+      <div class="row"><button class="grn" id="dvNotesCopy">Copy notes</button><button class="red" id="dvNotesClear">Clear notes</button><span class="note" id="dvNotesHint" style="margin:0">Saves automatically on this device.</span></div>
+    </div>
     <div class="panel" style="grid-column:1/-1"><h2><span class="dot"></span>Developer Modules</h2>
       <div id="dvModules">
         <div class="dv-mod">
@@ -127,13 +133,13 @@ pre.view{background:#0A1114;border:1px solid var(--line);border-radius:10px;padd
   </div>
 </div>
 <div id="dvToast"></div>
-<script src="assets/js/store.js?v=20260919-35"></script>
-<script src="assets/js/sync.js?v=20260919-35"></script>
+<script src="assets/js/store.js?v=20260919-36"></script>
+<script src="assets/js/sync.js?v=20260919-36"></script>
 <script>
 (function(){
   "use strict";
   var HASH = "3133076b53086ef8cc6a3f0ce07d2ab3fca6cb3dcbc8b245b32a4862048ce148";
-  var BUILD = "treasure-v35";
+  var BUILD = "treasure-v36";
   var GATE = "treasure_dev_gate", LOCK = "treasure_dev_lock";
   var PAGES = 36;
 
@@ -156,7 +162,7 @@ pre.view{background:#0A1114;border:1px solid var(--line);border-radius:10px;padd
   }
   function showConsole(){
     $("dvGate").classList.add("hide"); $("dvConsole").classList.remove("hide");
-    fillSnap(); fillStore(); fillSess(); fillCache(); renderVisitors(); renderBio();
+    fillSnap(); fillStore(); fillSess(); fillCache(); renderVisitors(); renderBio(); renderNotes();
     $("dvVer").textContent = "build " + BUILD;
   }
 
@@ -255,7 +261,7 @@ pre.view{background:#0A1114;border:1px solid var(--line);border-radius:10px;padd
   });
 
   /* ---- cache tools ---- */
-  function fillCache(){ $("dvCacheNote").textContent = "Service worker build: " + BUILD + " · page asset version: 20260919-35."; }
+  function fillCache(){ $("dvCacheNote").textContent = "Service worker build: " + BUILD + " · page asset version: 20260919-36."; }
   $("dvCache").addEventListener("click", function(){
     if(!(window.caches && caches.keys)){ toast("Cache API not available."); return; }
     caches.keys().then(function(ks){ return Promise.all(ks.map(function(k){ return caches.delete(k); })); })
@@ -366,6 +372,35 @@ pre.view{background:#0A1114;border:1px solid var(--line);border-radius:10px;padd
       $("dvBio").disabled=false;
       $("dvErr").textContent=e&&e.name==="NotAllowedError"?"Fingerprint not recognised or timed out.":"Fingerprint check failed.";
     });
+  });
+
+  /* ---- developer notes (batch36): private autosave notepad ---- */
+  var NOTESKEY = "treasure_dev_notes", notesT = null;
+  function renderNotes(){
+    var ta = $("dvNotes"); if(!ta) return;
+    ta.value = localStorage.getItem(NOTESKEY) || "";
+  }
+  $("dvNotes").addEventListener("input", function(){
+    if(notesT) clearTimeout(notesT);
+    notesT = setTimeout(function(){
+      try{
+        localStorage.setItem(NOTESKEY, $("dvNotes").value);
+        var h = $("dvNotesHint");
+        if(h) h.textContent = "Saved \u2713 " + new Date().toLocaleTimeString();
+      }catch(e){ var h2=$("dvNotesHint"); if(h2)h2.textContent="Could not save (storage full?)"; }
+    }, 400);
+  });
+  $("dvNotesClear").addEventListener("click", function(){
+    if(!confirm("Clear all developer notes?")) return;
+    localStorage.removeItem(NOTESKEY);
+    $("dvNotes").value = ""; renderNotes();
+    var h = $("dvNotesHint"); if(h) h.textContent = "Cleared.";
+  });
+  $("dvNotesCopy").addEventListener("click", function(){
+    var t = $("dvNotes").value || "";
+    if(!t){ toast("Notes are empty."); return; }
+    if(navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(t).then(function(){ toast("Notes copied."); }, function(){ toast("Copy failed."); });
+    else toast("Copy not supported here.");
   });
 
   /* ---- auto-lock after 10 idle minutes (batch35) ---- */
