@@ -38,6 +38,17 @@ button.red{background:#2A1216;border-color:#5C1F28;color:#FFB4B8}
 .row{display:flex;gap:8px;flex-wrap:wrap;margin-top:4px}
 .note{color:var(--mut);font-size:.8rem;margin-top:8px}
 .modules-empty{border:1.5px dashed var(--line);border-radius:12px;padding:22px;text-align:center;color:var(--mut);font-size:.88rem}
+.dv-mod{background:var(--panel2);border:1px solid var(--line);border-radius:14px;padding:14px}
+.dv-mod-head{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:10px;font-size:.95rem}
+.dv-inside{background:#123B26;border:1px solid #1F5C39;color:#7BD89F;font-weight:700;font-size:.75rem;padding:3px 10px;border-radius:99px}
+.dv-vform{display:grid;grid-template-columns:2fr 1.4fr 1.4fr 1.6fr auto;gap:8px;margin-bottom:12px}
+@media(max-width:820px){.dv-vform{grid-template-columns:1fr 1fr}}
+.dv-vform input{background:#0A1114;border:1px solid var(--line);border-radius:9px;color:var(--ink);padding:9px 11px;font:inherit;outline:none}
+.dv-vform input:focus{border-color:var(--grn)}
+.dv-vrow{display:flex;gap:10px;align-items:center;padding:8px 0;border-bottom:1px dashed var(--line);font-size:.88rem}
+.dv-vrow:last-child{border-bottom:0}
+.dv-vrow small{color:var(--mut);display:block}
+.dv-vrow .out{color:#7BD89F;font-weight:700;font-size:.78rem}
 pre.view{background:#0A1114;border:1px solid var(--line);border-radius:10px;padding:10px;max-height:200px;overflow:auto;font:12px/1.5 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;color:#B9D4C6;margin-top:8px;white-space:pre-wrap;word-break:break-all}
 /* gate */
 #dvGate{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
@@ -93,18 +104,30 @@ pre.view{background:#0A1114;border:1px solid var(--line);border-radius:10px;padd
     </div>
     <div class="panel"><h2><span class="dot"></span>Session</h2><div id="dvSess"></div></div>
     <div class="panel" style="grid-column:1/-1"><h2><span class="dot"></span>Developer Modules</h2>
-      <div class="modules-empty" id="dvModules">No modules moved here yet.<br>Features the school moves to the developer area will appear in this space.</div>
+      <div id="dvModules">
+        <div class="dv-mod">
+          <div class="dv-mod-head"><b>Visitor Log &mdash; Front Desk</b><span class="dv-inside" id="dvInside">0 inside now</span></div>
+          <form id="dvVForm" class="dv-vform">
+            <input id="dvVName" placeholder="Visitor name *" required>
+            <input id="dvVPhone" placeholder="Phone (optional)">
+            <input id="dvVWhom" placeholder="To see whom *">
+            <input id="dvVPurp" placeholder="Purpose *">
+            <button type="submit" class="grn">Sign in visitor</button>
+          </form>
+          <div id="dvVList"></div>
+        </div>
+      </div>
     </div>
   </div>
 </div>
 <div id="dvToast"></div>
-<script src="assets/js/store.js?v=20260919-32"></script>
-<script src="assets/js/sync.js?v=20260919-32"></script>
+<script src="assets/js/store.js?v=20260919-33"></script>
+<script src="assets/js/sync.js?v=20260919-33"></script>
 <script>
 (function(){
   "use strict";
   var HASH = "3133076b53086ef8cc6a3f0ce07d2ab3fca6cb3dcbc8b245b32a4862048ce148";
-  var BUILD = "treasure-v32";
+  var BUILD = "treasure-v33";
   var GATE = "treasure_dev_gate", LOCK = "treasure_dev_lock";
   var PAGES = 36;
 
@@ -127,7 +150,7 @@ pre.view{background:#0A1114;border:1px solid var(--line);border-radius:10px;padd
   }
   function showConsole(){
     $("dvGate").classList.add("hide"); $("dvConsole").classList.remove("hide");
-    fillSnap(); fillStore(); fillSess(); fillCache();
+    fillSnap(); fillStore(); fillSess(); fillCache(); renderVisitors();
     $("dvVer").textContent = "build " + BUILD;
   }
 
@@ -226,7 +249,7 @@ pre.view{background:#0A1114;border:1px solid var(--line);border-radius:10px;padd
   });
 
   /* ---- cache tools ---- */
-  function fillCache(){ $("dvCacheNote").textContent = "Service worker build: " + BUILD + " · page asset version: 20260919-32."; }
+  function fillCache(){ $("dvCacheNote").textContent = "Service worker build: " + BUILD + " · page asset version: 20260919-33."; }
   $("dvCache").addEventListener("click", function(){
     if(!(window.caches && caches.keys)){ toast("Cache API not available."); return; }
     caches.keys().then(function(ks){ return Promise.all(ks.map(function(k){ return caches.delete(k); })); })
@@ -246,6 +269,43 @@ pre.view{background:#0A1114;border:1px solid var(--line);border-radius:10px;padd
     try{ t = sessionStorage.getItem(GATE); if(t) t = "opened " + new Date(+t).toLocaleTimeString(); }catch(e){}
     $("dvSess").innerHTML = '<div class="kv"><span>Console</span><b>'+t+"</b></div><div class=\"kv\"><span>Device</span><b>"+(navigator.platform||"unknown")+"</b></div>";
   }
+
+  /* ---- visitor log module (batch33) ---- */
+  function renderVisitors(){
+    var list=[]; try{ list=DB.load().visitors||[]; }catch(e){}
+    var today=new Date().toISOString().slice(0,10);
+    var todays=list.filter(function(v){ return v.date===today; }).reverse();
+    var inside=todays.filter(function(v){ return !v.timeOut; }).length;
+    var ic=$("dvInside"); if(ic) ic.textContent=inside+" inside now";
+    var z=$("dvVList"); if(!z) return;
+    z.innerHTML=todays.length?todays.map(function(v){
+      return '<div class="dv-vrow"><div style="flex:1"><b>'+esc(v.name)+'</b> <small>to see '+esc(v.whom)+(v.purpose?' \u00b7 '+esc(v.purpose):'')+(v.phone?' \u00b7 '+esc(v.phone):'')+'</small></div>'
+        +(v.timeOut?'<span class="out">out '+v.timeOut+'</span>':'<button data-out="'+v.id+'">Check out</button>')+'</div>';
+    }).join(""):'<p class="note">No visitors yet today. Entries save on this device.</p>';
+    z.querySelectorAll("button[data-out]").forEach(function(b){
+      b.addEventListener("click",function(){
+        try{
+          var d=DB.load(); var v=(d.visitors||[]).find(function(x){ return x.id===b.dataset.out; });
+          if(v){ v.timeOut=new Date().toTimeString().slice(0,5); DB.save(d); }
+        }catch(e){}
+        renderVisitors();
+      });
+    });
+  }
+  function esc(s){ return String(s==null?"":s).replace(/[&<>"]/g,function(c){ return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]; }); }
+  var dvForm=$("dvVForm");
+  if(dvForm) dvForm.addEventListener("submit",function(e){
+    e.preventDefault();
+    var n=$("dvVName").value.trim(), w=$("dvVWhom").value.trim(), p=$("dvVPurp").value.trim();
+    if(!n||!w||!p){ toast("Name, whom and purpose are required."); return; }
+    try{
+      var d=DB.load(); d.visitors=d.visitors||[];
+      d.visitors.push({id:"VS"+Date.now(),name:n,phone:$("dvVPhone").value.trim(),whom:w,purpose:p,timeIn:new Date().toTimeString().slice(0,5),date:new Date().toISOString().slice(0,10)});
+      DB.save(d);
+    }catch(err){ toast("Could not save visitor."); return; }
+    $("dvVName").value=""; $("dvVPhone").value=""; $("dvVWhom").value=""; $("dvVPurp").value="";
+    renderVisitors(); toast("Visitor signed in.");
+  });
 
   /* ---- boot ---- */
   try{ if(sessionStorage.getItem(GATE)) showConsole(); else showGate(); }catch(e){ showGate(); }

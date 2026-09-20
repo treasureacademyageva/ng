@@ -341,6 +341,7 @@ const DB = {
     if(!db.rsvps) db.rsvps = [];
     if(!db.reading) db.reading = seedDB().reading;
     if(!db.meetings) db.meetings = seedDB().meetings;
+    if(!db.visitors) db.visitors = [];
     if(!db.jobApps) db.jobApps = [];
     if(!db.supportPledges) db.supportPledges = [
       {id:"SP1",name:"Blessing O.",amount:20000,msg:"For the library books. Once a Treasure pupil, always Treasure!",date:"2026-09-18",status:"Approved"},

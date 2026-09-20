@@ -956,6 +956,28 @@ function renderWOW(){
   box.innerHTML=`<span class="sec-tag">Word of the Week</span><div class="wow-word">${w[0]}</div><p class="wow-mean"><b>Meaning:</b> ${w[1]}.</p><p class="wow-ex"><b>Use it:</b> \u201c${w[2]}\u201d</p>`;
 }
 
+/* ---------- RESUMPTION COUNTDOWN + TESTIMONIAL SPOTLIGHT (batch33) ---------- */
+function renderResumeChip(){
+  const el=document.getElementById("resumeChip"); if(!el)return;
+  const d=(()=>{ try{ return (DB.load().school||{}).resumeDate||""; }catch(e){ return ""; } })();
+  if(!d){ el.innerHTML=""; return; }
+  const days=Math.round((new Date(d+"T12:00:00")-new Date(U.todayStr()+"T12:00:00"))/864e5);
+  let html="";
+  if(days>1) html=`<span class="rc-dot"></span><b>Resumption:</b>&nbsp;${days} days to go — ${U.prettyDate(d)}`;
+  else if(days===1) html=`<span class="rc-dot"></span><b>Resumption:</b>&nbsp;tomorrow — ${U.prettyDate(d)}`;
+  else if(days===0) html=`<span class="rc-dot"></span><b>School resumes today</b>&nbsp;— see you at assembly!`;
+  else if(days>=-10) html=`<span class="rc-dot" style="background:var(--mint)"></span><b>We are back in session</b>&nbsp;— welcome, everyone!`;
+  el.innerHTML=html?`<div class="resume-chip">${html}</div>`:"";
+}
+function renderTmSpot(){
+  const el=document.getElementById("tmSpot"); if(!el)return;
+  let list=[]; try{ list=(DB.load().testimonials||[]).filter(t=>t.status==="Approved"); }catch(e){}
+  if(!list.length){ el.innerHTML=""; return; }
+  const t=list[Math.floor(Date.now()/6048e5)%list.length]; /* rotates weekly */
+  const stars="\u2605".repeat(Math.min(5,t.stars||5))+"\u2606".repeat(Math.max(0,5-(t.stars||5)));
+  el.innerHTML=`<div class="tm-spot clip-up"><div class="tms-quote">\u201C</div><p>${U.esc(t.text)}</p><div class="tms-stars">${stars}</div><div class="tms-who"><b>${U.esc(t.name)}</b> <small>${U.esc(t.role||"Parent")}</small></div><a class="tms-link" href="testimonials.html">Read all parent reviews \u2192</a></div>`;
+}
+
 /* ---------------- LOADER (school crest splash) ---------------- */
 (function(){
   if(!document.querySelector('link[href*="corporate"]'))return;
@@ -1095,6 +1117,8 @@ document.addEventListener("DOMContentLoaded", ()=>{
   bootSafe(()=>registerSW());
   bootSafe(()=>initTopBtn());
   bootSafe(()=>renderWOW());
+  bootSafe(()=>renderResumeChip());
+  bootSafe(()=>renderTmSpot());
   bootSafe(()=>initSliders());
   bootSafe(()=>initReveal());
   bootSafe(()=>typeLabels(document));

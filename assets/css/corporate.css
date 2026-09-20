@@ -1103,3 +1103,18 @@ html[data-fontsize="l"]{font-size:17.5px}
 [data-theme="dark"] .wow-word{color:#F5C242}
 #regAbsent .notice{margin-bottom:8px}
 #regAbsent h3{font-family:var(--font-head)}
+/* ============ BATCH 33 (2026-09-20): resumption chip + testimonial spotlight ============ */
+#resumeChip:empty{display:none}
+.resume-chip{display:inline-flex;align-items:center;gap:8px;margin-top:16px;background:var(--white);border:1.5px solid var(--gold,#C9A227);border-radius:99px;padding:9px 18px;font-weight:700;font-size:.88rem;color:var(--ink);box-shadow:var(--sh-sm)}
+.rc-dot{width:9px;height:9px;border-radius:50%;background:var(--coral,#E5485D);flex:none}
+[data-theme="dark"] .resume-chip{background:#16222F;border-color:#E7B94B;color:#EAF0F6}
+#tmSpot:empty{display:none}
+.tm-spot{max-width:680px;margin:22px auto 0;padding:24px 26px;background:var(--mint-soft);border-radius:18px;text-align:center;position:relative;box-shadow:var(--sh-sm)}
+.tms-quote{font-family:var(--font-head);font-size:3rem;line-height:.6;color:var(--gold,#C9A227);margin-bottom:6px}
+.tm-spot p{font-size:1.02rem;line-height:1.7;color:var(--ink);margin:0 0 10px;font-style:italic}
+.tms-stars{color:#C9A227;letter-spacing:3px;margin-bottom:6px}
+[data-theme="dark"] .tms-stars{color:#E7B94B}
+.tms-who b{font-family:var(--font-head)}
+.tms-who small{color:var(--muted)}
+.tms-link{display:inline-block;margin-top:8px;font-weight:800;color:var(--green,#0E5A2E);text-decoration:underline;text-underline-offset:3px}
+[data-theme="dark"] .tms-link{color:#7BD89F}

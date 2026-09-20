@@ -11,9 +11,9 @@
 <title>Admin Dashboard — Treasure Academy, Ageva</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../assets/css/main.css?v=20260919-32">
-<link rel="stylesheet" href="../assets/css/extra.css?v=20260919-32">
-<link rel="stylesheet" href="../assets/css/corporate.css?v=20260919-32">
+<link rel="stylesheet" href="../assets/css/main.css?v=20260919-33">
+<link rel="stylesheet" href="../assets/css/extra.css?v=20260919-33">
+<link rel="stylesheet" href="../assets/css/corporate.css?v=20260919-33">
 <noscript><style>#siteLoader{display:none!important}</style></noscript>
 <script defer src="/_vercel/insights/script.js"></script>
 </head>
@@ -489,6 +489,7 @@
           <div class="field"><label>Current Term</label><select id="setTerm"><option>First Term</option><option>Second Term</option><option>Third Term</option></select></div>
           <div class="field"><label>Session</label><input id="setSession"></div>
           <div class="field"><label>Primary 6 Graduation Date</label><input id="setGrad" type="date"></div>
+          <div class="field"><label>Next Term Resumption Date</label><input id="setResume" type="date" title="Shows a countdown on the homepage"></div>
             <div class="field"><label>New Session Promotion</label><label style="display:flex;gap:8px;align-items:center;font-weight:600"><input type="checkbox" id="setPromote" style="width:auto"> Promote all pupils on save</label></div>
           <div class="field"><label>Headmistress Name</label><input id="setHead"></div>
        </div>
@@ -580,9 +581,9 @@ if(nav)nav.addEventListener("click",function(e){
 try{var h=String(location.hash||"").replace(/^#\/?/,""); if(h){var bb=document.querySelector('#sideNav button[data-view="'+h+'"]'); if(bb&&!bb.classList.contains("on"))bb.click();}}catch(e7){}
 })();
 </script>
-<script src="../assets/js/store.js?v=20260919-32"></script>
-<script src="../assets/js/sync.js?v=20260919-32"></script>
-<script src="../assets/js/site.js?v=20260919-32"></script>
+<script src="../assets/js/store.js?v=20260919-33"></script>
+<script src="../assets/js/sync.js?v=20260919-33"></script>
+<script src="../assets/js/site.js?v=20260919-33"></script>
 <script>
 const S = Auth.guard("admin");
 if(!S){location.href="login.html";throw new Error("no-session");}
@@ -1340,7 +1341,7 @@ function loadSettings(){
   db=DB.load(); const s=db.school;
   const set=(id,v)=>document.getElementById(id).value=v;
   set("setName",s.name);set("setMotto",s.motto);set("setPhone",s.phone);set("setEmail",s.email);
-  set("setAddress",s.address);set("setTerm",s.term);set("setFormFee",s.formFee||5000);set("setSession",s.session);set("setHead",s.headName);set("setGrad",s.gradDate||"");
+  set("setAddress",s.address);set("setTerm",s.term);set("setFormFee",s.formFee||5000);set("setSession",s.session);set("setHead",s.headName);set("setGrad",s.gradDate||"");set("setResume",s.resumeDate||"");
   const bk=s.bank||{}; set("setBank",bk.name||""); set("setAcct",bk.number||""); set("setHolder",bk.holder||"");
   const mp=s.moniepoint||{}; set("setMpAcct",mp.account||""); document.getElementById("setMpPos").value=mp.pos===false?"0":"1"; set("setVideo",s.videoUrl||""); set("setAnthem",s.anthemUrl||""); set("setHeadDob",s.headDob||""); set("setHeadPhoto",s.headPhoto||""); const hpp=document.getElementById("setHeadPhotoPrev"); if(s.headPhoto){hpp.src=s.headPhoto;hpp.style.display="";}else{hpp.style.display="none";} const emg=s.emergency||{}; document.getElementById("setEmgOn").value=emg.on?"1":"0"; set("setEmgText",emg.text||""); set("setEmgStart",emg.start||""); set("setEmgEnd",emg.end||"");
 }
@@ -1348,7 +1349,7 @@ function saveSettings(){
   db=DB.load();
   const g=id=>document.getElementById(id).value.trim();
   const oldSess=db.school.session;
-  Object.assign(db.school,{name:g("setName"),motto:g("setMotto"),phone:g("setPhone"),email:g("setEmail"),address:g("setAddress"),term:g("setTerm"),session:g("setSession"),headName:g("setHead"),gradDate:g("setGrad")});
+  Object.assign(db.school,{name:g("setName"),motto:g("setMotto"),phone:g("setPhone"),email:g("setEmail"),address:g("setAddress"),term:g("setTerm"),session:g("setSession"),headName:g("setHead"),gradDate:g("setGrad"),resumeDate:g("setResume")});
   const nf={}; document.querySelectorAll("#feesGrid input").forEach(i=>{ if(i.value.trim())nf[i.dataset.fee]=+String(i.value.trim()).replace(/,/g,"")||0; }); db.school.fees=nf;
   if(document.getElementById("setPromote").checked&&g("setSession")!==oldSess){ promoteCore(); db=DB.load(); renderPupils(); document.getElementById("setPromote").checked=false; U.toast("Session changed - all pupils promoted automatically."); }
   db.school.bank={name:g("setBank"),number:g("setAcct"),holder:g("setHolder")};
