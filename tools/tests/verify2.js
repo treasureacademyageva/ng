@@ -1,6 +1,10 @@
 // verify2.js — deep checks for batch 2026-09-16
 const fs = require('fs'), vm = require('vm'), { JSDOM } = require('jsdom');
-const SITE = require('path').resolve(__dirname, '..', '..');
+const SITE = (() => {
+  const w = require('path').join(__dirname, 'mums-school-website');
+  if (fs.existsSync(require('path').join(w, 'assets/js/store.js'))) return w;
+  return require('path').resolve(__dirname, '..', '..');
+})();
 function load(page, query = '') {
   const html = fs.readFileSync(SITE + '/' + page, 'utf8');
   const dom = new JSDOM(html, { url: 'http://localhost/' + page + query, pretendToBeVisual: true });

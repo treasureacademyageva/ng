@@ -1,9 +1,9 @@
 /* Treasure Academy offline support — key pages keep working without internet */
-const CACHE = 'treasure-v20';
+const CACHE = 'treasure-v21';
 const CORE = [
   'index.html', 'contact.html', 'calendar.html', 'admissions.html', 'news.html',
   'assets/css/main.css', 'assets/css/extra.css', 'assets/css/corporate.css',
-  'assets/js/store.js', 'assets/js/site.js', 'assets/js/data.js',
+  'assets/js/store.js', 'assets/js/site.js', 'assets/js/sync.js',
   'assets/img/logo.jpg'
 ];
 self.addEventListener('install', e => {

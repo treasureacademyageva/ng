@@ -15,7 +15,7 @@ Serve over HTTP, not `file://`, or localStorage/fetch misbehave.
 
 ## Test suite
 
-**769 checks passed, 0 failed** (batches 2–20).
+**799 checks passed, 0 failed** (batches 2–21).
 
 Tests now live in `tools/tests/` and locate the site themselves via
 `SITE = path.resolve(__dirname, '..', '..')`, so they work from any checkout
@@ -36,7 +36,7 @@ reporting "crashes" is a false alarm.
 │                site.js  (80 KB, theme/chatbot/clock/sliders/captcha)
 ├── assets/img/  38 images
 ├── docs/        SUPABASE-SETUP.md  moniepoint-payments-plan.md
-├── tools/       run-all-tests.sh  tests/verify-batch2..20.js  render-test.js  verify2.js
+├── tools/       run-all-tests.sh  tests/verify-batch2..21.js  render-test.js  verify2.js
 ├── sw.js  supabase-schema.sql
 └── README.md  PROJECT-STATE.md  package.json
 ```

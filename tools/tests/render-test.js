@@ -2,7 +2,11 @@
 // usage: node render-test.js <page.html> [?query]
 const fs = require('fs'), path = require('path'), vm = require('vm');
 const { JSDOM } = require('jsdom');
-const SITE = require('path').resolve(__dirname, '..', '..');
+const SITE = (() => {
+  const w = require('path').join(__dirname, 'mums-school-website');
+  if (fs.existsSync(require('path').join(w, 'assets/js/store.js'))) return w;
+  return require('path').resolve(__dirname, '..', '..');
+})();
 const page = process.argv[2] || 'news.html';
 const query = process.argv[3] || '';
 const html = fs.readFileSync(path.join(SITE, page), 'utf8');

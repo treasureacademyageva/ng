@@ -395,7 +395,7 @@ const DB = {
     if(!db.seq.order) db.seq.order = 1;
     return db;
   },
-  save(db){ localStorage.setItem(DB_KEY, JSON.stringify(db)); },
+  save(db){ localStorage.setItem(DB_KEY, JSON.stringify(db)); try{ if(window.Sync) Sync.pushSoon(); }catch(e){} },
   reset(){ localStorage.removeItem(DB_KEY); OLD_DB_KEYS.forEach(k=>localStorage.removeItem(k)); return DB.load(); },
   expireRegs(db){
     let changed=false; const now=Date.now();

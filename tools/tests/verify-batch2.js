@@ -1,7 +1,11 @@
 // verify-batch2.js — checks for approved features 2-10 + Latest News completion
 const fs = require('fs'), path = require('path'), vm = require('vm');
 const { JSDOM } = require('jsdom');
-const SITE = require('path').resolve(__dirname, '..', '..');
+const SITE = (() => {
+  const w = require('path').join(__dirname, 'mums-school-website');
+  if (fs.existsSync(require('path').join(w, 'assets/js/store.js'))) return w;
+  return require('path').resolve(__dirname, '..', '..');
+})();
 const store = fs.readFileSync(path.join(SITE, 'assets/js/store.js'), 'utf8');
 const site = fs.readFileSync(path.join(SITE, 'assets/js/site.js'), 'utf8');
 let pass = 0, fail = 0;

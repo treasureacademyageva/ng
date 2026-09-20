@@ -1,7 +1,11 @@
 // verify-batch10.js — portal repair (loader/critical-CSS/cache-bust/includes) + 10 suggestions
 const fs = require('fs'), vm = require('vm');
 const { JSDOM } = require('jsdom');
-const SITE = require('path').resolve(__dirname, '..', '..');
+const SITE = (() => {
+  const w = require('path').join(__dirname, 'mums-school-website');
+  if (fs.existsSync(require('path').join(w, 'assets/js/store.js'))) return w;
+  return require('path').resolve(__dirname, '..', '..');
+})();
 const store = fs.readFileSync(SITE + '/assets/js/store.js', 'utf8');
 const site = fs.readFileSync(SITE + '/assets/js/site.js', 'utf8');
 let pass = 0, fail = 0;
@@ -41,7 +45,7 @@ const PUPIL = { role: 'pupil', refId: 'P001', name: 'x' };
 {
   const path = require('path');
   const pages = [];
-  (function walk(d) { for (const f of fs.readdirSync(d)) { if (['node_modules','.git','tools'].includes(f)) continue; const p = path.join(d, f); if (fs.statSync(p).isDirectory()) walk(p); else if (f.endsWith('.html')) pages.push(p); } })(SITE);
+  (function walk(d) { for (const f of fs.readdirSync(d)) { const p = path.join(d, f); if (fs.statSync(p).isDirectory()) walk(p); else if (f.endsWith('.html')) pages.push(p); } })(SITE);
   const noCrit = pages.filter(p => !fs.readFileSync(p, 'utf8').includes('#siteLoader{position:fixed'));
   ok('critical loader CSS on all pages', noCrit.length === 0 && pages.length === 34, `pages=${pages.length} missing=${noCrit.join(',')}`);
   const unv = [];
