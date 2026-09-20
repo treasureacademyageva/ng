@@ -807,7 +807,7 @@ const U = {
       <div class="adm-sig"><div>Parent's Signature/Date: ....................</div><div>Candidate Signature/Date: ....................</div></div>
       <div class="adm-sec">FOR OFFICE USE</div>
       <p style="font-size:.85rem">Principal Recommendation: ....................................................................................</p>
-      <p style="font-size:.85rem">Authority Signature/Date: .................... &nbsp; Form Fee: <b>${U.naira(+c.amount||0)}</b> • Ref: ${U.esc(c.ref||"")}</p>
+      <p style="font-size:.85rem">Authority Signature/Date: .................... &nbsp; Form Fee: <b>${U.naira(+c.amount||0)}</b> • Ref: ${U.esc(c.ref||"")} • Receipt: <b>${U.esc(c.receipt||"To be issued")}</b></p>
       <div style="text-align:center"><span class="adm-stamp${paid?"":" unpaid"}">${paid?"PAID":"PAYMENT UNCONFIRMED"}</span></div>
     </div>`;
   },

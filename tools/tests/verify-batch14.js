@@ -169,7 +169,7 @@ const dstr = off => { const d = new Date(); d.setDate(d.getDate() + off); return
   ok('login alt fixed', src.includes('alt="Happy pupils learning"'));
   const adm = fs.readFileSync(SITE + '/portal/admin.html', 'utf8'), tch = fs.readFileSync(SITE + '/portal/teacher.html', 'utf8');
   const fmt = '"TAA/P/"+String(db.seq.pupil).padStart(4,"0")';
-  ok('adm format admin x3', adm.split(fmt).length - 1 === 3);
+  ok('adm format admin x4', adm.split(fmt).length - 1 === 4); // batch23: +admitFormClaim
   ok('adm format teacher x2', tch.split(fmt).length - 1 === 2);
 }
 

@@ -11,9 +11,9 @@
 <link rel="icon" href="assets/img/logo.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/main.css?v=20260919-22">
-<link rel="stylesheet" href="assets/css/extra.css?v=20260919-22">
-<link rel="stylesheet" href="assets/css/corporate.css?v=20260919-22">
+<link rel="stylesheet" href="assets/css/main.css?v=20260919-23">
+<link rel="stylesheet" href="assets/css/extra.css?v=20260919-23">
+<link rel="stylesheet" href="assets/css/corporate.css?v=20260919-23">
 <style>
 @media print{
   .topbar,.navbar,.page-hero,#siteFooter,#toast,.no-print,#siteLoader,.chat-fab,.chat-panel,.clock-widget{display:none!important}
@@ -119,9 +119,9 @@
 
 <footer id="siteFooter"></footer>
 <div id="toast"></div>
-<script src="assets/js/store.js?v=20260919-22"></script>
-<script src="assets/js/sync.js?v=20260919-22"></script>
-<script src="assets/js/site.js?v=20260919-22"></script>
+<script src="assets/js/store.js?v=20260919-23"></script>
+<script src="assets/js/sync.js?v=20260919-23"></script>
+<script src="assets/js/site.js?v=20260919-23"></script>
 <script>
 (function(){
   const db0 = DB.load();
@@ -143,6 +143,12 @@
       <div style="margin-top:8px"><button class="btn btn-white btn-sm" onclick="document.getElementById('trkFormPhone').value='${U.esc(o.phone)}';trackForm()">Track My Form</button></div>`;
     U.toast("Claim saved! Keep your form code safe.");
   };
+  window.copyReceipt = function(code){
+    const c=(DB.load().formClaims||[]).find(x=>x.code===code); if(!c||!c.receipt)return;
+    const t="Treasure Academy admission form receipt: "+c.receipt+" ("+c.pupil+", "+c.code+")";
+    if(navigator.clipboard&&navigator.clipboard.writeText){ navigator.clipboard.writeText(t).then(()=>U.toast("Receipt copied!")); }
+    else{ window.prompt("Copy receipt:",t); }
+  };
   window.trackForm = function(){
     const v = g("trkFormPhone");
     if(!v){ U.toast("Enter your phone number."); return; }
@@ -151,7 +157,7 @@
     document.getElementById("myClaims").innerHTML = list.length ? list.map(c => `
       <div class="notice"><span class="dot" style="background:${c.status === "Confirmed" ? "var(--mint)" : "var(--sun)"}"></span>
       <div style="flex:1"><b>${U.esc(c.code)}</b> — ${U.esc(c.pupil)} • ${U.naira(+c.amount || 0)} • <span class="badge ${c.status === "Confirmed" ? "b-green" : "b-sun"}">${U.esc(c.status)}</span>
-      <br><small style="color:var(--muted)">Submitted ${U.esc(c.submitted || "")} • Ref ${U.esc(c.ref || "")}</small></div>
+      <br><small style="color:var(--muted)">Submitted ${U.esc(c.submitted || "")} • Ref ${U.esc(c.ref || "")}</small>${c.receipt?`<br><small>Receipt: <b>${U.esc(c.receipt)}</b> <button class="icon-btn" onclick="copyReceipt('${c.code}')">Copy</button></small>`:""}</div>
       ${c.status === "Confirmed" ? `<button class="btn btn-mint btn-sm" onclick="openFill('${c.code}')">Fill / Print Form</button>` : ""}</div>`).join("") :
       '<div class="empty">No form found for that number. Pay first in Step 1.</div>';
   };
