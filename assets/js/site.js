@@ -921,6 +921,41 @@ function renderEmergency(){
   document.body.insertBefore(d,top);
 }
 
+/* ---------- WORD OF THE WEEK (batch32) ---------- */
+const WOW_WORDS=[
+ ["Diligent","working carefully and never giving up on a task","Adaeze is diligent \u2014 her handwriting is always neat."],
+ ["Honest","always telling the truth, even when it is hard","Honest Musa returned the extra change to Mama."],
+ ["Punctual","arriving at the right time, never late","Punctual pupils are in class before the bell."],
+ ["Obedient","doing what elders ask with a good heart","Obedient Kelechi packed the books at once."],
+ ["Curious","wanting to learn and understand new things","Curious Fatima asked how rain falls."],
+ ["Grateful","showing thanks for kindness received","Grateful Amina thanked the donor with a big smile."],
+ ["Patient","waiting calmly without complaining","Patient pupils wait their turn to answer."],
+ ["Tidy","keeping yourself and your things neat","Tidy Ibrahim's desk is always clean."],
+ ["Courageous","facing hard things without fear","Courageous Blessing read before the whole school."],
+ ["Respectful","treating others with honour and kind words","Respectful pupils greet their elders each morning."],
+ ["Persistent","trying again and again until you finish","Persistent Yusuf solved the sum on his fifth try."],
+ ["Generous","happy to share what you have","Generous Zainab shared her crayons with the class."],
+ ["Attentive","listening with both ears and both eyes","Attentive pupils never miss the teacher's words."],
+ ["Polite","using gentle words like please and thank you","Polite Eche said thank you to the cook."],
+ ["Responsible","doing your duty without being reminded","Responsible monitors rang the bell on time."],
+ ["Cheerful","wearing a smile that lifts others up","Cheerful Hauwa greeted the whole class today."],
+ ["Creative","making new things from bright ideas","Creative Femi built a car from cartons."],
+ ["Humble","being great without boasting about it","Humble champions still sweep their corner."],
+ ["Trustworthy","people can count on your word","Trustworthy Ngozi returned the lost purse."],
+ ["Zealous","full of energy and excitement for good work","Zealous readers finished the whole storybook."],
+ ["Kindhearted","gentle and caring to everyone","Kindhearted Sadiq helped the new pupil find her class."],
+ ["Excellence","doing your very best, always","Excellence is our motto in action."],
+ ["Wisdom","using knowledge the right way","Wisdom speaks quietly but wisely."],
+ ["Integrity","being the same good person even when no one watches","Integrity means no cheating, even in a hard test."]
+];
+function renderWOW(){
+  const box=document.getElementById("wowCard"); if(!box)return;
+  /* rotates every week automatically, same word for everyone all week */
+  const idx=Math.floor(Date.now()/6048e5)%WOW_WORDS.length;
+  const w=WOW_WORDS[idx];
+  box.innerHTML=`<span class="sec-tag">Word of the Week</span><div class="wow-word">${w[0]}</div><p class="wow-mean"><b>Meaning:</b> ${w[1]}.</p><p class="wow-ex"><b>Use it:</b> \u201c${w[2]}\u201d</p>`;
+}
+
 /* ---------------- LOADER (school crest splash) ---------------- */
 (function(){
   if(!document.querySelector('link[href*="corporate"]'))return;
@@ -1059,6 +1094,7 @@ document.addEventListener("DOMContentLoaded", ()=>{
   bootSafe(()=>renderWeekStrip());
   bootSafe(()=>registerSW());
   bootSafe(()=>initTopBtn());
+  bootSafe(()=>renderWOW());
   bootSafe(()=>initSliders());
   bootSafe(()=>initReveal());
   bootSafe(()=>typeLabels(document));

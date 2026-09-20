@@ -1095,3 +1095,11 @@ html[data-fontsize="l"]{font-size:17.5px}
 .lyric-card{max-width:680px;margin:0 auto 16px;padding:22px 24px}
 .lyric-card p{white-space:pre-line;line-height:1.9}
 .fee-tbl td:first-child,.fee-tbl th:first-child{text-align:left;font-weight:800}
+/* ============ BATCH 32 (2026-09-20): word of the week + absent notify ============ */
+.wow-card{max-width:680px;margin:20px auto 0;padding:20px 22px;background:var(--sun-soft);border:1.5px solid var(--gold,#C9A227);border-radius:16px;text-align:center;box-shadow:var(--sh-sm)}
+.wow-card .sec-tag{display:inline-block;margin-bottom:6px}
+.wow-word{font-family:var(--font-head);font-weight:800;font-size:2rem;color:#0E3B21;letter-spacing:.02em}
+.wow-mean,.wow-ex{margin:6px 0 0;font-size:.92rem;color:var(--ink)}
+[data-theme="dark"] .wow-word{color:#F5C242}
+#regAbsent .notice{margin-bottom:8px}
+#regAbsent h3{font-family:var(--font-head)}
