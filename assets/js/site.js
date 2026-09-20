@@ -999,6 +999,27 @@ function renderTmSpot(){
   document.addEventListener("keydown",e=>{ if(e.ctrlKey&&e.shiftKey&&(e.key==="D"||e.key==="d")){ e.preventDefault(); go(); } });
 })();
 
+/* ---------- PORTAL SIDEBAR COLLAPSE (batch35) ---------- */
+(function(){
+  function bootCollapse(){
+    if(!document.body||!document.body.classList.contains("portal-body"))return;
+    const nav=document.querySelector(".portal-layout .navbar .container"); if(!nav)return;
+    if(document.getElementById("sideCollapse"))return;
+    const b=document.createElement("button");
+    b.id="sideCollapse"; b.type="button"; b.title="Collapse sidebar"; b.setAttribute("aria-label","Collapse or expand sidebar");
+    b.innerHTML='<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg>';
+    b.onclick=()=>{
+      const on=document.body.classList.toggle("side-slim");
+      b.classList.toggle("flip",on);
+      b.title=on?"Expand sidebar":"Collapse sidebar";
+      try{ localStorage.setItem("treasure_side_slim",on?"1":"0"); }catch(e){}
+    };
+    nav.appendChild(b);
+    try{ if(localStorage.getItem("treasure_side_slim")==="1"){ document.body.classList.add("side-slim"); b.classList.add("flip"); b.title="Expand sidebar"; } }catch(e){}
+  }
+  if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",bootCollapse); else bootCollapse();
+})();
+
 /* ---------------- LOADER (school crest splash) ---------------- */
 (function(){
   if(!document.querySelector('link[href*="corporate"]'))return;

@@ -1143,3 +1143,41 @@ html[data-fontsize="l"]{font-size:17.5px}
   .portal-layout{display:flex;flex-direction:column}
   #sideNav{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px} /* links stay visible — no hamburger, ever */
 }
+/* ============ BATCH 35 (2026-09-20): sidebar collapse + public sidebar ============ */
+@media(min-width:1100px){
+  #sideCollapse{align-self:center;background:rgba(255,255,255,.08);border:1px solid rgba(247,233,103,.4);color:#F7E967;width:34px;height:34px;border-radius:50%;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;transition:transform .2s ease,background .2s ease}
+  #sideCollapse:hover{background:rgba(247,233,103,.18)}
+  #sideCollapse.flip{transform:rotate(180deg)}
+  body.side-slim .portal-layout{grid-template-columns:76px minmax(0,1fr)}
+  body.side-slim .portal-layout>.navbar .brand-name{display:none}
+  body.side-slim .portal-layout>.navbar .logo .mark-img{width:44px;height:44px}
+  body.side-slim #sideNav button[data-view]{justify-content:center;font-size:0;gap:0;padding:12px 0}
+  body.side-slim #sideNav button[data-view] svg{margin:0}
+  body.side-slim #sideNav button[data-view] .badge{display:none}
+}
+@media(min-width:1100px){
+  body:not(.portal-body):not([data-page="login"]){
+    display:grid;grid-template-columns:266px minmax(0,1fr);
+  }
+  body:not(.portal-body):not([data-page="login"])>.navbar{
+    grid-column:1;grid-row:1/span 80;position:sticky;top:0;height:100vh;overflow-y:auto;
+    background:linear-gradient(180deg,#0E3B21,#0B4A26 70%,#09381E);border-right:2px solid var(--gold,#C9A227);
+  }
+  body:not(.portal-body):not([data-page="login"])>.navbar .container{display:flex;flex-direction:column;align-items:stretch;gap:12px;padding:18px 14px}
+  body:not(.portal-body):not([data-page="login"])>.navbar .logo{align-self:center}
+  body:not(.portal-body):not([data-page="login"])>.navbar .brand-name{text-align:center}
+  body:not(.portal-body):not([data-page="login"])>.navbar .brand-name>span{color:#fff}
+  body:not(.portal-body):not([data-page="login"])>.navbar .brand-name small{color:#BFDCc8}
+  body:not(.portal-body):not([data-page="login"])>.navbar .nav-links{display:flex;flex-direction:column;align-items:stretch;margin:6px 0 0;overflow:visible}
+  body:not(.portal-body):not([data-page="login"])>.navbar .nav-links a{padding:10px 12px;border-radius:10px;color:#DCEDE2;font-weight:700;white-space:normal}
+  body:not(.portal-body):not([data-page="login"])>.navbar .nav-links a:not(.btn):hover{background:rgba(255,255,255,.10);color:#fff}
+  body:not(.portal-body):not([data-page="login"])>.navbar .nav-links a:not(.btn)::after{display:none}
+  body:not(.portal-body):not([data-page="login"])>.navbar .nav-links .btn{margin:8px 0 0;justify-content:center}
+  body:not(.portal-body):not([data-page="login"])>.navbar .nav-cta-row{display:flex;gap:8px;justify-content:center;margin:0;padding-top:10px;border-top:1px solid rgba(255,255,255,.14)}
+  body:not(.portal-body):not([data-page="login"])>.navbar .theme-btn{background:rgba(255,255,255,.08);border-color:rgba(247,233,103,.5);color:#F7E967}
+  body:not(.portal-body):not([data-page="login"])>.topbar{grid-column:2;grid-row:1}
+  body:not(.portal-body):not([data-page="login"])>.page-hero,
+  body:not(.portal-body):not([data-page="login"])>.motto-ribbon,
+  body:not(.portal-body):not([data-page="login"])>section,
+  body:not(.portal-body):not([data-page="login"])>footer{grid-column:2}
+}
