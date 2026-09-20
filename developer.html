@@ -78,6 +78,7 @@ pre.view{background:#0A1114;border:1px solid var(--line);border-radius:10px;padd
     <input id="dvPass" type="password" placeholder="Password">
     <div id="dvErr"></div>
     <button class="grn" id="dvGo" style="width:100%" type="submit">Unlock Console</button>
+    <button class="grn hide" id="dvBio" type="button" style="width:100%;margin-top:8px">&#128273; Unlock with fingerprint</button>
     <div class="gate-foot">Private area &middot; all actions are logged on this device</div>
   </form>
 </div>
@@ -103,6 +104,11 @@ pre.view{background:#0A1114;border:1px solid var(--line);border-radius:10px;padd
       <p class="note" id="dvCacheNote"></p>
     </div>
     <div class="panel"><h2><span class="dot"></span>Session</h2><div id="dvSess"></div></div>
+    <div class="panel"><h2><span class="dot"></span>Biometrics (this device)</h2>
+      <div id="dvBioStat"></div>
+      <div class="row"><button class="grn" id="dvBioReg">Register fingerprint</button><button class="red" id="dvBioDel">Remove</button></div>
+      <p class="note">Once registered, YOUR fingerprint unlocks this console on this device &mdash; nobody else's. Password still works everywhere.</p>
+    </div>
     <div class="panel" style="grid-column:1/-1"><h2><span class="dot"></span>Developer Modules</h2>
       <div id="dvModules">
         <div class="dv-mod">
@@ -121,13 +127,13 @@ pre.view{background:#0A1114;border:1px solid var(--line);border-radius:10px;padd
   </div>
 </div>
 <div id="dvToast"></div>
-<script src="assets/js/store.js?v=20260919-33"></script>
-<script src="assets/js/sync.js?v=20260919-33"></script>
+<script src="assets/js/store.js?v=20260919-34"></script>
+<script src="assets/js/sync.js?v=20260919-34"></script>
 <script>
 (function(){
   "use strict";
   var HASH = "3133076b53086ef8cc6a3f0ce07d2ab3fca6cb3dcbc8b245b32a4862048ce148";
-  var BUILD = "treasure-v33";
+  var BUILD = "treasure-v34";
   var GATE = "treasure_dev_gate", LOCK = "treasure_dev_lock";
   var PAGES = 36;
 
@@ -150,7 +156,7 @@ pre.view{background:#0A1114;border:1px solid var(--line);border-radius:10px;padd
   }
   function showConsole(){
     $("dvGate").classList.add("hide"); $("dvConsole").classList.remove("hide");
-    fillSnap(); fillStore(); fillSess(); fillCache(); renderVisitors();
+    fillSnap(); fillStore(); fillSess(); fillCache(); renderVisitors(); renderBio();
     $("dvVer").textContent = "build " + BUILD;
   }
 
@@ -249,7 +255,7 @@ pre.view{background:#0A1114;border:1px solid var(--line);border-radius:10px;padd
   });
 
   /* ---- cache tools ---- */
-  function fillCache(){ $("dvCacheNote").textContent = "Service worker build: " + BUILD + " · page asset version: 20260919-33."; }
+  function fillCache(){ $("dvCacheNote").textContent = "Service worker build: " + BUILD + " · page asset version: 20260919-34."; }
   $("dvCache").addEventListener("click", function(){
     if(!(window.caches && caches.keys)){ toast("Cache API not available."); return; }
     caches.keys().then(function(ks){ return Promise.all(ks.map(function(k){ return caches.delete(k); })); })
@@ -307,8 +313,64 @@ pre.view{background:#0A1114;border:1px solid var(--line);border-radius:10px;padd
     renderVisitors(); toast("Visitor signed in.");
   });
 
+  /* ---- biometrics (WebAuthn, batch34) ---- */
+  var BIOKEY="treasure_dev_webauthn";
+  function bioSupported(){ return !!(window.PublicKeyCredential&&navigator.credentials&&navigator.credentials.create&&navigator.credentials.get); }
+  function b64uToBuf(s){ var r=s.replace(/-/g,"+").replace(/_/g,"/"); while(r.length%4)r+="="; var b=atob(r),u=new Uint8Array(b.length); for(var i=0;i<b.length;i++)u[i]=b.charCodeAt(i); return u.buffer; }
+  function bufToB64u(b){ var u=new Uint8Array(b),s=""; for(var i=0;i<u.length;i++)s+=String.fromCharCode(u[i]); return btoa(s).replace(/\+/g,"-").replace(/\//g,"_").replace(/=+$/,""); }
+  function bioCred(){ try{ return JSON.parse(localStorage.getItem(BIOKEY)||"null"); }catch(e){ return null; } }
+  function newChallenge(){ var u=new Uint8Array(32); (window.crypto||{getRandomValues:function(a){for(var i=0;i<a.length;i++)a[i]=Math.floor(Math.random()*256);}}).getRandomValues(u); return u.buffer; }
+  function renderBio(){
+    var st=$("dvBioStat"); if(!st)return;
+    if(!bioSupported()){ st.innerHTML='<p class="note" style="margin:0">Fingerprint unlock is not available on this device or browser \u2014 use the password.</p>';
+      $("dvBioReg").disabled=true; $("dvBioDel").disabled=true; var gb=$("dvBio"); if(gb)gb.classList.add("hide"); return; }
+    var c=bioCred();
+    if(c){ st.innerHTML='<div class="kv"><span>Fingerprint</span><b>registered '+esc(c.date)+'</b></div>'; $("dvBioDel").disabled=false; var g=$("dvBio"); if(g)g.classList.remove("hide"); }
+    else{ st.innerHTML='<p class="note" style="margin:0">Not registered on this device yet.</p>'; $("dvBioDel").disabled=true; var g2=$("dvBio"); if(g2)g2.classList.add("hide"); }
+  }
+  $("dvBioReg").addEventListener("click",function(){
+    if(!bioSupported()){ toast("Not supported here."); return; }
+    $("dvBioReg").disabled=true;
+    var uid=new Uint8Array(16); (window.crypto||{getRandomValues:function(a){for(var i=0;i<a.length;i++)a[i]=Math.floor(Math.random()*256);}}).getRandomValues(uid);
+    navigator.credentials.create({publicKey:{
+      challenge:newChallenge(),
+      rp:{name:"Treasure Academy"},
+      user:{id:uid.buffer,name:"developer",displayName:"Developer"},
+      pubKeyCredParams:[{type:"public-key",alg:-7},{type:"public-key",alg:-257}],
+      authenticatorSelection:{authenticatorAttachment:"platform",userVerification:"required"},
+      timeout:60000, attestation:"none"
+    }}).then(function(c){
+      localStorage.setItem(BIOKEY,JSON.stringify({id:bufToB64u(c.rawId),date:new Date().toISOString().slice(0,10)}));
+      $("dvBioReg").disabled=false; renderBio(); toast("Fingerprint registered on this device.");
+    }).catch(function(e){
+      $("dvBioReg").disabled=false;
+      toast(e&&e.name==="NotAllowedError"?"Registration cancelled or timed out.":"Could not register: "+((e&&e.message)||e.name||"error"));
+    });
+  });
+  $("dvBioDel").addEventListener("click",function(){
+    if(!confirm("Remove fingerprint unlock from this device?"))return;
+    localStorage.removeItem(BIOKEY); renderBio(); toast("Fingerprint removed \u2014 password only.");
+  });
+  $("dvBio").addEventListener("click",function(){
+    var c=bioCred(); if(!c)return;
+    $("dvBio").disabled=true;
+    navigator.credentials.get({publicKey:{
+      challenge:newChallenge(),
+      allowCredentials:[{id:b64uToBuf(c.id),type:"public-key"}],
+      userVerification:"required", timeout:60000
+    }}).then(function(){
+      $("dvBio").disabled=false;
+      try{ sessionStorage.removeItem(LOCK); sessionStorage.setItem(GATE,String(Date.now())); }catch(e){}
+      showConsole(); toast("Fingerprint accepted. Welcome back.");
+    }).catch(function(e){
+      $("dvBio").disabled=false;
+      $("dvErr").textContent=e&&e.name==="NotAllowedError"?"Fingerprint not recognised or timed out.":"Fingerprint check failed.";
+    });
+  });
+
   /* ---- boot ---- */
   try{ if(sessionStorage.getItem(GATE)) showConsole(); else showGate(); }catch(e){ showGate(); }
+  if(bioSupported()&&bioCred()){ var b=$("dvBio"); if(b)b.classList.remove("hide"); }
   if(document.readyState === "complete") dropLoader(); else addEventListener("load", dropLoader);
   setTimeout(dropLoader, 2500); /* safety: never trap the page behind the loader */
 })();

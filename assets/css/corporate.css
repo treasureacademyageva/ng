@@ -1118,3 +1118,28 @@ html[data-fontsize="l"]{font-size:17.5px}
 .tms-who small{color:var(--muted)}
 .tms-link{display:inline-block;margin-top:8px;font-weight:800;color:var(--green,#0E5A2E);text-decoration:underline;text-underline-offset:3px}
 [data-theme="dark"] .tms-link{color:#7BD89F}
+/* ============ BATCH 34 (2026-09-20): portal sidebar navigation (all items, never a hamburger) ============ */
+@media(min-width:1100px){
+  .portal-layout{display:grid;grid-template-columns:266px minmax(0,1fr);grid-template-areas:"side top" "side main";align-items:start}
+  .portal-layout>.topbar{grid-area:top;position:sticky;top:0;z-index:40}
+  .portal-layout>main.main{grid-area:main;min-width:0}
+  .portal-layout>.navbar{grid-area:side;position:sticky;top:0;height:100vh;overflow-y:auto;background:linear-gradient(180deg,#0E3B21,#0B4A26 70%,#09381E);border-right:2px solid var(--gold,#C9A227)}
+  .portal-layout>.navbar .container{display:flex;flex-direction:column;align-items:stretch;gap:12px;padding:18px 14px}
+  .portal-layout>.navbar .logo{align-self:center}
+  .portal-layout>.navbar .brand-name{text-align:center}
+  .portal-layout>.navbar .brand-name>span{color:#fff}
+  .portal-layout>.navbar .brand-name small{color:#BFDCc8}
+  #sideNav{flex:1 1 auto;display:flex;flex-direction:column;gap:4px;margin:4px 0;overflow:visible}
+  #sideNav button[data-view]{justify-content:flex-start;width:100%;padding:11px 12px;border:0;border-radius:10px;background:transparent;color:#DCEDE2;font-weight:700;font-size:.92rem;box-shadow:none;text-align:left}
+  #sideNav button[data-view]::after{display:none}
+  #sideNav button[data-view]:hover{background:rgba(255,255,255,.10);color:#fff;transform:none;box-shadow:none}
+  #sideNav button[data-view].on{background:linear-gradient(90deg,rgba(247,233,103,.18),rgba(247,233,103,.04));color:var(--butter,#F7E967);box-shadow:inset 3px 0 0 var(--butter-deep,#E3D22E)}
+  .portal-layout .nav-cta-row{display:flex;gap:8px;justify-content:center;margin-left:0;padding-top:10px;border-top:1px solid rgba(255,255,255,.14)}
+  .portal-layout .theme-btn{background:rgba(255,255,255,.08);border-color:rgba(247,233,103,.5);color:#F7E967}
+  .portal-layout .nav-logout{background:rgba(229,72,93,.16);border-color:#E5485D;color:#FFB4B8}
+  .portal-layout .nav-logout:hover{background:#E5485D;color:#fff;transform:none}
+}
+@media(max-width:1099px){
+  .portal-layout{display:flex;flex-direction:column}
+  #sideNav{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px} /* links stay visible — no hamburger, ever */
+}

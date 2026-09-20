@@ -978,6 +978,27 @@ function renderTmSpot(){
   el.innerHTML=`<div class="tm-spot clip-up"><div class="tms-quote">\u201C</div><p>${U.esc(t.text)}</p><div class="tms-stars">${stars}</div><div class="tms-who"><b>${U.esc(t.name)}</b> <small>${U.esc(t.role||"Parent")}</small></div><a class="tms-link" href="testimonials.html">Read all parent reviews \u2192</a></div>`;
 }
 
+/* ---------- HIDDEN DEVELOPER ENTRY (batch34) — no visible link anywhere ----------
+   Three invisible ways in: 7 quick taps on the footer copyright line,
+   a 3-second press-and-hold on the school logo, or Ctrl+Shift+D on a keyboard. */
+(function(){
+  const base=(document.body.dataset&&document.body.dataset.assets&&document.body.dataset.assets.indexOf("assets")===0)?"":"../";
+  const go=()=>{ location.href=base+"developer.html"; };
+  let taps=0,t0=0;
+  document.addEventListener("click",e=>{
+    if(!(e.target.closest&&e.target.closest(".foot-bottom"))){ taps=0; return; }
+    const now=Date.now(); if(now-t0>4000)taps=0; t0=now;
+    if(++taps>=7){ taps=0; go(); }
+  },true);
+  let lp=null;
+  document.addEventListener("pointerdown",e=>{
+    if(!(e.target.closest&&e.target.closest("a.logo")))return;
+    lp=setTimeout(()=>{ lp=null; go(); },2500);
+  },true);
+  ["pointerup","pointerleave","pointercancel"].forEach(ev=>document.addEventListener(ev,()=>{ if(lp){clearTimeout(lp);lp=null;} },true));
+  document.addEventListener("keydown",e=>{ if(e.ctrlKey&&e.shiftKey&&(e.key==="D"||e.key==="d")){ e.preventDefault(); go(); } });
+})();
+
 /* ---------------- LOADER (school crest splash) ---------------- */
 (function(){
   if(!document.querySelector('link[href*="corporate"]'))return;
