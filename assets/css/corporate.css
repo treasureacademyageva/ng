@@ -1181,3 +1181,30 @@ html[data-fontsize="l"]{font-size:17.5px}
   body:not(.portal-body):not([data-page="login"])>section,
   body:not(.portal-body):not([data-page="login"])>footer{grid-column:2}
 }
+/* ============ BATCH 37 (2026-09-20): quick actions, reading mode, tour ============ */
+/* ---- admin rail quick actions ---- */
+.qa-strip{display:grid;grid-template-columns:repeat(3,1fr);gap:5px;margin:2px 0 8px}
+.qa-btn{border:1.5px solid rgba(247,233,103,.45);background:rgba(255,255,255,.08);color:#F7E967;font:inherit;font-weight:800;font-size:.72rem;padding:8px 2px;border-radius:9px;cursor:pointer;white-space:nowrap;text-align:center}
+.qa-btn:hover{background:rgba(247,233,103,.16)}
+.qa-mint{border-color:rgba(123,216,159,.5);color:#7BD89F}
+.qa-sky{border-color:rgba(122,180,255,.45);color:#A9CDFF}
+body.side-slim .qa-strip{grid-template-columns:1fr}
+body.side-slim .qa-btn{font-size:0;padding:8px 0}
+/* ---- reading mode (story page) ---- */
+#readBtn{position:fixed;right:16px;bottom:18px;z-index:70;width:44px;height:44px;border-radius:50%;border:1.5px solid var(--gold,#C9A227);background:var(--white);color:#0E3B21;font-size:1.1rem;cursor:pointer;box-shadow:0 6px 16px rgba(14,59,33,.25)}
+#readBtn.on{background:#0B7A37;color:#fff;border-color:#E3D22E}
+[data-theme="dark"] #readBtn{background:#16222F;color:#F5C242}
+body.reading{display:block}
+body.reading .topbar,body.reading .navbar,body.reading #siteFooter,body.reading .page-hero,body.reading #resumeChip,body.reading #tmSpot,body.reading .motto-ribbon,body.reading #dvToast{display:none!important}
+body.reading .container{max-width:720px}
+body.reading section{padding:26px 0}
+body.reading .story-body p{font-size:1.08rem;line-height:2}
+/* ---- teacher first-login tour ---- */
+#tourOv{position:fixed;inset:0;background:rgba(3,10,6,.55);z-index:898}
+#tourCard{position:fixed;left:50%;bottom:26px;transform:translateX(-50%);width:min(430px,92vw);background:var(--white);border:1.5px solid var(--gold,#C9A227);border-radius:16px;box-shadow:0 24px 60px rgba(3,22,12,.4);padding:18px 20px;z-index:899}
+#tourCard small{color:var(--muted);font-weight:800;letter-spacing:.06em;text-transform:uppercase;font-size:.7rem}
+#tourCard b{display:block;font-family:var(--font-head);font-size:1.1rem;margin:4px 0 6px;color:var(--ink)}
+#tourCard p{margin:0 0 12px;font-size:.92rem;color:var(--ink);line-height:1.6}
+#tourCard .tr-actions{display:flex;gap:8px;justify-content:flex-end}
+.tour-hl{outline:3px solid #F7E967!important;outline-offset:2px;border-radius:10px}
+[data-theme="dark"] #tourCard{background:#16222F}
