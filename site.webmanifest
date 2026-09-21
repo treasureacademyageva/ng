@@ -1,0 +1,26 @@
+{
+  "name": "Treasure Academy, Ageva",
+  "short_name": "Treasure",
+  "description": "Creche to Primary 6 school in Ageva, Okene, Kogi State. News, fees, admissions and the parent/pupil portal.",
+  "id": "/",
+  "start_url": "/index.html",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#FFFFFF",
+  "theme_color": "#0B7A37",
+  "lang": "en-NG",
+  "dir": "ltr",
+  "categories": ["education"],
+  "icons": [
+    { "src": "/assets/img/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "/assets/img/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "/assets/img/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ],
+  "shortcuts": [
+    { "name": "Portal Login", "url": "/portal/login.html" },
+    { "name": "News & Events", "url": "/news.html" },
+    { "name": "School Fees", "url": "/fees.html" },
+    { "name": "Contact", "url": "/contact.html" }
+  ]
+}

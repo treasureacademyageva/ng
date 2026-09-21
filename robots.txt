@@ -1,0 +1,11 @@
+User-agent: *
+Allow: /
+
+# Private areas — staff/pupil portals and one-off transactional pages.
+Disallow: /portal/
+Disallow: /developer.html
+Disallow: /receipt.html
+Disallow: /admission-form.html
+Disallow: /search.html?
+
+Sitemap: https://treasureacademyageva.vercel.app/sitemap.xml

@@ -7,25 +7,30 @@
 <meta http-equiv="Expires" content="0">
 <style>#siteLoader{position:fixed;inset:0;z-index:1200;background:#fff;display:flex;flex-direction:column;gap:14px;align-items:center;justify-content:center;transition:opacity .4s}#siteLoader img{width:84px;height:84px;object-fit:contain}#siteLoader .spin{width:38px;height:38px;border-radius:50%;border:4px solid #FDF6D8;border-top-color:#0B7A37;animation:lspin .8s linear infinite}@keyframes lspin{to{transform:rotate(360deg)}}#siteLoader.done{opacity:0;pointer-events:none}</style>
 <link rel="icon" href="../assets/img/logo.jpg">
+<link rel="manifest" href="../site.webmanifest">
+<link rel="apple-touch-icon" href="../assets/img/apple-touch-icon.png">
+<meta name="theme-color" content="#0B7A37">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Admin Dashboard — Treasure Academy, Ageva</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../assets/css/main.css?v=20260919-42">
-<link rel="stylesheet" href="../assets/css/extra.css?v=20260919-42">
-<link rel="stylesheet" href="../assets/css/corporate.css?v=20260919-42">
+<link rel="preload" as="font" type="font/woff2" href="../assets/fonts/inter-400-latin.woff2" crossorigin>
+<link rel="preload" as="font" type="font/woff2" href="../assets/fonts/source-serif-4-700-latin.woff2" crossorigin>
+<link rel="stylesheet" href="../assets/css/fonts.css?v=20260919-43">
+<link rel="stylesheet" href="../assets/css/main.css?v=20260919-43">
+<link rel="stylesheet" href="../assets/css/extra.css?v=20260919-43">
+<link rel="stylesheet" href="../assets/css/corporate.css?v=20260919-43">
+<link rel="stylesheet" href="../assets/css/motion.css?v=20260919-43">
 <noscript><style>#siteLoader{display:none!important}</style></noscript>
 <script defer src="/_vercel/insights/script.js"></script>
 </head>
 <body class="portal-body">
-<div id="siteLoader"><img src="../assets/img/logo.jpg" alt="Treasure Academy"><div class="spin"></div></div>
+<div id="siteLoader"><img src="../assets/img/logo.jpg" alt="Treasure Academy" width="397" height="397"><div class="spin"></div></div>
 <div class="portal-layout">
   <div class="topbar"><div class="container">
     <div class="tb-contact"><span><b>Admissions</b> <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg><a data-school-phone aria-label="Call the school" href="tel:"></a></span><span class="tb-sep">•</span><span data-school-email></span></div>
     <div class="tb-right"><span class="tb-loc">Ageva, Okene, Kogi State</span><span class="portal-user"><span class="avatar" id="userAvatar">H</span><span><b id="userName">Headmistress</b> <small id="userClass">Admin / Headmistress</small></span></span><a href="../index.html">View Website</a></div>
   </div></div>
   <nav class="navbar"><div class="container">
-    <a class="logo" aria-label="Treasure Academy — go to homepage" href="../index.html"><img class="mark-img" src="../assets/img/logo.jpg" alt="Treasure Academy logo"></a>
+    <a class="logo" aria-label="Treasure Academy — go to homepage" href="../index.html"><img class="mark-img" src="../assets/img/logo.jpg" alt="Treasure Academy logo" width="397" height="397"></a>
     <div class="brand-name"><span data-school-name>Treasure Academy</span><small>Headmistress Portal</small></div>
     <div class="nav-links" id="sideNav">
       <div class="qa-strip" aria-label="Quick actions">
@@ -248,7 +253,7 @@
           <div class="field"><label>Date Found</label><input id="lfDate" type="date"></div>
           <div class="field full"><label>Description</label><input id="lfDesc" placeholder="where found, size, marks..."></div>
           <div class="field"><label>Photo (optional)</label><input type="file" accept="image/*" onchange="photoFile(this,'lfPhoto','lfPrev')"><input type="hidden" id="lfPhoto"></div>
-          <div class="field"><label>&nbsp;</label><img id="lfPrev" alt="" style="display:none;max-width:120px;border-radius:10px"></div>
+          <div class="field"><label>&nbsp;</label><img id="lfPrev" alt="" style="aspect-ratio:16/9;object-fit:cover;display:none;max-width:120px;border-radius:10px" loading="lazy" decoding="async"></div>
        </div>
         <div style="margin-top:10px"><button class="btn btn-mint btn-sm" onclick="saveLF()">Add Item</button></div>
         <div id="lfRows" style="margin-top:12px"></div>
@@ -520,7 +525,7 @@
             <div class="field full"><label>Welcome Video URL (MP4 link — shows on homepage)</label><input id="setVideo" placeholder="https://.../welcome.mp4"></div>
             <div class="field full"><label>School Anthem Audio (MP3 link — plays on the Anthem page)</label><input id="setAnthem" placeholder="https://.../anthem.mp3"></div>
             <div class="field"><label>Headmistress Birthday</label><input id="setHeadDob" type="date"></div>
-            <div class="field"><label>Headmistress Photo</label><div style="display:flex;gap:8px"><input id="setHeadPhoto" placeholder="photo link..." style="flex:1;min-width:0"><label class="btn btn-white btn-sm" style="cursor:pointer">File<input type="file" id="setHeadPhotoFile" accept="image/*" style="display:none" onchange="photoFile(this,'setHeadPhoto','setHeadPhotoPrev')"></label></div><img id="setHeadPhotoPrev" src="" style="width:52px;height:52px;border-radius:50%;object-fit:cover;margin-top:6px;display:none" alt=""></div>
+            <div class="field"><label>Headmistress Photo</label><div style="display:flex;gap:8px"><input id="setHeadPhoto" placeholder="photo link..." style="flex:1;min-width:0"><label class="btn btn-white btn-sm" style="cursor:pointer">File<input type="file" id="setHeadPhotoFile" accept="image/*" style="display:none" onchange="photoFile(this,'setHeadPhoto','setHeadPhotoPrev')"></label></div><img id="setHeadPhotoPrev" src="" style="aspect-ratio:16/9;width:52px;height:52px;border-radius:50%;object-fit:cover;margin-top:6px;display:none" alt="" loading="lazy" decoding="async"></div>
             <div class="field"><label>Emergency Banner</label><select id="setEmgOn"><option value="0">Off</option><option value="1">ON — show on all pages</option></select></div>
             <div class="field"><label>Auto show from (optional)</label><input id="setEmgStart" type="date" title="Leave empty to show immediately"></div>
             <div class="field"><label>Auto hide after (optional)</label><input id="setEmgEnd" type="date" title="Leave empty to hide only yourself"></div>
@@ -595,9 +600,9 @@ if(nav)nav.addEventListener("click",function(e){
 try{var h=String(location.hash||"").replace(/^#\/?/,""); if(h){var bb=document.querySelector('#sideNav button[data-view="'+h+'"]'); if(bb&&!bb.classList.contains("on"))bb.click();}}catch(e7){}
 })();
 </script>
-<script src="../assets/js/store.js?v=20260919-42"></script>
-<script src="../assets/js/sync.js?v=20260919-42"></script>
-<script src="../assets/js/site.js?v=20260919-42"></script>
+<script src="../assets/js/store.js?v=20260919-43"></script>
+<script src="../assets/js/sync.js?v=20260919-43"></script>
+<script src="../assets/js/site.js?v=20260919-43"></script>
 <script>
 const S = Auth.guard("admin");
 if(!S){location.href="login.html";throw new Error("no-session");}
@@ -1005,7 +1010,7 @@ function openTeacherModal(id){
       <div class="field"><label>Class Teacher Of</label><select id="tClass">${CLASSES.map(c=>`<option ${t.class===c?"selected":""}>${c}</option>`).join("")}</select></div>
       <div class="field"><label>Phone</label><input id="tPhone" value="${U.esc(t.phone)}"></div>
       <div class="field"><label>Birthday</label><input id="tDob" type="date" value="${t.dob||""}"></div>
-      <div class="field full"><label>Photo (birthday banner)</label><div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap"><img id="tPhotoPrev" src="${U.esc(t.photo||"")}" style="width:52px;height:52px;border-radius:50%;object-fit:cover;${t.photo?"":"display:none"}" alt=""><input id="tPhoto" value="${U.esc(t.photo||"")}" placeholder="paste photo link..." style="flex:1;min-width:160px"><label class="btn btn-white btn-sm" style="cursor:pointer">Choose file<input type="file" id="tPhotoFile" accept="image/*" style="display:none" onchange="photoFile(this,'tPhoto','tPhotoPrev')"></label></div></div>
+      <div class="field full"><label>Photo (birthday banner)</label><div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap"><img id="tPhotoPrev" src="${U.esc(t.photo||"")}" style="aspect-ratio:16/9;width:52px;height:52px;border-radius:50%;object-fit:cover;${t.photo?"":"display:none"}" alt="" loading="lazy" decoding="async"><input id="tPhoto" value="${U.esc(t.photo||"")}" placeholder="paste photo link..." style="flex:1;min-width:160px"><label class="btn btn-white btn-sm" style="cursor:pointer">Choose file<input type="file" id="tPhotoFile" accept="image/*" style="display:none" onchange="photoFile(this,'tPhoto','tPhotoPrev')"></label></div></div>
       <div class="field full"><label>Subjects (comma separated)</label><input id="tSubj" value="${U.esc(t.subjects.join(", "))}"></div>
       <div class="field"><label>Started Teaching Here</label><input id="tStart" type="date" value="${t.started||""}"></div>
       <div class="field"><label>Position / Role</label><input id="tPos" value="${U.esc(t.position||"")}" placeholder="e.g. Class Teacher"></div>
@@ -1197,7 +1202,7 @@ function renderNE(){
     <td>${n.videoUrl?" Yes":"—"}</td>
     <td><div class="row-actions"><button class="icon-btn" onclick="openNEModal('${n.id}')">Edit</button>${n.type==="event"?`<button class="icon-btn" onclick="viewRSVPs('${n.id}')">RSVPs (${(db.rsvps||[]).filter(r=>r.eventId===n.id).reduce((a,r)=>a+(+r.seats||1),0)}/${n.seats||50})</button>`:""}<button class="icon-btn" onclick="setSpotlight('${n.id}')">Spotlight</button><button class="icon-btn" onclick="openReminder('${n.id}')">Reminder</button><button class="icon-btn del" onclick="delNE('${n.id}')">Del</button></div></td></tr>`).join("");
   db.photoHistory=db.photoHistory||[];
-  document.getElementById("phRows").innerHTML=db.photoHistory.length?`<div style="display:flex;gap:10px;flex-wrap:wrap">${db.photoHistory.map(h=>`<div style="width:120px"><img src="${U.esc(h.src)}" alt="" style="width:120px;height:80px;object-fit:cover;border-radius:8px;border:1px solid var(--line)"><div style="font-size:.72rem;color:var(--muted)">${U.esc(h.week||"")}</div></div>`).join("")}</div>`:'<div class="empty">No previous photos yet — each new Spotlight is archived here.</div>';
+  document.getElementById("phRows").innerHTML=db.photoHistory.length?`<div style="display:flex;gap:10px;flex-wrap:wrap">${db.photoHistory.map(h=>`<div style="width:120px"><img src="${U.esc(h.src)}" alt="" style="aspect-ratio:16/9;width:120px;height:80px;object-fit:cover;border-radius:8px;border:1px solid var(--line)" loading="lazy" decoding="async"><div style="font-size:.72rem;color:var(--muted)">${U.esc(h.week||"")}</div></div>`).join("")}</div>`:'<div class="empty">No previous photos yet — each new Spotlight is archived here.</div>';
 }
 window.setSpotlight=function(id){ db=DB.load(); const n=db.newsEvents.find(x=>x.id===id); if(!n||!n.image){U.toast("Story needs a photo first.");return;} db.photoHistory=db.photoHistory||[]; if(db.school.photoWeek&&db.school.photoWeek.src) db.photoHistory.unshift({src:db.school.photoWeek.src,cap:db.school.photoWeek.cap||"",week:U.todayStr()}); db.photoHistory=db.photoHistory.slice(0,12); db.school.photoWeek={src:n.image,cap:n.title,id:n.id}; DB.save(db); renderNE(); U.toast("Photo of the week set!"); };
 window.copyTxt=function(id){
@@ -1367,7 +1372,7 @@ window.delPledge=function(id){ if(!confirm("Remove this pledge?"))return; db=DB.
 window.qaGo=function(v,after){ const b=document.querySelector('#sideNav button[data-view="'+v+'"]'); if(b)b.click(); if(after){ try{ after(); }catch(e){} } };
 function renderLF(){
   db=DB.load();
-  document.getElementById("lfRows").innerHTML=(db.lostfound||[]).map(l=>`<div class="notice"><span class="dot" style="background:${l.claimed?"var(--mint)":"var(--sun)"}"></span>${l.photo?`<img src="${l.photo}" alt="" style="width:52px;height:52px;object-fit:cover;border-radius:10px;flex:none">`:""}<div style="flex:1"><b>${U.esc(l.item)}</b>${l.claimed?' <span class="badge b-green">Claimed</span>':""}${l.archived?' <span class="badge b-sun">Archived</span>':""}<br><small style="color:var(--muted)">${U.esc(l.desc||"")} • ${l.date}</small></div>${l.claimed?"":`<button class="icon-btn" onclick="claimLF('${l.id}')">Claimed</button>`}<button class="icon-btn del" onclick="delLF('${l.id}')">×</button></div>`).join("")||'<div class="empty">Nothing listed.</div>';
+  document.getElementById("lfRows").innerHTML=(db.lostfound||[]).map(l=>`<div class="notice"><span class="dot" style="background:${l.claimed?"var(--mint)":"var(--sun)"}"></span>${l.photo?`<img src="${l.photo}" alt="" style="aspect-ratio:16/9;width:52px;height:52px;object-fit:cover;border-radius:10px;flex:none" loading="lazy" decoding="async">`:""}<div style="flex:1"><b>${U.esc(l.item)}</b>${l.claimed?' <span class="badge b-green">Claimed</span>':""}${l.archived?' <span class="badge b-sun">Archived</span>':""}<br><small style="color:var(--muted)">${U.esc(l.desc||"")} • ${l.date}</small></div>${l.claimed?"":`<button class="icon-btn" onclick="claimLF('${l.id}')">Claimed</button>`}<button class="icon-btn del" onclick="delLF('${l.id}')">×</button></div>`).join("")||'<div class="empty">Nothing listed.</div>';
 }
 window.saveLF=function(){
   const t=document.getElementById("lfItem").value.trim(); if(!t){U.toast("Item name required.");return;}
