@@ -70,13 +70,13 @@ The site lives at the **repo root** — there is exactly one copy of every file.
 
 ```
 /  (repo root = the website)
-├── index.html  about.html  contact.html  news.html  story.html  … (30 pages)
+├── index.html  about.html  contact.html  news.html  story.html  … (29 pages)
 ├── portal/      login.html  admin.html  teacher.html  pupil.html
 ├── assets/css/  main.css  extra.css  corporate.css
 ├── assets/js/   store.js (database)  site.js (theme/chatbot/clock/sliders/captcha)
 ├── assets/img/  38 images
 ├── docs/        SUPABASE-SETUP.md  moniepoint-payments-plan.md
-├── tools/       run-all-tests.sh  tests/ (verify-batch2..37, 1197 checks)
+├── tools/       run-all-tests.sh  tests/ (verify-batch2..38, 1219 checks)
 ├── sw.js  supabase-schema.sql
 └── PROJECT-STATE.md
 ```
@@ -86,7 +86,7 @@ The site lives at the **repo root** — there is exactly one copy of every file.
 ```bash
 npm install                    # jsdom — needed only for the tests
 python3 -m http.server 8080    # static site, no build step
-bash tools/run-all-tests.sh    # full regression suite (1197 checks)
+bash tools/run-all-tests.sh    # full regression suite (1219 checks)
 ```
 
 Open the site through a web server, **not** `file://` — localStorage and fetch

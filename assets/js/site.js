@@ -45,7 +45,7 @@ const SEARCH_INDEX=[
  {t:"Academics",u:"academics.html",k:"academics classes creche nursery primary curriculum subjects"},
  {t:"Contact Us",u:"contact.html",k:"contact phone call whatsapp address location map email message faq directions suggestion box idea vote"},
  {t:"News & Events",u:"news.html",k:"news event sport party excursion graduation video photo gallery story rsvp seats reserve"},
- {t:"Staff",u:"staff.html",k:"staff teachers names who teaches team"},
+ {t:"Staff",u:"alumni.html#staff",k:"staff teachers names who teaches team alumni meet our staff"},
  {t:"E-Learning",u:"elearning.html",k:"elearning practice cbt common entrance primary 6 past questions"},
  {t:"Shop",u:"shop.html",k:"shop buy books uniform price textbook notebook order pickup"},
  {t:"PTA",u:"pta.html",k:"pta parents association meeting levy"},
@@ -130,7 +130,7 @@ const Search={
     const news=(db.newsEvents||[]).filter(n=>(!n.publishAt||n.publishAt<=today)&&match(n.title+" "+(n.text||""),q)).slice(0,3);
     if(news.length)extra+='<p class="sub">News & events</p>'+news.map(n=>`<a href="story.html?id=${n.id}">${hl(n.title)}</a>`).join("");
     const staff=(db.teachers||[]).filter(t=>match((t.name||"")+" "+(t.class||"")+" "+((t.subjects||[]).join(" ")),q)).slice(0,3);
-    if(staff.length)extra+='<p class="sub">Staff</p>'+staff.map(t=>`<a href="staff.html">${hl(t.name)} — ${U.esc(t.class||"")}</a>`).join("");
+    if(staff.length)extra+='<p class="sub">Staff</p>'+staff.map(t=>`<a href="alumni.html#staff">${hl(t.name)} — ${U.esc(t.class||"")}</a>`).join("");
     const ex=(db.exams||[]).filter(x=>match(x.subject||"",q)).slice(0,2);
     if(ex.length)extra+='<p class="sub">Exams</p>'+ex.map(x=>`<a href="exams.html">${hl(x.subject)} — ${U.shortDate(x.date)}</a>`).join("");
     const shop=(db.shopItems||[]).concat(db.uniform||[]).filter(x=>match(x.name||"",q)).slice(0,2);
