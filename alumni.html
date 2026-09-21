@@ -11,9 +11,9 @@
 <link rel="icon" href="assets/img/logo.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/main.css?v=20260919-39">
-<link rel="stylesheet" href="assets/css/extra.css?v=20260919-39">
-<link rel="stylesheet" href="assets/css/corporate.css?v=20260919-39">
+<link rel="stylesheet" href="assets/css/main.css?v=20260919-40">
+<link rel="stylesheet" href="assets/css/extra.css?v=20260919-40">
+<link rel="stylesheet" href="assets/css/corporate.css?v=20260919-40">
 <noscript><style>#siteLoader{display:none!important}</style></noscript>
 <script defer src="/_vercel/insights/script.js"></script>
 </head>
@@ -42,7 +42,14 @@
 
   <div class="sec-head clip-up" id="staff" style="margin-top:34px"><span class="sec-tag">Our Staff</span><h2>Meet Our Staff</h2><p>The qualified, caring team educating your children &mdash; led by our headmistress.</p></div>
   <div class="founder-card clip-up" style="margin:0 auto 22px"><span class="f-avatar"></span><div><b style="font-size:1.05rem" id="hmName">Headmistress</b><br><small style="color:var(--muted);font-weight:600">Headmistress &mdash; Treasure Academy</small></div></div>
-  <div id="totWin" style="margin-bottom:22px"></div><div class="team-grid" id="teamGrid"></div><p class="swipe-hint">&larr; Swipe sideways to meet every teacher &rarr;</p>
+  <div id="totWin" style="margin-bottom:22px"></div><div class="staff-grid3" id="teamGrid"></div>
+  <p class="sub" style="text-align:center;margin:12px 0 0">Tap any teacher to read their profile.</p>
+
+  <div class="sec-head clip-up" id="former" style="margin-top:34px"><span class="sec-tag">Once Among Us</span><h2>Our Former Teachers</h2><p>No longer on the staff, but forever part of the Treasure story &mdash; with the positions they held.</p></div>
+  <div class="staff-grid3" id="formerGrid"></div>
+
+  <div id="tpBg" style="display:none;position:fixed;inset:0;background:rgba(3,10,6,.55);z-index:900" onclick="if(event.target===this)closeTP()"></div>
+  <div id="tpBox" style="display:none;position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);width:min(480px,92vw);max-height:86vh;overflow-y:auto;background:var(--white);border:1.5px solid var(--gold,#C9A227);border-radius:16px;box-shadow:0 24px 60px rgba(3,22,12,.4);padding:22px;z-index:901"></div>
 
   <div class="sec-head clip-up" id="admissions" style="margin-top:34px"><span class="sec-tag">Admissions</span><h2>New Applicants Are Welcome</h2><p>We are still receiving new pupils into the classes below &mdash; once a class fills up, its form closes.</p></div>
   <div class="mv-grid" id="slotGrid"></div>
@@ -80,9 +87,9 @@
 </div></section>
 <footer id="siteFooter"></footer>
 <div id="toast"></div>
-<script src="assets/js/store.js?v=20260919-39"></script>
-<script src="assets/js/sync.js?v=20260919-39"></script>
-<script src="assets/js/site.js?v=20260919-39"></script>
+<script src="assets/js/store.js?v=20260919-40"></script>
+<script src="assets/js/sync.js?v=20260919-40"></script>
+<script src="assets/js/site.js?v=20260919-40"></script>
 <script>
 (function(){
   const db = DB.load();
@@ -160,13 +167,14 @@
   const ORD=["creche","nursery","kg","k.g","kindergarten","pry 1","primary 1","pry 2","primary 2","pry 3","primary 3","pry 4","primary 4","pry 5","primary 5","pry 6","primary 6"];
   const rank=c=>{ c=String(c||"").toLowerCase().replace(/[^a-z0-9 ]/g,""); const i=ORD.findIndex(o=>c.includes(o)); return i<0?99:i; };
   const ts=[...(db.teachers||[])].sort((a,b)=>rank(a.class)-rank(b.class)||String(a.name||"").localeCompare(String(b.name||"")));
-  document.getElementById("teamGrid").innerHTML=ts.length?ts.map(t=>`<div class="team-card clip-up revealed">${t.photo?`<img src="${t.photo}" alt="">`:`<span style="display:inline-flex;width:84px;height:84px;border-radius:50%;background:linear-gradient(135deg,#0E9A46,#095C2A);color:#fff;font-weight:800;font-size:1.4rem;align-items:center;justify-content:center;margin-bottom:8px">${U.initials(t.name)}</span>`}<h3 style="font-size:.95rem;margin:4px 0">${U.esc(t.name)}</h3><p class="sub" style="margin:0">${U.esc(t.class||"Staff")}</p><div style="margin-top:8px"><button class="btn btn-sun btn-sm" data-vote="${t.id}" onclick="voteTeacher('${t.id}')">★ <span>${(db.teacherVotes||{})[t.id]||0}</span></button></div></div>`).join(""):'<div class="empty">Our teachers list is coming soon.</div>';
+  document.getElementById("teamGrid").innerHTML=ts.length?ts.map(t=>`<div class="team-card clip-up revealed staff-click" onclick="teacherProfile('${t.id}')" title="View profile">${t.photo?`<img src="${t.photo}" alt="">`:`<span style="display:inline-flex;width:84px;height:84px;border-radius:50%;background:linear-gradient(135deg,#0E9A46,#095C2A);color:#fff;font-weight:800;font-size:1.4rem;align-items:center;justify-content:center;margin-bottom:8px">${U.initials(t.name)}</span>`}<h3 style="font-size:.95rem;margin:4px 0">${U.esc(t.name)}</h3><p class="sub" style="margin:0">${U.esc(t.position||"Class Teacher")}${t.class?" - "+U.esc(t.class):""}</p><small style="color:var(--muted)">Tap to view profile</small><div style="margin-top:8px"><button class="btn btn-sun btn-sm" data-vote="${t.id}" onclick="event.stopPropagation();voteTeacher('${t.id}')">★ <span>${(db.teacherVotes||{})[t.id]||0}</span></button></div></div>`).join(""):'<div class="empty">Our teachers list is coming soon.</div>';
   const TOT=(db.teacherOfTerm||{});
   document.getElementById("totWin").innerHTML=TOT.name?`<div class="star-card" style="max-width:520px;margin:0 auto"><div class="avatar-big">${U.initials(TOT.name)}</div><span class="badge b-sun">Teacher of the Term</span><h3>${U.esc(TOT.name)}</h3><p class="sub" style="margin:2px 0 0">${U.esc(TOT.term||"")} ${U.esc(TOT.session||"")} — crowned with ${TOT.votes} votes</p></div>`:"";
   const CLS=["Creche","Pre-Nursery","Nursery 1","Nursery 2","Primary 1","Primary 2","Primary 3","Primary 4","Primary 5","Primary 6"];
   const sg=document.getElementById("slotGrid"); if(sg) sg.innerHTML=CLS.map(c=>'<div class="mv-card clip-up revealed" style="text-align:center"><h3 style="margin:0 0 6px;font-size:1rem">'+c+'</h3><span class="badge" style="background:var(--mint-soft);color:#0B7A37">Form Open</span></div>').join("");
   const sf=document.getElementById("slotFee"); if(sf) sf.textContent="\u20a6"+(db.school.formFee||5000).toLocaleString();
   const ss=document.getElementById("slotSess"); if(ss) ss.textContent=db.school.session||"this";
+  const FG=document.getElementById("formerGrid"); if(FG) FG.innerHTML=(db.formerTeachers||[]).map(f=>`<div class="team-card clip-up revealed staff-click" onclick="teacherProfile('${f.id}')" title="View profile"><span style="display:inline-flex;width:84px;height:84px;border-radius:50%;background:linear-gradient(135deg,#8a6d1f,#5c4a14);color:#fff;font-weight:800;font-size:1.4rem;align-items:center;justify-content:center;margin-bottom:8px">${U.initials(f.name)}</span><h3 style="font-size:.95rem;margin:4px 0">${U.esc(f.name)}</h3><p class="sub" style="margin:0">${U.esc(f.position||"Teacher")}</p><small style="color:var(--muted)">${(f.started||"").slice(0,4)} &ndash; ${(f.ended||"").slice(0,4)}</small></div>`).join("");
 })();
 </script>
 <script>
@@ -179,6 +187,35 @@ window.voteTeacher=function(id){
   U.toast("Vote counted! Thank you.");
 };
 try{ if(localStorage.getItem("treasure_vote_"+new Date().toISOString().slice(0,7))){ document.querySelectorAll("[data-vote]").forEach(b=>{ b.disabled=true; b.style.opacity=".6"; }); } }catch(e){}
+</script>
+<script>
+window.teacherProfile=function(id){
+  const db=DB.load();
+  const t=(db.teachers||[]).find(x=>x.id===id);
+  const f=!t?(db.formerTeachers||[]).find(x=>x.id===id):null;
+  if(!t&&!f)return;
+  const isF=!!f; const p=t||f;
+  const yr=d=>{ if(!d)return""; const dt=new Date(d); return isNaN(dt)?"":dt.toLocaleDateString("en-GB",{day:"numeric",month:"long",year:"numeric"}); };
+  const yrs=d=>{ if(!d)return""; const dt=new Date(d); if(isNaN(dt))return""; const n=Math.floor((Date.now()-dt.getTime())/31557600000); return n>0?(n+" year"+(n>1?"s":"")):"new this session"; };
+  const avatar=p.photo?`<img src="${p.photo}" alt="" style="width:96px;height:96px;border-radius:50%;object-fit:cover">`:`<span style="display:inline-flex;width:96px;height:96px;border-radius:50%;background:linear-gradient(135deg,#0E9A46,#095C2A);color:#fff;font-weight:800;font-size:1.6rem;align-items:center;justify-content:center">${U.initials(p.name)}</span>`;
+  const row=(k,v)=>v?`<p style="margin:6px 0;font-size:.92rem"><b>${k}:</b> ${U.esc(v)}</p>`:"";
+  const badge=isF
+    ?'<span class="badge" style="background:var(--sun-soft);color:#8a6d1f">Former Staff &mdash; '+U.esc(p.position||"Teacher")+'</span>'
+    :'<span class="badge" style="background:var(--mint-soft);color:#0B7A37">'+U.esc(p.position||"Class Teacher")+(p.class?" - "+U.esc(p.class):"")+'</span>';
+  const started=p.started?yr(p.started):"";
+  const startedLine=started
+    ?'<p style="margin:6px 0;font-size:.92rem"><b>'+(isF?"Taught here:":"Started teaching here:")+'</b> '+started+(isF&&p.ended?" until "+yr(p.ended):"")+(!isF?' &nbsp;<b>Time with us:</b> '+yrs(p.started):"")+'</p>'
+    :"";
+  document.getElementById("tpBox").innerHTML='<div style="text-align:center">'+avatar+'<h3 style="margin:10px 0 4px">'+U.esc(p.name)+'</h3>'+badge+'</div>'
+    +startedLine
+    +row("Subjects",(!isF&&(p.subjects||[]).length)?p.subjects.join(", "):"")
+    +row("Qualification",p.quals)
+    +row("About",p.about)
+    +'<div style="text-align:center;margin-top:14px"><button class="btn btn-white btn-sm" onclick="closeTP()">Close</button></div>';
+  document.getElementById("tpBg").style.display="";
+  document.getElementById("tpBox").style.display="";
+};
+window.closeTP=function(){ document.getElementById("tpBg").style.display="none"; document.getElementById("tpBox").style.display="none"; };
 </script>
 </body>
 </html>

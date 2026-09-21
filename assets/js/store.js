@@ -37,6 +37,11 @@ const EARLY_CLASSES = ["Creche","Pre-Nursery","Nursery 1","Nursery 2"];
 const SUBJECTS_EARLY = ["Literacy","Numeracy","Phonics","Rhymes & Songs","Social Habits","Health Habits","C.R.S","Computer"];
 const SUBJECTS_PRIMARY = ["English Language","Mathematics","Basic Science","Social Studies","C.R.S","Nigerian Language","Computer Studies","Creative Arts","P.H.E"];
 const DAYS = ["Monday","Tuesday","Wednesday","Thursday","Friday"];
+const FORMER_SEED = [
+      {id:"FT1", name:"Mr. Ojonugwa Ibrahim", position:"Head Teacher", started:"2015-09-14", ended:"2021-08-31", about:"Our very first Head Teacher - he set the disciplined, loving culture every new teacher still learns from. Now schooling further in Abuja."},
+      {id:"FT2", name:"Mrs. Agnes Ocholi", position:"Nursery 1 Class Teacher", started:"2016-01-11", ended:"2023-07-28", about:"Six years of rhymes and first friendships. She left us to run her own nursery in Okene."},
+      {id:"FT3", name:"Miss Blessing Ameh", position:"Sports & P.H.E Teacher", started:"2019-09-16", ended:"2024-04-30", about:"Coached our inter-house sports days to full shouts. Still returns every Children's Day to lead the march."}
+];
 
 function subjectsFor(cls){ return EARLY_CLASSES.includes(cls) ? SUBJECTS_EARLY : SUBJECTS_PRIMARY; }
 
@@ -47,14 +52,15 @@ function seedDB(){
     school,
     admins: [{id:"HEAD001", pin:"1234", name:"Mrs. Salihu Nanahawa", title:"Headmistress"}],
     teachers: [
-      {id:"T001", pin:"1234", name:"Uncle Ebenezer", phone:"0803 100 0001", class:"Primary 3", subjects:["English Language","Mathematics"],dob:"1988-02-14"},
-      {id:"T002", pin:"1234", name:"Aunty Rafatu",   phone:"0803 100 0002", class:"Primary 1", subjects:["Mathematics","Basic Science"],dob:"1992-06-21"},
-      {id:"T003", pin:"1234", name:"Aunty Rachel",   phone:"0803 100 0003", class:"Nursery 2", subjects:["Literacy","Numeracy","Phonics"],dob:"1990-11-03"},
-      {id:"T004", pin:"1234", name:"Aunty Nanahawa", phone:"0803 100 0004", class:"Pre-Nursery", subjects:["Literacy","Numeracy","Rhymes & Songs"],dob:"1995-08-30"},
-      {id:"T005", pin:"1234", name:"Mr. Tunde Bakare (demo)", phone:"0803 999 0000", class:"Primary 4", subjects:["English Language","Social Studies"],dob:"1985-09-16"},
-      {id:"T006", pin:"1234", name:"Mrs. Ngozi Obi (demo)",   phone:"0803 222 3333", class:"Creche",    subjects:["Rhymes & Songs","Social Habits"],dob:"1993-12-09"},
-      {id:"T007", pin:"1234", name:"Mrs Salihu Nanahawa", phone:"0803 100 0007", class:"Nursery 1", subjects:["Literacy","Numeracy","Phonics"],dob:"1991-05-22"}
+      {id:"T001", pin:"1234", name:"Uncle Ebenezer", phone:"0803 100 0001", class:"Primary 3", subjects:["English Language","Mathematics"],dob:"1988-02-14",started:"2015-09-14",position:"Class Teacher",quals:"NCE (English)",about:"The friendly voice of Primary 3. Uncle Ebenezer loves turning stories into lessons, and has taught at Treasure since our very first year."},
+      {id:"T002", pin:"1234", name:"Aunty Rafatu",   phone:"0803 100 0002", class:"Primary 1", subjects:["Mathematics","Basic Science"],dob:"1992-06-21",started:"2017-01-09",position:"Class Teacher",quals:"NCE (Primary Education)",about:"Patient and playful - she gives our Primary 1 pupils the strongest possible start in reading and numbers."},
+      {id:"T003", pin:"1234", name:"Aunty Rachel",   phone:"0803 100 0003", class:"Nursery 2", subjects:["Literacy","Numeracy","Phonics"],dob:"1990-11-03",started:"2016-09-12",position:"Class Teacher",quals:"NCE (Early Childhood)",about:"Our phonics champion - Nursery 2 pupils leave her class sounding out new words all by themselves."},
+      {id:"T004", pin:"1234", name:"Aunty Nanahawa", phone:"0803 100 0004", class:"Pre-Nursery", subjects:["Literacy","Numeracy","Rhymes & Songs"],dob:"1995-08-30",started:"2018-09-10",position:"Class Teacher",quals:"NCE (Early Childhood)",about:"Gentle hands and a warm heart - she cares for our youngest Treasures in Pre-Nursery."},
+      {id:"T005", pin:"1234", name:"Mr. Tunde Bakare (demo)", phone:"0803 999 0000", class:"Primary 4", subjects:["English Language","Social Studies"],dob:"1985-09-16",started:"2019-09-16",position:"Class Teacher",quals:"B.Ed (Social Studies)",about:"Brings history and maps alive for Primary 4 with debates and little field trips."},
+      {id:"T006", pin:"1234", name:"Mrs. Ngozi Obi (demo)",   phone:"0803 222 3333", class:"Creche",    subjects:["Rhymes & Songs","Social Habits"],dob:"1993-12-09",started:"2020-01-13",position:"Class Teacher",quals:"NCE",about:"Known for the calmest creche corner in Kogi State - songs, naps and happy babies."},
+      {id:"T007", pin:"1234", name:"Mrs Salihu Nanahawa", phone:"0803 100 0007", class:"Nursery 1", subjects:["Literacy","Numeracy","Phonics"],dob:"1991-05-22",started:"2015-09-14",position:"Class Teacher",quals:"NCE (Early Childhood)",about:"With Treasure from day one - her Nursery 1 classroom is where the music never stops."}
     ],
+    formerTeachers: FORMER_SEED,
     pupils: [
       {id:"P001", adm:"TA/2023/001", pin:"1234", password:"1234", name:"Adaeze Okafor",   gender:"Female", class:"Primary 1", dob:"2019-03-12", parent:"Mrs. Okafor",  phone:"0805 111 2222"},
       {id:"P002", adm:"TA/2023/002", pin:"1234", password:"1234", name:"Emeka Nwosu",    gender:"Male",   class:"Primary 1", dob:"2019-07-08", parent:"Mr. Nwosu",    phone:"0805 333 4444"},
@@ -342,6 +348,7 @@ const DB = {
     if(!db.reading) db.reading = seedDB().reading;
     if(!db.meetings) db.meetings = seedDB().meetings;
     if(!db.visitors) db.visitors = [];
+    if(!db.formerTeachers) db.formerTeachers = FORMER_SEED;
     if(!db.jobApps) db.jobApps = [];
     if(!db.supportPledges) db.supportPledges = [
       {id:"SP1",name:"Blessing O.",amount:20000,msg:"For the library books. Once a Treasure pupil, always Treasure!",date:"2026-09-18",status:"Approved"},
