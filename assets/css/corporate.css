@@ -1216,3 +1216,13 @@ body.reading .story-body p{font-size:1.08rem;line-height:2}
 @media(max-width:900px){.staff-grid3{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:600px){.staff-grid3{grid-template-columns:1fr}}
 [data-theme="dark"] .staff-click:hover{box-shadow:0 10px 24px rgba(0,0,0,.5)}
+/* ============ BATCH 41 (2026-09-21): accreditation strip, staff collage, coc ============ */
+.foot-partners{border-top:1px solid var(--mint-border,#CDECD9);padding:12px 0 10px}
+.acc-cap{text-align:center;font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin:0 0 8px}
+.acc-logos{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;align-items:center}
+.acc-logos img{height:50px;width:auto;max-width:150px;object-fit:contain;background:#fff;border-radius:10px;padding:5px 9px;border:1px solid var(--mint-border,#CDECD9)}
+.acc-note{text-align:center;font-size:.74rem;color:var(--muted);margin:8px 0 0}
+.staff-collage{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:4px 0 16px}
+.sc-dot{display:inline-flex;width:46px;height:46px;border-radius:50%;background:linear-gradient(135deg,#0E9A46,#095C2A);color:#fff;font-weight:800;font-size:.82rem;align-items:center;justify-content:center;border:2px solid var(--mint-border,#CDECD9)}
+[data-theme="dark"] .acc-logos img{border-color:rgba(255,255,255,.14)}
+[data-theme="dark"] .sc-dot{border-color:rgba(255,255,255,.15)}

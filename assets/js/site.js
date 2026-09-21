@@ -202,6 +202,11 @@ function renderFooter(){
       </div>
     </div>
   </div>
+  <div class="foot-partners"><div class="container">
+    <p class="acc-cap">Approved &amp; Registered With</p>
+    <div class="acc-logos"><img src="assets/img/partners/badge-kogi.png" alt="" title="Kogi State Government"><img src="assets/img/partners/badge-kogimoe.png" alt="" title="Kogi State Ministry of Education, Science and Technology"><img src="assets/img/partners/badge-napps.webp" alt="" title="NAPPS — National Association of Proprietors of Private Schools"><img src="assets/img/partners/badge-nysc.png" alt="" title="National Youth Service Corps"><img src="assets/img/partners/badge-cee.png" alt="" title="Common Entrance Examination (Kogi State)"></div>
+    <p class="acc-note">Approved Common Entrance Examination Centre &middot; Centre No. BS/OKN/141</p>
+  </div></div>
   <div class="foot-bottom"><div class="container foot-center" style="display:flex;gap:14px;align-items:center;justify-content:center;flex-wrap:wrap"><span>\u00A9 ${year} ${U.esc(s.name)}. All Rights Reserved.</span><span id="textSizeBtns" title="Text size"><button type="button" data-fs="s" aria-label="Small text">S</button><button type="button" data-fs="m" aria-label="Normal text" class="on">A</button><button type="button" data-fs="l" aria-label="Large text">L</button></span></div></div>
   </div>`;
 }

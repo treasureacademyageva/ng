@@ -11,9 +11,9 @@
 <title>Admin Dashboard — Treasure Academy, Ageva</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../assets/css/main.css?v=20260919-40">
-<link rel="stylesheet" href="../assets/css/extra.css?v=20260919-40">
-<link rel="stylesheet" href="../assets/css/corporate.css?v=20260919-40">
+<link rel="stylesheet" href="../assets/css/main.css?v=20260919-41">
+<link rel="stylesheet" href="../assets/css/extra.css?v=20260919-41">
+<link rel="stylesheet" href="../assets/css/corporate.css?v=20260919-41">
 <noscript><style>#siteLoader{display:none!important}</style></noscript>
 <script defer src="/_vercel/insights/script.js"></script>
 </head>
@@ -53,6 +53,7 @@
       <button data-view="timetable">Timetable</button>
       <button data-view="extras">Website Extras <span class="badge b-sun" id="exCount">0</span></button>
       <button data-view="shop">Shop & Orders <span class="badge b-sun" id="ordCount">0</span></button>
+      <button data-view="code">Code of Conduct</button>
       <button data-view="settings">Settings</button>
     
     </div>
@@ -482,6 +483,30 @@
         <div id="pmRows" style="margin-top:12px"></div>
       </div>
     </div>
+    <div class="view-section" id="v-code">
+      <h2>Staff Code of Conduct</h2>
+      <p style="margin:0 0 14px;font-size:.9rem;color:var(--muted)">Treasure Academy &middot; opposite Morak Pure Water Factory, Ageva. These are the working rules of the school. Every staff member reads and accepts them.</p>
+  <div class="mv-grid" style="grid-template-columns:1fr 1fr;gap:10px">
+    <div class="mv-card clip-up revealed"><b>1. School hours</b><p style="margin:6px 0 0;font-size:.88rem">School opens 7:30am and closes 3:00pm. Every staff must be in school before 7:30am and see to the exit of their pupils before the day ends.</p></div>
+    <div class="mv-card clip-up revealed"><b>2. Movement book</b><p style="margin:6px 0 0;font-size:.88rem">Resumption, closing and every movement of staff must be documented, with reasons given to the Headmistress.</p></div>
+    <div class="mv-card clip-up revealed"><b>3. Stay with your class</b><p style="margin:6px 0 0;font-size:.88rem">No teacher leaves their class for personal errands or handset use during lessons. A class must never be without its teacher.</p></div>
+    <div class="mv-card clip-up revealed"><b>4. No money from pupils</b><p style="margin:6px 0 0;font-size:.88rem">Collecting money from pupils or parents, for any reason, is strictly prohibited.</p></div>
+    <div class="mv-card clip-up revealed"><b>5. Protect the school name</b><p style="margin:6px 0 0;font-size:.88rem">All conduct, direct or indirect, that dents the image and credibility of the school is punishable.</p></div>
+    <div class="mv-card clip-up revealed"><b>6. Money matters</b><p style="margin:6px 0 0;font-size:.88rem">All financial decisions belong to the Headmistress and management alone. Lateness to duty carries a penalty.</p></div>
+    <div class="mv-card clip-up revealed"><b>7. Absence</b><p style="margin:6px 0 0;font-size:.88rem">Any absence must come with serious, provable reasons, communicated to management before or immediately after.</p></div>
+    <div class="mv-card clip-up revealed"><b>8. No side business in school hours</b><p style="margin:6px 0 0;font-size:.88rem">Engaging in any trade or business within school hours, other than your teaching duties, is prohibited.</p></div>
+    <div class="mv-card clip-up revealed"><b>9. No rough treatment</b><p style="margin:6px 0 0;font-size:.88rem">No insulting, shouting at or physically correcting any pupil, parent or fellow staff, anywhere on school premises.</p></div>
+    <div class="mv-card clip-up revealed"><b>10. Keep school records inside</b><p style="margin:6px 0 0;font-size:.88rem">Pupils records, reports and school documents must not be given out or photographed for outsiders.</p></div>
+    <div class="mv-card clip-up revealed"><b>11. Dressing</b><p style="margin:6px 0 0;font-size:.88rem">Dress smartly and modestly every day. Slippers are not allowed in class. Traditional dress is welcome on Fridays.</p></div>
+    <div class="mv-card clip-up revealed"><b>12. Health &amp; leave</b><p style="margin:6px 0 0;font-size:.88rem">Sick or emergency days must be reported at once. Leave does not attract pay; duty on Saturdays and planned days attracts normal pay.</p></div>
+    <div class="mv-card clip-up revealed"><b>13. No secret meetings</b><p style="margin:6px 0 0;font-size:.88rem">No staff gathering, class-to-class campaign or teachers meeting without the Headmistress or management present.</p></div>
+    <div class="mv-card clip-up revealed"><b>14. Extra duties</b><p style="margin:6px 0 0;font-size:.88rem">Lesson notes must be ready before classes and checked by the Headmistress daily. Duties given outside normal teaching - events, trips, checking books - are part of the work.</p></div>
+    <div class="mv-card clip-up revealed"><b>15. Salary</b><p style="margin:6px 0 0;font-size:.88rem">Salary is considered by management alone, on the last working day of the month, with good conduct and hard work in view.</p></div>
+    <div class="mv-card clip-up revealed"><b>16. Associations</b><p style="margin:6px 0 0;font-size:.88rem">Any association, union or group formed within the school against this order is treated as conspiracy and punished.</p></div>
+    <div class="mv-card clip-up revealed" style="grid-column:1/-1"><b>17. Employment</b><p style="margin:6px 0 0;font-size:.88rem">Employment may be ended by management where conduct or duty is found wanting. Service is a privilege, kept by character and hard work.</p></div>
+  </div>
+  <p class="sub" style="margin-top:14px;text-align:center">&mdash; Management &middot; <span class="cocStatus"></span></p>
+    </div>
     <div class="view-section" id="v-settings">
         <div style="margin-top:16px;display:flex;gap:10px;flex-wrap:wrap">
         <div style="margin-top:6px;border-top:1px solid var(--line);padding-top:16px">
@@ -570,9 +595,9 @@ if(nav)nav.addEventListener("click",function(e){
 try{var h=String(location.hash||"").replace(/^#\/?/,""); if(h){var bb=document.querySelector('#sideNav button[data-view="'+h+'"]'); if(bb&&!bb.classList.contains("on"))bb.click();}}catch(e7){}
 })();
 </script>
-<script src="../assets/js/store.js?v=20260919-40"></script>
-<script src="../assets/js/sync.js?v=20260919-40"></script>
-<script src="../assets/js/site.js?v=20260919-40"></script>
+<script src="../assets/js/store.js?v=20260919-41"></script>
+<script src="../assets/js/sync.js?v=20260919-41"></script>
+<script src="../assets/js/site.js?v=20260919-41"></script>
 <script>
 const S = Auth.guard("admin");
 if(!S){location.href="login.html";throw new Error("no-session");}
@@ -585,7 +610,7 @@ document.querySelectorAll("[data-school-name]").forEach(e=>e.textContent=db.scho
 
 const TITLES={overview:["Overview","Welcome back! Here's your school at a glance."],regs:["Registrations","Online 3-step forms + payments."],apps:["Applications","Quick admission enquiries."],pupils:["Pupils","Manage all pupils + login passwords."],teachers:["Teachers","Manage staff and class assignments."],duty:["Duty Roster","Who is on duty each day."],results:["Results","Review, approve & publish report cards."],attendance:["Attendance","Daily registers by teachers."],promos:["Promotions","Landing page promo slider."],newsevents:["News/Events","Videos, gallery & stories."],messages:["Messages","Contact form inbox."],whatsapp:["WhatsApp","Chat contacts + online status."],practice:["Entrance Qs","Upload Common Entrance questions."],testimonials:["Testimonials","Review website testimonials."],notices:["Notices","Talk to staff & parents."],classpages:["Class Pages","One page per class — you control them."],calendar:["Calendar","Term dates & events."],timetable:["Timetable","One grid for the whole school."],extras:["Website Extras","Stars, ticker, homework, photo day & suggestions."],shop:["Shop & Orders","Items, prices & pickup orders."],settings:["Settings","School details, term & session."]};
 
-const NAVICONS={overview:"home",regs:"clipboard",apps:"filetext",pupils:"users",teachers:"user",duty:"calendar",results:"award",attendance:"calcheck",promos:"mega",newsevents:"news",messages:"message",whatsapp:"chat",testimonials:"star",practice:"book",notices:"bell",classpages:"news",calendar:"calcheck",timetable:"calendar",extras:"star",shop:"bag",settings:"gear"};
+const NAVICONS={overview:"home",regs:"clipboard",apps:"filetext",pupils:"users",teachers:"user",duty:"calendar",results:"award",attendance:"calcheck",promos:"mega",newsevents:"news",messages:"message",whatsapp:"chat",testimonials:"star",practice:"book",notices:"bell",classpages:"news",calendar:"calcheck",timetable:"calendar",extras:"star",shop:"bag",settings:"gear",code:"filetext"};
 document.querySelectorAll("#sideNav button").forEach(b=>{ b.insertAdjacentHTML("afterbegin",U.icon(NAVICONS[b.dataset.view]||"chev",17)); });
 
 function openModal(html){ document.getElementById("modalBox").innerHTML=html; document.getElementById("modalBg").classList.add("show"); }
@@ -1891,5 +1916,29 @@ function pqDel(id){ db=DB.load(); db.practiceQuestions=(db.practiceQuestions||[]
   }
 })();
 </script>
+
+  <div id="cocBg" style="display:none;position:fixed;inset:0;background:rgba(3,10,6,.55);z-index:900"></div>
+  <div id="cocBox" style="display:none;position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);width:min(680px,94vw);max-height:88vh;overflow-y:auto;background:var(--white);border:1.5px solid var(--gold,#C9A227);border-radius:16px;box-shadow:0 24px 60px rgba(3,22,12,.4);padding:22px;z-index:901">
+    <h2 style="margin:0 0 4px">Staff Code of Conduct</h2>
+    <p class="sub" style="margin:0 0 10px">Please read these rules carefully, then accept below to continue &mdash; every staff accepts the same code.</p>
+    <div id="cocBody" style="max-height:52vh;overflow-y:auto"></div>
+    <div style="text-align:center;margin-top:12px"><button class="btn btn-mint" onclick="acceptCoC()">I Have Read and I Accept</button></div>
+  </div>
+  <script>
+  (function(){
+    var v=document.getElementById("v-code");
+    var show=document.getElementById("cocBody");
+    if(v&&show) show.innerHTML=v.innerHTML;
+    var dbs=DB.load();
+    document.querySelectorAll(".cocStatus").forEach(function(e){ if(dbs.school.cocA) e.textContent="Accepted by the Headmistress on "+(dbs.school.cocAt||""); });
+    if(dbs.school.cocA!==1){ document.getElementById("cocBg").style.display=""; document.getElementById("cocBox").style.display=""; }
+  })();
+  window.acceptCoC=function(){
+    var dbs=DB.load(); dbs.school.cocA=1; dbs.school.cocAt=U.todayStr(); DB.save(dbs);
+    document.getElementById("cocBg").style.display="none";
+    document.getElementById("cocBox").style.display="none";
+    document.querySelectorAll(".cocStatus").forEach(function(e){ e.textContent="Accepted by you today"; });
+  };
+  </script>
 </body>
 </html>
