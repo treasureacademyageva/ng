@@ -38,29 +38,19 @@ const SUBJECTS_EARLY = ["Literacy","Numeracy","Phonics","Rhymes & Songs","Social
 const SUBJECTS_PRIMARY = ["English Language","Mathematics","Basic Science","Social Studies","C.R.S","Nigerian Language","Computer Studies","Creative Arts","P.H.E"];
 const DAYS = ["Monday","Tuesday","Wednesday","Thursday","Friday"];
 const FORMER_SEED = []; /* batch41: demo names retired - real former staff come from the Headmistress (chat) */
-
-function subjectsFor(cls){ return EARLY_CLASSES.includes(cls) ? SUBJECTS_EARLY : SUBJECTS_PRIMARY; }
-
-/* ---------------- Seed data ---------------- */
-function seedDB(){
-  const school = {...SCHOOL_DEFAULTS};
-  const db = {
-    school,
-    admins: [{id:"HEAD001", pin:"1234", name:"Mrs. Salihu Nanahawa", title:"Headmistress"}],
-    teachers: [
-      {id:"T001", pin:"1234", name:"Mr Idris Ibrahim", phone:"0803 100 0001", class:"Primary 3", subjects:["Computer Science","Mathematics"],dob:null,started:null,position:"Mathematics Teacher",quals:"HND Computer Science (2017)",about:"The maths desk of the school - every Common Entrance drill on numbers passes his table."},
-      {id:"T002", pin:"1234", name:"Mrs Zeenatudeen Uthman", phone:"0803 100 0002", class:"Primary 6", subjects:["English Language","Mathematics","Basic Science"],dob:null,started:null,position:"Class Teacher",quals:"B.Agric Crop Science (2020)",about:"Guides our oldest pupils through the Common Entrance season with steady, quiet confidence."},
-      {id:"T003", pin:"1234", name:"Jimoh Mariam", phone:"0803 100 0003", class:"Primary 2", subjects:["Mathematics","Basic Science"],dob:null,started:null,position:"Class Teacher",quals:"ND Chemistry (2020)",about:"Brings a young chemist's eye to Primary 2 - plenty of small experiments and neat jotters."},
-      {id:"T004", pin:"1234", name:"Nasirun Yahaya", phone:"0803 100 0004", class:"Nursery 1", subjects:["Literacy","Numeracy","Phonics"],dob:"1991-05-22",started:null,position:"Class Teacher",quals:"B.Sc Local Govt & Dev. Studies (2014)",about:"Warm and organised - her Nursery 1 pupils learn order and letters without ever being rushed."},
-      {id:"T005", pin:"1234", name:"Tahab Oyiza Zainab", phone:"0803 100 0005", class:"Primary 4", subjects:["Business Studies","Basic Science"],dob:null,started:null,position:"Class Teacher",quals:"NCE Business Education (2010)",about:"Our most senior certificate on the wall - Primary 4 keeps tidy records and busy hands."},
-      {id:"T006", pin:"1234", name:"Salihu Oyiza Nanahawa", phone:"0803 100 0006", class:"Creche", subjects:["Rhymes & Songs","Social Habits"],dob:"1991-05-22",started:null,position:"Class Teacher",quals:"NCE Home Economics (2014)",about:"Home-economist running the calmest creche room in town - meals, naps and rhymes on time."},
-      {id:"T007", pin:"1234", name:"Rebeca Omeiza", phone:"0803 100 0007", class:"Primary 5", subjects:["Social Studies","English Language"],dob:null,started:null,position:"Class Teacher",quals:"Social Studies (2012)",about:"Maps, flags and our town's story - Primary 5 narrates Kogi to you by heart."},
-      {id:"T008", pin:"1234", name:"Siyaka Bose", phone:"0803 100 0008", class:"Nursery 2", subjects:["Literacy","Numeracy","Phonics"],dob:null,started:null,position:"Class Teacher",quals:"Secondary, Sciences (2012)",about:"A science hand in Nursery 2 - little nature walks turn into big discoveries."},
-      {id:"T009", pin:"1234", name:"David O Esther", phone:"0803 100 0009", class:"Pre-Nursery", subjects:["Creative Arts","Rhymes & Songs"],dob:null,started:null,position:"Class Teacher",quals:"ND Art (2012)",about:"Every pre-nursery wall bears his African Art strokes - painting days are the loudest."},
-      {id:"T010", pin:"1234", name:"Bose Momoh", phone:"0803 100 0010", class:"", subjects:[],dob:null,started:null,position:"School Administrator",quals:"ND Business Administration (2007)",about:"Keeps the diary, the visitors' book and every registration neatly in place."}
-    ],
-    formerTeachers: FORMER_SEED,
-    pupils: [
+const STAFF_WALL_SEED = [
+      {id:"W01", name:"Mr Idris Ibrahim", class:"Primary 3", position:"Mathematics Teacher", quals:"HND Computer Science (2017)", started:null, subjects:["Computer Science","Mathematics"], about:"The maths desk of the school - every Common Entrance drill on numbers passes his table."},
+      {id:"W02", name:"Mrs Zeenatudeen Uthman", class:"Primary 6", position:"Class Teacher", quals:"B.Agric Crop Science (2020)", started:null, subjects:["English Language","Mathematics","Basic Science"], about:"Guides our oldest pupils through the Common Entrance season with steady, quiet confidence."},
+      {id:"W03", name:"Jimoh Mariam", class:"Primary 2", position:"Class Teacher", quals:"ND Chemistry (2020)", started:null, subjects:["Mathematics","Basic Science"], about:"Brings the eye of a young chemist to Primary 2 - plenty of small experiments and neat jotters."},
+      {id:"W04", name:"Nasirun Yahaya", class:"Nursery 1", position:"Class Teacher", quals:"B.Sc Local Govt & Dev. Studies (2014)", started:null, subjects:["Literacy","Numeracy","Phonics"], about:"Warm and organised - her Nursery 1 pupils learn order and letters without ever being rushed."},
+      {id:"W05", name:"Tahab Oyiza Zainab", class:"Primary 4", position:"Class Teacher", quals:"NCE Business Education (2010)", started:null, subjects:["Business Studies","Basic Science"], about:"Our most senior certificate on the wall - Primary 4 keeps tidy records and busy hands."},
+      {id:"W06", name:"Salihu Oyiza Nanahawa", class:"Creche", position:"Class Teacher", quals:"NCE Home Economics (2014)", started:null, subjects:["Rhymes & Songs","Social Habits"], about:"Home-economist running the calmest creche room in town - meals, naps and rhymes on time."},
+      {id:"W07", name:"Rebeca Omeiza", class:"Primary 5", position:"Class Teacher", quals:"Social Studies (2012)", started:null, subjects:["Social Studies","English Language"], about:"Maps, flags and our town story - Primary 5 narrates Kogi to you by heart."},
+      {id:"W08", name:"Siyaka Bose", class:"Nursery 2", position:"Class Teacher", quals:"Secondary, Sciences (2012)", started:null, subjects:["Literacy","Numeracy","Phonics"], about:"A science hand in Nursery 2 - little nature walks turn into big discoveries."},
+      {id:"W09", name:"David O Esther", class:"Pre-Nursery", position:"Class Teacher", quals:"ND Art (2012)", started:null, subjects:["Creative Arts","Rhymes & Songs"], about:"Every pre-nursery wall bears his African Art strokes - painting days are the loudest."},
+      {id:"W10", name:"Bose Momoh", class:"", position:"School Administrator", quals:"ND Business Administration (2007)", started:null, subjects:[], about:"Keeps the diary, the visitors book and every registration neatly in place."}
+];
+const GRADS_SEED = [
       {id:"GS1", adm:"", pin:null, password:null, name:"ABDULLAHI, FARIDA AHUDOIZA", gender:"Female", class:"Graduated", dob:"2016-01-05", parent:"", phone:"08039689663", gradYear:2025, examNo:"BS/OKN/141001", exam:{eng:66,mat:70,gep:80,total:216}, subjects:["ENG","MAT","GEP"]},
       {id:"GS2", adm:"", pin:null, password:null, name:"ABDULSALAMI, MUFIDAT OZAVIZE", gender:"Female", class:"Graduated", dob:"2015-01-02", parent:"", phone:"08133716280", gradYear:2025, examNo:"BS/OKN/141002", exam:{eng:66,mat:66,gep:78,total:210}, subjects:["ENG","MAT","GEP"]},
       {id:"GS3", adm:"", pin:null, password:null, name:"ADAMS, ABDULKHALIQ OGIRIMA", gender:"Male", class:"Graduated", dob:"2015-01-19", parent:"", phone:"08032711175", gradYear:2025, examNo:"BS/OKN/141003", exam:{eng:62,mat:76,gep:78,total:216}, subjects:["ENG","MAT","GEP"]},
@@ -99,7 +89,30 @@ function seedDB(){
       {id:"G015", adm:"", pin:null, password:null, name:"WAHEED, JOSHUA EIZOHE", gender:"Male", class:"Graduated", dob:"2011-06-06", parent:"", phone:"07033879508", gradYear:2023, subjects:["ENG","MAT","GEP"]},
       {id:"G016", adm:"", pin:null, password:null, name:"LAMIDI, MULIKAT AHUOYIZA", gender:"Female", class:"Graduated", dob:"2010-07-23", parent:"", phone:"08070780491", gradYear:2023, subjects:["ENG","MAT","GEP"]},
       {id:"G017", adm:"", pin:null, password:null, name:"AGEDOH, MUDASHIRU ITOPA", gender:"Male", class:"Graduated", dob:"2010-05-16", parent:"", phone:"08191971745", gradYear:2023, subjects:["ENG","MAT","GEP"]},
-      {id:"G018", adm:"", pin:null, password:null, name:"MUHAMMED, JAMIU NEZIF ONORUOYIZA", gender:"Male", class:"Graduated", dob:"2011-11-14", parent:"", phone:"08067079283", gradYear:2023, subjects:["ENG","MAT","GEP"]},
+      {id:"G018", adm:"", pin:null, password:null, name:"MUHAMMED, JAMIU NEZIF ONORUOYIZA", gender:"Male", class:"Graduated", dob:"2011-11-14", parent:"", phone:"08067079283", gradYear:2023, subjects:["ENG","MAT","GEP"]}
+];
+
+function subjectsFor(cls){ return EARLY_CLASSES.includes(cls) ? SUBJECTS_EARLY : SUBJECTS_PRIMARY; }
+
+/* ---------------- Seed data ---------------- */
+function seedDB(){
+  const school = {...SCHOOL_DEFAULTS};
+  const db = {
+    school,
+    admins: [{id:"HEAD001", pin:"1234", name:"Mrs. Salihu Nanahawa", title:"Headmistress"}],
+    teachers: [
+      {id:"T001", pin:"1234", name:"Uncle Ebenezer", phone:"0803 100 0001", class:"Primary 3", subjects:["English Language","Mathematics"],dob:"1988-02-14",started:"2015-09-14",position:"Class Teacher",quals:"NCE (English)",about:"The friendly voice of Primary 3. Uncle Ebenezer loves turning stories into lessons, and has taught at Treasure since our very first year."},
+      {id:"T002", pin:"1234", name:"Aunty Rafatu",   phone:"0803 100 0002", class:"Primary 1", subjects:["Mathematics","Basic Science"],dob:"1992-06-21",started:"2017-01-09",position:"Class Teacher",quals:"NCE (Primary Education)",about:"Patient and playful - she gives our Primary 1 pupils the strongest possible start in reading and numbers."},
+      {id:"T003", pin:"1234", name:"Aunty Rachel",   phone:"0803 100 0003", class:"Nursery 2", subjects:["Literacy","Numeracy","Phonics"],dob:"1990-11-03",started:"2016-09-12",position:"Class Teacher",quals:"NCE (Early Childhood)",about:"Our phonics champion - Nursery 2 pupils leave her class sounding out new words all by themselves."},
+      {id:"T004", pin:"1234", name:"Aunty Nanahawa", phone:"0803 100 0004", class:"Pre-Nursery", subjects:["Literacy","Numeracy","Rhymes & Songs"],dob:"1995-08-30",started:"2018-09-10",position:"Class Teacher",quals:"NCE (Early Childhood)",about:"Gentle hands and a warm heart - she cares for our youngest Treasures in Pre-Nursery."},
+      {id:"T005", pin:"1234", name:"Mr. Tunde Bakare (demo)", phone:"0803 999 0000", class:"Primary 4", subjects:["English Language","Social Studies"],dob:"1985-09-16",started:"2019-09-16",position:"Class Teacher",quals:"B.Ed (Social Studies)",about:"Brings history and maps alive for Primary 4 with debates and little field trips."},
+      {id:"T006", pin:"1234", name:"Mrs. Ngozi Obi (demo)",   phone:"0803 222 3333", class:"Creche",    subjects:["Rhymes & Songs","Social Habits"],dob:"1993-12-09",started:"2020-01-13",position:"Class Teacher",quals:"NCE",about:"Known for the calmest creche corner in Kogi State - songs, naps and happy babies."},
+      {id:"T007", pin:"1234", name:"Mrs Salihu Nanahawa", phone:"0803 100 0007", class:"Nursery 1", subjects:["Literacy","Numeracy","Phonics"],dob:"1991-05-22",started:"2015-09-14",position:"Class Teacher",quals:"NCE (Early Childhood)",about:"With Treasure from day one - her Nursery 1 classroom is where the music never stops."}
+    ],
+    formerTeachers: FORMER_SEED,
+    staffWall: STAFF_WALL_SEED,
+    graduates: GRADS_SEED,
+    pupils: [
       {id:"P001", adm:"TA/2023/001", pin:"1234", password:"1234", name:"Adaeze Okafor",   gender:"Female", class:"Primary 1", dob:"2019-03-12", parent:"Mrs. Okafor",  phone:"0805 111 2222"},
       {id:"P002", adm:"TA/2023/002", pin:"1234", password:"1234", name:"Emeka Nwosu",    gender:"Male",   class:"Primary 1", dob:"2019-07-08", parent:"Mr. Nwosu",    phone:"0805 333 4444"},
       {id:"P003", adm:"TA/2023/003", pin:"1234", password:null, name:"Fatima Bello",       gender:"Female", class:"Primary 1", dob:"2018-11-20", parent:"Alh. Bello",   phone:"0805 555 6666"},
@@ -387,6 +400,12 @@ const DB = {
     if(!db.meetings) db.meetings = seedDB().meetings;
     if(!db.visitors) db.visitors = [];
     if(!db.formerTeachers) db.formerTeachers = FORMER_SEED;
+    if(!db.staffWall) db.staffWall = STAFF_WALL_SEED;
+    if(!db.graduates) db.graduates = GRADS_SEED;
+    if(Array.isArray(db.pupils)){
+      const stray = db.pupils.filter(p=>p.class==="Graduated");
+      if(stray.length){ db.graduates=(db.graduates||[]).concat(stray.filter(x=>!(db.graduates||[]).some(g=>g.id===x.id))); db.pupils=db.pupils.filter(p=>p.class!=="Graduated"); }
+    }
     if(!db.jobApps) db.jobApps = [];
     if(!db.supportPledges) db.supportPledges = [
       {id:"SP1",name:"Blessing O.",amount:20000,msg:"For the library books. Once a Treasure pupil, always Treasure!",date:"2026-09-18",status:"Approved"},

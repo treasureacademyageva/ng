@@ -129,7 +129,7 @@ const Search={
     const db=DB.load(), today=U.todayStr();
     const news=(db.newsEvents||[]).filter(n=>(!n.publishAt||n.publishAt<=today)&&match(n.title+" "+(n.text||""),q)).slice(0,3);
     if(news.length)extra+='<p class="sub">News & events</p>'+news.map(n=>`<a href="story.html?id=${n.id}">${hl(n.title)}</a>`).join("");
-    const staff=(db.teachers||[]).filter(t=>match((t.name||"")+" "+(t.class||"")+" "+((t.subjects||[]).join(" ")),q)).slice(0,3);
+    const staff=(db.staffWall||db.teachers||[]).filter(t=>match((t.name||"")+" "+(t.class||"")+" "+((t.subjects||[]).join(" ")),q)).slice(0,3);
     if(staff.length)extra+='<p class="sub">Staff</p>'+staff.map(t=>`<a href="alumni.html#staff">${hl(t.name)} — ${U.esc(t.class||"")}</a>`).join("");
     const ex=(db.exams||[]).filter(x=>match(x.subject||"",q)).slice(0,2);
     if(ex.length)extra+='<p class="sub">Exams</p>'+ex.map(x=>`<a href="exams.html">${hl(x.subject)} — ${U.shortDate(x.date)}</a>`).join("");
@@ -204,7 +204,7 @@ function renderFooter(){
   </div>
   <div class="foot-partners"><div class="container">
     <p class="acc-cap">Approved &amp; Registered With</p>
-    <div class="acc-logos"><img src="assets/img/partners/badge-kogi.png" alt="" title="Kogi State Government"><img src="assets/img/partners/badge-kogimoe.png" alt="" title="Kogi State Ministry of Education, Science and Technology"><img src="assets/img/partners/badge-napps.webp" alt="" title="NAPPS — National Association of Proprietors of Private Schools"><img src="assets/img/partners/badge-nysc.png" alt="" title="National Youth Service Corps"><img src="assets/img/partners/badge-cee.png" alt="" title="Common Entrance Examination (Kogi State)"></div>
+    <div class="acc-logos"><a href="https://kogistate.gov.ng/" target="_blank" rel="noopener noreferrer" title="Kogi State Government — kogistate.gov.ng"><img src="assets/img/partners/badge-kogi.png" alt="Kogi State Government"></a><a href="https://moest.kogistate.gov.ng/" target="_blank" rel="noopener noreferrer" title="Kogi State Ministry of Education, Science and Technology — moest.kogistate.gov.ng"><img src="assets/img/partners/badge-kogimoe.png" alt="Kogi State Ministry of Education, Science and Technology"></a><a href="https://www.nappsng.org/" target="_blank" rel="noopener noreferrer" title="NAPPS Nigeria — nappsng.org"><img src="assets/img/partners/badge-napps.webp" alt="NAPPS Nigeria"></a><a href="https://www.nysc.gov.ng/" target="_blank" rel="noopener noreferrer" title="National Youth Service Corps — nysc.gov.ng"><img src="assets/img/partners/badge-nysc.png" alt="National Youth Service Corps"></a><a href="https://moest.kogistate.gov.ng/" target="_blank" rel="noopener noreferrer" title="Approved Common Entrance Examination Centre, Kogi State — BS/OKN/141"><img src="assets/img/partners/badge-cee.png" alt="Common Entrance Examination (Kogi State)"></a></div>
     <p class="acc-note">Approved Common Entrance Examination Centre &middot; Centre No. BS/OKN/141</p>
   </div></div>
   <div class="foot-bottom"><div class="container foot-center" style="display:flex;gap:14px;align-items:center;justify-content:center;flex-wrap:wrap"><span>\u00A9 ${year} ${U.esc(s.name)}. All Rights Reserved.</span><span id="textSizeBtns" title="Text size"><button type="button" data-fs="s" aria-label="Small text">S</button><button type="button" data-fs="m" aria-label="Normal text" class="on">A</button><button type="button" data-fs="l" aria-label="Large text">L</button></span></div></div>
