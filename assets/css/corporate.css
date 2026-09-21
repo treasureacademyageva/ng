@@ -1164,15 +1164,6 @@ html[data-fontsize="l"]{font-size:17.5px}
     background:linear-gradient(180deg,#0E3B21,#0B4A26 70%,#09381E);border-right:2px solid var(--gold,#C9A227);
   }
   body:not(.portal-body):not([data-page="login"])>.navbar .container{display:flex;flex-direction:column;align-items:stretch;gap:12px;padding:18px 14px}
-  /* The sidebar is a fixed 266px column. The brand name is nowrap + a viewport
-     clamp in the horizontal navbar, which overflows here and pushed the whole
-     rail over the content. Let it wrap and keep every child inside the track. */
-  body:not(.portal-body):not([data-page="login"])>.navbar,
-  body:not(.portal-body):not([data-page="login"])>.navbar *{min-width:0;max-width:100%}
-  body:not(.portal-body):not([data-page="login"])>.navbar .brand-name>span{
-    white-space:normal;font-size:1rem;line-height:1.25;overflow-wrap:anywhere;
-  }
-  body:not(.portal-body):not([data-page="login"])>.navbar .container{box-sizing:border-box;width:100%}
   body:not(.portal-body):not([data-page="login"])>.navbar .logo{align-self:center}
   body:not(.portal-body):not([data-page="login"])>.navbar .brand-name{text-align:center}
   body:not(.portal-body):not([data-page="login"])>.navbar .brand-name>span{color:#fff}
@@ -1185,17 +1176,10 @@ html[data-fontsize="l"]{font-size:17.5px}
   body:not(.portal-body):not([data-page="login"])>.navbar .nav-cta-row{display:flex;gap:8px;justify-content:center;margin:0;padding-top:10px;border-top:1px solid rgba(255,255,255,.14)}
   body:not(.portal-body):not([data-page="login"])>.navbar .theme-btn{background:rgba(255,255,255,.08);border-color:rgba(247,233,103,.5);color:#F7E967}
   body:not(.portal-body):not([data-page="login"])>.topbar{grid-column:2;grid-row:1}
-  /* Everything that is not the sidebar belongs in column 2. Listing element
-     types individually meant any new block (the hero <header>, .stats-band)
-     silently landed in column 1, underneath the sidebar. Invert it instead. */
-  body:not(.portal-body):not([data-page="login"])>*{grid-column:2}
-  body:not(.portal-body):not([data-page="login"])>.navbar{grid-column:1}
-  /* Overlays are positioned, not placed - keep them out of the grid flow. */
-  body:not(.portal-body):not([data-page="login"])>#siteLoader,
-  body:not(.portal-body):not([data-page="login"])>.skip-link,
-  body:not(.portal-body):not([data-page="login"])>#toast,
-  body:not(.portal-body):not([data-page="login"])>script,
-  body:not(.portal-body):not([data-page="login"])>style{grid-column:1/-1}
+  body:not(.portal-body):not([data-page="login"])>.page-hero,
+  body:not(.portal-body):not([data-page="login"])>.motto-ribbon,
+  body:not(.portal-body):not([data-page="login"])>section,
+  body:not(.portal-body):not([data-page="login"])>footer{grid-column:2}
 }
 /* ============ BATCH 37 (2026-09-20): quick actions, reading mode, tour ============ */
 /* ---- admin rail quick actions ---- */
@@ -1242,3 +1226,41 @@ body.reading .story-body p{font-size:1.08rem;line-height:2}
 .sc-dot{display:inline-flex;width:46px;height:46px;border-radius:50%;background:linear-gradient(135deg,#0E9A46,#095C2A);color:#fff;font-weight:800;font-size:.82rem;align-items:center;justify-content:center;border:2px solid var(--mint-border,#CDECD9)}
 [data-theme="dark"] .acc-logos img{border-color:rgba(255,255,255,.14)}
 [data-theme="dark"] .sc-dot{border-color:rgba(255,255,255,.15)}
+/* ============ BATCH 43 (2026-09-21): Treasure Typography + Treasure FX + brand motif ============ */
+@font-face{font-family:"Treasure Sans";src:url("../fonts/treasure-sans-400.woff2") format("woff2");font-weight:400;font-style:normal;font-display:swap}
+@font-face{font-family:"Treasure Sans";src:url("../fonts/treasure-sans-500.woff2") format("woff2");font-weight:500;font-style:normal;font-display:swap}
+@font-face{font-family:"Treasure Sans";src:url("../fonts/treasure-sans-600.woff2") format("woff2");font-weight:600;font-style:normal;font-display:swap}
+@font-face{font-family:"Treasure Sans";src:url("../fonts/treasure-sans-700.woff2") format("woff2");font-weight:700;font-style:normal;font-display:swap}
+@font-face{font-family:"Treasure Serif";src:url("../fonts/treasure-serif-600.woff2") format("woff2");font-weight:600;font-style:normal;font-display:swap}
+@font-face{font-family:"Treasure Serif";src:url("../fonts/treasure-serif-700.woff2") format("woff2");font-weight:700;font-style:normal;font-display:swap}
+:root{
+  --font-head:"Treasure Serif",Georgia,"Times New Roman",serif;
+  --font-body:"Treasure Sans","Segoe UI",system-ui,-apple-system,sans-serif;
+  --motif:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='28' viewBox='0 0 28 28'%3E%3Cpath d='M14 2 L26 14 L14 26 L2 14 Z' fill='none' stroke='%23C9A227' stroke-width='1.6'/%3E%3Ccircle cx='14' cy='14' r='3.4' fill='%230E9A46'/%3E%3C/svg%3E");
+}
+.sec-tag{background-image:var(--motif);background-repeat:no-repeat;background-position:96% center;background-size:13px 13px;padding-right:30px}
+.btn{position:relative;overflow:hidden}
+.fx-ripple{position:absolute;border-radius:50%;background:rgba(255,255,255,.5);transform:scale(0);animation:rip .5s ease-out forwards;pointer-events:none}
+@keyframes rip{to{transform:scale(2.8);opacity:0}}
+.seg{position:relative;display:flex;gap:2px;border:1.5px solid var(--mint-border,#CDECD9);border-radius:12px;padding:4px;background:var(--white);width:max-content;max-width:100%;overflow-x:auto;margin:8px auto 20px}
+.seg-tab{border:0;background:transparent;padding:9px 16px;border-radius:9px;font-weight:700;color:var(--muted);cursor:pointer;white-space:nowrap;position:relative;z-index:1;transition:color .25s ease}
+.seg-tab.on{color:#0B7A37}
+.seg-ink{position:absolute;top:4px;bottom:4px;left:4px;width:0;border-radius:9px;background:var(--mint-soft);transition:left .3s cubic-bezier(.2,.8,.2,1),width .3s cubic-bezier(.2,.8,.2,1);z-index:0}
+.grad-pane{display:none}
+.grad-pane.show{display:block;animation:paneIn .34s ease both}
+@keyframes paneIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.tilt{transform-style:preserve-3d;transition:transform .18s ease,box-shadow .18s ease;will-change:transform}
+.stag-pre{opacity:0;transform:translateY(14px)}
+.stag-in{opacity:1;transform:none;transition:opacity .5s ease,transform .5s ease}
+.spy-bar{position:sticky;top:8px;z-index:60;display:flex;gap:4px;justify-content:center;background:var(--white);border:1.5px solid var(--mint-border,#CDECD9);border-radius:12px;padding:6px;margin:16px 0 4px;overflow-x:auto;box-shadow:0 6px 18px rgba(14,59,33,.08)}
+.spy-bar a{white-space:nowrap;padding:8px 14px;border-radius:9px;font-weight:700;font-size:.9rem;color:var(--muted);text-decoration:none;transition:color .2s ease,background .2s ease}
+.spy-bar a:hover{color:#0B7A37}
+.spy-bar a.on{color:#0B7A37;background:var(--mint-soft)}
+.acc-logos a{transition:transform .18s ease;display:inline-block}
+.acc-logos a:hover{transform:translateY(-3px)}
+[data-theme="dark"] .spy-bar{box-shadow:0 6px 18px rgba(0,0,0,.45)}
+@media (prefers-reduced-motion: reduce){
+  .tilt,.acc-logos a,.seg-ink{transition:none!important}
+  .grad-pane.show{animation:none}
+  .stag-pre{opacity:1;transform:none}
+}
