@@ -56,6 +56,21 @@ DESC = {
 # Pages that must never appear in search results or the sitemap.
 NOINDEX = {"developer.html", "receipt.html", "admission-form.html", "search.html", "story.html"}
 
+# PRIVATE is stricter than NOINDEX. A noindex utility page (receipt, search) is
+# still a normal page and keeps its canonical and social tags. A private page
+# must not advertise its own URL anywhere: no canonical, no og:url, no
+# breadcrumb. developer.html is the internal console, and 404 is an error page -
+# neither should be published. Tests assert developer.html is unlinked.
+PRIVATE = {"developer.html", "404.html"}
+
+# Pages in NOINDEX still need an entry here: build() skips anything without a
+# description, and skipping a noindex page means it ships with no robots tag
+# at all - the opposite of what NOINDEX is for.
+for _p, _d in {
+    "developer.html": "Internal developer console for Treasure Academy, Ageva. Private area, not for public use.",
+}.items():
+    DESC.setdefault(_p, _d)
+
 ORG_LD = {
   "@context": "https://schema.org",
   "@type": "School",
@@ -106,15 +121,32 @@ def build():
             continue
         title = title_of(html)
         canon = SITE + "/" + ("" if p == "index.html" else p)
-        noindex = p in NOINDEX
+        noindex = p in NOINDEX or p in PRIVATE
+        private = p in PRIVATE
 
         # Strip any previous pass so the script stays idempotent.
         html = re.sub(r'\n?[ \t]*<!-- seo:start -->.*?<!-- seo:end -->', "", html, flags=re.S)
         html = re.sub(r'\n?[ \t]*<meta name="description"[^>]*>', "", html)
 
         block = ["<!-- seo:start -->",
-                 f'<meta name="description" content="{esc(desc)}">',
-                 f'<link rel="canonical" href="{canon}">']
+                 f'<meta name="description" content="{esc(desc)}">']
+        if private:
+            # Private pages get the robots tag and nothing else: no canonical,
+            # no og:url, no breadcrumb. Publishing the URL of a page we are
+            # asking crawlers to ignore is self-defeating.
+            block.append('<meta name="robots" content="noindex, nofollow">')
+            block.append("<!-- seo:end -->")
+            marker = (re.search(r'([ \t]*)<link rel="stylesheet"', html)
+                      or re.search(r'([ \t]*)<title[ >]', html)
+                      or re.search(r'([ \t]*)</head>', html))
+            if not marker:
+                print("  no anchor:", p); continue
+            ind = "\n" + marker.group(1)
+            html = html[:marker.start()] + ind + ind.join(block) + html[marker.start():]
+            if html != orig:
+                open(p, "w", encoding="utf-8").write(html); changed += 1
+            continue
+        block.append(f'<link rel="canonical" href="{canon}">')
         if noindex:
             block.append('<meta name="robots" content="noindex,follow">')
         else:
@@ -155,9 +187,12 @@ def build():
             block.append('<script type="application/ld+json">' + json.dumps(crumb, ensure_ascii=False) + "</script>")
         block.append("<!-- seo:end -->")
 
-        marker = re.search(r'([ \t]*)<link rel="stylesheet" href="assets/css/fonts\.css', html)
-        if not marker:
-            marker = re.search(r'([ \t]*)<link rel="stylesheet" href="assets/css/main\.css', html)
+        # Insert before the first stylesheet, whichever it is. Anchoring on one
+        # specific filename broke silently when fonts.css was retired, so fall
+        # back through <link rel=stylesheet>, then <title>, then <head>.
+        marker = (re.search(r'([ \t]*)<link rel="stylesheet"', html)
+                  or re.search(r'([ \t]*)<title[ >]', html)
+                  or re.search(r'([ \t]*)</head>', html))
         if not marker:
             print("  no anchor:", p); continue
         ind = "\n" + marker.group(1)

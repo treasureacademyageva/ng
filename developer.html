@@ -7,8 +7,11 @@
 <meta http-equiv="Expires" content="0">
 <style>#siteLoader{position:fixed;inset:0;z-index:1200;background:#fff;display:flex;flex-direction:column;gap:14px;align-items:center;justify-content:center;transition:opacity .4s}#siteLoader img{width:84px;height:84px;object-fit:contain}#siteLoader .spin{width:38px;height:38px;border-radius:50%;border:4px solid #FDF6D8;border-top-color:#0B7A37;animation:lspin .8s linear infinite}@keyframes lspin{to{transform:rotate(360deg)}}#siteLoader.done{opacity:0;pointer-events:none}</style>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- seo:start -->
+<meta name="description" content="Internal developer console for Treasure Academy, Ageva. Private area, not for public use.">
 <meta name="robots" content="noindex, nofollow">
-<title>Treasure Academy</title>
+<!-- seo:end --><title>Treasure Academy</title>
 <link rel="icon" href="assets/img/logo.jpg">
 <noscript><style>#siteLoader{display:none!important}</style></noscript>
 <script defer src="/_vercel/insights/script.js"></script>
@@ -67,6 +70,7 @@ pre.view{background:#0A1114;border:1px solid var(--line);border-radius:10px;padd
 .dv-notes{width:100%;min-height:150px;background:#0A1114;border:1px solid var(--line);border-radius:10px;color:var(--ink);padding:11px 12px;font:inherit;line-height:1.55;outline:none;resize:vertical}
 .dv-notes:focus{border-color:var(--grn)}
 </style>
+<style>.dv-title{font:600 1.25rem/1.2 var(--font-head,inherit);margin:0;color:inherit}</style>
 </head>
 <body>
 <div id="siteLoader"><img src="assets/img/logo.jpg" alt="Treasure Academy" width="397" height="397" fetchpriority="high" decoding="async"><div class="spin"></div></div>
@@ -88,7 +92,7 @@ pre.view{background:#0A1114;border:1px solid var(--line);border-radius:10px;padd
 <div class="wrap hide" id="dvConsole">
   <div class="top">
     <img src="assets/img/logo.jpg" alt="" width="397" height="397" loading="lazy" decoding="async">
-    <div><h1>Developer Console</h1><small>Treasure Academy, Ageva &middot; internal tools</small></div>
+    <div><p class="dv-title">Developer Console</p><small>Treasure Academy, Ageva &middot; internal tools</small></div>
     <span class="pill" id="dvVer">build —</span>
     <button id="dvOut">Logout</button>
   </div>
@@ -133,13 +137,13 @@ pre.view{background:#0A1114;border:1px solid var(--line);border-radius:10px;padd
   </div>
 </div>
 <div id="dvToast"></div>
-<script src="assets/js/store.js?v=20260919-48"></script>
-<script src="assets/js/sync.js?v=20260919-48"></script>
+<script src="assets/js/store.js?v=20260919-49"></script>
+<script src="assets/js/sync.js?v=20260919-49"></script>
 <script>
 (function(){
   "use strict";
   var HASH = "3133076b53086ef8cc6a3f0ce07d2ab3fca6cb3dcbc8b245b32a4862048ce148";
-  var BUILD = "treasure-v48";
+  var BUILD = "treasure-v49";
   var GATE = "treasure_dev_gate", LOCK = "treasure_dev_lock";
   var PAGES = 36;
 
@@ -261,7 +265,7 @@ pre.view{background:#0A1114;border:1px solid var(--line);border-radius:10px;padd
   });
 
   /* ---- cache tools ---- */
-  function fillCache(){ $("dvCacheNote").textContent = "Service worker build: " + BUILD + " · page asset version: 20260919-48."; }
+  function fillCache(){ $("dvCacheNote").textContent = "Service worker build: " + BUILD + " · page asset version: 20260919-49."; }
   $("dvCache").addEventListener("click", function(){
     if(!(window.caches && caches.keys)){ toast("Cache API not available."); return; }
     caches.keys().then(function(ks){ return Promise.all(ks.map(function(k){ return caches.delete(k); })); })

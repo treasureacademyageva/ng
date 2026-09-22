@@ -15,6 +15,7 @@ const pages = fs.readdirSync(SITE).filter(f => f.endsWith('.html'));
 // Derive this from the page itself rather than a hardcoded list, so a page
 // that gains or loses noindex is judged by the right rules automatically.
 const indexable = pages.filter(f => !/<meta[^>]+name=["']robots["'][^>]*noindex/i.test(read(f)));
+const noindexed = pages.filter(f => !indexable.includes(f));
 
 /* ---------- required files ---------- */
 ['robots.txt', 'sitemap.xml', 'site.webmanifest', '404.html', 'favicon.ico',
@@ -58,6 +59,39 @@ const indexable = pages.filter(f => !/<meta[^>]+name=["']robots["'][^>]*noindex/
   ok('every page has a canonical', noCanon.length === 0, noCanon.join(','));
   ok('every page has og:title', noOg.length === 0, noOg.join(','));
   ok('every page has a twitter card', noTw.length === 0, noTw.join(','));
+
+  /* Two SEO passes once shipped side by side (seo:start + treasure-seo), giving
+     every page two canonicals that disagreed on the homepage. Exactly one of
+     each, or crawlers pick for us. */
+  const dupCanon = [], dupOg = [], dupDesc = [];
+  pages.forEach(f => {
+    const s = read(f);
+    const c = (s.match(/rel="canonical"/g) || []).length;
+    const o = (s.match(/property="og:title"/g) || []).length;
+    const d = (s.match(/name="description"/g) || []).length;
+    if (c > 1) dupCanon.push(`${f}:${c}`);
+    if (o > 1) dupOg.push(`${f}:${o}`);
+    if (d > 1) dupDesc.push(`${f}:${d}`);
+  });
+  ok('no duplicate canonical tags', dupCanon.length === 0, dupCanon.join(','));
+  ok('no duplicate og:title tags', dupOg.length === 0, dupOg.join(','));
+  ok('no duplicate description tags', dupDesc.length === 0, dupDesc.join(','));
+
+  /* Two different things get conflated here, so keep them apart:
+     - noindex utility pages (receipt, search, story, admission-form) are real
+       pages that simply should not rank. They keep canonical + social tags.
+     - PRIVATE pages must not publish their own URL at all. developer.html is
+       the internal console and batch26 asserts nothing links to it; 404 is an
+       error page. Neither gets a canonical, og:url or breadcrumb. */
+  const PRIVATE = ['developer.html', '404.html'];
+  const leaky = [];
+  PRIVATE.forEach(f => {
+    if (!pages.includes(f)) return;
+    const s = read(f);
+    if (/rel="canonical"/.test(s) || /property="og:url"/.test(s) || /BreadcrumbList/.test(s)) leaky.push(f);
+  });
+  ok('private pages publish no canonical, og:url or breadcrumb', leaky.length === 0, leaky.join(','));
+  ok('private pages are noindex', PRIVATE.every(f => !pages.includes(f) || /content="noindex/.test(read(f))));
   ok('every page declares lang', badLang.length === 0, badLang.join(','));
 
   // descriptions must be distinct - duplicates get filtered out of results
