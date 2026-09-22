@@ -1,0 +1,127 @@
+/* ---------------------------------------------------------------
+   Motion & interaction polish.
+   Loaded last so it can refine the base rules without editing them.
+
+   Rules we hold to:
+   - every transition uses a named easing token, never the browser default
+   - nothing animates that would shift layout (transform/opacity only)
+   - all of it collapses to nothing under prefers-reduced-motion
+   --------------------------------------------------------------- */
+
+:root{
+  /* A short overshoot. Reads as "settled into place" rather than "slid". */
+  --ease-spring:cubic-bezier(.34,1.56,.64,1);
+  /* Standard decelerate — entrances. */
+  --ease-out:cubic-bezier(.16,1,.3,1);
+  /* Symmetric — state changes, hovers. */
+  --ease-soft:cubic-bezier(.4,0,.2,1);
+  --dur-fast:.16s;
+  --dur:.28s;
+  --dur-slow:.52s;
+}
+
+/* ---- reveal on scroll -------------------------------------------------
+   The base sheet already toggles .revealed; this refines the curve and
+   lets a container stagger its children by setting --i on each child. */
+.clip,.clip-up{
+  transition:opacity var(--dur-slow) var(--ease-out),
+             transform var(--dur-slow) var(--ease-out);
+  transition-delay:calc(var(--i,0) * 60ms);
+  will-change:opacity,transform;
+}
+.clip-up.revealed,.clip.revealed{will-change:auto}
+
+/* ---- links: underline that grows from the origin, not a blunt toggle --- */
+.nav-links a:not(.btn){position:relative}
+.nav-links a:not(.btn)::after{
+  content:"";position:absolute;left:0;right:0;bottom:-3px;height:2px;
+  background:currentColor;border-radius:2px;
+  transform:scaleX(0);transform-origin:right;
+  transition:transform var(--dur) var(--ease-out);
+}
+.nav-links a:not(.btn):hover::after,
+.nav-links a:not(.btn):focus-visible::after{transform:scaleX(1);transform-origin:left}
+
+/* ---- buttons: press should feel physical ------------------------------ */
+.btn{
+  transition:transform var(--dur-fast) var(--ease-spring),
+             box-shadow var(--dur) var(--ease-soft),
+             background-color var(--dur) var(--ease-soft),
+             border-color var(--dur) var(--ease-soft),
+             color var(--dur) var(--ease-soft);
+}
+.btn:hover{transform:translateY(-1px)}
+.btn:active{transform:translateY(1px) scale(.985);transition-duration:60ms}
+
+/* ---- cards: lift with a shadow that tracks the movement --------------- */
+.card,.prog,.step,.testi-card,.team-card,.track-card,.nf-grid a,.yt-card{
+  transition:transform var(--dur) var(--ease-out),
+             box-shadow var(--dur) var(--ease-out),
+             border-color var(--dur) var(--ease-soft);
+}
+.card:hover,.prog:hover,.step:hover,.testi-card:hover,.track-card:hover,.yt-card:hover{
+  transform:translateY(-3px);
+}
+
+/* ---- images: never pop in ------------------------------------------- */
+img{transition:opacity var(--dur) var(--ease-soft)}
+
+/* ---- focus: visible for keyboards, quiet for mice --------------------- */
+a:focus-visible,button:focus-visible,input:focus-visible,
+select:focus-visible,textarea:focus-visible,[tabindex]:focus-visible{
+  outline:2px solid var(--green,#0B7A37);
+  outline-offset:2px;
+  border-radius:4px;
+}
+a:focus:not(:focus-visible),button:focus:not(:focus-visible){outline:none}
+
+/* Skip link — keyboard users should not tab the whole nav every page. */
+.skip-link{
+  position:absolute;left:8px;top:-60px;z-index:2000;
+  background:var(--green,#0B7A37);color:#fff;
+  padding:10px 16px;border-radius:0 0 8px 8px;
+  font-weight:700;text-decoration:none;
+  transition:top var(--dur) var(--ease-out);
+}
+.skip-link:focus{top:0}
+
+/* ---- the loader should ease away, not blink --------------------------- */
+#siteLoader{transition:opacity .45s var(--ease-soft),visibility .45s}
+#siteLoader.done{visibility:hidden}
+
+/* ---- respect the system setting -------------------------------------- */
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{
+    animation-duration:.001ms!important;
+    animation-iteration-count:1!important;
+    transition-duration:.001ms!important;
+    scroll-behavior:auto!important;
+  }
+  .clip,.clip-up{opacity:1!important;transform:none!important;transition-delay:0s!important}
+  .btn:hover,.card:hover,.prog:hover,.step:hover{transform:none}
+}
+
+/* Print letterhead — styled like a heading without competing with the page h1. */
+.print-head .print-name{font-family:var(--font-head);font-size:1.6rem;font-weight:700;line-height:1.2;margin:0 0 4px}
+
+/* width/height on <img> exist so the browser can reserve the right box before
+   the file arrives (prevents layout shift). They must not win over CSS that
+   sizes the image, so normalise here: images scale to their container and keep
+   their own aspect ratio unless a rule says otherwise. */
+img[width][height]{max-width:100%;height:auto}
+.hero-figure img,.prog img,.card img,.testi-card img,.team-card img{height:auto}
+
+/* The draggable clock and chat bubble are desktop conveniences. On a phone they
+   sit on top of the hero copy and the main call to action, so shrink the clock
+   and tuck it into the corner clear of the buttons. */
+@media(max-width:760px){
+  .clock-widget{
+    left:10px;bottom:10px;
+    transform:scale(.62);transform-origin:left bottom;
+    opacity:.94;
+  }
+  .clock-widget.min{transform:scale(.72);transform-origin:left bottom}
+}
+@media(max-width:420px){
+  .clock-widget{transform:scale(.52);transform-origin:left bottom}
+}

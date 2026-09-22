@@ -21,7 +21,7 @@ function loadPage(page, query, seedFn) {
   window.Element.prototype.scrollIntoView = window.Element.prototype.scrollIntoView || function () {};
   window.HTMLCanvasElement.prototype.getContext = () => null;
   window.print = () => {};
-  const scripts = [...window.document.querySelectorAll('script:not([src])')].map(s => s.textContent).join('\n;\n');
+  const scripts = [...window.document.querySelectorAll('script:not([src]):not([type="application/ld+json"])')].map(s => s.textContent).join('\n;\n');
   const errors = [];
   window.addEventListener('error', e => errors.push('window: ' + (e.message || e.error)));
   vm.createContext(window);
@@ -84,7 +84,7 @@ function loadPage(page, query, seedFn) {
   const sj = fs.readFileSync(SITE + '/assets/js/site.js', 'utf8');
   ok('renderContactFabs removed', !sj.includes('renderContactFabs'));
   ok('initTopBtn present', sj.includes('initTopBtn') && sj.includes('at-bottom'));
-  ok('fireflies drift+twinkle', sj.includes('length:18') && sj.includes('tw'));
+  ok('fireflies drift+twinkle', sj.includes('innerWidth<640?10:16') && sj.includes('tw')); // batch24: fewer flies on phones (perf)
   ok('Discount object removed', !sj.includes('Discount'));
   const css = fs.readFileSync(SITE + '/assets/css/corporate.css', 'utf8');
   ok('loader logo styled', css.includes('#siteLoader img') && css.includes('border-radius:24px'));

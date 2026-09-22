@@ -23,7 +23,7 @@ function loadPage(page, session, seedFn) {
   window.HTMLCanvasElement.prototype.getContext = () => null;
   window.CSS = window.CSS || { escape: s => String(s).replace(/"/g, '') };
   window.print = () => {}; window.scrollTo = () => {};
-  const scripts = [...window.document.querySelectorAll('script:not([src])')].map(s => s.textContent).join('\n;\n');
+  const scripts = [...window.document.querySelectorAll('script:not([src]):not([type="application/ld+json"])')].map(s => s.textContent).join('\n;\n');
   const errors = [];
   window.addEventListener('error', e => errors.push('window: ' + (e.message || e.error)));
   vm.createContext(window);
@@ -48,8 +48,8 @@ function loadPage(page, session, seedFn) {
   });
   run('Search.open(); Search.go("mango");');
   ok('search finds news story', w.document.getElementById('searchRes').innerHTML.includes('story.html?id=NX13'));
-  run('Search.go("ebenezer");');
-  ok('search finds staff', w.document.getElementById('searchRes').innerHTML.includes('staff.html'));
+  run('Search.go("zeenatudeen");');
+  ok('search finds staff', w.document.getElementById('searchRes').innerHTML.includes('alumni.html#staff'));
   run('Search.go("uniform");');
   w.document.querySelector('#searchRes a').click();
   run('Search.go("");');

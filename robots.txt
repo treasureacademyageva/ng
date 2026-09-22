@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /portal/
+Disallow: /developer.html
+
+Sitemap: https://treasureacademyageva.vercel.app/sitemap.xml

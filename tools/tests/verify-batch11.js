@@ -23,7 +23,7 @@ function loadPage(page, session, seedFn) {
   window.HTMLCanvasElement.prototype.getContext = () => null;
   window.CSS = window.CSS || { escape: s => String(s).replace(/"/g, '') };
   window.print = () => {}; window.scrollTo = () => {};
-  const scripts = [...window.document.querySelectorAll('script:not([src])')].map(s => s.textContent).join('\n;\n');
+  const scripts = [...window.document.querySelectorAll('script:not([src]):not([type="application/ld+json"])')].map(s => s.textContent).join('\n;\n');
   const errors = [];
   window.addEventListener('error', e => errors.push('window: ' + (e.message || e.error)));
   vm.createContext(window);

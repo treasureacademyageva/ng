@@ -1,4 +1,4 @@
-/* Batch 20: portal top navigation (landing-style) replaces sidebars */
+/* (b41-retargeted)  Batch 20: portal top navigation (landing-style) replaces sidebars */
 const fs = require('fs');
 const vm = require('vm');
 const { JSDOM } = require('jsdom');
@@ -22,7 +22,7 @@ function loadPage(page, session, url, pre) {
   if (!window.IntersectionObserver) { window.IntersectionObserver = function () { return { observe() {}, unobserve() {}, disconnect() {} }; }; }
   window.HTMLCanvasElement.prototype.getContext = () => null;
   window.print = () => {}; window.scrollTo = () => {}; window.open = () => {}; window.requestAnimationFrame = () => 0;
-  const scripts = [...window.document.querySelectorAll('script:not([src])')].map(s => s.textContent).join('\n;\n');
+  const scripts = [...window.document.querySelectorAll('script:not([src]):not([type="application/ld+json"])')].map(s => s.textContent).join('\n;\n');
   const errors = [];
   window.addEventListener('error', e => errors.push(String((e.message || e.error || '').slice(0, 140))));
   vm.createContext(window);
@@ -40,8 +40,8 @@ const PUPIL = { role: 'pupil', refId: 'P001', name: 'Adaeze' };
 
 /* ---------- structure: no sidebar, landing-style top nav ---------- */
 [
-  ['portal/admin.html', ADMIN, 'Headmistress Portal', 21],
-  ['portal/teacher.html', TEACHER, 'Teacher Portal', 9],
+  ['portal/admin.html', ADMIN, 'Headmistress Portal', 22],
+  ['portal/teacher.html', TEACHER, 'Teacher Portal', 10],
   ['portal/pupil.html', PUPIL, 'Pupil Portal', 7],
 ].forEach(([page, sess, role, nBtns]) => {
   const { window: w, errors } = loadPage(page, sess);
@@ -53,7 +53,7 @@ const PUPIL = { role: 'pupil', refId: 'P001', name: 'Adaeze' };
   ok(page + ' nav keeps id+buttons', !!nav && nav.classList.contains('nav-links') && nav.querySelectorAll('button[data-view]').length === nBtns);
   ok(page + ' keeps user ids', !!d.getElementById('userName') && !!d.getElementById('userAvatar') && !!d.getElementById('userClass'));
   ok(page + ' keeps title ids', !!d.getElementById('pageTitle') && !!d.getElementById('pageSub') && !!d.getElementById('todayLbl'));
-  ok(page + ' logout+website', !!d.querySelector('.topbar button.portal-link') && !!d.querySelector('.topbar a[href="../index.html"]'));
+  ok(page + ' website link + logout by theme', !!d.querySelector('.topbar a[href="../index.html"]') && !!d.querySelector('.nav-cta-row .nav-logout'));
   ok(page + ' theme toggle', !!d.querySelector('nav.navbar .theme-btn'));
   ok(page + ' user filled', d.getElementById('userName').textContent.trim().length > 1);
   ok(page + ' no errors', errors.length === 0, errors.join('||').slice(0, 160));

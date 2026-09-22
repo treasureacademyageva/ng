@@ -18,17 +18,20 @@ const Theme = {
     const t = storedOv || autoDark();
     document.documentElement.dataset.theme = t;
     if(!storedOv){ try{ setInterval(()=>{ if(!localStorage.getItem("treasure_theme")){ document.documentElement.dataset.theme=autoDark(); setTC(document.documentElement.dataset.theme); } },10*60*1000); }catch(e){} }
-    const setTC=th=>{ let m=document.querySelector('meta[name="theme-color"]'); if(!m){ m=document.createElement("meta"); m.name="theme-color"; document.head.appendChild(m); } m.content=th==="dark"?"#0C1B14":"#0B7A37"; };
+    const setTC=th=>{ let m=document.querySelector('meta[name="theme-color"]'); if(!m){ m=document.createElement("meta"); m.name="theme-color"; document.head.appendChild(m); } m.content=th==="dark"?"#0C1B14":th==="dark-hc"?"#05080D":"#0B7A37"; };
     setTC(t);
     document.querySelectorAll(".theme-btn").forEach(b=>{
-      b.innerHTML = t==="dark" ? ICON_SUN : ICON_MOON;
-      b.title = t==="dark" ? "Switch to daytime" : "Switch to night";
+      b.innerHTML = t==="light" ? ICON_MOON : ICON_SUN;
+      b.title = t==="light" ? "Switch to night" : t==="dark" ? "Switch to high-contrast night" : "Switch to daytime";
       b.onclick = ()=>{
-        const nt = document.documentElement.dataset.theme==="dark" ? "light" : "dark";
+        /* batch30: day -> night -> high-contrast night -> day (tap moon again for even deeper dark) */
+        const cur = document.documentElement.dataset.theme||"light";
+        const nt = cur==="light" ? "dark" : cur==="dark" ? "dark-hc" : "light";
         document.documentElement.dataset.theme = nt; setTC(nt);
         localStorage.setItem("treasure_theme", nt);
-        b.innerHTML = nt==="dark" ? ICON_SUN : ICON_MOON;
-        b.title = nt==="dark" ? "Switch to daytime" : "Switch to night";
+        b.innerHTML = nt==="light" ? ICON_MOON : ICON_SUN;
+        b.title = nt==="light" ? "Switch to night" : nt==="dark" ? "Switch to high-contrast night" : "Switch to daytime";
+        try{ U.toast(nt==="dark-hc"?"High-contrast night on \u2014 tap again for day.":nt==="dark"?"Night mode on \u2014 tap again for high contrast.":"Day mode on."); }catch(e){}
       };
     });
   }
@@ -42,11 +45,11 @@ const SEARCH_INDEX=[
  {t:"Academics",u:"academics.html",k:"academics classes creche nursery primary curriculum subjects"},
  {t:"Contact Us",u:"contact.html",k:"contact phone call whatsapp address location map email message faq directions suggestion box idea vote"},
  {t:"News & Events",u:"news.html",k:"news event sport party excursion graduation video photo gallery story rsvp seats reserve"},
- {t:"Staff",u:"staff.html",k:"staff teachers names who teaches team"},
+ {t:"Staff",u:"alumni.html#staff",k:"staff teachers names who teaches team alumni meet our staff"},
  {t:"E-Learning",u:"elearning.html",k:"elearning practice cbt common entrance primary 6 past questions"},
  {t:"Shop",u:"shop.html",k:"shop buy books uniform price textbook notebook order pickup"},
  {t:"PTA",u:"pta.html",k:"pta parents association meeting levy"},
- {t:"Alumni",u:"alumni.html",k:"alumni graduates old pupils secondary success wall share story"},
+ {t:"Alumni & Graduates",u:"alumni.html",k:"alumni graduates old pupils secondary success wall share story class of hall of fame"},
  {t:"Birthdays",u:"birthdays.html",k:"birthday staff celebrate wish song headmistress"},
  {t:"Calendar",u:"calendar.html",k:"calendar term dates resumption holiday events countdown"},
  {t:"Notice Board",u:"board.html",k:"notice board announcements news"},
@@ -59,9 +62,13 @@ const SEARCH_INDEX=[
  {t:"Exam Timetable",u:"exams.html",k:"exam timetable test date papers revision"},
  {t:"Holiday Assignments",u:"holiday.html",k:"holiday assignment break work home"},
  {t:"Welcome Pack",u:"welcome.html",k:"welcome pack new parents guide steps start"},
- {t:"Graduates",u:"graduates.html",k:"graduates primary 6 class of sendforth"},
  {t:"Transport",u:"transport.html",k:"transport bus route pickup dropoff fees driver"},
  {t:"Volunteer",u:"volunteer.html",k:"volunteer help event sign up parents support"},
+ {t:"Careers",u:"careers.html",k:"careers jobs teach at treasure vacancy apply staff recruitment teacher work hiring"},
+ {t:"School Fees",u:"fees.html",k:"fees school fees price per class pay bank transfer term charges print"},
+ {t:"Anthem & Creed",u:"anthem.html",k:"anthem creed pledge song lyrics audio hymn school song"},
+ {t:"Support Us",u:"support.html",k:"support donate pledge give project library fans thank you wall well-wisher"},
+ {t:"Search",u:"search.html",k:"search find pages everything results lookup"},
  {t:"Portal Login",u:"portal/login.html",k:"portal login register results password dashboard pupil parent teacher admin"},
  {t:"Parent Reviews",u:"testimonials.html",k:"testimonials reviews parents say rating all reviews"},
  {t:"Class Pages",u:"class.html",k:"class page creche nursery primary activities gallery"}
@@ -107,7 +114,8 @@ const Search={
   if(q.length<2){
     const rec=this.recent();
     box.innerHTML=(rec.length?'<p class="sub">Your recent searches <button class="link-btn" id="clearRec" style="font-size:.78rem">Clear</button></p>'+rec.map(r=>`<a href="#" data-re="${U.esc(r)}">${U.esc(r)} &#8594;</a>`).join(""):'')
-     +'<p class="sub">Popular pages</p>'+SEARCH_INDEX.slice(0,6).map(p=>`<a href="${p.u}"><b>${U.esc(p.t)}</b></a>`).join("");
+     +'<p class="sub">Popular pages</p>'+SEARCH_INDEX.slice(0,6).map(p=>`<a href="${p.u}"><b>${U.esc(p.t)}</b></a>`).join("")
+     +'<p class="sub" style="margin-top:8px"><a href="search.html" style="font-weight:800;color:var(--green)">Open the full search page \u2192</a></p>';
     return;
   }
   const stem=w=>w.length>4&&w.endsWith("ies")?w.slice(0,-3)+"y":w.length>4&&w.endsWith("es")?w.slice(0,-2):w.length>3&&w.endsWith("s")?w.slice(0,-1):w;
@@ -121,8 +129,8 @@ const Search={
     const db=DB.load(), today=U.todayStr();
     const news=(db.newsEvents||[]).filter(n=>(!n.publishAt||n.publishAt<=today)&&match(n.title+" "+(n.text||""),q)).slice(0,3);
     if(news.length)extra+='<p class="sub">News & events</p>'+news.map(n=>`<a href="story.html?id=${n.id}">${hl(n.title)}</a>`).join("");
-    const staff=(db.teachers||[]).filter(t=>match((t.name||"")+" "+(t.class||"")+" "+((t.subjects||[]).join(" ")),q)).slice(0,3);
-    if(staff.length)extra+='<p class="sub">Staff</p>'+staff.map(t=>`<a href="staff.html">${hl(t.name)} — ${U.esc(t.class||"")}</a>`).join("");
+    const staff=(db.staffWall||db.teachers||[]).filter(t=>match((t.name||"")+" "+(t.class||"")+" "+((t.subjects||[]).join(" ")),q)).slice(0,3);
+    if(staff.length)extra+='<p class="sub">Staff</p>'+staff.map(t=>`<a href="alumni.html#staff">${hl(t.name)} — ${U.esc(t.class||"")}</a>`).join("");
     const ex=(db.exams||[]).filter(x=>match(x.subject||"",q)).slice(0,2);
     if(ex.length)extra+='<p class="sub">Exams</p>'+ex.map(x=>`<a href="exams.html">${hl(x.subject)} — ${U.shortDate(x.date)}</a>`).join("");
     const shop=(db.shopItems||[]).concat(db.uniform||[]).filter(x=>match(x.name||"",q)).slice(0,2);
@@ -194,10 +202,52 @@ function renderFooter(){
       </div>
     </div>
   </div>
-  <div class="foot-bottom"><div class="container foot-center"><span>\u00A9 ${year} ${U.esc(s.name)}. All Rights Reserved.</span></div></div>
+  <div class="foot-partners"><div class="container">
+    <p class="acc-cap">Approved &amp; Registered With</p>
+    <div class="acc-logos"><a href="https://kogistate.gov.ng/" target="_blank" rel="noopener noreferrer" title="Kogi State Government — kogistate.gov.ng"><img src="assets/img/partners/badge-kogi.png" alt="Kogi State Government"></a><a href="https://moest.kogistate.gov.ng/" target="_blank" rel="noopener noreferrer" title="Kogi State Ministry of Education, Science and Technology — moest.kogistate.gov.ng"><img src="assets/img/partners/badge-kogimoe.png" alt="Kogi State Ministry of Education, Science and Technology"></a><a href="https://www.nappsng.org/" target="_blank" rel="noopener noreferrer" title="NAPPS Nigeria — nappsng.org"><img src="assets/img/partners/badge-napps.webp" alt="NAPPS Nigeria"></a><a href="https://www.nysc.gov.ng/" target="_blank" rel="noopener noreferrer" title="National Youth Service Corps — nysc.gov.ng"><img src="assets/img/partners/badge-nysc.png" alt="National Youth Service Corps"></a><a href="https://moest.kogistate.gov.ng/" target="_blank" rel="noopener noreferrer" title="Approved Common Entrance Examination Centre, Kogi State — BS/OKN/141"><img src="assets/img/partners/badge-cee.png" alt="Common Entrance Examination (Kogi State)"></a></div>
+    <p class="acc-note">Approved Common Entrance Examination Centre &middot; Centre No. BS/OKN/141</p>
+  </div></div>
+  <div class="foot-bottom"><div class="container foot-center" style="display:flex;gap:14px;align-items:center;justify-content:center;flex-wrap:wrap"><span>\u00A9 ${year} ${U.esc(s.name)}. All Rights Reserved.</span><span id="textSizeBtns" title="Text size"><button type="button" data-fs="s" aria-label="Small text">S</button><button type="button" data-fs="m" aria-label="Normal text" class="on">A</button><button type="button" data-fs="l" aria-label="Large text">L</button></span></div></div>
   </div>`;
 }
+/* batch30: remember-able text size for weaker eyes */
+(function(){
+  try{
+    const cur=localStorage.getItem("treasure_fontsize")||"m";
+    if(cur!=="m")document.documentElement.dataset.fontsize=cur;
+    document.addEventListener("click",e=>{
+      const b=e.target&&e.target.closest&&e.target.closest("#textSizeBtns button"); if(!b)return;
+      const fs=b.dataset.fs;
+      if(fs==="m")delete document.documentElement.dataset.fontsize; else document.documentElement.dataset.fontsize=fs;
+      try{localStorage.setItem("treasure_fontsize",fs);}catch(err){}
+      document.querySelectorAll("#textSizeBtns button").forEach(x=>x.classList.toggle("on",x===b));
+    });
+    document.addEventListener("DOMContentLoaded",()=>{
+      const on=document.querySelector('#textSizeBtns button[data-fs="'+cur+'"]'); if(on)on.classList.add("on");
+      document.querySelectorAll("#textSizeBtns button").forEach(x=>x.classList.toggle("on",x.dataset.fs===cur));
+    });
+  }catch(e){}
+})();
 window.soonSocial=function(net){ U.toast("The school has not gotten "+net+" yet — check back soon!"); return false; };
+/* batch30: social share card + app icon + browser chrome color on every page */
+(function(){
+  try{
+    const d=document, inPortal=/portal\/(admin|teacher|pupil|login)\.html$/.test(location.pathname)||location.pathname.indexOf("/portal/")>=0;
+    const pre=inPortal?"../":"";
+    if(!d.querySelector('meta[property="og:title"]')){
+      const mk=(tag,attrs)=>{ const e=d.createElement(tag); for(const k in attrs)e.setAttribute(k,attrs[k]); d.head.appendChild(e); };
+      if(!d.querySelector(String.raw`meta[name="theme-color"]`)) mk("meta",{name:"theme-color",content:"#0B7A37"});
+      mk("meta",{property:"og:title",content:"Treasure Academy, Ageva"});
+      mk("meta",{property:"og:description",content:"Discipline, character and results — Creche to Primary 6 in Ageva, Okene, Kogi State."});
+      mk("meta",{property:"og:image",content:pre+"assets/img/og-cover.png"});
+      mk("meta",{name:"twitter:card",content:"summary_large_image"});
+      const fav=d.querySelector('link[rel="icon"]');
+      const icon=d.createElement("link"); icon.rel="icon"; icon.type="image/png"; icon.href=pre+"assets/img/icon-512.png";
+      if(fav)fav.after(icon); else d.head.appendChild(icon);
+      const apple=d.createElement("link"); apple.rel="apple-touch-icon"; apple.href=pre+"assets/img/icon-512.png"; d.head.appendChild(apple);
+    }
+  }catch(e){}
+})();
 function injectSchool(){
   let s = {...SCHOOL_DEFAULTS};
   try{ s = DB.load().school; }catch(e){}
@@ -240,6 +290,11 @@ function initSliders(){
 
 /* ---------------- Back-to-top (widgets hide at footer) ---------------- */
 function initTopBtn(){
+  /* batch30: progress ring + available on every page (not only those calling initTopBtn) */
+  if(document.querySelector('link[href*="corporate"]')&&!window.__topBtnBooted){ window.__topBtnBooted=1;
+    addEventListener("scroll",()=>{ const d=document.documentElement; const max=d.scrollHeight-innerHeight;
+      document.querySelectorAll("#topBtn").forEach(b=>{ if(max>0)b.style.setProperty("--prog",Math.min(100,Math.round(scrollY/max*100))); }); },{passive:true});
+  }
   if(!document.querySelector('link[href*="corporate"]'))return;
   let b=document.getElementById("topBtn");
   if(!b){ b=document.createElement("button"); b.id="topBtn"; b.title="Back to top";
@@ -253,6 +308,13 @@ function initTopBtn(){
   };
   addEventListener("scroll",onScroll,{passive:true}); onScroll();
 }
+/* batch30: boot the back-to-top button everywhere automatically */
+(function(){
+  if(!document.querySelector('link[href*="corporate"]'))return;
+  if(document.getElementById("topBtn"))return;
+  if(/portal\/(admin|teacher|pupil)\.html$/.test(location.pathname))return;
+  try{ bootSafe(()=>initTopBtn()); }catch(e){ initTopBtn(); }
+})();
 
 /* ---------------- Reveal on scroll ---------------- */
 function initReveal(){
@@ -505,7 +567,9 @@ const Chatbot = {
     F.dayName=now.toLocaleDateString("en-NG",{weekday:"long"});
     let per=["",""]; try{ per=ClockWidget.schedule(now.getHours(),now.getMinutes(),dow); }catch(e){}
     const sch=db.school||{}, emg=sch.emergency||{};
-    const open=!(dow===0||dow===6)&&!emg.on;
+    /* batch25: banner schedule window — empty dates mean always */
+    const emgOn=!!(emg.on&&emg.text&&(!emg.start||today>=emg.start)&&(!emg.end||today<=emg.end));
+    const open=!(dow===0||dow===6)&&!emgOn;
     const evs=(db.calendar||[]).filter(c=>c.date>=today).sort((a,b)=>a.date.localeCompare(b.date));
     const exs=(db.exams||[]).filter(x=>x.date&&x.date>=today).sort((a,b)=>a.date.localeCompare(b.date));
     const pta=(db.ptaMeetings||[]).filter(m=>m.date>=today).sort((a,b)=>a.date.localeCompare(b.date));
@@ -513,16 +577,16 @@ const Chatbot = {
     const lf=(db.lostfound||[]).filter(l=>!l.claimed&&!l.archived);
     const when=d=>{ const n=U.daysUntil(d); return n===0?"<b>today</b>":n===1?"<b>tomorrow</b>":"in <b>"+n+" days</b> ("+U.prettyDate(d)+")"; };
     /* status */
-    F.status=emg.on
+    F.status=emgOn
       ? `<b>School is closed:</b> ${esc(emg.text)}<br>The time is <b>${F.time}</b> (${F.dayName}).`
       : open
       ? `Yes — there is school today (${F.dayName}). The time is <b>${F.time}</b> and right now is <b>${esc(per[0])}</b>: ${esc(per[1])}<br>School hours: <b>Mon–Fri, 7:30am–3:00pm</b>.`
       : (dow===0||dow===6)
         ? `No school today — it's <b>${F.dayName}</b> (weekend). The time is <b>${F.time}</b>.<br>School resumes back on <b>Monday, 7:30am</b>.`
-        : `The time is <b>${F.time}</b>. ${emg.on?("<b>School is closed:</b> "+esc(emg.text)):"School is not in session right now."}`;
+        : `The time is <b>${F.time}</b>. ${emgOn?("<b>School is closed:</b> "+esc(emg.text)):"School is not in session right now."}`;
     /* emergency */
-    F.emergency=emg.on
-      ? `<b>Yes — take note:</b> ${esc(emg.text)}<br>This red banner is showing at the top of every page until the headmistress removes it.`
+    F.emergency=emgOn
+      ? `<b>Yes — take note:</b> ${esc(emg.text)}<br>This red banner is showing at the top of every page while it is scheduled.`
       : `No emergency — school is running normally. If school ever closes unexpectedly, a red <b>emergency banner</b> appears at the very top of every page.`;
     /* lost & found */
     F.lostfound=lf.length
@@ -809,7 +873,8 @@ function renderTicker(){
   const anchor=document.getElementById("mottoRibbon")||document.querySelector(".navbar");
   if(!anchor)return;
   const html=items.map(x=>`<span>${U.esc(x)}</span>`).join('<span class="tick-sep">•</span>');
-  anchor.insertAdjacentHTML("afterend",`<div class="ticker" id="newsTicker" role="marquee" aria-label="School announcements"><div class="ticker-inner">${html}<span class="tick-sep">•</span><span aria-hidden="true">${html}</span></div></div>`);
+  const half=html+'<span class="tick-sep">•</span>'; /* batch24: two identical halves = seamless -50% loop */
+  anchor.insertAdjacentHTML("afterend",`<div class="ticker" id="newsTicker" role="marquee" aria-label="School announcements"><div class="ticker-inner"><span class="tick-half">${half}</span><span class="tick-half" aria-hidden="true">${half}</span></div></div>`);
 }
 /* ---------- staff birthday bell (homepage) ---------- */
 function renderBday(){
@@ -849,13 +914,116 @@ function renderBdayCount(){
 function renderEmergency(){
   if(document.getElementById("emgBanner"))return;
   let e={}; try{ e=DB.load().school.emergency||{}; }catch(err){}
+  /* batch25: optional auto show/hide window — blank dates mean always */
+  const today=U.todayStr();
   if(!e.on||!e.text)return;
+  if(e.start&&today<e.start)return;
+  if(e.end&&today>e.end)return;
   const top=document.body.firstElementChild;
   const d=document.createElement("div");
   d.className="emg-banner"; d.id="emgBanner";
   d.innerHTML=`<span class="emg-dot"></span><span>${U.esc(e.text)}</span>`;
   document.body.insertBefore(d,top);
 }
+
+/* ---------- WORD OF THE WEEK (batch32) ---------- */
+const WOW_WORDS=[
+ ["Diligent","working carefully and never giving up on a task","Adaeze is diligent \u2014 her handwriting is always neat."],
+ ["Honest","always telling the truth, even when it is hard","Honest Musa returned the extra change to Mama."],
+ ["Punctual","arriving at the right time, never late","Punctual pupils are in class before the bell."],
+ ["Obedient","doing what elders ask with a good heart","Obedient Kelechi packed the books at once."],
+ ["Curious","wanting to learn and understand new things","Curious Fatima asked how rain falls."],
+ ["Grateful","showing thanks for kindness received","Grateful Amina thanked the donor with a big smile."],
+ ["Patient","waiting calmly without complaining","Patient pupils wait their turn to answer."],
+ ["Tidy","keeping yourself and your things neat","Tidy Ibrahim's desk is always clean."],
+ ["Courageous","facing hard things without fear","Courageous Blessing read before the whole school."],
+ ["Respectful","treating others with honour and kind words","Respectful pupils greet their elders each morning."],
+ ["Persistent","trying again and again until you finish","Persistent Yusuf solved the sum on his fifth try."],
+ ["Generous","happy to share what you have","Generous Zainab shared her crayons with the class."],
+ ["Attentive","listening with both ears and both eyes","Attentive pupils never miss the teacher's words."],
+ ["Polite","using gentle words like please and thank you","Polite Eche said thank you to the cook."],
+ ["Responsible","doing your duty without being reminded","Responsible monitors rang the bell on time."],
+ ["Cheerful","wearing a smile that lifts others up","Cheerful Hauwa greeted the whole class today."],
+ ["Creative","making new things from bright ideas","Creative Femi built a car from cartons."],
+ ["Humble","being great without boasting about it","Humble champions still sweep their corner."],
+ ["Trustworthy","people can count on your word","Trustworthy Ngozi returned the lost purse."],
+ ["Zealous","full of energy and excitement for good work","Zealous readers finished the whole storybook."],
+ ["Kindhearted","gentle and caring to everyone","Kindhearted Sadiq helped the new pupil find her class."],
+ ["Excellence","doing your very best, always","Excellence is our motto in action."],
+ ["Wisdom","using knowledge the right way","Wisdom speaks quietly but wisely."],
+ ["Integrity","being the same good person even when no one watches","Integrity means no cheating, even in a hard test."]
+];
+function renderWOW(){
+  const box=document.getElementById("wowCard"); if(!box)return;
+  /* rotates every week automatically, same word for everyone all week */
+  const idx=Math.floor(Date.now()/6048e5)%WOW_WORDS.length;
+  const w=WOW_WORDS[idx];
+  box.innerHTML=`<span class="sec-tag">Word of the Week</span><div class="wow-word">${w[0]}</div><p class="wow-mean"><b>Meaning:</b> ${w[1]}.</p><p class="wow-ex"><b>Use it:</b> \u201c${w[2]}\u201d</p>`;
+}
+
+/* ---------- RESUMPTION COUNTDOWN + TESTIMONIAL SPOTLIGHT (batch33) ---------- */
+function renderResumeChip(){
+  const el=document.getElementById("resumeChip"); if(!el)return;
+  const d=(()=>{ try{ return (DB.load().school||{}).resumeDate||""; }catch(e){ return ""; } })();
+  if(!d){ el.innerHTML=""; return; }
+  const days=Math.round((new Date(d+"T12:00:00")-new Date(U.todayStr()+"T12:00:00"))/864e5);
+  let html="";
+  if(days>1) html=`<span class="rc-dot"></span><b>Resumption:</b>&nbsp;${days} days to go — ${U.prettyDate(d)}`;
+  else if(days===1) html=`<span class="rc-dot"></span><b>Resumption:</b>&nbsp;tomorrow — ${U.prettyDate(d)}`;
+  else if(days===0) html=`<span class="rc-dot"></span><b>School resumes today</b>&nbsp;— see you at assembly!`;
+  else if(days>=-10) html=`<span class="rc-dot" style="background:var(--mint)"></span><b>We are back in session</b>&nbsp;— welcome, everyone!`;
+  el.innerHTML=html?`<div class="resume-chip">${html}</div>`:"";
+}
+function renderTmSpot(){
+  const el=document.getElementById("tmSpot"); if(!el)return;
+  let list=[]; try{ list=(DB.load().testimonials||[]).filter(t=>t.status==="Approved"); }catch(e){}
+  if(!list.length){ el.innerHTML=""; return; }
+  const t=list[Math.floor(Date.now()/6048e5)%list.length]; /* rotates weekly */
+  const stars="\u2605".repeat(Math.min(5,t.stars||5))+"\u2606".repeat(Math.max(0,5-(t.stars||5)));
+  el.innerHTML=`<div class="tm-spot clip-up"><div class="tms-quote">\u201C</div><p>${U.esc(t.text)}</p><div class="tms-stars">${stars}</div><div class="tms-who"><b>${U.esc(t.name)}</b> <small>${U.esc(t.role||"Parent")}</small></div><a class="tms-link" href="testimonials.html">Read all parent reviews \u2192</a></div>`;
+}
+
+/* ---------- HIDDEN DEVELOPER ENTRY (batch34) — no visible link anywhere ----------
+   Three invisible ways in: 7 quick taps on the footer copyright line,
+   a 3-second press-and-hold on the school logo, or Ctrl+Shift+D on a keyboard. */
+(function(){
+  const base=(document.body.dataset&&document.body.dataset.assets&&document.body.dataset.assets.indexOf("assets")===0)?"":"../";
+  const go=()=>{ location.href=base+"developer.html"; };
+  let taps=0,t0=0;
+  document.addEventListener("click",e=>{
+    if(!(e.target.closest&&e.target.closest(".foot-bottom"))){ taps=0; return; }
+    const now=Date.now(); if(now-t0>4000)taps=0; t0=now;
+    if(++taps>=7){ taps=0; go(); }
+  },true);
+  let lp=null;
+  document.addEventListener("pointerdown",e=>{
+    if(!(e.target.closest&&e.target.closest("a.logo")))return;
+    lp=setTimeout(()=>{ lp=null; go(); },2500);
+  },true);
+  ["pointerup","pointerleave","pointercancel"].forEach(ev=>document.addEventListener(ev,()=>{ if(lp){clearTimeout(lp);lp=null;} },true));
+  document.addEventListener("keydown",e=>{ if(e.ctrlKey&&e.shiftKey&&(e.key==="D"||e.key==="d")){ e.preventDefault(); go(); } });
+})();
+
+/* ---------- PORTAL SIDEBAR COLLAPSE (batch35) ---------- */
+(function(){
+  function bootCollapse(){
+    if(!document.body||!document.body.classList.contains("portal-body"))return;
+    const nav=document.querySelector(".portal-layout .navbar .container"); if(!nav)return;
+    if(document.getElementById("sideCollapse"))return;
+    const b=document.createElement("button");
+    b.id="sideCollapse"; b.type="button"; b.title="Collapse sidebar"; b.setAttribute("aria-label","Collapse or expand sidebar");
+    b.innerHTML='<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg>';
+    b.onclick=()=>{
+      const on=document.body.classList.toggle("side-slim");
+      b.classList.toggle("flip",on);
+      b.title=on?"Expand sidebar":"Collapse sidebar";
+      try{ localStorage.setItem("treasure_side_slim",on?"1":"0"); }catch(e){}
+    };
+    nav.appendChild(b);
+    try{ if(localStorage.getItem("treasure_side_slim")==="1"){ document.body.classList.add("side-slim"); b.classList.add("flip"); b.title="Expand sidebar"; } }catch(e){}
+  }
+  if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",bootCollapse); else bootCollapse();
+})();
 
 /* ---------------- LOADER (school crest splash) ---------------- */
 (function(){
@@ -927,23 +1095,32 @@ const Stars = {
     document.body.appendChild(cv);
     const ctx=cv.getContext("2d");
     let W,H,stars=[],flies=[];
+    /* batch24: pre-rendered glow sprite replaces the costly per-frame canvas shadow (the night-mode lag culprit on phones) */
+    const glow=document.createElement("canvas"); glow.width=glow.height=48;
+    const gx=glow.getContext("2d"), grd=gx.createRadialGradient(24,24,2,24,24,24);
+    grd.addColorStop(0,"rgba(255,233,163,1)"); grd.addColorStop(.35,"rgba(255,217,77,.85)"); grd.addColorStop(1,"rgba(255,217,77,0)");
+    gx.fillStyle=grd; gx.fillRect(0,0,48,48);
     const size=()=>{ W=cv.width=innerWidth; H=cv.height=innerHeight;
-      stars=Array.from({length:Math.min(90,Math.floor(W/14))},()=>({x:Math.random()*W,y:Math.random()*H,r:.6+Math.random()*1.5,p:Math.random()*6.28,s:.5+Math.random()*1.5}));
-      flies=Array.from({length:18},()=>({x:Math.random()*W,y:Math.random()*H,vx:.15+Math.random()*.35,vy:.1+Math.random()*.3,r:1.4+Math.random()*1.5,p:Math.random()*6.28,q:Math.random()*6.28}));
+      stars=Array.from({length:Math.min(70,Math.floor(W/18))},()=>({x:Math.random()*W,y:Math.random()*H,r:.6+Math.random()*1.5,p:Math.random()*6.28,s:.5+Math.random()*1.5}));
+      flies=Array.from({length:innerWidth<640?10:16},()=>({x:Math.random()*W,y:Math.random()*H,vx:.15+Math.random()*.35,vy:.1+Math.random()*.3,r:1.4+Math.random()*1.5,p:Math.random()*6.28,q:Math.random()*6.28}));
     };
     size(); addEventListener("resize",size);
+    /* batch29: reduced-motion users get stillness — no drifting sparkles */
+    try{ if(window.matchMedia&&matchMedia("(prefers-reduced-motion: reduce)").matches)return; }catch(e){}
+    let frame=0;
     (function loop(){
       requestAnimationFrame(loop);
       if(document.documentElement.dataset.theme!=="dark"||document.hidden) return;
+      if(++frame%2) return; /* batch24: 30fps halves night-mode GPU load so the ticker stays smooth */
       ctx.clearRect(0,0,W,H);
       const t=Date.now()/1000;
       stars.forEach(s=>{ const a=.25+.55*Math.abs(Math.sin(t*s.s+s.p));
         ctx.globalAlpha=a; ctx.fillStyle="#CFE3FF"; ctx.beginPath(); ctx.arc(s.x,s.y,s.r,0,7); ctx.fill(); });
-      flies.forEach(f=>{ f.x+=f.vx; if(f.x>W+12)f.x=-12;
+      flies.forEach(f=>{ f.x+=f.vx*2; if(f.x>W+12)f.x=-12;
         const fy=(f.y+t*9*f.vy)%(H+24)-12;
         const g=.5+.5*Math.sin(t*2+f.p), tw=.55+.45*Math.sin(t*3.2+f.q);
-        ctx.globalAlpha=Math.min(1,(.2+.6*g)*tw+.18); ctx.fillStyle="#FFE9A3"; ctx.shadowColor="#FFD94D"; ctx.shadowBlur=14*g+4;
-        ctx.beginPath(); ctx.arc(f.x,fy,f.r,0,7); ctx.fill(); ctx.shadowBlur=0; });
+        ctx.globalAlpha=Math.min(1,(.2+.6*g)*tw+.18);
+        const sz=f.r*9; ctx.drawImage(glow,f.x-sz/2,fy-sz/2,sz,sz); });
       ctx.globalAlpha=1;
     })();
   }
@@ -986,6 +1163,9 @@ document.addEventListener("DOMContentLoaded", ()=>{
   bootSafe(()=>renderWeekStrip());
   bootSafe(()=>registerSW());
   bootSafe(()=>initTopBtn());
+  bootSafe(()=>renderWOW());
+  bootSafe(()=>renderResumeChip());
+  bootSafe(()=>renderTmSpot());
   bootSafe(()=>initSliders());
   bootSafe(()=>initReveal());
   bootSafe(()=>typeLabels(document));
@@ -994,3 +1174,66 @@ document.addEventListener("DOMContentLoaded", ()=>{
   setTimeout(bootWidgets, 1500);
 });
 setTimeout(bootWidgets, 3000);
+/* ============ BATCH 43 (2026-09-21): Treasure FX — micro-interactions, tabs, spy nav ============ */
+(function(){
+  if(typeof document==="undefined")return;
+  var RM=false; try{ RM=window.matchMedia&&window.matchMedia("(prefers-reduced-motion: reduce)").matches; }catch(e){}
+  function ready(fn){ if(document.readyState!=="loading")fn(); else document.addEventListener("DOMContentLoaded",fn); }
+  ready(function(){
+    /* button ripple */
+    document.addEventListener("pointerdown",function(e){
+      var b=e.target&&e.target.closest?e.target.closest(".btn"):null; if(!b||RM)return;
+      var r=b.getBoundingClientRect(), d=Math.max(r.width,r.height)*.9, s=document.createElement("span");
+      s.className="fx-ripple"; s.style.cssText="width:"+d+"px;height:"+d+"px;left:"+(e.clientX-r.left-d/2)+"px;top:"+(e.clientY-r.top-d/2)+"px";
+      b.appendChild(s); setTimeout(function(){ s.remove(); },540);
+    });
+    /* segmented tabs */
+    function bootTabs(){
+      document.querySelectorAll(".seg").forEach(function(seg){
+        if(seg.dataset.fxBound)return; seg.dataset.fxBound="1";
+        var tabs=[].slice.call(seg.querySelectorAll(".seg-tab")), ink=seg.querySelector(".seg-ink");
+        var zone=seg.closest(".seg-zone")||seg.parentElement;
+        var panes=[].slice.call(zone.querySelectorAll("[data-seg-pane]"));
+        function go(key,btn){
+          tabs.forEach(function(t){ t.classList.toggle("on",t===btn); });
+          if(ink){ ink.style.left=btn.offsetLeft+"px"; ink.style.width=btn.offsetWidth+"px"; }
+          panes.forEach(function(p){ var on=(key==="all"||p.getAttribute("data-seg-pane")===String(key)); p.classList.toggle("show",on); });
+        }
+        tabs.forEach(function(t){ t.addEventListener("click",function(){ go(t.getAttribute("data-seg"),t); }); });
+        var first=tabs.filter(function(t){ return t.classList.contains("on"); })[0]||tabs[0];
+        if(first)go(first.getAttribute("data-seg"),first);
+      });
+    }
+    bootTabs();
+    window.__fxTabsRescan=bootTabs;
+    /* count-up stats */
+    document.querySelectorAll("[data-countup]").forEach(function(el){
+      var end=(el.textContent||"").trim(), n=parseInt(end,10); if(isNaN(n)||RM)return;
+      var t0=null, dur=Math.min(1400,380+n*18);
+      function step(ts){ if(!t0)t0=ts; var p=Math.min(1,(ts-t0)/dur), e=1-Math.pow(1-p,3); el.textContent=String(Math.round(n*e)); if(p<1)requestAnimationFrame(step); }
+      if(window.IntersectionObserver){ new IntersectionObserver(function(es,o){ es.forEach(function(x){ if(x.isIntersecting){ requestAnimationFrame(step); o.disconnect(); } }); },{threshold:.4}).observe(el); }
+      else requestAnimationFrame(step);
+    });
+    /* tilt cards */
+    if(!RM){ var canTilt=false; try{ canTilt=window.matchMedia("(hover:hover) and (pointer:fine)").matches; }catch(e){}
+      if(canTilt)document.querySelectorAll(".tilt").forEach(function(c){
+        c.addEventListener("mousemove",function(e){ var r=c.getBoundingClientRect(), x=(e.clientX-r.left)/r.width-.5, y=(e.clientY-r.top)/r.height-.5; c.style.transform="perspective(700px) rotateX("+(-y*4).toFixed(2)+"deg) rotateY("+(x*4).toFixed(2)+"deg) translateY(-3px)"; });
+        c.addEventListener("mouseleave",function(){ c.style.transform=""; });
+      }); }
+    /* staggered entrances */
+    document.querySelectorAll(".stag-grid > *").forEach(function(child,i){ child.classList.add("stag-pre"); child.style.transitionDelay=(Math.min(i,8)*70)+"ms"; });
+    if(window.IntersectionObserver){
+      var io=new IntersectionObserver(function(es){ es.forEach(function(x){ if(x.isIntersecting){ x.target.classList.add("stag-in"); io.unobserve(x.target); } }); },{threshold:.12});
+      document.querySelectorAll(".stag-pre").forEach(function(el){ io.observe(el); });
+    } else document.querySelectorAll(".stag-pre").forEach(function(el){ el.classList.add("stag-in"); });
+    /* scrollspy bars */
+    document.querySelectorAll(".spy-bar").forEach(function(bar){
+      var links=[].slice.call(bar.querySelectorAll("a[href^='#']"));
+      var map={}, secs=[];
+      links.forEach(function(a){ var id=a.getAttribute("href").slice(1), sec=document.getElementById(id); if(sec){ map[id]=a; secs.push(sec); } });
+      if(!window.IntersectionObserver||!secs.length)return;
+      var io=new IntersectionObserver(function(es){ es.forEach(function(x){ if(x.isIntersecting){ links.forEach(function(a){ a.classList.remove("on"); }); var a=map[x.target.id]; if(a)a.classList.add("on"); } }); },{rootMargin:"-25% 0px -60% 0px"});
+      secs.forEach(function(s){ io.observe(s); });
+    });
+  });
+})();

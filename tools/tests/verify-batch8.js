@@ -23,7 +23,7 @@ function loadPage(page, session, seedFn) {
   window.HTMLCanvasElement.prototype.getContext = () => null;
   window.CSS = window.CSS || { escape: s => String(s).replace(/"/g, '') };
   window.print = () => {};
-  const scripts = [...window.document.querySelectorAll('script:not([src])')].map(s => s.textContent).join('\n;\n');
+  const scripts = [...window.document.querySelectorAll('script:not([src]):not([type="application/ld+json"])')].map(s => s.textContent).join('\n;\n');
   const errors = [];
   window.addEventListener('error', e => errors.push('window: ' + (e.message || e.error)));
   vm.createContext(window);
@@ -94,9 +94,9 @@ const ADMIN = { role: 'admin', refId: 'HEAD001', name: 'Mrs. Salihu Nanahawa' };
 /* admin: settings + extras + reminders + parts */
 {
   const { window: w, errors, run } = loadPage('portal/admin.html', ADMIN);
-  ok('grad field exists', !!w.document.getElementById('setGrad'));
-  run('document.getElementById("setGrad").value="2027-07-30"; saveSettings();');
-  ok('gradDate saved', w.__DB.load().school.gradDate === '2027-07-30');
+  ok('school settings purged (grad field gone)', !w.document.getElementById('setGrad'));
+  run('saveSettings();');
+  ok('saveSettings still saves fees', typeof w.__DB.load().school.fees === 'object');
   run('document.getElementById("unName").value="Test Cap"; document.getElementById("unPrice").value="3000"; saveUniform();');
   ok('uniform added', w.__DB.load().uniform.length === 9);
   run('delUniform("UN1");');

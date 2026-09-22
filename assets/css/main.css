@@ -109,7 +109,7 @@ section{padding:64px 0}
 .prog.p1::before{background:var(--sun)} .prog.p2::before{background:var(--coral)} .prog.p3::before{background:var(--mint)}
 .prog .emoji{font-size:2.4rem;display:block;margin-bottom:8px}
 .prog h3{font-size:1.35rem;margin-bottom:4px}
-.prog .ages{display:inline-block;font-size:.76rem;font-weight:700;background:#F1F4F8;border-radius:var(--r-pill);padding:3px 12px;margin-bottom:12px;color:var(--muted)}
+.prog .ages{display:inline-block;font-size:.76rem;font-weight:700;background:var(--cream);border-radius:var(--r-pill);padding:3px 12px;margin-bottom:12px;color:var(--muted)}
 .prog ul{list-style:none;margin:12px 0 20px;font-size:.93rem;color:#3A4656}
 .prog ul li{padding:6px 0 6px 26px;position:relative}
 .prog ul li::before{content:"✓";position:absolute;left:4px;color:var(--mint);font-weight:800}
@@ -154,7 +154,7 @@ section{padding:64px 0}
 .news-card h3{font-size:1.05rem;margin-bottom:8px} .news-card p{font-size:.9rem;color:var(--muted)}
 
 /* ---------- Testimonials ---------- */
-#testimonials{background:linear-gradient(180deg,#EDF3EE,#F3F5F8)}
+#testimonials{background:linear-gradient(180deg,var(--mint-soft),var(--cream))}
 .testi-wrap{max-width:720px;margin:0 auto;text-align:center;position:relative}
 .testi-card{background:#fff;border:1px solid var(--line);border-radius:var(--r-lg);box-shadow:var(--sh);padding:36px;min-height:200px}
 .testi-card .stars{color:var(--orange);font-size:1.2rem;letter-spacing:3px;margin-bottom:10px}
@@ -177,7 +177,7 @@ section{padding:64px 0}
 .field.full{grid-column:1/-1}
 .field label{font-weight:600;font-size:.87rem}
 .field input,.field select,.field textarea{font-family:var(--font-body);font-size:.93rem;padding:12px 14px;
-  border:1px solid var(--line);border-radius:9px;background:#FAFBFC;outline:none;width:100%;transition:border .15s,box-shadow .15s;color:var(--ink)}
+  border:1px solid var(--line);border-radius:9px;background:var(--white);outline:none;width:100%;transition:border .15s,box-shadow .15s;color:var(--ink)}
 .field input:focus,.field select:focus,.field textarea:focus{background:#fff;border-color:var(--mint);box-shadow:0 0 0 3px rgba(23,122,63,.12)}
 
 /* ---------- Contact / footer ---------- */
@@ -200,7 +200,7 @@ footer.site-footer{background:#0C1B14}
 /* ============================================================
    PORTAL (dashboards)
    ============================================================ */
-.portal-body{background:#EDF0F4}
+.portal-body{background:var(--cream)}
 .portal-body::before,.portal-body::after{display:none}
 .portal-layout{display:flex;min-height:100vh}
 .sidebar{width:258px;flex:0 0 258px;background:linear-gradient(180deg,#103B26,#0B2A1B);color:#fff;display:flex;flex-direction:column;position:sticky;top:0;height:100vh}
@@ -228,29 +228,29 @@ footer.site-footer{background:#0C1B14}
 .panel{background:#fff;border:1px solid var(--line);border-radius:var(--r-md);box-shadow:var(--sh-sm);padding:24px;margin-bottom:20px}
 .panel h2{font-size:1.2rem;margin-bottom:4px} .panel .sub{color:var(--muted);font-size:.88rem;margin-bottom:16px}
 .toolbar{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px;align-items:center}
-.toolbar input,.toolbar select{font-family:var(--font-body);font-size:.88rem;padding:10px 13px;border:1px solid var(--line);border-radius:9px;background:#FAFBFC;outline:none;color:var(--ink)}
+.toolbar input,.toolbar select{font-family:var(--font-body);font-size:.88rem;padding:10px 13px;border:1px solid var(--line);border-radius:9px;background:var(--white);outline:none;color:var(--ink)}
 .toolbar .spacer{flex:1}
 table.tbl{width:100%;border-collapse:collapse;font-size:.88rem}
 .tbl th{background:#103B26;color:#fff;font-family:var(--font-head);font-weight:700;text-align:left;padding:12px;font-size:.82rem;white-space:nowrap}
 .tbl th:first-child{border-radius:10px 0 0 0} .tbl th:last-child{border-radius:0 10px 0 0}
-.tbl td{padding:11px 12px;border-bottom:1px solid #EDF0F4;vertical-align:middle}
-.tbl tr:hover td{background:#F7F9FB}
+.tbl td{padding:11px 12px;border-bottom:1px solid var(--line);vertical-align:middle}
+.tbl tr:hover td{background:var(--cream)}
 .tbl .row-actions{display:flex;gap:7px;flex-wrap:wrap}
 .icon-btn{border:1px solid var(--line);border-radius:8px;background:#fff;padding:6px 11px;cursor:pointer;font-size:.8rem;font-weight:600;transition:.13s}
 .icon-btn:hover{border-color:var(--mint);color:var(--mint)}
 .icon-btn.del{background:var(--coral-soft);border-color:#F3C3CC;color:#B31E35} .icon-btn.ok{background:var(--mint-soft);border-color:#BFE6CC;color:#0F6B3A}
 .badge{display:inline-block;font-family:var(--font-head);font-size:.72rem;font-weight:700;padding:4px 12px;border-radius:var(--r-pill);white-space:nowrap}
 .b-green{background:var(--mint-soft);color:#0F6B3A} .b-sun{background:var(--sun-soft);color:#8A6A0B} .b-sky{background:var(--sky-soft);color:#1D4FC4}
-.b-coral{background:var(--coral-soft);color:#B31E35} .b-grape{background:var(--grape-soft);color:#4E3FB0} .b-grey{background:#EDF0F4;color:#5D6B7D}
+.b-coral{background:var(--coral-soft);color:#B31E35} .b-grape{background:var(--grape-soft);color:#4E3FB0} .b-grey{background:var(--cream);color:var(--muted)}
 .duty-banner{border:1px solid var(--line);border-left:5px solid var(--sun);border-radius:12px;box-shadow:var(--sh-sm);padding:18px 22px;margin-bottom:22px;
   display:flex;gap:16px;align-items:center;background:#fff}
 .duty-banner.onduty{border-left-color:var(--mint);background:linear-gradient(120deg,var(--mint-soft),#fff);animation:popin .5s}
 .duty-banner .big{font-size:2.2rem}
 @keyframes popin{0%{transform:scale(.98)}60%{transform:scale(1.01)}100%{transform:scale(1)}}
-.notice{display:flex;gap:12px;align-items:flex-start;background:#F7F9FB;border:1px solid var(--line);border-radius:12px;padding:13px 16px;margin-bottom:10px;font-size:.88rem}
+.notice{display:flex;gap:12px;align-items:flex-start;background:var(--cream);border:1px solid var(--line);border-radius:12px;padding:13px 16px;margin-bottom:10px;font-size:.88rem}
 .notice .dot{width:10px;height:10px;border-radius:50%;background:var(--coral);flex:0 0 10px;margin-top:6px}
 .notice.read{opacity:.65} .notice.read .dot{background:var(--mint)}
-.score-input{width:70px;padding:8px 6px;text-align:center;font-weight:700;border:1px solid var(--line);border-radius:8px;background:#FAFBFC;font-family:var(--font-body);color:var(--ink)}
+.score-input{width:70px;padding:8px 6px;text-align:center;font-weight:700;border:1px solid var(--line);border-radius:8px;background:var(--white);font-family:var(--font-body);color:var(--ink)}
 .att-btns{display:flex;gap:6px;flex-wrap:wrap}
 .att-btns button{border:1px solid var(--line);border-radius:9px;padding:7px 13px;font-weight:700;cursor:pointer;background:#fff;font-size:.8rem}
 .att-btns button.p.on{background:var(--mint);color:#fff;border-color:var(--mint)} .att-btns button.a.on{background:var(--coral);color:#fff;border-color:var(--coral)} .att-btns button.l.on{background:var(--sun);border-color:var(--sun);color:#203040}
@@ -261,18 +261,18 @@ table.tbl{width:100%;border-collapse:collapse;font-size:.88rem}
 .report-head{text-align:center;border-bottom:2px dashed var(--line);padding-bottom:16px;margin-bottom:18px}
 .report-head h2{font-size:1.45rem} .report-head p{color:var(--muted);font-size:.88rem}
 .bar-row{display:grid;grid-template-columns:110px 1fr 46px;gap:10px;align-items:center;margin-bottom:9px;font-weight:700;font-size:.82rem}
-.bar{height:16px;border-radius:var(--r-pill);background:#EDF0F4;overflow:hidden}
+.bar{height:16px;border-radius:var(--r-pill);background:var(--cream);overflow:hidden}
 .bar i{display:block;height:100%;border-radius:var(--r-pill)}
 .login-wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:26px;position:relative;overflow:hidden}
 .login-card{width:min(480px,100%);background:#fff;border-radius:20px;box-shadow:var(--sh-lg);padding:36px;position:relative;z-index:2;border:1px solid var(--line)}
 .login-card .logo{justify-content:center;margin-bottom:6px}
 .login-card h1{font-size:1.55rem;text-align:center} .login-card>p{text-align:center;color:var(--muted);margin-bottom:20px}
 .role-tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-bottom:20px}
-.role-tabs button{border:1px solid var(--line);border-radius:12px;background:#F7F9FB;padding:11px 6px;font-family:var(--font-head);
+.role-tabs button{border:1px solid var(--line);border-radius:12px;background:var(--cream);padding:11px 6px;font-family:var(--font-head);
   font-size:.82rem;font-weight:700;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:3px;color:var(--ink)}
 .role-tabs button .e{font-size:1.35rem}
 .role-tabs button.on{background:var(--ink);color:#fff;border-color:var(--ink)}
-.demo-box{background:#F1F4F8;border:1px dashed #B9C3D0;border-radius:12px;padding:13px 16px;margin-top:18px;font-size:.82rem}
+.demo-box{background:var(--cream);border:1px dashed var(--line);border-radius:12px;padding:13px 16px;margin-top:18px;font-size:.82rem}
 .demo-box b{font-family:var(--font-head)}
 .demo-box button{margin:4px 6px 0 0}
 .demo-box code{background:#fff;padding:1px 8px;border-radius:6px;border:1px solid var(--line)}
@@ -296,7 +296,7 @@ table.tbl{width:100%;border-collapse:collapse;font-size:.88rem}
   .topbar{font-size:.75rem}
   .logo{font-size:.86rem} .logo .mark{width:38px;height:38px;flex-basis:38px}
   .navbar .container{gap:8px}
-  .nav-links{margin-left:0;width:100%;order:3;justify-content:center;background:#F1F4F8;border-radius:10px;padding:6px}
+  .nav-links{margin-left:0;width:100%;order:3;justify-content:center;background:var(--cream);border-radius:10px;padding:6px}
   .nav-links a{font-size:.8rem;padding:7px 10px}
   .nav-links .btn{padding:7px 14px;font-size:.8rem}
   .nav-cta-row{margin-left:auto}
@@ -340,7 +340,7 @@ body.side-open .menu-veil{display:block}
 .p-card-top{display:flex;gap:12px;align-items:flex-start;margin-bottom:10px}
 .p-card-meta{display:flex;gap:12px;flex-wrap:wrap;font-size:.8rem;color:var(--muted);font-weight:600;margin-bottom:6px}
 .p-card-meta span{display:inline-flex;align-items:center;gap:4px}
-.att-bar{height:7px;border-radius:99px;background:#EDF0F4;margin:10px 0 8px;overflow:hidden}
+.att-bar{height:7px;border-radius:99px;background:var(--cream);margin:10px 0 8px;overflow:hidden}
 .att-bar i{display:block;height:100%;border-radius:99px}
 .p-card-foot{display:flex;align-items:center;justify-content:space-between;gap:8px}
 /* ---- aurora blurred-lights background (portals) ---- */

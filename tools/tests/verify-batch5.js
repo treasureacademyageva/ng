@@ -21,7 +21,7 @@ function loadPage(page, query, seedFn) {
   window.Element.prototype.scrollIntoView = window.Element.prototype.scrollIntoView || function () {};
   window.HTMLCanvasElement.prototype.getContext = () => null;
   window.print = () => {};
-  const scripts = [...window.document.querySelectorAll('script:not([src])')].map(s => s.textContent).join('\n;\n');
+  const scripts = [...window.document.querySelectorAll('script:not([src]):not([type="application/ld+json"])')].map(s => s.textContent).join('\n;\n');
   const errors = [];
   window.addEventListener('error', e => errors.push('window: ' + (e.message || e.error)));
   vm.createContext(window);
@@ -43,7 +43,7 @@ function loadPage(page, query, seedFn) {
   ok('motto ribbon under navbar', !!mr && mr.textContent.toUpperCase().includes('OUR GOD IS ABLE') && mr.previousElementSibling.classList.contains('navbar'));
   const cc = w.document.getElementById('calCount').textContent;
   const wk5=[0,6].includes(new Date().getDay());
-  ok('countdown bar shows next event', wk5 ? cc.includes('resumes back on Monday') : (cc.includes('Resumption') && /day/.test(cc)));
+  ok('countdown bar shows next event', wk5 ? cc.includes('resumes back on Monday') : (cc.includes('Resumption') && (/day/.test(cc) || cc.includes('Happening now'))));
   ok('no errors', errors.length === 0, errors.join(' || ').slice(0, 200));
 }
 /* store new keys */
@@ -80,9 +80,9 @@ function loadPage(page, query, seedFn) {
 }
 /* graduates */
 {
-  const g0 = loadPage('graduates.html');
-  ok('graduates empty state', g0.window.document.getElementById('gradWall').textContent.includes('No graduates yet'));
-  const g1 = loadPage('graduates.html', '', w => { const db = w.__DB.load(); db.pupils.push({ id: 'P9', name: 'Old Pupil', class: 'Graduated', gradYear: 2025 }); w.__DB.save(db); });
+  const g0 = loadPage('alumni.html'); // batch26: graduates merged into alumni
+  ok('graduates wall shows real sets', g0.window.document.getElementById('gradWall').textContent.includes('Class of 2025') && g0.window.document.getElementById('gradWall').querySelectorAll('.team-card').length === 39);
+  const g1 = loadPage('alumni.html', '', w => { const db = w.__DB.load(); db.pupils.push({ id: 'P9', name: 'Old Pupil', class: 'Graduated', gradYear: 2025 }); w.__DB.save(db); });
   ok('graduates grouped by year', g1.window.document.getElementById('gradWall').textContent.includes('Class of 2025'));
   ok('no errors', (g0.errors.length + g1.errors.length) === 0);
 }
@@ -96,8 +96,8 @@ function loadPage(page, query, seedFn) {
 }
 /* teacher votes */
 {
-  const { window: w, errors, run } = loadPage('about.html');
-  ok('vote buttons with counts', (w.document.querySelectorAll('[data-vote]').length) === 7);
+  const { window: w, errors, run } = loadPage('alumni.html');
+  ok('public wall is display-only (no vote buttons)', (w.document.querySelectorAll('[data-vote]').length) === 0);
   run('voteTeacher("T001")');
   ok('vote counted', w.__DB.load().teacherVotes['T001'] === 1);
   run('voteTeacher("T001")');
@@ -123,7 +123,7 @@ function loadPage(page, query, seedFn) {
   ok('css: count bar', css.includes('.count-bar'));
   ok('css: wish bubble', css.includes('.wish-bubble'));
   const sj = fs.readFileSync(SITE + '/assets/js/site.js', 'utf8');
-  ok('site: renderMotto', sj.includes('renderMotto') && fs.readFileSync(SITE + '/alumni.html', 'utf8').includes('graduates.html'));
+  ok('site: renderMotto', sj.includes('renderMotto') && fs.readFileSync(SITE + '/alumni.html', 'utf8').includes('Our Alumni &amp; Graduates')); // batch26: merged page
   ok('hero photo exists', fs.existsSync(SITE + '/assets/img/hero-school.jpg'));
 }
 console.log(`\n==== ${pass} passed, ${fail} failed ====`);

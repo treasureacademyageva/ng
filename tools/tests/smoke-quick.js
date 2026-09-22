@@ -16,7 +16,7 @@ function load(page, query = '') {
   window.HTMLCanvasElement.prototype.getContext = () => null;
   const store = fs.readFileSync(SITE + '/assets/js/store.js', 'utf8');
   const site = fs.readFileSync(SITE + '/assets/js/site.js', 'utf8');
-  const scripts = [...window.document.querySelectorAll('script:not([src])')].map(s => s.textContent).join('\n;\n');
+  const scripts = [...window.document.querySelectorAll('script:not([src]):not([type="application/ld+json"])')].map(s => s.textContent).join('\n;\n');
   vm.createContext(window);
   vm.runInContext(store + '\n;\n' + site + '\n;\n' + scripts, window, { filename: 'b.js' });
   window.document.dispatchEvent(new window.Event('DOMContentLoaded', { bubbles: true }));

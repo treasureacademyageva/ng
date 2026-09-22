@@ -24,7 +24,7 @@ function loadPage(page, session, seedFn) {
   window.HTMLCanvasElement.prototype.getContext = () => null;
   window.CSS = window.CSS || { escape: s => String(s).replace(/"/g, '') };
   window.print = () => {}; window.scrollTo = () => {};
-  const scripts = [...window.document.querySelectorAll('script:not([src])')].map(s => s.textContent).join('\n;\n');
+  const scripts = [...window.document.querySelectorAll('script:not([src]):not([type="application/ld+json"])')].map(s => s.textContent).join('\n;\n');
   const errors = [];
   window.addEventListener('error', e => errors.push('window: ' + (e.message || e.error)));
   vm.createContext(window);
@@ -172,7 +172,7 @@ const dstr = off => { const d = new Date(); d.setDate(d.getDate() + off); return
   ok('single emg boot', (site.match(/renderEmergency\(\)\);/g) || []).length === 1);
   const { run } = loadPage('index.html');
   ok('search has new pages', run('SEARCH_INDEX.some(p=>p.u==="testimonials.html")') && run('SEARCH_INDEX.some(p=>p.u==="class.html")'));
-  ok('sw file', fs.existsSync(SITE + '/sw.js') && fs.readFileSync(SITE + '/sw.js', 'utf8').includes('treasure-v23'));
+  ok('sw file', fs.existsSync(SITE + '/sw.js') && fs.readFileSync(SITE + '/sw.js', 'utf8').includes('treasure-v47'));
   ok('sw registered', site.includes('navigator.serviceWorker.register'));
   ok('treasure nav css', css.includes('.nav-links a:not(.btn){border:1px solid #D8CFAF') && css.includes('.nav-links a.on::before'));
   ok('treasure btn css', css.includes('.btn-treasure{'));

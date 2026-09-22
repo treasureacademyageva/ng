@@ -22,7 +22,7 @@ function loadPage(page, session, seedFn) {
   window.HTMLCanvasElement.prototype.getContext = () => null;
   window.CSS = window.CSS || { escape: s => String(s).replace(/"/g, '') };
   window.print = () => {};
-  const scripts = [...window.document.querySelectorAll('script:not([src])')].map(s => s.textContent).join('\n;\n');
+  const scripts = [...window.document.querySelectorAll('script:not([src]):not([type="application/ld+json"])')].map(s => s.textContent).join('\n;\n');
   const errors = [];
   window.addEventListener('error', e => errors.push('window: ' + (e.message || e.error)));
   vm.createContext(window);
@@ -47,7 +47,7 @@ const ADMIN = { role: 'admin', refId: 'HEAD001', name: 'Mrs. Salihu Nanahawa' };
   ok('ticker sits after motto', !!tick && tick.previousElementSibling.id === 'mottoRibbon');
   ok('birthday bell shows celebrant', w.document.getElementById('bdayBell').textContent.includes('Mr. Tunde Bakare'));
   const sz = w.document.getElementById('starsZone');
-  ok('stars: staff + pupil cards', sz.children.length === 2 && sz.textContent.includes('Uncle Ebenezer') && sz.textContent.includes('Adaeze Okonkwo'));
+  ok('stars: staff + pupil cards', sz.children.length === 2 && sz.textContent.includes('Idris Ibrahim') && sz.textContent.includes('Adaeze Okonkwo'));
   ok('quick links to new pages', ['homework.html', 'lost-found.html', 'photo-day.html'].every(h => w.document.body.innerHTML.includes(h)));
   ok('quick-strip links new pages', w.document.querySelector('.quick-strip').innerHTML.includes('photo-day.html'));
   ok('no errors', errors.length === 0, errors.join(' || ').slice(0, 200));
@@ -81,7 +81,7 @@ const ADMIN = { role: 'admin', refId: 'HEAD001', name: 'Mrs. Salihu Nanahawa' };
 /* photo day booking */
 {
   const { window: w, errors, run } = loadPage('photo-day.html');
-  ok('8 slots render', w.document.querySelectorAll('.slot').length === 8);
+  ok('8 slots + 3 packages render', w.document.querySelectorAll('#slotGrid .slot').length === 8 && w.document.querySelectorAll('#pkgGrid .slot').length === 3); // batch25: package tiles added
   run('pickSlot("PS1"); document.getElementById("pdName").value="Kid One"; document.getElementById("pdClass").value="Primary 2"; document.getElementById("pdPhone").value="08011113333"; bookSlot();');
   let s = w.__DB.load().photoSlots.find(x => x.id === 'PS1');
   ok('booking saved + ref shown', s.taken && s.taken.name === 'Kid One' && w.document.getElementById('pdDone').textContent.includes('PH-'));

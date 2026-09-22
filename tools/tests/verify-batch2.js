@@ -20,7 +20,7 @@ function loadPage(page, query, seedFn) {
   window.requestAnimationFrame = window.requestAnimationFrame || (fn => setTimeout(fn, 16));
   window.Element.prototype.scrollIntoView = window.Element.prototype.scrollIntoView || function () {};
   window.HTMLCanvasElement.prototype.getContext = () => null;
-  const scripts = [...window.document.querySelectorAll('script:not([src])')].map(s => s.textContent).join('\n;\n');
+  const scripts = [...window.document.querySelectorAll('script:not([src]):not([type="application/ld+json"])')].map(s => s.textContent).join('\n;\n');
   const errors = [];
   window.addEventListener('error', e => errors.push('window: ' + (e.message || e.error)));
   vm.createContext(window);

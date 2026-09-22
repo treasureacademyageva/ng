@@ -24,7 +24,7 @@ function loadPage(page, session, url, pre) {
   Object.defineProperty(window, 'CSS', { value: { escape: s => String(s).replace(/[^a-z0-9_-]/gi, c => '\\' + c) }, configurable: true });
   window.HTMLCanvasElement.prototype.getContext = () => null;
   window.print = () => {}; window.scrollTo = () => {}; window.open = () => {}; window.requestAnimationFrame = () => 0;
-  const scripts = [...window.document.querySelectorAll('script:not([src])')].map(s => s.textContent).join('\n;\n');
+  const scripts = [...window.document.querySelectorAll('script:not([src]):not([type="application/ld+json"])')].map(s => s.textContent).join('\n;\n');
   const errors = [];
   window.addEventListener('error', e => errors.push(String((e.message || e.error || '').slice(0, 140))));
   vm.createContext(window);

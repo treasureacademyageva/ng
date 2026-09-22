@@ -1,4 +1,4 @@
-/* Batch 16: nav fix, search, receipts, timetable, slips, WA, voice, leaderboard,
+/* (b41-retargeted)  Batch 16: nav fix, search, receipts, timetable, slips, WA, voice, leaderboard,
    best-student, sick push, RSVP, votes, alumni, HW photos, night auto, share card, midterm */
 const fs = require('fs');
 const vm = require('vm');
@@ -24,7 +24,7 @@ function loadPage(page, session, url, pre) {
   Object.defineProperty(window, 'CSS', { value: { escape: s => String(s).replace(/[^a-z0-9_-]/gi, c => '\\' + c) }, configurable: true });
   window.HTMLCanvasElement.prototype.getContext = () => null;
   window.print = () => {}; window.scrollTo = () => {}; window.open = () => {};
-  const scripts = [...window.document.querySelectorAll('script:not([src])')].map(s => s.textContent).join('\n;\n');
+  const scripts = [...window.document.querySelectorAll('script:not([src]):not([type="application/ld+json"])')].map(s => s.textContent).join('\n;\n');
   const errors = [];
   window.addEventListener('error', e => errors.push(String((e.message || e.error || '').slice(0, 140))));
   vm.createContext(window);
@@ -41,9 +41,9 @@ const TEACHER = { role: 'teacher', refId: 'T001', name: 'x' };
 const ADMIN = { role: 'admin', refId: 'HEAD001', name: 'x' };
 
 /* ---------- P1: sidebar navigation ---------- */
-for (const [page, sess, n] of [['portal/pupil.html', PUPIL, 7], ['portal/teacher.html', TEACHER, 9], ['portal/admin.html', ADMIN, 21]]) {
+for (const [page, sess, n] of [['portal/pupil.html', PUPIL, 7], ['portal/teacher.html', TEACHER, 10], ['portal/admin.html', ADMIN, 22]]) {
   const { window: w, errors, run } = loadPage(page, sess);
-  const btns = [...w.document.querySelectorAll('#sideNav button')];
+  const btns = [...w.document.querySelectorAll('#sideNav button[data-view]')];
   let dead = [];
   btns.forEach(b => {
     w.document.body.classList.add('side-open');
@@ -260,7 +260,7 @@ function finish() {
 
 /* ---------- #17 staff vote (live) + #18 night auto ---------- */
 {
-  const a = loadPage('about.html');
+  const a = loadPage('alumni.html');
   const before = a.run('(DB.load().teacherVotes||{}).T001||0');
   a.run('voteTeacher("T001");');
   ok('public staff vote counts', a.run('(DB.load().teacherVotes||{}).T001') === before + 1);

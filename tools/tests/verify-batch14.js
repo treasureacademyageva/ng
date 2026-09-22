@@ -23,7 +23,7 @@ function loadPage(page, session, seedFn) {
   window.HTMLCanvasElement.prototype.getContext = () => null;
   window.CSS = window.CSS || { escape: s => String(s).replace(/"/g, '') };
   window.print = () => {}; window.scrollTo = () => {};
-  const scripts = [...window.document.querySelectorAll('script:not([src])')].map(s => s.textContent).join('\n;\n');
+  const scripts = [...window.document.querySelectorAll('script:not([src]):not([type="application/ld+json"])')].map(s => s.textContent).join('\n;\n');
   const errors = [];
   window.addEventListener('error', e => errors.push('window: ' + (e.message || e.error)));
   vm.createContext(window);
@@ -139,13 +139,13 @@ const dstr = off => { const d = new Date(); d.setDate(d.getDate() + off); return
 
 /* ---- about sort ---- */
 {
-  const { window: w, errors } = loadPage('about.html', null, win => {
+  const { window: w, errors } = loadPage('alumni.html', null, win => {
     const db = win.__DB.load();
     db.teachers = [{ id: 'T6', name: 'Zed Six', class: 'Primary 6' }, { id: 'TC', name: 'Ann Creche', class: 'Creche' }, { id: 'TN', name: 'Mid Nurse', class: 'Nursery 1' }];
     win.__DB.save(db);
   });
   const cards = [...w.document.querySelectorAll('#teamGrid .team-card')].map(c => c.textContent);
-  ok('staff sorted creche first', cards.length === 3 && cards[0].includes('Ann Creche') && cards[2].includes('Zed Six'), cards.map(c => c.slice(0, 20)).join('|'));
+  ok('staff sorted creche first, admin last', cards.length === 10 && cards[0].includes('Creche') && cards[9].includes('Bose Momoh') && cards.join(' ').indexOf('Primary 2') < cards.join(' ').indexOf('Primary 3'), cards.map(c => c.slice(0, 20)).join('|'));
   ok('about clean', errors.length === 0, errors.join(' || ').slice(0, 250));
 }
 

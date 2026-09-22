@@ -23,7 +23,7 @@ function loadPage(page, session, seedFn, opts = {}) {
   window.HTMLCanvasElement.prototype.getContext = () => null;
   window.CSS = window.CSS || { escape: s => String(s).replace(/"/g, '') };
   window.print = () => {}; window.scrollTo = () => {};
-  const allScripts = [...window.document.querySelectorAll('script:not([src])')].map(s => s.textContent);
+  const allScripts = [...window.document.querySelectorAll('script:not([src]):not([type="application/ld+json"])')].map(s => s.textContent);
   const scripts = (opts.firstOnly ? allScripts.slice(0, 1) : allScripts).join('\n;\n');
   const errors = [];
   window.addEventListener('error', e => errors.push('window: ' + (e.message || e.error)));
@@ -45,9 +45,9 @@ function loadPage(page, session, seedFn, opts = {}) {
 
 /* standalone sidebar: no store, no site, no session */
 {
-  for (const [page, n] of [['portal/pupil.html', 7], ['portal/teacher.html', 9], ['portal/admin.html', 21]]) {
+  for (const [page, n] of [['portal/pupil.html', 7], ['portal/teacher.html', 10], ['portal/admin.html', 22]]) {
     const { window: w } = loadPage(page, null, null, { noStore: true, noSite: true, firstOnly: true });
-    const btns = [...w.document.querySelectorAll('#sideNav button')];
+    const btns = [...w.document.querySelectorAll('#sideNav button[data-view]')];
     let dead = [];
     btns.forEach(b => { b.click(); const on = w.document.querySelector('.view-section.on'); if (!on || on.id !== 'v-' + b.dataset.view) dead.push(b.dataset.view); });
     ok(`${page} standalone: all switch`, btns.length === n && dead.length === 0, `n=${btns.length} dead=${dead.join(',')}`);
