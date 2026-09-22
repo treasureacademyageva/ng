@@ -9,8 +9,8 @@ const CORE = [
   'assets/img/logo.jpg',
   /* Self-hosted faces: without these an offline visitor drops to a system font
      and the whole page reflows. */
-  'assets/fonts/gidole-400-latin.woff2',
-  'assets/fonts/garamond-600-latin.woff2'
+  'assets/fonts/general-sans-400.woff2',
+  'assets/fonts/clash-display-600.woff2'
 ];
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(CORE)).then(() => self.skipWaiting()).catch(() => {}));
