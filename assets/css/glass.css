@@ -1,0 +1,394 @@
+/* ==========================================================================
+   Treasure Academy - glass layer
+   --------------------------------------------------------------------------
+   Loaded after every other stylesheet so it can settle the shared surface
+   treatment in one place: squarer corners, roomier spacing, muted
+   lavender-grey body copy, quietly glowing borders and a gentle hover lift.
+
+   Everything is expressed as tokens first so a future change is one edit
+   rather than a sweep through five files.
+   ========================================================================== */
+
+:root{
+  /* ---- corner radius -------------------------------------------------
+     The site was running 8/12/18px, which reads bubbly. These are softened
+     squares: clearly not sharp, never a pill. */
+  --r-sm:4px;
+  --r-md:6px;
+  --r-lg:10px;
+  --r-xl:14px;
+
+  /* ---- glass ---------------------------------------------------------- */
+  --glass-bg:rgba(255,255,255,.10);
+  --glass-bg-strong:rgba(255,255,255,.22);
+  --glass-line:rgba(255,255,255,.34);
+  --glass-blur:22px;
+  --glass-sat:160%;
+
+  /* ---- muted lavender-grey text --------------------------------------
+     Cool grey with a lavender cast. Kept dark enough to clear WCAG AA on
+     the light surfaces it actually sits on. */
+  --ink-muted:#5C5A72;
+  --ink-muted-soft:#7B7894;
+  --ink-lav:#6B6885;
+
+  /* ---- glow ------------------------------------------------------------ */
+  --glow-brand:rgba(11,122,55,.30);
+  --glow-gold:rgba(231,185,75,.32);
+  --glow-soft:rgba(124,120,160,.20);
+
+  /* ---- spacing scale (generous) ---------------------------------------- */
+  --sp-1:6px; --sp-2:12px; --sp-3:18px; --sp-4:26px;
+  --sp-5:38px; --sp-6:54px; --sp-7:76px;
+
+  --ease-out:cubic-bezier(.22,.61,.36,1);
+}
+
+[data-theme="dark"]{
+  --glass-bg:rgba(18,26,40,.44);
+  --glass-bg-strong:rgba(18,26,40,.60);
+  --glass-line:rgba(255,255,255,.16);
+  --ink-muted:#A9A6C4;
+  --ink-muted-soft:#8F8CAB;
+  --ink-lav:#B4B1CE;
+  --glow-soft:rgba(150,145,200,.22);
+}
+
+/* ==========================================================================
+   1. Squarer corners, applied through the existing tokens
+   ========================================================================== */
+.card,.mv-card,.testi-card,.team-card,.wa-card,.faq-item,.tbl,.modal,
+.gate-card,.track-card,.cmp-wrap,.prog,.stat,.note-card,.hw-row,
+input,select,textarea,.pill,.chip{
+  border-radius:var(--r-md);
+}
+.btn,button,.btn-sm,.seg-tab{ border-radius:var(--r-sm); }
+.hero-figure img,.card img,.prog img,.gallery img{ border-radius:var(--r-md); }
+
+/* The brand mark and avatars stay circular - squaring those would look broken. */
+.logo img,.mark-img,.avatar,.rounded-full,.clock-widget canvas{ border-radius:50%; }
+
+/* ==========================================================================
+   2. Muted lavender-grey body text
+   ========================================================================== */
+body{ color:var(--ink-muted); }
+p,li,dd,.muted,.small,figcaption,.note,.sub,.lede{ color:var(--ink-muted); }
+.muted,.small,figcaption,small{ color:var(--ink-muted-soft); }
+
+/* Headings keep their ink so the hierarchy still reads. */
+h1,h2,h3,h4,th,b,strong,label{ color:var(--ink,#141C2B); }
+[data-theme="dark"] h1,[data-theme="dark"] h2,[data-theme="dark"] h3,
+[data-theme="dark"] h4,[data-theme="dark"] th,[data-theme="dark"] b,
+[data-theme="dark"] strong,[data-theme="dark"] label{ color:var(--ink,#EAF0F6); }
+
+/* Anything sitting on the brand green needs its own colour, not lavender. */
+.hero p,.page-hero p,.topbar,.topbar *,footer p,.site-footer p,
+.motto-ribbon,.ticker,.navbar .nav-links a{ color:inherit; }
+
+/* ==========================================================================
+   3. Subtle glowing borders
+   ========================================================================== */
+.card,.mv-card,.testi-card,.team-card,.wa-card,.faq-item,.note-card,.track-card{
+  border:1px solid rgba(124,120,160,.18);
+  box-shadow:
+    0 1px 0 rgba(255,255,255,.55) inset,
+    0 0 0 1px rgba(255,255,255,.35) inset,
+    0 8px 22px rgba(20,28,43,.06);
+}
+[data-theme="dark"] .card,[data-theme="dark"] .mv-card,
+[data-theme="dark"] .testi-card,[data-theme="dark"] .team-card,
+[data-theme="dark"] .wa-card,[data-theme="dark"] .faq-item,
+[data-theme="dark"] .note-card,[data-theme="dark"] .track-card{
+  border-color:rgba(255,255,255,.10);
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,.06) inset,
+    0 10px 28px rgba(0,0,0,.36),
+    0 0 24px var(--glow-soft);
+}
+
+input:focus,select:focus,textarea:focus{
+  outline:none;
+  border-color:rgba(11,122,55,.55);
+  box-shadow:0 0 0 3px var(--glow-brand), 0 0 18px var(--glow-brand);
+}
+
+/* ==========================================================================
+   4. Gentle hover lift + glow
+   ========================================================================== */
+@media(prefers-reduced-motion:no-preference){
+  .card,.mv-card,.testi-card,.team-card,.prog,.track-card,.note-card{
+    transition:transform .28s var(--ease-out),
+               box-shadow .28s var(--ease-out),
+               border-color .28s var(--ease-out);
+  }
+  .card:hover,.mv-card:hover,.testi-card:hover,
+  .team-card:hover,.prog:hover,.track-card:hover,.note-card:hover{
+    transform:translateY(-4px);
+    border-color:rgba(11,122,55,.30);
+    box-shadow:
+      0 0 0 1px rgba(255,255,255,.45) inset,
+      0 16px 34px rgba(20,28,43,.12),
+      0 0 26px var(--glow-brand);
+  }
+  [data-theme="dark"] .card:hover,[data-theme="dark"] .mv-card:hover,
+  [data-theme="dark"] .testi-card:hover,[data-theme="dark"] .team-card:hover,
+  [data-theme="dark"] .prog:hover,[data-theme="dark"] .track-card:hover{
+    box-shadow:0 18px 38px rgba(0,0,0,.46), 0 0 30px var(--glow-brand);
+  }
+  .btn,button{ transition:transform .2s var(--ease-out), box-shadow .2s var(--ease-out); }
+  .btn:hover,button:hover{ transform:translateY(-2px); }
+  .btn:active,button:active{ transform:translateY(0); }
+}
+
+/* ==========================================================================
+   5. Generous spacing
+   ========================================================================== */
+section{ padding-block:var(--sp-6); }
+.card,.mv-card,.testi-card,.team-card,.wa-card,.note-card{ padding:var(--sp-4); }
+.grid,.cards,.card-grid{ gap:var(--sp-4); }
+h2{ margin-bottom:var(--sp-3); }
+h2 + p,.sec-kicker + h2{ margin-top:var(--sp-2); }
+p{ line-height:1.72; }
+.container{ padding-inline:var(--sp-3); }
+@media(min-width:900px){
+  section{ padding-block:var(--sp-7); }
+  .container{ padding-inline:var(--sp-4); }
+}
+
+/* ==========================================================================
+   6. Glass auth popup
+   --------------------------------------------------------------------------
+   The landing page stays visible underneath and is blurred, so the panel can
+   be genuinely transparent without the two sets of words colliding. The blur
+   lives on the PAGE, the transparency on the PANEL - doing both on the panel
+   is what makes glass UI unreadable.
+   ========================================================================== */
+.sr-only{
+  position:absolute !important; width:1px; height:1px;
+  padding:0; margin:-1px; overflow:hidden;
+  clip:rect(0,0,0,0); white-space:nowrap; border:0;
+}
+
+#authVeil{
+  position:fixed; inset:0; z-index:1400;
+  display:none; align-items:center; justify-content:center;
+  padding:var(--sp-3);
+  background:radial-gradient(120% 120% at 50% 0%, rgba(8,40,22,.20), rgba(6,14,10,.34));
+  opacity:0; transition:opacity .34s var(--ease-out);
+}
+#authVeil.show{ display:flex; }
+#authVeil.in{ opacity:1; }
+
+/* The page behind. Blur + a slight scale sells depth. */
+body.auth-open > *:not(#authVeil):not(script):not(style){
+  filter:blur(9px) saturate(.92) brightness(.82);
+  transition:filter .34s var(--ease-out), transform .34s var(--ease-out);
+  pointer-events:none;
+}
+body.auth-open{ overflow:hidden; }
+
+.ta-authcard{
+  position:relative;
+  width:min(440px,100%);
+  max-height:88vh; overflow-y:auto;
+  padding:var(--sp-5) var(--sp-4);
+  border-radius:var(--r-xl);
+  background:var(--glass-bg);
+  -webkit-backdrop-filter:blur(var(--glass-blur)) saturate(var(--glass-sat));
+  backdrop-filter:blur(var(--glass-blur)) saturate(var(--glass-sat));
+  border:1px solid var(--glass-line);
+  box-shadow:
+    0 1px 0 rgba(255,255,255,.45) inset,
+    0 24px 60px rgba(0,0,0,.42),
+    0 0 40px rgba(231,185,75,.14);
+  color:#fff;
+  transform:translateY(16px) scale(.97);
+  opacity:0;
+  transition:transform .38s var(--ease-out), opacity .38s var(--ease-out);
+}
+#authVeil.in .ta-authcard{ transform:none; opacity:1; }
+
+/* Text on glass needs a shadow, not a heavier panel - that is the trick that
+   keeps the panel see-through while the words stay readable. */
+.ta-authcard h2,.ta-authcard p,.ta-authcard label,.ta-authcard a{
+  text-shadow:0 1px 3px rgba(0,0,0,.55);
+  color:#fff;
+}
+.ta-authcard h2{ margin:0 0 var(--sp-1); font-size:1.5rem; }
+.ta-authcard .auth-sub{ color:rgba(255,255,255,.82); margin:0 0 var(--sp-4); font-size:.92rem; }
+.ta-authcard .auth-crest{
+  width:62px;height:62px;border-radius:50%;display:block;margin:0 auto var(--sp-3);
+  box-shadow:0 0 0 1px rgba(255,255,255,.4), 0 0 26px rgba(231,185,75,.34);
+}
+.ta-authcard input{
+  width:100%; box-sizing:border-box; margin-bottom:var(--sp-2);
+  padding:13px 14px; border-radius:var(--r-md);
+  background:rgba(255,255,255,.12);
+  border:1px solid rgba(255,255,255,.28);
+  color:#fff; font:inherit;
+}
+.ta-authcard input::placeholder{ color:rgba(255,255,255,.66); }
+.ta-authcard input:focus{
+  border-color:rgba(255,255,255,.62);
+  box-shadow:0 0 0 3px rgba(255,255,255,.14), 0 0 20px var(--glow-gold);
+}
+.ta-authcard .auth-go{
+  width:100%; margin-top:var(--sp-2); padding:13px 16px;
+  border-radius:var(--r-sm); border:1px solid rgba(255,255,255,.34);
+  background:linear-gradient(180deg, rgba(20,150,72,.94), rgba(11,110,50,.94));
+  color:#fff; font-weight:600; font-size:1rem; cursor:pointer;
+}
+.ta-authcard .auth-go:hover{ box-shadow:0 0 26px var(--glow-brand); }
+.auth-tabs{ display:flex; gap:var(--sp-1); margin-bottom:var(--sp-3); }
+.auth-tabs button{
+  flex:1; padding:10px; cursor:pointer; font:inherit; color:#fff;
+  border-radius:var(--r-sm); border:1px solid rgba(255,255,255,.26);
+  background:rgba(255,255,255,.08);
+}
+.auth-tabs button[aria-selected="true"]{
+  background:rgba(255,255,255,.22);
+  border-color:rgba(255,255,255,.5);
+  box-shadow:0 0 18px rgba(255,255,255,.14);
+}
+.auth-close{
+  position:absolute; top:10px; right:12px;
+  width:34px;height:34px; cursor:pointer; font-size:20px; line-height:1;
+  border-radius:50%; color:#fff;
+  border:1px solid rgba(255,255,255,.3);
+  background:rgba(255,255,255,.12);
+}
+.auth-alt{ text-align:center; margin-top:var(--sp-3); font-size:.88rem; }
+.auth-alt a{ color:#FBE9A8; text-decoration:underline; }
+
+@media(prefers-reduced-motion:reduce){
+  #authVeil,.ta-authcard,body.auth-open > *{ transition:none !important; }
+  .ta-authcard{ transform:none; opacity:1; }
+}
+
+/* ==========================================================================
+   7. Menu button + slide-out drawer
+   --------------------------------------------------------------------------
+   The button sits beside Login/Register and is sized to match the Contact Us
+   pill so the row reads as one set. Not a bare hamburger: it carries a label,
+   because an unlabelled icon on a school site is a guessing game for parents.
+   ========================================================================== */
+.nav-menu-btn{
+  /* The owner asked for this to match the Contact Us control exactly, so the
+     row of nav buttons reads as one set rather than a bolt-on. Those are
+     sized by their padding + label, so mirror both. */
+  display:inline-flex; align-items:center; justify-content:center; gap:8px;
+  padding:11px 18px; margin-left:6px; cursor:pointer;
+  border-radius:var(--r-sm); font:inherit; font-weight:600;
+  color:var(--ink,#141C2B);
+  background:rgba(255,255,255,.72);
+  border:1px solid rgba(124,120,160,.28);
+  box-shadow:0 1px 0 rgba(255,255,255,.7) inset;
+  transition:box-shadow .24s var(--ease-out), transform .24s var(--ease-out);
+}
+.nav-menu-btn:hover{ transform:translateY(-2px); box-shadow:0 0 22px var(--glow-brand); }
+
+/* In the desktop sidebar the nav items are stretched to the rail width and
+   share one height. The button must land on the same metrics or the column
+   looks ragged, so let it stretch too and match the link box model. */
+@media(min-width:1100px){
+  body:not(.portal-body):not([data-page="login"]) .nav-menu-btn{
+    display:flex; width:100%; margin-left:0; margin-top:4px;
+    padding:10px 14px; box-sizing:border-box;
+    min-height:46px; line-height:1;
+  }
+}
+[data-theme="dark"] .nav-menu-btn{
+  color:var(--ink,#EAF0F6);
+  background:rgba(255,255,255,.10);
+  border-color:rgba(255,255,255,.2);
+}
+.nav-menu-btn .bars{ display:inline-flex; flex-direction:column; gap:3px; }
+.nav-menu-btn .bars i{
+  display:block; width:16px; height:2px; border-radius:2px;
+  background:currentColor; transition:transform .3s var(--ease-out), opacity .3s;
+}
+.nav-menu-btn[aria-expanded="true"] .bars i:nth-child(1){ transform:translateY(5px) rotate(45deg); }
+.nav-menu-btn[aria-expanded="true"] .bars i:nth-child(2){ opacity:0; }
+.nav-menu-btn[aria-expanded="true"] .bars i:nth-child(3){ transform:translateY(-5px) rotate(-45deg); }
+
+#drawerVeil{
+  position:fixed; inset:0; z-index:1500;
+  background:rgba(6,14,10,.48);
+  opacity:0; visibility:hidden;
+  transition:opacity .3s var(--ease-out), visibility .3s;
+}
+#drawerVeil.in{ opacity:1; visibility:visible; }
+/* On narrow screens the drawer fills most of the view, so the page showing
+   through competes with the menu labels. Lift the panel opacity there. */
+@media(max-width:760px){
+  #drawerVeil{ background:rgba(6,14,10,.66); }
+}
+
+#navDrawer{
+  position:fixed; top:0; right:0; z-index:1600;
+  width:min(330px,86vw); height:100%;
+  display:flex; flex-direction:column;
+  padding:var(--sp-4) var(--sp-3) var(--sp-3);
+  /* Menu labels have to be readable over whatever happens to be behind them,
+     so the panel carries real opacity. The blur, the hairline border and the
+     glow still read as glass without gambling on the page underneath. */
+  background:rgba(248,250,249,.93);
+  color:#1B2430;
+  -webkit-backdrop-filter:blur(26px) saturate(165%);
+  backdrop-filter:blur(26px) saturate(165%);
+  border-left:1px solid var(--glass-line);
+  box-shadow:-20px 0 54px rgba(0,0,0,.4);
+  transform:translateX(102%);
+  transition:transform .38s var(--ease-out);
+  overflow-y:auto;
+}
+#navDrawer.in{ transform:none; }
+[data-theme="dark"] #navDrawer{ background:rgba(13,20,31,.95); color:#E8EEF6; }
+
+.drawer-head{
+  display:flex; align-items:center; gap:10px;
+  padding-bottom:var(--sp-3); margin-bottom:var(--sp-2);
+  border-bottom:1px solid var(--glass-line);
+}
+.drawer-head img{ width:38px;height:38px;border-radius:50%; }
+.drawer-head b{ font-size:.95rem; line-height:1.2; }
+.drawer-close{
+  margin-left:auto; width:34px;height:34px; cursor:pointer;
+  font-size:20px; line-height:1; border-radius:var(--r-sm);
+  background:rgba(255,255,255,.14); border:1px solid var(--glass-line);
+  color:inherit;
+}
+.drawer-sec{
+  font-size:.7rem; letter-spacing:.14em; text-transform:uppercase;
+  opacity:.72; margin:var(--sp-3) 0 var(--sp-1); font-weight:600;
+}
+#navDrawer a.dw{
+  display:flex; align-items:center; gap:10px; color:inherit; font-weight:500;
+  padding:11px 12px; margin-bottom:4px;
+  border-radius:var(--r-sm); text-decoration:none; color:inherit;
+  border:1px solid transparent;
+  transition:background .2s var(--ease-out), border-color .2s var(--ease-out),
+             transform .2s var(--ease-out), box-shadow .2s var(--ease-out);
+}
+#navDrawer a.dw:hover{
+  background:rgba(255,255,255,.16);
+  border-color:var(--glass-line);
+  transform:translateX(3px);
+  box-shadow:0 0 18px var(--glow-soft);
+}
+#navDrawer a.dw .ico{ opacity:.85; margin:0; }
+
+.drawer-foot{ margin-top:auto; padding-top:var(--sp-3); }
+#drawerLogout{
+  display:flex; align-items:center; justify-content:center; gap:9px;
+  width:100%; padding:12px; cursor:pointer; font:inherit; font-weight:600;
+  border-radius:var(--r-sm); color:#fff;
+  border:1px solid rgba(214,84,84,.5);
+  background:linear-gradient(180deg, rgba(190,60,60,.9), rgba(150,40,40,.9));
+  transition:box-shadow .24s var(--ease-out), transform .24s var(--ease-out);
+}
+#drawerLogout:hover{ transform:translateY(-2px); box-shadow:0 0 24px rgba(214,84,84,.4); }
+
+@media(prefers-reduced-motion:reduce){
+  #navDrawer,#drawerVeil,#navDrawer a.dw{ transition:none !important; }
+}

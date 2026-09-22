@@ -113,6 +113,35 @@ const noindexed = pages.filter(f => !indexable.includes(f));
   });
   ok('every icon reference resolves', broken.length === 0, broken.join(','));
   ok('no emoji used as heading icons', emojiHeads.length === 0, [...new Set(emojiHeads)].join(','));
+
+  /* Glass layer. These are the pieces that break quietly: a renamed class, a
+     stylesheet that stops being linked, or someone reintroducing the bubbly
+     radii the owner asked us to tone down. */
+  const glass = fs.readFileSync(SITE + '/assets/css/glass.css', 'utf8');
+  const gjs   = fs.readFileSync(SITE + '/assets/js/glass.js', 'utf8');
+
+  ok('glass.css defines the auth popup', /#authVeil/.test(glass) && /\.ta-authcard/.test(glass));
+  ok('auth popup blurs the page behind', /body\.auth-open\s*>\s*\*/.test(glass) && /filter:blur/.test(glass));
+  ok('auth panel is transparent', /--glass-bg:rgba\(255,255,255,\.1[0-9]?\)/.test(glass));
+  ok('drawer + menu button exist', /#navDrawer/.test(glass) && /\.nav-menu-btn/.test(glass));
+  ok('drawer has a logout', /#drawerLogout/.test(glass) && /drawerLogout/.test(gjs));
+
+  /* The owner asked for squarer corners. Guard the tokens rather than every
+     rule, since everything else reads from them. */
+  const r = glass.match(/--r-sm:(\d+)px;\s*--r-md:(\d+)px;\s*--r-lg:(\d+)px/);
+  ok('radius tokens toned down', !!r && +r[1] <= 6 && +r[2] <= 8 && +r[3] <= 12,
+     r ? r.slice(1).join('/') : 'tokens missing');
+
+  ok('muted lavender body text', /--ink-muted:#[0-9A-Fa-f]{6}/.test(glass));
+  ok('glow tokens defined', /--glow-brand:/.test(glass) && /--glow-soft:/.test(glass));
+  ok('sr-only helper exists', /\.sr-only\{/.test(glass));
+
+  /* corporate.css owns .auth-card for the existing login page and batch 25
+     pins it. The popup must not collide with that name. */
+  ok('popup does not hijack .auth-card', !/[^-]\.auth-card\b/.test(glass));
+
+  const noGlass = pages.filter(f => f !== 'developer.html' && !/glass\.css/.test(read(f)));
+  ok('every public page loads glass.css', noGlass.length === 0, noGlass.join(','));
   ok('every page declares lang', badLang.length === 0, badLang.join(','));
 
   // descriptions must be distinct - duplicates get filtered out of results
