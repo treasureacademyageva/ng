@@ -98,7 +98,7 @@ for (const p of walk(SITE, []).filter(f => f.endsWith('.html'))) {
   if (fs.readFileSync(p, 'utf8').includes('20260919-30')) { console.log('  stale -30 in', p); stale++; }
 }
 ok('no stale -30 versions', stale === 0);
-ok('sw + dev on v31', fs.readFileSync(SITE + '/sw.js', 'utf8').includes('treasure-v46') && fs.readFileSync(SITE + '/developer.html', 'utf8').includes('var BUILD = "treasure-v46";'));
+ok('sw + dev on v31', fs.readFileSync(SITE + '/sw.js', 'utf8').includes('treasure-v47') && fs.readFileSync(SITE + '/developer.html', 'utf8').includes('var BUILD = "treasure-v47";'));
 
 /* ---------- I. dark-mode loads on all new pages ---------- */
 for (const pg of ['careers.html', 'fees.html', 'anthem.html', 'support.html', 'search.html']) {

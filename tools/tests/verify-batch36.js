@@ -65,7 +65,7 @@ setTimeout(() => {
     if (fs.readFileSync(p, 'utf8').includes('20260919-35')) { console.log('  stale -35 in', p); stale++; }
   }
   ok('no stale -35 versions', stale === 0);
-  ok('sw + dev on v36', fs.readFileSync(SITE + '/sw.js', 'utf8').includes('treasure-v46') && dh.includes('var BUILD = "treasure-v46";'));
+  ok('sw + dev on v36', fs.readFileSync(SITE + '/sw.js', 'utf8').includes('treasure-v47') && dh.includes('var BUILD = "treasure-v47";'));
   ok('auto-lock still present', dh.includes('IDLE_MS = 10 * 60 * 1000'));
 
   console.log(`\n==== BATCH36: ${pass} passed, ${fail} failed ====`);

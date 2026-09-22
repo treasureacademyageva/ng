@@ -86,7 +86,7 @@ for (const p of walk(SITE, []).filter(f => f.endsWith('.html'))) {
   if (fs.readFileSync(p, 'utf8').includes('20260919-34')) { console.log('  stale -34 in', p); stale++; }
 }
 ok('no stale -34 versions', stale === 0);
-ok('sw + dev on v35', fs.readFileSync(SITE + '/sw.js', 'utf8').includes('treasure-v46') && dh.includes('var BUILD = "treasure-v46";'));
+ok('sw + dev on v35', fs.readFileSync(SITE + '/sw.js', 'utf8').includes('treasure-v47') && dh.includes('var BUILD = "treasure-v47";'));
 
 console.log(`\n==== BATCH35: ${pass} passed, ${fail} failed ====`);
 process.exit(fail ? 1 : 0);

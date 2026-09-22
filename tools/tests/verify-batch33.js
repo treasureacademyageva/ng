@@ -97,7 +97,7 @@ for (const p of walk(SITE, []).filter(f => f.endsWith('.html'))) {
   if (fs.readFileSync(p, 'utf8').includes('20260919-32')) { console.log('  stale -32 in', p); staleV++; }
 }
 ok('no stale -32 versions', staleV === 0);
-ok('sw + dev on v33', fs.readFileSync(SITE + '/sw.js', 'utf8').includes('treasure-v46') && fs.readFileSync(SITE + '/developer.html', 'utf8').includes('var BUILD = "treasure-v46";'));
+ok('sw + dev on v33', fs.readFileSync(SITE + '/sw.js', 'utf8').includes('treasure-v47') && fs.readFileSync(SITE + '/developer.html', 'utf8').includes('var BUILD = "treasure-v47";'));
 
 /* ---------- E. dark loads ---------- */
 for (const pg of ['index.html', 'developer.html']) {

@@ -1227,15 +1227,14 @@ body.reading .story-body p{font-size:1.08rem;line-height:2}
 [data-theme="dark"] .acc-logos img{border-color:rgba(255,255,255,.14)}
 [data-theme="dark"] .sc-dot{border-color:rgba(255,255,255,.15)}
 /* ============ BATCH 43 (2026-09-21): Treasure Typography + Treasure FX + brand motif ============ */
-@font-face{font-family:"Treasure Sans";src:url("../fonts/treasure-sans-400.woff2") format("woff2");font-weight:400;font-style:normal;font-display:swap}
-@font-face{font-family:"Treasure Sans";src:url("../fonts/treasure-sans-500.woff2") format("woff2");font-weight:500;font-style:normal;font-display:swap}
-@font-face{font-family:"Treasure Sans";src:url("../fonts/treasure-sans-600.woff2") format("woff2");font-weight:600;font-style:normal;font-display:swap}
-@font-face{font-family:"Treasure Sans";src:url("../fonts/treasure-sans-700.woff2") format("woff2");font-weight:700;font-style:normal;font-display:swap}
-@font-face{font-family:"Treasure Serif";src:url("../fonts/treasure-serif-600.woff2") format("woff2");font-weight:600;font-style:normal;font-display:swap}
-@font-face{font-family:"Treasure Serif";src:url("../fonts/treasure-serif-700.woff2") format("woff2");font-weight:700;font-style:normal;font-display:swap}
+@font-face{font-family:"Gidole";src:url("../fonts/gidole-400-latin.woff2") format("woff2");font-weight:400;font-style:normal;font-display:swap}
+@font-face{font-family:"Garamond Libre";src:url("../fonts/garamond-500-latin.woff2") format("woff2");font-weight:500;font-style:normal;font-display:swap}
+@font-face{font-family:"Garamond Libre";src:url("../fonts/garamond-600-latin.woff2") format("woff2");font-weight:600;font-style:normal;font-display:swap}
+@font-face{font-family:"Kristi";src:url("../fonts/kristi-400-latin.woff2") format("woff2");font-weight:400;font-style:normal;font-display:swap}
 :root{
-  --font-head:"Treasure Serif",Georgia,"Times New Roman",serif;
-  --font-body:"Treasure Sans","Segoe UI",system-ui,-apple-system,sans-serif;
+  --font-head:"Sabon","Garamond Libre",Georgia,"Times New Roman",serif;
+  --font-body:"Gidole","Segoe UI",system-ui,-apple-system,sans-serif;
+  --font-hand:"Northwell","Kristi",cursive;
   --motif:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='28' viewBox='0 0 28 28'%3E%3Cpath d='M14 2 L26 14 L14 26 L2 14 Z' fill='none' stroke='%23C9A227' stroke-width='1.6'/%3E%3Ccircle cx='14' cy='14' r='3.4' fill='%230E9A46'/%3E%3C/svg%3E");
 }
 .sec-tag{background-image:var(--motif);background-repeat:no-repeat;background-position:96% center;background-size:13px 13px;padding-right:30px}
@@ -1274,3 +1273,5 @@ h1,h2{letter-spacing:-.02em}
 /* ============ BATCH 46: faithful code-of-conduct paper ============ */
 .coc-paper ol.coc-list{font-size:.95rem;line-height:1.5}
 .coc-paper ol.coc-list li::marker{font-weight:800;color:#0B7A37}
+/* ============ BATCH 47 (2026-09-22): trio type system — Gidole body, Sabon/Garamond headings, Northwell/Kristi signature accents ============ */
+.sig{font-family:var(--font-hand);font-size:1.5rem;color:#0B7A37;font-weight:400}

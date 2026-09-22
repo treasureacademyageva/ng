@@ -76,7 +76,7 @@ for (const p of walk(SITE, []).filter(f => f.endsWith('.html'))) {
   if (t.includes('20260919-28')) { console.log('  stale -28 in', p); stale++; }
 }
 ok('no stale -28 versions', stale === 0);
-ok('sw + dev on v30', fs.readFileSync(SITE + '/sw.js', 'utf8').includes('treasure-v46') && fs.readFileSync(SITE + '/developer.html', 'utf8').includes('var BUILD = "treasure-v46";'));
+ok('sw + dev on v30', fs.readFileSync(SITE + '/sw.js', 'utf8').includes('treasure-v47') && fs.readFileSync(SITE + '/developer.html', 'utf8').includes('var BUILD = "treasure-v47";'));
 
 /* ---------- G. runtime: ornament + labels do not break pages ---------- */
 for (const pg of ['index.html', 'about.html', 'calendar.html', 'board.html', 'portal/login.html']) {

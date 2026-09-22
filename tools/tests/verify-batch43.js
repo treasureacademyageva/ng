@@ -41,9 +41,9 @@ function loadPage(page, session, url, pre) {
 }
 
 /* ---------- A. typography (studio-grade, self-hosted) ---------- */
-ok('six Treasure font files on disk', ['treasure-sans-400','treasure-sans-500','treasure-sans-600','treasure-sans-700','treasure-serif-600','treasure-serif-700'].every(f => fs.existsSync(SITE + '/assets/fonts/' + f + '.woff2')));
-ok('@font-face declares Treasure Sans + Serif', (corp.match(/@font-face/g) || []).length === 6 && corp.includes('font-family:"Treasure Sans"') && corp.includes('font-family:"Treasure Serif"'));
-ok('tokens rebound to Treasure fonts', corp.includes('--font-head:"Treasure Serif",Georgia') && corp.includes('--font-body:"Treasure Sans","Segoe UI"'));
+ok('4 studio font files on disk, old duo retired', ['gidole-400-latin','garamond-500-latin','garamond-600-latin','kristi-400-latin'].every(f => fs.existsSync(SITE + '/assets/fonts/' + f + '.woff2')) && !fs.existsSync(SITE + '/assets/fonts/treasure-sans-400.woff2') && !fs.existsSync(SITE + '/assets/fonts/treasure-serif-600.woff2'));
+ok('@font-face declares Gidole + Garamond Libre + Kristi', (corp.match(/@font-face/g) || []).length === 4 && corp.includes('font-family:"Gidole"') && corp.includes('font-family:"Garamond Libre"') && corp.includes('font-family:"Kristi"'));
+ok('tokens rebound to Sabon/Gidole/Northwell stacks', corp.includes('--font-head:"Sabon","Garamond Libre"') && corp.includes('--font-body:"Gidole","Segoe UI"') && corp.includes('--font-hand:"Northwell","Kristi"'));
 let g = 0; const pages = [];
 function walk(d, out) { for (const f of fs.readdirSync(d)) { const p = require('path').join(d, f); if (fs.statSync(p).isDirectory()) { if (!/node_modules/.test(p)) walk(p, out); } else out.push(p); } return out; }
 for (const p of walk(SITE, []).filter(f => f.endsWith('.html'))) {
@@ -97,7 +97,7 @@ for (const p of walk(SITE, []).filter(f => f.endsWith('.html'))) {
   if (fs.readFileSync(p, 'utf8').includes('20260919-42')) { stale++; }
 }
 ok('no stale -42 versions', stale === 0);
-ok('sw + dev on v43', fs.readFileSync(SITE + '/sw.js', 'utf8').includes('treasure-v46') && fs.readFileSync(SITE + '/developer.html', 'utf8').includes('var BUILD = "treasure-v46";'));
+ok('sw + dev on v43', fs.readFileSync(SITE + '/sw.js', 'utf8').includes('treasure-v47') && fs.readFileSync(SITE + '/developer.html', 'utf8').includes('var BUILD = "treasure-v47";'));
 
 console.log(`\n==== BATCH43: ${pass} passed, ${fail} failed ====`);
 process.exit(fail ? 1 : 0);

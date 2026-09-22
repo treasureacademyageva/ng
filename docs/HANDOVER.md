@@ -4,7 +4,7 @@
 Static school website + staff/headmistress/pupil portals for **Treasure Academy, Ageva, Okene, Kogi State, Nigeria**.
 Hosted on Vercel (preset "Other", no build command, output `./`, no env vars). Repo: github.com/treasureacademyageva/ng — work goes to the `preview` branch first; merge to `main` only when the owner says "go live". Never push straight to main.
 
-## Current state (batch 46, `?v=20260919-46`, sw `treasure-v46`)
+## Current state (batch 47, `?v=20260919-47`, sw `treasure-v47`)
 Batch 43 additions (owner-directed): "Treasure Sans" (Sora-based) + "Treasure Serif" (Fraunces-based) self-hosted in `assets/fonts/` — Google Fonts CDN removed from all 40 pages; a real studio-commissioned font can replace those files later with zero code change. Treasure FX layer at end of `site.js`: button ripple, segmented `.seg` tabs with sliding ink (graduates now toggle All/2025/2023), `[data-countup]` animated stat numbers, `.tilt` 3D-hover cards, `.stag-grid` staggered reveals, `.spy-bar` scroll-spy jump nav (alumni has one). Brand motif = `--motif` inline SVG diamond-seed in corporate.css (applied to section tags). Owner is bringing a brand designer's artwork later — drop files in and reference them; no AI/stock imagery permitted per owner.
 - **40 pages**: 36 root + 4 portal (admin/teacher/pupil + login). Page-count pins in verify-batch9/10 = 40.
 - **Accounts vs public display (IMPORTANT, owner demanded b42):**
@@ -53,3 +53,9 @@ Real data from owner only (never invent names/dates); WhatsApp 09063932487 only;
 - tools/tests in the repo now carries the LIVE suites: verify-batch2.js … verify-batch44.js (removed stale regression-02..23). tools/run-all-tests.sh runs them from the repo root: `npm install jsdom --no-audit --no-fund && bash tools/run-all-tests.sh`.
 - Preview→main PR opened as release bundle; merge to main still owner-commanded ("go live").
 - Version now `20260919-46` / sw `treasure-v46`.
+
+
+## Batch 47 additions (owner's typography brief + go-live)
+- Type system swap (owner's trio): **Gidole** (real files, body/UI/nav) · **Sabon stack** (headings — loaded libre EB-Garamond-family files named "Garamond Libre", Sabon remains first fallback for licensed owners) · **Northwell stack** (signatures only — loaded libre Kristi files; class .sig). Old Treasure Sans/Serif font files REMOVED (retired deliberately; keep assets/fonts minimal).
+- Application map: body/nav/buttons/forms = Gidole · h1/h2/sec-heads/hero/anthem = Garamond stack · .sig only for signatures (CoC "Sign — Management" uses it) · script/script font must NEVER be used for UI.
+- PR #1 (preview→main) merged on owner's explicit command = GO LIVE. Main = production from here.
