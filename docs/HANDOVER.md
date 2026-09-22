@@ -1,4 +1,8 @@
-# Treasure Academy — Site Handover (baruwa to the next agent)
+# Treasure Academy — site handover
+
+> Day-to-day maintenance rules, and the list of things that keep regressing,
+> live in **`docs/MAINTENANCE.md`**. Read that first; this file is the longer
+> background record.
 
 ## What this is
 Static school website + staff/headmistress/pupil portals for **Treasure Academy, Ageva, Okene, Kogi State, Nigeria**.
