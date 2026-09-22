@@ -1,5 +1,5 @@
 /* Treasure Academy offline support — key pages keep working without internet */
-const CACHE = 'treasure-v49';
+const CACHE = 'treasure-v50';
 const CORE = [
   'index.html', 'contact.html', 'calendar.html', 'admissions.html', 'news.html',
   '404.html',
@@ -7,6 +7,7 @@ const CORE = [
   'assets/css/motion.css',
   'assets/js/store.js', 'assets/js/site.js', 'assets/js/sync.js',
   'assets/img/logo.jpg',
+  'assets/img/icons.svg',
   /* Self-hosted faces: without these an offline visitor drops to a system font
      and the whole page reflows. */
   'assets/fonts/general-sans-400.woff2',

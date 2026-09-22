@@ -122,3 +122,17 @@ img[width][height]{max-width:100%;height:auto}
 }
 }
 }
+
+/* Icon set (assets/img/icons.svg). Referenced with
+   <svg class="ico"><use href="assets/img/icons.svg#ta-book"></use></svg>.
+   currentColor means they inherit the heading colour and both themes work
+   without a second rule. */
+.ico{display:inline-block;vertical-align:-.18em;margin-right:.4em;flex:none}
+h1 .ico,h2 .ico,h3 .ico{color:var(--brand,#0B7A37)}
+[data-theme="dark"] h1 .ico,
+[data-theme="dark"] h2 .ico,
+[data-theme="dark"] h3 .ico{color:var(--green,#2E9E5B)}
+@media(prefers-reduced-motion:no-preference){
+  .mv-card:hover .ico,.track-card:hover .ico{transform:translateY(-2px) scale(1.06)}
+  .ico{transition:transform .25s cubic-bezier(.22,.61,.36,1)}
+}

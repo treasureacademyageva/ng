@@ -131,6 +131,35 @@ entry in `DESC` — `build()` skips anything without a description, and skipping
 a page means it ships with **no robots tag at all**, which is the opposite of
 what you wanted.
 
+## Icons
+
+`assets/img/icons.svg` is one sprite of 14 symbols on a 24x24 grid, filled with
+`currentColor`. Use it like this:
+
+```html
+<svg class="ico" viewBox="0 0 24 24" width="22" height="22"
+     fill="currentColor" aria-hidden="true" focusable="false">
+  <use href="assets/img/icons.svg#ta-book"></use>
+</svg>
+```
+
+Because the fill is `currentColor` the icon inherits the heading colour, so day
+and dark themes both work with no extra rule. `.ico` is styled in `motion.css`.
+
+Two things to know:
+
+- A `<use>` pointing at a symbol that does not exist **fails silently** - no
+  console error, the icon simply does not paint. `seo.test.js` checks every
+  reference resolves against the sprite.
+- Do not put emoji in headings. It is the fastest way to make a page look
+  generated rather than designed, and it renders differently on every device.
+  `seo.test.js` fails the build on emoji inside `<h1>`-`<h4>`.
+
+Adding one: append a `<symbol id="ta-...">` to the sprite, keep it on the 24x24
+grid, and render it at 40px before shipping - shapes that read fine at 200px
+often turn to mush at icon size. Two of the originals had to be redrawn for
+exactly that reason.
+
 ## Version bump ritual
 
 Bump all four together or the service worker serves stale files:
@@ -163,7 +192,7 @@ Then confirm nothing was missed:
 grep -rl 'treasure-v48\|20260919-48' *.html portal/*.html sw.js
 ```
 
-Current: **v49**.
+Current: **v50**.
 
 ## Data model
 

@@ -92,6 +92,27 @@ const noindexed = pages.filter(f => !indexable.includes(f));
   });
   ok('private pages publish no canonical, og:url or breadcrumb', leaky.length === 0, leaky.join(','));
   ok('private pages are noindex', PRIVATE.every(f => !pages.includes(f) || /content="noindex/.test(read(f))));
+
+  /* Icon set. Emoji in headings is the fastest way to make a site look
+     generated rather than designed, and a <use> pointing at a symbol that does
+     not exist fails silently - the icon just does not paint. */
+  const sprite = fs.readFileSync(SITE + '/assets/img/icons.svg', 'utf8');
+  const symbols = [...sprite.matchAll(/<symbol id="([^"]+)"/g)].map(m => m[1]);
+  ok('icon sprite has symbols', symbols.length >= 10, String(symbols.length));
+
+  const broken = [], emojiHeads = [];
+  const EMOJI = /[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}]/u;
+  pages.forEach(f => {
+    const s = read(f);
+    [...s.matchAll(/<use href="assets\/img\/icons\.svg#([^"]+)"/g)].forEach(m => {
+      if (!symbols.includes(m[1])) broken.push(`${f}#${m[1]}`);
+    });
+    [...s.matchAll(/<h[1-4][^>]*>(.*?)<\/h[1-4]>/gs)].forEach(m => {
+      if (EMOJI.test(m[1])) emojiHeads.push(f);
+    });
+  });
+  ok('every icon reference resolves', broken.length === 0, broken.join(','));
+  ok('no emoji used as heading icons', emojiHeads.length === 0, [...new Set(emojiHeads)].join(','));
   ok('every page declares lang', badLang.length === 0, badLang.join(','));
 
   // descriptions must be distinct - duplicates get filtered out of results
