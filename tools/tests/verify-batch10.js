@@ -1,4 +1,4 @@
-// verify-suite 10.js — portal repair (loader/critical-CSS/cache-bust/includes) + 10 suggestions
+// verify-batch10.js — portal repair (loader/critical-CSS/cache-bust/includes) + 10 suggestions
 const fs = require('fs'), vm = require('vm');
 const { JSDOM } = require('jsdom');
 const SITE = (() => {
@@ -47,7 +47,7 @@ const PUPIL = { role: 'pupil', refId: 'P001', name: 'x' };
   const pages = [];
   (function walk(d) { for (const f of fs.readdirSync(d)) { const p = path.join(d, f); if (fs.statSync(p).isDirectory()) walk(p); else if (f.endsWith('.html')) pages.push(p); } })(SITE);
   const noCrit = pages.filter(p => !fs.readFileSync(p, 'utf8').includes('#siteLoader{position:fixed'));
-  ok('critical loader CSS on all pages', noCrit.length === 0 && pages.length >= 35, `pages=${pages.length} missing=${noCrit.join(',')}`);
+  ok('critical loader CSS on all pages', noCrit.length === 0 && pages.length === 41, `pages=${pages.length} missing=${noCrit.join(',')}`);
   const unv = [];
   for (const p of pages) { const s = fs.readFileSync(p, 'utf8'); const refs = [...s.matchAll(/(?:href|src)="((?:\.\.\/)?assets\/[^"]+\.(?:css|js))"/g)].map(m => m[1]); for (const r of refs) if (!r.includes('?v=')) unv.push(path.relative(SITE, p) + ':' + r); }
   ok('all css/js cache-busted', unv.length === 0, unv.slice(0, 3).join(','));
@@ -163,5 +163,5 @@ const PUPIL = { role: 'pupil', refId: 'P001', name: 'x' };
   ok('public pages clean', cleanPages, [n, i, t, v, b].map(p => p.errors.join(';')).join(' || ').slice(0, 300));
 }
 
-console.log(`\n==== suite 10: ${pass} passed, ${fail} failed ====`);
+console.log(`\n==== BATCH10: ${pass} passed, ${fail} failed ====`);
 process.exit(fail ? 1 : 0);

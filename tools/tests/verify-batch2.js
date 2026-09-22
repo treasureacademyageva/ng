@@ -1,4 +1,4 @@
-// verify-suite 02.js — checks for approved features 2-10 + Latest News completion
+// verify-batch2.js — checks for approved features 2-10 + Latest News completion
 const fs = require('fs'), path = require('path'), vm = require('vm');
 const { JSDOM } = require('jsdom');
 const SITE = (() => {

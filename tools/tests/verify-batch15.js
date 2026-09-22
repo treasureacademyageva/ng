@@ -1,4 +1,4 @@
-// verify-suite 15.js — chatbot brain, treasure nav/buttons, dark audit, week strip,
+// verify-batch15.js — chatbot brain, treasure nav/buttons, dark audit, week strip,
 // single WA line, voice minutes, fee progress, thanks, offline SW, bug fixes
 const fs = require('fs'), vm = require('vm');
 const { JSDOM } = require('jsdom');
@@ -172,7 +172,7 @@ const dstr = off => { const d = new Date(); d.setDate(d.getDate() + off); return
   ok('single emg boot', (site.match(/renderEmergency\(\)\);/g) || []).length === 1);
   const { run } = loadPage('index.html');
   ok('search has new pages', run('SEARCH_INDEX.some(p=>p.u==="testimonials.html")') && run('SEARCH_INDEX.some(p=>p.u==="class.html")'));
-  ok('sw file', fs.existsSync(SITE + '/sw.js') && fs.readFileSync(SITE + '/sw.js', 'utf8').match(/treasure-v\d+/));
+  ok('sw file', fs.existsSync(SITE + '/sw.js') && fs.readFileSync(SITE + '/sw.js', 'utf8').includes('treasure-v46'));
   ok('sw registered', site.includes('navigator.serviceWorker.register'));
   ok('treasure nav css', css.includes('.nav-links a:not(.btn){border:1px solid #D8CFAF') && css.includes('.nav-links a.on::before'));
   ok('treasure btn css', css.includes('.btn-treasure{'));
@@ -185,7 +185,7 @@ const dstr = off => { const d = new Date(); d.setDate(d.getDate() + off); return
   const old = [];
   const walk = d => fs.readdirSync(d, { withFileTypes: true }).forEach(e => {
     const p = d + '/' + e.name;
-    if (e.isDirectory()) { if (!['node_modules', '.git', 'tools'].includes(e.name)) walk(p); }
+    if (e.isDirectory()) { if (!['node_modules', '.git'].includes(e.name)) walk(p); }
     else if (/\.(html|js|css)$/.test(e.name) && fs.readFileSync(p, 'utf8').includes('20260919-16')) old.push(p);
   });
   walk(SITE);

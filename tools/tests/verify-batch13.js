@@ -1,4 +1,4 @@
-// verify-suite 13.js — search+, recents, levy, PTA notice, FAQ, countdowns,
+// verify-batch13.js — search+, recents, levy, PTA notice, FAQ, countdowns,
 // print, call button, idle logout
 const fs = require('fs'), vm = require('vm');
 const { JSDOM } = require('jsdom');
@@ -48,8 +48,8 @@ function loadPage(page, session, seedFn) {
   });
   run('Search.open(); Search.go("mango");');
   ok('search finds news story', w.document.getElementById('searchRes').innerHTML.includes('story.html?id=NX13'));
-  run('Search.go("staff");'); // b38/41: staff live on alumni.html#staff
-  ok('search finds staff', /alumni\.html#staff|staff\.html/.test(w.document.getElementById('searchRes').innerHTML)); // staff page merged into alumni.html#staff in b38
+  run('Search.go("zeenatudeen");');
+  ok('search finds staff', w.document.getElementById('searchRes').innerHTML.includes('alumni.html#staff'));
   run('Search.go("uniform");');
   w.document.querySelector('#searchRes a').click();
   run('Search.go("");');
@@ -130,5 +130,5 @@ function loadPage(page, session, seedFn) {
     a.errors.concat(i.errors, d.errors, t.errors, b.errors).join(' || ').slice(0, 300));
 }
 
-console.log(`\n==== suite 13: ${pass} passed, ${fail} failed ====`);
+console.log(`\n==== BATCH13: ${pass} passed, ${fail} failed ====`);
 process.exit(fail ? 1 : 0);

@@ -1,4 +1,4 @@
-// verify-suite 03.js — suggestions 1-10 + tracker bugfix + beautification wiring
+// verify-batch3.js — suggestions 1-10 + tracker bugfix + beautification wiring
 const fs = require('fs'), vm = require('vm');
 const { JSDOM } = require('jsdom');
 const SITE = (() => {

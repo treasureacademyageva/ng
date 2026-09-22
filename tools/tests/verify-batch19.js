@@ -1,4 +1,4 @@
-/* Suite 19: footer titles+spacing, de-AI copy, news redesign + video space,
+/* Batch 19: footer titles+spacing, de-AI copy, news redesign + video space,
    S1 admission letter, S2 defaulters+WA (verify), S3 calendar print, cleanup */
 const fs = require('fs');
 const vm = require('vm');
@@ -122,5 +122,5 @@ const ADMIN = { role: 'admin', refId: 'HEAD001', name: 'x' };
   ok('logo backup removed', !fs.existsSync('/home/user/logo-backup.jpg'));
 }
 
-console.log(`\n==== suite 19: ${pass} passed, ${fail} failed ====`);
+console.log(`\n==== BATCH19: ${pass} passed, ${fail} failed ====`);
 process.exit(fail ? 1 : 0);

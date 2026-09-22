@@ -1,4 +1,4 @@
-// verify-suite 14.js
+// verify-batch14.js
 const fs = require('fs'), vm = require('vm');
 const { JSDOM } = require('jsdom');
 const SITE = (() => {
@@ -141,11 +141,11 @@ const dstr = off => { const d = new Date(); d.setDate(d.getDate() + off); return
 {
   const { window: w, errors } = loadPage('alumni.html', null, win => {
     const db = win.__DB.load();
-    db.staffWall = [{ id: 'W6', name: 'Zed Six', class: 'Primary 6' }, { id: 'WC', name: 'Ann Creche', class: 'Creche' }, { id: 'WN', name: 'Mid Nurse', class: 'Nursery 1' }]; db.teachers = [];
+    db.teachers = [{ id: 'T6', name: 'Zed Six', class: 'Primary 6' }, { id: 'TC', name: 'Ann Creche', class: 'Creche' }, { id: 'TN', name: 'Mid Nurse', class: 'Nursery 1' }];
     win.__DB.save(db);
   });
   const cards = [...w.document.querySelectorAll('#teamGrid .team-card')].map(c => c.textContent);
-  ok('staff sorted creche first', cards.length === 3 && cards[0].includes('Ann Creche') && cards[2].includes('Zed Six'), cards.map(c => c.slice(0, 20)).join('|'));
+  ok('staff sorted creche first, admin last', cards.length === 10 && cards[0].includes('Creche') && cards[9].includes('Bose Momoh') && cards.join(' ').indexOf('Primary 2') < cards.join(' ').indexOf('Primary 3'), cards.map(c => c.slice(0, 20)).join('|'));
   ok('about clean', errors.length === 0, errors.join(' || ').slice(0, 250));
 }
 
@@ -165,11 +165,11 @@ const dstr = off => { const d = new Date(); d.setDate(d.getDate() + off); return
   const src = fs.readFileSync(SITE + '/portal/login.html', 'utf8');
   ok('login +234 x2', (src.match(/\+234<\/span>/g) || []).length === 2);
   ok('login maxlength 10', src.includes('id="rG1Phone" data-phone maxlength="10"'));
-  ok('login phone hints', src.includes('0805 123 4567') && src.includes("fillDemo('0805 111 2222')")); // suite 18: phone is the login ID
+  ok('login phone hints', src.includes('0805 123 4567') && src.includes("fillDemo('0805 111 2222')")); // batch18: phone is the login ID
   ok('login alt fixed', src.includes('alt="Happy pupils learning"'));
   const adm = fs.readFileSync(SITE + '/portal/admin.html', 'utf8'), tch = fs.readFileSync(SITE + '/portal/teacher.html', 'utf8');
   const fmt = '"TAA/P/"+String(db.seq.pupil).padStart(4,"0")';
-  ok('adm format admin x4', adm.split(fmt).length - 1 === 4); // suite 23: +admitFormClaim
+  ok('adm format admin x4', adm.split(fmt).length - 1 === 4); // batch23: +admitFormClaim
   ok('adm format teacher x2', tch.split(fmt).length - 1 === 2);
 }
 
@@ -281,7 +281,7 @@ const dstr = off => { const d = new Date(); d.setDate(d.getDate() + off); return
   const old = [];
   const walk = d => fs.readdirSync(d, { withFileTypes: true }).forEach(e => {
     const p = d + '/' + e.name;
-    if (e.isDirectory()) { if (!['node_modules', '.git', 'tools'].includes(e.name)) walk(p); }
+    if (e.isDirectory()) { if (!['node_modules', '.git'].includes(e.name)) walk(p); }
     else if (/\.(html|js|css)$/.test(e.name) && fs.readFileSync(p, 'utf8').includes('20260916-13')) old.push(p);
   });
   walk(SITE);

@@ -1,4 +1,4 @@
-/* Suite 16: nav fix, search, receipts, timetable, slips, WA, voice, leaderboard,
+/* (b41-retargeted)  Batch 16: nav fix, search, receipts, timetable, slips, WA, voice, leaderboard,
    best-student, sick push, RSVP, votes, alumni, HW photos, night auto, share card, midterm */
 const fs = require('fs');
 const vm = require('vm');
@@ -41,9 +41,9 @@ const TEACHER = { role: 'teacher', refId: 'T001', name: 'x' };
 const ADMIN = { role: 'admin', refId: 'HEAD001', name: 'x' };
 
 /* ---------- P1: sidebar navigation ---------- */
-for (const [page, sess, n] of [['portal/pupil.html', PUPIL, 7], ['portal/teacher.html', TEACHER, 9], ['portal/admin.html', ADMIN, 21]]) {
+for (const [page, sess, n] of [['portal/pupil.html', PUPIL, 7], ['portal/teacher.html', TEACHER, 10], ['portal/admin.html', ADMIN, 22]]) {
   const { window: w, errors, run } = loadPage(page, sess);
-  const btns = [...w.document.querySelectorAll('#sideNav button[data-view]')]; // b37 quick-actions share #sideNav and have no data-view
+  const btns = [...w.document.querySelectorAll('#sideNav button[data-view]')];
   let dead = [];
   btns.forEach(b => {
     w.document.body.classList.add('side-open');
@@ -54,7 +54,7 @@ for (const [page, sess, n] of [['portal/pupil.html', PUPIL, 7], ['portal/teacher
     if (!w.document.getElementById('pageTitle').textContent) dead.push(b.dataset.view + ':title');
     if (w.document.body.classList.contains('side-open')) dead.push(b.dataset.view + ':drawer');
   });
-  ok(`${page}: ${n}+ buttons navigate+title+drawer`, btns.length >= n && dead.length === 0, `n=${btns.length} dead=${dead.join(',')}`);
+  ok(`${page}: ${n} buttons navigate+title+drawer`, btns.length === n && dead.length === 0, `n=${btns.length} dead=${dead.join(',')}`);
   ok(`${page}: single binding (no inline onclick)`, btns.every(b => !b.hasAttribute('onclick')));
   ok(`${page}: no boot errors`, errors.length === 0, errors.join(' || ').slice(0, 200));
 }
@@ -260,7 +260,7 @@ function finish() {
 
 /* ---------- #17 staff vote (live) + #18 night auto ---------- */
 {
-  const a = loadPage('alumni.html'); // b38: staff wall moved off about.html
+  const a = loadPage('alumni.html');
   const before = a.run('(DB.load().teacherVotes||{}).T001||0');
   a.run('voteTeacher("T001");');
   ok('public staff vote counts', a.run('(DB.load().teacherVotes||{}).T001') === before + 1);
@@ -287,6 +287,6 @@ function finish() {
   ok('share button present', w.document.documentElement.innerHTML.includes('onclick="shareCard()"'));
 }
 
-console.log(`\n==== suite 16: ${pass} passed, ${fail} failed ====`);
+console.log(`\n==== BATCH16: ${pass} passed, ${fail} failed ====`);
 process.exit(fail ? 1 : 0);
 }

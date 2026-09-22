@@ -1,4 +1,4 @@
-/* Suite 21: Supabase live sync (sync.js + admin UI + merge) */
+/* Batch 21: Supabase live sync (sync.js + admin UI + merge) */
 const fs = require('fs');
 const vm = require('vm');
 const { JSDOM } = require('jsdom');
@@ -166,6 +166,6 @@ const CFG = 'localStorage.setItem("treasure_supabase_cfg", JSON.stringify({url:"
   ok('testimonials fixed', !fs.readFileSync(SITE + '/testimonials.html', 'utf8').includes('data.js'));
 }
 
-console.log(`\n==== suite 21: ${pass} passed, ${fail} failed ====`);
+console.log(`\n==== BATCH21: ${pass} passed, ${fail} failed ====`);
 process.exit(fail ? 1 : 0);
 })().catch(e => { console.log('SUITE CRASH:', e && e.stack || e); process.exit(1); });

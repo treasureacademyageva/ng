@@ -1,4 +1,4 @@
-/* Suite 23: form receipts, bulk admit, unfilled-form nudges */
+/* Batch 23: form receipts, bulk admit, unfilled-form nudges */
 const fs = require('fs');
 const vm = require('vm');
 const { JSDOM } = require('jsdom');
@@ -97,5 +97,5 @@ const filled = { surname: 'KID', first: 'K', reqclass: 'Primary 1', sex: 'Male',
   ok('fresh not flagged', !h.includes('Unfilled 0 days'));
 }
 
-console.log(`\n==== suite 23: ${pass} passed, ${fail} failed ====`);
+console.log(`\n==== BATCH23: ${pass} passed, ${fail} failed ====`);
 process.exit(fail ? 1 : 0);

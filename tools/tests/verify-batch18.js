@@ -1,4 +1,4 @@
-/* Suite 18: phone-number login + fee ring, seen signature, broadsheet,
+/* Batch 18: phone-number login + fee ring, seen signature, broadsheet,
    order timeline, HW tick, L&F archive, per-event volunteers, mentor opt-in */
 const fs = require('fs');
 const vm = require('vm');
@@ -157,6 +157,6 @@ function finish() {
   ok('pupils table shows phones', w.document.getElementById('pupilRows').innerHTML.includes('0805 111 2222'));
 }
 
-console.log(`\n==== suite 18: ${pass} passed, ${fail} failed ====`);
+console.log(`\n==== BATCH18: ${pass} passed, ${fail} failed ====`);
 process.exit(fail ? 1 : 0);
 }

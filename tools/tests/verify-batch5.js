@@ -1,4 +1,4 @@
-// verify-suite 05.js — official style, ribbon, hero, graduates, defaulters, wishes, restock, countdown, brochure, votes, LF, siblings, fees
+// verify-batch5.js — official style, ribbon, hero, graduates, defaulters, wishes, restock, countdown, brochure, votes, LF, siblings, fees
 const fs = require('fs'), vm = require('vm');
 const { JSDOM } = require('jsdom');
 const SITE = (() => {
@@ -43,7 +43,7 @@ function loadPage(page, query, seedFn) {
   ok('motto ribbon under navbar', !!mr && mr.textContent.toUpperCase().includes('OUR GOD IS ABLE') && mr.previousElementSibling.classList.contains('navbar'));
   const cc = w.document.getElementById('calCount').textContent;
   const wk5=[0,6].includes(new Date().getDay());
-  ok('countdown bar shows next event', wk5 ? cc.includes('resumes back on Monday') : (cc.includes('Resumption') && /day/.test(cc)));
+  ok('countdown bar shows next event', wk5 ? cc.includes('resumes back on Monday') : (cc.includes('Resumption') && (/day/.test(cc) || cc.includes('Happening now'))));
   ok('no errors', errors.length === 0, errors.join(' || ').slice(0, 200));
 }
 /* store new keys */
@@ -80,8 +80,8 @@ function loadPage(page, query, seedFn) {
 }
 /* graduates */
 {
-  const g0 = loadPage('alumni.html');
-  ok('graduates wall renders', !!g0.window.document.getElementById('gradWall')); // b41 seeds 39 real CE graduates, so it is no longer empty
+  const g0 = loadPage('alumni.html'); // batch26: graduates merged into alumni
+  ok('graduates wall shows real sets', g0.window.document.getElementById('gradWall').textContent.includes('Class of 2025') && g0.window.document.getElementById('gradWall').querySelectorAll('.team-card').length === 39);
   const g1 = loadPage('alumni.html', '', w => { const db = w.__DB.load(); db.pupils.push({ id: 'P9', name: 'Old Pupil', class: 'Graduated', gradYear: 2025 }); w.__DB.save(db); });
   ok('graduates grouped by year', g1.window.document.getElementById('gradWall').textContent.includes('Class of 2025'));
   ok('no errors', (g0.errors.length + g1.errors.length) === 0);
@@ -96,8 +96,8 @@ function loadPage(page, query, seedFn) {
 }
 /* teacher votes */
 {
-  const { window: w, errors, run } = loadPage('alumni.html'); // b38 merge
-  ok('staff wall present', w.document.querySelectorAll('.team-card').length >= 1); // b42 removed public vote buttons; tally kept for the headmistress
+  const { window: w, errors, run } = loadPage('alumni.html');
+  ok('public wall is display-only (no vote buttons)', (w.document.querySelectorAll('[data-vote]').length) === 0);
   run('voteTeacher("T001")');
   ok('vote counted', w.__DB.load().teacherVotes['T001'] === 1);
   run('voteTeacher("T001")');
@@ -123,7 +123,7 @@ function loadPage(page, query, seedFn) {
   ok('css: count bar', css.includes('.count-bar'));
   ok('css: wish bubble', css.includes('.wish-bubble'));
   const sj = fs.readFileSync(SITE + '/assets/js/site.js', 'utf8');
-  ok('site: renderMotto', sj.includes('renderMotto') && /graduates|Graduates/.test(fs.readFileSync(SITE + '/alumni.html', 'utf8')));
+  ok('site: renderMotto', sj.includes('renderMotto') && fs.readFileSync(SITE + '/alumni.html', 'utf8').includes('Our Alumni &amp; Graduates')); // batch26: merged page
   ok('hero photo exists', fs.existsSync(SITE + '/assets/img/hero-school.jpg'));
 }
 console.log(`\n==== ${pass} passed, ${fail} failed ====`);

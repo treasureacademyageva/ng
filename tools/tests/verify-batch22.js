@@ -1,4 +1,4 @@
-/* Suite 22: vercel.json+analytics, L&F in teacher/pupil portals, paid admission form */
+/* Batch 22: vercel.json+analytics, L&F in teacher/pupil portals, paid admission form */
 const fs = require('fs');
 const vm = require('vm');
 const { JSDOM } = require('jsdom');
@@ -143,5 +143,5 @@ const PUPIL = { role: 'pupil', refId: 'P001', name: 'x' };
   ok('adm css shared', fs.readFileSync(SITE + '/assets/css/corporate.css', 'utf8').includes('.adm-replica{'));
 }
 
-console.log(`\n==== suite 22: ${pass} passed, ${fail} failed ====`);
+console.log(`\n==== BATCH22: ${pass} passed, ${fail} failed ====`);
 process.exit(fail ? 1 : 0);

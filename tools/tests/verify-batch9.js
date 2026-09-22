@@ -1,4 +1,4 @@
-// verify-suite 09.js — birthday dedup, static loader, banners, exams/holiday/welcome,
+// verify-batch9.js — birthday dedup, static loader, banners, exams/holiday/welcome,
 // teacher-of-term, voice notes, LF photos, invoice, SMS preview
 const fs = require('fs'), vm = require('vm');
 const { JSDOM } = require('jsdom');
@@ -48,7 +48,7 @@ const ADMIN = { role: 'admin', refId: 'HEAD001', name: 'Mrs. Salihu Nanahawa' };
     .concat(['portal/login.html', 'portal/admin.html', 'portal/teacher.html', 'portal/pupil.html'].map(f => SITE + '/' + f));
   const noLoader = pages.filter(p => !fs.readFileSync(p, 'utf8').includes('id="siteLoader"'));
   const noNs = pages.filter(p => !fs.readFileSync(p, 'utf8').includes('<noscript>'));
-  ok('static loader on all pages', noLoader.length === 0 && pages.length >= 35, `pages=${pages.length} missing=${noLoader.join(',')}`);
+  ok('static loader on all pages', noLoader.length === 0 && pages.length === 41, `pages=${pages.length} missing=${noLoader.join(',')}`);
   ok('noscript fallback everywhere', noNs.length === 0, noNs.join(','));
   const imgs = ['openday-banner.png', 'reading-banner.png', 'uniform-banner.png', 'photoday-banner.png', 'homework-banner.png', 'lostfound-banner.png'];
   ok('6 banners exist', imgs.every(i => fs.existsSync(SITE + '/assets/img/' + i)));
@@ -76,7 +76,7 @@ const ADMIN = { role: 'admin', refId: 'HEAD001', name: 'Mrs. Salihu Nanahawa' };
   const s = loadPage('index.html', null, win => { const db = win.__DB.load(); db.teacherOfTerm = { teacherId: 'T002', name: 'Aunty Rafatu', term: 'First Term', session: '2026/2027 Session', votes: 42, date: '2026-09-16' }; win.__DB.save(db); });
   ok('homepage crowns winner', s.window.document.getElementById('totZone').textContent.includes('Aunty Rafatu'));
   const a = loadPage('alumni.html', null, win => { const db = win.__DB.load(); db.teacherOfTerm = { teacherId: 'T002', name: 'Aunty Rafatu', term: 'First Term', session: '2026/2027 Session', votes: 42, date: '2026-09-16' }; win.__DB.save(db); });
-  ok('alumni shows winner', a.window.document.getElementById('totWin').textContent.includes('Aunty Rafatu'));
+  ok('about shows winner', a.window.document.getElementById('totWin').textContent.includes('Aunty Rafatu'));
 }
 /* admin: exams/holiday/votes/invoice/sms/voice/lfphoto */
 {

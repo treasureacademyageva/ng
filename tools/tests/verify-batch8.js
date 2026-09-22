@@ -1,4 +1,4 @@
-// verify-suite 08.js — contrast pass, backgrounds, T007, uniform/openday/reading/alumni, emergency,
+// verify-batch8.js — contrast pass, backgrounds, T007, uniform/openday/reading/alumni, emergency,
 // reminders, parts, meetings, grad countdown, print css
 const fs = require('fs'), vm = require('vm');
 const { JSDOM } = require('jsdom');
@@ -94,9 +94,9 @@ const ADMIN = { role: 'admin', refId: 'HEAD001', name: 'Mrs. Salihu Nanahawa' };
 /* admin: settings + extras + reminders + parts */
 {
   const { window: w, errors, run } = loadPage('portal/admin.html', ADMIN);
-  ok('grad field retired', !w.document.getElementById('setGrad')); // b39 purged School Settings from admin; identity is code-managed
-  run('(function(){var db=__DB.load(); db.school.gradDate="2027-07-30"; __DB.save(db);})();'); // b39: setGrad input purged, gradDate now code/DB-managed
-  ok('gradDate saved', w.__DB.load().school.gradDate === '2027-07-30');
+  ok('school settings purged (grad field gone)', !w.document.getElementById('setGrad'));
+  run('saveSettings();');
+  ok('saveSettings still saves fees', typeof w.__DB.load().school.fees === 'object');
   run('document.getElementById("unName").value="Test Cap"; document.getElementById("unPrice").value="3000"; saveUniform();');
   ok('uniform added', w.__DB.load().uniform.length === 9);
   run('delUniform("UN1");');

@@ -1,4 +1,4 @@
-// verify-suite 12.js — standalone sidebar, guard hardening, search, countdown,
+// verify-batch12.js — standalone sidebar, guard hardening, search, countdown,
 // admissions banner, PTA meetings
 const fs = require('fs'), vm = require('vm');
 const { JSDOM } = require('jsdom');
@@ -45,12 +45,12 @@ function loadPage(page, session, seedFn, opts = {}) {
 
 /* standalone sidebar: no store, no site, no session */
 {
-  for (const [page, n] of [['portal/pupil.html', 6], ['portal/teacher.html', 9], ['portal/admin.html', 21]]) {
+  for (const [page, n] of [['portal/pupil.html', 7], ['portal/teacher.html', 10], ['portal/admin.html', 22]]) {
     const { window: w } = loadPage(page, null, null, { noStore: true, noSite: true, firstOnly: true });
-    const btns = [...w.document.querySelectorAll('#sideNav button[data-view]')]; // b37 quick-actions live here too and have no data-view
+    const btns = [...w.document.querySelectorAll('#sideNav button[data-view]')];
     let dead = [];
     btns.forEach(b => { b.click(); const on = w.document.querySelector('.view-section.on'); if (!on || on.id !== 'v-' + b.dataset.view) dead.push(b.dataset.view); });
-    ok(`${page} standalone: all switch`, btns.length >= n && dead.length === 0, `n=${btns.length} dead=${dead.join(',')}`);
+    ok(`${page} standalone: all switch`, btns.length === n && dead.length === 0, `n=${btns.length} dead=${dead.join(',')}`);
   }
 }
 
@@ -100,7 +100,7 @@ function loadPage(page, session, seedFn, opts = {}) {
   ok('pta meeting saved', w.__DB.load().ptaMeetings.some(m => m.title === 'Test Meeting') && w.document.getElementById('pmRows').textContent.includes('Test Meeting'));
   const p = loadPage('pta.html');
   ok('pta countdown live', p.window.document.getElementById('ptaNext').textContent.includes('First Term General Meeting'));
-  ok('suite 12 pages clean', b.errors.length === 0 && a.errors.length === 0 && errors.length === 0 && p.errors.length === 0,
+  ok('batch12 pages clean', b.errors.length === 0 && a.errors.length === 0 && errors.length === 0 && p.errors.length === 0,
     b.errors.concat(a.errors, errors, p.errors).join(' || ').slice(0, 300));
 }
 
@@ -111,5 +111,5 @@ function loadPage(page, session, seedFn, opts = {}) {
   ok('pupil boot personalizes', w.document.getElementById('pageTitle').textContent.includes('Adaeze'));
 }
 
-console.log(`\n==== suite 12: ${pass} passed, ${fail} failed ====`);
+console.log(`\n==== BATCH12: ${pass} passed, ${fail} failed ====`);
 process.exit(fail ? 1 : 0);

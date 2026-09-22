@@ -1,4 +1,4 @@
-// verify-suite 11.js — nav/footer redesign, real ratings, directions, chatbot v2,
+// verify-batch11.js — nav/footer redesign, real ratings, directions, chatbot v2,
 // birthday countdown, event reminders, sick-bay SMS
 const fs = require('fs'), vm = require('vm');
 const { JSDOM } = require('jsdom');
@@ -119,5 +119,5 @@ const ADMIN = { role: 'admin', refId: 'HEAD001', name: 'x' };
   ok('admin clean', errors.length === 0, errors.join(' || ').slice(0, 300));
 }
 
-console.log(`\n==== suite 11: ${pass} passed, ${fail} failed ====`);
+console.log(`\n==== BATCH11: ${pass} passed, ${fail} failed ====`);
 process.exit(fail ? 1 : 0);

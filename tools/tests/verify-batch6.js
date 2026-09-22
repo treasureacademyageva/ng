@@ -1,4 +1,4 @@
-// verify-suite 06.js — reorder, testi rail, now/prune, topbtn, fabs removed, steps, gal3, anchors, discount-zero
+// verify-batch6.js — reorder, testi rail, now/prune, topbtn, fabs removed, steps, gal3, anchors, discount-zero
 const fs = require('fs'), vm = require('vm');
 const { JSDOM } = require('jsdom');
 const SITE = (() => {
@@ -84,7 +84,7 @@ function loadPage(page, query, seedFn) {
   const sj = fs.readFileSync(SITE + '/assets/js/site.js', 'utf8');
   ok('renderContactFabs removed', !sj.includes('renderContactFabs'));
   ok('initTopBtn present', sj.includes('initTopBtn') && sj.includes('at-bottom'));
-  ok('fireflies drift+twinkle', /fireflies|ffly/i.test(sj) && sj.includes('tw')); // count retuned since b6 - assert the effect, not the magic number
+  ok('fireflies drift+twinkle', sj.includes('innerWidth<640?10:16') && sj.includes('tw')); // batch24: fewer flies on phones (perf)
   ok('Discount object removed', !sj.includes('Discount'));
   const css = fs.readFileSync(SITE + '/assets/css/corporate.css', 'utf8');
   ok('loader logo styled', css.includes('#siteLoader img') && css.includes('border-radius:24px'));

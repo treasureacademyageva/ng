@@ -1,4 +1,4 @@
-/* Suite 20: portal top navigation (landing-style) replaces sidebars */
+/* (b41-retargeted)  Batch 20: portal top navigation (landing-style) replaces sidebars */
 const fs = require('fs');
 const vm = require('vm');
 const { JSDOM } = require('jsdom');
@@ -40,8 +40,8 @@ const PUPIL = { role: 'pupil', refId: 'P001', name: 'Adaeze' };
 
 /* ---------- structure: no sidebar, landing-style top nav ---------- */
 [
-  ['portal/admin.html', ADMIN, 'Headmistress Portal', 21],
-  ['portal/teacher.html', TEACHER, 'Teacher Portal', 9],
+  ['portal/admin.html', ADMIN, 'Headmistress Portal', 22],
+  ['portal/teacher.html', TEACHER, 'Teacher Portal', 10],
   ['portal/pupil.html', PUPIL, 'Pupil Portal', 7],
 ].forEach(([page, sess, role, nBtns]) => {
   const { window: w, errors } = loadPage(page, sess);
@@ -50,10 +50,10 @@ const PUPIL = { role: 'pupil', refId: 'P001', name: 'Adaeze' };
   ok(page + ' has navbar', !!d.querySelector('nav.navbar .brand-name small') && d.querySelector('nav.navbar .brand-name small').textContent === role);
   ok(page + ' no sidebar', !d.querySelector('.sidebar') && !d.querySelector('.side-toggle'));
   const nav = d.querySelector('#sideNav');
-  ok(page + ' nav keeps id+buttons', !!nav && nav.classList.contains('nav-links') && nav.querySelectorAll('button[data-view]').length >= nBtns);
+  ok(page + ' nav keeps id+buttons', !!nav && nav.classList.contains('nav-links') && nav.querySelectorAll('button[data-view]').length === nBtns);
   ok(page + ' keeps user ids', !!d.getElementById('userName') && !!d.getElementById('userAvatar') && !!d.getElementById('userClass'));
   ok(page + ' keeps title ids', !!d.getElementById('pageTitle') && !!d.getElementById('pageSub') && !!d.getElementById('todayLbl'));
-  ok(page + ' logout+website', !!d.querySelector('.nav-logout,.topbar button.portal-link') && !!d.querySelector('.topbar a[href="../index.html"]')); // b34: logout moved into the navbar
+  ok(page + ' website link + logout by theme', !!d.querySelector('.topbar a[href="../index.html"]') && !!d.querySelector('.nav-cta-row .nav-logout'));
   ok(page + ' theme toggle', !!d.querySelector('nav.navbar .theme-btn'));
   ok(page + ' user filled', d.getElementById('userName').textContent.trim().length > 1);
   ok(page + ' no errors', errors.length === 0, errors.join('||').slice(0, 160));
@@ -90,5 +90,5 @@ const PUPIL = { role: 'pupil', refId: 'P001', name: 'Adaeze' };
   ok('admin loads site.js', admin.includes('<script src="../assets/js/site.js?v='));
 }
 
-console.log(`\n==== suite 20: ${pass} passed, ${fail} failed ====`);
+console.log(`\n==== BATCH20: ${pass} passed, ${fail} failed ====`);
 process.exit(fail ? 1 : 0);

@@ -1,4 +1,4 @@
-/* Suite 17: reading log, fees dashboard, chatbot intents, story listen,
+/* Batch 17: reading log, fees dashboard, chatbot intents, story listen,
    timetable today, idea replies, bulk report print */
 const fs = require('fs');
 const vm = require('vm');
@@ -117,5 +117,5 @@ const PUPIL = { role: 'pupil', refId: 'P001', name: 'x' };
   ok('bulk: no errors', errors.length === 0, errors.join('||').slice(0, 160));
 }
 
-console.log(`\n==== suite 17: ${pass} passed, ${fail} failed ====`);
+console.log(`\n==== BATCH17: ${pass} passed, ${fail} failed ====`);
 process.exit(fail ? 1 : 0);

@@ -1,4 +1,4 @@
-// verify-suite 04.js — shop photos, loader, fabs, calendar, poster, teachers, spotlight, expiry, theme, promote
+// verify-batch4.js — shop photos, loader, fabs, calendar, poster, teachers, spotlight, expiry, theme, promote
 const fs = require('fs'), vm = require('vm');
 const { JSDOM } = require('jsdom');
 const SITE = (() => {
@@ -63,7 +63,7 @@ function loadPage(page, query, seedFn) {
   const l = w.document.getElementById('siteLoader');
   ok('loader overlay injected', !!l && l.innerHTML.includes('logo.jpg'));
   ok('contact fabs removed (live in Contact page)', !w.document.getElementById('contactFabs'));
-  const cc = require('fs').readFileSync(SITE + '/contact.html', 'utf8');
+  const cc = require('fs').readFileSync('/home/user/mums-school-website/contact.html', 'utf8');
   ok('contact page keeps call+whatsapp', cc.includes('tel:') && cc.includes('wa.me/'));
   ok('calendar reachable from homepage', w.document.body.innerHTML.includes('calendar.html'));
   ok('no errors', errors.length === 0, errors.join(' || ').slice(0, 200));
@@ -74,8 +74,8 @@ function loadPage(page, query, seedFn) {
   ok('calendar lists 5 dates', c.window.document.getElementById('calList').children.length === 5);
   const p = loadPage('poster.html');
   ok('poster groups + prices', p.window.document.getElementById('posterBody').textContent.includes('Textbooks') && p.window.document.getElementById('posterBody').textContent.includes('4,500'));
-  const a = loadPage('alumni.html'); // b38: staff strip moved off about.html
-  ok('staff wall renders', a.window.document.getElementById('teamGrid').children.length >= 7); // b41: reads db.staffWall (real filing), names owner-managed
+  const a = loadPage('alumni.html');
+  ok('staff strip renders real team (incl. Creche)', a.window.document.getElementById('teamGrid').children.length === 10 && a.window.document.getElementById('teamGrid').textContent.includes('Salihu Oyiza Nanahawa'));
   const s = loadPage('index.html', '', w => { const db = w.__DB.load(); db.school.photoWeek = { src: 'assets/img/sports.png', cap: 'Sports Day Joy', id: '' }; w.__DB.save(db); });
   ok('spotlight shows photo of week', s.window.document.getElementById('spotZone').textContent.includes('Sports Day Joy'));
   ok('no errors', (c.errors.length + p.errors.length + a.errors.length + s.errors.length) === 0);
