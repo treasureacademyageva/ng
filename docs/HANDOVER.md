@@ -4,7 +4,7 @@
 Static school website + staff/headmistress/pupil portals for **Treasure Academy, Ageva, Okene, Kogi State, Nigeria**.
 Hosted on Vercel (preset "Other", no build command, output `./`, no env vars). Repo: github.com/treasureacademyageva/ng — work goes to the `preview` branch first; merge to `main` only when the owner says "go live". Never push straight to main.
 
-## Current state (batch 43, `?v=20260919-43`, sw `treasure-v43`)
+## Current state (batch 44, `?v=20260919-44`, sw `treasure-v44`)
 Batch 43 additions (owner-directed): "Treasure Sans" (Sora-based) + "Treasure Serif" (Fraunces-based) self-hosted in `assets/fonts/` — Google Fonts CDN removed from all 40 pages; a real studio-commissioned font can replace those files later with zero code change. Treasure FX layer at end of `site.js`: button ripple, segmented `.seg` tabs with sliding ink (graduates now toggle All/2025/2023), `[data-countup]` animated stat numbers, `.tilt` 3D-hover cards, `.stag-grid` staggered reveals, `.spy-bar` scroll-spy jump nav (alumni has one). Brand motif = `--motif` inline SVG diamond-seed in corporate.css (applied to section tags). Owner is bringing a brand designer's artwork later — drop files in and reference them; no AI/stock imagery permitted per owner.
 - **40 pages**: 36 root + 4 portal (admin/teacher/pupil + login). Page-count pins in verify-batch9/10 = 40.
 - **Accounts vs public display (IMPORTANT, owner demanded b42):**
@@ -35,3 +35,14 @@ Real data from owner only (never invent names/dates); WhatsApp 09063932487 only;
 - Purge round 2 still unanswered (admin tabs to remove, owner replies numbers).
 - BACKLOG: private Supabase, Moniepoint backend, map lat/long (ask owner), tour video, custom domain, TREASURE COLLEGE naming phase, absent-alert automation (backend phase).
 - OWNER_IMAGES: upload real staff/group photos → drop into teacher profiles + staff group slot (class-feature.jpg currently a Kogi public-school news photo from kogireports.com).
+
+
+## Batch 44 additions (launch readiness, owner-directed)
+- SEO: every one of the 35 public pages carries unique meta description + canonical + Open Graph + Twitter card + theme-color + manifest/apple-touch links (marker `<!-- treasure-seo -->`); School JSON-LD on index; `robots.txt` (portal + developer disallowed) + `sitemap.xml` (35 URLs, generated per release date); portal pages all `noindex,nofollow`.
+- PWA/app-readiness: `site.webmanifest` + icon-192/180/512 (for the future Kotlin/Gradle WebView app — start_url `/index.html`, standalone display).
+- `404.html` (branded, noindex, links home/admissions/contact/portal).
+- fees.html comparative pricing zone ("Compare fees at a glance", Per term/Per year seg tabs + 5 class bands + "Every fee covers" grid) — spaceship.com-inspired DNA per owner.
+- Type scale polish (page-hero clamp headlines, tracking).
+- CLEANUP NOTE: the 10 shop-*.jpg demo images LOOK unreferenced but are runtime shop-inventory photos pinned by verify-batch4 — NEVER delete assets/img/shop-*.jpg (restored after accidental deletion).
+- Suite loaders now exclude ld+json scripts: `script:not([src]):not([type="application/ld+json"])` globally — preserve when writing new suites.
+- 404.html page -> site total = 41 pages; b9/b10 walk pins = 41.
