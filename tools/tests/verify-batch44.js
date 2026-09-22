@@ -41,7 +41,7 @@ function loadPage(page, session, url, pre) {
 }
 
 /* ---------- A. static files ---------- */
-ok('robots.txt rules', (() => { const r = fs.readFileSync(SITE + '/robots.txt', 'utf8'); return r.includes('Disallow: /portal/') && r.includes('Disallow: /developer.html') && r.includes('Sitemap: https://treasureacademyageva.vercel.app/sitemap.xml'); })());
+ok('robots.txt rules', (() => { const r = fs.readFileSync(SITE + '/robots.txt', 'utf8'); return r.includes('Disallow: /portal/') && r.includes('Disallow: /developer.html') && /^Sitemap: https:\/\/\S+\/sitemap\.xml$/m.test(r); })());  // host-agnostic: tools/set-site-host.py can move the domain
 const siteMap = fs.readFileSync(SITE + '/sitemap.xml', 'utf8');
 // Private pages (receipt, admission-form, search, story) are noindex and must
 // stay out of the sitemap, so the count is a floor, not a fixed 35.

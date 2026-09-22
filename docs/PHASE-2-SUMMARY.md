@@ -8,13 +8,13 @@ Written at commit `91a8e88` on `preview`.
 |---|---|---|
 | `assets/img` total | 37 MB | **7.6 MB** |
 | Largest single image | 4.1 MB | **< 1 MB** |
-| Font payload | 1.06 MB from Google | **484 KB self-hosted** |
+| Font payload | 1.06 MB from Google | **100 KB self-hosted** (batch 48 type system) |
 | Third-party requests before paint | 2 | **0** |
 | Pages with a meta description | 1 of 36 | **35 of 35** |
 | Pages with canonical / OG / Twitter / JSON-LD | ~0 | **35 of 35** |
 | `sitemap.xml` / `robots.txt` | missing | **31 URLs / present** |
 | Images with intrinsic dimensions | 0 | **111** |
-| Test suite | 585 pass / 16 fail | **904 pass / 0 fail** |
+| Test suite | 585 pass / 16 fail | **1422 pass / 0 fail** (43 suites) |
 
 ## What changed
 
@@ -22,8 +22,9 @@ Written at commit `91a8e88` on `preview`.
 and that was correct, all 42 are still referenced. Seventeen were over 1 MB;
 none are now.
 
-**Fonts.** Inter and Source Serif 4 are served from `assets/fonts/` as latin-only
-woff2. The Google Fonts `<link>` is gone from all 39 pages, so nothing
+**Fonts.** Self-hosted woff2 in `assets/fonts/`. Batch 48 replaced the original
+Inter / Source Serif 4 pair with Clash Display, General Sans and Spline Sans
+Mono, and moved the `@font-face` rules into `corporate.css` (`fonts.css` is gone). The Google Fonts `<link>` is gone from all 39 pages, so nothing
 third-party blocks the first paint and no visitor data leaves for a font CDN.
 
 **SEO.** `tools/seo-build.py` writes description, canonical, Open Graph, Twitter

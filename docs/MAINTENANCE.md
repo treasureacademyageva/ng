@@ -86,6 +86,27 @@ come back twice. Paths derive from `SITE`.
 entry 404s, so a font rename silently disables offline support. After changing
 the type system, update the `CORE` list.
 
+**9. Two SEO passes running at once.** Batches 43-48 added a second block
+(`<!-- treasure-seo -->`) beside the generated `<!-- seo:start -->` one, so
+every page carried two canonicals — and on the homepage they disagreed (`/`
+versus `/index.html`). Duplicate canonicals let the crawler choose, which is
+never what you want. `seo.test.js` now fails on any duplicate canonical,
+`og:title` or `description`. If you hand-add a meta tag, check whether
+`seo-build.py` already emits it.
+
+**10. `seo-build.py`'s insertion anchor.** It used to look for `fonts.css` to
+decide where to insert. Batch 48 retired that file, so the script silently
+stopped writing tags to any page that lacked it — no error, just missing SEO.
+It now falls back through any stylesheet, then `<title>`, then `</head>`. If
+you restructure `<head>`, re-run the script and confirm `pages updated` is not
+unexpectedly `0`.
+
+**11. Duplicate `<h1>` from hidden views and print templates.** `developer.html`
+had one in the login gate and another in the console header; only one view is
+ever visible, but crawlers count both. `calendar.html` built an `<h1>` inside a
+print-letterhead string. Use `.print-name` (styled in `motion.css`) or a `<p>`
+for anything that is not the page's single real heading.
+
 ## Adding or renaming a page
 
 ```bash
@@ -94,20 +115,55 @@ python3 tools/seo-build.py
 
 Idempotent. Writes description, canonical, Open Graph, Twitter and JSON-LD into
 each page as static HTML (not injected by JS, so crawlers that skip scripts
-still see it) and regenerates `sitemap.xml`. Private pages — `developer`,
-`receipt`, `admission-form`, `search`, `story` — are `noindex` and excluded from
-the sitemap. Add new private pages to `NOINDEX` in that script.
+still see it) and regenerates `sitemap.xml`.
+
+Two different sets control this, and the distinction matters:
+
+- **`NOINDEX`** — `receipt`, `admission-form`, `search`, `story`. Real pages
+  that simply should not rank. They keep their canonical and social tags.
+- **`PRIVATE`** — `developer.html`, `404.html`. Must not publish their own URL
+  at all: no canonical, no `og:url`, no breadcrumb. `verify-batch26.js` asserts
+  nothing anywhere links to the developer console, and a self-referencing
+  canonical counts as a link.
+
+Add new pages to whichever set applies. A page in either set still needs an
+entry in `DESC` — `build()` skips anything without a description, and skipping
+a page means it ships with **no robots tag at all**, which is the opposite of
+what you wanted.
 
 ## Version bump ritual
 
 Bump all four together or the service worker serves stale files:
 
-1. `sw.js` — the `CACHE` constant
-2. asset query strings — `?v=YYYYMMDD-NN` across all HTML
+1. `sw.js` — the `CACHE` constant (and its `CORE` precache list if fonts or
+   core pages changed)
+2. asset query strings — `?v=YYYYMMDD-NN` across all HTML, including `portal/`
 3. `developer.html` — the `BUILD` string
 4. `README.md` — two places
+5. `docs/HANDOVER.md` — the "Current state" heading
 
-Current: **v48**.
+One pass does the lot:
+
+```bash
+python3 - <<'EOF'
+import glob
+OLD, NEW = '48', '49'
+for f in sorted(glob.glob('*.html')) + sorted(glob.glob('portal/*.html')) + ['sw.js']:
+    s = open(f, encoding='utf-8').read()
+    o = s
+    s = s.replace(f'20260919-{OLD}', f'20260919-{NEW}').replace(f'treasure-v{OLD}', f'treasure-v{NEW}')
+    if s != o:
+        open(f, 'w', encoding='utf-8').write(s)
+EOF
+```
+
+Then confirm nothing was missed:
+
+```bash
+grep -rl 'treasure-v48\|20260919-48' *.html portal/*.html sw.js
+```
+
+Current: **v49**.
 
 ## Data model
 

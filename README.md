@@ -26,8 +26,9 @@ assets/css/         main, extra, corporate, motion  (motion.css loads last)
 assets/js/          store.js (data), site.js (behaviour), sync.js (Supabase stub)
 assets/fonts/       5 self-hosted woff2 faces
 assets/img/         photography and icons, about 8MB in total
-tools/              seo-build.py, run-all-tests.sh, tests/
-docs/               MAINTENANCE.md, HANDOVER.md, ANDROID-APP.md and planning notes
+tools/              seo-build.py, set-site-host.py, run-all-tests.sh, tests/
+docs/               MAINTENANCE.md (read first), HANDOVER.md changelog,
+                    CANONICAL-HOST.md, ANDROID-APP.md and planning notes
 ```
 
 ## Public pages
@@ -69,7 +70,7 @@ a separate piece of work and only proceeds when the owner approves it.
 bash tools/run-all-tests.sh
 ```
 
-1417 checks across 43 suites: 42 behaviour suites covering batches 2–44, plus
+1422 checks across 43 suites: 42 behaviour suites covering batches 2–44, plus
 `seo.test.js`, which guards metadata, structured data, the sitemap, the
 manifest, the image budget, layout stability and accessibility. Suites are
 discovered from disk, so a new `tools/tests/verify-batchNN.js` or `*.test.js` is
@@ -86,8 +87,16 @@ Graph, Twitter and JSON-LD tags into each page as static HTML and regenerates
 `sitemap.xml`. Writing it statically rather than injecting it with JavaScript
 means crawlers that skip scripts still see it. The script is idempotent.
 
-Private pages — developer console, receipt, admission form, search and story —
-are `noindex` and excluded from the sitemap.
+Two sets control indexing, and they behave differently. `NOINDEX` (receipt,
+admission form, search, story) are ordinary pages that should not rank — they
+keep their canonical and social tags. `PRIVATE` (developer console, 404) must
+not publish their own URL at all: no canonical, no `og:url`, no breadcrumb.
+
+> **Known issue — the canonical host is wrong.** Every page currently names
+> `treasureacademyageva.vercel.app`, which returns 404, while the site is live
+> at `ng-psi.vercel.app`. That tells Google to index a dead URL, so nothing
+> ranks. It needs an owner decision; `docs/CANONICAL-HOST.md` explains the
+> options and `tools/set-site-host.py` performs the switch in one command.
 
 ## Deploying
 
