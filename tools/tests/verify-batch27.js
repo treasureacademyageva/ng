@@ -72,7 +72,7 @@ for (const p of walk(SITE, []).filter(f => f.endsWith('.html'))) {
   if (t.includes('20260919-29')) { console.log('  stale -26 in', p); stale++; }
 }
 ok('no stale -26 asset versions', stale === 0);
-ok('sw + dev build v27', fs.readFileSync(SITE + '/sw.js', 'utf8').includes('treasure-v47') && fs.readFileSync(SITE + '/developer.html', 'utf8').includes('var BUILD = "treasure-v47";'));
+ok('sw + dev build v27', fs.readFileSync(SITE + '/sw.js', 'utf8').includes('treasure-v48') && fs.readFileSync(SITE + '/developer.html', 'utf8').includes('var BUILD = "treasure-v48";'));
 
 /* ---------- E. runtime: pages load clean in night mode ---------- */
 for (const pg of ['index.html', 'alumni.html', 'receipt.html', 'admission-form.html']) {

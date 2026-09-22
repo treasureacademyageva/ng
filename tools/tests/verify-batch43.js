@@ -41,9 +41,9 @@ function loadPage(page, session, url, pre) {
 }
 
 /* ---------- A. typography (studio-grade, self-hosted) ---------- */
-ok('4 studio font files on disk, old duo retired', ['gidole-400-latin','garamond-500-latin','garamond-600-latin','kristi-400-latin'].every(f => fs.existsSync(SITE + '/assets/fonts/' + f + '.woff2')) && !fs.existsSync(SITE + '/assets/fonts/treasure-sans-400.woff2') && !fs.existsSync(SITE + '/assets/fonts/treasure-serif-600.woff2'));
-ok('@font-face declares Gidole + Garamond Libre + Kristi', (corp.match(/@font-face/g) || []).length === 4 && corp.includes('font-family:"Gidole"') && corp.includes('font-family:"Garamond Libre"') && corp.includes('font-family:"Kristi"'));
-ok('tokens rebound to Sabon/Gidole/Northwell stacks', corp.includes('--font-head:"Sabon","Garamond Libre"') && corp.includes('--font-body:"Gidole","Segoe UI"') && corp.includes('--font-hand:"Northwell","Kristi"'));
+ok('5 ITF font files on disk (zero Google-catalog fonts)', ['clash-display-500','clash-display-600','general-sans-400','general-sans-500','spline-sans-mono-400'].every(f => fs.existsSync(SITE + '/assets/fonts/' + f + '.woff2')) && !fs.existsSync(SITE + '/assets/fonts/gidole-400-latin.woff2') && !fs.existsSync(SITE + '/assets/fonts/garamond-500-latin.woff2') && !fs.existsSync(SITE + '/assets/fonts/kristi-400-latin.woff2'));
+ok('@font-face declares Clash Display + General Sans + Spline Mono', (corp.match(/@font-face/g) || []).length === 5 && corp.includes('font-family:"Clash Display"') && corp.includes('font-family:"General Sans"') && corp.includes('font-family:"Spline Sans Mono"'));
+ok('tokens rebound to ITF system', corp.includes('--font-head:"Clash Display"') && corp.includes('--font-body:"General Sans"') && corp.includes('--font-mono:"Spline Sans Mono"'));
 let g = 0; const pages = [];
 function walk(d, out) { for (const f of fs.readdirSync(d)) { const p = require('path').join(d, f); if (fs.statSync(p).isDirectory()) { if (!/node_modules/.test(p)) walk(p, out); } else out.push(p); } return out; }
 for (const p of walk(SITE, []).filter(f => f.endsWith('.html'))) {
@@ -55,7 +55,7 @@ ok('Google Fonts CDN removed everywhere', g === 0, pages.join(' ').slice(0, 120)
 /* ---------- B. fx layer ---------- */
 ok('fx block in site.js', sitejs.includes('BATCH 43 (2026-09-21)') && sitejs.includes('pointerdown') && sitejs.includes('__fxTabsRescan'));
 ok('fx css present', corp.includes('.seg-ink{') && corp.includes('.fx-ripple{') && corp.includes('.spy-bar{') && corp.includes('.tilt{') && corp.includes('.stag-in{'));
-ok('brand motif defined + applied', corp.includes('--motif:url(') && corp.includes('background-image:var(--motif)'));
+ok('brand motif + mono kicker applied', corp.includes('--motif:url(') && corp.includes('background-image:var(--motif)') && corp.includes('.sec-tag{font-family:var(--font-mono)'));
 ok('reduced-motion respect', corp.includes('prefers-reduced-motion: reduce'));
 
 /* ---------- C. alumni architecture ---------- */
@@ -97,7 +97,7 @@ for (const p of walk(SITE, []).filter(f => f.endsWith('.html'))) {
   if (fs.readFileSync(p, 'utf8').includes('20260919-42')) { stale++; }
 }
 ok('no stale -42 versions', stale === 0);
-ok('sw + dev on v43', fs.readFileSync(SITE + '/sw.js', 'utf8').includes('treasure-v47') && fs.readFileSync(SITE + '/developer.html', 'utf8').includes('var BUILD = "treasure-v47";'));
+ok('sw + dev on v43', fs.readFileSync(SITE + '/sw.js', 'utf8').includes('treasure-v48') && fs.readFileSync(SITE + '/developer.html', 'utf8').includes('var BUILD = "treasure-v48";'));
 
 console.log(`\n==== BATCH43: ${pass} passed, ${fail} failed ====`);
 process.exit(fail ? 1 : 0);
