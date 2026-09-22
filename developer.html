@@ -133,13 +133,13 @@ pre.view{background:#0A1114;border:1px solid var(--line);border-radius:10px;padd
   </div>
 </div>
 <div id="dvToast"></div>
-<script src="assets/js/store.js?v=20260919-44"></script>
-<script src="assets/js/sync.js?v=20260919-44"></script>
+<script src="assets/js/store.js?v=20260919-45"></script>
+<script src="assets/js/sync.js?v=20260919-45"></script>
 <script>
 (function(){
   "use strict";
   var HASH = "3133076b53086ef8cc6a3f0ce07d2ab3fca6cb3dcbc8b245b32a4862048ce148";
-  var BUILD = "treasure-v44";
+  var BUILD = "treasure-v45";
   var GATE = "treasure_dev_gate", LOCK = "treasure_dev_lock";
   var PAGES = 36;
 
@@ -261,7 +261,7 @@ pre.view{background:#0A1114;border:1px solid var(--line);border-radius:10px;padd
   });
 
   /* ---- cache tools ---- */
-  function fillCache(){ $("dvCacheNote").textContent = "Service worker build: " + BUILD + " · page asset version: 20260919-44."; }
+  function fillCache(){ $("dvCacheNote").textContent = "Service worker build: " + BUILD + " · page asset version: 20260919-45."; }
   $("dvCache").addEventListener("click", function(){
     if(!(window.caches && caches.keys)){ toast("Cache API not available."); return; }
     caches.keys().then(function(ks){ return Promise.all(ks.map(function(k){ return caches.delete(k); })); })
