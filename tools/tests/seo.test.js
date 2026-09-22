@@ -12,11 +12,13 @@ const ok = (name, cond, extra) => cond
 const read = f => fs.readFileSync(path.join(SITE, f), 'utf8');
 const pages = fs.readdirSync(SITE).filter(f => f.endsWith('.html'));
 // developer.html is a private console; 404.html is intentionally noindex.
-const indexable = pages.filter(f => !['developer.html', '404.html'].includes(f));
+// Derive this from the page itself rather than a hardcoded list, so a page
+// that gains or loses noindex is judged by the right rules automatically.
+const indexable = pages.filter(f => !/<meta[^>]+name=["']robots["'][^>]*noindex/i.test(read(f)));
 
 /* ---------- required files ---------- */
 ['robots.txt', 'sitemap.xml', 'site.webmanifest', '404.html', 'favicon.ico',
- 'assets/css/fonts.css', 'assets/css/motion.css'].forEach(f =>
+ 'assets/css/motion.css'].forEach(f =>
   ok('exists: ' + f, fs.existsSync(path.join(SITE, f))));
 
 /* ---------- no third-party font CDN (self-hosted) ---------- */
@@ -27,9 +29,16 @@ const indexable = pages.filter(f => !['developer.html', '404.html'].includes(f))
   const cssOff = css.filter(f => /fonts\.(googleapis|gstatic)/.test(read('assets/css/' + f)));
   ok('no google-fonts CDN in css', cssOff.length === 0, cssOff.join(','));
   const fonts = fs.readdirSync(path.join(SITE, 'assets/fonts'));
-  ok('woff2 files shipped', fonts.filter(f => f.endsWith('.woff2')).length >= 7, String(fonts.length));
-  const ff = read('assets/css/fonts.css');
-  ok('font-display swap everywhere', (ff.match(/font-display:swap/g) || []).length >= 7);
+  ok('woff2 files shipped', fonts.filter(f => f.endsWith('.woff2')).length >= 4, String(fonts.length));
+  // Faces live in corporate.css since the batch-43 typography change.
+  const ff = read('assets/css/corporate.css');
+  const faces = (ff.match(/@font-face/g) || []).length;
+  ok('every @font-face uses font-display swap',
+     faces >= 4 && (ff.match(/font-display:swap/g) || []).length >= faces, `${faces} faces`);
+  // Every declared face must point at a file that exists.
+  const missing = [...ff.matchAll(/url\("\.\.\/fonts\/([^"]+)"\)/g)]
+    .map(m => m[1]).filter(f => !fs.existsSync(path.join(SITE, 'assets/fonts', f)));
+  ok('no @font-face points at a missing file', missing.length === 0, missing.join(','));
 }
 
 /* ---------- per-page meta ---------- */
@@ -74,7 +83,11 @@ const indexable = pages.filter(f => !['developer.html', '404.html'].includes(f))
 {
   const bad = [];
   indexable.forEach(f => {
-    const n = (read(f).match(/<h1[\s>]/g) || []).length;
+    // Count markup only. Several pages build a print letterhead by assigning an
+    // <h1> inside a JavaScript string; that is not a heading in the document, so
+    // strip <script> blocks before counting or it reads as a phantom duplicate.
+    const src = read(f).replace(/<script\b[\s\S]*?<\/script>/gi, '');
+    const n = (src.match(/<h1[\s>]/g) || []).length;
     if (n !== 1) bad.push(`${f}:${n}`);
   });
   ok('exactly one h1 per page', bad.length === 0, bad.join(','));
@@ -152,9 +165,12 @@ const indexable = pages.filter(f => !['developer.html', '404.html'].includes(f))
   pages.forEach(f => {
     for (const m of read(f).matchAll(/<img\b[^>]*>/g)) {
       const t = m[0]; imgs++;
-      // Either explicit dimensions, or a reserved aspect-ratio box for
-      // JS-templated images whose src is only known at runtime.
-      const sized = (/\bwidth=/.test(t) && /\bheight=/.test(t)) || /aspect-ratio:/.test(t);
+      // Layout is stable if the box is reserved any of three ways: HTML
+      // width+height attributes, an aspect-ratio box (JS-templated images whose
+      // src is only known at runtime), or a style that pins both dimensions.
+      const style = (t.match(/\bstyle="([^"]*)"/) || [, ''])[1];
+      const cssPinned = /(^|;)\s*width\s*:/.test(style) && /(^|;)\s*height\s*:/.test(style);
+      const sized = (/\bwidth=/.test(t) && /\bheight=/.test(t)) || /aspect-ratio:/.test(t) || cssPinned;
       if (!sized) noDim++;
       if (!/\balt=/.test(t)) noAlt++;
       if (/loading="lazy"/.test(t)) lazy++;

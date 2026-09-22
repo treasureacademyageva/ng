@@ -1,10 +1,16 @@
 /* Treasure Academy offline support — key pages keep working without internet */
-const CACHE = 'treasure-v47';
+const CACHE = 'treasure-v48';
 const CORE = [
   'index.html', 'contact.html', 'calendar.html', 'admissions.html', 'news.html',
+  '404.html',
   'assets/css/main.css', 'assets/css/extra.css', 'assets/css/corporate.css',
+  'assets/css/motion.css',
   'assets/js/store.js', 'assets/js/site.js', 'assets/js/sync.js',
-  'assets/img/logo.jpg'
+  'assets/img/logo.jpg',
+  /* Self-hosted faces: without these an offline visitor drops to a system font
+     and the whole page reflows. */
+  'assets/fonts/gidole-400-latin.woff2',
+  'assets/fonts/garamond-600-latin.woff2'
 ];
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(CORE)).then(() => self.skipWaiting()).catch(() => {}));
@@ -15,7 +21,7 @@ self.addEventListener('activate', e => {
 self.addEventListener('fetch', e => {
   const url = new URL(e.request.url);
   if (e.request.method !== 'GET' || url.origin !== location.origin) return;
-  if (url.pathname.endsWith('.css') || url.pathname.endsWith('.js') || url.pathname.match(/\.(png|jpg|jpeg|svg|webp|ico)$/)) {
+  if (url.pathname.endsWith('.css') || url.pathname.endsWith('.js') || url.pathname.match(/\.(png|jpg|jpeg|svg|webp|ico|woff2)$/)) {
     e.respondWith(caches.match(e.request).then(hit => hit || fetch(e.request).then(res => {
       const copy = res.clone(); caches.open(CACHE).then(c => c.put(e.request, copy)); return res;
     }).catch(() => caches.match('index.html'))));

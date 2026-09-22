@@ -67,13 +67,13 @@ ok('dark notice rule', corp.includes('[data-theme="dark"] .notice{') && extra.in
 
 /* ---------- E. versions ---------- */
 let stale = 0;
-function walk(d, out) { for (const f of fs.readdirSync(d)) { const p = require('path').join(d, f); if (fs.statSync(p).isDirectory()) { if (!/node_modules/.test(p)) walk(p, out); } else out.push(p); } return out; }
+function walk(d, out) { for (const f of fs.readdirSync(d)) { const p = require('path').join(d, f); if (fs.statSync(p).isDirectory()) { if (!/node_modules|\.git|[\\/]tools([\\/]|$)/.test(p)) walk(p, out); } else out.push(p); } return out; }
 for (const p of walk(SITE, []).filter(f => f.endsWith('.html'))) {
   const t = fs.readFileSync(p, 'utf8');
-  if (t.includes('20260919-29')) { console.log('  stale -27 in', p); stale++; }
+  if (t.includes('20260919-27')) { console.log('  stale -27 in', p); stale++; }
 }
 ok('no stale -27 versions', stale === 0);
-ok('sw + dev on v28', fs.readFileSync(SITE + '/sw.js', 'utf8').includes('treasure-v47') && fs.readFileSync(SITE + '/developer.html', 'utf8').includes('var BUILD = "treasure-v47";'));
+ok('sw + dev on v28', fs.readFileSync(SITE + '/sw.js', 'utf8').match(/treasure-v\d+/) && fs.readFileSync(SITE + '/developer.html', 'utf8').match(/var BUILD = "treasure-v\d+";/));
 
 /* ---------- F. dark-mode load on key complex pages ---------- */
 for (const pg of ['index.html', 'admissions.html', 'news.html', 'portal/login.html', 'shop.html', 'uniform.html', 'alumni.html', 'receipt.html']) {

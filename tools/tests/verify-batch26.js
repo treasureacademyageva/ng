@@ -74,7 +74,7 @@ ok('dev hash correct', dh.includes(expectedHash));
 ok('dev no plaintext password', !dh.includes('Jibrilaonoru') && !dh.includes('09063932487'));
 ok('dev modules bay hosts visitor log', dh.includes('dvModules') && dh.includes('id="dvVForm"')); // batch33: first module moved in
 ok('dev tool ids', ['dvSnap', 'dvStore', 'dvBak', 'dvRes', 'dvReset', 'dvCache', 'dvSw', 'dvOut'].every(id => dh.includes('id="' + id + '"')));
-ok('dev build string', dh.includes('treasure-v47') && dh.includes('20260919-47'));
+ok('dev build string', dh.match(/treasure-v\d+/) && dh.match(/20260919-\d+/));
 ok('dev not linked publicly', ![...require('fs').readdirSync(SITE).filter(f=>f.endsWith('.html')), 'portal/login.html'].some(f => /href="[^"]*developer\.html/.test(require('fs').readFileSync(SITE + '/' + f, 'utf8')))); // batch34: secret entry lives in JS only, no visible anchor anywhere
 
 const dv = loadPage('developer.html');

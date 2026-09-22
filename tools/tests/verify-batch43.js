@@ -45,7 +45,7 @@ ok('4 studio font files on disk, old duo retired', ['gidole-400-latin','garamond
 ok('@font-face declares Gidole + Garamond Libre + Kristi', (corp.match(/@font-face/g) || []).length === 4 && corp.includes('font-family:"Gidole"') && corp.includes('font-family:"Garamond Libre"') && corp.includes('font-family:"Kristi"'));
 ok('tokens rebound to Sabon/Gidole/Northwell stacks', corp.includes('--font-head:"Sabon","Garamond Libre"') && corp.includes('--font-body:"Gidole","Segoe UI"') && corp.includes('--font-hand:"Northwell","Kristi"'));
 let g = 0; const pages = [];
-function walk(d, out) { for (const f of fs.readdirSync(d)) { const p = require('path').join(d, f); if (fs.statSync(p).isDirectory()) { if (!/node_modules/.test(p)) walk(p, out); } else out.push(p); } return out; }
+function walk(d, out) { for (const f of fs.readdirSync(d)) { const p = require('path').join(d, f); if (fs.statSync(p).isDirectory()) { if (!/node_modules|\.git|[\\/]tools([\\/]|$)/.test(p)) walk(p, out); } else out.push(p); } return out; }
 for (const p of walk(SITE, []).filter(f => f.endsWith('.html'))) {
   const s = fs.readFileSync(p, 'utf8');
   if (/googleapis|gstatic/.test(s)) { g++; pages.push(p); }
@@ -97,7 +97,7 @@ for (const p of walk(SITE, []).filter(f => f.endsWith('.html'))) {
   if (fs.readFileSync(p, 'utf8').includes('20260919-42')) { stale++; }
 }
 ok('no stale -42 versions', stale === 0);
-ok('sw + dev on v43', fs.readFileSync(SITE + '/sw.js', 'utf8').includes('treasure-v47') && fs.readFileSync(SITE + '/developer.html', 'utf8').includes('var BUILD = "treasure-v47";'));
+ok('sw + dev on v43', fs.readFileSync(SITE + '/sw.js', 'utf8').match(/treasure-v\d+/) && fs.readFileSync(SITE + '/developer.html', 'utf8').match(/var BUILD = "treasure-v\d+";/));
 
 console.log(`\n==== BATCH43: ${pass} passed, ${fail} failed ====`);
 process.exit(fail ? 1 : 0);

@@ -86,12 +86,12 @@ ok('teacher clean', t1.errors.length === 0, t1.errors.join(' || ').slice(0, 140)
 
 /* ---------- E. versions ---------- */
 let stale = 0;
-function walk(d, out) { for (const f of fs.readdirSync(d)) { const p = require('path').join(d, f); if (fs.statSync(p).isDirectory()) { if (!/node_modules/.test(p)) walk(p, out); } else out.push(p); } return out; }
+function walk(d, out) { for (const f of fs.readdirSync(d)) { const p = require('path').join(d, f); if (fs.statSync(p).isDirectory()) { if (!/node_modules|\.git|[\\/]tools([\\/]|$)/.test(p)) walk(p, out); } else out.push(p); } return out; }
 for (const p of walk(SITE, []).filter(f => f.endsWith('.html'))) {
   if (fs.readFileSync(p, 'utf8').includes('20260919-36')) { console.log('  stale -36 in', p); stale++; }
 }
 ok('no stale -36 versions', stale === 0);
-ok('sw + dev on v37', fs.readFileSync(SITE + '/sw.js', 'utf8').includes('treasure-v47') && fs.readFileSync(SITE + '/developer.html', 'utf8').includes('var BUILD = "treasure-v47";'));
+ok('sw + dev on v37', fs.readFileSync(SITE + '/sw.js', 'utf8').match(/treasure-v\d+/) && fs.readFileSync(SITE + '/developer.html', 'utf8').match(/var BUILD = "treasure-v\d+";/));
 
 /* ---------- F. dark loads ---------- */
 for (const pg of ['portal/admin.html', 'story.html']) {

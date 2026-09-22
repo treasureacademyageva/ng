@@ -281,7 +281,7 @@ const dstr = off => { const d = new Date(); d.setDate(d.getDate() + off); return
   const old = [];
   const walk = d => fs.readdirSync(d, { withFileTypes: true }).forEach(e => {
     const p = d + '/' + e.name;
-    if (e.isDirectory()) { if (!['node_modules', '.git'].includes(e.name)) walk(p); }
+    if (e.isDirectory()) { if (!['node_modules', '.git', 'tools'].includes(e.name)) walk(p); }
     else if (/\.(html|js|css)$/.test(e.name) && fs.readFileSync(p, 'utf8').includes('20260916-13')) old.push(p);
   });
   walk(SITE);

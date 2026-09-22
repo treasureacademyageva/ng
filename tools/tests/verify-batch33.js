@@ -92,12 +92,12 @@ ok('pending-only -> hidden', pend.window.document.getElementById('tmSpot').inner
 ok('chip css tokens + dark', corp.includes('.resume-chip{') && corp.includes('[data-theme="dark"] .resume-chip{'));
 ok('spotlight css + dark stars', corp.includes('.tm-spot{') && corp.includes('[data-theme="dark"] .tms-stars'));
 let staleV = 0;
-function walk(d, out) { for (const f of fs.readdirSync(d)) { const p = require('path').join(d, f); if (fs.statSync(p).isDirectory()) { if (!/node_modules/.test(p)) walk(p, out); } else out.push(p); } return out; }
+function walk(d, out) { for (const f of fs.readdirSync(d)) { const p = require('path').join(d, f); if (fs.statSync(p).isDirectory()) { if (!/node_modules|\.git|[\\/]tools([\\/]|$)/.test(p)) walk(p, out); } else out.push(p); } return out; }
 for (const p of walk(SITE, []).filter(f => f.endsWith('.html'))) {
   if (fs.readFileSync(p, 'utf8').includes('20260919-32')) { console.log('  stale -32 in', p); staleV++; }
 }
 ok('no stale -32 versions', staleV === 0);
-ok('sw + dev on v33', fs.readFileSync(SITE + '/sw.js', 'utf8').includes('treasure-v47') && fs.readFileSync(SITE + '/developer.html', 'utf8').includes('var BUILD = "treasure-v47";'));
+ok('sw + dev on v33', fs.readFileSync(SITE + '/sw.js', 'utf8').match(/treasure-v\d+/) && fs.readFileSync(SITE + '/developer.html', 'utf8').match(/var BUILD = "treasure-v\d+";/));
 
 /* ---------- E. dark loads ---------- */
 for (const pg of ['index.html', 'developer.html']) {

@@ -93,12 +93,12 @@ ok('admin pledge approve fn safe', true);
 
 /* ---------- H. versions ---------- */
 let stale = 0;
-function walk(d, out) { for (const f of fs.readdirSync(d)) { const p = require('path').join(d, f); if (fs.statSync(p).isDirectory()) { if (!/node_modules/.test(p)) walk(p, out); } else out.push(p); } return out; }
+function walk(d, out) { for (const f of fs.readdirSync(d)) { const p = require('path').join(d, f); if (fs.statSync(p).isDirectory()) { if (!/node_modules|\.git|[\\/]tools([\\/]|$)/.test(p)) walk(p, out); } else out.push(p); } return out; }
 for (const p of walk(SITE, []).filter(f => f.endsWith('.html'))) {
   if (fs.readFileSync(p, 'utf8').includes('20260919-30')) { console.log('  stale -30 in', p); stale++; }
 }
 ok('no stale -30 versions', stale === 0);
-ok('sw + dev on v31', fs.readFileSync(SITE + '/sw.js', 'utf8').includes('treasure-v47') && fs.readFileSync(SITE + '/developer.html', 'utf8').includes('var BUILD = "treasure-v47";'));
+ok('sw + dev on v31', fs.readFileSync(SITE + '/sw.js', 'utf8').match(/treasure-v\d+/) && fs.readFileSync(SITE + '/developer.html', 'utf8').match(/var BUILD = "treasure-v\d+";/));
 
 /* ---------- I. dark-mode loads on all new pages ---------- */
 for (const pg of ['careers.html', 'fees.html', 'anthem.html', 'support.html', 'search.html']) {

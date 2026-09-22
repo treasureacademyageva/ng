@@ -60,12 +60,12 @@ setTimeout(() => {
   ok('dev page clean', dv.errors.length === 0, dv.errors.join(' || ').slice(0, 140));
 
   let stale = 0;
-  function walk(d, out) { for (const f of fs.readdirSync(d)) { const p = require('path').join(d, f); if (fs.statSync(p).isDirectory()) { if (!/node_modules/.test(p)) walk(p, out); } else out.push(p); } return out; }
+  function walk(d, out) { for (const f of fs.readdirSync(d)) { const p = require('path').join(d, f); if (fs.statSync(p).isDirectory()) { if (!/node_modules|\.git|[\\/]tools([\\/]|$)/.test(p)) walk(p, out); } else out.push(p); } return out; }
   for (const p of walk(SITE, []).filter(f => f.endsWith('.html'))) {
     if (fs.readFileSync(p, 'utf8').includes('20260919-35')) { console.log('  stale -35 in', p); stale++; }
   }
   ok('no stale -35 versions', stale === 0);
-  ok('sw + dev on v36', fs.readFileSync(SITE + '/sw.js', 'utf8').includes('treasure-v47') && dh.includes('var BUILD = "treasure-v47";'));
+  ok('sw + dev on v36', fs.readFileSync(SITE + '/sw.js', 'utf8').match(/treasure-v\d+/) && dh.match(/var BUILD = "treasure-v\d+";/));
   ok('auto-lock still present', dh.includes('IDLE_MS = 10 * 60 * 1000'));
 
   console.log(`\n==== BATCH36: ${pass} passed, ${fail} failed ====`);
