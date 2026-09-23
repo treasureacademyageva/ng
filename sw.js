@@ -1,11 +1,11 @@
 /* Treasure Academy offline support — key pages keep working without internet */
-const CACHE = 'treasure-v56';
+const CACHE = 'treasure-v57';
 const CORE = [
   'index.html', 'contact.html', 'calendar.html', 'admissions.html', 'news.html',
   '404.html',
   'assets/css/main.css', 'assets/css/extra.css', 'assets/css/corporate.css',
   'assets/css/motion.css', 'assets/css/glass.css',
-  'assets/js/store.js', 'assets/js/verify.js', 'assets/js/site.js', 'assets/js/sync.js', 'assets/js/auth-ui.js', 'assets/js/db-live.js',
+  'assets/js/store.js', 'assets/js/verify.js', 'assets/js/notify.js', 'assets/js/site.js', 'assets/js/sync.js', 'assets/js/auth-ui.js', 'assets/js/db-live.js',
   'assets/js/chat-entities.js', 'assets/js/chat-rag.js', 'assets/js/chat-core.js', 'assets/js/chat-ui.js', 'assets/data/kb.json',
   'assets/img/logo.jpg',
   'assets/img/icons.svg',
