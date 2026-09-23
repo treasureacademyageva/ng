@@ -254,3 +254,56 @@ Founder, mission and vision, the 2015-2026 milestones, facilities (library,
 computer room, playground, sick bay, portal), what the school does **not**
 have (no swimming pool, no boarding - answered plainly), Common Entrance
 performance, and staff/pupil counts read live from the database.
+
+## Academics, the class pages, and staff
+
+`academics.html` links to `class.html?class=NAME` - ten pages generated from
+`classPages` data. None of them were indexed, so "what happens in Nursery 1"
+had no answer at all. They are now both indexed and answered by rule: the class
+page text, its activities, the real class teacher and that class's fee, in one
+reply.
+
+Staff had a worse problem. `db.teachers` is the login roster and still carries
+rows the owner retired, marked `(demo)`. The bot would have told a parent
+*"Mrs. Ngozi Obi (demo) teaches Creche"*. Staff answers now read `db.staffWall`
+- the real published team with their qualifications - and filter `(demo)` out
+everywhere. A test pins that no answer can ever contain it.
+
+## More rules
+
+**Rule 11 - Normalise Nigerian English before matching.**
+"abeg who be the head", "wetin dey happen for primary 2", "which year una
+start" are rewritten to standard phrasing before any rule sees them, so the
+rules never have to know both dialects.
+
+**Rule 12 - A greeting is only a greeting when that is the whole message.**
+"abeg who be the head of the school" is a question with a polite opener, not a
+hello.
+
+**Rule 13 - Refuse internal information outright.**
+A wifi password or a staff PIN is not login help. The bot says so and points
+staff at the headmistress, rather than helpfully offering the login page.
+
+**Rule 14 - "Not published" is an answer.**
+Scholarships, accreditation papers, the canteen menu: the school holds these
+but does not publish them. Say that plainly and name who does know. Silence and
+a handoff are worse.
+
+**Rule 15 - Prefer stems over whole words in triggers.**
+`\bscholarship\b` cannot match "scholarships" and `\bfacilit\b` can never match
+anything. Both were real bugs that silently disabled whole branches.
+
+## The coverage suite
+
+`tools/tests/ask-coverage.test.js` runs **151 real questions** - about, history,
+facilities, classes, staff, subjects, e-learning, activities, fees, admissions,
+plus Nigerian-English phrasings and four that must be refused - against a live
+snapshot of `store.js`.
+
+Every question must be answered from the site's own content and none may dead
+end. Written as a measurement first: the first run scored **69/101**, which is
+how the missing class pages, the demo-staff leak and the trigger bugs were
+found. It now scores **151/151**.
+
+Nonsense is still refused - answering everything would mean the confidence bar
+had stopped working.

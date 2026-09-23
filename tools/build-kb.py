@@ -23,7 +23,8 @@ PAGES = {
     "about.html":        ("About Us", "about story history mission vision motto founder headmistress"),
     "admissions.html":   ("Admissions", "admission apply enrol enroll register registration join entry"),
     "admission-form.html": ("Admission Form", "admission form buy purchase entrance download print"),
-    "academics.html":    ("Academics", "academics class classes curriculum subjects creche nursery primary"),
+    "academics.html":    ("Academics", "academics class classes curriculum subjects creche nursery primary "
+                          "age group stream level grade what class school offer teach"),
     "fees.html":         ("School Fees", "fees fee payment pay cost price tuition bank transfer"),
     "exams.html":        ("Examinations", "exam exams examination timetable paper test"),
     "calendar.html":     ("School Calendar", "calendar term date resumption holiday event closing"),
@@ -33,7 +34,8 @@ PAGES = {
     "shop.html":         ("School Shop", "shop book textbook notebook pen stationery buy price stock"),
     "news.html":         ("News & Events", "news event photo video gallery story party excursion"),
     "pta.html":          ("PTA", "pta parent teacher association meeting"),
-    "elearning.html":    ("E-Learning", "elearning e-learning practice cbt common entrance revision"),
+    "elearning.html":    ("E-Learning", "elearning e-learning practice cbt common entrance revision "
+                          "online learning digital computer practice question mock test score"),
     "homework.html":     ("Homework", "homework assignment work exercise"),
     "holiday.html":      ("Holiday Work", "holiday assignment vacation break work"),
     "testimonials.html": ("Testimonials", "testimonial review parent say feedback"),
@@ -281,6 +283,66 @@ def build():
                    term.group(1) if term else "the current term"),
                 "session term current which what now academic year",
                 "calendar.html", False, "data")
+
+    # ---- 2b. the ten class pages ----------------------------------------
+    # academics.html links to class.html?class=NAME, so each class is really
+    # its own page generated from data. Nothing indexed them before, which
+    # meant "what happens in Nursery 1" had no answer.
+    cls_block = js_value(store, "classPages")
+    if cls_block:
+        for m in re.finditer(
+                r'\{class:"([^"]+)",\s*tagline:"([^"]*)",\s*about:"([^"]*)",'
+                r'\s*activities:\[([^\]]*)\]', cls_block, re.S):
+            cname, tagline, about_txt, acts = m.groups()
+            acts_clean = ", ".join(a.strip().strip('"') for a in acts.split('","'))
+            acts_clean = acts_clean.replace('"', "")
+            short = cname.lower().replace("primary ", "p").replace("nursery ", "n")
+            add("class:" + cname, cname,
+                "%s %s %s Activities in %s: %s."
+                % (cname, tagline, about_txt, cname, acts_clean),
+                ("%s %s class what happens learn learning taught do activities "
+                 "daily routine curriculum age" % (cname.lower(), short)),
+                "class.html?class=" + cname.replace(" ", "%20"), False, "class")
+
+    # ---- 2c. staff, with the qualifications the school actually lists ----
+    wall = None
+    widx = store.find("STAFF_WALL_SEED")
+    if widx >= 0:
+        bstart = store.find("[", widx)
+        if bstart >= 0:
+            depth = 0
+            for k in range(bstart, len(store)):
+                if store[k] == "[":
+                    depth += 1
+                elif store[k] == "]":
+                    depth -= 1
+                    if depth == 0:
+                        wall = store[bstart:k + 1]
+                        break
+    if wall:
+        people = re.findall(
+            r'name:"([^"]+)",\s*class:"([^"]*)",\s*position:"([^"]*)",\s*quals:"([^"]*)"',
+            wall)
+        if people:
+            lines = []
+            for nm, cl, pos, ql in people:
+                lines.append("%s - %s%s%s" % (nm, pos,
+                             (" for " + cl) if cl else "",
+                             (", " + ql) if ql else ""))
+            add("data:staff", "Our Teachers and Their Qualifications",
+                "The teaching team: " + "; ".join(lines) + ".",
+                "teacher teachers staff who teaches qualification qualified "
+                "degree nce hnd bsc trained experience class teacher name",
+                "alumni.html#staff", False, "data")
+            for nm, cl, pos, ql in people:
+                if not cl:
+                    continue
+                add("staff:" + cl, "Teacher for " + cl,
+                    "%s is the %s for %s%s." % (nm, pos.lower(), cl,
+                                                (", holding " + ql) if ql else ""),
+                    "who teaches %s teacher for %s class teacher %s"
+                    % (cl.lower(), cl.lower(), cl.lower()),
+                    "alumni.html#staff", False, "data")
 
     # ---- 3. routes ------------------------------------------------------
     for title, url, needs_login, kw in ROUTES:

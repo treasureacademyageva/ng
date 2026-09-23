@@ -70,20 +70,30 @@
      phrasing wins over a bare topic word. */
   var INTENTS = [
     ["lost", /\b(lost|lose|losing|missing|misplace[d]?|left behind|can'?t find|cannot find|find my|found any|anyone (found|seen)|has anyone)\b/],
+    ["staffcount", /\bclass size|\bhow (big|large|many)\b[^.?!]{0,20}\bclass\b|\bpupils? per class\b|\bchildren per class\b/],
+    ["classinfo", /\b(what (happens|do they do|is taught|do you do)|tell me about|what is|describe|activities|learn|is there|do they have|does .* have)\b[^.?!]{0,35}\b(creche|cr[eè]che|pre[- ]?nursery|nursery|primary|class)\b|\b(creche|pre[- ]?nursery|nursery [12]|primary [1-6])\b[^.?!]{0,20}\b(like|about|learn|do|activit|taught|cover)\b/],
+    ["classlist", /\b(what classes|which classes|what levels|what grades|classes do you (have|offer)|do you have (a )?(creche|nursery|primary)|take babies|accept babies|youngest|age (do you|range|group)|from what age|how young)\b/],
+    ["elearning", /\b(e[- ]?learning|elearning|online learning|online class|cbt|practice question|practice test|mock|revision|portal work|how does the portal)\b/],
+    ["activity", /\b(club|clubs|excursion|excursions|debate|quiz|reading club|coding|extra[- ]?curricular|after school|activit\w*|show ?(and|&) ?tell|trip|trips|outing)\b/],
+    ["homework", /\b(homework|home work|assignment|assignments|after school work|holiday work)\b(?![^.?!]*\b(for me|write|do it|answer)\b)/],
     ["testimonial", /\b(testimonial|testimonials|review|reviews|what do parents say|parents say|feedback from parent|recommend|rating|opinion)\b/],
     ["curriculum", /\b(subject|subjects|curriculum|syllabus|what do you teach|do you teach|is .* taught|lesson|lessons|topics?)\b/],
+    ["overview", /^\s*(tell me about|what about|describe|info(rmation)? about|talk about|explain)\s+(the\s+|your\s+|this\s+)?(school|treasure|academy|place|it)\s*[.?!]?\s*$|^\s*(what is|who are)\s+(this|the)?\s*(school|treasure academy|treasure)\s*[.?!]?\s*$/],
+    ["leadership", /\bwho (is|are)\b[^.?!]{0,20}\b(in charge|head|headmistress|principal|leader|leading|running|manage|boss|authority)\b|\bhead ?(mistress|master|teacher)\b|\bwho manages\b/],
+    ["staffinfo", /\b(tell me about|who are|list|meet)\b[^.?!]{0,15}\b(staff|teachers|team)\b|\b(school administrator|administrator|administration|admin staff|support staff|non[- ]teaching)\b|\bhow qualified\b|\bwho (handles|runs|manages)\b[^.?!]{0,15}\b(admin\w*|office)\b/],
+    ["pickup", /\b(who can (collect|pick)|pick ?up|collect my child|release my child|drop off|hand over|dismissal)\b/],
     ["founder", /\b(founder|founded|found the school|who started|who built|who created|who owns|owner|proprietress|proprietor|establish(ed)?|set up|began|origin|since when|how old is the school|how long have you)\b/],
     ["mission", /\b(mission|vision|motto|aim|aims|goal|goals|purpose|philosophy|values|believe|belief|what do you stand for|ethos)\b/],
-    ["history", /\b(history|story|background|journey|milestone|milestones|timeline|how did .* (start|begin)|over the years|past)\b/],
+    ["history", /\b(history|story|background|journey|milestone|milestones|timeline|over the years|past)\b|\bhow did\b[^.?!]{0,25}\b(start|begin|found)\b|\bwhen did\b[^.?!]{0,30}\b(move|open|launch|start|begin|built|relocat)\b|\bwhat year\b/],
     ["facilities", /\bfacilit\w*\b|\b(library|computer room|computer lab|ict|playground|play ground|play area|classroom|building|premises|compound|equipment|amenit|what do you have|infrastructure|swimming|pool|field|hall|sick bay|clinic|boarding|boarder|hostel|dormitory|day school)\b/],
-    ["performance", /\b(pass rate|result rate|common entrance|how well|performance|achievement|success|record|graduate|alumni|where do (your|the) (pupil|student|graduate)|secondary school)\b/],
+    ["performance", /\b(pass rate|result rate|common entrance|how well|performance|perform|achievement|success|record|graduate|alumni|secondary school|secondary schools)\b|\bhow do\b[^.?!]{0,25}\b(pupil|pupils|student|students|children)\b[^.?!]{0,15}\b(do|perform|fare)\b/],
     ["staffcount", /\bhow many\b[^.?!]{0,20}\b(teacher|teachers|staff|pupil|pupils|student|students|children|child|class|classes)\b|\bnumber of (teacher|staff|pupil|student|child)/],
-    ["employment", /\b(job|jobs|vacancy|vacancies|employ|employment|hiring|hire|recruit|teaching job|career|careers|cv|resume|curriculum vitae)\b|\b(i|we|my)\b[^.?!]{0,25}\b(work|working|teach|teaching|join)\b[^.?!]{0,30}\b(there|here|with you|for you|at your|in your|as a teacher|as teacher|your school|the school)\b|\bcan i (work|teach|join)\b|\bapply\b[^.?!]{0,20}\b(teach|job|position|role|work)\b|\b(need|want|looking for|require|recruiting)\b[^.?!]{0,15}\b(teacher|teachers|staff|worker|workers|employee)\b/],
+    ["employment", /\b(job|jobs|vacancy|vacancies|employ|employment|hiring|hire|recruit|teaching job|career|careers|cv|curriculum vitae)\b|\b(send|submit|attach|my)\s+(my\s+)?resum[eé]\b|\b(i|we|my)\b[^.?!]{0,25}\b(work|working|teach|teaching|join)\b[^.?!]{0,30}\b(there|here|with you|for you|at your|in your|as a teacher|as teacher|your school|the school)\b|\bcan i (work|teach|join)\b|\bapply\b[^.?!]{0,20}\b(teach|job|position|role|work)\b|\b(need|want|looking for|require|recruiting)\b[^.?!]{0,15}\b(teacher|teachers|staff|worker|workers|employee)\b/],
     ["partner", /\b(partner|partners|partnership|sponsor|sponsors|sponsorship|collaborat|affiliat|accredit|associate with|work with|donor|ngo)\b/],
     ["enrol", /\b(enrol|enroll|admission|admit|apply|application|register my|bring my child|join the school|new pupil|start school|place for my|space for my|vacancy for my child|accept)\b/],
     ["visit", /\b(visit|tour|come and see|inspect|look around|open day|see the school|appointment)\b/],
     ["location", /\b(where|located|location|address|direction|how do i get|how to get|find the school|map|which (town|state|area))\b/],
-    ["price", /\b(how much|price|cost|fee|fees|pay|payment|charge|afford|expensive|cheap)\b/],
+    ["price", /\b(how much|price|cost|costs|fee|fees|pay|payment|afford|expensive|cheap|naira)\b|\bcharges?\b(?![^.?!]*\b(of|in charge)\b)/],
     ["timetable", /\b(timetable|time table|schedule|when is|what time|period|lesson plan)\b/],
     ["result", /\b(result|results|report card|grade|score|performance|position in class)\b/],
     ["contact", /\b(contact|call|phone|number|whatsapp|email|reach|speak to|talk to)\b/],
@@ -92,9 +102,35 @@
     ["food", /\b(food|meal|meals|lunch|feed|feeding|eat|snack|diet|canteen|kitchen)\b/]
   ];
 
+  /* Nigerian English, normalised to the phrasing the rules expect. Parents
+     type how they speak; the rules should not have to know both. */
+  var PIDGIN = [
+    [/\bwetin dey happen (for|in)\b/g, "what happens in"],
+    [/\bwetin\b/g, "what"],
+    [/\babeg\b/g, ""],
+    [/\bwho be\b/g, "who is"],
+    [/\bwhich year\b/g, "what year"],
+    [/\buna\b/g, "you"],
+    [/\bdem dey\b/g, "they"],
+    [/\bdey teach\b/g, "teach"],
+    [/\byou get\b/g, "do you have"],
+    [/\bi wan\b/g, "i want to"],
+    [/\bmy pikin\b/g, "my child"],
+    [/\bpikin\b/g, "child"],
+    [/\btalk about\b/g, "say about"],
+    [/\bhow much be\b/g, "how much is"],
+    [/\bdey for\b/g, "are in"],
+    [/\bcome your\b/g, "to your"],
+    [/\bsabi\b/g, "know"]
+  ];
+
   function norm(s) {
-    return " " + String(s || "").toLowerCase()
+    var t = " " + String(s || "").toLowerCase()
       .replace(/[^a-z0-9\s'-]/g, " ").replace(/\s+/g, " ").trim() + " ";
+    for (var i = 0; i < PIDGIN.length; i++) {
+      t = t.replace(PIDGIN[i][0], PIDGIN[i][1]);
+    }
+    return " " + t.replace(/\s+/g, " ").trim() + " ";
   }
 
   /* Find which known thing the sentence is about. Longest phrase wins so

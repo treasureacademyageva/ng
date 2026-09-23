@@ -387,6 +387,53 @@
                 "December"][d.getMonth()] + " " + d.getFullYear();
       }
 
+      /* Internal or private information the bot must never try to supply,
+         even though the words look familiar. A wifi password is not login
+         help, and the school's own credentials are nobody's business. */
+      if (/\b(wifi|wi-fi|router|network) *(password|code|key)\b|\b(staff|admin|teacher)('?s)? (password|pin|login)\b/.test(s)) {
+        return { html: "That is internal to the school, so it is not something " +
+                       "I can give out.<br><br>" +
+                       "If you are staff and locked out, the headmistress resets " +
+                       "staff PINs - see her, or call <b>" + WHATSAPP + "</b>. " +
+                       "If you are a parent trying to reach your child's records, " +
+                       "ask me about <b>logging in</b> instead.",
+                 source: "Security" };
+      }
+
+      /* Things the school genuinely does not publish. Saying "I don't know"
+         here is correct, but pointing at who does know is what makes it
+         useful. */
+      if (/\b(scholarship\w*|bursar\w*|free tuition|financial aid|grant for)\b/.test(s)) {
+        return { html: "The school does not publish a scholarship or bursary " +
+                       "scheme, so I have nothing on file.<br><br>" +
+                       "Fee questions and any arrangement over payment are " +
+                       "handled personally by the office - speak to the " +
+                       "headmistress on <b>" + WHATSAPP + "</b>. Sibling " +
+                       "discounts may apply where more than one child attends.",
+                 source: "Fees" };
+      }
+      if (/\b(canteen\w*|cafeteria\w*|tuck shop|who cooks|kitchen)\b/.test(s) ||
+          (ent.intent === "food")) {
+        return { html: "Meals are served fresh daily and children eat at " +
+                       "school - the Creche even has its own nap and meal " +
+                       "routine.<br><br>" +
+                       "The school does not publish a menu or canteen price " +
+                       "list, so for exactly what is served this term, and any " +
+                       "allergy arrangements, ask the office on <b>" +
+                       WHATSAPP + "</b>.",
+                 source: "School day" };
+      }
+      if (/\b(registered|accredit\w*|approved by|government|licence\w*|license\w*|ministry)\b/.test(s)) {
+        return { html: "Treasure Academy has operated in Ageva since <b>2015</b> " +
+                       "and has been on its own permanent site since 2018, " +
+                       "running Creche through Primary 6.<br><br>" +
+                       "Registration and accreditation papers are not published " +
+                       "on the website - the office will show you the " +
+                       "documents if you ask. Call <b>" + WHATSAPP + "</b> or " +
+                       "visit; you are welcome to come and see the school.",
+                 source: "About" };
+      }
+
       /* An emergency notice outranks everything else on the site. */
       var emg = school.emergency;
       if (emg && emg.on && emg.text &&
@@ -478,6 +525,130 @@
          the About page; nothing is invented. Counts come from live data so
          they cannot go stale. */
 
+      /* One class, from the class page data behind class.html?class=NAME. */
+      if (ent.intent === "classinfo" && ent.klass) {
+        var pages = db.classPages || [];
+        for (var cp = 0; cp < pages.length; cp++) {
+          if (String(pages[cp].class || "").toLowerCase() === ent.klass) {
+            var page = pages[cp];
+            var acts = (page.activities || []).slice(0, 6);
+            var who = (db.staffWall || []).filter(function (x) {
+              return x.name && !/\(demo\)/i.test(x.name) &&
+                     String(x.class || "").toLowerCase() === ent.klass;
+            })[0];
+            var fee = (school.fees || {})[page.class];
+            return { html: "<b>" + esc(page.class) + "</b>" +
+                           (page.tagline ? " - " + esc(page.tagline) : "") + "<br><br>" +
+                           esc(page.about || "") +
+                           (acts.length ? "<br><br><b>What they do:</b><br>&bull; " +
+                            acts.map(esc).join("<br>&bull; ") : "") +
+                           (who ? "<br><br>Class teacher: <b>" + esc(who.name) + "</b>." : "") +
+                           (fee ? "<br>Fee: <b>" + naira(fee) + "</b> per term." : "") +
+                           "<br><br><a class=\"chat-link\" href=\"class.html?class=" +
+                           encodeURIComponent(page.class) + "\">Open the " +
+                           esc(page.class) + " page</a>",
+                     source: page.class };
+          }
+        }
+      }
+
+      /* The whole ladder of classes, with ages where the school states them. */
+      if (ent.intent === "classlist") {
+        var names = (db.classPages || []).map(function (c) { return c.class; })
+                      .filter(Boolean);
+        if (!names.length) {
+          names = Object.keys(school.fees || {});
+        }
+        if (names.length) {
+          return { html: "Treasure Academy runs <b>" + names.length +
+                         "</b> classes, from the youngest upwards:<br>&bull; " +
+                         names.map(esc).join("<br>&bull; ") +
+                         "<br><br>Creche takes babies from <b>six months</b>, and " +
+                         "the ladder runs right through to <b>Primary 6</b>, so a " +
+                         "child never has to change school mid-way.<br><br>" +
+                         "Ask me about any one of them and I will tell you what " +
+                         "happens in it.",
+                   source: "Academics" };
+        }
+      }
+
+      /* E-learning: Primary 6 Common Entrance practice, inside the portal. */
+      if (ent.intent === "elearning") {
+        var forP6 = /\bprimary\s*[1-5]\b|\bnursery\b|\bcreche\b/.test(s);
+        return { html: "<b>E-Learning</b> at Treasure Academy is Common Entrance " +
+                       "practice for <b>Primary 6</b>, inside the pupil portal - " +
+                       "real-style questions in Mathematics, English, Basic " +
+                       "Science and more, with an instant score after every " +
+                       "attempt.<br><br>" +
+                       (forP6
+                         ? "It appears only on <b>Primary 6</b> dashboards, so " +
+                           "younger classes do not see it yet.<br><br>"
+                         : "The questions are uploaded by the school and grow " +
+                           "every term.<br><br>") +
+                       "Log in to the pupil portal to use it." +
+                       "<br><br><a class=\"chat-link\" href=\"elearning.html\">" +
+                       "Open E-Learning</a>",
+                 source: "E-Learning" };
+      }
+
+      /* Clubs, excursions and everything outside the timetable - read from
+         the activities the class pages actually list. */
+      if (ent.intent === "activity" ||
+          /\b(show ?(and|&) ?tell|trip|trips|outing)\b/.test(s)) {
+        var byClass = {};
+        (db.classPages || []).forEach(function (c) {
+          (c.activities || []).forEach(function (a) {
+            if (!byClass[a]) byClass[a] = [];
+            byClass[a].push(c.class);
+          });
+        });
+        var keys = Object.keys(byClass);
+        /* Match on the words that carry meaning, and treat common synonyms
+           for the same thing as the same thing. */
+        var ALIAS = { trip: "excursion", trips: "excursion", outing: "excursion",
+                      club: "club", clubs: "club", read: "reading",
+                      quiz: "quiz", debate: "debate", code: "coding",
+                      coding: "coding", computer: "computer" };
+        var words = s.split(/\s+/).map(function (w) {
+          var c = w.replace(/[^a-z]/g, "");
+          return ALIAS[c] || c;
+        }).filter(function (w) {
+          return w.length > 3 &&
+            !/^(what|when|where|which|about|does|your|have|they|this|that|there|with|from|children|child|pupil|pupils|school)$/.test(w);
+        });
+        var asked = keys.filter(function (a) {
+          var la = a.toLowerCase();
+          return words.some(function (w) { return la.indexOf(w) >= 0; });
+        });
+        if (asked.length) {
+          return { html: asked.slice(0, 3).map(function (a) {
+                     return "<b>" + esc(a) + "</b> - in " +
+                            esc(byClass[a].join(", ")) + ".";
+                   }).join("<br><br>") +
+                   "<br><br>Every class has its own activities; ask me about a " +
+                   "class to see the full list.",
+                   source: "Academics" };
+        }
+        if (keys.length) {
+          return { html: "<b>Beyond the lessons</b><br>Activities run by class " +
+                         "include: " + esc(keys.slice(0, 14).join(", ")) +
+                         ".<br><br>Ask me about a particular class for its own list.",
+                   source: "Academics" };
+        }
+      }
+
+      /* Homework. The owner's rule: no online submission. */
+      if (ent.intent === "homework") {
+        return { html: "Yes - homework is set by the class teacher and written " +
+                       "in the pupil's book.<br><br>" +
+                       "There is <b>no online submission</b>: work is done on " +
+                       "paper and handed to the teacher, the way the school " +
+                       "prefers it. Holiday assignments are given at the end of " +
+                       "term.<br><br>If your child is unsure what was set, ask " +
+                       "the class teacher.",
+                 source: "Homework" };
+      }
+
       /* What parents say. The testimonials page is painted by JavaScript, so
          there is no prose to scrape - the reviews live in the database and are
          read from there, approved ones only. */
@@ -523,6 +694,19 @@
            reliable list the school keeps. */
         (db.staffWall || []).forEach(function (t) {
           (t.subjects || []).forEach(function (x) { if (x) found[x] = 1; });
+        });
+        /* Class activities name real subjects - "Handwriting mastery",
+           "Phonics & reading" - so recognise the subject inside the phrase. */
+        var KNOWN = ["Handwriting", "Phonics", "Reading", "Spelling", "Grammar",
+                     "Comprehension", "Essay writing", "Mental maths",
+                     "Times tables", "Science", "Coding", "Debate",
+                     "Computer", "Colouring", "Counting"];
+        (db.classPages || []).forEach(function (c) {
+          (c.activities || []).forEach(function (a) {
+            KNOWN.forEach(function (k) {
+              if (String(a).toLowerCase().indexOf(k.toLowerCase()) >= 0) found[k] = 1;
+            });
+          });
         });
         (db.teachers || []).forEach(function (t) {
           (t.subjects || []).forEach(function (x) { if (x) found[x] = 1; });
@@ -571,6 +755,88 @@
                          "questions in the portal through the year.",
                    source: "Curriculum" };
         }
+      }
+
+      /* "Tell me about the school" - the broadest possible question, and the
+         one a first-time visitor actually asks. Answer it as a person would:
+         what it is, how long, what it covers, and one way in. */
+      if (ent.intent === "location") {
+        return { html: "Treasure Academy is at <b>Ageva, Okene, Kogi State</b>." +
+                       "<br><br>The office is open <b>Monday to Friday, 7:30am " +
+                       "to 3:00pm</b>, and you are welcome to call in. The " +
+                       "<b>Contact</b> page has a map and directions, and school " +
+                       "transport runs on three routes - Adavi, Okene Town and " +
+                       "Ageva.<br><br>Phone or WhatsApp: <b>" + WHATSAPP + "</b>" +
+                       "<br><a class=\"chat-link\" href=\"contact.html\">" +
+                       "Directions and map</a>",
+                 source: "Contact" };
+      }
+
+      if (ent.intent === "overview") {
+        var nClasses = (db.classPages || []).length ||
+                       Object.keys(school.fees || {}).length;
+        return { html: "<b>Treasure Academy, Ageva</b> is a private school in " +
+                       "Ageva, Okene, Kogi State, founded in <b>2015</b> by " +
+                       "Shaibu Sidikat Ruth and run today by headmistress " +
+                       "<b>Mrs. Salihu Nanahawa</b>.<br><br>" +
+                       "It covers " + (nClasses ? "<b>" + nClasses + "</b> classes " : "") +
+                       "from <b>Creche</b> at six months right through to " +
+                       "<b>Primary 6</b>, on its own permanent site since 2018, " +
+                       "with a computer room, library, playground and an online " +
+                       "portal where parents check results.<br><br>" +
+                       "In 2024 every Primary 6 pupil passed the Common " +
+                       "Entrance.<br><br>" +
+                       "Ask me about fees, a particular class, admissions or " +
+                       "visiting - I can go into any of it.",
+                 source: "About" };
+      }
+
+      if (ent.intent === "leadership") {
+        return { html: "<b>Mrs. Salihu Nanahawa</b> is the headmistress and runs " +
+                       "the school day to day.<br><br>" +
+                       "The school was founded and is owned by " +
+                       "<b>Shaibu Sidikat Ruth</b>, Founder and Proprietress, " +
+                       "who started it in 2015.<br><br>" +
+                       "Either can be reached through the school office on <b>" +
+                       WHATSAPP + "</b>.",
+                 source: "About" };
+      }
+
+      if (ent.intent === "staffinfo") {
+        var team = (db.staffWall || []).filter(function (x) {
+          return x.name && !/\(demo\)/i.test(x.name);
+        });
+        if (team.length) {
+          var teaching = team.filter(function (x) { return x.class; });
+          var others = team.filter(function (x) { return !x.class; });
+          var html = "<b>The team</b><br>" +
+            teaching.map(function (x) {
+              return "&bull; <b>" + esc(x.name) + "</b> - " + esc(x.class) +
+                     (x.quals ? " <small>(" + esc(x.quals) + ")</small>" : "");
+            }).join("<br>");
+          if (others.length) {
+            html += "<br><br><b>Support</b><br>" + others.map(function (x) {
+              return "&bull; <b>" + esc(x.name) + "</b> - " +
+                     esc(x.position || "staff") +
+                     (x.quals ? " <small>(" + esc(x.quals) + ")</small>" : "");
+            }).join("<br>");
+          }
+          html += "<br><br>Every teacher is qualified - the school hires for " +
+                  "character first, then skill.";
+          return { html: html, source: "Staff list" };
+        }
+      }
+
+      if (ent.intent === "pickup") {
+        return { html: "Pupils are released only to a <b>parent or a named " +
+                       "guardian</b> - never to whoever turns up. If someone " +
+                       "else must collect your child, tell the class teacher or " +
+                       "the office beforehand.<br><br>" +
+                       "Closing is <b>3:00pm</b>, and children are supervised " +
+                       "until they are collected. Supervised school transport " +
+                       "runs on three routes if you would rather your child came " +
+                       "home by bus.",
+                 source: "School day" };
       }
 
       if (ent.intent === "founder") {
@@ -858,16 +1124,45 @@
                  source: "School calendar" };
       }
 
-      /* Who teaches a class. */
+      /* Who teaches a class.
+
+         Two lists exist. db.teachers is the login roster and still carries
+         retired demo rows marked "(demo)"; db.staffWall is the real staff the
+         school publishes, with qualifications. Prefer the staff wall, and
+         never read out a demo name to a parent. */
       if (/\b(who|which teacher|class teacher)\b/.test(s) && /\bteach|teacher\b/.test(s)) {
-        var staff = db.teachers || db.staff || [];
-        for (var t = 0; t < staff.length; t++) {
-          var cls = String(staff[t].class || staff[t].className || "").toLowerCase();
-          if (cls && s.indexOf(cls) >= 0) {
-            return { html: "<b>" + esc(staff[t].name) + "</b> teaches <b>" +
-                           esc(staff[t].class || staff[t].className) + "</b>.",
+        var real = (db.staffWall || []).filter(function (x) {
+          return x.name && !/\(demo\)/i.test(x.name);
+        });
+        var roster = (db.teachers || db.staff || []).filter(function (x) {
+          return x.name && !/\(demo\)/i.test(x.name);
+        });
+        var pool = real.length ? real : roster;
+        var wantCls = ent.klass;
+
+        for (var t = 0; t < pool.length; t++) {
+          var cls = String(pool[t].class || pool[t].className || "").toLowerCase();
+          if (!cls) continue;
+          if ((wantCls && cls === wantCls) || (!wantCls && s.indexOf(cls) >= 0)) {
+            return { html: "<b>" + esc(pool[t].name) + "</b> is the " +
+                           esc(String(pool[t].position || "class teacher").toLowerCase()) +
+                           " for <b>" + esc(pool[t].class || pool[t].className) + "</b>" +
+                           (pool[t].quals ? ", holding " + esc(pool[t].quals) : "") + ".",
                      source: "Staff list" };
           }
+        }
+
+        /* Asked about staff generally rather than one class. */
+        if (/\b(staff|teachers|team|qualif)\b/.test(s) && pool.length) {
+          var listed = pool.slice(0, 12).map(function (x) {
+            return "&bull; <b>" + esc(x.name) + "</b>" +
+                   (x.class ? " - " + esc(x.class) : "") +
+                   (x.quals ? " <small>(" + esc(x.quals) + ")</small>" : "");
+          }).join("<br>");
+          return { html: "<b>The teaching team</b><br>" + listed +
+                         "<br><br>Every teacher is qualified, and the school " +
+                         "hires for character first.",
+                   source: "Staff list" };
         }
       }
 
@@ -967,7 +1262,11 @@
 
     smallTalk: function (q) {
       var s = q.toLowerCase().replace(/[^a-z\s]/g, " ").trim();
-      if (/^(hi|hello|hey|yo|good (morning|afternoon|evening)|how far|abeg)\b/.test(s)) {
+      /* A greeting only counts when the message is essentially just that.
+         "abeg who be the head of the school" is a question with a polite
+         opener, not a hello. */
+      if (/^(hi|hello|hey|yo|good (morning|afternoon|evening)|how far|abeg)\b/.test(s) &&
+          s.split(/\s+/).filter(Boolean).length <= 4) {
         return { type: "smalltalk", html: this.greeting(), chips: this.suggestions() };
       }
       if (/^(thanks|thank you|thank u|nice one|well done|ok thanks)\b/.test(s)) {
