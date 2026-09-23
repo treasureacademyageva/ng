@@ -82,14 +82,19 @@ input:focus, select:focus, textarea:focus{
   outline: none;
 }
 
-/* ---- 4. generous spacing ------------------------------------------------- */
-section{ padding-block: clamp(48px, 6vw, 96px); }
-.container{ padding-inline: clamp(18px, 4vw, 40px); }
+/* ---- 4. generous spacing -------------------------------------------------
+   Spacing must come from VERTICAL rhythm and card padding, never by squeezing
+   the content column. main.css already sets .container to width:min(1180px,92%),
+   which carries its own gutter - adding padding-inline on top of that made every
+   page narrower and the text look smaller. Leave the container width alone. */
+section{ padding-block: clamp(40px, 4.5vw, 76px); }
 .card, .mv-card, .testi-card, .team-card, .pay-card, .side-card, .panel{
   padding: clamp(18px, 2.2vw, 28px);
 }
-p{ line-height: 1.72; max-width: 72ch; }
-h1,h2{ margin-bottom: .55em; }
+/* Line length only, applied to running prose - not to headings, cards, table
+   cells or anything laid out in a grid, which must keep their own width. */
+section > p, .prose p, article p{ line-height: 1.72; max-width: 74ch; }
+h1,h2{ margin-bottom: .5em; }
 h2 + p, h3 + p{ margin-top: .35em; }
 .grid, .cards, .mv-grid{ gap: clamp(16px, 2vw, 28px); }
 
@@ -364,4 +369,74 @@ h2 + p, h3 + p{ margin-top: .35em; }
   border-radius:50%; object-fit:cover;
   border:1px solid rgba(255,255,255,.55);
   box-shadow:0 4px 18px rgba(0,0,0,.28);
+}
+
+/* ---- 9. readable type scale ----------------------------------------------
+   The inherited scale ran small for a school site: interface text sat at
+   .9rem (14.4px) and meta text at .68rem (10.88px), which is hard work for a
+   parent reading on a phone in daylight. Nudge the small end of the scale up
+   without touching the headings, so the page keeps its proportions and only
+   becomes easier to read. Sizes are set here rather than per-component so the
+   whole site moves together. */
+:root{ --ta-fs-ui: .95rem; --ta-fs-meta: .78rem; }
+
+/* Raise the base size for page content only. The masthead is pinned back to
+   the original 16px root below so the header is untouched. */
+body{ font-size: 1.02rem; line-height: 1.62; }
+.navbar, .brand{ font-size: 1rem; }
+/* The body line-height bump must not loosen the masthead either: nav links
+   inherit it and grow a pixel taller, which shifts the whole bar. */
+.navbar, .navbar a, .navbar .btn{ line-height: 1.55; }
+.brand, .brand *{ line-height: 1.25; }
+/* 19.84/12.8 = 1.55, the topbar's original ratio before the body bump. */
+.topbar, .top-bar{ line-height: 1.55; }
+
+/* running prose */
+section p, .card p, .track-card p, article p, .prose p{ font-size: 1.02rem; }
+
+/* Interface text INSIDE THE PAGE only. The header - brand, logo, the two icon
+   buttons and the nav links - is deliberately left exactly as it was: the only
+   thing this batch was asked to add there is the Menu button, which copies the
+   nav links' own metrics rather than imposing new ones. */
+main .btn, section .btn, footer .btn,
+.ta-btn, .ta-tabs button,
+main input, main select, main textarea, main label,
+section input, section select, section textarea, section label{
+  font-size: var(--ta-fs-ui);
+}
+
+/* the smallest text on the page - captions, badges, helper lines */
+/* Smallest text in the PAGE. Excludes the masthead, whose tagline has its own
+   deliberately tight setting. */
+main small, section small, footer small, article small,
+main .muted, section .muted, footer .muted,
+main .meta, section .meta, footer .meta,
+.tag, .badge, figcaption, .note{
+  font-size: var(--ta-fs-meta); line-height: 1.5;
+}
+
+/* Tables carry fees and results, so they must stay legible too. */
+table, th, td{ font-size: 1rem; }
+
+/* Phones: keep body text at a comfortable minimum and stop iOS zooming on
+   focus, which happens whenever an input is under 16px. */
+@media (max-width: 640px){
+  body{ font-size: 1.04rem; }
+  main input, main select, main textarea,
+  section input, section select, section textarea{ font-size: 16px; }
+  main small, section small, footer small,
+  main .muted, section .muted, footer .muted{ font-size: .82rem; }
+}
+
+/* ---- 10. short-screen fix: clock must not sit on the nav -----------------
+   .clock-widget is position:fixed at bottom-left with z-index:500, i.e. on top
+   of the sidebar. On a viewport shorter than about 820px the sidebar's last
+   control (the new Menu button) lands under it and becomes unclickable - the
+   click hits the clock's canvas instead. Lifting the nav above the widget
+   costs nothing visually and keeps every nav control usable. */
+.sidebar, .navbar{ position: relative; z-index: 600; }
+
+/* Below that height the widget is more obstruction than ornament. */
+@media (max-height: 780px){
+  .clock-widget{ display: none !important; }
 }
