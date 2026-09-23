@@ -10,6 +10,10 @@ const SITE = (() => {
 })();
 const store = fs.readFileSync(SITE + '/assets/js/store.js', 'utf8');
 const site = fs.readFileSync(SITE + '/assets/js/site.js', 'utf8');
+/* The chatbot now lives in its own modules, loaded alongside site.js. */
+const chatRag  = fs.readFileSync(SITE + '/assets/js/chat-rag.js', 'utf8');
+const chatCore = fs.readFileSync(SITE + '/assets/js/chat-core.js', 'utf8');
+const chatKb   = fs.readFileSync(SITE + '/assets/data/kb.json', 'utf8');
 let pass = 0, fail = 0;
 function ok(name, cond, extra) {
   if (cond) { pass++; console.log('ok -', name); }
@@ -33,6 +37,8 @@ function loadPage(page, session, url, pre) {
   if (session) vm.runInContext('localStorage.setItem("treasure_session_v1", \'' + JSON.stringify(session) + '\');', window);
   if (pre) vm.runInContext(pre, window);
   vm.runInContext(site + '\n;\n' + scripts, window);
+    vm.runInContext(chatRag + '\n;\n' + chatCore, window);
+    vm.runInContext('TAChat.init(' + chatKb + ');', window);
   window.document.dispatchEvent(new window.Event('DOMContentLoaded', { bubbles: true }));
   return { window, errors: errors.filter(x => !/navigation|Not implemented/i.test(x)), run: c => vm.runInContext(c, window) };
 }
@@ -129,7 +135,7 @@ function finish() {
   const p = loadPage('lost-found.html');
   ok('archived hidden publicly', !p.window.document.body.innerHTML.includes('Old Cap'));
   const c = loadPage('index.html');
-  ok('chat skips archived', !c.run('Chatbot.answer("did anyone lose anything")').includes('Old Cap'));
+  ok('chat skips archived', !c.run('(TAChat.respond("did anyone lose anything")||{}).html||""').includes('Old Cap'));
 }
 
 /* ---------- #7 volunteers per event ---------- */

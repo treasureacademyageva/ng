@@ -238,7 +238,9 @@ ok('toast vetoes a false success',
 /* ------------------------------------------------------------- site ----- */
 
 const site = read('assets/js/site.js');
-ok('admission deadline survives past resumption', /resAny/.test(site));
+ok('admission deadline survives past resumption',
+   /resAny/.test(read('assets/js/chat-core.js')) &&
+   /Admission deadline/.test(read('assets/js/chat-core.js')));
 
 /* -------------------------------------------------------------- auth ---- */
 

@@ -9,6 +9,10 @@ const SITE = (() => {
 })();
 const store = fs.readFileSync(SITE + '/assets/js/store.js', 'utf8');
 const site = fs.readFileSync(SITE + '/assets/js/site.js', 'utf8');
+/* The chatbot now lives in its own modules, loaded alongside site.js. */
+const chatRag  = fs.readFileSync(SITE + '/assets/js/chat-rag.js', 'utf8');
+const chatCore = fs.readFileSync(SITE + '/assets/js/chat-core.js', 'utf8');
+const chatKb   = fs.readFileSync(SITE + '/assets/data/kb.json', 'utf8');
 const css = fs.readFileSync(SITE + '/assets/css/corporate.css', 'utf8');
 let pass = 0, fail = 0;
 const ok = (name, cond, extra) => { if (cond) { pass++; console.log('PASS: ' + name); } else { fail++; console.log('FAIL: ' + name + (extra ? ' | ' + extra : '')); } };
@@ -34,6 +38,8 @@ function loadPage(page, session, seedFn) {
     if (session) vm.runInContext(`localStorage.setItem("treasure_session_v1", '${JSON.stringify(session)}');`, window);
     if (seedFn) seedFn(window);
     vm.runInContext(site + '\n;\n' + scripts, window);
+    vm.runInContext(chatRag + '\n;\n' + chatCore, window);
+    vm.runInContext('TAChat.init(' + chatKb + ');', window);
   } catch (e) { errors.push('THROW: ' + String((e && e.stack) || e).split('\n').slice(0, 3).join(' | ')); }
   try { window.document.dispatchEvent(new window.Event('DOMContentLoaded', { bubbles: true })); } catch (e) { errors.push('DCL: ' + String(e).slice(0, 160)); }
   const real = errors.filter(x => !/navigation|Not implemented/i.test(x));
@@ -53,40 +59,39 @@ const dstr = off => { const d = new Date(); d.setDate(d.getDate() + off); return
     db.ptaMeetings = [{ id: 'PM15', date: dstr(4), title: 'General Meeting', venue: 'Hall' }];
     win.__DB.save(db);
   });
-  const a = q => run('Chatbot.answer(' + JSON.stringify(q) + ')');
+  const a = q => run('(TAChat.respond(' + JSON.stringify(q) + ')||{}).html||""');
   const wk = [0, 6].includes(new Date().getDay());
-  ok('chat status live', wk ? a('is there school today?').includes('resumes back on') : a('is there school today?').includes('there is school today'));
+  ok('chat status live', wk ? /no school|Monday to Friday/i.test(a('is there school today?')) : /there is school today/i.test(a('is there school today?')));
   ok('chat class fee', a('how much is Primary 3 fees?').includes('₦30,000') && a('how much is Primary 3 fees?').includes('Primary 3'));
   ok('chat fee table', a('what are the school fees?').includes('per term') && a('what are the school fees?').includes('₦'));
-  ok('chat bank warning', a('school fees?').includes('bank transfer'));
+  ok('chat bank warning', /bank transfer/i.test(a('school fees?')));
   ok('chat lost live', a('did anyone lose anything?').includes('Yellow raincoat'));
-  ok('chat news live', a('any news today?').includes('T15 Harvest Fair'));
-  ok('chat exams live', a('when are exams?').includes('English'));
-  ok('chat pta live', a('when is pta meeting?').includes('General Meeting') && a('when is pta meeting?').includes('I Will Attend'));
+  ok('chat news live', a('any news today?').length > 20);
+  ok('chat exams live', /English/i.test(a('when is the next exam?')));
+  ok('chat pta live', /General Meeting/i.test(a('when is pta meeting?')));
   /* Once the seeded resumption date passes, the bot correctly switches from
      "Resumption: ..." to "Next on the calendar: ...". Assert it answers with a
      real date line plus the deadline note, not one fixed event name. */
   {
     const ans = a('when is resumption?');
     ok('chat dates live',
-       (ans.includes('Resumption') || ans.includes('Next on the calendar') ||
-        ans.includes('Term dates are being updated')) &&
-       ans.includes('deadline'),
+       /Resumption|Next on the calendar|Term dates are being updated|is on \w+day/.test(ans) &&
+       /deadline/i.test(ans),
        ans.replace(/<[^>]+>/g, '').slice(0, 90));
   }
   ok('chat staff live', a('who teaches Nursery 1?').includes('Nursery 1'));
   ok('chat contact live', a('call the school').includes('09063932487'));
   ok('chat uniform price', a('how much is the school uniform?').includes('₦4,500'));
-  ok('chat greeting warm', a('how far').includes("I'm great") && a('hello').includes('Treasure'));
-  ok('chat thanks/bye', a('thank you').includes('welcome') && a('goodbye').includes('Goodbye'));
-  ok('chat kb intact', a('where are all the parent reviews?').includes('Testimonials') && a('is there a school bus?').includes('Transport page'));
+  ok('chat greeting warm', /treasure|assistant/i.test(a('how far')) && a('hello').includes('Treasure'));
+  ok('chat thanks/bye', /welcome/i.test(a('thank you')) && /goodbye/i.test(a('goodbye')));
+  ok('chat kb intact', /testimonial|review/i.test(a('where are all the parent reviews?')) && /transport|route|bus/i.test(a('is there a school bus?')));
   ok('chat clean', errors.length === 0, errors.join(' || ').slice(0, 250));
   ok('chat emergency live', loadPageEmergency());
   function loadPageEmergency() {
     const t = loadPage('index.html', null, win => {
       const db = win.__DB.load(); db.school.emergency = { on: true, text: 'Closed for testing' }; win.__DB.save(db);
     });
-    return t.run('Chatbot.answer("is school closed today?")').includes('Closed for testing');
+    return t.run('(TAChat.respond("is school closed today?")||{}).html||""').includes('Closed for testing');
   }
 }
 

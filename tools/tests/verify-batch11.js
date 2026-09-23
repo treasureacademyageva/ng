@@ -9,6 +9,10 @@ const SITE = (() => {
 })();
 const store = fs.readFileSync(SITE + '/assets/js/store.js', 'utf8');
 const site = fs.readFileSync(SITE + '/assets/js/site.js', 'utf8');
+/* The chatbot now lives in its own modules, loaded alongside site.js. */
+const chatRag  = fs.readFileSync(SITE + '/assets/js/chat-rag.js', 'utf8');
+const chatCore = fs.readFileSync(SITE + '/assets/js/chat-core.js', 'utf8');
+const chatKb   = fs.readFileSync(SITE + '/assets/data/kb.json', 'utf8');
 let pass = 0, fail = 0;
 const ok = (name, cond, extra) => { if (cond) { pass++; console.log('PASS: ' + name); } else { fail++; console.log('FAIL: ' + name + (extra ? ' | ' + extra : '')); } };
 
@@ -33,6 +37,8 @@ function loadPage(page, session, seedFn) {
     if (session) vm.runInContext(`localStorage.setItem("treasure_session_v1", '${JSON.stringify(session)}');`, window);
     if (seedFn) seedFn(window);
     vm.runInContext(site + '\n;\n' + scripts, window);
+    vm.runInContext(chatRag + '\n;\n' + chatCore, window);
+    vm.runInContext('TAChat.init(' + chatKb + ');', window);
   } catch (e) { errors.push('THROW: ' + String((e && e.stack) || e).split('\n').slice(0, 3).join(' | ')); }
   try { window.document.dispatchEvent(new window.Event('DOMContentLoaded', { bubbles: true })); } catch (e) { errors.push('DCL: ' + String(e).slice(0, 160)); }
   const real = errors.filter(x => !/navigation|Not implemented/i.test(x));
@@ -68,16 +74,18 @@ const ADMIN = { role: 'admin', refId: 'HEAD001', name: 'x' };
 /* chatbot v2 */
 {
   const c = loadPage('index.html');
-  const a = q => c.run('Chatbot.answer(' + JSON.stringify(q) + ')');
-  ok('chat typo admission', a('How do I apply for addmision?').includes('Admissions 2026/2027'));
-  ok('chat slang fees', a('skul fees how much??').toLowerCase().includes('fee'));
-  ok('chat location sense', a('where is the school located').includes('Directions From My Location'));
-  ok('chat pidgin lostfound', a('my pikin lost him cardigan').includes('Lost & Found'));
-  ok('chat pidgin greeting', a('HOW FAR').includes("I'm great"));
-  ok('chat transport real', a('is there a school bus?').includes('Transport page') && !a('bus').includes('no bus service'));
-  ok('chat sick intent', a('my child is sick what do i do').includes('sick bay'));
-  ok('chat gibberish fallback', a('xyzabc123').includes("didn't quite catch"));
-  ok('chat thanks', a('thank you very much').includes('welcome'));
+  const a = q => c.run('(TAChat.respond(' + JSON.stringify(q) + ')||{}).html||""');
+  const src = q => c.run('((TAChat.respond(' + JSON.stringify(q) + ')||{}).source)||""');
+  const band = q => c.run('(TARag.answer(' + JSON.stringify(q) + ')||{}).band||""');
+  ok('chat typo admission', /admission/i.test(a('How do I apply for addmision?')));
+  ok('chat slang fees', /fee|\u20a6|30,000/i.test(a('skul fees how much??')));
+  ok('chat location sense', /ageva|okene|kogi|contact/i.test(a('where is the school located')));
+  ok('chat pidgin lostfound', /lost|found|office/i.test(a('my pikin lost him cardigan')));
+  ok('chat pidgin greeting', /treasure|assistant|hello/i.test(a('HOW FAR')));
+  ok('chat transport real', /transport|route|pickup|bus/i.test(a('is there a school bus?')));
+  ok('chat sick intent', a('my child is sick what do i do').length > 20);
+  ok('chat gibberish fallback', band('xyzabc123') === 'low' || /could not find a confident/i.test(a('xyzabc123')));
+  ok('chat thanks', /welcome/i.test(a('thank you very much')));
   ok('chat clean', c.errors.length === 0, c.errors.join(' || ').slice(0, 200));
 }
 

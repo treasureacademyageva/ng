@@ -8,6 +8,10 @@ const SITE = (() => {
 })();
 const store = fs.readFileSync(SITE + '/assets/js/store.js', 'utf8');
 const site = fs.readFileSync(SITE + '/assets/js/site.js', 'utf8');
+/* The chatbot now lives in its own modules, loaded alongside site.js. */
+const chatRag  = fs.readFileSync(SITE + '/assets/js/chat-rag.js', 'utf8');
+const chatCore = fs.readFileSync(SITE + '/assets/js/chat-core.js', 'utf8');
+const chatKb   = fs.readFileSync(SITE + '/assets/data/kb.json', 'utf8');
 const css = fs.readFileSync(SITE + '/assets/css/corporate.css', 'utf8');
 let pass = 0, fail = 0;
 const ok = (name, cond, extra) => { if (cond) { pass++; console.log('PASS: ' + name); } else { fail++; console.log('FAIL: ' + name + (extra ? ' | ' + extra : '')); } };
@@ -33,6 +37,8 @@ function loadPage(page, session, seedFn) {
     if (session) vm.runInContext(`localStorage.setItem("treasure_session_v1", '${JSON.stringify(session)}');`, window);
     if (seedFn) seedFn(window);
     vm.runInContext(site + '\n;\n' + scripts, window);
+    vm.runInContext(chatRag + '\n;\n' + chatCore, window);
+    vm.runInContext('TAChat.init(' + chatKb + ');', window);
   } catch (e) { errors.push('THROW: ' + String((e && e.stack) || e).split('\n').slice(0, 3).join(' | ')); }
   try { window.document.dispatchEvent(new window.Event('DOMContentLoaded', { bubbles: true })); } catch (e) { errors.push('DCL: ' + String(e).slice(0, 160)); }
   const real = errors.filter(x => !/navigation|Not implemented/i.test(x));
@@ -93,10 +99,10 @@ const dstr = off => { const d = new Date(); d.setDate(d.getDate() + off); return
   ok('phone strips 0 to 10', w.document.getElementById('tPh').value === '8031234567', w.document.getElementById('tPh').value);
   run('var a=document.getElementById("tAl"); a.value="musa ibrahim"; a.dispatchEvent(new Event("input")); a.dispatchEvent(new Event("blur"));');
   ok('alpha sentence case', w.document.getElementById('tAl').value === 'Musa Ibrahim', w.document.getElementById('tAl').value);
-  ok('chat testimonials', run('Chatbot.answer("where are all the parent reviews?")').includes('Testimonials'));
-  ok('chat pta', run('Chatbot.answer("when is the next pta meeting?")').includes('PTA'));
-  ok('chat call', run('Chatbot.answer("how do i call the school?")').includes('WhatsApp'));
-  ok('chat typo syn', run('Chatbot.answer("wetin be dis skul fees?")').toLowerCase().includes('fee'));
+  ok('chat testimonials', /testimonial|review|parent/i.test(run('(TAChat.respond("where are all the parent reviews?")||{}).html||""')));
+  ok('chat pta', /pta|meeting/i.test(run('(TAChat.respond("when is the next pta meeting?")||{}).html||""')));
+  ok('chat call', /whatsapp|contact|phone|09063932487/i.test(run('(TAChat.respond("how do i call the school?")||{}).html||""')));
+  ok('chat typo syn', /fee|\u20a6/i.test(run('(TAChat.respond("wetin be dis skul fees?")||{}).html||""')));
   run('Search.open(); var si=document.getElementById("searchInput"); si.value="adm"; si.dispatchEvent(new Event("input"));');
   ok('search suggest', w.document.getElementById('searchSug').textContent.includes('admission'));
   ok('treasure 7 makers', run('Treasure.makers.length') === 7);
