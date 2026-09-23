@@ -40,7 +40,7 @@ const PUPIL = { role: 'pupil', refId: 'P001', name: 'Adaeze' };
 
 /* ---------- structure: no sidebar, landing-style top nav ---------- */
 [
-  ['portal/admin.html', ADMIN, 'Headmistress Portal', 22],
+  ['portal/admin.html', ADMIN, 'Headmistress Portal', 23],
   ['portal/teacher.html', TEACHER, 'Teacher Portal', 10],
   ['portal/pupil.html', PUPIL, 'Pupil Portal', 7],
 ].forEach(([page, sess, role, nBtns]) => {

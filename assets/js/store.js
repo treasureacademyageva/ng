@@ -538,25 +538,41 @@ const Auth = {
   },
   pupilLogin(adm, password){
     const db = DB.load(), q=(adm||"").trim().toUpperCase(), key=U.phoneKey(adm), pw=password||"";
-    const cands = db.pupils.filter(x=>((x.adm||"").toUpperCase()===q||(x.id||"").toUpperCase()===q||(key&&U.phoneKey(x.phone)===key)));
+    /* Either number given at registration can sign in - a household often
+       shares one phone and the other parent carries the second. */
+    const cands = db.pupils.filter(x=>((x.adm||"").toUpperCase()===q||(x.id||"").toUpperCase()===q||(key&&U.phoneKey(x.phone)===key)||(key&&U.phoneKey(x.phone2)===key)));
     if(!cands.length) return {ok:false, reason:"notfound"};
-    const exact = cands.find(x=>((x.adm||"").toUpperCase()===q||(x.id||"").toUpperCase()===q));
+
+    /* The headmistress approves a pupil before the account works at all.
+       Without this a stranger could register any name and read the portal. */
+    const ok4 = cands.filter(p=>p.verified !== false && p.status !== "rejected");
+    if(!ok4.length){
+      const first = cands[0];
+      if(first && first.status === "rejected") return {ok:false, reason:"rejected", pupil:first};
+      return {ok:false, reason:"pending", pupil:first};
+    }
+    const exact = ok4.find(x=>((x.adm||"").toUpperCase()===q||(x.id||"").toUpperCase()===q));
     if(exact){
       if(!exact.password) return {ok:false, reason:"nopassword", pupil:exact};
       if(exact.password!==pw) return {ok:false, reason:"wrongpass", pupil:exact};
       return {ok:true, session:{role:"pupil", refId:exact.id, name:exact.name, label:"Pupil • "+exact.class}};
     }
-    const withPw = cands.filter(p=>p.password);
-    if(!withPw.length) return {ok:false, reason:"nopassword", pupil:cands[0]};
+    const withPw = ok4.filter(p=>p.password);
+    if(!withPw.length) return {ok:false, reason:"nopassword", pupil:ok4[0]};
     const hit = withPw.find(p=>p.password===pw);
     if(!hit) return {ok:false, reason:"wrongpass", pupil:withPw[0]};
     return {ok:true, session:{role:"pupil", refId:hit.id, name:hit.name, label:"Pupil • "+hit.class}};
   },
   setPassword(adm, password){
     const db = DB.load(), q=(adm||"").trim().toUpperCase(), key=U.phoneKey(adm);
-    const cands = db.pupils.filter(x=>((x.adm||"").toUpperCase()===q||(x.id||"").toUpperCase()===q||(key&&U.phoneKey(x.phone)===key)));
+    const cands = db.pupils.filter(x=>((x.adm||"").toUpperCase()===q||(x.id||"").toUpperCase()===q||(key&&U.phoneKey(x.phone)===key)||(key&&U.phoneKey(x.phone2)===key)));
     if(!cands.length) return false;
-    cands.forEach(p=>{ p.password=password; }); DB.save(db); return true;
+    /* Only approved children get a working password, and the password is set
+       across every child on the account so one login covers the household. */
+    const allowed = cands.filter(p=>p.verified !== false && p.status !== "rejected");
+    if(!allowed.length) return false;
+    allowed.forEach(p=>{ p.password=password; p.activatedAt=new Date().toISOString(); });
+    DB.save(db); return true;
   },
   /* persistent=true → remembered on this device until logout */
   set(s, persistent){

@@ -61,7 +61,7 @@ ok('toggle adds body class', (() => { scb.click(); return adm.window.document.bo
 ok('preference persisted', adm.window.localStorage.getItem('treasure_side_slim') === '1');
 scb.click();
 ok('toggle removes class', !adm.window.document.body.classList.contains('side-slim'));
-ok('sideNav counts (22 with CoC)', adm.window.document.querySelectorAll('#sideNav button[data-view]').length === 22);
+ok('sideNav counts (23 with Verify)', adm.window.document.querySelectorAll('#sideNav button[data-view]').length === 23);
 ok('admin clean', adm.errors.length === 0, adm.errors.join(' || ').slice(0, 140));
 
 /* ---------- C. public sidebar (landing page included; login excluded; mobile unchanged) ---------- */

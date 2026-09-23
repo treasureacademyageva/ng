@@ -135,6 +135,18 @@ pre.view{background:#0A1114;border:1px solid var(--line);border-radius:10px;padd
       <textarea id="dvNotes" class="dv-notes" placeholder="Private notepad: build ideas, reminders, things to move next..." spellcheck="false"></textarea>
       <div class="row"><button class="grn" id="dvNotesCopy">Copy notes</button><button class="red" id="dvNotesClear">Clear notes</button><span class="note" id="dvNotesHint" style="margin:0">Saves automatically on this device.</span></div>
     </div>
+    <div class="panel" style="grid-column:1/-1"><h2><span class="dot"></span>One-Time Codes &mdash; Activation Inbox</h2>
+      <p class="note">The school has no SMS gateway, so activation codes arrive here
+      instead. Each row shows the code, the number that asked for it and which pupils
+      it unlocks &mdash; pass it to the parent yourself, by call or WhatsApp. A code
+      lasts 24 hours, allows 5 attempts, and dies once used.</p>
+      <div id="dvOtp" class="cs-list"></div>
+      <div class="row" style="margin-top:.7rem">
+        <button class="grn" id="dvOtpRefresh">Refresh</button>
+        <button class="red" id="dvOtpClear">Clear used &amp; expired</button>
+        <span class="note" id="dvOtpHint" style="margin:0"></span>
+      </div>
+    </div>
     <div class="panel" style="grid-column:1/-1"><h2><span class="dot"></span>Chatbot Analytics &mdash; Treasure Support AI</h2>
       <div id="dvChatStats" class="cs-grid"></div>
       <div class="cs-cols">
@@ -174,11 +186,12 @@ pre.view{background:#0A1114;border:1px solid var(--line);border-radius:10px;padd
   </div>
 </div>
 <div id="dvToast"></div>
-<script src="assets/js/store.js?v=20260923-54"></script><script defer src="assets/js/db-live.js?v=20260923-54"></script>
-<script src="assets/js/sync.js?v=20260923-54"></script>
-<script defer src="assets/js/chat-entities.js?v=20260923-54"></script>
-<script defer src="assets/js/chat-rag.js?v=20260923-54"></script>
-<script defer src="assets/js/chat-core.js?v=20260923-54"></script>
+<script src="assets/js/store.js?v=20260923-55"></script>
+<script src="assets/js/verify.js?v=20260923-55"></script><script defer src="assets/js/db-live.js?v=20260923-55"></script>
+<script src="assets/js/sync.js?v=20260923-55"></script>
+<script defer src="assets/js/chat-entities.js?v=20260923-55"></script>
+<script defer src="assets/js/chat-rag.js?v=20260923-55"></script>
+<script defer src="assets/js/chat-core.js?v=20260923-55"></script>
 <script>
 (function(){
   "use strict";
@@ -545,6 +558,56 @@ pre.view{background:#0A1114;border:1px solid var(--line);border-radius:10px;padd
     if(r) r.onclick=function(){
       if(!confirm("Clear all chatbot analytics on this device?")) return;
       TAChat.resetStats(); render();
+    };
+    setInterval(render, 5000);
+  }
+  if(document.readyState==="loading") document.addEventListener("DOMContentLoaded",boot);
+  else boot();
+})();
+</script>
+
+<script>
+/* Activation inbox. Codes are generated in the browser and delivered by a
+   person, so this is the only place they exist. */
+(function(){
+  function esc(x){return String(x==null?"":x).replace(/[&<>"]/g,function(c){
+    return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];});}
+  function ago(t){
+    const m=Math.round((Date.now()-t)/60000);
+    if(m<1) return "just now";
+    if(m<60) return m+" min ago";
+    const h=Math.round(m/60); return h<24?h+" hr ago":Math.round(h/24)+" d ago";
+  }
+  function render(){
+    const box=document.getElementById("dvOtp");
+    if(!box||!window.TAVerify) return;
+    const rows=TAVerify.queue();
+    const live=rows.filter(r=>r.state==="waiting").length;
+    const hint=document.getElementById("dvOtpHint");
+    if(hint) hint.textContent = live?(live+" waiting to be passed on"):"Nothing waiting.";
+    box.innerHTML = rows.length ? rows.map(function(r){
+      const tone = r.state==="waiting" ? "#3aa76d" : r.state==="used" ? "#6b7280" : "#c0392b";
+      return '<div class="cs-row" style="border-color:'+tone+'">'+
+        '<span><b style="font-size:1.15rem;letter-spacing:.14em">'+esc(r.state==="waiting"?r.code:"••••")+'</b>'+
+        ' &nbsp; '+esc(r.phone)+(r.parent?' <small>('+esc(r.parent)+')</small>':'')+
+        '<br><small>'+esc((r.pupils||[]).join(", "))+'</small></span>'+
+        '<small>'+esc(r.state)+(r.tries?' · '+r.tries+' tries':'')+' · '+ago(r.issuedAt)+'</small></div>';
+    }).join("") : '<div class="cs-empty">No codes requested yet.</div>';
+  }
+  function boot(){
+    if(!document.getElementById("dvOtp")) return;
+    render();
+    const rf=document.getElementById("dvOtpRefresh"); if(rf) rf.onclick=render;
+    const cl=document.getElementById("dvOtpClear");
+    if(cl) cl.onclick=function(){
+      if(!confirm("Clear used and expired codes? Waiting codes are kept.")) return;
+      try{
+        const k="treasure_otp_queue_v1";
+        const keep=JSON.parse(localStorage.getItem(k)||"[]")
+          .filter(function(x){ return !x.used && Date.now()<x.expiresAt; });
+        localStorage.setItem(k, JSON.stringify(keep));
+      }catch(e){}
+      render();
     };
     setInterval(render, 5000);
   }

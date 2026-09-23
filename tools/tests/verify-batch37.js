@@ -50,7 +50,7 @@ adm.run('qaGo("notices")');
 ok('qa navigates to notices', adm.window.document.getElementById('v-notices').classList.contains('on'));
 adm.run('qaGo("pupils",openPupilModal)');
 ok('qa opens add-pupil modal', adm.window.document.getElementById('v-pupils').classList.contains('on') && (adm.window.document.getElementById('modalBox').innerHTML.includes('Pupil') || adm.window.document.getElementById('modalBg').classList.contains('show')));
-ok('sideNav count still 22', adm.window.document.querySelectorAll('#sideNav button[data-view]').length === 22);
+ok('sideNav count still 23', adm.window.document.querySelectorAll('#sideNav button[data-view]').length === 23);
 ok('admin clean', adm.errors.length === 0, adm.errors.join(' || ').slice(0, 140));
 
 /* ---------- B. photo watermark ---------- */

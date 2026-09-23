@@ -70,7 +70,7 @@ ok('active = butter edge', corp.includes('#sideNav button[data-view].on{backgrou
 ok('mobile: direct 2-col links, no hamburger', corp.includes('@media(max-width:1099px)') && corp.includes('#sideNav{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))'));
 ok('logout still by theme switch', dh !== null && (fs.readFileSync(SITE + '/portal/admin.html', 'utf8').includes('</button><button class="nav-logout"')));
 const adm = loadPage('portal/admin.html', ADMIN);
-ok('all 22 admin views kept', adm.window.document.querySelectorAll('#sideNav button[data-view]').length === 22);
+ok('all 23 admin views kept', adm.window.document.querySelectorAll('#sideNav button[data-view]').length === 23);
 ok('buttons all clickable sections', (() => { let dead = 0; adm.window.document.querySelectorAll('#sideNav button[data-view]').forEach(b => { b.click(); const s = adm.window.document.getElementById('v-' + b.dataset.view); if (!s) dead++; }); return dead === 0; })());
 ok('no hamburger toggle anywhere', !adm.window.document.querySelector('.side-toggle') && !adm.window.document.querySelector('#menuBtn'));
 ok('admin clean', adm.errors.length === 0, adm.errors.join(' || ').slice(0, 140));

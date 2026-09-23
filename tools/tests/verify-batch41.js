@@ -101,7 +101,7 @@ const adm = loadPage('portal/admin.html', ADMIN);
 ok('admin coc gate shows first login', adm.window.document.getElementById('cocBox').style.display === '');
 adm.run('acceptCoC();');
 ok('admin accept hides + persists on school', adm.window.document.getElementById('cocBox').style.display === 'none' && adm.run('DB.load().school.cocA') === 1);
-ok('admin sidebar 22 buttons', adm.window.document.querySelectorAll('#sideNav button[data-view]').length === 22);
+ok('admin sidebar 23 buttons', adm.window.document.querySelectorAll('#sideNav button[data-view]').length === 23);
 
 /* ---------- E. versions ---------- */
 let stale = 0;
