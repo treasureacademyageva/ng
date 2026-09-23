@@ -227,26 +227,96 @@ var DBLive = (function () {
         .catch(function () { return null; });
     },
 
+    /* Exam timetable. Kept whole (past papers flagged) so the printed
+       timetable stays complete instead of emptying as the week goes on. */
+    exams: function () {
+      return get("exams_current_session", "?select=*&order=sits_on")
+        .then(function (rows) {
+          if (!rows) return null;
+          return rows.map(function (r) {
+            return {
+              id: r.id,
+              date: String(r.sits_on || "").slice(0, 10),
+              time: r.starts_at || "",
+              subject: r.subject || "",
+              classes: r.classes || "",
+              day: r.sits_on
+                ? new Date(r.sits_on + "T12:00:00")
+                    .toLocaleDateString("en-GB", { weekday: "long" })
+                : ""
+            };
+          });
+        });
+    },
+
+    ptaMeetings: function () {
+      return get("pta_meetings", "?select=*&order=meets_on")
+        .then(function (rows) {
+          if (!rows) return null;
+          return rows.map(function (r) {
+            return {
+              id: r.id,
+              date: String(r.meets_on || "").slice(0, 10),
+              title: r.title || "",
+              venue: r.venue || ""
+            };
+          });
+        });
+    },
+
+    transport: function () {
+      return get("transport_routes", "?select=*&order=route_name")
+        .then(function (rows) {
+          if (!rows) return null;
+          return rows.map(function (r) {
+            return { id: r.id, route: r.route_name, pickup: r.pickup || "",
+                     fee: Number(r.fee_naira) || 0 };
+          });
+        });
+    },
+
+    uniform: function () {
+      return get("uniform_items", "?select=*&order=sort_order")
+        .then(function (rows) {
+          if (!rows) return null;
+          return rows.map(function (r) {
+            return { id: r.id, name: r.item_name, note: r.note || "",
+                     price: Number(r.price_naira) || 0 };
+          });
+        });
+    },
+
     /* Merge whatever the database knows into the local DB, then tell the page
        to re-render. Safe to call on every page load. */
     hydrate: function () {
       if (!enabled()) return Promise.resolve(false);
-      return Promise.all([API.calendar(), API.session(), API.fees()])
-        .then(function (res) {
-          var cal = res[0], ses = res[1], fees = res[2];
-          if (!cal && !ses && !fees) return false;
-          try {
-            var db = DB.load(), touched = false;
-            if (cal && cal.length) { db.calendar = cal; touched = true; }
-            if (ses) {
-              if (ses.session) { db.school.session = ses.session; touched = true; }
-              if (ses.term)    { db.school.term = ses.term;       touched = true; }
-            }
-            if (fees) { db.school.fees = fees; touched = true; }
-            if (touched) DB.save(db);
-            return touched;
-          } catch (e) { return false; }
-        });
+      return Promise.all([
+        API.calendar(), API.session(), API.fees(),
+        API.exams(), API.ptaMeetings(), API.transport(), API.uniform()
+      ]).then(function (res) {
+        var cal = res[0], ses = res[1], fees = res[2],
+            exams = res[3], pta = res[4], transport = res[5], uniform = res[6];
+        if (!cal && !ses && !fees && !exams && !pta && !transport && !uniform) {
+          return false;
+        }
+        try {
+          var db = DB.load(), touched = false;
+          if (cal && cal.length) { db.calendar = cal; touched = true; }
+          if (ses) {
+            if (ses.session) { db.school.session = ses.session; touched = true; }
+            if (ses.term)    { db.school.term = ses.term;       touched = true; }
+          }
+          if (fees)                     { db.school.fees = fees;     touched = true; }
+          if (exams && exams.length)    { db.exams = exams;          touched = true; }
+          if (pta && pta.length)        { db.ptaMeetings = pta;      touched = true; }
+          if (transport && transport.length) {
+            db.transportRoutes = transport; touched = true;
+          }
+          if (uniform && uniform.length) { db.uniform = uniform;     touched = true; }
+          if (touched) DB.save(db);
+          return touched;
+        } catch (e) { return false; }
+      });
     }
   };
 

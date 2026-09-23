@@ -74,6 +74,38 @@ alter table audit_log         enable row level security;
 revoke insert, update, delete on all tables in schema public from anon;
 
 -- ----------------------------------------------------------------------------
+-- 1b. GRANTS.
+--
+-- Two different gates guard a table and BOTH must be open:
+--   GRANT decides whether a role may touch the table at all;
+--   RLS   decides which rows it then sees.
+--
+-- Supabase issues its blanket "grant select on all tables" when the project is
+-- created - i.e. BEFORE these tables existed. Tables created afterwards by
+-- 001_schema.sql are therefore NOT covered, and a policy alone is not enough:
+-- the public pages would fail with "permission denied for table sessions".
+-- Verified by replaying that exact order on PostgreSQL 17.
+--
+-- So grant explicitly, table by table, and only on the public ones.
+-- ----------------------------------------------------------------------------
+grant usage on schema public to anon, authenticated;
+
+grant select on
+  sessions, calendar_events, admission_windows, fee_structure,
+  news_posts, news_images, pta_meetings, staff_subjects
+  to anon, authenticated;
+
+grant select on calendar_upcoming, calendar_current_session
+  to anon, authenticated;
+
+-- The private tables are never granted, so they are shut by grant AND by the
+-- absence of a policy.
+revoke select on
+  pupils, parent_accounts, parent_phones, applications,
+  attendance, results, fee_payments, pta_attendance, audit_log
+  from anon;
+
+-- ----------------------------------------------------------------------------
 -- 2. PUBLIC READ — information the school already publishes.
 --    Policies are dropped first so the file can be re-run safely.
 -- ----------------------------------------------------------------------------

@@ -118,6 +118,48 @@ ok('future tables default to closed',
    /alter default privileges in schema public\s+revoke insert, update, delete/i.test(pol));
 ok('policies are re-runnable', /drop policy if exists/i.test(pol));
 
+/* ------------------------------------------------- 004 school content ---- */
+
+ok('school-content migration exists', exists('db/004_school_content.sql'));
+const m4 = read('db/004_school_content.sql');
+
+['exam_timetable', 'staff_meetings', 'holiday_assignments',
+ 'transport_routes', 'uniform_items'].forEach(t => {
+  ok('004 creates ' + t,
+     new RegExp('create table if not exists ' + t, 'i').test(m4));
+  ok('004 enables RLS on ' + t,
+     new RegExp('alter table ' + t + '\\s+enable row level security', 'i').test(m4));
+});
+
+/* The bug this file was written to remove: dated content going stale in JS. */
+ok('exam view keeps past papers',  /exams_current_session/.test(m4) && /is_past/.test(m4));
+ok('exam view for upcoming only',  /exams_upcoming/.test(m4));
+ok('004 views are security_invoker',
+   /alter view exams_upcoming\s+set \(security_invoker = on\)/i.test(m4));
+
+/* Internal content must not be public. */
+ok('staff meetings stay private',
+   !/create policy[^;]*on staff_meetings[^;]*anon/i.test(m4) &&
+   /revoke select on staff_meetings, holiday_assignments from anon/i.test(m4));
+
+/* GRANT and RLS are separate gates - the public tables need both. */
+ok('004 grants select on its public tables',
+   /grant select on exam_timetable, transport_routes, uniform_items/i.test(m4));
+
+ok('004 seeds real values only',
+   /Route A - Adavi/.test(m4) && /School Shirt \(white\)/.test(m4) &&
+   /Welcome Back Staff Meeting/.test(m4));
+ok('004 is re-runnable', /on conflict/i.test(m4) && /create table if not exists/i.test(m4));
+
+/* 003 must grant explicitly: Supabase's blanket grant runs before these
+   tables exist, so a policy alone leaves the public pages denied. */
+ok('003 grants select on the public tables',
+   /grant select on\s+sessions, calendar_events, admission_windows, fee_structure/i.test(pol));
+ok('003 grants the public views',
+   /grant select on calendar_upcoming, calendar_current_session/i.test(pol));
+ok('003 revokes select on the private tables',
+   /revoke select on\s+pupils, parent_accounts, parent_phones/i.test(pol));
+
 /* ------------------------------------------------------------ db-live ---- */
 
 ok('db-live.js exists', exists('assets/js/db-live.js'));
@@ -128,6 +170,12 @@ ok('reader never rejects',              /\.catch\(function/.test(live));
 ok('reader times out slow networks',    /AbortController/.test(live) && /setTimeout/.test(live));
 ok('reader caches for offline use',     /treasure_dblive_cache/.test(live));
 ok('reader is read-only for tables',    !/method:\s*"(PATCH|PUT|DELETE)"/.test(live));
+/* db-live must read the new tables. */
+ok('db-live reads exams',     /exams_current_session/.test(live));
+ok('db-live reads pta',       /pta_meetings/.test(live));
+ok('db-live reads transport', /transport_routes/.test(live));
+ok('db-live reads uniform',   /uniform_items/.test(live));
+
 ok('no service_role key in client js',
    !/service_role['\"]?\s*[:=]/i.test(live) && !/eyJ[A-Za-z0-9_-]{20,}/.test(live));
 

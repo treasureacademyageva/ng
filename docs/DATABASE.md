@@ -108,6 +108,11 @@ Turning it on is a single step: paste the URL and anon key in Admin → Settings
 | `fee_structure`, `fee_payments` | fees and payments | `SCHOOL_DEFAULTS.fees` |
 | `news_posts`, `news_images` | news and events | `db.newsEvents` |
 | `pta_meetings`, `pta_attendance` | PTA meetings and RSVPs | `db.pta*` |
+| `exam_timetable` | exam papers, past ones kept | `db.exams` |
+| `transport_routes` | routes, pickups, fares | `db.transportRoutes` |
+| `uniform_items` | uniform price list | `db.uniform` |
+| `staff_meetings` | internal staff meetings (private) | `db.meetings` |
+| `holiday_assignments` | holiday work per class (private) | `db.holiday` |
 | `audit_log` | who changed what, when | nothing — new |
 
 ### Views
@@ -117,16 +122,29 @@ Turning it on is a single step: paste the URL and anon key in Admin → Settings
 | `calendar_current_session` | calendar page and printed calendar — includes past dates, flagged |
 | `calendar_upcoming` | homepage countdown and the chatbot |
 | `fee_balances` | expected vs paid vs outstanding, per pupil, current term |
+| `exams_current_session` | full exam timetable, past papers flagged |
+| `exams_upcoming` | papers still ahead, for countdowns and the chatbot |
 
 ---
 
 ## Running the policies (step 3, do not skip)
 
 ```
-db/001_schema.sql   ->  tables
-db/002_seed.sql     ->  current data
-db/003_policies.sql ->  locks it down   <-- run before connecting the site
+db/001_schema.sql         ->  core tables
+db/002_seed.sql           ->  current data
+db/003_policies.sql       ->  locks it down   <-- run before connecting the site
+db/004_school_content.sql ->  exams, PTA, transport, uniform (+ their policies)
 ```
+
+Run them in that order. All four are safe to re-run.
+
+**A trap worth knowing about.** A table is guarded by two separate gates:
+`GRANT` decides whether a role may touch it at all, and RLS decides which rows
+it then sees. Supabase issues its blanket `grant select on all tables` when the
+project is created — *before* these tables exist — so a policy on its own is
+not enough and the public pages fail with `permission denied for table
+sessions`. `003` and `004` therefore grant explicitly, table by table. This was
+found by replaying the real migration order on PostgreSQL 17, not assumed.
 
 Check it worked, in the SQL Editor:
 
