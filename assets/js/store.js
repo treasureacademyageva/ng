@@ -489,6 +489,11 @@ const DB = {
           "Remove some uploaded photos, then try again."
         : "Your last change could not be saved on this device.";
       try { console.error("DB.save failed:", err); } catch (e) {}
+      /* Most call sites do `DB.save(db); U.toast("Saved!")` without checking
+         the result, which would tell staff their work was stored when it was
+         not. Flag the failure so U.toast can veto the success message that is
+         about to fire. */
+      try { DB._saveFailedAt = Date.now(); } catch (e) {}
       try {
         if (window.U && U.toast) U.toast(msg);
         else if (typeof alert === "function") alert(msg);
@@ -817,7 +822,18 @@ const U = {
     return h;
   },
   naira(n){ return "\u20A6" + Number(n||0).toLocaleString("en-NG"); },
-  toast(msg){ let t=document.getElementById("toast"); if(!t){ t=document.createElement("div"); t.id="toast"; document.body.appendChild(t);} t.textContent=msg; t.classList.add("show"); clearTimeout(t._h); t._h=setTimeout(()=>t.classList.remove("show"),3000); },
+  toast(msg){
+    /* A save that just failed must not be followed by "Saved!". DB.save marks
+       the failure; anything reassuring fired in the next moment is replaced by
+       the truth, so staff never think their work was stored when it was lost. */
+    try {
+      if (typeof DB !== "undefined" && DB._saveFailedAt &&
+          (Date.now() - DB._saveFailedAt) < 1500 &&
+          /saved|success|updated|added|posted|sent|recorded|published/i.test(String(msg))) {
+        msg = "NOT saved — this device's storage is full. Remove some uploaded photos and try again.";
+      }
+    } catch (e) {}
+    let t=document.getElementById("toast"); if(!t){ t=document.createElement("div"); t.id="toast"; document.body.appendChild(t);} t.textContent=msg; t.classList.add("show"); clearTimeout(t._h); t._h=setTimeout(()=>t.classList.remove("show"),3000); },
   teacherName(db, tid){ const t=db.teachers.find(x=>x.id===tid); return t?t.name:"—"; },
   pupil(db, pid){ return db.pupils.find(x=>x.id===pid); },
   dutyToday(db){

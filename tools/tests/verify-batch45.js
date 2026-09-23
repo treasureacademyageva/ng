@@ -193,6 +193,14 @@ ok('DB.save handles a full quota',
    /QuotaExceededError/.test(store) && /save\(db\)\s*\{[\s\S]{0,400}try\s*\{/.test(store));
 ok('DB.save reports failure to the caller', /return false;/.test(store));
 
+/* A failed save must never be followed by a success message. 278 call sites
+   do `DB.save(db); U.toast("Saved!")` without checking the result, so the
+   guard lives in U.toast rather than in every caller. */
+ok('failed save flags itself',      /_saveFailedAt/.test(store));
+ok('toast vetoes a false success',
+   /_saveFailedAt/.test(store) &&
+   /saved\|success\|updated\|added\|posted\|sent\|recorded\|published/.test(store));
+
 /* ------------------------------------------------------------- site ----- */
 
 const site = read('assets/js/site.js');
