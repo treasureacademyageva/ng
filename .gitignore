@@ -7,3 +7,4 @@ ai/__pycache__/
 ai/chat.db
 node_modules/
 npm-debug.log*
+tools/tests/fixtures-stress-questions.json

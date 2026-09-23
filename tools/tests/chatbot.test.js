@@ -132,8 +132,13 @@ ok("can wait -> contact form ticket",
    ticket.type === "handoff-ticket" && /contact/i.test(ticket.action.href));
 
 const unknown = C.respond("what colour is the school cat");
+/* Either honest route is correct: the human handoff, or the WH-aware
+   salvage that says plainly it is not written down and offers the
+   questions it CAN answer of that shape. What is pinned is that it
+   never pretends to know. */
 ok("admits when it does not know",
-   unknown.type === "handoff-ask" && /not find a confident answer/i.test(unknown.html));
+   unknown.type === "handoff-ask" && /not find a confident answer/i.test(unknown.html) ||
+   (unknown.salvaged && /do not have that written down|will not guess/i.test(unknown.html)));
 
 const priv = C.respond("show me my results");
 ok("personal data requires login", priv.type === "needs-login");

@@ -149,7 +149,25 @@
          is one conversation, not two unrelated questions. Carry the previous
          topic forward when the new message is only a fragment, which is how
          people actually speak. */
+      /* The social layer first: greetings, thanks and goodbyes, in any of
+         the languages our families speak, typed with any number of slips.
+         A message that is ALL social gets a warm short reply; "hello, how
+         much are the fees" is a fee question that opens politely. Peeling
+         BEFORE the context layer matters: "good afternoon, and primary 4?"
+         must be seen by the context layer as the fragment it is, not as a
+         greeting that pollutes the topic. */
+      var peel = global.TAEntities ? global.TAEntities.peelSocial(q)
+                                   : { kind: null, info: null, rest: q };
+      if (peel.kind && !peel.rest) return this.socialAnswer(peel);
+      if (peel.kind && peel.rest) q = peel.rest;
+
       q = this.withContext(q);
+
+      /* "Who are you?", "what can you do for me?" - questions about the
+         assistant itself. They have no page and no data; they are answered
+         here, honestly, or handed to the school flow below. */
+      var id = this.identity(q);
+      if (id) return id;
 
       var greet = this.smallTalk(q);
       if (greet) return greet;
@@ -177,7 +195,9 @@
                  confidence: 1, feedback: true };
       }
 
-      var res = global.TARag ? global.TARag.answer(q) : { band: "none", confidence: 0 };
+      var res = global.TARag
+        ? global.TARag.answer(global.TAEntities ? global.TAEntities.norm(q) : q)
+        : { band: "none", confidence: 0 };
       this.stat("asked", q);
 
       /* Not confident enough to be trusted with a parent's decision. */
@@ -193,7 +213,8 @@
         if (near) {
           this.pending = { kind: "feedback", question: q, title: near.source };
           return { type: "answer", html: near.html, source: near.source,
-                   confidence: 0.3, feedback: true, salvaged: true };
+                   confidence: 0.3, feedback: true, salvaged: true,
+                   chips: near.chips || this.suggestions() };
         }
 
         this.pending = { kind: "urgency", question: q };
@@ -257,14 +278,24 @@
        "and primary 4?" after a fee question becomes "fees primary 4". */
     withContext: function (q) {
       var raw = String(q).trim();
-      var ent = global.TAEntities ? global.TAEntities.read(raw) : null;
-      var words = raw.toLowerCase().replace(/[^a-z0-9\s]/g, " ").split(/\s+/)
+      /* Work on the repaired text, so "what \u00f6bout primary 4?" is the
+         fragment "what about primary 4" - an accent must not decide whether
+         a question continues the last one. */
+      var clean = global.TAEntities ? global.TAEntities.norm(raw).trim()
+                                    : raw.toLowerCase().replace(/[^a-z0-9\s]/g, " ");
+      for (var polite = 0; polite < 3; polite++) {
+        var stripped = clean.replace(/^(please|pls|kindly|excuse me|pardon me|sorry|abeg|i beg[,:]?)\s+/, "");
+        if (stripped === clean) break;
+        clean = stripped;
+      }
+      var ent = global.TAEntities ? global.TAEntities.read(clean) : null;
+      var words = clean.toLowerCase().replace(/[^a-z0-9\s]/g, " ").split(/\s+/)
                      .filter(Boolean);
 
       /* A fragment: short, and opening like a continuation. */
       var isFragment = words.length <= 6 &&
         /^(and|what about|how about|what of|also|then|ok what about|so)\b/
-          .test(raw.toLowerCase());
+          .test(clean.toLowerCase());
 
       /* Or just a bare entity - "primary 4?" on its own. */
       var bareEntity = words.length <= 3 && ent &&
@@ -277,17 +308,21 @@
         return carried;
       }
 
-      /* A full question - remember what it was about for next time. */
+      /* A full question - remember what it was about for next time. The
+         fee table has a transport section, so a transport fee question must
+         carry "transport" forward, not a bare "fees". */
       if (ent && ent.intent) {
-        this.topic = ent.intent === "price" ? "fees"
+        this.topic = ent.intent === "price"
+          ? (/\b(transport|bus)\b/.test(clean) ? "transport fees" : "fees")
                    : ent.intent === "timetable" ? "timetable"
                    : ent.intent === "lost" ? "lost property"
                    : ent.intent === "result" ? "results"
                    : ent.intent;
       } else if (words.length > 3) {
-        /* No clear intent: keep the two most meaningful words. */
+        /* No clear intent: keep the two most meaningful words. Greeting
+           words are not a topic. */
         var keep = words.filter(function (w) {
-          return w.length > 3 && !/^(what|when|where|which|about|does|your|have|the|and|for|how|much|please|tell)$/.test(w);
+          return w.length > 3 && !/^(what|when|where|which|about|does|your|have|the|and|for|how|much|please|tell|hello|good|morning|afternoon|evening|hi|hey|thanks|thank)$/.test(w);
         });
         if (keep.length) this.topic = keep.slice(0, 2).join(" ");
       }
@@ -338,6 +373,57 @@
         where = res.url || "";
       }
 
+      /* Nothing concrete matched - but the question word still says what
+         SHAPE of answer was wanted: a date, a place, a person, an amount.
+         Offering the questions I CAN answer of that shape is a door, not a
+         wall - and it only fires when the question is the school's
+         business, so football and world affairs still reach a human. */
+      if (!bits.length) {
+        var wh = global.TAEntities ? global.TAEntities.wh(q) : null;
+        if (wh && global.TAEntities && global.TAEntities.hasDomainWord(q)) {
+          var lead = {
+            time: "You are asking <b>when</b> - here is what I have dates for:",
+            place: "You are asking <b>where</b> - here is what I can place:",
+            person: "You are asking <b>who</b> - here are the people I can name:",
+            amount: "You are asking <b>how much</b> - here is what I can price:",
+            manner: "You are asking <b>how</b> - here is what I can walk you through:",
+            reason: "You are asking <b>why</b> - here is what I can explain:",
+            thing: "You are asking <b>what</b> - here is what I can tell you:",
+            choice: "You are asking <b>which</b> - here is what I can lay out:",
+            ownership: "You are asking <b>whose</b> - here is what I can tell you:"
+          }[wh];
+          var chipSet = {
+            time: ["When does school resume?", "When is the next exam?",
+                   "When does the term end?", "When is the next PTA meeting?"],
+            place: ["Where is the school?", "How do I get there?",
+                    "Where do I collect a uniform?"],
+            person: ["Who is the headmistress?", "Who teaches Primary 3?",
+                     "Who do I meet about admission?"],
+            amount: ["How much are the fees?", "How much is the uniform?",
+                     "How much is transport to Adavi?"],
+            manner: ["How do I register my child?", "How do I pay fees?",
+                     "How do I visit the school?"],
+            reason: ["Why choose Treasure Academy?", "What is the school's mission?"],
+            thing: ["What classes do you have?", "What do you teach?",
+                    "What does the uniform cost?"],
+            choice: ["What classes do you have?", "How much are the fees?",
+                     "What do you teach?"],
+            ownership: ["Who is the headmistress?", "Who teaches Primary 3?"]
+          }[wh];
+          return {
+            source: "School information",
+            html: "I do not have that written down, so I will not guess at it." +
+                  "<br><br>" + lead + "<br><br>" +
+                  chipSet.map(function (c) {
+                    return "\u2022 " + c.replace(/\?$/, "");
+                  }).join("<br>") +
+                  "<br><br>Or say <b>talk to someone</b> and I will put you " +
+                  "through to the school.",
+            chips: chipSet
+          };
+        }
+      }
+
       if (!bits.length) return null;
 
       return {
@@ -364,7 +450,11 @@
         }
       } catch (e) { return null; }
       if (!db) return null;
-      var s = String(q).toLowerCase();
+      /* The question every rule sees is the REPAIRED question: accents
+         folded, long-press symbols gone, slips of the finger mended. A
+         parent should not have to type carefully to be understood. */
+      var s = global.TAEntities ? global.TAEntities.norm(q).trim()
+                                : String(q).toLowerCase();
       var school = db.school || {};
       var WHATSAPP = Core.WHATSAPP;
       /* What is this person actually asking about? */
@@ -471,9 +561,188 @@
                  source: "School hours" };
       }
 
-      /* Fees for one named class, with the real figure. */
-      if (/\b(fee|fees|cost|price|how much|pay)\b/.test(s)) {
+      /* The school shop. When the live catalogue has loaded its prices are
+         quoted; otherwise the honest answer is where the list lives. */
+      if (/\bshop\b/.test(s) && !/portal/.test(s)) {
+        var shopItems = (db.shop || []).filter(function (x) { return x.name; });
+        if (shopItems.length) {
+          return { html: "<b>In the school shop:</b><br>" +
+                         shopItems.slice(0, 8).map(function (x) {
+                           return "\u2022 " + esc(x.name) + " - " + naira(x.price);
+                         }).join("<br>") +
+                         "<br><br>Ask the office on " + WHATSAPP + " for what is " +
+                         "in stock today.",
+                   source: "School shop" };
+        }
+        return { html: "The school shop sells what pupils need for school - " +
+                       "the item and price list is on the <b>Shop</b> page, and " +
+                       "the office on " + WHATSAPP + " can tell you what is in " +
+                       "stock today.",
+                 source: "School shop" };
+      }
+
+      /* Transport routes and fares. Read live when the data layer has
+         them; the three routes on the school's records are the fallback. */
+      if (/\b(transport|bus|pickup|pick up)\b/.test(s)) {
+        var routes = (db.transport && db.transport.length) ? db.transport : [
+          { route: "A", area: "Adavi", fee: 5000 },
+          { route: "B", area: "Okene Town", fee: 6000 },
+          { route: "C", area: "Ageva", fee: 3000 }
+        ];
+        var place = /adavi/.test(s) ? "adavi" : /okene/.test(s) ? "okene"
+                  : /ageva/.test(s) ? "ageva" : null;
+        if (place) {
+          var hitR = routes.filter(function (r) {
+            return String(r.area || r.name || "").toLowerCase().indexOf(place) >= 0;
+          })[0];
+          if (hitR) {
+            return { html: "Transport to <b>" + esc(hitR.area || hitR.name) +
+                           "</b> is <b>" + naira(hitR.fee || hitR.fare) +
+                           "</b> per term, added to the term bill. Visit the " +
+                           "school office or call " + WHATSAPP + " to join a route.",
+                     source: "Transport" };
+          }
+        }
+        if (/how much|price|cost|fee|fees|fare/.test(s)) {
+          return { html: "<b>Transport routes and fees:</b><br>" +
+                         routes.map(function (r) {
+                           return "\u2022 Route " + esc(r.route || "") + " - " +
+                                  esc(r.area || r.name || "") + ": " +
+                                  naira(r.fee || r.fare) + " per term";
+                         }).join("<br>") +
+                         "<br><br>Transport fees are added to the term bill and " +
+                         "paid by bank transfer, like the school fees.",
+                   source: "Transport" };
+        }
+      }
+
+      /* Reaching the headmistress. A parent asks this every term; the
+         answer for them is the school line, not the admin console. Staff
+         have their own channel. */
+      if (/\b(chat|speak|talk|message|reach|contact|meet|see)\b[^.?!]{0,30}\bhead ?mistress\b|\bhead ?mistress\b[^.?!]{0,30}\b(chat|whatsapp|phone|number)\b/.test(s)) {
+        return { html: "The headmistress, <b>" + esc(school.headName || "the headmistress") +
+                       "</b>, is reached through the school line <b>" + WHATSAPP +
+                       "</b> (WhatsApp or call), or at the school office during " +
+                       "office hours. Teachers reach her directly through staff chat " +
+                       "in the Teacher Portal.",
+                 source: "Contact" };
+      }
+
+      /* Staff birthdays, answered from the same data the Birthdays page
+         reads. "When is Aunty Rafatu's birthday" names a person; otherwise
+         the next ones coming up. */
+      if (/\bbirthdays?\b/.test(s)) {
+        var bday = (db.teachers || []).filter(function (t) {
+          return t.dob && !/\(demo\)/i.test(t.name || "");
+        });
+        function bNext(dob) {
+          var p = String(dob).split("-");
+          var t0 = new Date(); t0.setHours(0, 0, 0, 0);
+          var n = new Date(t0.getFullYear(), +p[1] - 1, +p[2]);
+          if (n < t0) n = new Date(t0.getFullYear() + 1, +p[1] - 1, +p[2]);
+          return n;
+        }
+        function bFmt(d) {
+          return d.getDate() + " " + ["January", "February", "March", "April",
+            "May", "June", "July", "August", "September", "October",
+            "November", "December"][d.getMonth()];
+        }
+        if (bday.length) {
+          var hmB = /head ?mistress/.test(s)
+            ? bday.filter(function (t) {
+                return String(school.headName || "").toLowerCase()
+                  .indexOf(String(t.name || "").toLowerCase().replace(/^(mr|mrs|mr\.|mrs\.)\s+/i, "").trim()) >= 0;
+              })[0]
+            : null;
+          var namedB = null;
+          var honorific = /^(aunty|uncle|mr|mrs|miss|madam|sir|teacher|headmistress)$/;
+          bday.forEach(function (t) {
+            var parts = String(t.name || "").toLowerCase().replace(/\(demo\)/g, "")
+                          .split(/\s+/);
+            for (var bi = 0; bi < parts.length; bi++) {
+              if (parts[bi].length > 3 && !honorific.test(parts[bi]) &&
+                  s.indexOf(parts[bi]) >= 0) namedB = t;
+            }
+          });
+          var pickB = hmB || namedB;
+          if (pickB) {
+            return { html: "<b>" + esc(pickB.name) + "</b>'s birthday is <b>" +
+                           bFmt(bNext(pickB.dob)) + "</b>. The Birthdays page " +
+                           "has a birthday wish you can copy for the day.",
+                     source: "Staff birthdays" };
+          }
+          var sortedB = bday.map(function (t) {
+            return { name: t.name, d: bNext(t.dob) };
+          }).sort(function (a, b) { return a.d - b.d; });
+          return { html: "The next staff birthdays:<br>" +
+                         sortedB.slice(0, 3).map(function (x) {
+                           return "\u2022 " + esc(x.name) + " - " + bFmt(x.d);
+                         }).join("<br>") +
+                         "<br><br>The full list, with a birthday wish you can " +
+                         "copy, is on the Birthdays page.",
+                   source: "Staff birthdays" };
+        }
+      }
+
+      /* The portals. Register marking, results entry, staff chat, approvals
+         and fee updates live behind a login, so the honest answer is where
+         they live and how the login works - exactly as the Login page
+         states it: pupils without a password are set up automatically,
+         staff use Staff ID + PIN. */
+      if (/\b(staff chat|mark (the )?register|enter (the )?(results?|scores?)|submit (the )?(results?|scores?)|approve (a |an )?(pupil|parent|registration|account)|verify (a |an )?(pupil|parent|guardian|registration)|verification ?queue|set (the )?(new )?fees|send (a )?notification|broadcast|post (an? )?(event|news|notice)|duty( roster)?|see (the )?notices|view (the )?notices|class register|see (my |the )?class fees)\b/.test(s)) {
+        var adminSide = /\b(approve|verif\w+|verification queue|set (the )?(new )?fees|broadcast|notification|admin|headmistress|post (an? )?(event|news|notice))\b/.test(s);
+        return adminSide
+          ? { html: "That is done in the <b>Admin Console</b> (portal/admin.html) - " +
+                    "approvals and verification, fee updates, staff chat, notices " +
+                    "and notifications are all in its sidebar. Log in from the " +
+                    "Login page; staff use Staff ID + PIN.", source: "School portals" }
+          : { html: "That is done in the <b>Teacher Portal</b> (portal/teacher.html) - " +
+                    "the Register, Results, Fees, Chat, Notices and Homework views " +
+                    "are in its sidebar once you are logged in. Log in from the " +
+                    "Login page; staff use Staff ID + PIN.", source: "School portals" };
+      }
+
+      /* Uniform prices - but a LOST cardigan is a lost-property question,
+         not a shopping one. */
+      if (/\buniform|shirt|skirt|short|cardigan|sandal|beret|sock|sportswear|jersey|kit\b/.test(s) &&
+          !/\b(lost|lose|losing|missing|misplaced|found|left behind|forgot)\b/.test(s)) {
+        var uni = db.uniform || [];
+        if (uni.length) {
+          for (var u = 0; u < uni.length; u++) {
+            var nm = String(uni[u].name || "").toLowerCase();
+            if (nm && s.split(" ").some(function (w) {
+                  return w.length > 3 && nm.indexOf(w) >= 0; })) {
+              return { html: "<b>" + esc(uni[u].name) + "</b> is <b>" +
+                             naira(uni[u].price) + "</b>.",
+                       source: "Uniform price list" };
+            }
+          }
+          var ulist = uni.map(function (x) {
+            return esc(x.name) + " " + naira(x.price);
+          }).join("<br>");
+          return { html: "<b>Uniform prices:</b><br>" + ulist +
+                         "<br><br>Uniforms are collected at the school office.",
+                   source: "Uniform price list" };
+        }
+      }
+
+      /* Fees for one named class, with the real figure. The class may be
+         written as a word ("primary four") - the entity reader resolves
+         that, the fee table key alone does not. */
+      if (/\b(fee|fees|cost|price|how much|pay)\b|\bschool ?fees?\b/.test(s)) {
         var fees = school.fees || {};
+        if (ent.klass) {
+          var klassKey = Object.keys(fees).filter(function (k) {
+            return k.toLowerCase() === ent.klass;
+          })[0];
+          if (klassKey) {
+            return { html: "<b>" + esc(klassKey) + "</b> is <b>" +
+                           naira(fees[klassKey]) + "</b> per term.<br><br>" +
+                           "Payment is by bank transfer to the school account, " +
+                           "and a receipt number is issued once it is confirmed.",
+                     source: "Fee list" };
+          }
+        }
         var names = Object.keys(fees);
         for (var i = 0; i < names.length; i++) {
           var key = names[i].toLowerCase();
@@ -626,8 +895,9 @@
 
       /* Clubs, excursions and everything outside the timetable - read from
          the activities the class pages actually list. */
-      if (ent.intent === "activity" ||
-          /\b(show ?(and|&) ?tell|trip|trips|outing)\b/.test(s)) {
+      if ((ent.intent === "activity" ||
+          /\b(show ?(and|&) ?tell|trip|trips|outing)\b/.test(s)) &&
+          !/\bevents?\b[^.?!]{0,30}\b(coming|next|upcoming|this term|soon)\b|\b(coming|upcoming|any) events?\b|(whats|what.s) happening/.test(s)) {
         var byClass = {};
         (db.classPages || []).forEach(function (c) {
           (c.activities || []).forEach(function (a) {
@@ -1191,7 +1461,7 @@
       }
 
       /* A parent thinking about bringing a child here. */
-      if (ent.intent === "enrol") {
+      if (ent.intent === "enrol" && !/\bdeadline|cut ?off|last day\b/.test(s)) {
         var fees0 = school.fees || {};
         var keys0 = Object.keys(fees0);
         var range = "";
@@ -1266,10 +1536,41 @@
       }
 
       /* Term dates, straight from the calendar. */
-      if (/\bresumption|resume|term date|calendar|deadline|closing date|last day|cut off|cut-off|when.*(start|begin|open)\b/.test(s)) {
+      if (/\bresumption|resume|term date|calendar|deadline|closing date|last day|cut off|cut-off|when.*(start|begin|open)\b|\bindependence|mid[- ]?term|\bcarol|prize ?giving|closing (day|date|ceremony)|\b(events?|program(me)?s?)\b[^.?!]{0,30}\b(coming|next|upcoming|this term|soon)\b|\b(coming|upcoming|any) events?\b|(whats|what.s|wats) happening( this term)?\b|end of (the )?term|term (ends?|finishes?|closes?|close|finish)|\bschool (ends?|finishes?|closes?)\b[^.?!]{0,25}\bterm\b|\bterm\b[^.?!]{0,25}\bschool (ends?|finishes?|closes?)\b/.test(s)) {
         var cal = (db.calendar || []).slice().sort(function (a, b) {
           return String(a.date).localeCompare(String(b.date));
         });
+        var isoNow = new Date().toISOString().slice(0, 10);
+        /* A named event answers itself: "when is independence day" is a
+           question about one line of the calendar, not the next line. */
+        var namedRe = /independence/.test(s) ? /independence/i
+          : /mid[- ]?term/.test(s) ? /mid[- ]?term/i
+          : /carol/.test(s) ? /carol/i
+          : /(closing|prize ?giving|last day|end of (the )?term|term (end|finis|clos))/.test(s) ? /closing|carol/i : null;
+        if (namedRe) {
+          var named = cal.filter(function (c) {
+            return namedRe.test(c.title || "");
+          })[0];
+          if (named) {
+            return { html: "<b>" + esc(named.title) + "</b> is on " +
+                           pretty(named.date) + "." +
+                           (named.desc ? "<br><br>" + esc(named.desc) : ""),
+                     source: "School calendar" };
+          }
+        }
+        /* "What events are coming up?" wants the list, not one date. */
+        if (/\b(events?|program(me)?s?)\b|(whats|what.s|wats) happening/.test(s)) {
+          var ups = cal.filter(function (c) { return String(c.date) >= isoNow; })
+                       .slice(0, 4);
+          if (ups.length) {
+            return { html: "<b>Coming up on the school calendar:</b><br>" +
+                           ups.map(function (c) {
+                             return "\u2022 " + esc(c.title) + " - " + pretty(c.date);
+                           }).join("<br>") +
+                           "<br><br>The full calendar is on the Calendar page.",
+                     source: "School calendar" };
+          }
+        }
         var iso0 = new Date().toISOString().slice(0, 10);
         var soon = cal.filter(function (c) { return String(c.date) >= iso0; })[0];
         /* The admission deadline is resumption + 14 days. The upcoming list
@@ -1354,7 +1655,7 @@
       }
 
       /* Phone and WhatsApp. */
-      if (/\b(call|phone|number|whatsapp|reach|speak to)\b/.test(s)) {
+      if (/\b(call|phone|number|whatsapp|reach|speak to|talk to)\b/.test(s)) {
         return { html: "You can reach the school on <b>" + WHATSAPP + "</b> " +
                        "(WhatsApp or call).<br><br>For anything that can wait, " +
                        "the message form on the <b>Contact</b> page replies by email.",
@@ -1423,40 +1724,11 @@
                  source: "Lost & Found" };
       }
 
-      /* Uniform prices. */
-      if (/\buniform|shirt|skirt|short|cardigan|sandal|beret|sock\b/.test(s)) {
-        var uni = db.uniform || [];
-        if (uni.length) {
-          for (var u = 0; u < uni.length; u++) {
-            var nm = String(uni[u].name || "").toLowerCase();
-            if (nm && s.split(" ").some(function (w) {
-                  return w.length > 3 && nm.indexOf(w) >= 0; })) {
-              return { html: "<b>" + esc(uni[u].name) + "</b> is <b>" +
-                             naira(uni[u].price) + "</b>.",
-                       source: "Uniform price list" };
-            }
-          }
-          var ulist = uni.map(function (x) {
-            return esc(x.name) + " " + naira(x.price);
-          }).join("<br>");
-          return { html: "<b>Uniform prices:</b><br>" + ulist +
-                         "<br><br>Uniforms are collected at the school office.",
-                   source: "Uniform price list" };
-        }
-      }
       return null;
     },
 
     smallTalk: function (q) {
       var s = q.toLowerCase().replace(/[^a-z\s]/g, " ").trim();
-      /* A greeting only counts when the message is essentially just that.
-         "abeg who be the head of the school" is a question with a polite
-         opener, not a hello. */
-      if (/^(hi|hello|hey|yo|good (morning|afternoon|evening)|how far|abeg)\b/.test(s) &&
-          s.split(/\s+/).filter(Boolean).length <= 3 &&
-          !/\b(my|the|our|your)\b/.test(s)) {
-        return { type: "smalltalk", html: this.greeting(), chips: this.suggestions() };
-      }
       if (/^(thanks|thank you|thank u|nice one|well done|ok thanks)\b/.test(s)) {
         return { type: "smalltalk", html: "You are very welcome. Anything else I can check for you?" };
       }
@@ -1466,10 +1738,130 @@
       return null;
     },
 
-    greeting: function () {
+    /* Greetings, wellness checks and courtesy in every language we know,
+       each answered the way a person answers it. */
+    socialAnswer: function (peel) {
+      if (peel.kind === "bye") {
+        return { type: "smalltalk",
+                 html: "Goodbye, and thank you for visiting Treasure Academy. " +
+                       "You are welcome back any time." };
+      }
+      if (peel.kind === "thanks") {
+        return { type: "smalltalk",
+                 html: "You are very welcome. Anything else I can check for you?",
+                 chips: this.suggestions() };
+      }
+      var g = peel.info || {};
+      var echo = g.lang && g.lang !== "en" && g.word
+        ? esc(g.word.charAt(0).toUpperCase() + g.word.slice(1)) + "! " : "";
+      if (g.kind === "wellness") {
+        return { type: "smalltalk",
+                 html: echo + "I am very well, thank you for asking - I am here " +
+                       "all day, every day.<br><br>And how are you? If there is " +
+                       "anything about the school I can check for you - fees, " +
+                       "admissions, exam dates, transport - just ask.",
+                 chips: this.suggestions() };
+      }
+      if (g.kind === "casual") {
+        return { type: "smalltalk",
+                 html: echo + "Not much - just here, ready to answer questions " +
+                       "about Treasure Academy: fees for every class, admissions, " +
+                       "exam dates, results, transport, uniform, the shop, " +
+                       "birthdays, lost property.<br><br>What do you want to know?",
+                 chips: this.suggestions() };
+      }
+      return { type: "smalltalk",
+               html: this.greeting(echo ? g.word : null),
+               chips: this.suggestions() };
+    },
+
+    /* Questions about the assistant itself. The guard matters: "what are you
+       doing about bullying" is a school question wearing the same first
+       three words, so if real content follows the identity phrase, the
+       normal pipeline takes it instead. */
+    identity: function (q) {
+      var e = global.TAEntities;
+      if (!e) return null;
+      var s = e.loose(e.norm(q));
+      for (var polite = 0; polite < 3 && s; polite++) {
+        var stripped = s.replace(/^(please|pls|kindly|excuse me|pardon me|sorry|abeg|i beg[,:]?)\s+/, "");
+        if (stripped === s) break;
+        s = stripped;
+      }
+      s = s.replace(/[\s!,.]+(please|pls|kindly|abeg|oo|o|jare|sha)$/,"").replace(/\s+/g," ").trim();
+      var words = s ? s.split(" ").filter(Boolean) : [];
+      if (!s || words.length > 10) return null;
+      var kind = null, rest = "";
+      if (/^(who|what) (are|r|is) (you|u)\b/.test(s)) {
+        kind = "who"; rest = s.replace(/^(who|what) (are|r) (you|u)\b/, "");
+      } else if (/\b(your name|what should i call you|who is this|who be this|who am i talking to)\b/.test(s) && words.length <= 8) {
+        kind = "who"; rest = s.replace(/.*(your name|call you|who is this|who be this|talking to).*/, "");
+      } else if (/^(what|which) (can|could|would) you (do|help|say|tell|offer)\b/.test(s) ||
+                 /^what (do|does) you (do|know|have)\b/.test(s) ||
+                 /\b(whats|what is|wats|what s) your (purpose|job|role|function)\b/.test(s) ||
+                 /^how (can|do|will) you help\b/.test(s) ||
+                 /^what are you (here )?for\b/.test(s) ||
+                 /^(please |kindly |pls |plz )?(help|help me|menu|options|commands|what should i ask)$/.test(s)) {
+        kind = "can";
+        rest = s.replace(/.*\byour (purpose|job|role|function)\b/, "")
+               .replace(/^(what|which|how|whats|wats)\b.*\b(you|your)\b/, "");
+      } else if (/\bare you (a |an )?(bot|robot|human|real|person|alive|chat ?gpt|ai|machine|computer|program)\b/.test(s)) {
+        kind = "bot"; rest = s.replace(/\bare you.*$/, "");
+      } else if (/\bwho (made|built|created|designed|trained|programmed|developed) you\b/.test(s)) {
+        kind = "made"; rest = "";
+      }
+      if (!kind) return null;
+      var meat = rest.replace(/\b(me|my|us|our|please|pls|plz|sir|ma|madam|for|with|about|now|today|o|oo|so|then|please)\b/g, " ").trim();
+      if (meat && e.intent(meat)) return null;
+      this.stat("asked", q);
+      if (kind === "who") {
+        return { type: "smalltalk",
+                 html: "I am <b>Treasure Bot</b> - the assistant for " +
+                       "<b>Treasure Academy, Ageva</b> (Okene, Kogi State). " +
+                       "I read the school's own pages and live data to answer " +
+                       "questions: fees, admissions, exam dates, results, " +
+                       "transport, uniform, the shop and more. If something is " +
+                       "not written in the school's information, I say so and " +
+                       "put you through to a person.",
+                 chips: this.suggestions() };
+      }
+      if (kind === "bot") {
+        return { type: "smalltalk",
+                 html: "I am not a person - I am <b>Treasure Bot</b>, the " +
+                       "school's own assistant. I am not ChatGPT; I only answer " +
+                       "from Treasure Academy's own pages and records, and I " +
+                       "would rather say I do not know than guess.",
+                 chips: this.suggestions() };
+      }
+      if (kind === "made") {
+        return { type: "smalltalk",
+                 html: "I am <b>Treasure Bot</b> - I was built for " +
+                       "Treasure Academy, Ageva, as part of " +
+                       "the school's website. Everything I say comes from the " +
+                       "school's own pages and records - I do not make things up.",
+                 chips: this.suggestions() };
+      }
+      return { type: "smalltalk",
+               html: "I am <b>Treasure Bot</b> - here is what I can do:<br><br>" +
+                     "\u2022 School fees for every class<br>" +
+                     "\u2022 Admissions - how to register, what to bring<br>" +
+                     "\u2022 Exam timetable and term dates<br>" +
+                     "\u2022 Transport routes and fares<br>" +
+                     "\u2022 Uniform and shop prices<br>" +
+                     "\u2022 Lost property - is it waiting at the office?<br>" +
+                     "\u2022 Staff birthdays, alumni and school events<br>" +
+                     "\u2022 Portal help - login, password, verification<br><br>" +
+                     "Ask in your own words - English or pidgin, typos welcome. " +
+                     "And if a question truly needs a person, I will hand you " +
+                     "to the school on WhatsApp.",
+               chips: this.suggestions() };
+    },
+
+    greeting: function (echo) {
       var s = session();
       var who = s && s.name ? (", " + String(s.name).split(" ")[0]) : "";
-      return "Hello" + esc(who) + ". I am <b>Treasure Bot</b>, the assistant for " +
+      return (echo ? esc(String(echo).charAt(0).toUpperCase() + echo.slice(1)) + "! " : "") +
+             "Hello" + esc(who) + ". I am <b>Treasure Bot</b>, the assistant for " +
              "<b>Treasure Academy, Ageva</b>.<br><br>" +
              "I can answer questions about admissions, fees, results, the exam " +
              "timetable, transport, uniform, the shop and school hours - I read " +
