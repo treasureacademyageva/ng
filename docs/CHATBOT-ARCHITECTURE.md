@@ -104,3 +104,52 @@ thumbs-up: counting it would flatter the satisfaction figure.
 **Urgency picks the channel, not the bot.** Real-time need goes to WhatsApp;
 anything that can wait goes to the contact form. The bot asks rather than
 assuming.
+
+## Treasure Bot — entity understanding
+
+`assets/js/chat-entities.js` works out **what** a question is about before
+anything searches for it. Three maps: things the school holds (with every
+synonym a parent might use), class names as people write them, and subjects.
+Plus an intent list — lost, employment, partner, enrol, visit, location,
+price, timetable, result, contact, compare, safety, food.
+
+This is what separates an assistant from a search box:
+
+    "my child's cardigan is missing"
+      -> intent: lost, thing: cardigan
+      -> look in the real lost-property records for a cardigan
+      -> found:     "Blue cardigan (age 5-6), handed in 2026-09-12"
+      -> not found: "No cardigan has been handed in yet. These are the items
+                     currently unclaimed: ... Items usually arrive a day or
+                     two later, and tell the class teacher."
+
+"sweater", "jumper", "cardi" and "pullover" all reach the same record. The
+answer is about **their item**, and when it is not there the bot still gives
+the real list and a next step. Never a bare referral.
+
+## The never-dead-end rule
+
+Three layers, in order:
+
+1. **Live data** — emergency notices, today's status, a named class's fee,
+   next PTA, next exam, lost property, uniform prices, term dates.
+2. **Retrieval** — 53 documents from the site's own pages.
+3. **Salvage** (`nearestHelp`) — no confident match, but the question named a
+   class or subject, or retrieval was a genuine near miss (>= 0.26). Say
+   plainly that it is not written down, give the nearest real fact, offer
+   another route.
+
+Only when all three find nothing does it ask the urgency question. Suggesting
+"School Hours" to someone asking about swimming lessons is noise, so the
+salvage floor is deliberately set above that.
+
+## Visitors who are not parents yet
+
+Employment, partnerships, prospective parents, visits, "why this school",
+and safety all have first-class answers, written from what is true on the
+site. **Partnerships are answered honestly**: the school publishes no partner
+list, so the bot says so and routes to the headmistress rather than inventing
+names.
+
+Intent matching is precise about this: "I want to teach at your school" is a
+job enquiry; "do you teach French" is not.

@@ -315,6 +315,57 @@ def build():
          "directions, a map and the school phone numbers.",
          "where located location address directions map find come visit place "
          "area town state", "contact.html", False),
+        ("fact:jobs", "Working at Treasure Academy",
+         "Treasure Academy hires teachers and support staff. We hire for "
+         "character first, then skill: people who keep promises, speak kindly "
+         "and treat every child like their own. Small classes, supportive "
+         "leadership and a termly teaching plan. Pay is discussed at interview "
+         "and paid on time. Apply with the form on the Careers page giving your "
+         "name, WhatsApp number, the position, your highest qualification and "
+         "brief experience. Shortlisted applicants are called within two weeks.",
+         "job jobs vacancy vacancies employment hiring hire recruit teach work "
+         "career apply position cv resume salary interview staff", "careers.html", False),
+        ("fact:new-parent", "Bringing Your Child to Treasure Academy",
+         "Admissions are open. The school takes children from Creche at six "
+         "months, through Pre-Nursery, Nursery 1 and 2, to Primary 1 up to "
+         "Primary 6. Register through Login/Register in three steps - ward, "
+         "guardian, payment - then visit the school within two weeks to "
+         "complete it. Parents are welcome to visit the school first and look "
+         "around. One parent account can hold several children.",
+         "new parent prospective bring my child join start school place space "
+         "enrol enroll admit accept intake beginner first time", "admissions.html", False),
+        ("fact:why-us", "Why Parents Choose Treasure Academy",
+         "Small classes so every child is known by name. Creche through to "
+         "Primary 6 on one permanent site. Founded in 2015 by Shaibu Sidikat "
+         "Ruth, a mother and trained teacher, and on its own site since the "
+         "third year. Common Entrance practice built into Primary 6. "
+         "Supervised school transport on three routes. Results, attendance and "
+         "fees are visible to parents in the portal.",
+         "why choose better compare different advantage best good reputation "
+         "standard quality recommend", "about.html", False),
+        ("fact:visit", "Visiting the School",
+         "Visitors are welcome at Ageva, Okene, Kogi State. The office is open "
+         "Monday to Friday, 7:30am to 3:00pm. No appointment is needed to look "
+         "around, but a message on 09063932487 means someone is expecting you "
+         "and the headmistress can make time for your questions.",
+         "visit tour come see inspect look around appointment open day "
+         "walk in viewing", "contact.html", False),
+        ("fact:safety", "Safety and Supervision",
+         "Children are supervised from arrival to pick-up. The gate opens at "
+         "7:00am, assembly is 7:45am and closing is 3:00pm. Pupils are released "
+         "only to a parent or a named guardian. A duty teacher is on the "
+         "assembly ground daily, minor injuries are handled at the sick bay and "
+         "parents are called straight away if a child is unwell.",
+         "safe safety secure security supervision gate pick up collect guardian "
+         "sick bay injury first aid nurse emergency", "index.html", False),
+        ("fact:partners", "Partnerships and Sponsorship",
+         "Partnership, sponsorship and supplier enquiries are handled "
+         "personally by the school office rather than published on the website. "
+         "Speak to the headmistress, Mrs. Salihu Nanahawa, on 09063932487, or "
+         "send the details through the Contact page. Offers of support in kind, "
+         "such as books, furniture or fans, are listed on the Support Us page.",
+         "partner partnership sponsor sponsorship collaborate affiliate "
+         "donate donation supplier vendor ngo organisation support", "contact.html", False),
         ("fact:multi-child", "Parents With More Than One Child",
          "One parent account can hold several children. Register the first "
          "child, then register the next with the same phone number and the "

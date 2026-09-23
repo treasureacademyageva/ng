@@ -9,6 +9,7 @@ const SITE = (() => {
 const store = fs.readFileSync(SITE + '/assets/js/store.js', 'utf8');
 const site = fs.readFileSync(SITE + '/assets/js/site.js', 'utf8');
 /* The chatbot now lives in its own modules, loaded alongside site.js. */
+const chatEnt  = fs.readFileSync(SITE + '/assets/js/chat-entities.js', 'utf8');
 const chatRag  = fs.readFileSync(SITE + '/assets/js/chat-rag.js', 'utf8');
 const chatCore = fs.readFileSync(SITE + '/assets/js/chat-core.js', 'utf8');
 const chatKb   = fs.readFileSync(SITE + '/assets/data/kb.json', 'utf8');
@@ -37,7 +38,7 @@ function loadPage(page, session, seedFn) {
     if (session) vm.runInContext(`localStorage.setItem("treasure_session_v1", '${JSON.stringify(session)}');`, window);
     if (seedFn) seedFn(window);
     vm.runInContext(site + '\n;\n' + scripts, window);
-    vm.runInContext(chatRag + '\n;\n' + chatCore, window);
+    vm.runInContext(chatEnt + '\n;\n' + chatRag + '\n;\n' + chatCore, window);
     vm.runInContext('TAChat.init(' + chatKb + ');', window);
   } catch (e) { errors.push('THROW: ' + String((e && e.stack) || e).split('\n').slice(0, 3).join(' | ')); }
   try { window.document.dispatchEvent(new window.Event('DOMContentLoaded', { bubbles: true })); } catch (e) { errors.push('DCL: ' + String(e).slice(0, 160)); }

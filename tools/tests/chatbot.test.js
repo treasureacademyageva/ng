@@ -13,7 +13,8 @@ const read = (p) => fs.readFileSync(path.join(ROOT, p), "utf8");
 const exists = (p) => fs.existsSync(path.join(ROOT, p));
 
 /* ------------------------------------------------------------ files ---- */
-["assets/js/chat-rag.js", "assets/js/chat-core.js", "assets/js/chat-ui.js",
+["assets/js/chat-entities.js",
+ "assets/js/chat-rag.js", "assets/js/chat-core.js", "assets/js/chat-ui.js",
  "assets/data/kb.json", "tools/build-kb.py", "ai/main.py",
  "ai/requirements.txt", "docs/CHATBOT-ARCHITECTURE.md"].forEach(function (f) {
   ok("exists: " + f, exists(f));
@@ -33,8 +34,14 @@ function harness() {
     _s: s }; };
   const g = {};
   g.window = g; g.localStorage = mk(); g.sessionStorage = mk();
-  const run = (f) => new Function("window", "localStorage", "sessionStorage",
-    read(f) + "\nreturn window;")(g, g.localStorage, g.sessionStorage);
+  /* store.js declares DB with const, so in a browser it is a script-scope
+     binding the chat modules see directly. Recreate that here. */
+  g.__db = { school: {}, calendar: [], lostfound: [], uniform: [], exams: [],
+             ptaMeetings: [], teachers: [] };
+  const run = (f) => new Function("window", "localStorage", "sessionStorage", "DB",
+    read(f) + "\nreturn window;")(g, g.localStorage, g.sessionStorage,
+    { load: () => g.__db, save: (d) => { g.__db = d; } });
+  run("assets/js/chat-entities.js");
   run("assets/js/chat-rag.js"); run("assets/js/chat-core.js");
   const kb = JSON.parse(read("assets/data/kb.json"));
   g.TAChat.init(kb);
@@ -166,14 +173,102 @@ ok("records what it could not answer", s.gaps.length === 2, String(s.gaps.length
 ok("tracks most asked questions", s.topQuestions.length >= 3);
 ok("tracks daily volume", Object.keys(s.daily).length >= 1);
 
+
+/* ------------------------------------------------ entities + never-dead-end */
+
+const E = g.TAEntities;
+ok("entity module present", !!E);
+
+/* Synonyms are the whole point: a parent will not type the word we stored. */
+[["my child's cardigan is missing", "cardigan"],
+ ["my son lost his sweater", "cardigan"],
+ ["i cant find my daughter jumper", "cardigan"],
+ ["anyone found a water bottle", "bottle"],
+ ["his lunch box is missing", "lunchbox"]].forEach(function (pair) {
+  ok('reads the item in: "' + pair[0] + '"', E.read(pair[0]).thing === pair[1],
+     String(E.read(pair[0]).thing));
+});
+
+[["how much is p3 fees", "primary 3"],
+ ["fees for primary six", "primary 6"],
+ ["what does basic 1 cost", "primary 1"]].forEach(function (pair) {
+  ok('reads the class in: "' + pair[0] + '"', E.read(pair[0]).klass === pair[1],
+     String(E.read(pair[0]).klass));
+});
+
+/* Intent must separate a job hunt from a curriculum question. */
+["i want to work as a teacher here", "are you hiring", "do you need teachers",
+ "send my cv", "can i work there"].forEach(function (q) {
+  ok('employment intent: "' + q + '"', E.read(q).intent === "employment",
+     String(E.read(q).intent));
+});
+["do you teach french", "what subjects do you teach", "who teaches primary 3"]
+  .forEach(function (q) {
+    ok('NOT employment: "' + q + '"', E.read(q).intent !== "employment",
+       String(E.read(q).intent));
+  });
+
+/* Lost property answers about the named item, and never dead-ends. */
+const L = harness();
+L.__db = {
+  school: {}, uniform: [{ name: "School Cardigan", price: 6000 }],
+  lostfound: [{ item: "Blue cardigan (age 5-6)", desc: "Found on the ground.",
+                date: "2026-09-12", claimed: false },
+              { item: "Green lunch box", date: "2026-09-10", claimed: false }] };
+const lostHit = L.TAChat.respond("my son lost his sweater").html;
+ok("synonym finds the stored cardigan", /Blue cardigan/.test(lostHit));
+
+const lostMiss = L.TAChat.respond("i cannot find my daughter water bottle").html;
+ok("says the named item is NOT there", /No <b>bottle<\/b> has been handed in/.test(lostMiss));
+ok("still lists what IS there", /Blue cardigan/.test(lostMiss) && /Green lunch box/.test(lostMiss));
+ok("gives a next step, not a dead end", /class teacher|office/i.test(lostMiss));
+
+/* A price question about the same word must NOT hit lost property. */
+ok("cardigan price still reaches the price list",
+   /6,000/.test(L.TAChat.respond("how much is the school cardigan").html));
+
+/* The new audiences the site exists for. */
+const A = harness();
+[["i want to work as a teacher here", /Careers|character first/i],
+ ["who are your partners", /headmistress|office/i],
+ ["i want to bring my son to your school", /Admissions are open|Creche/i],
+ ["can i come and see the school", /welcome to visit|Ageva/i],
+ ["why should i choose treasure", /Small classes|2015/i],
+ ["is my child safe there", /supervised|named guardian/i]].forEach(function (pair) {
+  const html = A.TAChat.respond(pair[0]).html;
+  ok('answers the visitor: "' + pair[0] + '"', pair[1].test(html),
+     html.replace(/<[^>]+>/g, " ").slice(0, 70));
+});
+
+/* Partners are not invented - we hold no such list. */
+const partners = A.TAChat.respond("who are your partners").html;
+ok("does not invent partner names",
+   /do not have a published list|handled personally/i.test(partners));
+
+/* The universal fallback: unknown questions still leave with something. */
+const F = harness();
+const noIdea = F.TAChat.respond("what is your policy on mobile phones");
+ok("unknown question is not a bare shrug",
+   noIdea.type === "answer" ? !!noIdea.salvaged : noIdea.type === "handoff-ask");
+ok("fallback admits it is not certain",
+   /do not have that written down|not find a confident/i.test(noIdea.html));
+ok("fallback still offers a route",
+   /ask me another way|talk to someone|right now|wait/i.test(noIdea.html));
+
+/* The name. */
+ok("bot is called Treasure Bot", /Treasure Bot/.test(read("assets/js/chat-ui.js")));
+
 /* ------------------------------------------------------------- wiring -- */
 const pages = fs.readdirSync(ROOT).filter((f) => f.endsWith(".html"));
 const wired = pages.filter((f) => read(f).indexOf("chat-rag.js") >= 0);
+const wiredEnt = pages.filter((f) => read(f).indexOf("chat-entities.js") >= 0);
+ok("entities wired into every page with the bot", wiredEnt.length === wired.length,
+   wiredEnt.length + "/" + wired.length);
 ok("chatbot wired into every public page", wired.length >= pages.length - 1,
    wired.length + "/" + pages.length);
 
 const sw = read("sw.js");
-["chat-rag.js", "chat-core.js", "chat-ui.js", "assets/data/kb.json"]
+["chat-entities.js", "chat-rag.js", "chat-core.js", "chat-ui.js", "assets/data/kb.json"]
   .forEach(function (f) { ok("service worker caches " + f, sw.indexOf(f) >= 0); });
 
 const dev = read("developer.html");

@@ -177,6 +177,19 @@
       /* Not confident enough to be trusted with a parent's decision. */
       if (res.band === "low" || res.band === "none") {
         this.stat("unanswered", q);
+
+        /* Never a bare dead end. Even with no confident match, the question
+           usually has a shape - a topic word, a class, a subject - and the
+           related thing the school DOES know is far more useful than
+           "I don't know". Offer that first; the human is the last resort,
+           not the first. */
+        var near = this.nearestHelp(q, res);
+        if (near) {
+          this.pending = { kind: "feedback", question: q, title: near.source };
+          return { type: "answer", html: near.html, source: near.source,
+                   confidence: 0.3, feedback: true, salvaged: true };
+        }
+
         this.pending = { kind: "urgency", question: q };
         return {
           type: "handoff-ask",
@@ -230,6 +243,63 @@
       return out;
     },
 
+    /* When retrieval is not confident, work out what the question was ABOUT
+       and answer that, honestly flagged. A parent asking something the school
+       has never written down should still leave knowing the nearest fact and
+       who to ask - not a shrug. */
+    nearestHelp: function (q, res) {
+      var ent = global.TAEntities ? global.TAEntities.read(q) : null;
+      if (!ent) return null;
+      var bits = [], where = "";
+
+      /* They named a class - give that class's fee and where it sits. */
+      if (ent.klass) {
+        var db = null;
+        try { if (typeof DB !== "undefined" && DB.load) db = DB.load(); } catch (e) {}
+        var fees = (db && db.school && db.school.fees) || {};
+        var label = ent.klass.replace(/\b\w/g, function (c) { return c.toUpperCase(); });
+        var amount = null;
+        for (var k in fees) {
+          if (fees.hasOwnProperty(k) && k.toLowerCase() === ent.klass) amount = fees[k];
+        }
+        bits.push("<b>" + esc(label) + "</b>" +
+                  (amount ? " costs <b>\u20a6" + Number(amount).toLocaleString("en-NG") +
+                            "</b> per term." : " is one of our classes."));
+        where = "academics.html";
+      }
+
+      /* They named a subject. */
+      if (ent.subject) {
+        bits.push("<b>" + esc(ent.subject.replace(/\b\w/g, function (c) {
+          return c.toUpperCase(); })) + "</b> is taught here and appears in the " +
+          "exam timetable.");
+        where = where || "exams.html";
+      }
+
+      /* Retrieval had a near miss - not confident, but genuinely in the same
+         area. Offer it as a suggestion rather than passing it off as the
+         answer. Below this the "closest thing" is noise: suggesting School
+         Hours to someone asking about swimming lessons helps nobody, and an
+         honest handoff is the better answer. */
+      if (!bits.length && res && res.title && res.confidence >= 0.26 &&
+          res.band === "low") {
+        bits.push("The closest thing I have is <b>" + esc(res.title) + "</b>.");
+        where = res.url || "";
+      }
+
+      if (!bits.length) return null;
+
+      return {
+        source: res && res.title ? res.title : "School information",
+        html: "I do not have that written down exactly, so I will not guess at " +
+              "it.<br><br>" + bits.join("<br><br>") +
+              (where ? "<br><br><a class=\"chat-link\" href=\"" + esc(where) +
+                       "\">Open the page</a>" : "") +
+              "<br><br>If that is not what you meant, ask me another way, or say " +
+              "<b>talk to someone</b> and I will put you through to the school."
+      };
+    },
+
     /* Live answers. Returns null when the question is not one of these, and
        the normal retrieval path takes over. */
     liveAnswer: function (q) {
@@ -246,6 +316,9 @@
       var s = String(q).toLowerCase();
       var school = db.school || {};
       var WHATSAPP = Core.WHATSAPP;
+      /* What is this person actually asking about? */
+      var ent = global.TAEntities ? global.TAEntities.read(q)
+                                  : { intent: null, thing: null, klass: null, subject: null };
 
       function naira(n) {
         return "\u20a6" + Number(n || 0).toLocaleString("en-NG");
@@ -348,6 +421,122 @@
         }
       }
 
+      /* ---- People who are not parents here yet. -------------------------
+         Prospective parents, job seekers, organisations. These visitors are
+         the reason a school has a website at all, and the old bot had nothing
+         for them. Every answer ends with a next step. */
+
+      /* Someone looking for work. */
+      if (ent.intent === "employment") {
+        return { html: "<b>Teaching and support roles</b><br>" +
+                       "Treasure Academy hires for character first, then skill - " +
+                       "people who keep promises, speak kindly and treat every child " +
+                       "like their own. Qualifications matter, but discipline and " +
+                       "warmth matter more.<br><br>" +
+                       "What you get: small classes, supportive leadership, a termly " +
+                       "teaching plan that actually guides you, and pay discussed at " +
+                       "interview and paid on time.<br><br>" +
+                       "Apply with the form on the <b>Careers</b> page - name, " +
+                       "WhatsApp number, the role, your highest qualification and " +
+                       "brief experience. Shortlisted applicants are called within " +
+                       "<b>two weeks</b>.<br><br>" +
+                       "<a class=\"chat-link\" href=\"careers.html\">Open the Careers page</a>",
+                 source: "Careers" };
+      }
+
+      /* Organisations, sponsors, would-be partners. We hold no partner list,
+         so say that honestly and route them to a person rather than invent
+         names. */
+      if (ent.intent === "partner") {
+        return { html: "Partnerships, sponsorships and supplier enquiries are " +
+                       "handled personally by the school office rather than listed " +
+                       "on the website, so I do not have a published list to read " +
+                       "from.<br><br>" +
+                       "The quickest route is to speak to the headmistress, " +
+                       "<b>Mrs. Salihu Nanahawa</b>, directly on <b>" + WHATSAPP +
+                       "</b>, or send the details through the <b>Contact</b> page " +
+                       "and the office will come back to you by email.<br><br>" +
+                       "If you are offering support in kind - books, furniture, " +
+                       "fans - the <b>Support Us</b> page lists what the school is " +
+                       "currently asking for.",
+                 source: "Contact" };
+      }
+
+      /* A parent thinking about bringing a child here. */
+      if (ent.intent === "enrol") {
+        var fees0 = school.fees || {};
+        var keys0 = Object.keys(fees0);
+        var range = "";
+        if (keys0.length) {
+          var amounts = keys0.map(function (k) { return Number(fees0[k]) || 0; })
+                             .filter(function (n) { return n > 0; })
+                             .sort(function (a, b) { return a - b; });
+          if (amounts.length) {
+            range = "<br><br>Fees run from <b>" + naira(amounts[0]) + "</b> to <b>" +
+                    naira(amounts[amounts.length - 1]) + "</b> per term depending on " +
+                    "the class. Ask me about any class for its exact fee.";
+          }
+        }
+        return { html: "<b>Yes - admissions are open.</b><br>" +
+                       "Treasure Academy takes children from <b>Creche</b> " +
+                       "(6 months) through <b>Nursery</b> to <b>Primary 6</b>, at " +
+                       "Ageva, Okene, Kogi State." + range + "<br><br>" +
+                       "<b>How to start:</b> tap <b>Login/Register</b> and complete " +
+                       "the three steps - ward, guardian, payment - then visit the " +
+                       "school within two weeks to finish. If you would rather see " +
+                       "the place first, just come to the office; you are welcome to " +
+                       "look around.<br><br>" +
+                       "Already have a child here? Register the second one with the " +
+                       "same phone number and both sit under one account.<br><br>" +
+                       "<a class=\"chat-link\" href=\"admissions.html\">Open Admissions</a>",
+                 source: "Admissions" };
+      }
+
+      /* Someone who wants to come and look. */
+      if (ent.intent === "visit") {
+        return { html: "You are welcome to visit. The school is at <b>Ageva, Okene, " +
+                       "Kogi State</b> and the office is open <b>Monday to Friday, " +
+                       "7:30am to 3:00pm</b>.<br><br>" +
+                       "No appointment is needed to look around, but a quick message " +
+                       "on <b>" + WHATSAPP + "</b> means someone is expecting you and " +
+                       "the headmistress can make time for your questions.<br><br>" +
+                       "<a class=\"chat-link\" href=\"contact.html\">Directions and map</a>",
+                 source: "Contact" };
+      }
+
+      /* Why this school rather than another. Answered from what is true. */
+      if (ent.intent === "compare") {
+        return { html: "Fair question. What the school actually offers:<br><br>" +
+                       "&bull; <b>Small classes</b>, so a child is known by name, not " +
+                       "by number.<br>" +
+                       "&bull; <b>Creche to Primary 6</b> on one site - no moving your " +
+                       "child mid-way.<br>" +
+                       "&bull; Founded in <b>2015</b> by Shaibu Sidikat Ruth, a mother " +
+                       "and trained teacher, and on its own permanent site since " +
+                       "year three.<br>" +
+                       "&bull; <b>Common Entrance practice</b> built into Primary 6.<br>" +
+                       "&bull; Supervised <b>school transport</b> on three routes.<br>" +
+                       "&bull; Results, attendance and fees visible to parents in the " +
+                       "portal, not locked in a file.<br><br>" +
+                       "The honest way to judge it is to visit while school is " +
+                       "running and watch how the children behave.",
+                 source: "About" };
+      }
+
+      /* Safety - the question every parent asks and few sites answer. */
+      if (ent.intent === "safety") {
+        return { html: "Children are supervised from arrival to pick-up. The gate " +
+                       "opens at 7:00am, assembly is 7:45am and closing is 3:00pm; " +
+                       "pupils are released to a parent or a named guardian, not to " +
+                       "anyone who turns up.<br><br>" +
+                       "A duty teacher is on the assembly ground each day, minor " +
+                       "injuries are handled at the sick bay and you are called " +
+                       "straight away if your child is unwell.<br><br>" +
+                       "If something has happened today, do not wait for email - " +
+                       "call the school on <b>" + WHATSAPP + "</b>.",
+                 source: "School day" };
+      }
+
       /* Term dates, straight from the calendar. */
       if (/\bresumption|resume|term date|calendar|when.*(start|begin|open)\b/.test(s)) {
         var cal = (db.calendar || []).slice().sort(function (a, b) {
@@ -407,22 +596,65 @@
                  source: "Contact" };
       }
 
-      /* Lost and found, unclaimed items only. A parent saying "lost his
-         cardigan" wants the lost property desk, not the price list, so
-         this must be tested before uniform. */
-      if (/\b(lost|lose|losing|missing|misplaced|left behind|can'?t find|cannot find)\b/.test(s)) {
+      /* Lost property. A parent naming a specific item deserves a specific
+         answer about THAT item - "no cardigan has been handed in" - and then
+         the next most useful thing, never a bare referral. Checked before
+         uniform because "lost his cardigan" is not a price enquiry. */
+      if (ent.intent === "lost") {
         var lf = (db.lostfound || []).filter(function (x) {
           return !x.claimed && !x.archived;
         });
-        if (lf.length) {
-          var items = lf.slice(0, 5).map(function (x) {
-            return esc(x.item) + (x.date ? " (" + esc(x.date) + ")" : "");
+        var listAll = function () {
+          return lf.slice(0, 6).map(function (x) {
+            return "&bull; " + esc(x.item) + (x.date ? " <small>(handed in " +
+                   esc(x.date) + ")</small>" : "");
           }).join("<br>");
-          return { html: "<b>Unclaimed items in Lost &amp; Found:</b><br>" + items +
-                         "<br><br>Come to the school office to claim anything here.",
+        };
+
+        /* They named something. Answer about that thing first. */
+        if (ent.thing && global.TAEntities) {
+          var hit = lf.filter(function (x) {
+            return global.TAEntities.matches((x.item || "") + " " + (x.desc || ""), ent.thing);
+          });
+          if (hit.length) {
+            return { html: "Good news - something matching that is waiting at the " +
+                           "school office:<br><br>" +
+                           hit.slice(0, 4).map(function (x) {
+                             return "&bull; <b>" + esc(x.item) + "</b>" +
+                                    (x.desc ? "<br><small>" + esc(x.desc) + "</small>" : "") +
+                                    (x.date ? "<br><small>Handed in " + esc(x.date) + "</small>" : "");
+                           }).join("<br><br>") +
+                           "<br><br>Describe it at the office to collect it.",
+                     source: "Lost & Found" };
+          }
+          /* Not there. Say so about their item, then still be useful. */
+          if (lf.length) {
+            return { html: "No <b>" + esc(ent.thing) + "</b> has been handed in yet, " +
+                           "so nothing matches that exactly.<br><br>These are the " +
+                           "items currently unclaimed:<br>" + listAll() +
+                           "<br><br>Items are usually handed in a day or two later, " +
+                           "so it is worth checking at the office. If it does not " +
+                           "turn up, tell the class teacher so they can watch for it.",
+                     source: "Lost & Found" };
+          }
+          return { html: "No <b>" + esc(ent.thing) + "</b> has been handed in, and " +
+                         "the Lost &amp; Found is empty at the moment.<br><br>" +
+                         "Tell the class teacher so they can look out for it, and " +
+                         "check again in a day or two - things are usually found " +
+                         "after the classrooms are swept.",
                    source: "Lost & Found" };
         }
-        return { html: "Nothing is waiting in <b>Lost &amp; Found</b> right now.",
+
+        /* No specific item named. */
+        if (lf.length) {
+          return { html: "<b>Unclaimed items at the school office:</b><br>" +
+                         listAll() +
+                         "<br><br>Describe yours at the office to collect it.",
+                   source: "Lost & Found" };
+        }
+        return { html: "Nothing is waiting in <b>Lost &amp; Found</b> right now. " +
+                       "If your child has lost something today, tell the class " +
+                       "teacher - most things are found once the classrooms are swept.",
                  source: "Lost & Found" };
       }
 
@@ -467,7 +699,7 @@
     greeting: function () {
       var s = session();
       var who = s && s.name ? (", " + String(s.name).split(" ")[0]) : "";
-      return "Hello" + esc(who) + ". I am <b>Treasure</b>, the school assistant for " +
+      return "Hello" + esc(who) + ". I am <b>Treasure Bot</b>, the assistant for " +
              "<b>Treasure Academy, Ageva</b>.<br><br>" +
              "I can answer questions about admissions, fees, results, the exam " +
              "timetable, transport, uniform, the shop and school hours - I read " +

@@ -56,7 +56,7 @@
     panel.innerHTML =
       '<div class="chat-head">' +
         '<div class="bot" aria-hidden="true">TA</div>' +
-        '<div class="who"><b>Treasure &mdash; School Assistant</b>' +
+        '<div class="who"><b>Treasure Bot</b>' +
         '<small id="chatStatus">Ask me anything about the school</small></div>' +
         '<button class="x" id="chatClear" type="button" title="Clear this conversation" ' +
         'aria-label="Clear conversation">&#8635;</button>' +
