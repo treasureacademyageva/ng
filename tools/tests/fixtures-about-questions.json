@@ -606,5 +606,353 @@
   "q": "can you write my homework for me",
   "expect": null,
   "shouldRefuse": true
+ },
+ {
+  "q": "how do i apply for admission",
+  "expect": "Register|3 step|three step|Ward"
+ },
+ {
+  "q": "how do i register my child",
+  "expect": "Register|Admission|Ward"
+ },
+ {
+  "q": "what is the admission process",
+  "expect": "Register|step|Ward|visit"
+ },
+ {
+  "q": "are admissions open",
+  "expect": "open|Admission"
+ },
+ {
+  "q": "can i still register my child this term",
+  "expect": "open|deadline|office|Admission"
+ },
+ {
+  "q": "what documents do i need for admission",
+  "expect": "Birth certificate|passport|report card"
+ },
+ {
+  "q": "do i need a birth certificate",
+  "expect": "Birth certificate"
+ },
+ {
+  "q": "how many passport photographs",
+  "expect": "2 passport|two passport|passport"
+ },
+ {
+  "q": "do i need immunisation record",
+  "expect": "Immunisation|immunisation"
+ },
+ {
+  "q": "what if my child is transferring from another school",
+  "expect": "report card|transfer"
+ },
+ {
+  "q": "how long do i have to complete admission",
+  "expect": "2 weeks|two weeks"
+ },
+ {
+  "q": "what happens after i register online",
+  "expect": "visit|2 weeks|pay|receipt"
+ },
+ {
+  "q": "how do i track my application",
+  "expect": "phone|status|track"
+ },
+ {
+  "q": "can i check my admission status",
+  "expect": "status|phone|track"
+ },
+ {
+  "q": "how do i verify a receipt",
+  "expect": "receipt|verify|genuine"
+ },
+ {
+  "q": "is my receipt genuine",
+  "expect": "receipt|verify"
+ },
+ {
+  "q": "how much are the school fees",
+  "expect": "30,000|25,000|fee"
+ },
+ {
+  "q": "how much is creche",
+  "expect": "30,000"
+ },
+ {
+  "q": "how much is nursery 1",
+  "expect": "25,000"
+ },
+ {
+  "q": "how much is primary 6",
+  "expect": "35,000"
+ },
+ {
+  "q": "what is the cheapest class",
+  "expect": "25,000|Nursery|Pre-Nursery|fee"
+ },
+ {
+  "q": "can i pay online",
+  "expect": "bank transfer|account"
+ },
+ {
+  "q": "do you accept cash",
+  "expect": "bank transfer|office|account"
+ },
+ {
+  "q": "do i get a receipt after paying",
+  "expect": "receipt"
+ },
+ {
+  "q": "is there a discount for two children",
+  "expect": "may apply|office|sibling"
+ },
+ {
+  "q": "when is the fee deadline",
+  "expect": "deadline|term|office|calendar"
+ },
+ {
+  "q": "what happens if i pay late",
+  "expect": "office|fee|deadline|term"
+ },
+ {
+  "q": "how much is the uniform",
+  "expect": "4,500|uniform|Shirt"
+ },
+ {
+  "q": "where do we buy uniforms",
+  "expect": "office|school|uniform"
+ },
+ {
+  "q": "how much are the books",
+  "expect": "4,500|3,500|textbook|shop"
+ },
+ {
+  "q": "is transport included in the fees",
+  "expect": "transport|route|separate|fee"
+ },
+ {
+  "q": "how much is the school bus",
+  "expect": "5000|6000|3000|route"
+ },
+ {
+  "q": "what ages do you accept",
+  "expect": "6 months|months|Creche|2 years"
+ },
+ {
+  "q": "can a 6 month old join",
+  "expect": "Creche|6 months|months"
+ },
+ {
+  "q": "what is the maximum class size",
+  "expect": "15|small|class"
+ },
+ {
+  "q": "how many pupils per class",
+  "expect": "15|small|class"
+ },
+ {
+  "q": "what classes are open for admission",
+  "expect": "Creche|Primary|Nursery"
+ },
+ {
+  "q": "is there a parent portal",
+  "expect": "portal|result|login"
+ },
+ {
+  "q": "how do i check my child result",
+  "expect": "Registration Number|login|portal|result"
+ },
+ {
+  "q": "i forgot my password",
+  "expect": "Create Password|Forgot|reset"
+ },
+ {
+  "q": "how do i create a password",
+  "expect": "Create Password|Registration"
+ },
+ {
+  "q": "what is my registration number",
+  "expect": "Registration|office|login"
+ },
+ {
+  "q": "how do i contact the school",
+  "expect": "WhatsApp|09063932487|Contact"
+ },
+ {
+  "q": "what is your email",
+  "expect": "email|treasuregroupofschool|Contact"
+ },
+ {
+  "q": "how quickly do you reply",
+  "expect": "one school day|reply|fast"
+ },
+ {
+  "q": "can i send a message",
+  "expect": "Contact|message|form"
+ },
+ {
+  "q": "how do i get directions",
+  "expect": "direction|map|Ageva|Contact"
+ },
+ {
+  "q": "what are your office hours",
+  "expect": "7:30|3:00|Monday|Friday"
+ },
+ {
+  "q": "are you open on saturday",
+  "expect": "Monday|Friday|no school|weekend"
+ },
+ {
+  "q": "can i make an anonymous complaint",
+  "expect": "Suggestion|anonymous|headmistress"
+ },
+ {
+  "q": "i want to speak to the headmistress",
+  "expect": "Nanahawa|office|WhatsApp"
+ },
+ {
+  "q": "how do i buy an admission form",
+  "expect": "admission form|buy|Register"
+ },
+ {
+  "q": "is the admission form free",
+  "expect": "form|office|admission"
+ },
+ {
+  "q": "what is the welcome pack",
+  "expect": "Welcome|pack|admission"
+ },
+ {
+  "q": "when does the new term start",
+  "expect": "Resumption|calendar|term|deadline"
+ },
+ {
+  "q": "what do i bring on the first day",
+  "expect": "Birth certificate|document|uniform|office"
+ },
+ {
+  "q": "abeg how i go take register my pikin",
+  "expect": "Register|Admission|Ward"
+ },
+ {
+  "q": "wetin i need bring come school",
+  "expect": "Birth certificate|document|passport"
+ },
+ {
+  "q": "my pikin dey another school, i wan transfer am",
+  "expect": "report card|transfer|Register"
+ },
+ {
+  "q": "i don pay, wetin next",
+  "expect": "visit|two weeks|receipt|document"
+ },
+ {
+  "q": "abeg wetin be una number",
+  "expect": "09063932487"
+ },
+ {
+  "q": "you dey open on saturday?",
+  "expect": "Monday|Friday|closed|weekend"
+ },
+ {
+  "q": "which class cheap pass",
+  "expect": "25,000|lowest|Nursery"
+ },
+ {
+  "q": "i wan complain about something",
+  "expect": "Suggestion|anonymous|Contact|headmistress"
+ },
+ {
+  "q": "i forget my pikin registration number",
+  "expect": "Registration|office|09063932487"
+ },
+ {
+  "q": "how i go check if my receipt na real one",
+  "expect": "receipt|verify|Receipt"
+ },
+ {
+  "q": "how far my application",
+  "expect": "status|phone|track|application"
+ },
+ {
+  "q": "can my 2 year old start",
+  "expect": "Pre-Nursery|Nursery|2 years|Creche|class"
+ },
+ {
+  "q": "do you need immunization card",
+  "expect": "Immunisation|immunisation|record"
+ },
+ {
+  "q": "how many photos do i bring",
+  "expect": "2 passport|passport"
+ },
+ {
+  "q": "when will i get the portal login",
+  "expect": "portal|login|admission|office"
+ },
+ {
+  "q": "is there an entrance exam for admission",
+  "expect": "office|admission|Register|assess"
+ },
+ {
+  "q": "do you interview parents",
+  "expect": "office|visit|admission"
+ },
+ {
+  "q": "can i pay in instalments",
+  "expect": "office|bank transfer|arrangement|fee"
+ },
+ {
+  "q": "what if i cannot afford the fees",
+  "expect": "office|scholarship|sibling|discount"
+ },
+ {
+  "q": "is the fee per term or per year",
+  "expect": "per term|term"
+ },
+ {
+  "q": "does the fee cover books",
+  "expect": "shop|book|separate|fee|office"
+ },
+ {
+  "q": "how much for primary 2 and primary 5 together",
+  "expect": "30,000|35,000|fee"
+ },
+ {
+  "q": "what is the total cost for creche",
+  "expect": "30,000|Creche"
+ },
+ {
+  "q": "can i visit before i register",
+  "expect": "welcome|visit|office"
+ },
+ {
+  "q": "do you give a tour",
+  "expect": "visit|welcome|office"
+ },
+ {
+  "q": "who do i meet when i come",
+  "expect": "office|headmistress|Nanahawa"
+ },
+ {
+  "q": "what time should i come to the office",
+  "expect": "7:30|3:00|Monday"
+ },
+ {
+  "q": "can i register more than one child",
+  "expect": "same phone|one account|several|sibling"
+ },
+ {
+  "q": "will my two children be in the same account",
+  "expect": "one account|same phone|several"
+ },
+ {
+  "q": "how do i know my child got admitted",
+  "expect": "status|track|office|phone"
+ },
+ {
+  "q": "what is the refund policy",
+  "expect": "office|09063932487|not publish"
  }
 ]

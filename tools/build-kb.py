@@ -344,6 +344,40 @@ def build():
                     % (cl.lower(), cl.lower(), cl.lower()),
                     "alumni.html#staff", False, "data")
 
+    # ---- 2d. the FAQ blocks the school wrote itself ----------------------
+    # contact.html and admissions.html each hold a FAQS array rendered by
+    # JavaScript, so none of it survived the HTML scrape. These are the exact
+    # questions the school chose to answer, which makes them the highest
+    # quality content on the site.
+    for fname in ("contact.html", "admissions.html"):
+        path = os.path.join(ROOT, fname)
+        if not os.path.exists(path):
+            continue
+        raw = open(path, encoding="utf-8", errors="ignore").read()
+        pos = raw.find("FAQS=[")
+        if pos < 0:
+            continue
+        bstart = raw.find("[", pos)
+        depth = 0
+        block = ""
+        for k in range(bstart, len(raw)):
+            if raw[k] == "[":
+                depth += 1
+            elif raw[k] == "]":
+                depth -= 1
+                if depth == 0:
+                    block = raw[bstart:k + 1]
+                    break
+        pairs = re.findall(
+            r'\[\s*"((?:[^"\\]|\\.)*)"\s*,\s*"((?:[^"\\]|\\.)*)"\s*\]', block)
+        for n, (question, answer) in enumerate(pairs, 1):
+            clean = re.sub(r"<[^>]+>", " ", answer)
+            clean = clean.replace("\\n", " ").replace('\\"', '"')
+            clean = re.sub(r"\s+", " ", clean).strip()
+            add("faq:%s:%d" % (fname, n), question.rstrip("?"),
+                question + " " + clean,
+                question.lower().replace("?", ""), fname, False, "faq")
+
     # ---- 3. routes ------------------------------------------------------
     for title, url, needs_login, kw in ROUTES:
         add("route:" + url, title,

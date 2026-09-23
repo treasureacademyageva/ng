@@ -387,6 +387,19 @@
                 "December"][d.getMonth()] + " " + d.getFullYear();
       }
 
+      if (ent.intent === "notpublished") {
+        return { html: "That is not something the school publishes a fixed rule " +
+                       "for - refunds, payment arrangements and any entry " +
+                       "assessment are handled case by case by the " +
+                       "headmistress.<br><br>" +
+                       "<b>Mrs. Salihu Nanahawa</b> will talk it through with " +
+                       "you directly on <b>" + WHATSAPP + "</b>, or come to the " +
+                       "office Monday to Friday, 7:30am to 3:00pm. Parents do " +
+                       "arrange things with her - it is worth asking rather than " +
+                       "assuming.",
+                 source: "Contact" };
+      }
+
       /* Internal or private information the bot must never try to supply,
          even though the words look familiar. A wifi password is not login
          help, and the school's own credentials are nobody's business. */
@@ -560,6 +573,26 @@
           names = Object.keys(school.fees || {});
         }
         if (names.length) {
+          /* Asked which is cheapest - answer with the real figure. */
+          var feeMap = school.fees || {};
+          if (/cheap|afford|lowest|least/.test(s)) {
+            var sorted = Object.keys(feeMap).sort(function (a, b) {
+              return (Number(feeMap[a]) || 0) - (Number(feeMap[b]) || 0);
+            });
+            if (sorted.length) {
+              var lowest = Number(feeMap[sorted[0]]) || 0;
+              var same = sorted.filter(function (k) {
+                return (Number(feeMap[k]) || 0) === lowest;
+              });
+              return { html: "The lowest termly fee is <b>" + naira(lowest) +
+                             "</b>, for <b>" + esc(same.join(", ")) + "</b>." +
+                             "<br><br>Fees run up to <b>" +
+                             naira(Number(feeMap[sorted[sorted.length - 1]]) || 0) +
+                             "</b> for the senior Primary classes. Ask me about " +
+                             "any class for its exact fee.",
+                       source: "Fee list" };
+            }
+          }
           return { html: "Treasure Academy runs <b>" + names.length +
                          "</b> classes, from the youngest upwards:<br>&bull; " +
                          names.map(esc).join("<br>&bull; ") +
@@ -760,6 +793,160 @@
       /* "Tell me about the school" - the broadest possible question, and the
          one a first-time visitor actually asks. Answer it as a person would:
          what it is, how long, what it covers, and one way in. */
+      /* One parent, several children - the account model the school uses. */
+      if (ent.intent === "multichild") {
+        return { html: "Yes - <b>one parent account holds all your children</b>." +
+                       "<br><br>Register the first child as normal. When you " +
+                       "register the next one, use the <b>same phone number</b> " +
+                       "and the system asks whether this is another child for " +
+                       "the same account - say yes, and they sit together under " +
+                       "one login.<br><br>" +
+                       "It works for five children as comfortably as for two, " +
+                       "and you see all their results and fees from the same " +
+                       "place. Sibling discounts may apply - ask the office on " +
+                       "<b>" + WHATSAPP + "</b>.",
+                 source: "Admissions" };
+      }
+
+      /* Things the school decides case by case and does not publish. Being
+         straight about that is more useful than a confident invention. */
+      if (ent.intent === "whotomeet") {
+        return { html: "Come to the school office and ask for the " +
+                       "<b>headmistress, Mrs. Salihu Nanahawa</b> - she handles " +
+                       "admissions and parent enquiries herself. " +
+                       "<b>Bose Momoh</b>, the school administrator, is at the " +
+                       "office too.<br><br>" +
+                       "No appointment is needed, but a message on <b>" +
+                       WHATSAPP + "</b> means someone is expecting you and can " +
+                       "set aside the time.",
+                 source: "Contact" };
+      }
+
+      if (ent.intent === "transfer") {
+        return { html: "Transfers are welcome mid-way - plenty of pupils join " +
+                       "from other schools.<br><br>" +
+                       "Bring the <b>previous report card</b> along with the " +
+                       "usual papers: birth certificate photocopy and 2 passport " +
+                       "photographs. The report card is what lets the school " +
+                       "place your child in the right class rather than guessing." +
+                       "<br><br>Register online first, then visit within two " +
+                       "weeks with the documents. If you are unsure which class " +
+                       "your child should enter, the office will look at the " +
+                       "report card with you - <b>" + WHATSAPP + "</b>.",
+                 source: "Admissions" };
+      }
+
+      if (ent.intent === "afterreg") {
+        return { html: "<b>After you register online</b><br>" +
+                       "<b>1.</b> Pay the fee by bank transfer to the school " +
+                       "account.<br>" +
+                       "<b>2.</b> Visit the school <b>within two weeks</b> with " +
+                       "your receipt and the documents - birth certificate, 2 " +
+                       "passport photographs, previous report card for " +
+                       "transfers, immunisation record for Creche and Nursery.<br>" +
+                       "<b>3.</b> The office completes the admission and gives " +
+                       "you the portal login details and the start date.<br><br>" +
+                       "You can watch the status yourself by entering your " +
+                       "registration phone number on the Admissions page.",
+                 source: "Admissions" };
+      }
+
+      /* What to bring. Straight from the admissions page list. */
+      if (ent.intent === "documents") {
+        return { html: "<b>What to bring to the school office</b><br>" +
+                       "&bull; Birth certificate (photocopy)<br>" +
+                       "&bull; 2 passport photographs<br>" +
+                       "&bull; Previous report card - for Primary transfers<br>" +
+                       "&bull; Immunisation record - for Creche and Nursery<br><br>" +
+                       "Bring them within <b>two weeks</b> of registering online, " +
+                       "together with your payment receipt, and the admission is " +
+                       "completed on the spot.<br><br>" +
+                       "The office confirms the exact list for your child's class - " +
+                       "call <b>" + WHATSAPP + "</b> if you are unsure about any of it.",
+                 source: "Admissions" };
+      }
+
+      /* Receipts. Parents worry about fake ones, so point at the checker. */
+      if (ent.intent === "receipt") {
+        return { html: "Every payment gets an official <b>receipt number</b> once " +
+                       "the school confirms the transfer.<br><br>" +
+                       "To check one is genuine, enter the receipt number on the " +
+                       "<b>Receipt</b> page - it works for school fees and PTA " +
+                       "receipts. If it does not verify, bring it to the office " +
+                       "before paying anything further.<br><br>" +
+                       "<a class=\"chat-link\" href=\"receipt.html\">Verify a receipt</a>",
+                 source: "Receipts" };
+      }
+
+      if (ent.intent === "trackapp") {
+        return { html: "You can check an application yourself: on the " +
+                       "<b>Admissions</b> page, enter the <b>phone number you " +
+                       "used during registration</b> and it shows the current " +
+                       "status.<br><br>" +
+                       "If it still reads pending after your school visit, call " +
+                       "the office on <b>" + WHATSAPP + "</b>." +
+                       "<br><br><a class=\"chat-link\" href=\"admissions.html\">" +
+                       "Track your application</a>",
+                 source: "Admissions" };
+      }
+
+      if (ent.intent === "contactinfo") {
+        return { html: "<b>Reaching the school</b><br>" +
+                       "&bull; WhatsApp or call: <b>" + WHATSAPP + "</b> - best " +
+                       "for anything urgent<br>" +
+                       "&bull; Email: <b>treasuregroupofschool@gmail.com</b><br>" +
+                       "&bull; The message form on the <b>Contact</b> page - " +
+                       "replies usually come within <b>one school day</b><br>" +
+                       "&bull; In person: Ageva, Okene, Kogi State, Monday to " +
+                       "Friday 7:30am to 3:00pm<br><br>" +
+                       "<a class=\"chat-link\" href=\"contact.html\">Open Contact</a>",
+                 source: "Contact" };
+      }
+
+      if (ent.intent === "officehours") {
+        var isWeekend = [0, 6].indexOf(new Date().getDay()) >= 0;
+        return { html: "The school office is open <b>Monday to Friday, 7:30am " +
+                       "to 3:00pm</b>. It is closed at weekends and on public " +
+                       "holidays.<br><br>" +
+                       (isWeekend
+                         ? "Today is the weekend, so the office is closed - but "
+                         : "") +
+                       "a WhatsApp message to <b>" + WHATSAPP + "</b> is read as " +
+                       "soon as the office opens.",
+                 source: "Contact" };
+      }
+
+      if (ent.intent === "complaint") {
+        return { html: "There are two ways, depending on whether you want your " +
+                       "name attached.<br><br>" +
+                       "<b>Anonymous</b> - the <b>Suggestion Box</b> on the " +
+                       "Contact page goes straight to the headmistress with no " +
+                       "name attached.<br><br>" +
+                       "<b>With a reply</b> - the message form on the same page, " +
+                       "answered by email usually within one school day. For " +
+                       "anything urgent involving your child, call <b>" +
+                       WHATSAPP + "</b> rather than waiting." +
+                       "<br><br><a class=\"chat-link\" href=\"contact.html\">" +
+                       "Open Contact</a>",
+                 source: "Contact" };
+      }
+
+      if (ent.intent === "passwordhelp") {
+        return { html: "<b>Getting into the portal</b><br>" +
+                       "Your child's <b>Registration Number</b> is the username - " +
+                       "it is on the admission slip, and the office will re-read " +
+                       "it to you on <b>" + WHATSAPP + "</b> if you have lost " +
+                       "it.<br><br>" +
+                       "&bull; <b>First time?</b> Enter the Registration Number " +
+                       "and the <b>Create Password</b> form appears by itself.<br>" +
+                       "&bull; <b>Wrong password twice?</b> The <b>Forgot " +
+                       "Password</b> form opens so you can reset it.<br>" +
+                       "&bull; <b>Staff</b> sign in with Staff ID and PIN; the " +
+                       "headmistress resets those.<br><br>" +
+                       "One account holds all your children.",
+                 source: "Login help" };
+      }
+
       if (ent.intent === "location") {
         return { html: "Treasure Academy is at <b>Ageva, Okene, Kogi State</b>." +
                        "<br><br>The office is open <b>Monday to Friday, 7:30am " +
@@ -1266,7 +1453,8 @@
          "abeg who be the head of the school" is a question with a polite
          opener, not a hello. */
       if (/^(hi|hello|hey|yo|good (morning|afternoon|evening)|how far|abeg)\b/.test(s) &&
-          s.split(/\s+/).filter(Boolean).length <= 4) {
+          s.split(/\s+/).filter(Boolean).length <= 3 &&
+          !/\b(my|the|our|your)\b/.test(s)) {
         return { type: "smalltalk", html: this.greeting(), chips: this.suggestions() };
       }
       if (/^(thanks|thank you|thank u|nice one|well done|ok thanks)\b/.test(s)) {
