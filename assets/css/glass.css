@@ -357,3 +357,11 @@ h2 + p, h3 + p{ margin-top: .35em; }
 @media (max-width: 1099px){
   .nav-links .nav-burger{ flex: 0 1 auto; }
 }
+
+/* School crest inside the auth popup. */
+.ta-glass .ta-crest{
+  display:block; margin:0 auto 14px; width:54px; height:54px;
+  border-radius:50%; object-fit:cover;
+  border:1px solid rgba(255,255,255,.55);
+  box-shadow:0 4px 18px rgba(0,0,0,.28);
+}

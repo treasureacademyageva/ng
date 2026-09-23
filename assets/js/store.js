@@ -473,7 +473,31 @@ const DB = {
     if(!db.seq.order) db.seq.order = 1;
     return db;
   },
-  save(db){ localStorage.setItem(DB_KEY, JSON.stringify(db)); try{ if(window.Sync) Sync.pushSoon(); }catch(e){} },
+  /* Saving must never fail silently. Browser storage is finite (photos are
+     stored as base64) and once it fills, setItem throws - previously that
+     exception escaped and the staff member's attendance or results were lost
+     with no message at all. Report it instead, and tell them what to do. */
+  save(db){
+    try {
+      localStorage.setItem(DB_KEY, JSON.stringify(db));
+    } catch (err) {
+      const full = err && (err.name === "QuotaExceededError" ||
+                           err.name === "NS_ERROR_DOM_QUOTA_REACHED" ||
+                           err.code === 22);
+      const msg = full
+        ? "This device's storage is full, so your last change was NOT saved. " +
+          "Remove some uploaded photos, then try again."
+        : "Your last change could not be saved on this device.";
+      try { console.error("DB.save failed:", err); } catch (e) {}
+      try {
+        if (window.U && U.toast) U.toast(msg);
+        else if (typeof alert === "function") alert(msg);
+      } catch (e) {}
+      return false;
+    }
+    try { if (window.Sync) Sync.pushSoon(); } catch (e) {}
+    return true;
+  },
   reset(){ localStorage.removeItem(DB_KEY); OLD_DB_KEYS.forEach(k=>localStorage.removeItem(k)); return DB.load(); },
   expireRegs(db){
     let changed=false; const now=Date.now();

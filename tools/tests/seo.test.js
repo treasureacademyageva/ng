@@ -113,6 +113,37 @@ const noindexed = pages.filter(f => !indexable.includes(f));
   });
   ok('every icon reference resolves', broken.length === 0, broken.join(','));
   ok('no emoji used as heading icons', emojiHeads.length === 0, [...new Set(emojiHeads)].join(','));
+
+  /* Glass layer. These are the pieces that break quietly: a renamed class, a
+     stylesheet that stops being linked, or someone reintroducing the bubbly
+     radii the owner asked us to tone down. */
+  const glass = fs.readFileSync(SITE + '/assets/css/glass.css', 'utf8');
+  const gjs   = fs.readFileSync(SITE + '/assets/js/auth-ui.js', 'utf8');
+
+  ok('glass.css defines the auth popup', /\.ta-scrim/.test(glass) && /\.ta-glass/.test(glass));
+  ok('auth popup blurs the page behind', /\.ta-scrim/.test(glass) && /backdrop-filter:\s*blur/.test(glass));
+  ok('auth panel is transparent', /rgba\(255,\s*255,\s*255,\s*\.[01][0-9]?\)/.test(glass));
+  ok('drawer + menu button exist', /\.ta-drawer/.test(glass) && /\.nav-burger/.test(glass));
+  ok('drawer has a logout', /\.d-out/.test(glass) && /Logout/.test(gjs));
+
+  /* The owner asked for squarer corners. Guard the tokens rather than every
+     rule, since everything else reads from them. */
+  const rv = n => { const m = glass.match(new RegExp('--ta-r-' + n + ':\\s*(\\d+)px')); return m ? +m[1] : null; };
+  const rSm = rv('sm'), rBase = (glass.match(/--ta-r:\s*(\d+)px/) || [])[1], rLg = rv('lg');
+  ok('radius tokens toned down',
+     rSm !== null && rLg !== null && rSm <= 6 && +rBase <= 8 && rLg <= 14,
+     [rSm, rBase, rLg].join('/'));
+
+  ok('muted lavender body text', /--ta-body:\s*#[0-9A-Fa-f]{6}/.test(glass));
+  ok('glow tokens defined', /--ta-glow:/.test(glass) && /--ta-glow-lit:/.test(glass));
+  ok('screen-reader label on the menu button', /aria-label/.test(gjs));
+
+  /* corporate.css owns .auth-card for the existing login page and batch 25
+     pins it. The popup must not collide with that name. */
+  ok('popup does not hijack .auth-card', !/[^-]\.auth-card\b/.test(glass));
+
+  const noGlass = pages.filter(f => f !== 'developer.html' && !/glass\.css/.test(read(f)));
+  ok('every public page loads glass.css', noGlass.length === 0, noGlass.join(','));
   ok('every page declares lang', badLang.length === 0, badLang.join(','));
 
   // descriptions must be distinct - duplicates get filtered out of results

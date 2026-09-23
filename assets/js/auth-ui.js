@@ -107,6 +107,19 @@
   var scrim = null;
   var lastFocus = null;
 
+  /* Keyboard focus must not escape an open dialog behind the blurred page.
+     Ported from the parallel batch-45 implementation. */
+  var FOCUS_SEL = 'a[href],button:not([disabled]),input,select,textarea,[tabindex]:not([tabindex="-1"])';
+  function trapFocus(container, ev) {
+    if (ev.key !== "Tab") return;
+    var f = [].slice.call(container.querySelectorAll(FOCUS_SEL))
+              .filter(function (n) { return n.offsetParent !== null; });
+    if (!f.length) return;
+    var first = f[0], last = f[f.length - 1];
+    if (ev.shiftKey && document.activeElement === first) { ev.preventDefault(); last.focus(); }
+    else if (!ev.shiftKey && document.activeElement === last) { ev.preventDefault(); first.focus(); }
+  }
+
   function close() {
     if (!scrim) return;
     scrim.classList.remove("in");
@@ -121,7 +134,11 @@
     lastFocus = document.activeElement;
     scrim = el("div", { class: "ta-scrim", id: "taAuth", role: "dialog",
                         "aria-modal": "true", "aria-label": "Login or register" });
-    var card = el("div", { class: "ta-glass" }, inner);
+    /* School crest at the top of the panel: it anchors the popup to the
+       school rather than reading as a generic form. */
+    var card = el("div", { class: "ta-glass" },
+      '<img class="ta-crest" src="' + base() + 'assets/img/logo.jpg" alt="" '
+      + 'width="54" height="54" loading="lazy">' + inner);
     scrim.appendChild(card);
     document.body.appendChild(scrim);
     document.documentElement.style.overflow = "hidden";
@@ -129,6 +146,7 @@
     /* click the backdrop, not the panel, to dismiss */
     scrim.addEventListener("mousedown", function (e) { if (e.target === scrim) close(); });
     document.addEventListener("keydown", function onEsc(e) {
+      if (e.key === "Tab" && scrim && scrim.parentNode) trapFocus(scrim, e);
       if (e.key === "Escape") { close(); document.removeEventListener("keydown", onEsc); }
     });
 
@@ -431,6 +449,7 @@
     scr.addEventListener("click", closeDrawer);
     d.querySelector("#taDrawerX").addEventListener("click", closeDrawer);
     document.addEventListener("keydown", function onEsc(e) {
+      if (e.key === "Tab" && d && d.parentNode) trapFocus(d, e);
       if (e.key === "Escape") { closeDrawer(); document.removeEventListener("keydown", onEsc); }
     });
 
