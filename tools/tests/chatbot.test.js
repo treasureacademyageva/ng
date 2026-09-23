@@ -160,7 +160,7 @@ ok("guest slot cleared after sync",
 const a = harness();
 a.TAChat.resetStats();
 a.TAChat.respond("how much are fees"); a.TAChat.recordFeedback(true);
-a.TAChat.respond("do you have a swimming pool"); a.TAChat.respond("it can wait");
+a.TAChat.respond("who won the world cup"); a.TAChat.respond("it can wait");
 a.TAChat.respond("what colour is the moon"); a.TAChat.respond("I need it now");
 const s = a.TAChat.stats();
 ok("counts questions", s.totalQuestions === 3, String(s.totalQuestions));
@@ -319,6 +319,100 @@ chipQs.forEach(function (c) {
 const sib = S.TAChat.respond("is there a sibling discount").html;
 ok("sibling discount is honest, not a promise",
    /may apply/i.test(sib) && /ask the (school )?office/i.test(sib));
+
+
+/* -------------------------------------------- about domain + separation --- */
+
+/* Rule 1: intent is resolved before retrieval, and each domain owns its own
+   words without stealing from the others. */
+const AB = harness();
+AB.__db = {
+  school: { fees: { "Primary 3": 30000, "Primary 4": 35000 } },
+  lostfound: [{ item: "Blue cardigan", date: "2026-09-12", claimed: false }],
+  uniform: [{ name: "School Cardigan", price: 6000 }],
+  calendar: [], exams: [{ date: "2026-11-30", time: "8:00 AM",
+                          subject: "Mathematics", classes: "P1-6" }],
+  ptaMeetings: [], teachers: [{ name: "A", subjects: ["Mathematics"] }],
+  pupils: [{}, {}], staffWall: [{ subjects: ["Computer Science", "Phonics"] }],
+  classPages: [], results: [], timetable: []
+};
+
+/* Every one of these must land in a DIFFERENT place. This is the separation
+   the whole design depends on. */
+[["how much is primary 3", /30,000/, "fee"],
+ ["my son lost his cardigan", /Blue cardigan/, "lost property"],
+ ["how much is the school cardigan", /6,000/, "uniform price"],
+ ["who founded the school", /Shaibu Sidikat Ruth/, "founder"],
+ ["what is your mission", /future leader/i, "mission"],
+ ["tell me about your history", /2018|2021|2024/, "history"],
+ ["do you have a library", /library/i, "facilities"],
+ ["what is your pass rate", /100%|Common Entrance/i, "performance"],
+ ["how many teachers do you have", /teaching staff|small/i, "staff count"],
+ ["what subjects do you teach", /Mathematics/, "curriculum"],
+ ["when is the next exam", /Mathematics/, "exam"]].forEach(function (t) {
+  const html = AB.TAChat.respond(t[0]).html;
+  ok('routes to ' + t[2] + ': "' + t[0] + '"', t[1].test(html),
+     html.replace(/<[^>]+>/g, " ").slice(0, 60));
+});
+
+/* Rule 3: a named subject gets a yes about THAT subject. */
+ok("confirms a subject that is taught",
+   /Yes/.test(AB.TAChat.respond("do you teach computer").html) &&
+   /Computer Science/.test(AB.TAChat.respond("do you teach computer").html));
+
+/* Rule 4: a clean no, then what IS true. */
+const fr = AB.TAChat.respond("do you teach french").html;
+ok("refuses a subject that is not taught", /not one of the subjects/i.test(fr));
+ok("still lists the real subjects after saying no", /Mathematics/.test(fr));
+
+const pool = AB.TAChat.respond("do you have a swimming pool").html;
+ok("says plainly there is no pool", /no <b>swimming pool<\/b>|does not offer swimming/i.test(pool));
+ok("follows the no with what the school does have", /computer room|library/i.test(pool));
+
+const boarding = AB.TAChat.respond("is it a boarding school").html;
+ok("answers boarding honestly", /day school/i.test(boarding) && /no boarding/i.test(boarding));
+
+/* Rule 5: counts come from live data, not a hardcoded number. */
+const counts = AB.TAChat.respond("how many teachers do you have").html;
+ok("staff count reads live data", /1<\/b> teaching staff|2<\/b> pupils/.test(counts),
+   counts.replace(/<[^>]+>/g, " ").slice(0, 60));
+
+/* Rule 8: nothing invented. The About answers must not claim facilities or
+   figures that are not on the site. */
+const facilities = AB.TAChat.respond("what facilities do you have").html;
+ok("does not invent a swimming pool", !/has a <b>swimming/i.test(facilities));
+ok("does not invent boarding", !/boarding (is )?available/i.test(facilities));
+
+/* Chunking: passages must start at a sentence, never mid-word. A broken
+   fragment like "est pride - an online portal" reads like a machine. */
+const chunks = kb.docs.filter((d) => /#\d+$/.test(d.id));
+const broken = chunks.filter((d) => /^[a-z]{1,4}\s/.test(d.text));
+ok("page chunks start cleanly, not mid-word", broken.length === 0,
+   broken.slice(0, 2).map((d) => d.id + ": " + d.text.slice(0, 30)).join(" | "));
+
+
+/* Rule 5 again: pages painted by JavaScript have no prose to scrape, so the
+   answer must come from the database instead of falling through. */
+const TS = harness();
+TS.__db = { school: {}, lostfound: [], calendar: [], uniform: [], exams: [],
+            ptaMeetings: [], teachers: [], pupils: [], classPages: [],
+            results: [], timetable: [], staffWall: [],
+            testimonials: [{ name: "Mrs. Okafor", role: "Parent",
+                             text: "Her reading improved so much in one term.",
+                             approved: true }] };
+const tHtml = TS.TAChat.respond("what do parents say about the school").html;
+ok("reads testimonials from live data", /Mrs\. Okafor|reading improved/.test(tHtml));
+ok("quote marks render, not HTML entities", !/&ldquo;|&rdquo;|&mdash;/.test(tHtml));
+
+/* Empty state must still be useful rather than silent. */
+const TS2 = harness();
+const emptyT = TS2.TAChat.respond("are there any parent reviews").html;
+ok("empty testimonials still explains the route",
+   /Testimonials/.test(emptyT) && /submit|approve/i.test(emptyT));
+
+/* "facilities" must match as a stem - \bfacilit\b never fires. */
+ok("the word facilities is recognised",
+   E.read("what facilities do you have").intent === "facilities");
 
 /* ------------------------------------------------------------- wiring -- */
 const pages = fs.readdirSync(ROOT).filter((f) => f.endsWith(".html"));

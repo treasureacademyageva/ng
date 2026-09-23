@@ -192,3 +192,65 @@ cover deadline wording and to degrade gracefully when no calendar has loaded.
 "Sibling discounts may apply - ask the office" is exactly how the admissions
 page words it, so that is exactly how the bot words it. It is never stated as
 a fixed promise, and a test pins that phrasing.
+
+## The rules Treasure Bot follows
+
+Not a list of questions and answers. A set of rules applied to whatever is
+asked. Everything is answered from **this website and its own database** -
+there is no external API, no internet search, and none is needed: the site
+already holds the school's facts and its live data.
+
+**Rule 1 - Work out the intent before searching.**
+Thirteen-plus intents (lost, price, curriculum, founder, mission, history,
+facilities, performance, staffcount, employment, partner, enrol, visit,
+location, timetable, result, contact, compare, safety, food). Intent is
+matched before retrieval so "my child lost his cardigan" never lands on the
+uniform price list.
+
+**Rule 2 - Resolve synonyms, classes and subjects to what the data calls them.**
+Parents do not type the stored word. Sweater, jumper, cardi and pullover all
+resolve to *cardigan*; p3, primary three and basic 3 all resolve to
+*Primary 3*; maths, arithmetic and number work all resolve to *Mathematics*.
+
+**Rule 3 - Be specific about the thing named.**
+If the question names an item, class or subject, answer about **that** one -
+"Primary 4 is N35,000", "Yes, Computer Science is taught", "a Blue cardigan
+was handed in on 2026-09-12". Never answer a specific question with a general
+page.
+
+**Rule 4 - When the specific thing is absent, say so plainly, then stay useful.**
+"No cardigan has been handed in yet" followed by what *is* unclaimed and what
+to do next. "French is not one of the subjects the school records" followed by
+the subjects that are. A clean no beats a vague deflection.
+
+**Rule 5 - Prefer live data over prose.**
+Fees, exams, lost property, PTA dates, subjects and staff counts are read from
+the database at the moment of asking, so the answer cannot go stale. Scraped
+page text is the fallback, never the first choice.
+
+**Rule 6 - Never dead-end.**
+Live data, then retrieval, then salvage (nearest real fact). Only when all
+three find nothing does it ask whether the reply is needed now or can wait -
+and that question decides WhatsApp versus the contact form.
+
+**Rule 7 - Refuse rather than guess.**
+Below the confidence bar it hands off. A parent acting on an invented school
+fee is worse than a parent who was told to ring the office.
+
+**Rule 8 - Never invent what the school has not published.**
+No partner list exists, so the bot says so and routes to the headmistress.
+Sibling discounts are hedged exactly as the admissions page hedges them.
+
+**Rule 9 - Carry the thread.**
+A fragment inherits the previous topic; any message with its own clear intent
+replaces it.
+
+**Rule 10 - Only suggest what it can answer.**
+A test asserts every suggested chip produces a real answer.
+
+## About-page coverage
+
+Founder, mission and vision, the 2015-2026 milestones, facilities (library,
+computer room, playground, sick bay, portal), what the school does **not**
+have (no swimming pool, no boarding - answered plainly), Common Entrance
+performance, and staff/pupil counts read live from the database.

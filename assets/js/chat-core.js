@@ -472,6 +472,230 @@
         }
       }
 
+      /* ---- Who the school is. -------------------------------------------
+         These are facts about the institution, so they are written here as
+         facts rather than scraped out of prose. Every figure below appears on
+         the About page; nothing is invented. Counts come from live data so
+         they cannot go stale. */
+
+      /* What parents say. The testimonials page is painted by JavaScript, so
+         there is no prose to scrape - the reviews live in the database and are
+         read from there, approved ones only. */
+      if (ent.intent === "testimonial") {
+        var approved = (db.testimonials || []).filter(function (t) {
+          return t.approved !== false && (t.text || t.message || t.body);
+        });
+        if (approved.length) {
+          var quote = approved[0];
+          var body = String(quote.text || quote.message || quote.body || "").trim();
+          if (body.length > 220) body = body.slice(0, 217) + "...";
+          return { html: "<b>" + approved.length + "</b> approved parent " +
+                         (approved.length === 1 ? "review is" : "reviews are") +
+                         " published on the <b>Testimonials</b> page.<br><br>" +
+                         "\u201c" + esc(body) + "\u201d" +
+                         (quote.name ? "<br><small>\u2014 " + esc(quote.name) +
+                          (quote.role ? ", " + esc(quote.role) : "") + "</small>" : "") +
+                         "<br><br><a class=\"chat-link\" href=\"testimonials.html\">" +
+                         "Read them all</a>",
+                   source: "Testimonials" };
+        }
+        return { html: "Parent reviews are collected on the <b>Testimonials</b> " +
+                       "page. None are published at the moment - parents, " +
+                       "teachers and pupils can submit one from their dashboard " +
+                       "after logging in, and the school approves it before it " +
+                       "appears.<br><br><a class=\"chat-link\" href=\"testimonials.html\">" +
+                       "Open Testimonials</a>",
+                 source: "Testimonials" };
+      }
+
+      /* Subjects. The list is read from what the school actually records
+         against exams, results and class pages, so it stays true as the
+         curriculum changes. Naming a subject we do not teach gets a plain
+         "no", not a vague deflection. */
+      if (ent.intent === "curriculum") {
+        var found = {};
+        (db.exams || []).forEach(function (e) { if (e.subject) found[e.subject] = 1; });
+        (db.results || []).forEach(function (r) { if (r.subject) found[r.subject] = 1; });
+        (db.classPages || []).forEach(function (c) {
+          (c.subjects || []).forEach(function (x) { if (x) found[x] = 1; });
+        });
+        /* Teachers carry the subjects they actually teach, which is the most
+           reliable list the school keeps. */
+        (db.staffWall || []).forEach(function (t) {
+          (t.subjects || []).forEach(function (x) { if (x) found[x] = 1; });
+        });
+        (db.teachers || []).forEach(function (t) {
+          (t.subjects || []).forEach(function (x) { if (x) found[x] = 1; });
+        });
+        (db.timetable || []).forEach(function (row) {
+          (row.periods || []).forEach(function (x) {
+            if (x && typeof x === "string") found[x] = 1;
+          });
+        });
+        var subjects = Object.keys(found).filter(function (x) {
+          return !/^school fees/i.test(x);
+        }).sort();
+
+        /* They named one. Answer about that one. */
+        if (ent.subject) {
+          var want = ent.subject.toLowerCase();
+          var taught = subjects.filter(function (x) {
+            return x.toLowerCase().indexOf(want) >= 0 ||
+                   want.indexOf(x.toLowerCase()) >= 0;
+          });
+          if (taught.length) {
+            return { html: "Yes - <b>" + esc(taught[0]) + "</b> is taught here." +
+                           (subjects.length ? "<br><br>The full list: " +
+                            esc(subjects.join(", ")) + "." : ""),
+                     source: "Curriculum" };
+          }
+        }
+        /* A subject word we know of but the school does not record. */
+        var missing = null;
+        if (/\bfrench\b/.test(s)) missing = "French";
+        else if (/\barabic\b/.test(s)) missing = "Arabic";
+        else if (/\bmusic\b/.test(s)) missing = "Music";
+        else if (/\bspanish\b/.test(s)) missing = "Spanish";
+        if (missing) {
+          return { html: "<b>" + missing + "</b> is not one of the subjects the " +
+                         "school records, so I would say no - but the office can " +
+                         "confirm what is offered this term on <b>" + WHATSAPP +
+                         "</b>." +
+                         (subjects.length ? "<br><br>What is taught: " +
+                          esc(subjects.join(", ")) + "." : ""),
+                   source: "Curriculum" };
+        }
+        if (subjects.length) {
+          return { html: "<b>Subjects taught</b><br>" + esc(subjects.join(", ")) +
+                         ".<br><br>Primary 6 also practises <b>Common Entrance</b> " +
+                         "questions in the portal through the year.",
+                   source: "Curriculum" };
+        }
+      }
+
+      if (ent.intent === "founder") {
+        return { html: "Treasure Academy was founded in <b>2015</b> by " +
+                       "<b>Shaibu Sidikat Ruth</b>, a mother and trained " +
+                       "teacher, who wanted the children of Ageva to have a " +
+                       "school that feels like home and teaches like the very " +
+                       "best.<br><br>" +
+                       "It began with a handful of pupils and a few teachers in " +
+                       "a rented apartment, and moved to its own permanent site " +
+                       "in <b>2018</b>. She remains Founder and Proprietress.<br><br>" +
+                       "The headmistress who runs the school day to day is " +
+                       "<b>Mrs. Salihu Nanahawa</b>.",
+                 source: "About" };
+      }
+
+      if (ent.intent === "mission") {
+        return { html: "<b>Mission</b><br>Building an effective and efficient " +
+                       "future leader - raising confident, brilliant and " +
+                       "well-mannered children through strong academics and " +
+                       "morals.<br><br>" +
+                       "<b>Vision</b><br>To be the most trusted school in Okene, " +
+                       "where every graduate shines in secondary school and " +
+                       "beyond.<br><br>" +
+                       "The promise the school repeats most often: " +
+                       "<i>every child can excel - our work is to give them the " +
+                       "foundation to do so</i>.",
+                 source: "About" };
+      }
+
+      if (ent.intent === "history") {
+        return { html: "<b>The journey so far</b><br>" +
+                       "<b>2015</b> - Founded by Shaibu Sidikat Ruth: a handful " +
+                       "of pupils, a few teachers, one big dream.<br>" +
+                       "<b>2018</b> - Moved to a permanent site in Ageva with " +
+                       "bigger classrooms and a playground.<br>" +
+                       "<b>2021</b> - Computer room and library opened; the " +
+                       "coding club began for Primary pupils.<br>" +
+                       "<b>2024</b> - 100% Common Entrance pass; all Primary 6 " +
+                       "pupils entered top secondary schools.<br>" +
+                       "<b>2026</b> - Online portal launched, putting results, " +
+                       "attendance and notices on parents' phones.",
+                 source: "About" };
+      }
+
+      if (ent.intent === "facilities") {
+        /* Answer about the specific thing asked for, the same rule used for
+           lost property: name it, then give the rest. */
+        var have = {
+          "library": "a <b>library</b>, opened in 2021 - pupils borrow books home",
+          "computer": "a <b>computer room</b>, opened in 2021, with a coding club for Primary pupils",
+          "playground": "a <b>playground</b>, on the permanent site since 2018",
+          "classroom": "bright <b>classrooms</b> on the school's own permanent site",
+          "portal": "an <b>online portal</b> where parents check results, attendance and notices",
+          "sick": "a <b>sick bay</b> for minor injuries, with parents called straight away"
+        };
+        var askedFor = null;
+        if (/\blibrar/.test(s)) askedFor = "library";
+        else if (/\bcomputer|ict|coding|lab\b/.test(s)) askedFor = "computer";
+        else if (/\bplay ?ground|play area\b/.test(s)) askedFor = "playground";
+        else if (/\bsick|clinic|nurse|first aid\b/.test(s)) askedFor = "sick";
+
+        /* Things the school does not have. Saying so plainly is better than a
+           vague answer that leaves a parent assuming. */
+        if (/\bswimming|pool\b/.test(s)) {
+          return { html: "There is no <b>swimming pool</b> - Treasure Academy " +
+                         "does not offer swimming.<br><br>What the school does " +
+                         "have: a computer room, a library, a playground and a " +
+                         "sick bay, all on its own permanent site.<br><br>" +
+                         "If that matters for your decision, the office can talk " +
+                         "you through the school day on <b>" + WHATSAPP + "</b>.",
+                   source: "About" };
+        }
+        if (/\b(boarding|hostel|dormitory|sleep over)\b/.test(s)) {
+          return { html: "Treasure Academy is a <b>day school</b> - there is no " +
+                         "boarding. Pupils arrive from 7:00am and are collected " +
+                         "by 3:00pm, and supervised transport runs on three " +
+                         "routes if you need it.",
+                   source: "About" };
+        }
+
+        var all = "a <b>computer room</b> and <b>library</b> (both since 2021, " +
+                  "with a coding club), a <b>playground</b>, classrooms on the " +
+                  "school's own permanent site, a <b>sick bay</b>, and an " +
+                  "<b>online portal</b> for parents.";
+        if (askedFor) {
+          return { html: "Yes - the school has " + have[askedFor] + ".<br><br>" +
+                         "Altogether: " + all,
+                   source: "About" };
+        }
+        return { html: "<b>What the school has</b><br>" + all +
+                       "<br><br>Supervised transport runs on three routes.",
+                 source: "About" };
+      }
+
+      if (ent.intent === "performance") {
+        return { html: "In <b>2024</b> every Primary 6 pupil passed the " +
+                       "<b>Common Entrance</b> examination - a 100% pass rate - " +
+                       "and all of them went on to top secondary schools.<br><br>" +
+                       "Primary 6 pupils practise Common Entrance questions " +
+                       "inside the portal through the year, which is how that " +
+                       "result is built rather than hoped for.",
+                 source: "About" };
+      }
+
+      if (ent.intent === "staffcount") {
+        var teachers = (db.teachers || []).length;
+        var pupils = (db.pupils || []).length;
+        var lines = [];
+        if (teachers) lines.push("<b>" + teachers + "</b> teaching staff are on the roll");
+        if (pupils) lines.push("<b>" + pupils + "</b> pupils are currently enrolled");
+        if (lines.length) {
+          return { html: lines.join(", and ") + ".<br><br>Classes are kept " +
+                         "deliberately small so every child is known by name " +
+                         "rather than by number. The exact size of a particular " +
+                         "class changes each term - the office will tell you " +
+                         "what it is right now on <b>" + WHATSAPP + "</b>.",
+                   source: "Staff list" };
+        }
+        return { html: "Classes are kept deliberately small so every child is " +
+                       "known by name. Exact numbers change each term, so the " +
+                       "office is the reliable source - <b>" + WHATSAPP + "</b>.",
+                 source: "About" };
+      }
+
       /* ---- People who are not parents here yet. -------------------------
          Prospective parents, job seekers, organisations. These visitors are
          the reason a school has a website at all, and the old bot had nothing

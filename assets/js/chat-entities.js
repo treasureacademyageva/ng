@@ -60,13 +60,24 @@
     "c.r.s": ["crs", "c.r.s", "christian religious", "religious studies", "bible"],
     "creative arts": ["creative art", "creative arts", "art", "drawing", "handwork"],
     "verbal reasoning": ["verbal", "verbal reasoning"],
-    "quantitative reasoning": ["quantitative", "quantitative reasoning", "quantitative aptitude"]
+    "quantitative reasoning": ["quantitative", "quantitative reasoning", "quantitative aptitude"],
+    "phonics": ["phonics", "sound foundation", "sounding"],
+    "computer": ["computer", "computing", "ict", "coding", "programming", "computer science"],
+    "handwriting": ["handwriting", "writing", "penmanship"]
   };
 
   /* What the person is trying to DO. Checked in order, so the most specific
      phrasing wins over a bare topic word. */
   var INTENTS = [
     ["lost", /\b(lost|lose|losing|missing|misplace[d]?|left behind|can'?t find|cannot find|find my|found any|anyone (found|seen)|has anyone)\b/],
+    ["testimonial", /\b(testimonial|testimonials|review|reviews|what do parents say|parents say|feedback from parent|recommend|rating|opinion)\b/],
+    ["curriculum", /\b(subject|subjects|curriculum|syllabus|what do you teach|do you teach|is .* taught|lesson|lessons|topics?)\b/],
+    ["founder", /\b(founder|founded|found the school|who started|who built|who created|who owns|owner|proprietress|proprietor|establish(ed)?|set up|began|origin|since when|how old is the school|how long have you)\b/],
+    ["mission", /\b(mission|vision|motto|aim|aims|goal|goals|purpose|philosophy|values|believe|belief|what do you stand for|ethos)\b/],
+    ["history", /\b(history|story|background|journey|milestone|milestones|timeline|how did .* (start|begin)|over the years|past)\b/],
+    ["facilities", /\bfacilit\w*\b|\b(library|computer room|computer lab|ict|playground|play ground|play area|classroom|building|premises|compound|equipment|amenit|what do you have|infrastructure|swimming|pool|field|hall|sick bay|clinic|boarding|boarder|hostel|dormitory|day school)\b/],
+    ["performance", /\b(pass rate|result rate|common entrance|how well|performance|achievement|success|record|graduate|alumni|where do (your|the) (pupil|student|graduate)|secondary school)\b/],
+    ["staffcount", /\bhow many\b[^.?!]{0,20}\b(teacher|teachers|staff|pupil|pupils|student|students|children|child|class|classes)\b|\bnumber of (teacher|staff|pupil|student|child)/],
     ["employment", /\b(job|jobs|vacancy|vacancies|employ|employment|hiring|hire|recruit|teaching job|career|careers|cv|resume|curriculum vitae)\b|\b(i|we|my)\b[^.?!]{0,25}\b(work|working|teach|teaching|join)\b[^.?!]{0,30}\b(there|here|with you|for you|at your|in your|as a teacher|as teacher|your school|the school)\b|\bcan i (work|teach|join)\b|\bapply\b[^.?!]{0,20}\b(teach|job|position|role|work)\b|\b(need|want|looking for|require|recruiting)\b[^.?!]{0,15}\b(teacher|teachers|staff|worker|workers|employee)\b/],
     ["partner", /\b(partner|partners|partnership|sponsor|sponsors|sponsorship|collaborat|affiliat|accredit|associate with|work with|donor|ngo)\b/],
     ["enrol", /\b(enrol|enroll|admission|admit|apply|application|register my|bring my child|join the school|new pupil|start school|place for my|space for my|vacancy for my child|accept)\b/],

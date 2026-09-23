@@ -205,13 +205,16 @@
         fixed.push(w);
       });
 
-      var qv = this._vec(fixed, null), out = [], i, w, dot;
+      var qv = this._vec(fixed, null), out = [], i, w, dot, overlap;
       for (i = 0; i < this.vectors.length; i++) {
-        dot = 0;
+        dot = 0; overlap = 0;
         for (w in qv) {
-          if (qv.hasOwnProperty(w) && this.vectors[i][w]) dot += qv[w] * this.vectors[i][w];
+          if (qv.hasOwnProperty(w) && this.vectors[i][w]) {
+            dot += qv[w] * this.vectors[i][w];
+            overlap++;
+          }
         }
-        if (dot > 0) out.push({ doc: this.docs[i], score: dot });
+        if (dot > 0) out.push({ doc: this.docs[i], score: dot, overlap: overlap });
       }
       out.sort(function (a, b) { return b.score - a.score; });
       return out.slice(0, limit || 4);
@@ -237,7 +240,15 @@
          bar and the bot answered a question it had not understood. Below this
          floor the retrieval genuinely found nothing, whatever the shape of the
          rest of the field. */
-      if (top.score < 0.18) conf = Math.min(conf, 0.22);
+      if (top.score < 0.22) conf = Math.min(conf, 0.2);
+
+      /* A single shared word is coincidence, not understanding. Require at
+         least two question terms to actually appear in the winning passage
+         before trusting it - otherwise "sell me a car" rides one stray word
+         into a confident-looking answer. */
+      if (top.overlap !== undefined && top.overlap < 2 && top.score < 0.45) {
+        conf = Math.min(conf, 0.2);
+      }
 
       var band = conf >= 0.52 ? "high" : (conf >= 0.3 ? "medium" : "low");
       return {

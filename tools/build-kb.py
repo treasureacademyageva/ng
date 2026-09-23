@@ -184,10 +184,23 @@ def build():
             (kw + " " + " ".join(hs)).lower(), fname, False, "page")
 
         # Long pages become several passages so retrieval can be precise.
+        # Split on sentence boundaries: slicing every 700 characters cuts words
+        # in half ("est pride - an online portal"), which reads like a broken
+        # machine and wrecks the term weighting for that passage.
         if len(body) > 900:
-            for n, chunk in enumerate(
-                    [body[x:x + 700] for x in range(0, min(len(body), 3500), 700)][1:], 2):
-                add("page:%s#%d" % (fname, n), title, chunk, kw.lower(), fname, False, "page")
+            sentences = re.split(r"(?<=[.!?])\s+", body)
+            chunk, n = "", 2
+            for sent in sentences:
+                if len(chunk) + len(sent) > 650 and chunk:
+                    add("page:%s#%d" % (fname, n), title, chunk.strip(),
+                        kw.lower(), fname, False, "page")
+                    n += 1
+                    chunk = sent + " "
+                else:
+                    chunk += sent + " "
+            if chunk.strip() and n <= 7:
+                add("page:%s#%d" % (fname, n), title, chunk.strip(),
+                    kw.lower(), fname, False, "page")
 
     # ---- 2. live school data from store.js ------------------------------
     store = open(os.path.join(ROOT, "assets/js/store.js"),
