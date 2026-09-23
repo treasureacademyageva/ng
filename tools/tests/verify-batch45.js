@@ -160,6 +160,35 @@ ok('003 grants the public views',
 ok('003 revokes select on the private tables',
    /revoke select on\s+pupils, parent_accounts, parent_phones/i.test(pol));
 
+/* ------------------------------------------------------- 005 the shop ---- */
+
+ok('shop migration exists', exists('db/005_shop.sql'));
+const m5 = read('db/005_shop.sql');
+
+ok('005 creates shop_items', /create table if not exists shop_items/i.test(m5));
+ok('005 enables RLS',        /alter table shop_items\s+enable row level security/i.test(m5));
+ok('005 view is security_invoker',
+   /alter view shop_catalogue set \(security_invoker = on\)/i.test(m5));
+
+/* GRANT and RLS are separate gates; Supabase's blanket grant predates this
+   table, so the migration must grant for itself or the shop page breaks. */
+ok('005 grants select explicitly',
+   /grant select on shop_items, shop_catalogue to anon, authenticated/i.test(m5));
+ok('005 refuses anon writes',
+   /revoke insert, update, delete on shop_items from anon/i.test(m5));
+
+/* Out of stock must stay visible with its price, not vanish. */
+ok('005 flags rather than hides out-of-stock',
+   /out_of_stock/.test(m5) && !/where[^;]*qty_in_stock\s*>\s*0/i.test(m5));
+
+/* Category used to be a hard-coded id list in store.js, so a new item fell
+   into "Others" until someone edited the code. It is real data now. */
+ok('005 stores the category', /category\s+text not null/i.test(m5));
+
+ok('005 seeds real prices', /Mathematics Textbook/.test(m5) && /4500/.test(m5) &&
+                            /Creche Care Pack/.test(m5));
+ok('005 is re-runnable', /on conflict \(id\) do update/i.test(m5));
+
 /* ------------------------------------------------------------ db-live ---- */
 
 ok('db-live.js exists', exists('assets/js/db-live.js'));
@@ -175,6 +204,11 @@ ok('db-live reads exams',     /exams_current_session/.test(live));
 ok('db-live reads pta',       /pta_meetings/.test(live));
 ok('db-live reads transport', /transport_routes/.test(live));
 ok('db-live reads uniform',   /uniform_items/.test(live));
+
+/* The shop must come from the database, and item photos must survive it. */
+ok('db-live reads the shop', /shop_catalogue/.test(live));
+ok('db-live keeps item photos on merge',
+   /old\.img/.test(live) && /n\.img = old\.img/.test(live));
 
 ok('no service_role key in client js',
    !/service_role['\"]?\s*[:=]/i.test(live) && !/eyJ[A-Za-z0-9_-]{20,}/.test(live));

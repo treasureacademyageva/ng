@@ -286,17 +286,40 @@ var DBLive = (function () {
         });
     },
 
+    /* School shop. Item photos are not in the database - they are design
+       assets in the site code - so the local image is preserved on merge. */
+    shop: function () {
+      return get("shop_catalogue", "?select=*&order=sort_order")
+        .then(function (rows) {
+          if (!rows) return null;
+          return rows.map(function (r) {
+            return {
+              id: r.id,
+              name: r.name || "",
+              category: r.category || "Others",
+              price: Number(r.price_naira) || 0,
+              qty: Number(r.qty_in_stock) || 0,
+              icon: r.icon || "bag",
+              classes: Array.isArray(r.classes) ? r.classes : []
+            };
+          });
+        });
+    },
+
     /* Merge whatever the database knows into the local DB, then tell the page
        to re-render. Safe to call on every page load. */
     hydrate: function () {
       if (!enabled()) return Promise.resolve(false);
       return Promise.all([
         API.calendar(), API.session(), API.fees(),
-        API.exams(), API.ptaMeetings(), API.transport(), API.uniform()
+        API.exams(), API.ptaMeetings(), API.transport(), API.uniform(),
+        API.shop()
       ]).then(function (res) {
         var cal = res[0], ses = res[1], fees = res[2],
-            exams = res[3], pta = res[4], transport = res[5], uniform = res[6];
-        if (!cal && !ses && !fees && !exams && !pta && !transport && !uniform) {
+            exams = res[3], pta = res[4], transport = res[5], uniform = res[6],
+            shop = res[7];
+        if (!cal && !ses && !fees && !exams && !pta && !transport && !uniform &&
+            !shop) {
           return false;
         }
         try {
@@ -313,6 +336,18 @@ var DBLive = (function () {
             db.transportRoutes = transport; touched = true;
           }
           if (uniform && uniform.length) { db.uniform = uniform;     touched = true; }
+          if (shop && shop.length) {
+            /* Keep each item's existing photo: the database stores school
+               data, the pictures belong to the site. */
+            var byId = {};
+            (db.shopItems || []).forEach(function (o) { byId[o.id] = o; });
+            db.shopItems = shop.map(function (n) {
+              var old = byId[n.id];
+              if (old && old.img) { n.img = old.img; }
+              return n;
+            });
+            touched = true;
+          }
           if (touched) DB.save(db);
           return touched;
         } catch (e) { return false; }

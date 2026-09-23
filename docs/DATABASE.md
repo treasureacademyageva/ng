@@ -113,6 +113,7 @@ Turning it on is a single step: paste the URL and anon key in Admin → Settings
 | `uniform_items` | uniform price list | `db.uniform` |
 | `staff_meetings` | internal staff meetings (private) | `db.meetings` |
 | `holiday_assignments` | holiday work per class (private) | `db.holiday` |
+| `shop_items` | shop catalogue, prices and stock | `db.shopItems` |
 | `audit_log` | who changed what, when | nothing — new |
 
 ### Views
@@ -124,6 +125,7 @@ Turning it on is a single step: paste the URL and anon key in Admin → Settings
 | `fee_balances` | expected vs paid vs outstanding, per pupil, current term |
 | `exams_current_session` | full exam timetable, past papers flagged |
 | `exams_upcoming` | papers still ahead, for countdowns and the chatbot |
+| `shop_catalogue` | active shop items, out-of-stock flagged not hidden |
 
 ---
 
@@ -134,6 +136,7 @@ db/001_schema.sql         ->  core tables
 db/002_seed.sql           ->  current data
 db/003_policies.sql       ->  locks it down   <-- run before connecting the site
 db/004_school_content.sql ->  exams, PTA, transport, uniform (+ their policies)
+db/005_shop.sql           ->  the school shop: books, stationery, uniform
 ```
 
 Run them in that order. All four are safe to re-run.
@@ -177,3 +180,31 @@ Two things the policies deliberately close, which look like bugs but are not:
   the core is proven in production.
 - See `docs/DATA-PRIVACY-FINDING.md` for an open issue about pupil phone
   numbers currently shipped in the public JavaScript.
+
+
+## The school shop
+
+Prices and stock counts used to live in `assets/js/store.js`. Changing a price
+meant editing code and redeploying, and every visitor's browser kept its own
+stale copy. The office now edits `shop_items` and the change reaches everyone.
+
+```sql
+-- put an item back in stock
+update shop_items set qty_in_stock = 20 where id = 'S18';
+
+-- change a price
+update shop_items set price_naira = 5000 where id = 'S01';
+
+-- hide an item without deleting its history
+update shop_items set is_active = false where id = 'S22';
+```
+
+Out-of-stock items are **flagged, not hidden** (`out_of_stock` in
+`shop_catalogue`), so a parent still sees the price and can ask to be told when
+it returns.
+
+Two things deliberately stay in the site code. **Item photos** are design
+assets, not school data, so `db-live.js` keeps the existing picture when it
+merges a row. **Category** moved the other way: it used to be a hard-coded list
+of item ids in `U.shopCat`, which meant every new item silently became
+"Others" until a developer edited that list, so it is a real column now.
