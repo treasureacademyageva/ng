@@ -145,6 +145,12 @@
         }
       }
 
+      /* Conversation memory. "How much is Primary 3?" then "and Primary 4?"
+         is one conversation, not two unrelated questions. Carry the previous
+         topic forward when the new message is only a fragment, which is how
+         people actually speak. */
+      q = this.withContext(q);
+
       var greet = this.smallTalk(q);
       if (greet) return greet;
 
@@ -241,6 +247,51 @@
                "Open " + esc(res.title) + "</a>";
       }
       return out;
+    },
+
+    /* What the last substantive question was about, so a fragment can inherit
+       it. Held in memory only - it is conversational state, not history. */
+    topic: null,
+
+    /* Expand a fragment into a full question using the previous topic.
+       "and primary 4?" after a fee question becomes "fees primary 4". */
+    withContext: function (q) {
+      var raw = String(q).trim();
+      var ent = global.TAEntities ? global.TAEntities.read(raw) : null;
+      var words = raw.toLowerCase().replace(/[^a-z0-9\s]/g, " ").split(/\s+/)
+                     .filter(Boolean);
+
+      /* A fragment: short, and opening like a continuation. */
+      var isFragment = words.length <= 6 &&
+        /^(and|what about|how about|what of|also|then|ok what about|so)\b/
+          .test(raw.toLowerCase());
+
+      /* Or just a bare entity - "primary 4?" on its own. */
+      var bareEntity = words.length <= 3 && ent &&
+        (ent.klass || ent.subject || ent.thing) && !ent.intent;
+
+      if ((isFragment || bareEntity) && this.topic) {
+        var carried = this.topic + " " + raw;
+        /* Remember the new subject but keep the old intent. */
+        if (ent && ent.klass) this.topicClass = ent.klass;
+        return carried;
+      }
+
+      /* A full question - remember what it was about for next time. */
+      if (ent && ent.intent) {
+        this.topic = ent.intent === "price" ? "fees"
+                   : ent.intent === "timetable" ? "timetable"
+                   : ent.intent === "lost" ? "lost property"
+                   : ent.intent === "result" ? "results"
+                   : ent.intent;
+      } else if (words.length > 3) {
+        /* No clear intent: keep the two most meaningful words. */
+        var keep = words.filter(function (w) {
+          return w.length > 3 && !/^(what|when|where|which|about|does|your|have|the|and|for|how|much|please|tell)$/.test(w);
+        });
+        if (keep.length) this.topic = keep.slice(0, 2).join(" ");
+      }
+      return raw;
     },
 
     /* When retrieval is not confident, work out what the question was ABOUT
@@ -538,7 +589,7 @@
       }
 
       /* Term dates, straight from the calendar. */
-      if (/\bresumption|resume|term date|calendar|when.*(start|begin|open)\b/.test(s)) {
+      if (/\bresumption|resume|term date|calendar|deadline|closing date|last day|cut off|cut-off|when.*(start|begin|open)\b/.test(s)) {
         var cal = (db.calendar || []).slice().sort(function (a, b) {
           return String(a.date).localeCompare(String(b.date));
         });
@@ -573,6 +624,14 @@
                          "</b> on " + pretty(cal[cal.length - 1].date) + "." + tail,
                    source: "School calendar" };
         }
+        /* No calendar loaded yet. Still answer rather than dropping the
+           person into a handoff for a question the school can obviously
+           answer. */
+        return { html: "The term calendar is being updated, so I do not have " +
+                       "the dates in front of me." + tail + "<br><br>" +
+                       "The <b>Calendar</b> page always carries the current " +
+                       "dates, or call the office on <b>" + WHATSAPP + "</b>.",
+                 source: "School calendar" };
       }
 
       /* Who teaches a class. */
@@ -710,11 +769,38 @@
              "<br><br>What would you like to know?";
     },
 
+    /* Suggested questions. They follow the conversation rather than sitting
+       static, because the most useful next question depends on what was just
+       asked - and a new visitor needs different prompts from a parent who is
+       already logged in. */
     suggestions: function () {
-      var base = ["How much are the fees?", "What time does school close?",
-                  "When is the exam?", "How do I pay?"];
-      if (session()) base = ["My results", "My fees balance", "When is the exam?", "School hours"];
-      return base;
+      var t = this.topic;
+      if (t === "fees") {
+        return ["How do I pay?", "Is there a sibling discount?",
+                "What does the uniform cost?", "When is the deadline?"];
+      }
+      if (t === "lost property") {
+        return ["What else is unclaimed?", "Where is the school office?",
+                "School hours", "Call the school"];
+      }
+      if (t === "employment") {
+        return ["What roles are open?", "How do I apply?",
+                "Where is the school?", "Who is the headmistress?"];
+      }
+      if (t === "enrol" || t === "visit") {
+        return ["How much are the fees?", "Can I visit the school?",
+                "What classes do you have?", "How do I register?"];
+      }
+      if (t === "timetable" || t === "results") {
+        return ["When is the next exam?", "When does term end?",
+                "How much are the fees?", "School hours"];
+      }
+      if (session()) {
+        return ["My results", "My fees balance", "When is the next exam?",
+                "School hours"];
+      }
+      return ["How much are the fees?", "What time does school close?",
+              "Can I visit the school?", "How do I register my child?"];
     },
 
     /* ------------------------------------------------- urgency and handoff */

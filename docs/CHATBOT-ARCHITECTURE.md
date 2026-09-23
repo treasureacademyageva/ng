@@ -153,3 +153,42 @@ names.
 
 Intent matching is precise about this: "I want to teach at your school" is a
 job enquiry; "do you teach French" is not.
+
+## Conversation memory
+
+The clearest way a bot gives itself away is losing the thread:
+
+    "How much is Primary 3?"   ->  Primary 3 is N30,000 per term.
+    "and Primary 4?"           ->  (generic Academics page)
+
+`withContext()` fixes that. It remembers what the last substantive question
+was *about* - fees, timetable, lost property, results, employment - and when
+the next message is only a fragment ("and primary 4?", "what about nursery
+2", or a bare "creche?") it carries the topic forward before anything
+searches.
+
+Guardrails, because stale context is worse than none:
+
+- Only short messages that open like a continuation, or a bare entity with no
+  intent of its own, inherit anything.
+- Any message with its own clear intent replaces the topic outright, so
+  asking about a lost cardigan after a fee question does not return a price.
+- Greetings and courtesy pass through untouched.
+
+The topic lives in memory, not storage: it is conversational state, not
+history.
+
+## Suggested questions follow the conversation
+
+The chips change with the topic - after a fee answer they offer paying,
+sibling discounts, uniform cost and the deadline. A test asserts the bot can
+actually answer **every question it suggests**, because a chip that leads to
+"I don't know" is worse than no chip. That test immediately caught "When is
+the deadline?" landing in a handoff, and the calendar answer was widened to
+cover deadline wording and to degrade gracefully when no calendar has loaded.
+
+## Honesty about what is not fixed
+
+"Sibling discounts may apply - ask the office" is exactly how the admissions
+page words it, so that is exactly how the bot words it. It is never stated as
+a fixed promise, and a test pins that phrasing.

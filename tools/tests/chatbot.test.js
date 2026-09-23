@@ -258,6 +258,68 @@ ok("fallback still offers a route",
 /* The name. */
 ok("bot is called Treasure Bot", /Treasure Bot/.test(read("assets/js/chat-ui.js")));
 
+
+/* ------------------------------------------------ conversation memory ---- */
+
+/* "How much is Primary 3?" then "and Primary 4?" is one conversation.
+   Without memory the follow-up returns a generic page, which is the single
+   most obvious way a bot gives itself away. */
+const M = harness();
+M.__db = { school: { fees: { "Creche": 30000, "Nursery 2": 25000,
+                             "Primary 3": 30000, "Primary 4": 35000 } },
+           lostfound: [], calendar: [], uniform: [], exams: [], ptaMeetings: [],
+           teachers: [] };
+ok("answers the first fee question",
+   /30,000/.test(M.TAChat.respond("how much is primary 3").html));
+ok('follow-up "and primary 4?" keeps the topic',
+   /35,000/.test(M.TAChat.respond("and primary 4?").html));
+ok('follow-up "what about nursery 2" keeps the topic',
+   /25,000/.test(M.TAChat.respond("what about nursery 2").html));
+ok('bare entity "creche?" keeps the topic',
+   /30,000/.test(M.TAChat.respond("creche?").html));
+
+/* Memory must not bleed across a topic change. */
+const M2 = harness();
+M2.__db = { school: { fees: { "Primary 3": 30000 } },
+            lostfound: [{ item: "Blue cardigan", date: "2026-09-12", claimed: false }],
+            calendar: [], uniform: [], exams: [], ptaMeetings: [], teachers: [] };
+M2.TAChat.respond("how much is primary 3");
+const switched = M2.TAChat.respond("my son lost his cardigan").html;
+ok("a new topic is not contaminated by the last one",
+   /Blue cardigan/.test(switched) && !/30,000/.test(switched));
+
+/* Courtesy and greetings must survive the context layer untouched. */
+ok("greeting still works after a topic",
+   /Treasure Bot/.test(M2.TAChat.respond("hello").html));
+ok("thanks still works after a topic",
+   /welcome/i.test(M2.TAChat.respond("thank you").html));
+
+/* Suggested questions follow the conversation. */
+const S = harness();
+S.__db = { school: { fees: { "Primary 3": 30000 } }, lostfound: [], calendar: [],
+           uniform: [], exams: [], ptaMeetings: [], teachers: [] };
+const startChips = S.TAChat.suggestions().join(" ");
+S.TAChat.respond("how much is primary 3");
+const feeChips = S.TAChat.suggestions().join(" ");
+ok("suggestions change with the topic", startChips !== feeChips, feeChips);
+ok("fee suggestions are about paying", /pay|discount|deadline/i.test(feeChips));
+
+/* Anything the bot offers must be answerable - a chip that leads nowhere is
+   worse than no chip. */
+const chipQs = S.TAChat.suggestions();
+chipQs.forEach(function (c) {
+  const r = S.TAChat.respond(c);
+  ok('its own suggestion is answerable: "' + c + '"',
+     r && (r.type === "answer" || r.type === "needs-login" || r.type === "smalltalk"),
+     r && r.type);
+});
+
+/* The sibling discount is hedged exactly as the site hedges it - "may apply,
+   ask the office" - never stated as a fixed promise. */
+const sib = S.TAChat.respond("is there a sibling discount").html;
+ok("sibling discount is honest, not a promise",
+   /may apply/i.test(sib) && /ask the (school )?office/i.test(sib));
+
 /* ------------------------------------------------------------- wiring -- */
 const pages = fs.readdirSync(ROOT).filter((f) => f.endsWith(".html"));
 const wired = pages.filter((f) => read(f).indexOf("chat-rag.js") >= 0);

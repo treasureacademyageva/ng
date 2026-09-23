@@ -315,6 +315,14 @@ def build():
          "directions, a map and the school phone numbers.",
          "where located location address directions map find come visit place "
          "area town state", "contact.html", False),
+        ("fact:sibling", "More Than One Child and Sibling Discounts",
+         "Sibling discounts may apply when more than one child from the same "
+         "family attends, but the amount is not fixed on the website - ask the "
+         "school office. One parent account holds all the children: register "
+         "the first, then register the next with the same phone number and the "
+         "system attaches them to the same account.",
+         "sibling siblings discount second child two children brother sister "
+         "family reduce reduction cheaper more than one", "admissions.html", False),
         ("fact:jobs", "Working at Treasure Academy",
          "Treasure Academy hires teachers and support staff. We hire for "
          "character first, then skill: people who keep promises, speak kindly "
