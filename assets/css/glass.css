@@ -1,0 +1,359 @@
+/* ============================================================================
+   Treasure Academy — surface and depth layer
+   Loaded after corporate.css/motion.css so it can settle the house style.
+
+   Four things live here:
+     1. one radius scale, applied by overriding the ad-hoc pixel values
+     2. muted lavender-grey body text
+     3. subtle glowing borders
+     4. gentle hover lift/glow, and the glass used by the auth dialog
+   ========================================================================== */
+
+:root{
+  /* Softer than the old 14-20px. Present, but not a pill. */
+  --ta-r-xs: 4px;
+  --ta-r-sm: 6px;
+  --ta-r:    8px;   /* the default for cards, inputs, buttons */
+  --ta-r-lg: 10px;  /* big panels only */
+  --ta-r-pill: 999px;
+
+  /* Muted lavender-grey. Warm enough to sit on the green brand without
+     reading as pure grey, soft enough to stop long paragraphs shouting. */
+  --ta-body: #5A5670;
+  --ta-body-soft: #7C7791;
+  --ta-body-faint: #9A96AC;
+
+  /* Glow borders: a hairline plus a wide, very low-alpha halo. */
+  --ta-line: rgba(124,119,145,.22);
+  --ta-line-lit: rgba(11,122,55,.34);
+  --ta-glow: 0 0 0 1px rgba(124,119,145,.14), 0 0 18px -6px rgba(124,119,145,.30);
+  --ta-glow-lit: 0 0 0 1px rgba(11,122,55,.30), 0 0 22px -4px rgba(11,122,55,.34);
+
+  --ta-lift: cubic-bezier(.22,.61,.36,1);
+}
+
+[data-theme="dark"]{
+  --ta-body: #B9B4CC;
+  --ta-body-soft: #9C97B2;
+  --ta-body-faint: #837E98;
+  --ta-line: rgba(185,180,204,.20);
+  --ta-line-lit: rgba(46,158,91,.42);
+  --ta-glow: 0 0 0 1px rgba(185,180,204,.12), 0 0 20px -6px rgba(0,0,0,.55);
+  --ta-glow-lit: 0 0 0 1px rgba(46,158,91,.38), 0 0 26px -4px rgba(46,158,91,.30);
+}
+
+/* ---- 1. radius -----------------------------------------------------------
+   The pages hardcode 10-20px in hundreds of places, so normalise by element
+   rather than editing every rule. Pills and circles are left alone. */
+.card, .mv-card, .testi-card, .team-card, .prog, .tbl, .wa-card, .faq-item,
+.pay-card, .side-card, .cmp-wrap, .track-card, .gate-card, .stat, .stats-band,
+.hero-figure img, .hero-figure, .clock-widget, .panel, .box, .note,
+input, select, textarea, .btn, button.btn, .chip, .seg, .tile, .qa-btn,
+.glass, .modal-card, .toast, .callout, .quote, .banner{
+  border-radius: var(--ta-r) !important;
+}
+.btn-sm, .chip, .pill-sm, input[type="checkbox"], .badge{ border-radius: var(--ta-r-sm) !important; }
+.panel-lg, .hero-card, .modal-card.lg, .site-footer .foot-main{ border-radius: var(--ta-r-lg) !important; }
+/* Things that are meant to be round stay round. */
+.avatar, .dot, .social-3d a, .chat-fab, .ico-circle, .radio, .seg-ink,
+.pill, .tag-pill, [class*="circle"]{ border-radius: var(--ta-r-pill) !important; }
+
+/* ---- 2. muted lavender-grey body text ----------------------------------- */
+body{ color: var(--ta-body); }
+p, li, dd, td, .muted, .sub, .lead, .foot-hours, small{ color: var(--ta-body); }
+.muted, .sub, small, .cap, figcaption{ color: var(--ta-body-soft); }
+.faint, .hint, .help{ color: var(--ta-body-faint); }
+/* Headings keep the brand ink - only body copy goes lavender. */
+h1,h2,h3,h4,h5,th,b,strong,.btn,label{ color: inherit; }
+
+/* ---- 3. subtle glowing borders ------------------------------------------ */
+.card, .mv-card, .testi-card, .team-card, .prog, .wa-card, .faq-item,
+.pay-card, .side-card, .track-card, .gate-card, .stat, .panel, .cmp-wrap{
+  border: 1px solid var(--ta-line);
+  box-shadow: var(--ta-glow);
+}
+input, select, textarea{
+  border: 1px solid var(--ta-line);
+  transition: border-color .2s var(--ta-lift), box-shadow .25s var(--ta-lift);
+}
+input:focus, select:focus, textarea:focus{
+  border-color: var(--ta-line-lit);
+  box-shadow: var(--ta-glow-lit);
+  outline: none;
+}
+
+/* ---- 4. generous spacing ------------------------------------------------- */
+section{ padding-block: clamp(48px, 6vw, 96px); }
+.container{ padding-inline: clamp(18px, 4vw, 40px); }
+.card, .mv-card, .testi-card, .team-card, .pay-card, .side-card, .panel{
+  padding: clamp(18px, 2.2vw, 28px);
+}
+p{ line-height: 1.72; max-width: 72ch; }
+h1,h2{ margin-bottom: .55em; }
+h2 + p, h3 + p{ margin-top: .35em; }
+.grid, .cards, .mv-grid{ gap: clamp(16px, 2vw, 28px); }
+
+/* ---- 5. gentle hover lift + glow ---------------------------------------- */
+@media (prefers-reduced-motion: no-preference){
+  .card, .mv-card, .testi-card, .team-card, .prog, .track-card, .pay-card,
+  .tile, .qa-btn, .stat{
+    transition: transform .28s var(--ta-lift), box-shadow .28s var(--ta-lift),
+                border-color .28s var(--ta-lift);
+    will-change: transform;
+  }
+  .card:hover, .mv-card:hover, .testi-card:hover, .team-card:hover,
+  .prog:hover, .track-card:hover, .pay-card:hover, .tile:hover,
+  .qa-btn:hover, .stat:hover{
+    transform: translateY(-3px);
+    border-color: var(--ta-line-lit);
+    box-shadow: var(--ta-glow-lit), 0 14px 30px -18px rgba(14,59,33,.45);
+  }
+  .btn{ transition: transform .2s var(--ta-lift), box-shadow .2s var(--ta-lift), filter .2s var(--ta-lift); }
+  .btn:hover{ transform: translateY(-2px); box-shadow: var(--ta-glow-lit); }
+  .btn:active{ transform: translateY(0); }
+}
+
+/* ============================================================================
+   Glass auth dialog
+   The landing page stays visible and is blurred behind the panel, so the panel
+   itself can be very transparent without the two sets of words colliding.
+   ========================================================================== */
+
+#taAuth[hidden], #taDrawer[hidden]{ display:none !important; }
+
+.ta-scrim{
+  position: fixed; inset: 0; z-index: 1400;
+  display: grid; place-items: center;
+  padding: clamp(16px, 4vw, 48px);
+  /* The blur is what makes the transparency legible. */
+  -webkit-backdrop-filter: blur(18px) saturate(115%) brightness(.82);
+          backdrop-filter: blur(18px) saturate(115%) brightness(.82);
+  background: rgba(8, 26, 16, .46);
+  opacity: 0;
+  transition: opacity .34s var(--ta-lift);
+}
+.ta-scrim.in{ opacity: 1; }
+
+/* Browsers without backdrop-filter get a solid scrim instead of unreadable
+   text over a sharp page. */
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))){
+  .ta-scrim{ background: rgba(8, 26, 16, .92); }
+}
+
+.ta-glass{
+  position: relative;
+  width: min(560px, 100%);
+  max-height: min(86vh, 900px);
+  overflow: auto;
+  padding: clamp(22px, 3vw, 34px);
+  border-radius: var(--ta-r-lg);
+  /* Deliberately thin so the page reads through it. */
+  background: linear-gradient(160deg, rgba(255,255,255,.17), rgba(255,255,255,.07));
+  -webkit-backdrop-filter: blur(26px) saturate(150%);
+          backdrop-filter: blur(26px) saturate(150%);
+  border: 1px solid rgba(255,255,255,.30);
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,.10) inset,
+    0 1px 0 rgba(255,255,255,.45) inset,
+    0 30px 70px -28px rgba(0,0,0,.70);
+  color: #fff;
+  transform: translateY(14px) scale(.985);
+  opacity: 0;
+  transition: transform .38s var(--ta-lift), opacity .30s var(--ta-lift);
+}
+.ta-scrim.in .ta-glass{ transform: none; opacity: 1; }
+
+/* White-on-glass needs a shadow to stay readable over a bright hero. */
+.ta-glass h2, .ta-glass h3, .ta-glass label, .ta-glass p, .ta-glass a,
+.ta-glass small, .ta-glass b{ color: #fff; text-shadow: 0 1px 10px rgba(0,0,0,.42); }
+.ta-glass p, .ta-glass small{ color: rgba(255,255,255,.90); }
+.ta-glass h2{ margin: 0 0 .3em; font-size: clamp(1.25rem, 2.4vw, 1.6rem); }
+
+.ta-glass input, .ta-glass select{
+  width: 100%; box-sizing: border-box;
+  padding: 12px 14px; margin-top: 6px;
+  border-radius: var(--ta-r);
+  background: rgba(255,255,255,.14);
+  border: 1px solid rgba(255,255,255,.34);
+  color: #fff; font: inherit;
+}
+.ta-glass input::placeholder{ color: rgba(255,255,255,.62); }
+.ta-glass input:focus, .ta-glass select:focus{
+  outline: none;
+  border-color: rgba(255,255,255,.72);
+  background: rgba(255,255,255,.20);
+  box-shadow: 0 0 0 4px rgba(255,255,255,.12);
+}
+.ta-glass .fld{ margin-bottom: 14px; }
+.ta-glass label{ font-size: .86rem; font-weight: 600; letter-spacing: .01em; }
+
+.ta-btn{
+  width: 100%; padding: 13px 18px; margin-top: 4px;
+  border-radius: var(--ta-r); border: 1px solid rgba(255,255,255,.30);
+  background: linear-gradient(180deg, #14A04A, #0B7A37);
+  color: #fff; font: inherit; font-weight: 700; cursor: pointer;
+  transition: transform .2s var(--ta-lift), box-shadow .2s var(--ta-lift);
+}
+.ta-btn:hover{ transform: translateY(-2px); box-shadow: 0 10px 26px -10px rgba(0,0,0,.6); }
+.ta-btn.ghost{ background: rgba(255,255,255,.14); }
+
+.ta-x{
+  position: absolute; top: 10px; right: 10px;
+  width: 36px; height: 36px; display: grid; place-items: center;
+  border-radius: var(--ta-r-pill);
+  background: rgba(255,255,255,.16); border: 1px solid rgba(255,255,255,.30);
+  color: #fff; cursor: pointer; font-size: 18px; line-height: 1;
+}
+.ta-x:hover{ background: rgba(255,255,255,.28); }
+
+.ta-tabs{ display: flex; gap: 8px; margin: 4px 0 18px; }
+.ta-tabs button{
+  flex: 1; padding: 10px; cursor: pointer; font: inherit; font-weight: 600;
+  border-radius: var(--ta-r); color: #fff;
+  background: rgba(255,255,255,.10); border: 1px solid rgba(255,255,255,.24);
+}
+.ta-tabs button[aria-selected="true"]{
+  background: rgba(255,255,255,.26);
+  border-color: rgba(255,255,255,.52);
+  box-shadow: 0 0 18px -6px rgba(255,255,255,.5);
+}
+
+@media (prefers-reduced-motion: reduce){
+  .ta-scrim, .ta-glass{ transition: none; }
+  .ta-glass{ transform: none; opacity: 1; }
+}
+
+/* ============================================================================
+   Hamburger drawer
+   Sits beside Login/Register in the top bar at the same width as Contact Us,
+   and slides out a full navigation list: the five top-bar links, then the
+   footer links, then a gap, then Logout.
+   ========================================================================== */
+
+/* Match the width of a normal nav link so the row stays even. */
+.nav-links .nav-burger{
+  display: inline-flex; align-items: center; justify-content: center; gap: 7px;
+  cursor: pointer; font-weight: 600;
+  /* Inherit the sibling links' metrics rather than inventing our own, so the
+     button is exactly as wide as Contact Us in the sidebar and in the bar. */
+  /* Mirror the sibling links exactly: same font size, padding and horizontal
+     margins, so the Menu button is the same width as Contact Us at every
+     breakpoint rather than only one. Measured, not guessed. */
+  font-family: inherit; font-size: .9rem;
+  padding: 10px 12px; margin: 0 9px;
+  box-sizing: border-box; flex: 0 1 auto;
+  border-radius: var(--ta-r);
+  background: rgba(255,255,255,.06);
+  border: 1px solid var(--ta-line);
+  color: inherit;
+  transition: transform .2s var(--ta-lift), box-shadow .2s var(--ta-lift),
+              border-color .2s var(--ta-lift);
+}
+.nav-links .nav-burger:hover{
+  transform: translateY(-2px);
+  border-color: var(--ta-line-lit);
+  box-shadow: var(--ta-glow-lit);
+}
+.nav-burger .bars{ display: inline-grid; gap: 3px; }
+.nav-burger .bars i{
+  display: block; width: 16px; height: 2px; border-radius: 2px;
+  background: currentColor;
+}
+
+.ta-drawer-scrim{
+  position: fixed; inset: 0; z-index: 1500;
+  background: rgba(8,26,16,.42);
+  -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
+  opacity: 0; transition: opacity .3s var(--ta-lift);
+}
+.ta-drawer-scrim.in{ opacity: 1; }
+
+.ta-drawer{
+  position: fixed; top: 0; right: 0; bottom: 0; z-index: 1501;
+  width: min(330px, 86vw);
+  display: flex; flex-direction: column;
+  padding: 20px 18px calc(20px + env(safe-area-inset-bottom));
+  overflow-y: auto;
+  background: linear-gradient(200deg, rgba(14,59,33,.90), rgba(9,40,22,.94));
+  -webkit-backdrop-filter: blur(22px) saturate(140%);
+          backdrop-filter: blur(22px) saturate(140%);
+  border-left: 1px solid rgba(255,255,255,.18);
+  box-shadow: -24px 0 60px -30px rgba(0,0,0,.8);
+  transform: translateX(102%);
+  transition: transform .38s var(--ta-lift);
+}
+.ta-drawer.in{ transform: none; }
+
+.ta-drawer .d-head{
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 10px; padding-bottom: 14px; margin-bottom: 8px;
+  border-bottom: 1px solid rgba(255,255,255,.16);
+}
+.ta-drawer .d-head b{ color: #fff; font-size: .98rem; }
+
+.ta-drawer a, .ta-drawer .d-out{
+  display: flex; align-items: center; gap: 11px;
+  padding: 11px 12px; margin-bottom: 5px;
+  border-radius: var(--ta-r);
+  color: rgba(255,255,255,.93); text-decoration: none;
+  font-weight: 500; font-size: .94rem;
+  border: 1px solid transparent;
+  transition: transform .2s var(--ta-lift), background .2s var(--ta-lift),
+              border-color .2s var(--ta-lift), box-shadow .2s var(--ta-lift);
+}
+.ta-drawer a:hover, .ta-drawer .d-out:hover{
+  transform: translateX(3px);
+  background: rgba(255,255,255,.12);
+  border-color: rgba(255,255,255,.26);
+  box-shadow: 0 0 20px -8px rgba(255,255,255,.45);
+}
+.ta-drawer a[aria-current="page"]{
+  background: rgba(231,185,75,.20);
+  border-color: rgba(231,185,75,.45);
+  color: #fff;
+}
+.ta-drawer .d-ico{ width: 18px; height: 18px; flex: none; opacity: .92; }
+
+.ta-drawer .d-sep{
+  margin: 10px 2px 8px; padding-top: 12px;
+  border-top: 1px solid rgba(255,255,255,.16);
+  font-size: .72rem; letter-spacing: .10em; text-transform: uppercase;
+  color: rgba(255,255,255,.55);
+}
+/* The gap before Logout, as asked. */
+.ta-drawer .d-gap{ flex: 1 0 26px; min-height: 26px; }
+
+.ta-drawer .d-out{
+  width: 100%; cursor: pointer; font: inherit; font-weight: 700;
+  background: rgba(220,66,66,.20);
+  border: 1px solid rgba(255,140,140,.40);
+  color: #fff; text-align: left;
+}
+.ta-drawer .d-out:hover{
+  background: rgba(220,66,66,.32);
+  box-shadow: 0 0 22px -8px rgba(255,120,120,.6);
+}
+.ta-drawer .d-out.is-login{
+  background: rgba(20,160,74,.24);
+  border-color: rgba(120,230,160,.42);
+}
+.ta-drawer .d-out.is-login:hover{ background: rgba(20,160,74,.36); }
+
+@media (prefers-reduced-motion: reduce){
+  .ta-drawer, .ta-drawer-scrim{ transition: none; }
+}
+
+/* Desktop sidebar: the nav is a vertical stack, so the Menu button takes the
+   same full-width slot as Contact Us directly above it. */
+@media (min-width: 1100px){
+  body:not(.portal-body):not([data-page="login"]) .nav-links .nav-burger{
+    justify-content: flex-start;
+  }
+}
+
+
+/* Narrow screens: the nav wraps into rows and sizes each cell itself, so the
+   button simply behaves like its sibling links rather than forcing a width. */
+@media (max-width: 1099px){
+  .nav-links .nav-burger{ flex: 0 1 auto; }
+}

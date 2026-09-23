@@ -93,7 +93,10 @@ function loadPage(page, query, seedFn) {
   ok('testi rail css', css.includes('.testi-rail'));
   ok('anchor scroll-margin', css.includes('scroll-margin-top:130px'));
   const st = fs.readFileSync(SITE + '/assets/js/store.js', 'utf8');
-  ok('store: tmStars + prune', st.includes('tmStars') && st.includes('filter(c=>c.date>=U.todayStr())'));
+  /* The prune is now session-aware (keeps this term, drops last year's
+     leftovers) instead of deleting everything before today, so match the
+     behaviour rather than the old literal. */
+  ok('store: tmStars + prune', st.includes('tmStars') && /filter\(c=>c\.date>=U\.(staleBefore|todayStr)\(\)\)/.test(st));
   ['index.html', 'admissions.html', 'portal/login.html', 'portal/admin.html'].forEach(f => {
     const c = fs.readFileSync(SITE + '/' + f, 'utf8');
     ok('no discount UI: ' + f, !/discountBanner|regDiscount|setDisc|Early-Bird|Percent Off|Fees Discount|Discount\.render|10% off|discount:disc/.test(c));

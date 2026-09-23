@@ -455,7 +455,12 @@ const DB = {
     if(db.school.emergency.end===undefined) db.school.emergency.end="";
     if(!db.timetables) db.timetables = {};
     if(!db.calendar) db.calendar = seedDB().calendar;
-    db.calendar=(db.calendar||[]).filter(c=>c.date>=U.todayStr());
+    /* Prune only genuinely stale events. This used to delete everything before
+       today on every load, so the term calendar shrank as the term progressed
+       and the printed calendar lost its earlier entries. Keep the current
+       session (365 days) so past-but-relevant dates still show (dimmed by
+       calendar.html), and drop leftovers from previous years. */
+    db.calendar=(db.calendar||[]).filter(c=>c.date>=U.staleBefore());
     if(!db.school.fees) db.school.fees = seedDB().school.fees;
     if(!db.restock) db.restock = [];
     if(!db.teacherVotes) db.teacherVotes = {};
@@ -693,6 +698,8 @@ const U = {
   getTimetable(db,cls){ return db.timetable||((db.timetables||{})[cls])||U.timetable(cls); },
   ttSlots(){ return ["Assembly","1st Period","2nd Period","3rd Period","Break","4th Period","5th Period","6th Period","Closing"]; },
   todayStr(){ return new Date().toISOString().slice(0,10); },
+  /* Oldest calendar date worth keeping: one session back from today. */
+  staleBefore(){ const d=new Date(); d.setDate(d.getDate()-365); return d.toISOString().slice(0,10); },
   phoneKey(ph){ const d=String(ph||"").replace(/\D/g,""); return d.length>=7?d.slice(-10):""; },
   compressPhotos(input,max,cb){
     const files=[...(input&&input.files||[])].slice(0,max||3);

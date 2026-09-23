@@ -63,7 +63,17 @@ const dstr = off => { const d = new Date(); d.setDate(d.getDate() + off); return
   ok('chat news live', a('any news today?').includes('T15 Harvest Fair'));
   ok('chat exams live', a('when are exams?').includes('English'));
   ok('chat pta live', a('when is pta meeting?').includes('General Meeting') && a('when is pta meeting?').includes('I Will Attend'));
-  ok('chat dates live', a('when is resumption?').includes('Resumption') && a('when is resumption?').includes('deadline'));
+  /* Once the seeded resumption date passes, the bot correctly switches from
+     "Resumption: ..." to "Next on the calendar: ...". Assert it answers with a
+     real date line plus the deadline note, not one fixed event name. */
+  {
+    const ans = a('when is resumption?');
+    ok('chat dates live',
+       (ans.includes('Resumption') || ans.includes('Next on the calendar') ||
+        ans.includes('Term dates are being updated')) &&
+       ans.includes('deadline'),
+       ans.replace(/<[^>]+>/g, '').slice(0, 90));
+  }
   ok('chat staff live', a('who teaches Nursery 1?').includes('Nursery 1'));
   ok('chat contact live', a('call the school').includes('09063932487'));
   ok('chat uniform price', a('how much is the school uniform?').includes('₦4,500'));

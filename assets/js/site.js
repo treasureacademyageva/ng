@@ -623,8 +623,14 @@ const Chatbot = {
       : `No PTA meeting scheduled yet — check the <b>PTA page</b> soon.`;
     /* dates */
     const res=evs.find(c=>/resump/i.test(c.title||""));
+    /* The deadline hangs off resumption, but evs only holds FUTURE events, so
+       once term starts the deadline line disappeared entirely - parents asking
+       mid-term got no answer. Fall back to the full calendar so the date is
+       still quoted (and correctly reported as closed). */
+    const resAny = res || (db.calendar||[]).filter(c=>/resump/i.test(c.title||""))
+                            .sort((a,b)=>b.date.localeCompare(a.date))[0];
     let dl="";
-    if(res){ const d=new Date(res.date+"T12:00:00"); d.setDate(d.getDate()+14); const ds=d.toISOString().slice(0,10), n=U.daysUntil(ds);
+    if(resAny){ const d=new Date(resAny.date+"T12:00:00"); d.setDate(d.getDate()+14); const ds=d.toISOString().slice(0,10), n=U.daysUntil(ds);
       dl=`<br>Admission deadline: <b>${U.prettyDate(ds)}</b> (${n<0?"closed":n===0?"closes today":n+" days left"}).`; }
     F.dates=(res?(`Resumption: <b>${esc(res.title)}</b> ${when(res.date)}.`):(evs.length?(`Next on the calendar: <b>${esc(evs[0].title)}</b> ${when(evs[0].date)}.`):`Term dates are being updated.`))+dl
       +`<br>See every date on the <b>Calendar page</b>. Current: <b>${esc(sch.term||"")}</b>, ${esc(sch.session||"")}.`;
