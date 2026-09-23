@@ -81,11 +81,12 @@ Turning it on is a single step: paste the URL and anon key in Admin → Settings
 
 - **Only the anon public key** ever belongs in site JavaScript. The
   `service_role` key must stay on a server — it bypasses every policy.
-- **Row Level Security is deliberately not enabled yet.** With RLS off and the
-  anon key in the browser, the tables are readable by anyone who finds the key.
-  Before real pupil records go in, add `db/003_policies.sql` deciding who may
-  read what — at minimum: calendar and news public, pupils/results/fees
-  restricted to an authenticated session.
+- **Row Level Security is enabled by `db/003_policies.sql` — run it.** Until it
+  runs, anyone holding the anon key can read pupil names, dates of birth,
+  parent phone numbers and fee balances. This was verified, not assumed.
+  After it runs: calendar, fees, sessions, news, PTA and staff names stay
+  public; pupils, parents, phones, attendance, results, payments and the audit
+  log return nothing to the public role.
 - Passwords use a `password_hash` column. Never store a plain PIN or password
   in it.
 
@@ -119,10 +120,41 @@ Turning it on is a single step: paste the URL and anon key in Admin → Settings
 
 ---
 
+## Running the policies (step 3, do not skip)
+
+```
+db/001_schema.sql   ->  tables
+db/002_seed.sql     ->  current data
+db/003_policies.sql ->  locks it down   <-- run before connecting the site
+```
+
+Check it worked, in the SQL Editor:
+
+```sql
+set role anon;
+select count(*) from calendar_events;   -- 5      public, fine
+select count(*) from fee_structure;     -- 10     public, fine
+select count(*) from pupils;            -- 0      private, blocked
+select * from fee_balances;             -- permission denied
+reset role;
+```
+
+Two things the policies deliberately close, which look like bugs but are not:
+
+- **`fee_balances` and `household_by_phone` are denied to the public.** The
+  view joins pupil names to unpaid balances; the function turns a phone number
+  into a family. Both are staff tools. `db-live.js` already handles the 403 by
+  falling back to local data.
+- **Views are set to `security_invoker`.** Without it a view runs with its
+  owner's rights and reads straight past RLS — the most common way a locked
+  database still leaks.
+
 ## Still to do
 
-- `db/003_policies.sql` — Row Level Security, once the owner decides the access
-  rules.
+- Move the portals off `localStorage` onto the database. That needs a real
+  login (Supabase Auth, or a small server holding the `service_role` key —
+  never in site JavaScript). Until then the private tables are simply
+  unreadable from the browser, which is the correct failure mode.
 - Migrating the remaining collections (shop, reading log, lost & found) once
   the core is proven in production.
 - See `docs/DATA-PRIVACY-FINDING.md` for an open issue about pupil phone

@@ -189,6 +189,15 @@ var DBLive = (function () {
     /* Does this phone already belong to a household? Powers the
        "registering another child?" prompt against real shared data rather
        than one browser's localStorage. */
+    /* Looks a household up by phone number.
+       IMPORTANT: after db/003_policies.sql runs, this RPC is revoked from the
+       anon role on purpose - exposed publicly it is a family-enumeration tool
+       (Nigerian mobile numbers are only ~10 digits, so a script could walk the
+       whole range and harvest parent names and children). The call therefore
+       returns 403 from the browser and this function resolves to null, which
+       makes auth-ui.js fall back to its local household store. That is the
+       intended behaviour, not a bug: do not "fix" it by granting the function
+       back to anon. Route it through a server endpoint that can rate-limit. */
     householdByPhone: function (phone) {
       var digits = String(phone || "").replace(/\D/g, "");
       if (digits.length < 7 || !enabled()) return Promise.resolve(null);

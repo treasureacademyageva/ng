@@ -68,6 +68,56 @@ ok('no service_role key value present',
    !/service_role['\"]?\s*[:=]/i.test(schema + seed) &&
    !/eyJ[A-Za-z0-9_-]{20,}/.test(schema + seed));
 
+/* ------------------------------------------------------------ policies -- */
+
+ok('policies file exists', exists('db/003_policies.sql'));
+const pol = read('db/003_policies.sql');
+
+/* Every table holding data about a child or family must have RLS on. */
+['pupils', 'parent_accounts', 'parent_phones', 'applications',
+ 'attendance', 'results', 'fee_payments', 'audit_log'].forEach(t => {
+  ok('RLS enabled on ' + t,
+     new RegExp('alter table ' + t + '\\s+enable row level security', 'i').test(pol));
+});
+
+/* ...and must NOT hand the public a select policy. */
+['pupils', 'parent_accounts', 'parent_phones', 'attendance', 'results',
+ 'fee_payments', 'audit_log'].forEach(t => {
+  ok('no public read policy on ' + t,
+     !new RegExp('create policy[^;]*on ' + t + '[^;]*for select[^;]*to[^;]*anon', 'i').test(pol));
+});
+
+/* Public pages must keep working. */
+['calendar_events', 'fee_structure', 'sessions', 'admission_windows'].forEach(t => {
+  ok('public may still read ' + t,
+     new RegExp('create policy[^;]*on ' + t + '[^;]*for select[^;]*anon', 'i').test(pol));
+});
+
+/* The two quiet traps. */
+ok('views use security_invoker so they cannot bypass RLS',
+   /alter view calendar_upcoming\s+set \(security_invoker = on\)/i.test(pol) &&
+   /alter view fee_balances\s+set \(security_invoker = on\)/i.test(pol));
+ok('fee_balances is not public',        /revoke all on fee_balances from anon/i.test(pol));
+ok('household lookup revoked from anon',
+   /revoke execute on function household_by_phone\(text\) from anon/i.test(pol));
+
+/* Staff: class lists public, personal details not. */
+ok('staff phone and DOB withheld from anon',
+   /revoke select on staff from anon/i.test(pol) &&
+   /grant\s+select \(id, staff_no, full_name/i.test(pol) &&
+   !/grant\s+select[^;]*\bphone\b[^;]*on staff to anon/i.test(pol));
+
+/* The single public write is insert-only and validated. */
+ok('applications are insert-only for the public',
+   /create policy[^;]*on applications[^;]*for insert[^;]*anon/i.test(pol) &&
+   !/create policy[^;]*on applications[^;]*for select[^;]*anon/i.test(pol));
+ok('application submissions are validated', /with check/i.test(pol));
+ok('anon cannot write to the other tables',
+   /revoke insert, update, delete on all tables in schema public from anon/i.test(pol));
+ok('future tables default to closed',
+   /alter default privileges in schema public\s+revoke insert, update, delete/i.test(pol));
+ok('policies are re-runnable', /drop policy if exists/i.test(pol));
+
 /* ------------------------------------------------------------ db-live ---- */
 
 ok('db-live.js exists', exists('assets/js/db-live.js'));
