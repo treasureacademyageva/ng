@@ -825,6 +825,35 @@ const U = {
   esc(s){ return String(s??"").replace(/[&<>"']/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c])); },
   initials(name){ return String(name||"?").split(" ").map(w=>w[0]).slice(0,2).join("").toUpperCase(); },
   avatarColor(name){ const cols=["#B78A12","#C0392B","#2471B8","#0F6B3A","#5A3396","#B25A12"]; let h=0; for(const c of String(name)) h+=c.charCodeAt(0); return cols[h%cols.length]; },
+  /* Fee status for one pupil. Screens used to re-derive this by matching the
+     pupil's name against the registration list, which breaks on a spelling
+     difference and on two children sharing a name. One function, so the
+     teacher's view, the headmistress's view and the report card agree.
+     Reads the pupil record first and only falls back to the registration. */
+  feeStatus(db, pupil){
+    if(!pupil) return {state:"unknown", label:"Unknown", paid:false, partial:false};
+    if(pupil.feePaid === true)  return {state:"paid",    label:"Paid",    paid:true,  partial:false, receipt:pupil.feeReceipt||"", at:pupil.feePaidAt||""};
+    if(pupil.feePaid === "part")return {state:"partial", label:"Part payment", paid:false, partial:true, at:pupil.feePaidAt||""};
+    if(pupil.feePaid === false) return {state:"unpaid",  label:"Not paid", paid:false, partial:false};
+    /* Older records only exist as a registration row. */
+    const reg=(db.registrations||[]).find(x=>x&&x.ward&&
+      String(x.ward.first+" "+x.ward.surname).trim().toLowerCase()===String(pupil.name||"").trim().toLowerCase());
+    if(reg&&reg.payment){
+      if(reg.payment.status==="Paid") return {state:"paid", label:"Paid", paid:true, partial:false, receipt:reg.payment.receipt||""};
+      if((reg.payment.parts||[]).length||reg.payment.claim) return {state:"partial", label:"Part payment", paid:false, partial:true};
+      return {state:"unpaid", label:"Not paid", paid:false, partial:false};
+    }
+    return {state:"unknown", label:"No record", paid:false, partial:false};
+  },
+  /* Whole-class roll-up, for a teacher's dashboard and the headmistress. */
+  feeSummary(db, className){
+    const pupils=(db.pupils||[]).filter(p=>p.class===className&&p.verified!==false&&p.status!=="rejected");
+    let paid=0, partial=0, unpaid=0;
+    pupils.forEach(p=>{ const f=U.feeStatus(db,p);
+      if(f.paid) paid++; else if(f.partial) partial++; else unpaid++; });
+    const n=pupils.length;
+    return {total:n, paid, partial, unpaid, pct: n?Math.round((paid/n)*100):0};
+  },
   total(sc){ return (+sc.ca1||0)+(+sc.ca2||0)+(+sc.exam||0); },
   grade(t){ if(t>=70) return "A"; if(t>=60) return "B"; if(t>=55) return "C"; if(t>=50) return "D"; if(t>=40) return "E"; return "F"; },
   remark(t){ if(t>=70) return "Excellent"; if(t>=60) return "Very Good"; if(t>=55) return "Good"; if(t>=50) return "Fair"; if(t>=40) return "Weak"; return "Fail"; },

@@ -41,7 +41,7 @@ const TEACHER = { role: 'teacher', refId: 'T001', name: 'x' };
 const ADMIN = { role: 'admin', refId: 'HEAD001', name: 'x' };
 
 /* ---------- P1: sidebar navigation ---------- */
-for (const [page, sess, n] of [['portal/pupil.html', PUPIL, 7], ['portal/teacher.html', TEACHER, 10], ['portal/admin.html', ADMIN, 23]]) {
+for (const [page, sess, n] of [['portal/pupil.html', PUPIL, 7], ['portal/teacher.html', TEACHER, 12], ['portal/admin.html', ADMIN, 24]]) {
   const { window: w, errors, run } = loadPage(page, sess);
   const btns = [...w.document.querySelectorAll('#sideNav button[data-view]')];
   let dead = [];

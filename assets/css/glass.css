@@ -523,3 +523,13 @@ table, th, td{ font-size: 1rem; }
   .chat-panel{ width:calc(100vw - 18px); }
   .chat-input input{ font-size:16px; }
 }
+
+/* Staff message threads - teacher to headmistress. */
+.chat-thread{
+  max-height:340px; overflow-y:auto; display:flex; flex-direction:column; gap:.55rem;
+  padding:.7rem; border:1px solid var(--line); border-radius:10px;
+  background:rgba(124,110,168,.05);
+}
+.chat-thread .cmsg{ max-width:82%; }
+.chat-thread .cmsg.me{ align-self:flex-end; align-items:flex-end; }
+.chat-thread .empty{ margin:0; }

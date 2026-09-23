@@ -45,7 +45,7 @@ function loadPage(page, session, seedFn, opts = {}) {
 
 /* standalone sidebar: no store, no site, no session */
 {
-  for (const [page, n] of [['portal/pupil.html', 7], ['portal/teacher.html', 10], ['portal/admin.html', 23]]) {
+  for (const [page, n] of [['portal/pupil.html', 7], ['portal/teacher.html', 12], ['portal/admin.html', 24]]) {
     const { window: w } = loadPage(page, null, null, { noStore: true, noSite: true, firstOnly: true });
     const btns = [...w.document.querySelectorAll('#sideNav button[data-view]')];
     let dead = [];

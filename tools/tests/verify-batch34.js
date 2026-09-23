@@ -70,12 +70,12 @@ ok('active = butter edge', corp.includes('#sideNav button[data-view].on{backgrou
 ok('mobile: direct 2-col links, no hamburger', corp.includes('@media(max-width:1099px)') && corp.includes('#sideNav{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))'));
 ok('logout still by theme switch', dh !== null && (fs.readFileSync(SITE + '/portal/admin.html', 'utf8').includes('</button><button class="nav-logout"')));
 const adm = loadPage('portal/admin.html', ADMIN);
-ok('all 23 admin views kept', adm.window.document.querySelectorAll('#sideNav button[data-view]').length === 23);
+ok('all 24 admin views kept', adm.window.document.querySelectorAll('#sideNav button[data-view]').length === 24);
 ok('buttons all clickable sections', (() => { let dead = 0; adm.window.document.querySelectorAll('#sideNav button[data-view]').forEach(b => { b.click(); const s = adm.window.document.getElementById('v-' + b.dataset.view); if (!s) dead++; }); return dead === 0; })());
 ok('no hamburger toggle anywhere', !adm.window.document.querySelector('.side-toggle') && !adm.window.document.querySelector('#menuBtn'));
 ok('admin clean', adm.errors.length === 0, adm.errors.join(' || ').slice(0, 140));
 const tch = loadPage('portal/teacher.html', { role: 'teacher', refId: 'T001', name: 'x' });
-ok('teacher 10 views kept', tch.window.document.querySelectorAll('#sideNav button[data-view]').length === 10);
+ok('teacher 12 views kept', tch.window.document.querySelectorAll('#sideNav button[data-view]').length === 12);
 const pup = loadPage('portal/pupil.html', { role: 'pupil', refId: 'P001', name: 'x' }, null, 'var d=DB.load(); d.pupils.push({id:"P001",adm:"TAA/P/0001",name:"Test Pupil",phone:"0801 111 2222",password:"1234",class:"Primary 1"}); DB.save(d);');
 ok('pupil 7 views kept', pup.window.document.querySelectorAll('#sideNav button[data-view]').length === 7);
 

@@ -9,9 +9,9 @@
 <link rel="icon" href="../assets/img/logo.jpg">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Admin Dashboard — Treasure Academy, Ageva</title>
-<link rel="stylesheet" href="../assets/css/main.css?v=20260923-56">
-<link rel="stylesheet" href="../assets/css/extra.css?v=20260923-56">
-<link rel="stylesheet" href="../assets/css/corporate.css?v=20260923-56">
+<link rel="stylesheet" href="../assets/css/main.css?v=20260923-57">
+<link rel="stylesheet" href="../assets/css/extra.css?v=20260923-57">
+<link rel="stylesheet" href="../assets/css/corporate.css?v=20260923-57">
 <noscript><style>#siteLoader{display:none!important}</style></noscript>
 <script defer src="/_vercel/insights/script.js"></script>
 <meta name="robots" content="noindex, nofollow">
@@ -33,6 +33,7 @@
         <button class="qa-btn qa-sky" onclick="qaGo('regs')" title="Mark fees paid">&#10003; Mark Paid</button>
       </div>
       <button data-view="overview" class="on">Overview</button>
+      <button data-view="staffchat">Staff Messages <span class="badge b-coral" id="scBadge">0</span></button>
       <button data-view="verify">Verify Pupils <span class="badge b-coral" id="vfCount">0</span></button>
       <button data-view="regs">Registrations <span class="badge b-sun" id="regCount">0</span></button>
       <button data-view="apps">Applications <span class="badge b-sun" id="appCount">0</span></button>
@@ -81,6 +82,22 @@
    </div>
 
     <!-- REGISTRATIONS -->
+    <div class="view-section" id="v-staffchat">
+      <div class="panel">
+        <h2><span class="dot"></span>Messages from Staff</h2>
+        <p class="note">One thread per teacher. Only you and that teacher can read it.</p>
+        <div id="scList"></div>
+      </div>
+      <div class="panel" id="scThreadPanel" style="display:none">
+        <h2><span class="dot"></span><span id="scWho"></span></h2>
+        <div id="scThread" class="chat-thread"></div>
+        <div class="row" style="margin-top:.7rem;gap:.4rem">
+          <input id="scInput" placeholder="Reply..." style="flex:1" maxlength="600">
+          <button class="btn btn-mint btn-sm" onclick="scSend()">Send</button>
+          <button class="btn btn-white btn-sm" onclick="scClose()">Close</button>
+        </div>
+      </div>
+    </div>
     <div class="view-section" id="v-verify">
       <div class="panel">
         <h2><span class="dot"></span>Pupils Waiting for Your Approval</h2>
@@ -127,7 +144,7 @@
           <span class="spacer"></span>
           <button class="btn btn-sun btn-sm" onclick="promoteAll()">Promote All</button><button class="btn btn-mint btn-sm" onclick="openPupilModal()">+ Add Pupil</button>
        </div>
-        <div style="overflow-x:auto"><table class="tbl"><thead><tr><th>Pupil</th><th>Adm No</th><th>Class</th><th>Parent</th><th>Password</th><th>Actions</th></tr></thead><tbody id="pupilRows"></tbody></table></div>
+        <div style="overflow-x:auto"><table class="tbl"><thead><tr><th>Pupil</th><th>Adm No</th><th>Class</th><th>Parent</th><th>Fees</th><th>Password</th><th>Actions</th></tr></thead><tbody id="pupilRows"></tbody></table></div>
      </div>
    </div>
 
@@ -588,7 +605,7 @@
 (function(){
 var T={overview:["Overview","Welcome back! Here is your school at a glance."],regs:["Registrations","Online forms and payments."],apps:["Applications","Admission enquiries."],pupils:["Pupils","Manage all pupils."],teachers:["Teachers","Manage staff."],duty:["Duty Roster","Who is on duty each day."],results:["Results","Review, approve and publish report cards."],attendance:["Attendance","Daily registers."],promos:["Promotions","Promo slider."],newsevents:["News/Events","Videos, gallery and stories."],messages:["Messages","Contact inbox."],whatsapp:["WhatsApp","Chat contacts."],practice:["Entrance Qs","Common Entrance questions."],testimonials:["Testimonials","Website testimonials."],notices:["Notices","Talk to staff and parents."],classpages:["Class Pages","One page per class."],calendar:["Calendar","Term dates and events."],timetable:["Timetable","One grid for the whole school."],extras:["Website Extras","Stars, ticker, homework and more."],shop:["Shop and Orders","Items and pickup orders."],settings:["Settings","School details, term and session."]};
 function navRender(v){
-  try{ var R={overview:function(){renderOverview();refreshCounts();},verify:function(){renderVerify();},regs:function(){renderRegs();},apps:function(){renderApps();renderFormClaims();},pupils:function(){renderPupils();},teachers:function(){renderTeachers();},duty:function(){renderDuty();},results:function(){renderResults();},attendance:function(){renderAttendance();},promos:function(){renderPromos();},newsevents:function(){renderNE();},messages:function(){renderMsgs();},whatsapp:function(){renderWA();},practice:function(){renderPQ();},testimonials:function(){Testimonials.adminList("tmList");},notices:function(){renderNotices();renderMinutesA();},classpages:function(){renderClassPages();},calendar:function(){renderCal();},timetable:function(){renderTT();},extras:function(){renderExtras();},shop:function(){renderShopAdmin();renderRestock();},settings:function(){loadSettings();buildFeesGrid();renderSup();}}; if(R[v])R[v](); }catch(e){ if(window.console&&console.warn)console.warn("view render skipped:",e&&e.message); }
+  try{ var R={overview:function(){renderOverview();refreshCounts();},verify:function(){renderVerify();},staffchat:function(){renderStaffChat();},regs:function(){renderRegs();},apps:function(){renderApps();renderFormClaims();},pupils:function(){renderPupils();},teachers:function(){renderTeachers();},duty:function(){renderDuty();},results:function(){renderResults();},attendance:function(){renderAttendance();},promos:function(){renderPromos();},newsevents:function(){renderNE();},messages:function(){renderMsgs();},whatsapp:function(){renderWA();},practice:function(){renderPQ();},testimonials:function(){Testimonials.adminList("tmList");},notices:function(){renderNotices();renderMinutesA();},classpages:function(){renderClassPages();},calendar:function(){renderCal();},timetable:function(){renderTT();},extras:function(){renderExtras();},shop:function(){renderShopAdmin();renderRestock();},settings:function(){loadSettings();buildFeesGrid();renderSup();}}; if(R[v])R[v](); }catch(e){ if(window.console&&console.warn)console.warn("view render skipped:",e&&e.message); }
 }
 window.navRender=navRender;
 var nav=document.getElementById("sideNav");
@@ -616,11 +633,11 @@ if(nav)nav.addEventListener("click",function(e){
 try{var h=String(location.hash||"").replace(/^#\/?/,""); if(h){var bb=document.querySelector('#sideNav button[data-view="'+h+'"]'); if(bb&&!bb.classList.contains("on"))bb.click();}}catch(e7){}
 })();
 </script>
-<script src="../assets/js/store.js?v=20260923-56"></script>
-<script src="../assets/js/notify.js?v=20260923-56"></script>
-<script src="../assets/js/verify.js?v=20260923-56"></script><script defer src="../assets/js/db-live.js?v=20260923-56"></script>
-<script src="../assets/js/sync.js?v=20260923-56"></script>
-<script src="../assets/js/site.js?v=20260923-56"></script>
+<script src="../assets/js/store.js?v=20260923-57"></script>
+<script src="../assets/js/notify.js?v=20260923-57"></script>
+<script src="../assets/js/verify.js?v=20260923-57"></script><script defer src="../assets/js/db-live.js?v=20260923-57"></script>
+<script src="../assets/js/sync.js?v=20260923-57"></script>
+<script src="../assets/js/site.js?v=20260923-57"></script>
 <script>
 const S = Auth.guard("admin");
 if(!S){location.href="login.html";throw new Error("no-session");}
@@ -648,6 +665,9 @@ function refreshCounts(){ db=DB.load();
      opens - a parent cannot log in until this number reaches zero. */
   const vf=document.getElementById("vfCount");
   if(vf) vf.textContent=(db.pupils||[]).filter(p=>p.verified===false&&p.status!=="rejected").length;
+  /* Unread staff messages, visible without opening the view. */
+  const sc=document.getElementById("scBadge");
+  if(sc) sc.textContent=(db.staffChat||[]).filter(m=>m.fromRole==="teacher"&&!m.read).length;
 }
 
 /* ---- overview ---- */
@@ -699,6 +719,84 @@ function renderOverview(){
 }
 
 /* ---- registrations ---- */
+/* Staff messages. A teacher writes to the headmistress and nobody else can
+   read it - not other teachers, not pupils. */
+var scOpen=null;
+function scThreads(){
+  db=DB.load();
+  const byThread={};
+  (db.staffChat||[]).forEach(m=>{ (byThread[m.thread]=byThread[m.thread]||[]).push(m); });
+  return Object.keys(byThread).map(k=>{
+    const msgs=byThread[k].sort((a,b)=>String(a.at).localeCompare(String(b.at)));
+    const last=msgs[msgs.length-1];
+    const who=(msgs.find(m=>m.fromRole==="teacher")||{}).fromName||"Teacher";
+    const unread=msgs.filter(m=>m.fromRole==="teacher"&&!m.read).length;
+    return {id:k, who, last, unread, n:msgs.length};
+  }).sort((a,b)=>String(b.last.at).localeCompare(String(a.last.at)));
+}
+/* Only the headmistress records a payment. When Monnify is connected this is
+   what the webhook will call; until then she clicks it after confirming the
+   transfer. */
+function setFee(pid, state){
+  db=DB.load();
+  const p=(db.pupils||[]).find(x=>x.id===pid); if(!p) return;
+  p.feePaid = state==="paid" ? true : state==="part" ? "part" : false;
+  p.feePaidAt = new Date().toISOString();
+  if(state==="paid" && !p.feeReceipt) p.feeReceipt = DB.nextReceipt();
+  if(window.TANotify) TANotify.push(db,{to:p.id,kind:"fee",
+    title: state==="paid"?"School fees confirmed":state==="part"?"Part payment recorded":"Fees outstanding",
+    body: state==="paid"
+      ? "The office has confirmed your payment."+(p.feeReceipt?" Receipt "+p.feeReceipt+".":"")
+      : state==="part" ? "A part payment has been recorded. Please complete the balance."
+      : "Our records show the fees are not yet paid.",
+    tone: state==="paid"?"good":state==="part"?"warn":"bad"});
+  DB.save(db);
+  if(typeof renderPupils==="function") renderPupils();
+  U.toast(state==="paid"?"Marked paid — pupil notified.":state==="part"?"Part payment recorded.":"Marked unpaid.");
+}
+
+function renderStaffChat(){
+  const list=scThreads();
+  const badge=document.getElementById("scBadge");
+  if(badge) badge.textContent=list.reduce((a,t)=>a+t.unread,0);
+  document.getElementById("scList").innerHTML = list.length ? list.map(t=>
+    `<div class="notice"><span class="dot" style="background:${t.unread?"var(--coral)":"var(--mint)"}"></span>
+      <div style="flex:1"><b>${U.esc(t.who)}</b>${t.unread?` <span class="badge b-coral">${t.unread} new</span>`:""}
+      <br><small style="color:var(--muted)">${U.esc(String(t.last.text||"").slice(0,70))}</small></div>
+      <button class="btn btn-white btn-sm" onclick="scOpenThread('${t.id}')">Open</button></div>`
+  ).join("") : '<div class="empty">No messages from staff yet.</div>';
+  if(scOpen) scOpenThread(scOpen, true);
+}
+function scOpenThread(id, keep){
+  scOpen=id; db=DB.load();
+  const msgs=(db.staffChat||[]).filter(m=>m.thread===id)
+    .sort((a,b)=>String(a.at).localeCompare(String(b.at)));
+  const who=(msgs.find(m=>m.fromRole==="teacher")||{}).fromName||"Teacher";
+  document.getElementById("scWho").textContent=who;
+  document.getElementById("scThreadPanel").style.display="";
+  const box=document.getElementById("scThread");
+  box.innerHTML=msgs.map(m=>{
+    const mine=m.fromRole==="admin";
+    return `<div class="cmsg ${mine?"me":"bot"}"><div class="cb">${U.esc(m.text)}</div>
+      <div class="cmeta">${mine?"You":U.esc(m.fromName||who)} &middot; ${U.prettyDate(String(m.at).slice(0,10))}</div></div>`;
+  }).join("");
+  box.scrollTop=box.scrollHeight;
+  let touched=false;
+  (db.staffChat||[]).forEach(m=>{ if(m.thread===id&&m.fromRole==="teacher"&&!m.read){ m.read=true; touched=true; } });
+  if(touched){ DB.save(db); if(!keep) renderStaffChat(); }
+}
+function scClose(){ scOpen=null; document.getElementById("scThreadPanel").style.display="none"; }
+function scSend(){
+  if(!scOpen) return;
+  const inp=document.getElementById("scInput");
+  const text=(inp.value||"").trim(); if(!text) return;
+  db=DB.load(); db.staffChat=db.staffChat||[];
+  db.staffChat.push({id:"sc"+Date.now().toString(36),thread:scOpen,
+    fromRole:"admin",fromName:(S&&S.name)||"Headmistress",
+    text:text.slice(0,600),at:new Date().toISOString(),read:false});
+  DB.save(db); inp.value=""; scOpenThread(scOpen); renderStaffChat();
+}
+
 /* The approval gate. Nothing about a pupil is readable until the headmistress
    has confirmed the child is real - a registration form only proves someone
    typed a name. */
@@ -1026,9 +1124,14 @@ function renderPupils(){
   document.getElementById("pupilRows").innerHTML=list.map(p=>`<tr>
     <td><div style="display:flex;gap:10px;align-items:center"><div class="avatar" style="width:36px;height:36px;flex-basis:36px;background:${U.avatarColor(p.name)};font-size:.85rem">${U.initials(p.name)}</div><b>${U.esc(p.name)}</b></div></td>
     <td><span class="badge b-grape">${p.adm}</span></td><td>${p.class}</td><td>${U.esc(p.parent)}<br><small style="color:var(--muted)">${U.esc(p.phone||"")}</small></td>
+    <td>${(()=>{const fz=U.feeStatus(db,p);const tone=fz.paid?"b-green":fz.partial?"b-sun":"b-coral";
+      return `<span class="badge ${tone}">${U.esc(fz.label)}</span><br>
+      <select class="fee-sel" onchange="setFee('${p.id}',this.value)" style="font-size:.7rem;margin-top:3px">
+        <option value="">change...</option><option value="paid">Paid</option>
+        <option value="part">Part</option><option value="unpaid">Not paid</option></select>`;})()}</td>
     <td>${p.password?`<code>${U.esc(p.password)}</code>`:'<span class="badge b-sun">Not created</span>'}</td>
     <td><div class="row-actions"><button class="icon-btn" onclick="openPupilModal('${p.id}')">Edit</button><button class="icon-btn del" onclick="delPupil('${p.id}')">Del</button></div></td></tr>`).join("")
-    ||'<tr><td colspan="6"><div class="empty">No pupils found.</div></td></tr>';
+    ||'<tr><td colspan="7"><div class="empty">No pupils found.</div></td></tr>';
 }
 function openPupilModal(id){
   db=DB.load(); const p=id?db.pupils.find(x=>x.id===id):{name:"",adm:"",pin:"1234",password:"",gender:"Female",class:"Primary 1",dob:"",parent:"",phone:""};
