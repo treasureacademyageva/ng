@@ -256,8 +256,8 @@ HEAD_QS = [
 
 SALVAGE_QS = [
     ("is mathematics compulsory", ["mathematics is taught"]),
-    ("when is sports day", ["do not have that written down|when"]),
-    ("when is interhouse sports", ["do not have that written down|when"]),
+    ("when is sports day", ["inter-house sports trials.*20 september 2026|do not have that written down|rather not guess"]),
+    ("when is interhouse sports", ["inter-house sports trials.*20 september 2026|do not have that written down|rather not guess"]),
     ("can my child bring a phone to school", ["09063932487"]),
     ("who is the bursar", ["bursary|fee"]),
     ("is there a scholarship", ["scholarship|bursary|fee"]),

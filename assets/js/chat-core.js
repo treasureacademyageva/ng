@@ -1536,11 +1536,47 @@
       }
 
       /* Term dates, straight from the calendar. */
-      if (/\bresumption|resume|term date|calendar|deadline|closing date|last day|cut off|cut-off|when.*(start|begin|open)\b|\bindependence|mid[- ]?term|\bcarol|prize ?giving|closing (day|date|ceremony)|\b(events?|program(me)?s?)\b[^.?!]{0,30}\b(coming|next|upcoming|this term|soon)\b|\b(coming|upcoming|any) events?\b|(whats|what.s|wats) happening( this term)?\b|end of (the )?term|term (ends?|finishes?|closes?|close|finish)|\bschool (ends?|finishes?|closes?)\b[^.?!]{0,25}\bterm\b|\bterm\b[^.?!]{0,25}\bschool (ends?|finishes?|closes?)\b/.test(s)) {
+      if (/\binter[- ]?house\b|\bsports? day\b|\bwhen\b[^.?!]{0,24}\bsports?\b|\bresumption|resume|term date|calendar|deadline|closing date|last day|cut off|cut-off|when.*(start|begin|open)\b|\bindependence|mid[- ]?term|\bcarol|prize ?giving|closing (day|date|ceremony)|\b(events?|program(me)?s?)\b[^.?!]{0,30}\b(coming|next|upcoming|this term|soon)\b|\b(coming|upcoming|any) events?\b|(whats|what.s|wats) happening( this term)?\b|end of (the )?term|term (ends?|finishes?|closes?|close|finish)|\bschool (ends?|finishes?|closes?)\b[^.?!]{0,25}\bterm\b|\bterm\b[^.?!]{0,25}\bschool (ends?|finishes?|closes?)\b/.test(s)) {
         var cal = (db.calendar || []).slice().sort(function (a, b) {
           return String(a.date).localeCompare(String(b.date));
         });
         var isoNow = new Date().toISOString().slice(0, 10);
+        /* Inter-House Sports is published as a news event, not a term
+           calendar line, so this lookup reads both lists. A date already
+           past is reported honestly in the past tense, and the competition
+           date itself is never invented. */
+        if (!/fee|pay|cost|much|price/.test(s) &&
+            (/\binter[- ]?house\b|\bsports? day\b/.test(s) ||
+             (/\bwhen\b/.test(s) && /\bsports?\b/.test(s)))) {
+          var newsCal = (db.newsEvents || []).filter(function (n) {
+            return n.type === "event" && n.date;
+          }).map(function (n) {
+            return { title: n.title, date: n.date };
+          });
+          var pool = cal.concat(newsCal).filter(function (c) {
+            return /inter[- ]?house|sports/i.test(c.title || "");
+          }).sort(function (a, b) {
+            return String(a.date).localeCompare(String(b.date));
+          });
+          var future = pool.filter(function (c) {
+            return String(c.date) >= isoNow;
+          })[0];
+          var ev = future || pool[pool.length - 1];
+          if (ev) {
+            if (future) {
+              return { html: "<b>" + esc(ev.title) + "</b> is on " +
+                             pretty(ev.date) + ". Watch the News page " +
+                             "for the full programme.",
+                       source: "School news" };
+            }
+            return { html: "<b>" + esc(ev.title) + "</b> held on " +
+                           pretty(ev.date) + ". The main Inter-House Sports " +
+                           "competition has not been dated yet - it will be " +
+                           "announced on the News and Calendar pages, or " +
+                           "ask the office on <b>" + WHATSAPP + "</b>.",
+                     source: "School news" };
+          }
+        }
         /* A named event answers itself: "when is independence day" is a
            question about one line of the calendar, not the next line. */
         var namedRe = /independence/.test(s) ? /independence/i
@@ -1552,7 +1588,9 @@
             return namedRe.test(c.title || "");
           })[0];
           if (named) {
-            return { html: "<b>" + esc(named.title) + "</b> is on " +
+            var held = String(named.date) < isoNow;
+            return { html: "<b>" + esc(named.title) + "</b> " +
+                           (held ? "held on " : "is on ") +
                            pretty(named.date) + "." +
                            (named.desc ? "<br><br>" + esc(named.desc) : ""),
                      source: "School calendar" };
