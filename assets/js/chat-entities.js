@@ -88,20 +88,23 @@
     ["whats good", "en", "casual"], ["whats gwan", "en", "casual"],
     ["whats happening", "en", "casual"], ["whats new", "en", "casual"],
     ["whats the gist", "en", "casual"], ["how far", "pcm", "casual"],
-    ["how now", "pcm", "casual"], ["wetin dey happen", "pcm", "casual"],
+    ["how now", "pcm", "casual"], ["wetin dey happen", "pcm", "casual"], ["wetin dey sup", "pcm", "casual"],
     ["how are you", "en", "wellness"], ["how are you doing", "en", "wellness"],
     ["how are you today", "en", "wellness"], ["how are things", "en", "wellness"],
     ["hows it going", "en", "wellness"], ["how is it going", "en", "wellness"],
     ["how you doing", "en", "wellness"], ["how do you do", "en", "wellness"],
     ["how are u", "en", "wellness"], ["how r u", "en", "wellness"],
     ["hope you are fine", "en", "wellness"], ["hope you re fine", "en", "wellness"],
-    ["hope all is well", "en", "wellness"], ["how body", "pcm", "wellness"],
+    ["hope all is well", "en", "wellness"], ["how body", "pcm", "wellness"], ["how was your day", "en", "wellness"],
     ["how you dey", "pcm", "wellness"], ["wetin dey", "pcm", "casual"],
     ["sannu", "hausa", "hello"], ["sannu da zuwa", "hausa", "hello"],
     ["barka da zuwa", "hausa", "hello"], ["barka da asuba", "hausa", "hello"],
     ["barka da yamma", "hausa", "hello"], ["ina kwana", "hausa", "wellness"],
     ["ina wuni", "hausa", "wellness"], ["sannunka", "hausa", "hello"],
     ["e kaaro", "yoruba", "hello"], ["e kaasan", "yoruba", "hello"],
+    ["eku ishe", "yoruba", "hello"], ["eku aro", "yoruba", "hello"],
+    ["eku osan", "yoruba", "hello"], ["eku ale", "yoruba", "hello"],
+    ["sawubona", "zulu", "hello"], ["dumela", "tswana", "hello"],
     ["e kaale", "yoruba", "hello"], ["eku aaro", "yoruba", "hello"],
     ["bawo ni", "yoruba", "wellness"], ["bawoni", "yoruba", "wellness"],
     ["pele o", "yoruba", "hello"],
@@ -333,6 +336,17 @@
 
   var LEET = { "0": "o", "4": "a", "3": "e", "5": "s", "1": "i", "7": "t" };
 
+  /* Words under three letters never enter the vocab (add() drops them),
+     so a key held down could not be repaired back to one: "isss" stayed
+     "isss" because "is" is not a known word, and one broken token was
+     enough to sink the whole question. This list is consulted only by
+     the flatten step, never by edit distance, so it cannot create
+     guessing ties. */
+  var SHORT = { "is": 1, "am": 1, "be": 1, "do": 1, "go": 1, "no": 1,
+    "so": 1, "up": 1, "at": 1, "in": 1, "on": 1, "of": 1, "to": 1,
+    "it": 1, "he": 1, "we": 1, "me": 1, "my": 1, "us": 1, "hi": 1,
+    "ok": 1, "an": 1, "as": 1, "or": 1, "if": 1, "by": 1 };
+
   /* Repair one word. Every step is reversible-safe: a word that is already
      known, a number, or a short word is never touched; an ambiguous repair
      (two equally-close different words) is left alone. */
@@ -351,8 +365,8 @@
        intent ("good"), so it is tried before the fully flat "god". */
     var flat1 = w.replace(/(.)\1{2,}/g, "$1");
     var flat2 = w.replace(/(.)\1{2,}/g, "$1$1");
-    if (v[flat2]) return flat2;
-    if (v[flat1]) return flat1;
+    if (v[flat2] || SHORT[flat2]) return flat2;
+    if (v[flat1] || SHORT[flat1]) return flat1;
     if (/[045137]/.test(flat1)) {
       var flatLeet = flat1.replace(/[045137]/g, function (d) { return LEET[d]; });
       if (v[flatLeet]) return flatLeet;
@@ -432,6 +446,47 @@
     return out.join(" ");
   }
 
+  /* Last-chance greeting match for a message battered by the keyboard:
+     "howbare you fojng" is "how are you doing" with a missed space and
+     two wrong letters - no single word repairs cleanly, but the WHOLE
+     phrase is still within touching distance of a real greeting. Strict
+     guards keep this on social messages only: no domain word (a school
+     question is never a greeting), no WH word except "how", at most six
+     words, no digits. When two greetings are equally close it abstains
+     - "hillo" (hello? hallo?) is honestly left alone. */
+  function fuzzyGreeting(s) {
+    if (!s) return null;
+    var toks = s.split(" ").filter(function (x) { return x; });
+    if (toks.length === 0 || toks.length > 6) return null;
+    if (/\d/.test(s)) return null;
+    if (hasDomainWord(s)) return null;
+    var w = whOf(s);
+    if (w && w !== "how") return null;
+    /* Short strings sit within two edits of too many real words -
+       "menu" is two edits from the Igbo greeting "kedu", "bye" is two
+       from "yo" - so one edit is all they are trusted with. */
+    var budget = s.length <= 5 ? 1 : Math.max(2, Math.floor(s.length / 4));
+    var i, d;
+    var best = null, bestD = 99, ties = 0;
+    for (i = 0; i < GREETINGS.length; i++) {
+      d = lev(s, GREETINGS[i][0], budget);
+      if (d > budget) continue;
+      if (d < bestD) { bestD = d; best = GREETINGS[i]; ties = 0; }
+      else if (d === bestD && best && GREETINGS[i][0] !== best[0]) ties++;
+    }
+    if (!best || ties) return null;
+    /* A farewell or a thank-you just as close always wins: the three
+       lists are neighbours on the keyboard of intent. */
+    var otherD = budget + 1;
+    var screen = THANKS.concat(BYES);
+    for (i = 0; i < screen.length; i++) {
+      d = lev(s, screen[i], budget);
+      if (d < otherD) otherD = d;
+    }
+    if (otherD <= bestD) return null;
+    return { word: best[0], kind: best[2], lang: best[1] };
+  }
+
   function matchGreetingLoose(s) {
     if (!GREETING_SORTED) {
       GREETING_SORTED = GREETINGS.slice().sort(function (a, b) {
@@ -470,7 +525,13 @@
     if (!s) return { kind: null, info: null, rest: "" };
     /* Politeness before a greeting ("excuse me, good morning") is not part
        of the greeting - and not part of the question either. */
-    s = s.replace(/^(please|pls|kindly|excuse me|pardon me|sorry|abeg|i beg)[,\s]*/, "");
+    /* "please i beg, good morning" stacks two courtesies; a single pass
+       peeled only the first and the greeting underneath never surfaced. */
+    for (var pc = 0; pc < 3; pc++) {
+      var pcStripped = s.replace(/^(please|pls|kindly|excuse me|pardon me|sorry|abeg|i beg)[,\s]*/, "");
+      if (pcStripped === s) break;
+      s = pcStripped;
+    }
     var g = matchGreetingLoose(s);
     if (g) {
       var rest = s.slice(g.word.length).trim();
@@ -519,6 +580,12 @@
         return { kind: "bye", info: { word: by }, rest: "" };
       }
     }
+    /* Everything exact has had its chance. What is left may still be a
+       greeting somebody battered on the keyboard - but never a farewell
+       or a thank-you in disguise, and never a short word sitting two
+       edits from three different real words. */
+    var fg = fuzzyGreeting(s);
+    if (fg) return { kind: "greeting", info: fg, rest: "" };
     return { kind: null, info: null, rest: s };
   }
 
@@ -574,11 +641,11 @@
     ["mission", /\b(mission|vision|motto|aim|aims|goal|goals|purpose|philosophy|values|believe|belief|what do you stand for|ethos)\b/],
     ["history", /\b(history|story|background|journey|milestone|milestones|timeline|over the years|past)\b|\bhow did\b[^.?!]{0,25}\b(start|begin|found)\b|\bwhen did\b[^.?!]{0,30}\b(move|open|launch|start|begin|built|relocat)\b|\bwhat year\b/],
     ["facilities", /\bfacilit\w*\b|\b(library|computer room|computer lab|ict|playground|play ground|play area|classroom|building|premises|compound|equipment|amenit|what do you have|infrastructure|swimming|pool|field|hall|sick bay|clinic|boarding|boarder|hostel|dormitory|day school)\b/],
-    ["performance", /\b(pass rate|result rate|common entrance|how well|performance|perform|achievement|success|record|graduate|alumni|old students?|secondary school|secondary schools)\b|\bhow do\b[^.?!]{0,25}\b(pupil|pupils|student|students|children)\b[^.?!]{0,15}\b(do|perform|fare)\b/],
+    ["performance", /\b(pass rate|result rate|common entrance|how well|performance|perform|achievement|success|record|graduates?|alumni|old students?|secondary school|secondary schools)\b|\bhow do\b[^.?!]{0,25}\b(pupil|pupils|student|students|children)\b[^.?!]{0,15}\b(do|perform|fare)\b/],
     ["staffcount", /\bhow many\b[^.?!]{0,20}\b(teacher|teachers|staff|pupil|pupils|student|students|children|child|class|classes)\b|\bnumber of (teacher|staff|pupil|student|child)/],
     ["employment", /\b(job|jobs|vacancy|vacancies|employ|employment|hiring|hire|recruit|teaching job|career|careers|cv|curriculum vitae)\b|\b(send|submit|attach|my)\s+(my\s+)?resum[eé]\b|\b(i|we|my)\b[^.?!]{0,25}\b(work|working|teach|teaching|join)\b[^.?!]{0,30}\b(there|here|with you|for you|at your|in your|as a teacher|as teacher|your school|the school)\b|\bcan i (work|teach|join)\b|\bapply\b[^.?!]{0,20}\b(teach|job|position|role|work)\b|\b(need|want|looking for|require|recruiting)\b[^.?!]{0,15}\b(teacher|teachers|staff|worker|workers|employee)\b/],
     ["partner", /\b(partner|partners|partnership|sponsor|sponsors|sponsorship|collaborat|affiliat|accredit|associate with|work with|donor|ngo)\b/],
-    ["enrol", /\b(enrol\w*|admission\w*|admit|apply|application|register my|registering|bring my child|join the school|new pupil|start school|place for my|space for my|vacancy for my child|accept)\b/],
+    ["enrol", /\b(enrol\w*|admission\w*|admit|apply|application|register my|registering|bring my child|join the school|new pupil|start school|place for my|space for my|vacancy for my child|accept|enter (the |your |this )?(school|creche|nursery|primary))\b/],
     ["visit", /\b(visit|tour|come and see|inspect|look around|open day|see the school|appointment)\b/],
     ["location", /\b(where (is|are|can i find|do i find) (the |your |this )?(school|academy|treasure|it|you)|located|location|address|direction|how do i get|how to get|find the school|map|which (town|state|area))\b/],
     ["price", /\b(how much|price|cost|costs|fee|fees|pay|payment|expensive|cheap|naira)\b|\bcharges?\b(?![^.?!]*\b(of|in charge)\b)/],
@@ -595,7 +662,7 @@
      type how they speak; the rules should not have to know both. */
   var PIDGIN = [
     [/\bwetin dey happen (for|in)\b/g, "what happens in"],
-    [/\bwetin\b(?!\s+dey\s+happen\b)/g, "what"],
+    [/\bwetin\b(?!\s+dey\s+(happen|sup)\b)/g, "what"],
     [/\babeg\b/g, ""],
     [/\bwho be\b/g, "who is"],
     [/\bwhich year\b/g, "what year"],

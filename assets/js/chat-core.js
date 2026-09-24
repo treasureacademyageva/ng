@@ -195,8 +195,19 @@
                  confidence: 1, feedback: true };
       }
 
+      var ragQ = global.TAEntities ? global.TAEntities.norm(q) : q;
+      /* Two phrase-level synonyms the token pipeline cannot see: the school
+         calls its song an anthem, and "how can I help the school" is
+         volunteering. Rewriting the phrase (not the bare word) keeps "sing
+         me a song" and "how can I help my child" on their own paths. */
+      if (typeof ragQ === "string") {
+        ragQ = ragQ.replace(/\bschool (songs?|hymns?)\b/g, "school anthem")
+                   .replace(/\bhow (can|do|could|would) i help (the|this|at) (school|treasure academy)\b/g,
+                            "volunteer at the school")
+                   .replace(/\bgraduates?\b/g, "alumni");
+      }
       var res = global.TARag
-        ? global.TARag.answer(global.TAEntities ? global.TAEntities.norm(q) : q)
+        ? global.TARag.answer(ragQ)
         : { band: "none", confidence: 0 };
       this.stat("asked", q);
 
@@ -461,6 +472,22 @@
       var ent = global.TAEntities ? global.TAEntities.read(q)
                                   : { intent: null, thing: null, klass: null, subject: null };
 
+      /* Photo Day is a booking page, not a dated calendar entry - and the
+         intent classifier hears "photo" and reaches for the admissions
+         document list ("2 passport photographs"). Answer from the Photo
+         Day page's own content, whatever the classifier thought. */
+      if (/\b(photo|picture|photograph) ?days?\b/.test(s)) {
+        return { html: "Photo Day is booked on the <b>Photo Day</b> page: " +
+                       "pick a free time slot, add your child's name, class " +
+                       "and your phone number, and tap Book. Pupils come in " +
+                       "full school uniform. Photo packages are ordered on " +
+                       "the same page and paid by bank transfer, and the " +
+                       "prints are ready on photo day itself. Watch the News " +
+                       "page or ask the office on <b>" + WHATSAPP + "</b> for " +
+                       "this term's date.",
+                 source: "Photo Day page" };
+      }
+
       function naira(n) {
         return "\u20a6" + Number(n || 0).toLocaleString("en-NG");
       }
@@ -548,6 +575,27 @@
       /* Is there school today? */
       if (/\b(school|class|lesson)\b/.test(s) &&
           /\b(today|now|open|closed|running)\b/.test(s)) {
+        /* A named weekday asks about THAT day, not today: "the school dey
+           open saturday?" must not be answered with Thursday's status. */
+        var DAYNAMES = ["sunday", "monday", "tuesday", "wednesday",
+                        "thursday", "friday", "saturday"];
+        var askedDay = -1;
+        for (var di = 0; di < 7; di++) {
+          if (new RegExp("\\b" + DAYNAMES[di] + "\\b").test(s)) askedDay = di;
+        }
+        if (askedDay >= 0 && askedDay !== new Date().getDay()) {
+          var dayCap = DAYNAMES[askedDay].charAt(0).toUpperCase() +
+                       DAYNAMES[askedDay].slice(1);
+          if (askedDay === 0 || askedDay === 6) {
+            return { html: "No - there is no school on " + dayCap +
+                           ". Lessons run Monday to Friday, 8:00am to 3:00pm.",
+                     source: "School hours" };
+          }
+          return { html: "Yes - school holds on " + dayCap + ". The gate " +
+                         "opens at 7:00am, assembly is 7:45am and closing " +
+                         "time is 3:00pm.",
+                   source: "School hours" };
+        }
         var today = new Date();
         var weekend = today.getDay() === 0 || today.getDay() === 6;
         if (weekend) {
@@ -808,7 +856,10 @@
          they cannot go stale. */
 
       /* One class, from the class page data behind class.html?class=NAME. */
-      if (ent.intent === "classinfo" && ent.klass) {
+      /* "My daughter wants to enter Primary 2" names a class, but the
+         parent is asking for the admission steps, not the class blurb. */
+      if (ent.intent === "classinfo" && ent.klass &&
+          !/\b(enter|entering|join|joining|admit|admission|admissions|enrol|enroll|register|put my|transfer)\b/.test(s)) {
         var pages = db.classPages || [];
         for (var cp = 0; cp < pages.length; cp++) {
           if (String(pages[cp].class || "").toLowerCase() === ent.klass) {
@@ -1461,7 +1512,15 @@
       }
 
       /* A parent thinking about bringing a child here. */
-      if (ent.intent === "enrol" && !/\bdeadline|cut ?off|last day\b/.test(s)) {
+      /* An admission verb next to a class name is an admissions question
+         whatever the classifier decided - and a fee word next to the same
+         words is a fee question, so it stays out. */
+      var enterAsk = ent.klass &&
+        !/fee|pay|cost|much|price/.test(s) &&
+        (ent.intent === "classinfo" || !ent.intent) &&
+        /\b(enter|entering|join|joining|admit|admission|admissions|enrol|enroll|register|put my|transfer)\b/.test(s);
+      if ((ent.intent === "enrol" || enterAsk) &&
+          !/\bdeadline|cut ?off|last day\b/.test(s)) {
         var fees0 = school.fees || {};
         var keys0 = Object.keys(fees0);
         var range = "";
@@ -1536,25 +1595,49 @@
       }
 
       /* Term dates, straight from the calendar. */
-      if (/\binter[- ]?house\b|\bsports? day\b|\bwhen\b[^.?!]{0,24}\bsports?\b|\bresumption|resume|term date|calendar|deadline|closing date|last day|cut off|cut-off|when.*(start|begin|open)\b|\bindependence|mid[- ]?term|\bcarol|prize ?giving|closing (day|date|ceremony)|\b(events?|program(me)?s?)\b[^.?!]{0,30}\b(coming|next|upcoming|this term|soon)\b|\b(coming|upcoming|any) events?\b|(whats|what.s|wats) happening( this term)?\b|end of (the )?term|term (ends?|finishes?|closes?|close|finish)|\bschool (ends?|finishes?|closes?)\b[^.?!]{0,25}\bterm\b|\bterm\b[^.?!]{0,25}\bschool (ends?|finishes?|closes?)\b/.test(s)) {
+      if (/\binter[- ]?house\b|\bsports? day\b|\bwhen\b[^.?!]{0,24}\bsports?\b|\bresumption|resume|term date|calendar|deadline|closing date|last day|cut off|cut-off|when.*(start|begin|open)\b|\bindependence|mid[- ]?term|\bcarol|prize ?giving|closing (day|date|ceremony)|\b(events?|program(me)?s?)\b[^.?!]{0,30}\b(coming|next|upcoming|this term|soon)\b|\b(coming|upcoming|any) events?\b|(whats|what.s|wats) happening( this term)?\b|end of (the )?term|term (ends?|finishes?|closes?|close|finish)|\bschool (ends?|finishes?|closes?)\b[^.?!]{0,25}\bterm\b|\bterm\b[^.?!]{0,25}\bschool (ends?|finishes?|closes?)\b|\bwhats new\b|\blatest news\b|\bany news\b|\bgraduation\b/.test(s)) {
         var cal = (db.calendar || []).slice().sort(function (a, b) {
           return String(a.date).localeCompare(String(b.date));
         });
         var isoNow = new Date().toISOString().slice(0, 10);
+        /* "What's new?" wants the news feed, not the term calendar. */
+        if (/\bwhats new\b|\blatest news\b|\bany news\b/.test(s)) {
+          var newsList = (db.newsEvents || []).filter(function (n) {
+            return n.date;
+          }).sort(function (a, b) {
+            return String(b.date).localeCompare(String(a.date));
+          }).slice(0, 3);
+          if (newsList.length) {
+            return { html: "<b>Latest from the school:</b><br>" +
+                           newsList.map(function (n) {
+                             return "\u2022 " + esc(n.title) + " - " + pretty(n.date);
+                           }).join("<br>") +
+                           "<br><br>The full list is on the News page.",
+                     source: "News & events" };
+          }
+        }
         /* Inter-House Sports is published as a news event, not a term
            calendar line, so this lookup reads both lists. A date already
            past is reported honestly in the past tense, and the competition
            date itself is never invented. */
         if (!/fee|pay|cost|much|price/.test(s) &&
             (/\binter[- ]?house\b|\bsports? day\b/.test(s) ||
-             (/\bwhen\b/.test(s) && /\bsports?\b/.test(s)))) {
+             (/\bwhen\b/.test(s) && /\bsports?\b/.test(s)) ||
+             /\bgraduation\b/.test(s))) {
           var newsCal = (db.newsEvents || []).filter(function (n) {
             return n.type === "event" && n.date;
           }).map(function (n) {
             return { title: n.title, date: n.date };
           });
+          /* "graduation" and "prize giving day" are different questions:
+             the family asked about decides which events are in the race.
+             Prize-giving day keeps its calendar answer (Closing & Carol),
+             so it is deliberately not routed here. */
+          var evRe = /\bgraduation\b/.test(s) &&
+                     !/\binter[- ]?house\b|\bsports? day\b/.test(s)
+            ? /graduat/i : /inter[- ]?house|sports/i;
           var pool = cal.concat(newsCal).filter(function (c) {
-            return /inter[- ]?house|sports/i.test(c.title || "");
+            return evRe.test(c.title || "");
           }).sort(function (a, b) {
             return String(a.date).localeCompare(String(b.date));
           });
@@ -1569,9 +1652,12 @@
                              "for the full programme.",
                        source: "School news" };
             }
+            var evNext = /graduat/i.test(ev.title || "")
+              ? "The next " + esc(ev.title)
+              : "The main Inter-House Sports competition";
             return { html: "<b>" + esc(ev.title) + "</b> held on " +
-                           pretty(ev.date) + ". The main Inter-House Sports " +
-                           "competition has not been dated yet - it will be " +
+                           pretty(ev.date) + ". " + evNext +
+                           " has not been dated yet - it will be " +
                            "announced on the News and Calendar pages, or " +
                            "ask the office on <b>" + WHATSAPP + "</b>.",
                      source: "School news" };

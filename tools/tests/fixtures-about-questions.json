@@ -954,5 +954,69 @@
  {
   "q": "what is the refund policy",
   "expect": "office|09063932487|not publish"
+ },
+ {
+  "q": "howbare you fojng",
+  "expect": "very well|how are you"
+ },
+ {
+  "q": "how was your day",
+  "expect": "very well|how are you"
+ },
+ {
+  "q": "what is the school song",
+  "expect": "anthem|wisdom shines"
+ },
+ {
+  "q": "when is photo day",
+  "expect": "Photo Day is booked"
+ },
+ {
+  "q": "picture day",
+  "expect": "Photo Day is booked"
+ },
+ {
+  "q": "who are the graduates",
+  "expect": "2024|Common Entrance"
+ },
+ {
+  "q": "how can i help the school",
+  "expect": "[Vv]olunteer|helpers"
+ },
+ {
+  "q": "whats new at the school",
+  "expect": "Latest from the school"
+ },
+ {
+  "q": "abeg, the school dey open saturday?",
+  "expect": "no school on [Ss]aturday|Monday to Friday"
+ },
+ {
+  "q": "whereeee isss theee schooool",
+  "expect": "Ageva|Okene"
+ },
+ {
+  "q": "wetin dey sup",
+  "expect": "Not much"
+ },
+ {
+  "q": "eku ishe",
+  "expect": "Treasure Bot"
+ },
+ {
+  "q": "sawubona",
+  "expect": "Treasure Bot"
+ },
+ {
+  "q": "when is graduation",
+  "expect": "Graduation and Prize-Giving Day held on"
+ },
+ {
+  "q": "my daughter wants to enter primary 2, what do i do",
+  "expect": "admissions are open"
+ },
+ {
+  "q": "i want to put my child in nursery 1",
+  "expect": "admissions are open"
  }
 ]

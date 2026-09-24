@@ -80,7 +80,11 @@
     "location": "address where directions place",
     "address": "location where directions place",
     "owe": "balance outstanding debt fee owing",
-    "balance": "owe outstanding fee owing"
+    "balance": "owe outstanding fee owing",
+    /* "Who are the graduates?" never reached the Alumni page because the
+       page says "alumni". Expanded on the question side only. */
+    "graduates": "alumni graduate old students",
+    "graduate": "alumni old students"
   };
 
   /* Light stemmer: plurals and common endings only. Aggressive stemming hurts
