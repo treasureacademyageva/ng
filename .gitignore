@@ -1,7 +1,10 @@
-node_modules/
-npm-debug.log*
-.DS_Store
-Thumbs.db
 *.tmp.js
+.DS_Store
 .env
 .env.local
+Thumbs.db
+ai/__pycache__/
+ai/chat.db
+node_modules/
+npm-debug.log*
+tools/tests/fixtures-stress-questions.json

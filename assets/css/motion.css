@@ -111,17 +111,28 @@ a:focus:not(:focus-visible),button:focus:not(:focus-visible){outline:none}
 img[width][height]{max-width:100%;height:auto}
 .hero-figure img,.prog img,.card img,.testi-card img,.team-card img{height:auto}
 
-/* The draggable clock and chat bubble are desktop conveniences. On a phone they
-   sit on top of the hero copy and the main call to action, so shrink the clock
-   and tuck it into the corner clear of the buttons. */
+/* The draggable clock is a desktop convenience. On a phone it is a fixed
+   overlay in the same corner as the hero call to action and the chat bubble,
+   and no corner is free once those are placed - it covered whichever button it
+   landed on. It carries no information that is not already on the calendar
+   page, so hide it on small screens rather than shuffle it between collisions.
+   The chat bubble keeps its corner. */
 @media(max-width:760px){
-  .clock-widget{
-    left:10px;bottom:10px;
-    transform:scale(.62);transform-origin:left bottom;
-    opacity:.94;
-  }
-  .clock-widget.min{transform:scale(.72);transform-origin:left bottom}
+  .clock-widget{display:none!important}
 }
-@media(max-width:420px){
-  .clock-widget{transform:scale(.52);transform-origin:left bottom}
+}
+}
+
+/* Icon set (assets/img/icons.svg). Referenced with
+   <svg class="ico"><use href="assets/img/icons.svg#ta-book"></use></svg>.
+   currentColor means they inherit the heading colour and both themes work
+   without a second rule. */
+.ico{display:inline-block;vertical-align:-.18em;margin-right:.4em;flex:none}
+h1 .ico,h2 .ico,h3 .ico{color:var(--brand,#0B7A37)}
+[data-theme="dark"] h1 .ico,
+[data-theme="dark"] h2 .ico,
+[data-theme="dark"] h3 .ico{color:var(--green,#2E9E5B)}
+@media(prefers-reduced-motion:no-preference){
+  .mv-card:hover .ico,.track-card:hover .ico{transform:translateY(-2px) scale(1.06)}
+  .ico{transition:transform .25s cubic-bezier(.22,.61,.36,1)}
 }

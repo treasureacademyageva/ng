@@ -455,7 +455,12 @@ const DB = {
     if(db.school.emergency.end===undefined) db.school.emergency.end="";
     if(!db.timetables) db.timetables = {};
     if(!db.calendar) db.calendar = seedDB().calendar;
-    db.calendar=(db.calendar||[]).filter(c=>c.date>=U.todayStr());
+    /* Prune only genuinely stale events. This used to delete everything before
+       today on every load, so the term calendar shrank as the term progressed
+       and the printed calendar lost its earlier entries. Keep the current
+       session (365 days) so past-but-relevant dates still show (dimmed by
+       calendar.html), and drop leftovers from previous years. */
+    db.calendar=(db.calendar||[]).filter(c=>c.date>=U.staleBefore());
     if(!db.school.fees) db.school.fees = seedDB().school.fees;
     if(!db.restock) db.restock = [];
     if(!db.teacherVotes) db.teacherVotes = {};
@@ -468,7 +473,36 @@ const DB = {
     if(!db.seq.order) db.seq.order = 1;
     return db;
   },
-  save(db){ localStorage.setItem(DB_KEY, JSON.stringify(db)); try{ if(window.Sync) Sync.pushSoon(); }catch(e){} },
+  /* Saving must never fail silently. Browser storage is finite (photos are
+     stored as base64) and once it fills, setItem throws - previously that
+     exception escaped and the staff member's attendance or results were lost
+     with no message at all. Report it instead, and tell them what to do. */
+  save(db){
+    try {
+      localStorage.setItem(DB_KEY, JSON.stringify(db));
+    } catch (err) {
+      const full = err && (err.name === "QuotaExceededError" ||
+                           err.name === "NS_ERROR_DOM_QUOTA_REACHED" ||
+                           err.code === 22);
+      const msg = full
+        ? "This device's storage is full, so your last change was NOT saved. " +
+          "Remove some uploaded photos, then try again."
+        : "Your last change could not be saved on this device.";
+      try { console.error("DB.save failed:", err); } catch (e) {}
+      /* Most call sites do `DB.save(db); U.toast("Saved!")` without checking
+         the result, which would tell staff their work was stored when it was
+         not. Flag the failure so U.toast can veto the success message that is
+         about to fire. */
+      try { DB._saveFailedAt = Date.now(); } catch (e) {}
+      try {
+        if (window.U && U.toast) U.toast(msg);
+        else if (typeof alert === "function") alert(msg);
+      } catch (e) {}
+      return false;
+    }
+    try { if (window.Sync) Sync.pushSoon(); } catch (e) {}
+    return true;
+  },
   reset(){ localStorage.removeItem(DB_KEY); OLD_DB_KEYS.forEach(k=>localStorage.removeItem(k)); return DB.load(); },
   expireRegs(db){
     let changed=false; const now=Date.now();
@@ -504,25 +538,41 @@ const Auth = {
   },
   pupilLogin(adm, password){
     const db = DB.load(), q=(adm||"").trim().toUpperCase(), key=U.phoneKey(adm), pw=password||"";
-    const cands = db.pupils.filter(x=>((x.adm||"").toUpperCase()===q||(x.id||"").toUpperCase()===q||(key&&U.phoneKey(x.phone)===key)));
+    /* Either number given at registration can sign in - a household often
+       shares one phone and the other parent carries the second. */
+    const cands = db.pupils.filter(x=>((x.adm||"").toUpperCase()===q||(x.id||"").toUpperCase()===q||(key&&U.phoneKey(x.phone)===key)||(key&&U.phoneKey(x.phone2)===key)));
     if(!cands.length) return {ok:false, reason:"notfound"};
-    const exact = cands.find(x=>((x.adm||"").toUpperCase()===q||(x.id||"").toUpperCase()===q));
+
+    /* The headmistress approves a pupil before the account works at all.
+       Without this a stranger could register any name and read the portal. */
+    const ok4 = cands.filter(p=>p.verified !== false && p.status !== "rejected");
+    if(!ok4.length){
+      const first = cands[0];
+      if(first && first.status === "rejected") return {ok:false, reason:"rejected", pupil:first};
+      return {ok:false, reason:"pending", pupil:first};
+    }
+    const exact = ok4.find(x=>((x.adm||"").toUpperCase()===q||(x.id||"").toUpperCase()===q));
     if(exact){
       if(!exact.password) return {ok:false, reason:"nopassword", pupil:exact};
       if(exact.password!==pw) return {ok:false, reason:"wrongpass", pupil:exact};
       return {ok:true, session:{role:"pupil", refId:exact.id, name:exact.name, label:"Pupil • "+exact.class}};
     }
-    const withPw = cands.filter(p=>p.password);
-    if(!withPw.length) return {ok:false, reason:"nopassword", pupil:cands[0]};
+    const withPw = ok4.filter(p=>p.password);
+    if(!withPw.length) return {ok:false, reason:"nopassword", pupil:ok4[0]};
     const hit = withPw.find(p=>p.password===pw);
     if(!hit) return {ok:false, reason:"wrongpass", pupil:withPw[0]};
     return {ok:true, session:{role:"pupil", refId:hit.id, name:hit.name, label:"Pupil • "+hit.class}};
   },
   setPassword(adm, password){
     const db = DB.load(), q=(adm||"").trim().toUpperCase(), key=U.phoneKey(adm);
-    const cands = db.pupils.filter(x=>((x.adm||"").toUpperCase()===q||(x.id||"").toUpperCase()===q||(key&&U.phoneKey(x.phone)===key)));
+    const cands = db.pupils.filter(x=>((x.adm||"").toUpperCase()===q||(x.id||"").toUpperCase()===q||(key&&U.phoneKey(x.phone)===key)||(key&&U.phoneKey(x.phone2)===key)));
     if(!cands.length) return false;
-    cands.forEach(p=>{ p.password=password; }); DB.save(db); return true;
+    /* Only approved children get a working password, and the password is set
+       across every child on the account so one login covers the household. */
+    const allowed = cands.filter(p=>p.verified !== false && p.status !== "rejected");
+    if(!allowed.length) return false;
+    allowed.forEach(p=>{ p.password=password; p.activatedAt=new Date().toISOString(); });
+    DB.save(db); return true;
   },
   /* persistent=true → remembered on this device until logout */
   set(s, persistent){
@@ -693,6 +743,8 @@ const U = {
   getTimetable(db,cls){ return db.timetable||((db.timetables||{})[cls])||U.timetable(cls); },
   ttSlots(){ return ["Assembly","1st Period","2nd Period","3rd Period","Break","4th Period","5th Period","6th Period","Closing"]; },
   todayStr(){ return new Date().toISOString().slice(0,10); },
+  /* Oldest calendar date worth keeping: one session back from today. */
+  staleBefore(){ const d=new Date(); d.setDate(d.getDate()-365); return d.toISOString().slice(0,10); },
   phoneKey(ph){ const d=String(ph||"").replace(/\D/g,""); return d.length>=7?d.slice(-10):""; },
   compressPhotos(input,max,cb){
     const files=[...(input&&input.files||[])].slice(0,max||3);
@@ -773,6 +825,35 @@ const U = {
   esc(s){ return String(s??"").replace(/[&<>"']/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c])); },
   initials(name){ return String(name||"?").split(" ").map(w=>w[0]).slice(0,2).join("").toUpperCase(); },
   avatarColor(name){ const cols=["#B78A12","#C0392B","#2471B8","#0F6B3A","#5A3396","#B25A12"]; let h=0; for(const c of String(name)) h+=c.charCodeAt(0); return cols[h%cols.length]; },
+  /* Fee status for one pupil. Screens used to re-derive this by matching the
+     pupil's name against the registration list, which breaks on a spelling
+     difference and on two children sharing a name. One function, so the
+     teacher's view, the headmistress's view and the report card agree.
+     Reads the pupil record first and only falls back to the registration. */
+  feeStatus(db, pupil){
+    if(!pupil) return {state:"unknown", label:"Unknown", paid:false, partial:false};
+    if(pupil.feePaid === true)  return {state:"paid",    label:"Paid",    paid:true,  partial:false, receipt:pupil.feeReceipt||"", at:pupil.feePaidAt||""};
+    if(pupil.feePaid === "part")return {state:"partial", label:"Part payment", paid:false, partial:true, at:pupil.feePaidAt||""};
+    if(pupil.feePaid === false) return {state:"unpaid",  label:"Not paid", paid:false, partial:false};
+    /* Older records only exist as a registration row. */
+    const reg=(db.registrations||[]).find(x=>x&&x.ward&&
+      String(x.ward.first+" "+x.ward.surname).trim().toLowerCase()===String(pupil.name||"").trim().toLowerCase());
+    if(reg&&reg.payment){
+      if(reg.payment.status==="Paid") return {state:"paid", label:"Paid", paid:true, partial:false, receipt:reg.payment.receipt||""};
+      if((reg.payment.parts||[]).length||reg.payment.claim) return {state:"partial", label:"Part payment", paid:false, partial:true};
+      return {state:"unpaid", label:"Not paid", paid:false, partial:false};
+    }
+    return {state:"unknown", label:"No record", paid:false, partial:false};
+  },
+  /* Whole-class roll-up, for a teacher's dashboard and the headmistress. */
+  feeSummary(db, className){
+    const pupils=(db.pupils||[]).filter(p=>p.class===className&&p.verified!==false&&p.status!=="rejected");
+    let paid=0, partial=0, unpaid=0;
+    pupils.forEach(p=>{ const f=U.feeStatus(db,p);
+      if(f.paid) paid++; else if(f.partial) partial++; else unpaid++; });
+    const n=pupils.length;
+    return {total:n, paid, partial, unpaid, pct: n?Math.round((paid/n)*100):0};
+  },
   total(sc){ return (+sc.ca1||0)+(+sc.ca2||0)+(+sc.exam||0); },
   grade(t){ if(t>=70) return "A"; if(t>=60) return "B"; if(t>=55) return "C"; if(t>=50) return "D"; if(t>=40) return "E"; return "F"; },
   remark(t){ if(t>=70) return "Excellent"; if(t>=60) return "Very Good"; if(t>=55) return "Good"; if(t>=50) return "Fair"; if(t>=40) return "Weak"; return "Fail"; },
@@ -786,7 +867,18 @@ const U = {
     return h;
   },
   naira(n){ return "\u20A6" + Number(n||0).toLocaleString("en-NG"); },
-  toast(msg){ let t=document.getElementById("toast"); if(!t){ t=document.createElement("div"); t.id="toast"; document.body.appendChild(t);} t.textContent=msg; t.classList.add("show"); clearTimeout(t._h); t._h=setTimeout(()=>t.classList.remove("show"),3000); },
+  toast(msg){
+    /* A save that just failed must not be followed by "Saved!". DB.save marks
+       the failure; anything reassuring fired in the next moment is replaced by
+       the truth, so staff never think their work was stored when it was lost. */
+    try {
+      if (typeof DB !== "undefined" && DB._saveFailedAt &&
+          (Date.now() - DB._saveFailedAt) < 1500 &&
+          /saved|success|updated|added|posted|sent|recorded|published/i.test(String(msg))) {
+        msg = "NOT saved — this device's storage is full. Remove some uploaded photos and try again.";
+      }
+    } catch (e) {}
+    let t=document.getElementById("toast"); if(!t){ t=document.createElement("div"); t.id="toast"; document.body.appendChild(t);} t.textContent=msg; t.classList.add("show"); clearTimeout(t._h); t._h=setTimeout(()=>t.classList.remove("show"),3000); },
   teacherName(db, tid){ const t=db.teachers.find(x=>x.id===tid); return t?t.name:"—"; },
   pupil(db, pid){ return db.pupils.find(x=>x.id===pid); },
   dutyToday(db){

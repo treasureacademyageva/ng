@@ -1,0 +1,16 @@
+# Treasure Support AI - backend dependencies.
+#
+# The website does NOT need any of this: the browser runs its own retrieval.
+# Install only when you want server-side embeddings, an LLM, shared history
+# and cross-device analytics.
+
+fastapi>=0.110
+uvicorn[standard]>=0.29
+pydantic>=2.6
+httpx>=0.27
+
+# Optional. Without it the backend falls back to TF-IDF, which still works.
+# sentence-transformers>=2.7
+
+# Optional. Without it the backend stores conversations in a local SQLite file.
+# psycopg2-binary>=2.9

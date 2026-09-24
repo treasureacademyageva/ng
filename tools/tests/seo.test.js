@@ -12,11 +12,14 @@ const ok = (name, cond, extra) => cond
 const read = f => fs.readFileSync(path.join(SITE, f), 'utf8');
 const pages = fs.readdirSync(SITE).filter(f => f.endsWith('.html'));
 // developer.html is a private console; 404.html is intentionally noindex.
-const indexable = pages.filter(f => !['developer.html', '404.html'].includes(f));
+// Derive this from the page itself rather than a hardcoded list, so a page
+// that gains or loses noindex is judged by the right rules automatically.
+const indexable = pages.filter(f => !/<meta[^>]+name=["']robots["'][^>]*noindex/i.test(read(f)));
+const noindexed = pages.filter(f => !indexable.includes(f));
 
 /* ---------- required files ---------- */
 ['robots.txt', 'sitemap.xml', 'site.webmanifest', '404.html', 'favicon.ico',
- 'assets/css/fonts.css', 'assets/css/motion.css'].forEach(f =>
+ 'assets/css/motion.css'].forEach(f =>
   ok('exists: ' + f, fs.existsSync(path.join(SITE, f))));
 
 /* ---------- no third-party font CDN (self-hosted) ---------- */
@@ -27,9 +30,16 @@ const indexable = pages.filter(f => !['developer.html', '404.html'].includes(f))
   const cssOff = css.filter(f => /fonts\.(googleapis|gstatic)/.test(read('assets/css/' + f)));
   ok('no google-fonts CDN in css', cssOff.length === 0, cssOff.join(','));
   const fonts = fs.readdirSync(path.join(SITE, 'assets/fonts'));
-  ok('woff2 files shipped', fonts.filter(f => f.endsWith('.woff2')).length >= 7, String(fonts.length));
-  const ff = read('assets/css/fonts.css');
-  ok('font-display swap everywhere', (ff.match(/font-display:swap/g) || []).length >= 7);
+  ok('woff2 files shipped', fonts.filter(f => f.endsWith('.woff2')).length >= 4, String(fonts.length));
+  // Faces live in corporate.css since the batch-43 typography change.
+  const ff = read('assets/css/corporate.css');
+  const faces = (ff.match(/@font-face/g) || []).length;
+  ok('every @font-face uses font-display swap',
+     faces >= 4 && (ff.match(/font-display:swap/g) || []).length >= faces, `${faces} faces`);
+  // Every declared face must point at a file that exists.
+  const missing = [...ff.matchAll(/url\("\.\.\/fonts\/([^"]+)"\)/g)]
+    .map(m => m[1]).filter(f => !fs.existsSync(path.join(SITE, 'assets/fonts', f)));
+  ok('no @font-face points at a missing file', missing.length === 0, missing.join(','));
 }
 
 /* ---------- per-page meta ---------- */
@@ -49,6 +59,91 @@ const indexable = pages.filter(f => !['developer.html', '404.html'].includes(f))
   ok('every page has a canonical', noCanon.length === 0, noCanon.join(','));
   ok('every page has og:title', noOg.length === 0, noOg.join(','));
   ok('every page has a twitter card', noTw.length === 0, noTw.join(','));
+
+  /* Two SEO passes once shipped side by side (seo:start + treasure-seo), giving
+     every page two canonicals that disagreed on the homepage. Exactly one of
+     each, or crawlers pick for us. */
+  const dupCanon = [], dupOg = [], dupDesc = [];
+  pages.forEach(f => {
+    const s = read(f);
+    const c = (s.match(/rel="canonical"/g) || []).length;
+    const o = (s.match(/property="og:title"/g) || []).length;
+    const d = (s.match(/name="description"/g) || []).length;
+    if (c > 1) dupCanon.push(`${f}:${c}`);
+    if (o > 1) dupOg.push(`${f}:${o}`);
+    if (d > 1) dupDesc.push(`${f}:${d}`);
+  });
+  ok('no duplicate canonical tags', dupCanon.length === 0, dupCanon.join(','));
+  ok('no duplicate og:title tags', dupOg.length === 0, dupOg.join(','));
+  ok('no duplicate description tags', dupDesc.length === 0, dupDesc.join(','));
+
+  /* Two different things get conflated here, so keep them apart:
+     - noindex utility pages (receipt, search, story, admission-form) are real
+       pages that simply should not rank. They keep canonical + social tags.
+     - PRIVATE pages must not publish their own URL at all. developer.html is
+       the internal console and batch26 asserts nothing links to it; 404 is an
+       error page. Neither gets a canonical, og:url or breadcrumb. */
+  const PRIVATE = ['developer.html', '404.html'];
+  const leaky = [];
+  PRIVATE.forEach(f => {
+    if (!pages.includes(f)) return;
+    const s = read(f);
+    if (/rel="canonical"/.test(s) || /property="og:url"/.test(s) || /BreadcrumbList/.test(s)) leaky.push(f);
+  });
+  ok('private pages publish no canonical, og:url or breadcrumb', leaky.length === 0, leaky.join(','));
+  ok('private pages are noindex', PRIVATE.every(f => !pages.includes(f) || /content="noindex/.test(read(f))));
+
+  /* Icon set. Emoji in headings is the fastest way to make a site look
+     generated rather than designed, and a <use> pointing at a symbol that does
+     not exist fails silently - the icon just does not paint. */
+  const sprite = fs.readFileSync(SITE + '/assets/img/icons.svg', 'utf8');
+  const symbols = [...sprite.matchAll(/<symbol id="([^"]+)"/g)].map(m => m[1]);
+  ok('icon sprite has symbols', symbols.length >= 10, String(symbols.length));
+
+  const broken = [], emojiHeads = [];
+  const EMOJI = /[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}]/u;
+  pages.forEach(f => {
+    const s = read(f);
+    [...s.matchAll(/<use href="assets\/img\/icons\.svg#([^"]+)"/g)].forEach(m => {
+      if (!symbols.includes(m[1])) broken.push(`${f}#${m[1]}`);
+    });
+    [...s.matchAll(/<h[1-4][^>]*>(.*?)<\/h[1-4]>/gs)].forEach(m => {
+      if (EMOJI.test(m[1])) emojiHeads.push(f);
+    });
+  });
+  ok('every icon reference resolves', broken.length === 0, broken.join(','));
+  ok('no emoji used as heading icons', emojiHeads.length === 0, [...new Set(emojiHeads)].join(','));
+
+  /* Glass layer. These are the pieces that break quietly: a renamed class, a
+     stylesheet that stops being linked, or someone reintroducing the bubbly
+     radii the owner asked us to tone down. */
+  const glass = fs.readFileSync(SITE + '/assets/css/glass.css', 'utf8');
+  const gjs   = fs.readFileSync(SITE + '/assets/js/auth-ui.js', 'utf8');
+
+  ok('glass.css defines the auth popup', /\.ta-scrim/.test(glass) && /\.ta-glass/.test(glass));
+  ok('auth popup blurs the page behind', /\.ta-scrim/.test(glass) && /backdrop-filter:\s*blur/.test(glass));
+  ok('auth panel is transparent', /rgba\(255,\s*255,\s*255,\s*\.[01][0-9]?\)/.test(glass));
+  ok('drawer + menu button exist', /\.ta-drawer/.test(glass) && /\.nav-burger/.test(glass));
+  ok('drawer has a logout', /\.d-out/.test(glass) && /Logout/.test(gjs));
+
+  /* The owner asked for squarer corners. Guard the tokens rather than every
+     rule, since everything else reads from them. */
+  const rv = n => { const m = glass.match(new RegExp('--ta-r-' + n + ':\\s*(\\d+)px')); return m ? +m[1] : null; };
+  const rSm = rv('sm'), rBase = (glass.match(/--ta-r:\s*(\d+)px/) || [])[1], rLg = rv('lg');
+  ok('radius tokens toned down',
+     rSm !== null && rLg !== null && rSm <= 6 && +rBase <= 8 && rLg <= 14,
+     [rSm, rBase, rLg].join('/'));
+
+  ok('muted lavender body text', /--ta-body:\s*#[0-9A-Fa-f]{6}/.test(glass));
+  ok('glow tokens defined', /--ta-glow:/.test(glass) && /--ta-glow-lit:/.test(glass));
+  ok('screen-reader label on the menu button', /aria-label/.test(gjs));
+
+  /* corporate.css owns .auth-card for the existing login page and batch 25
+     pins it. The popup must not collide with that name. */
+  ok('popup does not hijack .auth-card', !/[^-]\.auth-card\b/.test(glass));
+
+  const noGlass = pages.filter(f => f !== 'developer.html' && !/glass\.css/.test(read(f)));
+  ok('every public page loads glass.css', noGlass.length === 0, noGlass.join(','));
   ok('every page declares lang', badLang.length === 0, badLang.join(','));
 
   // descriptions must be distinct - duplicates get filtered out of results
@@ -74,7 +169,11 @@ const indexable = pages.filter(f => !['developer.html', '404.html'].includes(f))
 {
   const bad = [];
   indexable.forEach(f => {
-    const n = (read(f).match(/<h1[\s>]/g) || []).length;
+    // Count markup only. Several pages build a print letterhead by assigning an
+    // <h1> inside a JavaScript string; that is not a heading in the document, so
+    // strip <script> blocks before counting or it reads as a phantom duplicate.
+    const src = read(f).replace(/<script\b[\s\S]*?<\/script>/gi, '');
+    const n = (src.match(/<h1[\s>]/g) || []).length;
     if (n !== 1) bad.push(`${f}:${n}`);
   });
   ok('exactly one h1 per page', bad.length === 0, bad.join(','));
@@ -152,9 +251,12 @@ const indexable = pages.filter(f => !['developer.html', '404.html'].includes(f))
   pages.forEach(f => {
     for (const m of read(f).matchAll(/<img\b[^>]*>/g)) {
       const t = m[0]; imgs++;
-      // Either explicit dimensions, or a reserved aspect-ratio box for
-      // JS-templated images whose src is only known at runtime.
-      const sized = (/\bwidth=/.test(t) && /\bheight=/.test(t)) || /aspect-ratio:/.test(t);
+      // Layout is stable if the box is reserved any of three ways: HTML
+      // width+height attributes, an aspect-ratio box (JS-templated images whose
+      // src is only known at runtime), or a style that pins both dimensions.
+      const style = (t.match(/\bstyle="([^"]*)"/) || [, ''])[1];
+      const cssPinned = /(^|;)\s*width\s*:/.test(style) && /(^|;)\s*height\s*:/.test(style);
+      const sized = (/\bwidth=/.test(t) && /\bheight=/.test(t)) || /aspect-ratio:/.test(t) || cssPinned;
       if (!sized) noDim++;
       if (!/\balt=/.test(t)) noAlt++;
       if (/loading="lazy"/.test(t)) lazy++;

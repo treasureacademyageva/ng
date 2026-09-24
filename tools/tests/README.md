@@ -3,7 +3,7 @@ Each `verify-batchNN.js` locks the features delivered in batch NN. Suites read t
 
 Run everything: `npm install jsdom --no-audit --no-fund && bash tools/run-all-tests.sh`
 
-Rules for the next agents:
+Rules when adding or changing a suite:
 - After ANY data or feature change: update the affected suite's truth (see HANDOVER.md), never delete tests.
 - Every version bump (-NN): sed `20260919-NN` + `treasure-vNN` across suites b15 + b26..latest.
 - 404.html exists: page-count pins = 41 files.

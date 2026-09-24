@@ -7,8 +7,11 @@
 <meta http-equiv="Expires" content="0">
 <style>#siteLoader{position:fixed;inset:0;z-index:1200;background:#fff;display:flex;flex-direction:column;gap:14px;align-items:center;justify-content:center;transition:opacity .4s}#siteLoader img{width:84px;height:84px;object-fit:contain}#siteLoader .spin{width:38px;height:38px;border-radius:50%;border:4px solid #FDF6D8;border-top-color:#0B7A37;animation:lspin .8s linear infinite}@keyframes lspin{to{transform:rotate(360deg)}}#siteLoader.done{opacity:0;pointer-events:none}</style>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- seo:start -->
+<meta name="description" content="Internal developer console for Treasure Academy, Ageva. Private area, not for public use.">
 <meta name="robots" content="noindex, nofollow">
-<title>Treasure Academy</title>
+<!-- seo:end --><title>Treasure Academy</title>
 <link rel="icon" href="assets/img/logo.jpg">
 <noscript><style>#siteLoader{display:none!important}</style></noscript>
 <script defer src="/_vercel/insights/script.js"></script>
@@ -67,13 +70,30 @@ pre.view{background:#0A1114;border:1px solid var(--line);border-radius:10px;padd
 .dv-notes{width:100%;min-height:150px;background:#0A1114;border:1px solid var(--line);border-radius:10px;color:var(--ink);padding:11px 12px;font:inherit;line-height:1.55;outline:none;resize:vertical}
 .dv-notes:focus{border-color:var(--grn)}
 </style>
+<style>.dv-title{font:600 1.25rem/1.2 var(--font-head,inherit);margin:0;color:inherit}</style>
+<style id="csStyle">
+.cs-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:.6rem;margin:.5rem 0 .9rem}
+.cs-card{border:1px solid var(--line,#2a2f3a);border-radius:10px;padding:.7rem .8rem;background:rgba(124,110,168,.07)}
+.cs-card b{display:block;font-size:1.5rem;line-height:1.15}
+.cs-card span{font-size:.72rem;opacity:.7;display:block;margin-top:.15rem}
+.cs-cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.1rem;margin-bottom:.6rem}
+.cs-h{font-size:.85rem;margin:.5rem 0 .35rem;opacity:.85}
+.cs-chart{display:flex;align-items:flex-end;gap:5px;height:130px;padding:.45rem;border:1px solid var(--line,#2a2f3a);border-radius:10px}
+.cs-bar{flex:1;min-width:10px;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;gap:3px;height:100%}
+.cs-bar i{display:block;width:100%;background:linear-gradient(180deg,#3aa76d,#0e3b21);border-radius:4px 4px 0 0;min-height:2px}
+.cs-bar u{font-size:.6rem;opacity:.6;text-decoration:none;white-space:nowrap}
+.cs-list{display:flex;flex-direction:column;gap:.3rem;max-height:250px;overflow:auto}
+.cs-row{display:flex;justify-content:space-between;gap:.6rem;font-size:.8rem;padding:.4rem .55rem;border:1px solid var(--line,#2a2f3a);border-radius:8px}
+.cs-row small{opacity:.6;white-space:nowrap}
+.cs-empty{font-size:.8rem;opacity:.6;padding:.5rem}
+</style>
 </head>
 <body>
-<div id="siteLoader"><img src="assets/img/logo.jpg" alt="Treasure Academy"><div class="spin"></div></div>
+<div id="siteLoader"><img src="assets/img/logo.jpg" alt="Treasure Academy" width="397" height="397" fetchpriority="high" decoding="async"><div class="spin"></div></div>
 
 <div id="dvGate">
   <form class="gate-card" id="dvForm" autocomplete="off">
-    <img src="assets/img/logo.jpg" alt="">
+    <img src="assets/img/logo.jpg" alt="" width="397" height="397" loading="lazy" decoding="async">
     <h1>Developer Console</h1>
     <p>Treasure Academy &middot; internal access only</p>
     <input id="dvPhone" inputmode="tel" placeholder="Phone number">
@@ -87,8 +107,8 @@ pre.view{background:#0A1114;border:1px solid var(--line);border-radius:10px;padd
 
 <div class="wrap hide" id="dvConsole">
   <div class="top">
-    <img src="assets/img/logo.jpg" alt="">
-    <div><h1>Developer Console</h1><small>Treasure Academy, Ageva &middot; internal tools</small></div>
+    <img src="assets/img/logo.jpg" alt="" width="397" height="397" loading="lazy" decoding="async">
+    <div><p class="dv-title">Developer Console</p><small>Treasure Academy, Ageva &middot; internal tools</small></div>
     <span class="pill" id="dvVer">build —</span>
     <button id="dvOut">Logout</button>
   </div>
@@ -115,6 +135,39 @@ pre.view{background:#0A1114;border:1px solid var(--line);border-radius:10px;padd
       <textarea id="dvNotes" class="dv-notes" placeholder="Private notepad: build ideas, reminders, things to move next..." spellcheck="false"></textarea>
       <div class="row"><button class="grn" id="dvNotesCopy">Copy notes</button><button class="red" id="dvNotesClear">Clear notes</button><span class="note" id="dvNotesHint" style="margin:0">Saves automatically on this device.</span></div>
     </div>
+    <div class="panel" style="grid-column:1/-1"><h2><span class="dot"></span>One-Time Codes &mdash; Activation Inbox</h2>
+      <p class="note">The school has no SMS gateway, so activation codes arrive here
+      instead. Each row shows the code, the number that asked for it and which pupils
+      it unlocks &mdash; pass it to the parent yourself, by call or WhatsApp. A code
+      lasts 24 hours, allows 5 attempts, and dies once used.</p>
+      <div id="dvOtp" class="cs-list"></div>
+      <div class="row" style="margin-top:.7rem">
+        <button class="grn" id="dvOtpRefresh">Refresh</button>
+        <button class="red" id="dvOtpClear">Clear used &amp; expired</button>
+        <span class="note" id="dvOtpHint" style="margin:0"></span>
+      </div>
+    </div>
+    <div class="panel" style="grid-column:1/-1"><h2><span class="dot"></span>Chatbot Analytics &mdash; Treasure Support AI</h2>
+      <div id="dvChatStats" class="cs-grid"></div>
+      <div class="cs-cols">
+        <div>
+          <h3 class="cs-h">Daily conversations</h3>
+          <div id="dvChatDaily" class="cs-chart"></div>
+        </div>
+        <div>
+          <h3 class="cs-h">Most asked questions</h3>
+          <div id="dvChatTop" class="cs-list"></div>
+        </div>
+      </div>
+      <h3 class="cs-h">Knowledge gaps &mdash; what it could not answer</h3>
+      <p class="note" style="margin:.2rem 0 .5rem">These are the exact questions that scored below the confidence bar or were marked unhelpful. Each one is a page or fact worth adding, then re-run <code>python3 tools/build-kb.py</code>.</p>
+      <div id="dvChatGaps" class="cs-list"></div>
+      <div class="row" style="margin-top:.7rem">
+        <button class="grn" id="dvChatExport">Export report (JSON)</button>
+        <button class="red" id="dvChatReset">Reset analytics</button>
+        <span class="note" id="dvChatHint" style="margin:0">Collected on this device from both guest and logged-in chats.</span>
+      </div>
+    </div>
     <div class="panel" style="grid-column:1/-1"><h2><span class="dot"></span>Developer Modules</h2>
       <div id="dvModules">
         <div class="dv-mod">
@@ -133,13 +186,18 @@ pre.view{background:#0A1114;border:1px solid var(--line);border-radius:10px;padd
   </div>
 </div>
 <div id="dvToast"></div>
-<script src="assets/js/store.js?v=20260919-47"></script>
-<script src="assets/js/sync.js?v=20260919-47"></script>
+<script src="assets/js/store.js?v=20260924-60"></script>
+<script src="assets/js/notify.js?v=20260924-60"></script>
+<script src="assets/js/verify.js?v=20260924-60"></script><script defer src="assets/js/db-live.js?v=20260924-60"></script>
+<script src="assets/js/sync.js?v=20260924-60"></script>
+<script defer src="assets/js/chat-entities.js?v=20260924-60"></script>
+<script defer src="assets/js/chat-rag.js?v=20260924-60"></script>
+<script defer src="assets/js/chat-core.js?v=20260924-60"></script>
 <script>
 (function(){
   "use strict";
   var HASH = "3133076b53086ef8cc6a3f0ce07d2ab3fca6cb3dcbc8b245b32a4862048ce148";
-  var BUILD = "treasure-v47";
+  var BUILD = "treasure-v50";
   var GATE = "treasure_dev_gate", LOCK = "treasure_dev_lock";
   var PAGES = 36;
 
@@ -261,7 +319,7 @@ pre.view{background:#0A1114;border:1px solid var(--line);border-radius:10px;padd
   });
 
   /* ---- cache tools ---- */
-  function fillCache(){ $("dvCacheNote").textContent = "Service worker build: " + BUILD + " · page asset version: 20260919-47."; }
+  function fillCache(){ $("dvCacheNote").textContent = "Service worker build: " + BUILD + " · page asset version: 20260919-50."; }
   $("dvCache").addEventListener("click", function(){
     if(!(window.caches && caches.keys)){ toast("Cache API not available."); return; }
     caches.keys().then(function(ks){ return Promise.all(ks.map(function(k){ return caches.delete(k); })); })
@@ -424,6 +482,138 @@ pre.view{background:#0A1114;border:1px solid var(--line);border-radius:10px;padd
   if(bioSupported()&&bioCred()){ var b=$("dvBio"); if(b)b.classList.remove("hide"); }
   if(document.readyState === "complete") dropLoader(); else addEventListener("load", dropLoader);
   setTimeout(dropLoader, 2500); /* safety: never trap the page behind the loader */
+})();
+</script>
+
+<script>
+/* Chatbot analytics. Reads the aggregate TAChat keeps on this device and
+   answers the question that matters: where is the bot failing, and why. */
+(function(){
+  function esc(x){return String(x==null?"":x).replace(/[&<>"]/g,function(c){
+    return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];});}
+
+  function card(v,label,tone){
+    return '<div class="cs-card"'+(tone?' style="border-color:'+tone+'"':'')+
+           '><b>'+v+'</b><span>'+esc(label)+'</span></div>';
+  }
+
+  function render(){
+    if(!window.TAChat) return;
+    var s = TAChat.stats();
+    var g = document.getElementById("dvChatStats");
+    if(!g) return;
+
+    g.innerHTML =
+      card(s.totalQuestions,"Total questions") +
+      card(s.answered,"Answered by AI") +
+      card(s.resolutionRate+"%","AI resolution rate", s.resolutionRate<60?"#c0392b":"") +
+      card(s.satisfaction+"%","Satisfaction (thumbs up)") +
+      card(s.handoffRate+"%","Human handoff rate") +
+      card(s.avgConfidence+"%","Average confidence") +
+      card(s.handoffWhatsapp,"WhatsApp agent") +
+      card(s.handoffTicket,"Contact form tickets") +
+      card(s.loginRequired,"Needed a login") +
+      card(s.unanswered,"Could not answer", s.unanswered?"#c0392b":"");
+
+    /* Daily conversations, last 14 days. */
+    var days=[], d=new Date();
+    for(var i=13;i>=0;i--){
+      var x=new Date(d.getTime()-i*86400000).toISOString().slice(0,10);
+      days.push({k:x, n:((s.daily[x]||{}).asked)||0});
+    }
+    var max=Math.max.apply(null,days.map(function(z){return z.n;}).concat([1]));
+    document.getElementById("dvChatDaily").innerHTML = days.map(function(z){
+      return '<div class="cs-bar" title="'+z.k+': '+z.n+'"><i style="height:'+
+             Math.round((z.n/max)*100)+'%"></i><u>'+z.k.slice(8)+'</u></div>';
+    }).join("");
+
+    var top=document.getElementById("dvChatTop");
+    top.innerHTML = s.topQuestions.length
+      ? s.topQuestions.map(function(q){
+          return '<div class="cs-row"><span>'+esc(q.q)+'</span><small>'+q.n+'x</small></div>';
+        }).join("")
+      : '<div class="cs-empty">No questions recorded yet.</div>';
+
+    var gaps=document.getElementById("dvChatGaps");
+    gaps.innerHTML = s.gaps.length
+      ? s.gaps.map(function(x){
+          var when=new Date(x.t).toLocaleDateString("en-GB");
+          var why=x.why==="unanswered"?"no confident match":"marked unhelpful";
+          return '<div class="cs-row"><span>'+esc(x.q)+'</span><small>'+why+' &middot; '+when+'</small></div>';
+        }).join("")
+      : '<div class="cs-empty">No gaps recorded. Every question found an answer.</div>';
+  }
+
+  function boot(){
+    if(!document.getElementById("dvChatStats")) return;
+    render();
+    var e=document.getElementById("dvChatExport");
+    if(e) e.onclick=function(){
+      var blob=new Blob([JSON.stringify(TAChat.stats(),null,2)],{type:"application/json"});
+      var a=document.createElement("a");
+      a.href=URL.createObjectURL(blob);
+      a.download="treasure-chatbot-analytics-"+new Date().toISOString().slice(0,10)+".json";
+      a.click(); URL.revokeObjectURL(a.href);
+    };
+    var r=document.getElementById("dvChatReset");
+    if(r) r.onclick=function(){
+      if(!confirm("Clear all chatbot analytics on this device?")) return;
+      TAChat.resetStats(); render();
+    };
+    setInterval(render, 5000);
+  }
+  if(document.readyState==="loading") document.addEventListener("DOMContentLoaded",boot);
+  else boot();
+})();
+</script>
+
+<script>
+/* Activation inbox. Codes are generated in the browser and delivered by a
+   person, so this is the only place they exist. */
+(function(){
+  function esc(x){return String(x==null?"":x).replace(/[&<>"]/g,function(c){
+    return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];});}
+  function ago(t){
+    const m=Math.round((Date.now()-t)/60000);
+    if(m<1) return "just now";
+    if(m<60) return m+" min ago";
+    const h=Math.round(m/60); return h<24?h+" hr ago":Math.round(h/24)+" d ago";
+  }
+  function render(){
+    const box=document.getElementById("dvOtp");
+    if(!box||!window.TAVerify) return;
+    const rows=TAVerify.queue();
+    const live=rows.filter(r=>r.state==="waiting").length;
+    const hint=document.getElementById("dvOtpHint");
+    if(hint) hint.textContent = live?(live+" waiting to be passed on"):"Nothing waiting.";
+    box.innerHTML = rows.length ? rows.map(function(r){
+      const tone = r.state==="waiting" ? "#3aa76d" : r.state==="used" ? "#6b7280" : "#c0392b";
+      return '<div class="cs-row" style="border-color:'+tone+'">'+
+        '<span><b style="font-size:1.15rem;letter-spacing:.14em">'+esc(r.state==="waiting"?r.code:"••••")+'</b>'+
+        ' &nbsp; '+esc(r.phone)+(r.parent?' <small>('+esc(r.parent)+')</small>':'')+
+        '<br><small>'+esc((r.pupils||[]).join(", "))+'</small></span>'+
+        '<small>'+esc(r.state)+(r.tries?' · '+r.tries+' tries':'')+' · '+ago(r.issuedAt)+'</small></div>';
+    }).join("") : '<div class="cs-empty">No codes requested yet.</div>';
+  }
+  function boot(){
+    if(!document.getElementById("dvOtp")) return;
+    render();
+    const rf=document.getElementById("dvOtpRefresh"); if(rf) rf.onclick=render;
+    const cl=document.getElementById("dvOtpClear");
+    if(cl) cl.onclick=function(){
+      if(!confirm("Clear used and expired codes? Waiting codes are kept.")) return;
+      try{
+        const k="treasure_otp_queue_v1";
+        const keep=JSON.parse(localStorage.getItem(k)||"[]")
+          .filter(function(x){ return !x.used && Date.now()<x.expiresAt; });
+        localStorage.setItem(k, JSON.stringify(keep));
+      }catch(e){}
+      render();
+    };
+    setInterval(render, 5000);
+  }
+  if(document.readyState==="loading") document.addEventListener("DOMContentLoaded",boot);
+  else boot();
 })();
 </script>
 </body>

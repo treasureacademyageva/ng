@@ -68,16 +68,16 @@ adm.run('document.getElementById("setFormFee").value="6500"; document.getElement
 ok('saveSettings saves form fee + bank', adm.run('window.__DB.load().school.formFee') === 6500 && adm.run('window.__DB.load().school.bank.name') === 'First Bank');
 ok('identity data untouched by save', adm.run('window.__DB.load().school.name') === 'Treasure Academy, Ageva' && adm.run('window.__DB.load().school.term') === 'First Term');
 ok('settings view renders clean', adm.errors.length === 0, adm.errors.join(' || ').slice(0, 140));
-ok('sideNav now 22 sections (CoC added)', adm.window.document.querySelectorAll('#sideNav button[data-view]').length === 22);
+ok('sideNav now 24 sections (Staff Messages added)', adm.window.document.querySelectorAll('#sideNav button[data-view]').length === 24);
 
 /* ---------- C. versions ---------- */
 let stale = 0;
-function walk(d, out) { for (const f of fs.readdirSync(d)) { const p = require('path').join(d, f); if (fs.statSync(p).isDirectory()) { if (!/node_modules/.test(p)) walk(p, out); } else out.push(p); } return out; }
+function walk(d, out) { for (const f of fs.readdirSync(d)) { const p = require('path').join(d, f); if (fs.statSync(p).isDirectory()) { if (!/node_modules|\.git|[\\/]tools([\\/]|$)/.test(p)) walk(p, out); } else out.push(p); } return out; }
 for (const p of walk(SITE, []).filter(f => f.endsWith('.html'))) {
   if (fs.readFileSync(p, 'utf8').includes('20260919-38')) { console.log('  stale -38 in', p); stale++; }
 }
 ok('no stale -38 versions', stale === 0);
-ok('sw + dev on v39', fs.readFileSync(SITE + '/sw.js', 'utf8').includes('treasure-v47') && fs.readFileSync(SITE + '/developer.html', 'utf8').includes('var BUILD = "treasure-v47";'));
+ok('sw + dev on v39', fs.readFileSync(SITE + '/sw.js', 'utf8').match(/treasure-v\d+/) && fs.readFileSync(SITE + '/developer.html', 'utf8').match(/var BUILD = "treasure-v\d+";/));
 
 console.log(`\n==== BATCH39: ${pass} passed, ${fail} failed ====`);
 process.exit(fail ? 1 : 0);

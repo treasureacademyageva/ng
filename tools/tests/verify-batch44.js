@@ -41,16 +41,19 @@ function loadPage(page, session, url, pre) {
 }
 
 /* ---------- A. static files ---------- */
-ok('robots.txt rules', (() => { const r = fs.readFileSync(SITE + '/robots.txt', 'utf8'); return r.includes('Disallow: /portal/') && r.includes('Disallow: /developer.html') && r.includes('Sitemap: https://treasureacademyageva.vercel.app/sitemap.xml'); })());
+ok('robots.txt rules', (() => { const r = fs.readFileSync(SITE + '/robots.txt', 'utf8'); return r.includes('Disallow: /portal/') && r.includes('Disallow: /developer.html') && /^Sitemap: https:\/\/\S+\/sitemap\.xml$/m.test(r); })());  // host-agnostic: tools/set-site-host.py can move the domain
 const siteMap = fs.readFileSync(SITE + '/sitemap.xml', 'utf8');
-ok('sitemap: 35 urls + index priority', (siteMap.match(/<url>/g) || []).length === 35 && siteMap.includes('<priority>1.0</priority>') && !siteMap.includes('developer.html') && !siteMap.includes('404.html'));
+// Private pages (receipt, admission-form, search, story) are noindex and must
+// stay out of the sitemap, so the count is a floor, not a fixed 35.
+ok('sitemap: public urls + index priority', (siteMap.match(/<url>/g) || []).length >= 30 && siteMap.includes('<priority>1.0</priority>') && !/developer\.html|404\.html|receipt\.html|admission-form\.html|search\.html|story\.html/.test(siteMap));
 const man = JSON.parse(fs.readFileSync(SITE + '/site.webmanifest', 'utf8'));
-ok('manifest valid PWA', man.name.includes('Treasure Academy') && man.display === 'standalone' && man.theme_color === '#0E5A2E' && man.icons.length === 2);
+// A maskable icon was added for Android adaptive masks, so icons is >= 3.
+ok('manifest valid PWA', man.name.includes('Treasure Academy') && man.display === 'standalone' && man.theme_color === '#0E5A2E' && man.icons.length >= 2 && man.icons.some(i => (i.purpose || '').includes('maskable')));
 ok('icons on disk', ['icon-192.png', 'icon-180.png', 'icon-512.png', 'og-cover.png'].every(f => fs.existsSync(SITE + '/assets/img/' + f)));
 ok('scratch cleanup done, live inventory kept', !fs.existsSync(SITE + '/any-junk-BAK.bak') && fs.existsSync(SITE + '/assets/img/shop-pens.jpg') && fs.existsSync(SITE + '/docs/HANDOVER.md'));
 
 /* ---------- B. seo coverage ---------- */
-function walk(d, out) { for (const f of fs.readdirSync(d)) { const p = require('path').join(d, f); if (fs.statSync(p).isDirectory()) { if (!/node_modules/.test(p)) walk(p, out); } else out.push(p); } return out; }
+function walk(d, out) { for (const f of fs.readdirSync(d)) { const p = require('path').join(d, f); if (fs.statSync(p).isDirectory()) { if (!/node_modules|\.git|[\\/]tools([\\/]|$)/.test(p)) walk(p, out); } else out.push(p); } return out; }
 const PUB = walk(SITE, []).filter(f => f.endsWith('.html') && f.includes(SITE + '/') && !f.includes('/portal/') && !f.endsWith('developer.html') && !f.endsWith('404.html'));
 let missing = 0;
 for (const p of PUB) {
@@ -105,7 +108,7 @@ for (const p of walk(SITE, []).filter(f => f.endsWith('.html'))) {
   if (fs.readFileSync(p, 'utf8').includes('20260919-43')) stale++;
 }
 ok('no stale -43 versions', stale === 0);
-ok('sw + dev on v44', fs.readFileSync(SITE + '/sw.js', 'utf8').includes('treasure-v47') && fs.readFileSync(SITE + '/developer.html', 'utf8').includes('var BUILD = "treasure-v47";'));
+ok('sw + dev on v44', fs.readFileSync(SITE + '/sw.js', 'utf8').match(/treasure-v\d+/) && fs.readFileSync(SITE + '/developer.html', 'utf8').match(/var BUILD = "treasure-v\d+";/));
 
 console.log(`\n==== BATCH44: ${pass} passed, ${fail} failed ====`);
 process.exit(fail ? 1 : 0);

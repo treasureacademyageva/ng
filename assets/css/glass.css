@@ -1,0 +1,535 @@
+/* ============================================================================
+   Treasure Academy — surface and depth layer
+   Loaded after corporate.css/motion.css so it can settle the house style.
+
+   Four things live here:
+     1. one radius scale, applied by overriding the ad-hoc pixel values
+     2. muted lavender-grey body text
+     3. subtle glowing borders
+     4. gentle hover lift/glow, and the glass used by the auth dialog
+   ========================================================================== */
+
+:root{
+  /* Softer than the old 14-20px. Present, but not a pill. */
+  --ta-r-xs: 4px;
+  --ta-r-sm: 6px;
+  --ta-r:    8px;   /* the default for cards, inputs, buttons */
+  --ta-r-lg: 10px;  /* big panels only */
+  --ta-r-pill: 999px;
+
+  /* Muted lavender-grey. Warm enough to sit on the green brand without
+     reading as pure grey, soft enough to stop long paragraphs shouting. */
+  --ta-body: #5A5670;
+  --ta-body-soft: #7C7791;
+  --ta-body-faint: #9A96AC;
+
+  /* Glow borders: a hairline plus a wide, very low-alpha halo. */
+  --ta-line: rgba(124,119,145,.22);
+  --ta-line-lit: rgba(11,122,55,.34);
+  --ta-glow: 0 0 0 1px rgba(124,119,145,.14), 0 0 18px -6px rgba(124,119,145,.30);
+  --ta-glow-lit: 0 0 0 1px rgba(11,122,55,.30), 0 0 22px -4px rgba(11,122,55,.34);
+
+  --ta-lift: cubic-bezier(.22,.61,.36,1);
+}
+
+[data-theme="dark"]{
+  --ta-body: #B9B4CC;
+  --ta-body-soft: #9C97B2;
+  --ta-body-faint: #837E98;
+  --ta-line: rgba(185,180,204,.20);
+  --ta-line-lit: rgba(46,158,91,.42);
+  --ta-glow: 0 0 0 1px rgba(185,180,204,.12), 0 0 20px -6px rgba(0,0,0,.55);
+  --ta-glow-lit: 0 0 0 1px rgba(46,158,91,.38), 0 0 26px -4px rgba(46,158,91,.30);
+}
+
+/* ---- 1. radius -----------------------------------------------------------
+   The pages hardcode 10-20px in hundreds of places, so normalise by element
+   rather than editing every rule. Pills and circles are left alone. */
+.card, .mv-card, .testi-card, .team-card, .prog, .tbl, .wa-card, .faq-item,
+.pay-card, .side-card, .cmp-wrap, .track-card, .gate-card, .stat, .stats-band,
+.hero-figure img, .hero-figure, .clock-widget, .panel, .box, .note,
+input, select, textarea, .btn, button.btn, .chip, .seg, .tile, .qa-btn,
+.glass, .modal-card, .toast, .callout, .quote, .banner{
+  border-radius: var(--ta-r) !important;
+}
+.btn-sm, .chip, .pill-sm, input[type="checkbox"], .badge{ border-radius: var(--ta-r-sm) !important; }
+.panel-lg, .hero-card, .modal-card.lg, .site-footer .foot-main{ border-radius: var(--ta-r-lg) !important; }
+/* Things that are meant to be round stay round. */
+.avatar, .dot, .social-3d a, .chat-fab, .ico-circle, .radio, .seg-ink,
+.pill, .tag-pill, [class*="circle"]{ border-radius: var(--ta-r-pill) !important; }
+
+/* ---- 2. muted lavender-grey body text ----------------------------------- */
+body{ color: var(--ta-body); }
+p, li, dd, td, .muted, .sub, .lead, .foot-hours, small{ color: var(--ta-body); }
+.muted, .sub, small, .cap, figcaption{ color: var(--ta-body-soft); }
+.faint, .hint, .help{ color: var(--ta-body-faint); }
+/* Headings keep the brand ink - only body copy goes lavender. */
+h1,h2,h3,h4,h5,th,b,strong,.btn,label{ color: inherit; }
+
+/* ---- 3. subtle glowing borders ------------------------------------------ */
+.card, .mv-card, .testi-card, .team-card, .prog, .wa-card, .faq-item,
+.pay-card, .side-card, .track-card, .gate-card, .stat, .panel, .cmp-wrap{
+  border: 1px solid var(--ta-line);
+  box-shadow: var(--ta-glow);
+}
+input, select, textarea{
+  border: 1px solid var(--ta-line);
+  transition: border-color .2s var(--ta-lift), box-shadow .25s var(--ta-lift);
+}
+input:focus, select:focus, textarea:focus{
+  border-color: var(--ta-line-lit);
+  box-shadow: var(--ta-glow-lit);
+  outline: none;
+}
+
+/* ---- 4. generous spacing -------------------------------------------------
+   Spacing must come from VERTICAL rhythm and card padding, never by squeezing
+   the content column. main.css already sets .container to width:min(1180px,92%),
+   which carries its own gutter - adding padding-inline on top of that made every
+   page narrower and the text look smaller. Leave the container width alone. */
+section{ padding-block: clamp(40px, 4.5vw, 76px); }
+.card, .mv-card, .testi-card, .team-card, .pay-card, .side-card, .panel{
+  padding: clamp(18px, 2.2vw, 28px);
+}
+/* Line length only, applied to running prose - not to headings, cards, table
+   cells or anything laid out in a grid, which must keep their own width. */
+section > p, .prose p, article p{ line-height: 1.72; max-width: 74ch; }
+h1,h2{ margin-bottom: .5em; }
+h2 + p, h3 + p{ margin-top: .35em; }
+.grid, .cards, .mv-grid{ gap: clamp(16px, 2vw, 28px); }
+
+/* ---- 5. gentle hover lift + glow ---------------------------------------- */
+@media (prefers-reduced-motion: no-preference){
+  .card, .mv-card, .testi-card, .team-card, .prog, .track-card, .pay-card,
+  .tile, .qa-btn, .stat{
+    transition: transform .28s var(--ta-lift), box-shadow .28s var(--ta-lift),
+                border-color .28s var(--ta-lift);
+    will-change: transform;
+  }
+  .card:hover, .mv-card:hover, .testi-card:hover, .team-card:hover,
+  .prog:hover, .track-card:hover, .pay-card:hover, .tile:hover,
+  .qa-btn:hover, .stat:hover{
+    transform: translateY(-3px);
+    border-color: var(--ta-line-lit);
+    box-shadow: var(--ta-glow-lit), 0 14px 30px -18px rgba(14,59,33,.45);
+  }
+  .btn{ transition: transform .2s var(--ta-lift), box-shadow .2s var(--ta-lift), filter .2s var(--ta-lift); }
+  .btn:hover{ transform: translateY(-2px); box-shadow: var(--ta-glow-lit); }
+  .btn:active{ transform: translateY(0); }
+}
+
+/* ============================================================================
+   Glass auth dialog
+   The landing page stays visible and is blurred behind the panel, so the panel
+   itself can be very transparent without the two sets of words colliding.
+   ========================================================================== */
+
+#taAuth[hidden], #taDrawer[hidden]{ display:none !important; }
+
+.ta-scrim{
+  position: fixed; inset: 0; z-index: 1400;
+  display: grid; place-items: center;
+  padding: clamp(16px, 4vw, 48px);
+  /* The blur is what makes the transparency legible. */
+  -webkit-backdrop-filter: blur(18px) saturate(115%) brightness(.82);
+          backdrop-filter: blur(18px) saturate(115%) brightness(.82);
+  background: rgba(8, 26, 16, .46);
+  opacity: 0;
+  transition: opacity .34s var(--ta-lift);
+}
+.ta-scrim.in{ opacity: 1; }
+
+/* Browsers without backdrop-filter get a solid scrim instead of unreadable
+   text over a sharp page. */
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))){
+  .ta-scrim{ background: rgba(8, 26, 16, .92); }
+}
+
+.ta-glass{
+  position: relative;
+  width: min(560px, 100%);
+  max-height: min(86vh, 900px);
+  overflow: auto;
+  padding: clamp(22px, 3vw, 34px);
+  border-radius: var(--ta-r-lg);
+  /* Deliberately thin so the page reads through it. */
+  background: linear-gradient(160deg, rgba(255,255,255,.17), rgba(255,255,255,.07));
+  -webkit-backdrop-filter: blur(26px) saturate(150%);
+          backdrop-filter: blur(26px) saturate(150%);
+  border: 1px solid rgba(255,255,255,.30);
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,.10) inset,
+    0 1px 0 rgba(255,255,255,.45) inset,
+    0 30px 70px -28px rgba(0,0,0,.70);
+  color: #fff;
+  transform: translateY(14px) scale(.985);
+  opacity: 0;
+  transition: transform .38s var(--ta-lift), opacity .30s var(--ta-lift);
+}
+.ta-scrim.in .ta-glass{ transform: none; opacity: 1; }
+
+/* White-on-glass needs a shadow to stay readable over a bright hero. */
+.ta-glass h2, .ta-glass h3, .ta-glass label, .ta-glass p, .ta-glass a,
+.ta-glass small, .ta-glass b{ color: #fff; text-shadow: 0 1px 10px rgba(0,0,0,.42); }
+.ta-glass p, .ta-glass small{ color: rgba(255,255,255,.90); }
+.ta-glass h2{ margin: 0 0 .3em; font-size: clamp(1.25rem, 2.4vw, 1.6rem); }
+
+.ta-glass input, .ta-glass select{
+  width: 100%; box-sizing: border-box;
+  padding: 12px 14px; margin-top: 6px;
+  border-radius: var(--ta-r);
+  background: rgba(255,255,255,.14);
+  border: 1px solid rgba(255,255,255,.34);
+  color: #fff; font: inherit;
+}
+.ta-glass input::placeholder{ color: rgba(255,255,255,.62); }
+.ta-glass input:focus, .ta-glass select:focus{
+  outline: none;
+  border-color: rgba(255,255,255,.72);
+  background: rgba(255,255,255,.20);
+  box-shadow: 0 0 0 4px rgba(255,255,255,.12);
+}
+.ta-glass .fld{ margin-bottom: 14px; }
+.ta-glass label{ font-size: .86rem; font-weight: 600; letter-spacing: .01em; }
+
+.ta-btn{
+  width: 100%; padding: 13px 18px; margin-top: 4px;
+  border-radius: var(--ta-r); border: 1px solid rgba(255,255,255,.30);
+  background: linear-gradient(180deg, #14A04A, #0B7A37);
+  color: #fff; font: inherit; font-weight: 700; cursor: pointer;
+  transition: transform .2s var(--ta-lift), box-shadow .2s var(--ta-lift);
+}
+.ta-btn:hover{ transform: translateY(-2px); box-shadow: 0 10px 26px -10px rgba(0,0,0,.6); }
+.ta-btn.ghost{ background: rgba(255,255,255,.14); }
+
+.ta-x{
+  position: absolute; top: 10px; right: 10px;
+  width: 36px; height: 36px; display: grid; place-items: center;
+  border-radius: var(--ta-r-pill);
+  background: rgba(255,255,255,.16); border: 1px solid rgba(255,255,255,.30);
+  color: #fff; cursor: pointer; font-size: 18px; line-height: 1;
+}
+.ta-x:hover{ background: rgba(255,255,255,.28); }
+
+.ta-tabs{ display: flex; gap: 8px; margin: 4px 0 18px; }
+.ta-tabs button{
+  flex: 1; padding: 10px; cursor: pointer; font: inherit; font-weight: 600;
+  border-radius: var(--ta-r); color: #fff;
+  background: rgba(255,255,255,.10); border: 1px solid rgba(255,255,255,.24);
+}
+.ta-tabs button[aria-selected="true"]{
+  background: rgba(255,255,255,.26);
+  border-color: rgba(255,255,255,.52);
+  box-shadow: 0 0 18px -6px rgba(255,255,255,.5);
+}
+
+@media (prefers-reduced-motion: reduce){
+  .ta-scrim, .ta-glass{ transition: none; }
+  .ta-glass{ transform: none; opacity: 1; }
+}
+
+/* ============================================================================
+   Hamburger drawer
+   Sits beside Login/Register in the top bar at the same width as Contact Us,
+   and slides out a full navigation list: the five top-bar links, then the
+   footer links, then a gap, then Logout.
+   ========================================================================== */
+
+/* Match the width of a normal nav link so the row stays even. */
+.nav-links .nav-burger{
+  display: inline-flex; align-items: center; justify-content: center; gap: 7px;
+  cursor: pointer; font-weight: 600;
+  /* Inherit the sibling links' metrics rather than inventing our own, so the
+     button is exactly as wide as Contact Us in the sidebar and in the bar. */
+  /* Mirror the sibling links exactly: same font size, padding and horizontal
+     margins, so the Menu button is the same width as Contact Us at every
+     breakpoint rather than only one. Measured, not guessed. */
+  font-family: inherit; font-size: .9rem;
+  padding: 10px 12px; margin: 0 9px;
+  box-sizing: border-box; flex: 0 1 auto;
+  border-radius: var(--ta-r);
+  background: rgba(255,255,255,.06);
+  border: 1px solid var(--ta-line);
+  color: inherit;
+  transition: transform .2s var(--ta-lift), box-shadow .2s var(--ta-lift),
+              border-color .2s var(--ta-lift);
+}
+.nav-links .nav-burger:hover{
+  transform: translateY(-2px);
+  border-color: var(--ta-line-lit);
+  box-shadow: var(--ta-glow-lit);
+}
+.nav-burger .bars{ display: inline-grid; gap: 3px; }
+.nav-burger .bars i{
+  display: block; width: 16px; height: 2px; border-radius: 2px;
+  background: currentColor;
+}
+
+.ta-drawer-scrim{
+  position: fixed; inset: 0; z-index: 1500;
+  background: rgba(8,26,16,.42);
+  -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
+  opacity: 0; transition: opacity .3s var(--ta-lift);
+}
+.ta-drawer-scrim.in{ opacity: 1; }
+
+.ta-drawer{
+  position: fixed; top: 0; right: 0; bottom: 0; z-index: 1501;
+  width: min(330px, 86vw);
+  display: flex; flex-direction: column;
+  padding: 20px 18px calc(20px + env(safe-area-inset-bottom));
+  overflow-y: auto;
+  background: linear-gradient(200deg, rgba(14,59,33,.90), rgba(9,40,22,.94));
+  -webkit-backdrop-filter: blur(22px) saturate(140%);
+          backdrop-filter: blur(22px) saturate(140%);
+  border-left: 1px solid rgba(255,255,255,.18);
+  box-shadow: -24px 0 60px -30px rgba(0,0,0,.8);
+  transform: translateX(102%);
+  transition: transform .38s var(--ta-lift);
+}
+.ta-drawer.in{ transform: none; }
+
+.ta-drawer .d-head{
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 10px; padding-bottom: 14px; margin-bottom: 8px;
+  border-bottom: 1px solid rgba(255,255,255,.16);
+}
+.ta-drawer .d-head b{ color: #fff; font-size: .98rem; }
+
+.ta-drawer a, .ta-drawer .d-out{
+  display: flex; align-items: center; gap: 11px;
+  padding: 11px 12px; margin-bottom: 5px;
+  border-radius: var(--ta-r);
+  color: rgba(255,255,255,.93); text-decoration: none;
+  font-weight: 500; font-size: .94rem;
+  border: 1px solid transparent;
+  transition: transform .2s var(--ta-lift), background .2s var(--ta-lift),
+              border-color .2s var(--ta-lift), box-shadow .2s var(--ta-lift);
+}
+.ta-drawer a:hover, .ta-drawer .d-out:hover{
+  transform: translateX(3px);
+  background: rgba(255,255,255,.12);
+  border-color: rgba(255,255,255,.26);
+  box-shadow: 0 0 20px -8px rgba(255,255,255,.45);
+}
+.ta-drawer a[aria-current="page"]{
+  background: rgba(231,185,75,.20);
+  border-color: rgba(231,185,75,.45);
+  color: #fff;
+}
+.ta-drawer .d-ico{ width: 18px; height: 18px; flex: none; opacity: .92; }
+
+.ta-drawer .d-sep{
+  margin: 10px 2px 8px; padding-top: 12px;
+  border-top: 1px solid rgba(255,255,255,.16);
+  font-size: .72rem; letter-spacing: .10em; text-transform: uppercase;
+  color: rgba(255,255,255,.55);
+}
+/* The gap before Logout, as asked. */
+.ta-drawer .d-gap{ flex: 1 0 26px; min-height: 26px; }
+
+.ta-drawer .d-out{
+  width: 100%; cursor: pointer; font: inherit; font-weight: 700;
+  background: rgba(220,66,66,.20);
+  border: 1px solid rgba(255,140,140,.40);
+  color: #fff; text-align: left;
+}
+.ta-drawer .d-out:hover{
+  background: rgba(220,66,66,.32);
+  box-shadow: 0 0 22px -8px rgba(255,120,120,.6);
+}
+.ta-drawer .d-out.is-login{
+  background: rgba(20,160,74,.24);
+  border-color: rgba(120,230,160,.42);
+}
+.ta-drawer .d-out.is-login:hover{ background: rgba(20,160,74,.36); }
+
+@media (prefers-reduced-motion: reduce){
+  .ta-drawer, .ta-drawer-scrim{ transition: none; }
+}
+
+/* Desktop sidebar: the nav is a vertical stack, so the Menu button takes the
+   same full-width slot as Contact Us directly above it. */
+@media (min-width: 1100px){
+  body:not(.portal-body):not([data-page="login"]) .nav-links .nav-burger{
+    justify-content: flex-start;
+  }
+}
+
+
+/* Narrow screens: the nav wraps into rows and sizes each cell itself, so the
+   button simply behaves like its sibling links rather than forcing a width. */
+@media (max-width: 1099px){
+  .nav-links .nav-burger{ flex: 0 1 auto; }
+}
+
+/* School crest inside the auth popup. */
+.ta-glass .ta-crest{
+  display:block; margin:0 auto 14px; width:54px; height:54px;
+  border-radius:50%; object-fit:cover;
+  border:1px solid rgba(255,255,255,.55);
+  box-shadow:0 4px 18px rgba(0,0,0,.28);
+}
+
+/* ---- 9. readable type scale ----------------------------------------------
+   The inherited scale ran small for a school site: interface text sat at
+   .9rem (14.4px) and meta text at .68rem (10.88px), which is hard work for a
+   parent reading on a phone in daylight. Nudge the small end of the scale up
+   without touching the headings, so the page keeps its proportions and only
+   becomes easier to read. Sizes are set here rather than per-component so the
+   whole site moves together. */
+:root{ --ta-fs-ui: .95rem; --ta-fs-meta: .78rem; }
+
+/* Raise the base size for page content only. The masthead is pinned back to
+   the original 16px root below so the header is untouched. */
+body{ font-size: 1.02rem; line-height: 1.62; }
+.navbar, .brand{ font-size: 1rem; }
+/* The body line-height bump must not loosen the masthead either: nav links
+   inherit it and grow a pixel taller, which shifts the whole bar. */
+.navbar, .navbar a, .navbar .btn{ line-height: 1.55; }
+.brand, .brand *{ line-height: 1.25; }
+/* 19.84/12.8 = 1.55, the topbar's original ratio before the body bump. */
+.topbar, .top-bar{ line-height: 1.55; }
+
+/* running prose */
+section p, .card p, .track-card p, article p, .prose p{ font-size: 1.02rem; }
+
+/* Interface text INSIDE THE PAGE only. The header - brand, logo, the two icon
+   buttons and the nav links - is deliberately left exactly as it was: the only
+   thing this batch was asked to add there is the Menu button, which copies the
+   nav links' own metrics rather than imposing new ones. */
+main .btn, section .btn, footer .btn,
+.ta-btn, .ta-tabs button,
+main input, main select, main textarea, main label,
+section input, section select, section textarea, section label{
+  font-size: var(--ta-fs-ui);
+}
+
+/* the smallest text on the page - captions, badges, helper lines */
+/* Smallest text in the PAGE. Excludes the masthead, whose tagline has its own
+   deliberately tight setting. */
+main small, section small, footer small, article small,
+main .muted, section .muted, footer .muted,
+main .meta, section .meta, footer .meta,
+.tag, .badge, figcaption, .note{
+  font-size: var(--ta-fs-meta); line-height: 1.5;
+}
+
+/* Tables carry fees and results, so they must stay legible too. */
+table, th, td{ font-size: 1rem; }
+
+/* Phones: keep body text at a comfortable minimum and stop iOS zooming on
+   focus, which happens whenever an input is under 16px. */
+@media (max-width: 640px){
+  body{ font-size: 1.04rem; }
+  main input, main select, main textarea,
+  section input, section select, section textarea{ font-size: 16px; }
+  main small, section small, footer small,
+  main .muted, section .muted, footer .muted{ font-size: .82rem; }
+}
+
+/* ---- 10. short-screen fix: clock must not sit on the nav -----------------
+   .clock-widget is position:fixed at bottom-left with z-index:500, i.e. on top
+   of the sidebar. On a viewport shorter than about 820px the sidebar's last
+   control (the new Menu button) lands under it and becomes unclickable - the
+   click hits the clock's canvas instead. Lifting the nav above the widget
+   costs nothing visually and keeps every nav control usable. */
+.sidebar, .navbar{ position: relative; z-index: 600; }
+
+/* Below that height the widget is more obstruction than ornament. */
+@media (max-height: 780px){
+  .clock-widget{ display: none !important; }
+}
+
+/* ============================================================================
+   11. Treasure Support AI
+   Slightly rounded, generous spacing, muted lavender-gray text, subtle glow.
+   ========================================================================== */
+.chat-panel{ width:min(400px,calc(100vw - 28px)); }
+.chat-panel .chat-head{
+  display:flex; align-items:center; gap:.7rem; padding:.85rem 1rem;
+  border-bottom:1px solid var(--line);
+}
+.chat-panel .chat-head .who{ flex:1; min-width:0; line-height:1.3; }
+.chat-panel .chat-head .who b{ display:block; font-size:.95rem; letter-spacing:.01em; word-spacing:.12em; }
+.chat-panel .chat-head .who small{ display:block; font-size:.74rem; opacity:.72; }
+.chat-panel .chat-head .x{
+  background:none; border:0; font-size:1.15rem; line-height:1; cursor:pointer;
+  color:inherit; opacity:.68; padding:.2rem .3rem; border-radius:7px;
+}
+.chat-panel .chat-head .x:hover{ opacity:1; background:rgba(255,255,255,.14); }
+
+.chat-msgs{ padding:1rem .95rem .4rem; display:flex; flex-direction:column; gap:.7rem; }
+.cmsg{ display:flex; flex-direction:column; max-width:86%; }
+.cmsg.me{ align-self:flex-end; align-items:flex-end; }
+.cmsg.bot{ align-self:flex-start; }
+.cmsg .cb{
+  padding:.62rem .8rem; border-radius:10px; font-size:.92rem; line-height:1.55;
+  word-wrap:break-word; overflow-wrap:anywhere;
+}
+.cmsg.bot .cb{
+  background:rgba(124,110,168,.10); border:1px solid rgba(124,110,168,.22);
+  color:var(--ink,#2a2740);
+}
+.cmsg.me .cb{ background:var(--brand,#0e3b21); color:#fff; border:1px solid transparent; }
+.cmsg .cmeta{ font-size:.66rem; opacity:.55; margin:.22rem .25rem 0; letter-spacing:.01em; }
+.cmsg .cb a.chat-link{ color:inherit; font-weight:600; text-decoration:underline; }
+
+.cb.typing{ display:inline-flex; gap:4px; align-items:center; padding:.7rem .85rem; }
+.cb.typing span{
+  width:6px; height:6px; border-radius:50%; background:currentColor; opacity:.45;
+  animation:taTyping 1.1s infinite ease-in-out;
+}
+.cb.typing span:nth-child(2){ animation-delay:.15s; }
+.cb.typing span:nth-child(3){ animation-delay:.3s; }
+@keyframes taTyping{ 0%,80%,100%{ transform:translateY(0); opacity:.35 } 40%{ transform:translateY(-4px); opacity:.9 } }
+
+.chat-fb,.chat-act{ display:flex; align-items:center; gap:.45rem; flex-wrap:wrap; margin:.1rem 0 .2rem; }
+.chat-fb span{ font-size:.78rem; opacity:.75; }
+.chat-fb button,.chat-act button{
+  font:inherit; font-size:.78rem; padding:.34rem .7rem; border-radius:8px; cursor:pointer;
+  border:1px solid rgba(124,110,168,.35); background:rgba(124,110,168,.08); color:inherit;
+  transition:transform .16s ease, box-shadow .16s ease, background .16s ease;
+}
+.chat-act button{ background:var(--brand,#0e3b21); color:#fff; border-color:transparent; font-weight:600; padding:.42rem .9rem; }
+.chat-fb button:hover,.chat-act button:hover{
+  transform:translateY(-1px); box-shadow:0 4px 14px rgba(124,110,168,.28);
+}
+
+.chat-chips{ display:flex; gap:.4rem; flex-wrap:wrap; padding:.45rem .95rem .1rem; }
+.chat-chips button{
+  font:inherit; font-size:.76rem; padding:.34rem .7rem; border-radius:999px; cursor:pointer;
+  border:1px solid rgba(124,110,168,.3); background:transparent; color:inherit; opacity:.9;
+  transition:transform .16s ease, box-shadow .16s ease, background .16s ease;
+}
+.chat-chips button:hover{
+  transform:translateY(-1px); background:rgba(124,110,168,.12);
+  box-shadow:0 4px 12px rgba(124,110,168,.22);
+}
+
+.chat-input{ display:flex; align-items:center; gap:.45rem; padding:.7rem .8rem .8rem; }
+.chat-input input{ flex:1; min-width:0; border-radius:9px; }
+.chat-input button{
+  border:0; cursor:pointer; border-radius:9px; padding:.5rem .62rem;
+  background:var(--brand,#0e3b21); color:#fff; display:grid; place-items:center;
+  transition:transform .16s ease, box-shadow .16s ease;
+}
+.chat-input button:hover{ transform:translateY(-1px); box-shadow:0 5px 16px rgba(14,59,33,.3); }
+.chat-input button.mic{ background:rgba(124,110,168,.14); color:inherit; }
+.chat-input button.mic.live{ background:#c0392b; color:#fff; animation:taMic 1s infinite; }
+@keyframes taMic{ 50%{ box-shadow:0 0 0 6px rgba(192,57,43,.18) } }
+
+@media (max-width:480px){
+  .chat-panel{ width:calc(100vw - 18px); }
+  .chat-input input{ font-size:16px; }
+}
+
+/* Staff message threads - teacher to headmistress. */
+.chat-thread{
+  max-height:340px; overflow-y:auto; display:flex; flex-direction:column; gap:.55rem;
+  padding:.7rem; border:1px solid var(--line); border-radius:10px;
+  background:rgba(124,110,168,.05);
+}
+.chat-thread .cmsg{ max-width:82%; }
+.chat-thread .cmsg.me{ align-self:flex-end; align-items:flex-end; }
+.chat-thread .empty{ margin:0; }

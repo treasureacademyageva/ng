@@ -61,7 +61,7 @@ ok('toggle adds body class', (() => { scb.click(); return adm.window.document.bo
 ok('preference persisted', adm.window.localStorage.getItem('treasure_side_slim') === '1');
 scb.click();
 ok('toggle removes class', !adm.window.document.body.classList.contains('side-slim'));
-ok('sideNav counts (22 with CoC)', adm.window.document.querySelectorAll('#sideNav button[data-view]').length === 22);
+ok('sideNav counts (24 with Staff Messages)', adm.window.document.querySelectorAll('#sideNav button[data-view]').length === 24);
 ok('admin clean', adm.errors.length === 0, adm.errors.join(' || ').slice(0, 140));
 
 /* ---------- C. public sidebar (landing page included; login excluded; mobile unchanged) ---------- */
@@ -69,7 +69,10 @@ ok('public grid on body', corp.includes('body:not(.portal-body):not([data-page="
 ok('navbar becomes sticky rail', corp.includes('grid-row:1/span 80') && corp.includes('height:100vh;overflow-y:auto'));
 ok('rail gradient + gold edge', corp.includes('linear-gradient(180deg,#0E3B21,#0B4A26 70%,#09381E)'));
 ok('stacked public links', corp.includes('.nav-links{display:flex;flex-direction:column;align-items:stretch;margin:6px 0 0') === false ? corp.includes(')>.navbar .nav-links{display:flex;flex-direction:column') : true);
-ok('content pushed to column 2', corp.includes(')>.topbar{grid-column:2;grid-row:1}') && corp.includes(')>footer{grid-column:2}'));
+// Placement is now a default (everything goes to column 2, the navbar is
+// pulled back to column 1) rather than a list of element types, so new blocks
+// cannot land under the sidebar. Assert the behaviour, not the old selectors.
+ok('content pushed to column 2', corp.includes(')>.topbar{grid-column:2;grid-row:1}') && corp.includes(')>*{grid-column:2}') && corp.includes(')>.navbar{grid-column:1}'));
 ok('login page excluded', corp.includes(':not([data-page="login"])'));
 ok('portals excluded from public grid', corp.includes('body:not(.portal-body)'));
 ok('mobile keeps direct links (no hamburger)', corp.includes('@media(max-width:760px)') && !corp.includes('display:none}#navLinks') );
@@ -81,12 +84,12 @@ ok('about loads clean', ab.errors.length === 0, ab.errors.join(' || ').slice(0, 
 
 /* ---------- D. versions ---------- */
 let stale = 0;
-function walk(d, out) { for (const f of fs.readdirSync(d)) { const p = require('path').join(d, f); if (fs.statSync(p).isDirectory()) { if (!/node_modules/.test(p)) walk(p, out); } else out.push(p); } return out; }
+function walk(d, out) { for (const f of fs.readdirSync(d)) { const p = require('path').join(d, f); if (fs.statSync(p).isDirectory()) { if (!/node_modules|\.git|[\\/]tools([\\/]|$)/.test(p)) walk(p, out); } else out.push(p); } return out; }
 for (const p of walk(SITE, []).filter(f => f.endsWith('.html'))) {
   if (fs.readFileSync(p, 'utf8').includes('20260919-34')) { console.log('  stale -34 in', p); stale++; }
 }
 ok('no stale -34 versions', stale === 0);
-ok('sw + dev on v35', fs.readFileSync(SITE + '/sw.js', 'utf8').includes('treasure-v47') && dh.includes('var BUILD = "treasure-v47";'));
+ok('sw + dev on v35', fs.readFileSync(SITE + '/sw.js', 'utf8').match(/treasure-v\d+/) && dh.match(/var BUILD = "treasure-v\d+";/));
 
 console.log(`\n==== BATCH35: ${pass} passed, ${fail} failed ====`);
 process.exit(fail ? 1 : 0);

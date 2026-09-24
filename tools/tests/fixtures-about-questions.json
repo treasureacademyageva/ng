@@ -1,0 +1,1022 @@
+[
+ {
+  "q": "who founded the school",
+  "expect": "Shaibu Sidikat Ruth"
+ },
+ {
+  "q": "who started treasure academy",
+  "expect": "Shaibu Sidikat Ruth"
+ },
+ {
+  "q": "who is the owner of this school",
+  "expect": "Shaibu Sidikat Ruth|Proprietress"
+ },
+ {
+  "q": "who is the proprietress",
+  "expect": "Shaibu Sidikat Ruth"
+ },
+ {
+  "q": "when was the school established",
+  "expect": "2015"
+ },
+ {
+  "q": "how old is the school",
+  "expect": "2015"
+ },
+ {
+  "q": "what year did treasure academy start",
+  "expect": "2015"
+ },
+ {
+  "q": "how long have you been operating",
+  "expect": "2015"
+ },
+ {
+  "q": "who is the headmistress",
+  "expect": "Nanahawa"
+ },
+ {
+  "q": "who runs the school",
+  "expect": "Nanahawa|Shaibu"
+ },
+ {
+  "q": "who is in charge",
+  "expect": "Nanahawa|Shaibu"
+ },
+ {
+  "q": "tell me about the school",
+  "expect": "Treasure|2015|Creche"
+ },
+ {
+  "q": "what is your mission",
+  "expect": "future leader|mission"
+ },
+ {
+  "q": "what is your vision",
+  "expect": "trusted school|Okene"
+ },
+ {
+  "q": "what do you stand for",
+  "expect": "mission|vision|excel"
+ },
+ {
+  "q": "what are your values",
+  "expect": "mission|moral|excel"
+ },
+ {
+  "q": "what is the school motto",
+  "expect": "excel|mission|vision"
+ },
+ {
+  "q": "tell me about your history",
+  "expect": "2015|2018|2021"
+ },
+ {
+  "q": "what is the story of the school",
+  "expect": "2015|history|founder"
+ },
+ {
+  "q": "how did the school begin",
+  "expect": "2015|rented|handful"
+ },
+ {
+  "q": "what milestones have you achieved",
+  "expect": "2018|2021|2024"
+ },
+ {
+  "q": "when did you move to your permanent site",
+  "expect": "2018"
+ },
+ {
+  "q": "when did the computer room open",
+  "expect": "2021"
+ },
+ {
+  "q": "when did the portal launch",
+  "expect": "2026|portal"
+ },
+ {
+  "q": "do you have a library",
+  "expect": "library"
+ },
+ {
+  "q": "is there a computer room",
+  "expect": "computer"
+ },
+ {
+  "q": "do you have a playground",
+  "expect": "playground"
+ },
+ {
+  "q": "what facilities do you have",
+  "expect": "computer|library|playground"
+ },
+ {
+  "q": "do you have a swimming pool",
+  "expect": "no|not"
+ },
+ {
+  "q": "is it a boarding school",
+  "expect": "day school|no boarding"
+ },
+ {
+  "q": "do you have a hostel",
+  "expect": "day school|no boarding"
+ },
+ {
+  "q": "is there a sick bay",
+  "expect": "sick bay"
+ },
+ {
+  "q": "do you have a school bus",
+  "expect": "transport|route|bus"
+ },
+ {
+  "q": "what is your pass rate",
+  "expect": "100|Common Entrance"
+ },
+ {
+  "q": "how do your pupils perform",
+  "expect": "100|Common Entrance|pass"
+ },
+ {
+  "q": "do your pupils get into good secondary schools",
+  "expect": "secondary|Common Entrance"
+ },
+ {
+  "q": "what is the common entrance result",
+  "expect": "100|Common Entrance"
+ },
+ {
+  "q": "how many teachers do you have",
+  "expect": "teaching staff|small"
+ },
+ {
+  "q": "how many pupils are in the school",
+  "expect": "pupils|small"
+ },
+ {
+  "q": "what is the class size",
+  "expect": "small|class"
+ },
+ {
+  "q": "what do parents say about the school",
+  "expect": "review|parent"
+ },
+ {
+  "q": "are there any testimonials",
+  "expect": "review|Testimonials"
+ },
+ {
+  "q": "do parents recommend the school",
+  "expect": "review|parent|Testimonials"
+ },
+ {
+  "q": "why should i choose treasure academy",
+  "expect": "Small classes|2015|Creche"
+ },
+ {
+  "q": "what makes you different",
+  "expect": "Small classes|Creche|2015"
+ },
+ {
+  "q": "are you better than other schools",
+  "expect": "Small classes|visit|Creche"
+ },
+ {
+  "q": "is my child safe there",
+  "expect": "supervis|guardian"
+ },
+ {
+  "q": "how do you keep children safe",
+  "expect": "supervis|guardian|gate"
+ },
+ {
+  "q": "who can collect my child",
+  "expect": "guardian|parent"
+ },
+ {
+  "q": "what happens if my child is sick",
+  "expect": "sick bay|call"
+ },
+ {
+  "q": "where are you located",
+  "expect": "Ageva|Okene|Kogi"
+ },
+ {
+  "q": "what is your address",
+  "expect": "Ageva|Okene"
+ },
+ {
+  "q": "can i visit the school",
+  "expect": "welcome|visit"
+ },
+ {
+  "q": "what classes do you have",
+  "expect": "Creche|Primary|Nursery"
+ },
+ {
+  "q": "do you take babies",
+  "expect": "Creche|6 months|month"
+ },
+ {
+  "q": "what age do you accept",
+  "expect": "Creche|month|year"
+ },
+ {
+  "q": "do you have creche",
+  "expect": "Creche"
+ },
+ {
+  "q": "what happens in creche",
+  "expect": "Creche|nannies|babies"
+ },
+ {
+  "q": "what do children learn in pre-nursery",
+  "expect": "Pre-Nursery|play|paint"
+ },
+ {
+  "q": "what is taught in nursery 1",
+  "expect": "Nursery 1|phonics|handwriting"
+ },
+ {
+  "q": "tell me about nursery 2",
+  "expect": "Nursery 2|reading|spelling"
+ },
+ {
+  "q": "what happens in primary 1",
+  "expect": "Primary 1|English|Mathematics"
+ },
+ {
+  "q": "what do primary 2 pupils do",
+  "expect": "Primary 2|vocabulary|times table|multiplication"
+ },
+ {
+  "q": "tell me about primary 3",
+  "expect": "Primary 3|reasoning|science"
+ },
+ {
+  "q": "what is primary 4 like",
+  "expect": "Primary 4|essay|problem"
+ },
+ {
+  "q": "what happens in primary 5",
+  "expect": "Primary 5|exam|advanced"
+ },
+ {
+  "q": "tell me about primary 6",
+  "expect": "Primary 6|Common Entrance|graduation"
+ },
+ {
+  "q": "is there a coding club",
+  "expect": "coding|Coding|computer"
+ },
+ {
+  "q": "do you teach computer",
+  "expect": "Computer"
+ },
+ {
+  "q": "what subjects do you teach",
+  "expect": "Mathematics|English"
+ },
+ {
+  "q": "do you teach french",
+  "expect": "not|no"
+ },
+ {
+  "q": "is phonics taught",
+  "expect": "Phonics"
+ },
+ {
+  "q": "do you teach handwriting",
+  "expect": "Handwriting|handwriting"
+ },
+ {
+  "q": "is maths taught",
+  "expect": "Mathematics"
+ },
+ {
+  "q": "what is the curriculum",
+  "expect": "Mathematics|English|subject"
+ },
+ {
+  "q": "who teaches primary 3",
+  "expect": "Idris|Ibrahim"
+ },
+ {
+  "q": "who is the teacher for primary 6",
+  "expect": "Zeenatudeen|Uthman"
+ },
+ {
+  "q": "who teaches nursery 1",
+  "expect": "Nasirun|Yahaya"
+ },
+ {
+  "q": "who is the creche teacher",
+  "expect": "Salihu|Nanahawa"
+ },
+ {
+  "q": "are your teachers qualified",
+  "expect": "NCE|HND|B.Sc|qualifi"
+ },
+ {
+  "q": "what qualifications do teachers have",
+  "expect": "NCE|HND|B.Sc|qualifi"
+ },
+ {
+  "q": "tell me about your staff",
+  "expect": "teacher|staff"
+ },
+ {
+  "q": "do you have a school administrator",
+  "expect": "Bose|Administrator|administrator"
+ },
+ {
+  "q": "what is e-learning",
+  "expect": "Common Entrance|practice|portal"
+ },
+ {
+  "q": "do you have online learning",
+  "expect": "practice|portal|Common Entrance"
+ },
+ {
+  "q": "is there cbt practice",
+  "expect": "practice|Common Entrance"
+ },
+ {
+  "q": "can primary 3 use e-learning",
+  "expect": "Primary 6|practice"
+ },
+ {
+  "q": "how does the portal work",
+  "expect": "portal|result|login"
+ },
+ {
+  "q": "can i check results online",
+  "expect": "result|portal|login"
+ },
+ {
+  "q": "do you give homework",
+  "expect": "homework|assignment"
+ },
+ {
+  "q": "what time does school start",
+  "expect": "7:|assembly|8:00"
+ },
+ {
+  "q": "what time does school close",
+  "expect": "3:00|closing"
+ },
+ {
+  "q": "what days do you open",
+  "expect": "Monday|Friday"
+ },
+ {
+  "q": "how much are the fees",
+  "expect": "30,000|25,000|fee"
+ },
+ {
+  "q": "how much is primary 4",
+  "expect": "35,000"
+ },
+ {
+  "q": "how do i enrol my child",
+  "expect": "Register|Admission|admission"
+ },
+ {
+  "q": "are you hiring",
+  "expect": "character|Careers|apply"
+ },
+ {
+  "q": "who are your partners",
+  "expect": "office|headmistress"
+ },
+ {
+  "q": "do you have excursions",
+  "expect": "Excursion|excursion|Primary 5"
+ },
+ {
+  "q": "is there a debate club",
+  "expect": "Debate|debate|quiz"
+ },
+ {
+  "q": "what is the reading club",
+  "expect": "Reading club|reading|Primary 2"
+ },
+ {
+  "q": "wetin dey happen for primary 2",
+  "expect": "Primary 2"
+ },
+ {
+  "q": "my pikin dey creche, wetin dem dey learn",
+  "expect": "Creche|nannies"
+ },
+ {
+  "q": "how much be school fee for nursery 1",
+  "expect": "25,000"
+ },
+ {
+  "q": "abeg who be the head of the school",
+  "expect": "Nanahawa"
+ },
+ {
+  "q": "which year una start",
+  "expect": "2015"
+ },
+ {
+  "q": "you get library?",
+  "expect": "library"
+ },
+ {
+  "q": "how many children dey for one class",
+  "expect": "small|pupils|class"
+ },
+ {
+  "q": "i wan bring my pikin come your school",
+  "expect": "Admission|Register|Creche"
+ },
+ {
+  "q": "you dey teach computer?",
+  "expect": "Computer"
+ },
+ {
+  "q": "wetin parents talk about una",
+  "expect": "review|parent"
+ },
+ {
+  "q": "who be the teacher for primary 5",
+  "expect": "Rebeca|Omeiza"
+ },
+ {
+  "q": "what activities does primary 6 do",
+  "expect": "Entrance|Interview|Valedictory|Legacy"
+ },
+ {
+  "q": "tell me about the creche class",
+  "expect": "Creche"
+ },
+ {
+  "q": "what will my child learn in nursery 2",
+  "expect": "Nursery 2|reading|spelling"
+ },
+ {
+  "q": "is there computer time in primary 1",
+  "expect": "Primary 1|Computer|computer"
+ },
+ {
+  "q": "does primary 3 have a coding club",
+  "expect": "Coding|coding|Primary 3"
+ },
+ {
+  "q": "what is the youngest age you accept",
+  "expect": "six months|6 months|Creche"
+ },
+ {
+  "q": "can a 3 year old join",
+  "expect": "Creche|Pre-Nursery|Nursery|class"
+ },
+ {
+  "q": "how many classes are there",
+  "expect": "classes|Creche|Primary 6"
+ },
+ {
+  "q": "is the school registered",
+  "expect": "2015|office|school"
+ },
+ {
+  "q": "what makes primary 6 special",
+  "expect": "Primary 6|Common Entrance|graduation"
+ },
+ {
+  "q": "do you prepare for common entrance",
+  "expect": "Common Entrance"
+ },
+ {
+  "q": "what happens after primary 6",
+  "expect": "secondary|Common Entrance"
+ },
+ {
+  "q": "are the teachers trained",
+  "expect": "qualif|NCE|HND|B.Sc"
+ },
+ {
+  "q": "what degree does the primary 3 teacher have",
+  "expect": "HND|Computer Science|Idris"
+ },
+ {
+  "q": "who handles administration",
+  "expect": "Bose|Administrator|administrator"
+ },
+ {
+  "q": "tell me about mr idris",
+  "expect": "Idris|Primary 3|Mathematics"
+ },
+ {
+  "q": "what is show and tell",
+  "expect": "Show|Nursery 2|activit"
+ },
+ {
+  "q": "do children go on trips",
+  "expect": "Excursion|excursion|Primary 5"
+ },
+ {
+  "q": "is there a quiz competition",
+  "expect": "quiz|Debate|Primary 3"
+ },
+ {
+  "q": "what time is assembly",
+  "expect": "7:45|assembly"
+ },
+ {
+  "q": "can my child come by bus",
+  "expect": "transport|route|bus"
+ },
+ {
+  "q": "how do i pay the fees",
+  "expect": "bank transfer|receipt"
+ },
+ {
+  "q": "i lost my child sweater",
+  "expect": "cardigan|Lost|handed"
+ },
+ {
+  "q": "what is the uniform price",
+  "expect": "4,500|uniform|Shirt"
+ },
+ {
+  "q": "when is the next exam",
+  "expect": "Mathematics|exam|paper"
+ },
+ {
+  "q": "when does school resume",
+  "expect": "Resumption|September|calendar|deadline"
+ },
+ {
+  "q": "is school open today",
+  "expect": "school today|no school|Monday"
+ },
+ {
+  "q": "who do i call for urgent matter",
+  "expect": "09063932487|WhatsApp"
+ },
+ {
+  "q": "can i work with you",
+  "expect": "character|Careers|apply"
+ },
+ {
+  "q": "do you have a canteen",
+  "expect": "food|meal|no|office"
+ },
+ {
+  "q": "what is your phone number",
+  "expect": "09063932487"
+ },
+ {
+  "q": "do you offer scholarships",
+  "expect": "office|not|ask"
+ },
+ {
+  "q": "is there a uniform policy",
+  "expect": "uniform|Shirt|office"
+ },
+ {
+  "q": "what is the school bank account",
+  "expect": "bank transfer|office|receipt"
+ },
+ {
+  "q": "who won the world cup",
+  "expect": null,
+  "shouldRefuse": true
+ },
+ {
+  "q": "what is the capital of France",
+  "expect": null,
+  "shouldRefuse": true
+ },
+ {
+  "q": "sell me a car",
+  "expect": null,
+  "shouldRefuse": true
+ },
+ {
+  "q": "what is your wifi password",
+  "expect": "internal to the school|not something I can give"
+ },
+ {
+  "q": "can you write my homework for me",
+  "expect": null,
+  "shouldRefuse": true
+ },
+ {
+  "q": "how do i apply for admission",
+  "expect": "Register|3 step|three step|Ward"
+ },
+ {
+  "q": "how do i register my child",
+  "expect": "Register|Admission|Ward"
+ },
+ {
+  "q": "what is the admission process",
+  "expect": "Register|step|Ward|visit"
+ },
+ {
+  "q": "are admissions open",
+  "expect": "open|Admission"
+ },
+ {
+  "q": "can i still register my child this term",
+  "expect": "open|deadline|office|Admission"
+ },
+ {
+  "q": "what documents do i need for admission",
+  "expect": "Birth certificate|passport|report card"
+ },
+ {
+  "q": "do i need a birth certificate",
+  "expect": "Birth certificate"
+ },
+ {
+  "q": "how many passport photographs",
+  "expect": "2 passport|two passport|passport"
+ },
+ {
+  "q": "do i need immunisation record",
+  "expect": "Immunisation|immunisation"
+ },
+ {
+  "q": "what if my child is transferring from another school",
+  "expect": "report card|transfer"
+ },
+ {
+  "q": "how long do i have to complete admission",
+  "expect": "2 weeks|two weeks"
+ },
+ {
+  "q": "what happens after i register online",
+  "expect": "visit|2 weeks|pay|receipt"
+ },
+ {
+  "q": "how do i track my application",
+  "expect": "phone|status|track"
+ },
+ {
+  "q": "can i check my admission status",
+  "expect": "status|phone|track"
+ },
+ {
+  "q": "how do i verify a receipt",
+  "expect": "receipt|verify|genuine"
+ },
+ {
+  "q": "is my receipt genuine",
+  "expect": "receipt|verify"
+ },
+ {
+  "q": "how much are the school fees",
+  "expect": "30,000|25,000|fee"
+ },
+ {
+  "q": "how much is creche",
+  "expect": "30,000"
+ },
+ {
+  "q": "how much is nursery 1",
+  "expect": "25,000"
+ },
+ {
+  "q": "how much is primary 6",
+  "expect": "35,000"
+ },
+ {
+  "q": "what is the cheapest class",
+  "expect": "25,000|Nursery|Pre-Nursery|fee"
+ },
+ {
+  "q": "can i pay online",
+  "expect": "bank transfer|account"
+ },
+ {
+  "q": "do you accept cash",
+  "expect": "bank transfer|office|account"
+ },
+ {
+  "q": "do i get a receipt after paying",
+  "expect": "receipt"
+ },
+ {
+  "q": "is there a discount for two children",
+  "expect": "may apply|office|sibling"
+ },
+ {
+  "q": "when is the fee deadline",
+  "expect": "deadline|term|office|calendar"
+ },
+ {
+  "q": "what happens if i pay late",
+  "expect": "office|fee|deadline|term"
+ },
+ {
+  "q": "how much is the uniform",
+  "expect": "4,500|uniform|Shirt"
+ },
+ {
+  "q": "where do we buy uniforms",
+  "expect": "office|school|uniform"
+ },
+ {
+  "q": "how much are the books",
+  "expect": "4,500|3,500|textbook|shop"
+ },
+ {
+  "q": "is transport included in the fees",
+  "expect": "transport|route|separate|fee"
+ },
+ {
+  "q": "how much is the school bus",
+  "expect": "5000|6000|3000|route"
+ },
+ {
+  "q": "what ages do you accept",
+  "expect": "6 months|months|Creche|2 years"
+ },
+ {
+  "q": "can a 6 month old join",
+  "expect": "Creche|6 months|months"
+ },
+ {
+  "q": "what is the maximum class size",
+  "expect": "15|small|class"
+ },
+ {
+  "q": "how many pupils per class",
+  "expect": "15|small|class"
+ },
+ {
+  "q": "what classes are open for admission",
+  "expect": "Creche|Primary|Nursery"
+ },
+ {
+  "q": "is there a parent portal",
+  "expect": "portal|result|login"
+ },
+ {
+  "q": "how do i check my child result",
+  "expect": "Registration Number|login|portal|result"
+ },
+ {
+  "q": "i forgot my password",
+  "expect": "Create Password|Forgot|reset"
+ },
+ {
+  "q": "how do i create a password",
+  "expect": "Create Password|Registration"
+ },
+ {
+  "q": "what is my registration number",
+  "expect": "Registration|office|login"
+ },
+ {
+  "q": "how do i contact the school",
+  "expect": "WhatsApp|09063932487|Contact"
+ },
+ {
+  "q": "what is your email",
+  "expect": "email|treasuregroupofschool|Contact"
+ },
+ {
+  "q": "how quickly do you reply",
+  "expect": "one school day|reply|fast"
+ },
+ {
+  "q": "can i send a message",
+  "expect": "Contact|message|form"
+ },
+ {
+  "q": "how do i get directions",
+  "expect": "direction|map|Ageva|Contact"
+ },
+ {
+  "q": "what are your office hours",
+  "expect": "7:30|3:00|Monday|Friday"
+ },
+ {
+  "q": "are you open on saturday",
+  "expect": "Monday|Friday|no school|weekend"
+ },
+ {
+  "q": "can i make an anonymous complaint",
+  "expect": "Suggestion|anonymous|headmistress"
+ },
+ {
+  "q": "i want to speak to the headmistress",
+  "expect": "Nanahawa|office|WhatsApp"
+ },
+ {
+  "q": "how do i buy an admission form",
+  "expect": "admission form|buy|Register"
+ },
+ {
+  "q": "is the admission form free",
+  "expect": "form|office|admission"
+ },
+ {
+  "q": "what is the welcome pack",
+  "expect": "Welcome|pack|admission"
+ },
+ {
+  "q": "when does the new term start",
+  "expect": "Resumption|calendar|term|deadline"
+ },
+ {
+  "q": "what do i bring on the first day",
+  "expect": "Birth certificate|document|uniform|office"
+ },
+ {
+  "q": "abeg how i go take register my pikin",
+  "expect": "Register|Admission|Ward"
+ },
+ {
+  "q": "wetin i need bring come school",
+  "expect": "Birth certificate|document|passport"
+ },
+ {
+  "q": "my pikin dey another school, i wan transfer am",
+  "expect": "report card|transfer|Register"
+ },
+ {
+  "q": "i don pay, wetin next",
+  "expect": "visit|two weeks|receipt|document"
+ },
+ {
+  "q": "abeg wetin be una number",
+  "expect": "09063932487"
+ },
+ {
+  "q": "you dey open on saturday?",
+  "expect": "Monday|Friday|closed|weekend"
+ },
+ {
+  "q": "which class cheap pass",
+  "expect": "25,000|lowest|Nursery"
+ },
+ {
+  "q": "i wan complain about something",
+  "expect": "Suggestion|anonymous|Contact|headmistress"
+ },
+ {
+  "q": "i forget my pikin registration number",
+  "expect": "Registration|office|09063932487"
+ },
+ {
+  "q": "how i go check if my receipt na real one",
+  "expect": "receipt|verify|Receipt"
+ },
+ {
+  "q": "how far my application",
+  "expect": "status|phone|track|application"
+ },
+ {
+  "q": "can my 2 year old start",
+  "expect": "Pre-Nursery|Nursery|2 years|Creche|class"
+ },
+ {
+  "q": "do you need immunization card",
+  "expect": "Immunisation|immunisation|record"
+ },
+ {
+  "q": "how many photos do i bring",
+  "expect": "2 passport|passport"
+ },
+ {
+  "q": "when will i get the portal login",
+  "expect": "portal|login|admission|office"
+ },
+ {
+  "q": "is there an entrance exam for admission",
+  "expect": "office|admission|Register|assess"
+ },
+ {
+  "q": "do you interview parents",
+  "expect": "office|visit|admission"
+ },
+ {
+  "q": "can i pay in instalments",
+  "expect": "office|bank transfer|arrangement|fee"
+ },
+ {
+  "q": "what if i cannot afford the fees",
+  "expect": "office|scholarship|sibling|discount"
+ },
+ {
+  "q": "is the fee per term or per year",
+  "expect": "per term|term"
+ },
+ {
+  "q": "does the fee cover books",
+  "expect": "shop|book|separate|fee|office"
+ },
+ {
+  "q": "how much for primary 2 and primary 5 together",
+  "expect": "30,000|35,000|fee"
+ },
+ {
+  "q": "what is the total cost for creche",
+  "expect": "30,000|Creche"
+ },
+ {
+  "q": "can i visit before i register",
+  "expect": "welcome|visit|office"
+ },
+ {
+  "q": "do you give a tour",
+  "expect": "visit|welcome|office"
+ },
+ {
+  "q": "who do i meet when i come",
+  "expect": "office|headmistress|Nanahawa"
+ },
+ {
+  "q": "what time should i come to the office",
+  "expect": "7:30|3:00|Monday"
+ },
+ {
+  "q": "can i register more than one child",
+  "expect": "same phone|one account|several|sibling"
+ },
+ {
+  "q": "will my two children be in the same account",
+  "expect": "one account|same phone|several"
+ },
+ {
+  "q": "how do i know my child got admitted",
+  "expect": "status|track|office|phone"
+ },
+ {
+  "q": "what is the refund policy",
+  "expect": "office|09063932487|not publish"
+ },
+ {
+  "q": "howbare you fojng",
+  "expect": "very well|how are you"
+ },
+ {
+  "q": "how was your day",
+  "expect": "very well|how are you"
+ },
+ {
+  "q": "what is the school song",
+  "expect": "anthem|wisdom shines"
+ },
+ {
+  "q": "when is photo day",
+  "expect": "Photo Day is booked"
+ },
+ {
+  "q": "picture day",
+  "expect": "Photo Day is booked"
+ },
+ {
+  "q": "who are the graduates",
+  "expect": "2024|Common Entrance"
+ },
+ {
+  "q": "how can i help the school",
+  "expect": "[Vv]olunteer|helpers"
+ },
+ {
+  "q": "whats new at the school",
+  "expect": "Latest from the school"
+ },
+ {
+  "q": "abeg, the school dey open saturday?",
+  "expect": "no school on [Ss]aturday|Monday to Friday"
+ },
+ {
+  "q": "whereeee isss theee schooool",
+  "expect": "Ageva|Okene"
+ },
+ {
+  "q": "wetin dey sup",
+  "expect": "Not much"
+ },
+ {
+  "q": "eku ishe",
+  "expect": "Treasure Bot"
+ },
+ {
+  "q": "sawubona",
+  "expect": "Treasure Bot"
+ },
+ {
+  "q": "when is graduation",
+  "expect": "Graduation and Prize-Giving Day held on"
+ },
+ {
+  "q": "my daughter wants to enter primary 2, what do i do",
+  "expect": "admissions are open"
+ },
+ {
+  "q": "i want to put my child in nursery 1",
+  "expect": "admissions are open"
+ }
+]

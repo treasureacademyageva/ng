@@ -63,7 +63,7 @@ function loadPage(page, query, seedFn) {
   const l = w.document.getElementById('siteLoader');
   ok('loader overlay injected', !!l && l.innerHTML.includes('logo.jpg'));
   ok('contact fabs removed (live in Contact page)', !w.document.getElementById('contactFabs'));
-  const cc = require('fs').readFileSync('/home/user/mums-school-website/contact.html', 'utf8');
+  const cc = require('fs').readFileSync(require('path').join(SITE, 'contact.html'), 'utf8');
   ok('contact page keeps call+whatsapp', cc.includes('tel:') && cc.includes('wa.me/'));
   ok('calendar reachable from homepage', w.document.body.innerHTML.includes('calendar.html'));
   ok('no errors', errors.length === 0, errors.join(' || ').slice(0, 200));

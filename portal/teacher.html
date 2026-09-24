@@ -9,9 +9,9 @@
 <link rel="icon" href="../assets/img/logo.jpg">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Teacher Dashboard — Treasure Academy, Ageva</title>
-<link rel="stylesheet" href="../assets/css/main.css?v=20260919-47">
-<link rel="stylesheet" href="../assets/css/extra.css?v=20260919-47">
-<link rel="stylesheet" href="../assets/css/corporate.css?v=20260919-47">
+<link rel="stylesheet" href="../assets/css/main.css?v=20260924-60">
+<link rel="stylesheet" href="../assets/css/extra.css?v=20260924-60">
+<link rel="stylesheet" href="../assets/css/corporate.css?v=20260924-60">
 <noscript><style>#siteLoader{display:none!important}</style></noscript>
 <script defer src="/_vercel/insights/script.js"></script>
 <meta name="robots" content="noindex, nofollow">
@@ -29,6 +29,8 @@
     <div class="nav-links" id="sideNav">
       <button data-view="overview" class="on">Home</button>
       <button data-view="register">Mark Register</button>
+      <button data-view="fees">Class Fees</button>
+      <button data-view="chat">Message Head <span class="badge b-coral" id="tcChatBadge">0</span></button>
       <button data-view="results">Input Results</button>
       <button data-view="homework">Homework</button>
       <button data-view="pupils">My Pupils</button>
@@ -81,6 +83,30 @@
    </div>
 
     <!-- RESULTS -->
+    <div class="view-section" id="v-fees">
+      <div class="panel">
+        <h2><span class="dot"></span>Fees &mdash; <span id="tfClass"></span></h2>
+        <p class="note">Who in your class has paid. This is read-only: only the
+        headmistress records a payment, so what you see here is what the office
+        has confirmed.</p>
+        <div id="tfSummary" class="row" style="gap:.4rem;margin-bottom:.8rem"></div>
+        <div style="overflow-x:auto"><table class="tbl">
+          <thead><tr><th>Pupil</th><th>School fees</th><th>Other charges</th><th>Shop items</th></tr></thead>
+          <tbody id="tfRows"></tbody></table></div>
+      </div>
+    </div>
+    <div class="view-section" id="v-chat">
+      <div class="panel">
+        <h2><span class="dot"></span>Message the Headmistress</h2>
+        <p class="note">A direct line between you and the headmistress. Nobody
+        else can read it &mdash; not other teachers, not pupils.</p>
+        <div id="tcThread" class="chat-thread"></div>
+        <div class="row" style="margin-top:.7rem;gap:.4rem">
+          <input id="tcInput" placeholder="Write your message..." style="flex:1" maxlength="600">
+          <button class="btn btn-mint btn-sm" onclick="tcSend()">Send</button>
+        </div>
+      </div>
+    </div>
     <div class="view-section" id="v-results">
       <div class="panel">
         <h2>Input Results</h2><p class="sub">CA1 (20) + CA2 (20) + Exam (60) = 100 • Grade is automatic</p>
@@ -192,7 +218,7 @@
 (function(){
 var T={overview:["Welcome!","Here is your class at a glance."],register:["Mark Register","Daily attendance."],results:["Input Results","Enter pupil scores."],pupils:["My Pupils","Your class pupils."],duty:["Duty Roster","Your duty days this week."],notices:["Notifications","Messages from the headmistress."],meetings:["Staff Meetings","Notes to read and acknowledge."],homework:["Homework","Post homework for your class."],lostfound:["Found Items","Report items pupils lose."]};
 function navRender(v){
-  try{ var R={overview:function(){renderOverview();},register:function(){renderRegister();},results:function(){resInit();renderScores();},pupils:function(){renderMyPupils();},duty:function(){renderDuty();},notices:function(){renderNotices();},meetings:function(){renderMeetingsT();},homework:function(){renderTHW();},lostfound:function(){renderTLF();}}; if(R[v])R[v](); }catch(e){ if(window.console&&console.warn)console.warn("view render skipped:",e&&e.message); }
+  try{ var R={overview:function(){renderOverview();},register:function(){renderRegister();},results:function(){resInit();renderScores();},fees:function(){renderTFees();},chat:function(){renderTChat();},pupils:function(){renderMyPupils();},duty:function(){renderDuty();},notices:function(){renderNotices();},meetings:function(){renderMeetingsT();},homework:function(){renderTHW();},lostfound:function(){renderTLF();}}; if(R[v])R[v](); }catch(e){ if(window.console&&console.warn)console.warn("view render skipped:",e&&e.message); }
 }
 window.navRender=navRender;
 var nav=document.getElementById("sideNav");
@@ -220,9 +246,11 @@ if(nav)nav.addEventListener("click",function(e){
 try{var h=String(location.hash||"").replace(/^#\/?/,""); if(h){var bb=document.querySelector('#sideNav button[data-view="'+h+'"]'); if(bb&&!bb.classList.contains("on"))bb.click();}}catch(e7){}
 })();
 </script>
-<script src="../assets/js/store.js?v=20260919-47"></script>
-<script src="../assets/js/sync.js?v=20260919-47"></script>
-<script src="../assets/js/site.js?v=20260919-47"></script>
+<script src="../assets/js/store.js?v=20260924-60"></script>
+<script src="../assets/js/notify.js?v=20260924-60"></script>
+<script src="../assets/js/verify.js?v=20260924-60"></script><script defer src="../assets/js/db-live.js?v=20260924-60"></script>
+<script src="../assets/js/sync.js?v=20260924-60"></script>
+<script src="../assets/js/site.js?v=20260924-60"></script>
 <script>
 const S = Auth.guard("teacher");
 if(!S){location.href="login.html";throw new Error("no-session");}
@@ -292,7 +320,11 @@ function renderRegister(){
   db=DB.load();
   const d=document.getElementById("regDate").value||U.todayStr();
   document.getElementById("regDate").value=d;
-  const pupils=db.pupils.filter(p=>p.class===T.class);
+  /* Alphabetical, so the teacher can run down the list the same way every
+     morning and never lose their place. Unapproved pupils are excluded -
+     until the headmistress has verified a child they are not in the class. */
+  const pupils=db.pupils.filter(p=>p.class===T.class&&p.verified!==false&&p.status!=="rejected")
+                        .sort((a,b)=>String(a.name||"").localeCompare(String(b.name||""),"en",{sensitivity:"base"}));
   const saved=db.attendance.find(a=>a.date===d&&a.class===T.class);
   if(saved){ regMarks={...saved.records}; }
   else if(renderRegister._d!==d){ renderRegister._d=d; regMarks={}; } /* batch32 fix: keep unsaved taps; reset only when the date changes */
@@ -323,8 +355,23 @@ function saveRegister(){
   db=DB.load();
   const d=document.getElementById("regDate").value;
   let rec=db.attendance.find(a=>a.date===d&&a.class===T.class);
+  const edited=!!rec;
   if(rec) rec.records={...regMarks}; else db.attendance.push({date:d,class:T.class,records:{...regMarks}});
-  DB.save(db); renderRegister(); renderOverview(); U.toast("Register saved!");
+
+  /* The pupil's own dashboard should tell them what the teacher recorded,
+     rather than leaving a parent to discover an absence at the end of term. */
+  if(window.TANotify){
+    Object.keys(regMarks).forEach(function(pid){
+      TANotify.push(db, {
+        to:pid, kind:"attendance",
+        title: regMarks[pid]==="P" ? "Marked present" : regMarks[pid]==="L" ? "Marked late" : "Marked absent",
+        body: U.prettyDate(d)+" — "+T.class+", recorded by "+(T.name||"your class teacher")+".",
+        tone: regMarks[pid]==="P" ? "good" : regMarks[pid]==="L" ? "warn" : "bad"
+      });
+    });
+  }
+  DB.save(db); renderRegister(); renderOverview();
+  U.toast(edited?"Register updated — pupils notified.":"Register saved — pupils notified.");
 }
 
 /* ---- results input ---- */
@@ -333,6 +380,76 @@ function resInit(){
   document.getElementById("resPupil").innerHTML=db.pupils.filter(p=>p.class===T.class).map(p=>`<option value="${p.id}">${U.esc(p.name)} (${p.adm})</option>`).join("")||"<option value=''>No pupils</option>";
   document.getElementById("resTerm").value=db.school.term;
 }
+/* Who has paid, for this teacher's class only. Read-only by design: the
+   teacher needs to know before chasing a parent, but the office owns the
+   record. */
+function renderTFees(){
+  db=DB.load();
+  const el=document.getElementById("tfClass"); if(el) el.textContent=T.class;
+  const pupils=(db.pupils||[]).filter(p=>p.class===T.class&&p.verified!==false&&p.status!=="rejected")
+    .sort((a,b)=>String(a.name||"").localeCompare(String(b.name||""),"en",{sensitivity:"base"}));
+  const sum=U.feeSummary(db,T.class);
+  document.getElementById("tfSummary").innerHTML=
+    `<span class="badge b-green">Paid ${sum.paid}</span>
+     <span class="badge b-sun">Part ${sum.partial}</span>
+     <span class="badge b-coral">Not paid ${sum.unpaid}</span>
+     <span class="badge b-sky">${sum.pct}% of ${sum.total} collected</span>`;
+
+  const charges=(db.otherCharges||[]).filter(c=>!c.class||c.class===T.class);
+  document.getElementById("tfRows").innerHTML = pupils.length ? pupils.map(p=>{
+    const f=U.feeStatus(db,p);
+    const tone=f.paid?"b-green":f.partial?"b-sun":"b-coral";
+    const owed=charges.filter(c=>!(c.paidBy||[]).includes(p.id));
+    const items=(db.orders||[]).filter(o=>String(o.pupil||"").toLowerCase()===String(p.name||"").toLowerCase()
+                 &&["Collected","Confirmed"].includes(o.status));
+    return `<tr>
+      <td><b>${U.esc(p.name)}</b></td>
+      <td><span class="badge ${tone}">${U.esc(f.label)}</span>${f.receipt?`<br><small style="color:var(--muted)">${U.esc(f.receipt)}</small>`:""}</td>
+      <td>${owed.length?owed.map(c=>`<span class="badge b-sun">${U.esc(c.title)} ${U.naira(c.amount)}</span>`).join(" "):'<small style="color:var(--muted)">—</small>'}</td>
+      <td>${items.length?items.map(o=>`<small>${U.esc(o.item||"item")}</small>`).join("<br>"):'<small style="color:var(--muted)">—</small>'}</td>
+    </tr>`;
+  }).join("") : '<tr><td colspan="4"><div class="empty">No pupils in your class yet.</div></td></tr>';
+}
+
+/* Teacher to headmistress. One thread per teacher, held on the DB so both
+   sides read the same conversation. */
+function tcThreadId(){ return "staff:"+(T.id||T.refId||"teacher"); }
+function renderTChat(){
+  db=DB.load();
+  const msgs=(db.staffChat||[]).filter(m=>m.thread===tcThreadId())
+    .sort((a,b)=>String(a.at).localeCompare(String(b.at)));
+  const box=document.getElementById("tcThread");
+  box.innerHTML = msgs.length ? msgs.map(m=>{
+    const mine=m.fromRole==="teacher";
+    return `<div class="cmsg ${mine?"me":"bot"}"><div class="cb">${U.esc(m.text)}</div>
+      <div class="cmeta">${mine?"You":U.esc(m.fromName||"Headmistress")} &middot; ${U.prettyDate(String(m.at).slice(0,10))}</div></div>`;
+  }).join("") : '<div class="empty">No messages yet. Write the first one below.</div>';
+  box.scrollTop=box.scrollHeight;
+
+  /* Anything the head sent is now read. */
+  let touched=false;
+  (db.staffChat||[]).forEach(m=>{ if(m.thread===tcThreadId()&&m.fromRole==="admin"&&!m.read){ m.read=true; touched=true; } });
+  if(touched) DB.save(db);
+  tcBadge();
+}
+function tcBadge(){
+  const d=DB.load();
+  const n=(d.staffChat||[]).filter(m=>m.thread===tcThreadId()&&m.fromRole==="admin"&&!m.read).length;
+  const b=document.getElementById("tcChatBadge"); if(b) b.textContent=n;
+}
+function tcSend(){
+  const inp=document.getElementById("tcInput");
+  const text=(inp.value||"").trim(); if(!text) return;
+  db=DB.load();
+  db.staffChat=db.staffChat||[];
+  db.staffChat.push({id:"sc"+Date.now().toString(36),thread:tcThreadId(),
+    fromRole:"teacher",fromName:T.name,fromId:T.id||T.refId,
+    text:text.slice(0,600),at:new Date().toISOString(),read:false});
+  if(window.TANotify) TANotify.push(db,{to:"HEAD001",kind:"chat",
+    title:"Message from "+T.name, body:text.slice(0,120), tone:"info"});
+  DB.save(db); inp.value=""; renderTChat();
+}
+
 function currentResult(){
   db=DB.load();
   const pid=document.getElementById("resPupil").value, term=document.getElementById("resTerm").value;
@@ -545,7 +662,7 @@ document.getElementById("myPupilSearch").addEventListener("input",renderMyPupils
 document.getElementById("addPupilBtn").insertAdjacentHTML("afterbegin",U.icon("plus",15)+" ");
 document.getElementById("viewClassBtn").href="../class.html?class="+encodeURIComponent(T.class);
 function __safe(f){ try{ f(); }catch(e){ console.error("boot step skipped:", e&&e.message); } }
-__safe(()=>{ document.getElementById("regDate").value=U.todayStr(); }); __safe(()=>{ resInit(); }); __safe(()=>{ renderOverview(); }); __safe(()=>{ renderRegister(); }); __safe(()=>{ renderScores(); }); __safe(()=>{ renderMyPupils(); }); __safe(()=>{ renderTHW(); }); __safe(()=>{ renderDuty(); }); __safe(()=>{ renderNotices(); }); __safe(()=>{ renderMeetingsT(); }); __safe(()=>{ IdleLogout.init(); });
+__safe(()=>{ document.getElementById("regDate").value=U.todayStr(); }); __safe(()=>{ resInit(); }); __safe(()=>{ renderOverview(); }); __safe(()=>{ tcBadge(); }); __safe(()=>{ renderRegister(); }); __safe(()=>{ renderScores(); }); __safe(()=>{ renderMyPupils(); }); __safe(()=>{ renderTHW(); }); __safe(()=>{ renderDuty(); }); __safe(()=>{ renderNotices(); }); __safe(()=>{ renderMeetingsT(); }); __safe(()=>{ IdleLogout.init(); });
 /* batch37: first-login tour — 3 pointers, shown once per device */
 (function(){
   try{

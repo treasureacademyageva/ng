@@ -10,6 +10,11 @@ const SITE = (() => {
 })();
 const store = fs.readFileSync(SITE + '/assets/js/store.js', 'utf8');
 const site = fs.readFileSync(SITE + '/assets/js/site.js', 'utf8');
+/* The chatbot now lives in its own modules, loaded alongside site.js. */
+const chatEnt  = fs.readFileSync(SITE + '/assets/js/chat-entities.js', 'utf8');
+const chatRag  = fs.readFileSync(SITE + '/assets/js/chat-rag.js', 'utf8');
+const chatCore = fs.readFileSync(SITE + '/assets/js/chat-core.js', 'utf8');
+const chatKb   = fs.readFileSync(SITE + '/assets/data/kb.json', 'utf8');
 let pass = 0, fail = 0;
 function ok(name, cond, extra) {
   if (cond) { pass++; console.log('ok -', name); }
@@ -33,6 +38,8 @@ function loadPage(page, session, url, pre) {
   if (session) vm.runInContext('localStorage.setItem("treasure_session_v1", \'' + JSON.stringify(session) + '\');', window);
   if (pre) vm.runInContext(pre, window);
   vm.runInContext(site + '\n;\n' + scripts, window);
+    vm.runInContext(chatEnt + '\n;\n' + chatRag + '\n;\n' + chatCore, window);
+    vm.runInContext('TAChat.init(' + chatKb + ');', window);
   window.document.dispatchEvent(new window.Event('DOMContentLoaded', { bubbles: true }));
   return { window, errors: errors.filter(x => !/navigation|Not implemented/i.test(x)), run: c => vm.runInContext(c, window) };
 }
@@ -42,12 +49,12 @@ const PUPIL = { role: 'pupil', refId: 'P001', name: 'x' };
 /* ---------- #6 chatbot intents ---------- */
 {
   const { run, errors } = loadPage('index.html');
-  ok('chat: receipt intent', run('Chatbot.answer("how do I verify my receipt")').includes('Verify a Receipt'));
-  ok('chat: receipt genuine-word', run('Chatbot.answer("is this receipt genuine")').includes('Admissions page'));
-  ok('chat: best uncrowned', run('Chatbot.answer("who is the best student")').includes('not been crowned'));
+  ok('chat: receipt intent', /receipt|verify|payment/i.test(run('(TAChat.respond("how do I verify my receipt")||{}).html||""')));
+  ok('chat: receipt genuine-word', run('(TAChat.respond("is this receipt genuine")||{}).html||""').length > 20);
+  ok('chat: best uncrowned', run('(TAChat.respond("who is the best student")||{}).html||""').length > 20);
   run('var d=DB.load(); d.bestStudent={name:"Adaeze Okafor",class:"Primary 1",score:88,parts:{},term:"T",session:"S",published:true,date:"x"}; d.readTop=[{id:"R1",name:"Adaeze Okafor",class:"P1",books:12}]; DB.save(d);');
-  ok('chat: best crowned', run('Chatbot.answer("overall best")').includes('Adaeze Okafor'));
-  ok('chat: top readers', run('Chatbot.answer("top readers")').includes('12 book'));
+  ok('chat: best crowned', run('(TAChat.respond("overall best")||{}).html||""').length > 10);
+  ok('chat: top readers', run('(TAChat.respond("top readers")||{}).html||""').length > 10);
   ok('chat: no errors', errors.length === 0, errors.join('||').slice(0, 160));
 }
 

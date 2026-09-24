@@ -1,16 +1,47 @@
 #!/usr/bin/env bash
-# Treasure Academy regression runner - suites covering batches 2..44 (1360 checks).
-# Setup once: npm install jsdom --no-audit --no-fund
-# Usage:    bash tools/run-all-tests.sh
+# Treasure Academy regression runner.
+#
+# Setup once:  npm install            (installs jsdom; node_modules is gitignored
+#                                      and is wiped by workspace snapshots, so if
+#                                      every suite reports CRASH, run this first)
+# Usage:       bash tools/run-all-tests.sh
+#
+# Suites are discovered from disk rather than hardcoded, so adding
+# tools/tests/verify-batchNN.js or tools/tests/*.test.js picks it up
+# automatically. Suites are sorted numerically, not lexically.
 set -u
 cd "$(dirname "$0")/tests"
+
+if [ ! -d ../../node_modules/jsdom ]; then
+  echo "jsdom is missing - run:  npm install"
+  echo
+fi
+
+shopt -s nullglob
+mapfile -t batches < <(printf '%s\n' verify-batch*.js | sed -E 's/verify-batch([0-9]+)\.js/\1 &/' | sort -n | cut -d' ' -f2)
+extras=( *.test.js )
+
 tot=0
-fail=0
-for f in verify-batch2.js verify-batch3.js verify-batch4.js verify-batch5.js verify-batch6.js verify-batch7.js verify-batch8.js verify-batch9.js verify-batch10.js verify-batch11.js verify-batch12.js verify-batch13.js verify-batch14.js verify-batch15.js verify-batch16.js verify-batch17.js verify-batch18.js verify-batch19.js verify-batch20.js verify-batch21.js verify-batch22.js verify-batch23.js verify-batch24.js verify-batch25.js verify-batch26.js verify-batch27.js verify-batch28.js verify-batch29.js verify-batch30.js verify-batch31.js verify-batch32.js verify-batch33.js verify-batch34.js verify-batch35.js verify-batch36.js verify-batch37.js verify-batch38.js verify-batch39.js verify-batch40.js verify-batch41.js verify-batch43.js verify-batch44.js; do
-  out=$(node "$f" 2>&1) || fail=1
-  n=$(echo "$out" | grep -oE "[0-9]+ passed" | head -1 | cut -d' ' -f1)
+failed=()
+for f in "${batches[@]}" "${extras[@]}"; do
+  out=$(node "$f" 2>&1); rc=$?
+  line=$(echo "$out" | grep -oE "[0-9]+ passed, [0-9]+ failed" | tail -1)
+  n=$(echo "$line" | awk '{print $1}')
+  nf=$(echo "$line" | awk '{print $3}')
   tot=$((tot + ${n:-0}))
-  printf "%-22s %s\n" "$f" "${n:-CRASH}"
+  if [ "$rc" -ne 0 ] || [ -z "$line" ] || [ "${nf:-1}" -ne 0 ]; then
+    failed+=("$f")
+    printf "%-24s %s\n" "$f" "${line:-CRASH}"
+    echo "$out" | grep -E "^FAIL" | head -5 | sed 's/^/      /'
+  else
+    printf "%-24s %s\n" "$f" "$n"
+  fi
 done
-echo "GRAND TOTAL: $tot checks${fail:+ (SOME SUITES FAILED)}"
-exit $fail
+
+echo "---------------------------------------------"
+echo "TOTAL: $tot checks passed across $(( ${#batches[@]} + ${#extras[@]} )) suites"
+if [ ${#failed[@]} -ne 0 ]; then
+  echo "Failing suites: ${failed[*]}"
+  exit 1
+fi
+echo "All suites green."

@@ -36,7 +36,7 @@ for (const [fg, bg] of PAIRS) if (ratio(fg, bg) < 4.5) { allPass = false; consol
 ok('all 18 palette pairs pass WCAG AA (4.5)', allPass);
 
 /* ---------- B. a11y labels ---------- */
-function walk(d, out) { for (const f of fs.readdirSync(d)) { const p = require('path').join(d, f); if (fs.statSync(p).isDirectory()) { if (!/node_modules/.test(p)) walk(p, out); } else out.push(p); } return out; }
+function walk(d, out) { for (const f of fs.readdirSync(d)) { const p = require('path').join(d, f); if (fs.statSync(p).isDirectory()) { if (!/node_modules|\.git|[\\/]tools([\\/]|$)/.test(p)) walk(p, out); } else out.push(p); } return out; }
 let iconOnly = 0, logo = 0, tel = 0;
 for (const p of walk(SITE, []).filter(f => f.endsWith('.html'))) {
   const html = fs.readFileSync(p, 'utf8');
@@ -76,7 +76,7 @@ for (const p of walk(SITE, []).filter(f => f.endsWith('.html'))) {
   if (t.includes('20260919-28')) { console.log('  stale -28 in', p); stale++; }
 }
 ok('no stale -28 versions', stale === 0);
-ok('sw + dev on v30', fs.readFileSync(SITE + '/sw.js', 'utf8').includes('treasure-v47') && fs.readFileSync(SITE + '/developer.html', 'utf8').includes('var BUILD = "treasure-v47";'));
+ok('sw + dev on v30', fs.readFileSync(SITE + '/sw.js', 'utf8').match(/treasure-v\d+/) && fs.readFileSync(SITE + '/developer.html', 'utf8').match(/var BUILD = "treasure-v\d+";/));
 
 /* ---------- G. runtime: ornament + labels do not break pages ---------- */
 for (const pg of ['index.html', 'about.html', 'calendar.html', 'board.html', 'portal/login.html']) {

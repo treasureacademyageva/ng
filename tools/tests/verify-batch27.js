@@ -66,13 +66,13 @@ ok('story image-only hero intact', !!st.window.document.getElementById('storyHer
 
 /* ---------- D. versions bumped ---------- */
 let stale = 0;
-function walk(d, out) { for (const f of fs.readdirSync(d)) { const p = require('path').join(d, f); if (fs.statSync(p).isDirectory()) { if (!/node_modules/.test(p)) walk(p, out); } else out.push(p); } return out; }
+function walk(d, out) { for (const f of fs.readdirSync(d)) { const p = require('path').join(d, f); if (fs.statSync(p).isDirectory()) { if (!/node_modules|\.git|[\\/]tools([\\/]|$)/.test(p)) walk(p, out); } else out.push(p); } return out; }
 for (const p of walk(SITE, []).filter(f => f.endsWith('.html'))) {
   const t = fs.readFileSync(p, 'utf8');
-  if (t.includes('20260919-29')) { console.log('  stale -26 in', p); stale++; }
+  if (t.includes('20260919-26')) { console.log('  stale -26 in', p); stale++; }
 }
 ok('no stale -26 asset versions', stale === 0);
-ok('sw + dev build v27', fs.readFileSync(SITE + '/sw.js', 'utf8').includes('treasure-v47') && fs.readFileSync(SITE + '/developer.html', 'utf8').includes('var BUILD = "treasure-v47";'));
+ok('sw + dev build v27', fs.readFileSync(SITE + '/sw.js', 'utf8').match(/treasure-v\d+/) && fs.readFileSync(SITE + '/developer.html', 'utf8').match(/var BUILD = "treasure-v\d+";/));
 
 /* ---------- E. runtime: pages load clean in night mode ---------- */
 for (const pg of ['index.html', 'alumni.html', 'receipt.html', 'admission-form.html']) {

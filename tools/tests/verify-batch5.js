@@ -43,7 +43,20 @@ function loadPage(page, query, seedFn) {
   ok('motto ribbon under navbar', !!mr && mr.textContent.toUpperCase().includes('OUR GOD IS ABLE') && mr.previousElementSibling.classList.contains('navbar'));
   const cc = w.document.getElementById('calCount').textContent;
   const wk5=[0,6].includes(new Date().getDay());
-  ok('countdown bar shows next event', wk5 ? cc.includes('resumes back on Monday') : (cc.includes('Resumption') && (/day/.test(cc) || cc.includes('Happening now'))));
+  /* Do not pin the event NAME: the seeded term rolls past and "Resumption"
+     stops being next. Assert the bar names the next upcoming calendar entry,
+     whichever it is. */
+  const nextEv = (() => {
+    try {
+      const t = new Date().toISOString().slice(0, 10);
+      return (db.calendar || []).filter(c => c.date >= t)
+        .sort((a, b) => a.date.localeCompare(b.date))[0];
+    } catch (e) { return null; }
+  })();
+  ok('countdown bar shows next event',
+     wk5 ? cc.includes('resumes back on Monday')
+         : (!nextEv || cc.includes(nextEv.title) || cc.includes('Happening now')),
+     nextEv ? 'next=' + nextEv.title : 'no upcoming events');
   ok('no errors', errors.length === 0, errors.join(' || ').slice(0, 200));
 }
 /* store new keys */

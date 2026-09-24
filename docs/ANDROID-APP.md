@@ -25,7 +25,7 @@ Requirement: the site must pass PWA installability. It already does —
 | `site.webmanifest` with name, `start_url`, `display: standalone` | yes |
 | 192px and 512px icons | `assets/img/icon-192.png`, `icon-512.png` |
 | Maskable icon (Android circle/squircle mask) | `assets/img/icon-maskable-512.png` |
-| Registered service worker with an offline fallback | `sw.js`, cache `treasure-v43` |
+| Registered service worker with an offline fallback | `sw.js`, cache `treasure-v50` |
 | `theme_color` for the system bars | `#0B7A37` |
 
 ## Build shape
