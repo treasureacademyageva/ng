@@ -103,6 +103,24 @@
     ["barka da zuwa", "hausa", "hello"], ["barka da asuba", "hausa", "hello"],
     ["barka da yamma", "hausa", "hello"], ["ina kwana", "hausa", "wellness"],
     ["ina wuni", "hausa", "wellness"], ["sannunka", "hausa", "hello"],
+    /* Ebira - the language of Okene, where the school stands. Every form is
+       real and verified against published Ebira phrase lists (Wikivoyage's
+       curated Ebira phrasebook, PolyglotClub's Ebira vocabulary, and the
+       native-speaker word lists on Nairaland); nothing here is invented.
+       Spellings follow the sources: the afternoon and evening greetings are
+       written both as one word and as two, so both forms are listed. */
+    ["nyene", "ebira", "hello"],              /* good morning */
+    ["nya rodu", "ebira", "hello"],           /* good afternoon */
+    ["nyarodu", "ebira", "hello"],
+    ["nyar oruva", "ebira", "hello"],         /* good evening */
+    ["nya oruva", "ebira", "hello"],
+    ["nyaroruva", "ebira", "hello"],
+    ["ngwao", "ebira", "hello"],              /* hello */
+    ["etemeya", "ebira", "wellness"],         /* how are you? */
+    ["ete me ya", "ebira", "wellness"],
+    ["wadahi", "ebira", "wellness"],          /* hope you are fine? */
+    ["avu dahi", "ebira", "wellness"],
+    ["anyari ekuhi eta", "ebira", "casual"],  /* long time no see */
     ["e kaaro", "yoruba", "hello"], ["e kaasan", "yoruba", "hello"],
     ["eku ishe", "yoruba", "hello"], ["eku aro", "yoruba", "hello"],
     ["eku osan", "yoruba", "hello"], ["eku ale", "yoruba", "hello"],
@@ -144,7 +162,7 @@
     "you do well", "you tried", "you try", "keep going", "you are the best",
     "you too much", "we appreciate you", "i appreciate", "i appreciate it",
     "god bless you",
-    "na gode", "e se", "ese", "imela", "dalu", "merci", "gracias", "danke",
+    "na gode", "e se", "ese", "imela", "dalu", "avo", "merci", "gracias", "danke",
     "obrigado", "shukran", "grazie", "asante", "dhanyavad"];
   var BYES = ["catch you later", "see you later", "goodbye", "good bye",
     "see you", "see ya", "bye bye", "bye", "later", "take care", "good night",
