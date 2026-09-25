@@ -1,10 +1,10 @@
 # Data privacy finding — needs the owner's decision
 
-**Status: decided — the owner reviewed this finding on 25 September 2026 and
-chose to keep the data as it is** (guardian phone numbers and dates of birth
-stay in the public store.js). No change was made. The analysis below is kept
-for the record; if the school ever reconsiders, the two-minute fix described
-here is still exactly right. Found during the batch 45 audit. **Not fixed automatically,
+**Status: withdrawn by the owner, 25 September 2026.** No real accounts have
+been added to the site yet — the records in store.js are demo/test data the
+owner is aware of and has chosen to keep for now. This finding is closed and
+should not be raised again unless the owner asks. (The tidy-up described
+below remains a sound two-minute change if real pupil data is ever added.) Found during the batch 45 audit. **Not fixed automatically,
 because the fix deletes real data about real children and that is the owner's
 call, not mine.**
 

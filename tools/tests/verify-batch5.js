@@ -70,7 +70,7 @@ function loadPage(page, query, seedFn) {
 }
 /* birthdays SMS */
 {
-  const { window: w, errors, run } = loadPage('birthdays.html');
+  const { window: w, errors, run } = loadPage('birthdays.html', null, win => { const db = win.__DB.load(); db.teachers[0].dob = '1990-06-01'; win.__DB.save(db); });
   ok('wish bubbles render', w.document.getElementById('bdayGrid').innerHTML.includes('wish-bubble') && w.document.getElementById('bdayGrid').innerHTML.includes('Copy Wish'));
   run('copyWish(0)');
   ok('copyWish runs', errors.length === 0, errors.join(' || ').slice(0, 200));

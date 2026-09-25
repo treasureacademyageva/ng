@@ -45,9 +45,9 @@ function loadPage(page, session, url, pre) {
 }
 
 /* ---------- A. data + markup ---------- */
-ok('accounts keep demo set; public wall is the real filing', store.includes('Uncle Ebenezer') && store.includes('id:"W10", name:"Bose Momoh"') && store.includes('staffWall: STAFF_WALL_SEED'));
+ok('exactly one demo teacher login, real wall', store.includes('name:"Shaibu Memunat"') && !store.includes('Uncle Ebenezer') && store.includes('staffWall: STAFF_WALL_SEED'));
 ok('former seed retired to empty', store.includes('const FORMER_SEED = [];'));
-ok('10 public wall entries seeded', store.includes('Mr Idris Ibrahim') && store.includes('id:"W10", name:"Bose Momoh"') && store.includes('id:"W01", name:"Mr Idris Ibrahim"'));
+ok('11 public wall entries seeded (Document D)', store.includes('Mr Idris Ibrahim') && store.includes('id:"W10", name:"Momoh Bose"') && store.includes('id:"W11", name:"Shaibu Memunat"'));
 ok('CE 2025 top scorer data', store.includes('ABDULLAHI, FARIDA AHUDOIZA') && store.includes('total:216') && store.includes('BS/OKN/141001'));
 ok('CE 2023 set data', store.includes('MAJEBI, TREASURE ONONO') && store.includes('gradYear:2023') && store.includes('2012-09-14'));
 const gradCount = (store.match(/class:"Graduated"/g) || []).length;
@@ -66,8 +66,8 @@ ok('coc rules faithful to staff paper, numbered 1-20', teacherHtml.includes('res
 /* ---------- B. live: alumni ---------- */
 const al = loadPage('alumni.html');
 const cards = [...al.window.document.querySelectorAll('#teamGrid .team-card')];
-ok('10 staff cards rendered', cards.length === 10, 'got ' + cards.length);
-ok('collage shows 10 dots', al.window.document.querySelectorAll('#staffCollage .sc-dot').length === 10);
+ok('11 staff cards rendered', cards.length === 11, 'got ' + cards.length);
+ok('collage shows 11 dots', al.window.document.querySelectorAll('#staffCollage .sc-dot').length === 11);
 ok('former hidden (no data)', al.window.document.getElementById('former').style.display === 'none');
 ok('39 graduate cards', al.window.document.querySelectorAll('#gradWall .team-card').length === 39);
 ok('both set headings', al.window.document.getElementById('gradWall').textContent.includes('Class of 2025') && al.window.document.getElementById('gradWall').textContent.includes('Class of 2023'));
@@ -80,7 +80,7 @@ box = al.window.document.getElementById('tpBox').textContent;
 ok('grad popup: 2023 pupil no scores invented', box.includes('MAJEBI, TREASURE ONONO') && box.includes('2023') && !box.includes('/240'));
 al.run("closeTP(); openTP('W02');");
 box = al.window.document.getElementById('tpBox').textContent;
-ok('teacher popup: real data', box.includes('Zeenatudeen Uthman') && box.includes('Class Teacher - Primary 6') && box.includes('B.Agric Crop Science'));
+ok('teacher popup: real data', box.includes('Zeenatudeen Uthman') && box.includes('Class Teacher - Primary 6') && box.includes('B.Agric (2020)'));
 al.run("closeTP();");
 al.window.document.getElementById('staffQ').value = 'rebe';
 al.window.document.getElementById('staffQ').dispatchEvent(new al.window.KeyboardEvent('keyup', { bubbles: true }));
@@ -89,10 +89,10 @@ al.run("document.getElementById('staffQ').value='';");
 ok('alumni loads clean', al.errors.length === 0, al.errors.join(' || ').slice(0, 140));
 
 /* ---------- C. live: teacher coc ---------- */
-const tch = loadPage('portal/teacher.html', TCH('T006'));
+const tch = loadPage('portal/teacher.html', TCH('T001'));
 ok('teacher coc gate shows first login', tch.window.document.getElementById('cocBox').style.display === '');
 tch.run('acceptCoC();');
-ok('teacher accept hides + persists', tch.window.document.getElementById('cocBox').style.display === 'none' && tch.run('DB.load().teachers.find(x=>x.id==="T006").cocA') === 1);
+ok('teacher accept hides + persists', tch.window.document.getElementById('cocBox').style.display === 'none' && tch.run('DB.load().teachers.find(x=>x.id==="T001").cocA') === 1);
 ok('teacher coc status line', tch.window.document.querySelector('.cocStatus') && tch.window.document.querySelector('.cocStatus').textContent.includes('Accepted'));
 ok('teacher coc button in sidebar', !!tch.window.document.querySelector('#sideNav button[data-view="code"]'));
 

@@ -603,6 +603,7 @@ function renderBdayCount(){
   let db={}; try{ db=DB.load(); }catch(e){}
   const list=[];
   (db.teachers||[]).forEach(t=>{ if(t.dob)list.push({name:t.name,dob:t.dob,role:"Staff"}); });
+  (db.pupils||[]).forEach(p=>{ if(p.dob)list.push({name:p.name,dob:p.dob,role:"Pupil"+(p.class?" - "+p.class:"")}); });
   if(db.school&&db.school.headDob)list.push({name:db.school.headName||"Headmistress",dob:db.school.headDob,role:"Headmistress"});
   if(!list.length)return;
   const now=new Date(U.todayStr()+"T12:00:00");

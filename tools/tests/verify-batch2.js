@@ -91,7 +91,7 @@ function seedCommon(w) {
 /* ---------- index: likes/comments/NEW + bday banner ---------- */
 {
   const { window: w, errors, run } = loadPage('index.html', '', seedCommon);
-  const nt = w.document.getElementById('newsSteps').textContent;
+  const nt = w.document.getElementById('newsGrid').textContent;
   ok('index cards show likes', /likes/.test(nt));
   ok('index cards show comments', /comments/.test(nt));
   ok('single birthday bell at top', !!w.document.getElementById('bdayBell') && !w.document.getElementById('bdayBanner'));

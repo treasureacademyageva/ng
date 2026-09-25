@@ -43,10 +43,11 @@ const ADMIN = { role: 'admin', refId: 'HEAD001', name: 'Mrs. Salihu Nanahawa' };
 /* data: Nursery 1 teacher + seeds */
 {
   const { window: w, run } = loadPage('index.html');
-  const t = run('DB.load().teachers.find(t=>t.class==="Nursery 1")');
-  ok('T007 teaches Nursery 1', t && t.name === 'Mrs Salihu Nanahawa' && t.id === 'T007');
-  run('db=DB.load(); db.teachers=db.teachers.filter(t=>t.id!=="T007"); DB.save(db); DB.load();');
-  ok('old saves gain T007', run('DB.load().teachers.some(t=>t.class==="Nursery 1")') === true);
+  const t = run('DB.load().teachers.find(t=>t.class==="Primary 1")');
+  ok('demo teacher is the real Shaibu Memunat (T001)', t && t.name === 'Shaibu Memunat' && t.id === 'T001' && t.pin === '1234');
+  ok('exactly four demo logins exist', run('DB.load().teachers.length') === 1 && run('DB.load().pupils.length') === 3 && run('DB.load().admins.length') === 1);
+  run('db=DB.load(); db.teachers=db.teachers.filter(t=>t.id!=="T001"); DB.save(db); DB.load();');
+  ok('deleting the demo teacher sticks (the migration is once-only)', run('DB.load().teachers.length') === 0);
   const db = w.__DB.load();
   ok('new seeds present', db.uniform.length === 8 && db.openday.date === '2026-10-03' && db.reading.book.title.includes('Tortoise') && db.meetings.length === 1 && db.alumni.length === 2 && db.school.gradDate === '2027-07-23');
   ok('avatar palette deepened', !store.includes('"#F5C242","#E5485D"') && store.includes('#B78A12'));
@@ -125,10 +126,10 @@ const ADMIN = { role: 'admin', refId: 'HEAD001', name: 'Mrs. Salihu Nanahawa' };
 }
 /* teacher meetings ack */
 {
-  const { window: w, errors, run } = loadPage('portal/teacher.html', { role: 'teacher', refId: 'T002', name: 'T' });
+  const { window: w, errors, run } = loadPage('portal/teacher.html', { role: 'teacher', refId: 'T001', name: 'T' });
   ok('meetings listed', w.document.getElementById('meetList').textContent.includes('Welcome Back'));
   run('ackMeeting("MT1");');
-  ok('ack recorded', w.__DB.load().meetings.find(m => m.id === 'MT1').ack.includes('T002'));
+  ok('ack recorded', w.__DB.load().meetings.find(m => m.id === 'MT1').ack.includes('T001'));
   ok('teacher clean', errors.length === 0, errors.join(' || ').slice(0, 300));
 }
 /* pupil grad countdown + slip parts */

@@ -1,6 +1,6 @@
 {
   "asked": 1000000,
-  "cores": 5611,
+  "cores": 5675,
   "variants": 299,
   "byFamily": {
     "fees": {
@@ -139,5 +139,5 @@
       "n": null
     }
   },
-  "generatedAt": "2026-09-25T12:30:49.279Z"
+  "generatedAt": "2026-09-25T17:24:56.307Z"
 }

@@ -762,7 +762,7 @@
       }
 
       /* Staff birthdays, answered from the same data the Birthdays page
-         reads. "When is Aunty Rafatu's birthday" names a person; otherwise
+         reads. "When is Mrs Zeenatudeen's birthday" names a person; otherwise
          the next ones coming up. */
       if (/\bbirthdays?\b/.test(s)) {
         var bday = (db.teachers || []).filter(function (t) {

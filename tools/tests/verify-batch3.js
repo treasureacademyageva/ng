@@ -60,7 +60,7 @@ function seedReal(w) {
   const a = loadPage('story.html', '?id=NE9', seedReal);
   ok('story shows min read', a.window.document.getElementById('storyBox').textContent.includes('min read'));
   const b = loadPage('index.html', '', seedReal);
-  ok('index cards show min read', b.window.document.getElementById('newsSteps').textContent.includes('min read'));
+  ok('index cards show min read', b.window.document.getElementById('newsGrid').textContent.includes('min read'));
   const c = loadPage('news.html', '', seedReal);
   ok('news rows show min read', c.window.document.getElementById('neList').textContent.includes('min read'));
   ok('no errors', (a.errors.length + b.errors.length + c.errors.length) === 0);

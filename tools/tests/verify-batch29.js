@@ -51,7 +51,7 @@ for (const p of walk(SITE, []).filter(f => f.endsWith('.html'))) {
 ok('zero icon-only controls left', iconOnly === 0, 'found ' + iconOnly);
 ok('logo labels on 38 pages', logo === 38, 'found ' + logo);
 ok('tel labels on 39 pages', tel === 39, 'found ' + tel);
-ok('homepage sliders replaced by step cards', !fs.readFileSync(SITE + '/index.html', 'utf8').includes('aria-label="Previous slide"') && fs.readFileSync(SITE + '/index.html', 'utf8').includes('promoSteps'));
+ok('homepage sliders replaced by linked card grids (owner review, 25 Sept 2026)', !fs.readFileSync(SITE + '/index.html', 'utf8').includes('aria-label="Previous slide"') && fs.readFileSync(SITE + '/index.html', 'utf8').includes('promoGrid') && fs.readFileSync(SITE + '/index.html', 'utf8').includes('newsGrid') && !fs.readFileSync(SITE + '/index.html', 'utf8').includes('promoSteps'));
 ok('password eyes labeled', (fs.readFileSync(SITE + '/portal/login.html', 'utf8').match(/aria-label="Show or hide password"/g) || []).length === 5);
 
 /* ---------- C. inline strays tokenized ---------- */

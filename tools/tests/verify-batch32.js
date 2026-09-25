@@ -58,16 +58,16 @@ ok('page clean', pup.errors.length === 0, pup.errors.join(' || ').slice(0, 140))
 /* ---------- B. absent/late WhatsApp notify ---------- */
 const tch = loadPage('portal/teacher.html', TEACHER);
 ok('register zone exists', !!tch.window.document.getElementById('regAbsent'));
-tch.run('setMark("P017","A")');
+tch.run('setMark("P002","A")');
 const zone = tch.window.document.getElementById('regAbsent').innerHTML;
-ok('absent row appears', zone.includes('ABSENT') && zone.includes('Majebi Benita') && zone.includes('Notify parents'));
-ok('wa.me link with parent digits', zone.includes('wa.me/2348051000017?text=') && zone.includes('WhatsApp parent'));
+ok('absent row appears', zone.includes('ABSENT') && zone.includes('Emeka Nwosu') && zone.includes('Notify parents'));
+ok('wa.me link with parent digits', zone.includes('wa.me/2348053334444?text=') && zone.includes('WhatsApp parent'));
 ok('message carries name+class+date', zone.includes('was%20marked%20ABSENT') || decodeURIComponent(zone.split('text=')[1] || '').includes('was marked ABSENT'));
-ok('late badge differs', (() => { tch.run('setMark("P017","L")'); return tch.window.document.getElementById('regAbsent').innerHTML.includes('LATE'); })());
+ok('late badge differs', (() => { tch.run('setMark("P002","L")'); return tch.window.document.getElementById('regAbsent').innerHTML.includes('LATE'); })());
 tch.run('markAll("P")');
 ok('all present clears zone', tch.window.document.getElementById('regAbsent').innerHTML.trim() === '');
-const tch2 = loadPage('portal/teacher.html', TEACHER, null, 'var d=DB.load(); d.pupils.find(x=>x.id==="P017").phone=""; DB.save(d);');
-tch2.run('setMark("P017","A")');
+const tch2 = loadPage('portal/teacher.html', TEACHER, null, 'var d=DB.load(); d.pupils.find(x=>x.id==="P002").phone=""; DB.save(d);');
+tch2.run('setMark("P002","A")');
 const z2 = tch2.window.document.getElementById('regAbsent').innerHTML;
 ok('no phone -> no link, shows hint', !z2.includes('wa.me') && z2.includes('no phone on record'));
 ok('teacher page clean', tch.errors.length === 0, tch.errors.join(' || ').slice(0, 140));

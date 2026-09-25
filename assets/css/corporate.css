@@ -1393,3 +1393,13 @@ body:not(.portal-body) .navbar .container{flex-wrap:nowrap}
   .hd-nav .hd-item .ic{height:26px}
   .hd-nav .hd-item .ic svg{width:24px;height:24px}
 }
+/* ============ OWNER REVIEW (25 Sept 2026): the header FITS the space ============
+   The two-card header floated inside the page container - side gaps, rounded
+   outer corners, margins above and below - so it looked built INSIDE the
+   page rather than fitted to it. It now spans edge to edge: no container
+   padding, no card margins, square outer corners. The cutout keeps its
+   curves; that part is the design. */
+body:not(.portal-body) .navbar .container{width:100%;margin:0;padding:0}
+.hd-stack{margin:0}
+.hd-back,.hd-front{border-radius:0}
+.hd-cutout{border-top-right-radius:0}

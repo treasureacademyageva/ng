@@ -88,7 +88,7 @@ ok('clicking 2025 shows only 2025 pane', shown().length === 1 && shown()[0].getA
 ok('ink underline moves', al.window.document.querySelector('#gradTabs .seg-ink').style.width !== '');
 const statsText = al.window.document.getElementById('alumStats').textContent;
 ok('stats final values intact (no ticking under stub)', statsText.includes('39') && statsText.includes('2'));
-ok('tilt class on staff cards', al.window.document.querySelectorAll('#teamGrid .team-card.tilt').length === 10);
+ok('tilt class on staff cards', al.window.document.querySelectorAll('#teamGrid .team-card.tilt').length === 11);
 ok('spy bar links present', al.window.document.querySelectorAll('#alumNav a').length === 5 && al.window.document.querySelector('#alumNav a.on'));
 
 /* ---------- E. versions ---------- */

@@ -39,16 +39,21 @@ const SUBJECTS_PRIMARY = ["English Language","Mathematics","Basic Science","Soci
 const DAYS = ["Monday","Tuesday","Wednesday","Thursday","Friday"];
 const FORMER_SEED = []; /* batch41: demo names retired - real former staff come from the Headmistress (chat) */
 const STAFF_WALL_SEED = [
-      {id:"W01", name:"Mr Idris Ibrahim", class:"Primary 3", position:"Mathematics Teacher", quals:"HND Computer Science (2017)", started:null, subjects:["Computer Science","Mathematics"], about:"The maths desk of the school - every Common Entrance drill on numbers passes his table."},
-      {id:"W02", name:"Mrs Zeenatudeen Uthman", class:"Primary 6", position:"Class Teacher", quals:"B.Agric Crop Science (2020)", started:null, subjects:["English Language","Mathematics","Basic Science"], about:"Guides our oldest pupils through the Common Entrance season with steady, quiet confidence."},
-      {id:"W03", name:"Jimoh Mariam", class:"Primary 2", position:"Class Teacher", quals:"ND Chemistry (2020)", started:null, subjects:["Mathematics","Basic Science"], about:"Brings the eye of a young chemist to Primary 2 - plenty of small experiments and neat jotters."},
-      {id:"W04", name:"Nasirun Yahaya", class:"Nursery 1", position:"Class Teacher", quals:"B.Sc Local Govt & Dev. Studies (2014)", started:null, subjects:["Literacy","Numeracy","Phonics"], about:"Warm and organised - her Nursery 1 pupils learn order and letters without ever being rushed."},
-      {id:"W05", name:"Tahab Oyiza Zainab", class:"Primary 4", position:"Class Teacher", quals:"NCE Business Education (2010)", started:null, subjects:["Business Studies","Basic Science"], about:"Our most senior certificate on the wall - Primary 4 keeps tidy records and busy hands."},
-      {id:"W06", name:"Salihu Oyiza Nanahawa", class:"Creche", position:"Class Teacher", quals:"NCE Home Economics (2014)", started:null, subjects:["Rhymes & Songs","Social Habits"], about:"Home-economist running the calmest creche room in town - meals, naps and rhymes on time."},
-      {id:"W07", name:"Rebeca Omeiza", class:"Primary 5", position:"Class Teacher", quals:"Social Studies (2012)", started:null, subjects:["Social Studies","English Language"], about:"Maps, flags and our town story - Primary 5 narrates Kogi to you by heart."},
-      {id:"W08", name:"Siyaka Bose", class:"Nursery 2", position:"Class Teacher", quals:"Secondary, Sciences (2012)", started:null, subjects:["Literacy","Numeracy","Phonics"], about:"A science hand in Nursery 2 - little nature walks turn into big discoveries."},
-      {id:"W09", name:"David O Esther", class:"Pre-Nursery", position:"Class Teacher", quals:"ND Art (2012)", started:null, subjects:["Creative Arts","Rhymes & Songs"], about:"Every pre-nursery wall bears his African Art strokes - painting days are the loudest."},
-      {id:"W10", name:"Bose Momoh", class:"", position:"School Administrator", quals:"ND Business Administration (2007)", started:null, subjects:[], about:"Keeps the diary, the visitors book and every registration neatly in place."}
+      /* The owner's staff register (Document D, 25 Sept 2026). The "area of
+         discipline" is what each teacher does BEST - not the subject they
+         teach - so it feeds the About line in their profile, never the
+         subjects row. Qualifications are exactly as issued. */
+      {id:"W01", name:"Mr Idris Ibrahim", gender:"Male", class:"Primary 3", position:"Mathematics Teacher", quals:"HND Computer Science (2017)", started:null, subjects:["Mathematics"], about:"What he does best is computing, and he brings that same step-by-step logic to the Mathematics he teaches - every Common Entrance drill on numbers passes his table."},
+      {id:"W02", name:"Mrs Zeenatudeen Uthman", gender:"Female", class:"Primary 6", position:"Class Teacher", quals:"B.Agric (2020)", started:null, subjects:[], about:"What she does best is computing, and Primary 6 enjoys her patient, problem-solving style through the Common Entrance season."},
+      {id:"W03", name:"Jimoh Mariam", gender:"Female", class:"Primary 2", position:"Class Teacher", quals:"ND Chemistry (2020)", started:null, subjects:[], about:"What she does best is chemistry - careful measuring, clean jotters, small experiments - and Primary 2 learns that same care in every lesson."},
+      {id:"W04", name:"Nasirun Yahaya", gender:"Male", class:"Nursery 1", position:"Class Teacher", quals:"B.Sc Local Govt & Dev. Studies (2014)", started:null, subjects:[], about:"What he does best is local government and development studies - how a community is organised and served - and his Nursery 1 pupils learn order and letters without ever being rushed."},
+      {id:"W05", name:"Tahab Oyiza Zainab", gender:"Female", class:"Primary 4", position:"Class Teacher", quals:"NCE Business Education (2010)", started:null, subjects:[], about:"What she does best is business education - records, trading and thrift - and Primary 4 keeps tidy books and busy hands."},
+      {id:"W06", name:"Salihu Oyiza Nanahawa", gender:"Female", class:"Creche", position:"Class Teacher", quals:"NCE Home Economics (2014)", started:null, subjects:[], about:"What she does best is home economics, and it shows in the calmest creche room in town - meals, naps and rhymes always on time."},
+      {id:"W07", name:"Rebeca Omeiza", gender:"Female", class:"Primary 5", position:"Class Teacher", quals:"WASSCE Social Studies (2012)", started:null, subjects:[], about:"What she does best is social studies - maps, flags and our town's story - and Primary 5 can narrate Kogi to you by heart."},
+      {id:"W08", name:"Siyaka Bose", gender:"Female", class:"Nursery 2", position:"Class Teacher", quals:"WASSCE Sciences (2012)", started:null, subjects:[], about:"What she does best is science, and in Nursery 2 it means little nature walks that turn into big discoveries."},
+      {id:"W09", name:"David O. Esther", gender:"Female", class:"Pre-Nursery", position:"Class Teacher", quals:"WASSCE Art (2012)", started:null, subjects:[], about:"What she does best is art - every pre-nursery wall bears her strokes, and painting days are the loudest."},
+      {id:"W10", name:"Momoh Bose", gender:"Female", class:"", position:"School Administrator", quals:"ND Business Administration (2007)", started:null, subjects:[], about:"What she does best is business administration - she keeps the diary, the visitors book and every registration neatly in place."},
+      {id:"W11", name:"Shaibu Memunat", gender:"Female", class:"Primary 1", position:"Class Teacher", quals:"ND Animal Science (2012)", started:null, subjects:[], about:"What she does best is animal science - the care and keeping of living things - and her Primary 1 class learns gentleness alongside their letters."}
 ];
 const GRADS_SEED = [
       {id:"GS1", adm:"", pin:null, password:null, name:"ABDULLAHI, FARIDA AHUDOIZA", gender:"Female", class:"Graduated", dob:"2016-01-05", parent:"", phone:"08039689663", gradYear:2025, examNo:"BS/OKN/141001", exam:{eng:66,mat:70,gep:80,total:216}, subjects:["ENG","MAT","GEP"]},
@@ -74,22 +79,22 @@ const GRADS_SEED = [
       {id:"GS21", adm:"", pin:null, password:null, name:"YUSUF, ZULKANENE ASUKU", gender:"Male", class:"Graduated", dob:"2013-11-06", parent:"", phone:"08068421538", gradYear:2025, examNo:"BS/OKN/141021", exam:{eng:58,mat:68,gep:80,total:206}, subjects:["ENG","MAT","GEP"]},
       {id:"G001", adm:"", pin:null, password:null, name:"NASIRU, JUMAI OYAMINE", gender:"Female", class:"Graduated", dob:"2012-09-14", parent:"", phone:"09034513026", gradYear:2023, subjects:["ENG","MAT","GEP"]},
       {id:"G002", adm:"", pin:null, password:null, name:"ADAMS, MUHAMMED HAYYAN ATABA", gender:"Male", class:"Graduated", dob:"2012-12-04", parent:"", phone:"08061793469", gradYear:2023, subjects:["ENG","MAT","GEP"]},
-      {id:"G003", adm:"", pin:null, password:null, name:"IDRIS, NANA AYISHA OZAVIZE", gender:"Female", class:"Graduated", dob:"2013-01-20", parent:"", phone:"08131386410", gradYear:2023, subjects:["ENG","MAT","GEP"]},
+      {id:"G003", adm:"", pin:null, password:null, name:"IDRIS, NANA AISHA OZAVIZE", gender:"Female", class:"Graduated", dob:"2013-01-20", parent:"", phone:"08131385410", gradYear:2023, subjects:["ENG","MAT","GEP"]},
       {id:"G004", adm:"", pin:null, password:null, name:"YAKUBU, ABDULWAHEED ADEIZA", gender:"Male", class:"Graduated", dob:"2010-05-16", parent:"", phone:"07030487130", gradYear:2023, subjects:["ENG","MAT","GEP"]},
       {id:"G005", adm:"", pin:null, password:null, name:"MAJEBI, TREASURE ONONO", gender:"Female", class:"Graduated", dob:"2013-05-05", parent:"", phone:"08141943478", gradYear:2023, subjects:["ENG","MAT","GEP"]},
       {id:"G006", adm:"", pin:null, password:null, name:"HADI, ROFIYAT OMENEKE", gender:"Female", class:"Graduated", dob:"2012-10-28", parent:"", phone:"09104383331", gradYear:2023, subjects:["ENG","MAT","GEP"]},
-      {id:"G007", adm:"", pin:null, password:null, name:"IBRAHIM, NANAHAISHAT ENEYIAMIRE", gender:"Female", class:"Graduated", dob:"2011-06-28", parent:"", phone:"08066877646", gradYear:2023, subjects:["ENG","MAT","GEP"]},
-      {id:"G008", adm:"", pin:null, password:null, name:"SALIHU, FARIDAT OZOHU", gender:"Female", class:"Graduated", dob:"2012-06-28", parent:"", phone:"08037527952", gradYear:2023, subjects:["ENG","MAT","GEP"]},
-      {id:"G009", adm:"", pin:null, password:null, name:"ABDULRAZAQ, FARID ONIMISI", gender:"Male", class:"Graduated", dob:"2012-03-25", parent:"", phone:"08144400443", gradYear:2023, subjects:["ENG","MAT","GEP"]},
-      {id:"G010", adm:"", pin:null, password:null, name:"AKANDE, HUSSEIN ADEIZA", gender:"Female", class:"Graduated", dob:"2012-07-20", parent:"", phone:"08065036158", gradYear:2023, subjects:["ENG","MAT","GEP"]},
+      {id:"G007", adm:"", pin:null, password:null, name:"IBRAHIM, NANAH AISHAT ENEYIAMIRE", gender:"Female", class:"Graduated", dob:"2011-06-28", parent:"", phone:"08066877646", gradYear:2023, subjects:["ENG","MAT","GEP"]},
+      {id:"G008", adm:"", pin:null, password:null, name:"SALIHU, FARIDAT OZOHU", gender:"Male", class:"Graduated", dob:"2012-03-25", parent:"", phone:"08037527952", gradYear:2023, subjects:["ENG","MAT","GEP"]},
+      {id:"G009", adm:"", pin:null, password:null, name:"ABDULRAZAQ, FARID ONIMISI", gender:"Female", class:"Graduated", dob:"2012-06-28", parent:"", phone:"08066076460", gradYear:2023, subjects:["ENG","MAT","GEP"]},
+      {id:"G010", adm:"", pin:null, password:null, name:"AKANDE, HUSSEIN ADEIZA", gender:"Female", class:"Graduated", dob:"2012-07-20", parent:"", phone:"08063354298", gradYear:2023, subjects:["ENG","MAT","GEP"]},
       {id:"G011", adm:"", pin:null, password:null, name:"AKANDE, HASSAN ADAVIZE", gender:"Male", class:"Graduated", dob:"2012-07-30", parent:"", phone:"08066076460", gradYear:2023, subjects:["ENG","MAT","GEP"]},
-      {id:"G012", adm:"", pin:null, password:null, name:"IBRAHIM, UMIHANI IZE", gender:"Female", class:"Graduated", dob:"2013-02-27", parent:"", phone:"08036354298", gradYear:2023, subjects:["ENG","MAT","GEP"]},
+      {id:"G012", adm:"", pin:null, password:null, name:"IBRAHIM, UMIHANI IZE", gender:"Female", class:"Graduated", dob:"2013-02-27", parent:"", phone:"08033354298", gradYear:2023, subjects:["ENG","MAT","GEP"]},
       {id:"G013", adm:"", pin:null, password:null, name:"ITOPA, RAZAK ADAVIZE", gender:"Male", class:"Graduated", dob:"2010-01-10", parent:"", phone:"07026998170", gradYear:2023, subjects:["ENG","MAT","GEP"]},
       {id:"G014", adm:"", pin:null, password:null, name:"ATTAHIRU, JEREMIAH ADEIZA", gender:"Male", class:"Graduated", dob:"2011-11-14", parent:"", phone:"08166262948", gradYear:2023, subjects:["ENG","MAT","GEP"]},
       {id:"G015", adm:"", pin:null, password:null, name:"WAHEED, JOSHUA EIZOHE", gender:"Male", class:"Graduated", dob:"2011-06-06", parent:"", phone:"07033879508", gradYear:2023, subjects:["ENG","MAT","GEP"]},
-      {id:"G016", adm:"", pin:null, password:null, name:"LAMIDI, MULIKAT AHUOYIZA", gender:"Female", class:"Graduated", dob:"2010-07-23", parent:"", phone:"08070780491", gradYear:2023, subjects:["ENG","MAT","GEP"]},
-      {id:"G017", adm:"", pin:null, password:null, name:"AGEDOH, MUDASHIRU ITOPA", gender:"Male", class:"Graduated", dob:"2010-05-16", parent:"", phone:"08191971745", gradYear:2023, subjects:["ENG","MAT","GEP"]},
-      {id:"G018", adm:"", pin:null, password:null, name:"MUHAMMED, JAMIU NEZIF ONORUOYIZA", gender:"Male", class:"Graduated", dob:"2011-11-14", parent:"", phone:"08067079283", gradYear:2023, subjects:["ENG","MAT","GEP"]}
+      {id:"G016", adm:"", pin:null, password:null, name:"LAMIDI, MULIKAT AHUOYIZA", gender:"Male", class:"Graduated", dob:"2010-07-23", parent:"", phone:"08070780491", gradYear:2023, subjects:["ENG","MAT","GEP"]},
+      {id:"G017", adm:"", pin:null, password:null, name:"ABEDOH, MUDASHIRU ITOPA", gender:"Male", class:"Graduated", dob:"2010-05-16", parent:"", phone:"08101871745", gradYear:2023, subjects:["ENG","MAT","GEP"]},
+      {id:"G018", adm:"", pin:null, password:null, name:"MUHAMMED, JAMIU NEZIF ONORUOYIZA", gender:"Male", class:"Graduated", dob:"2011-11-14", parent:"", phone:"08067079263", gradYear:2023, subjects:["ENG","MAT","GEP"]}
 ];
 
 function subjectsFor(cls){ return EARLY_CLASSES.includes(cls) ? SUBJECTS_EARLY : SUBJECTS_PRIMARY; }
@@ -101,49 +106,33 @@ function seedDB(){
     school,
     admins: [{id:"HEAD001", pin:"1234", name:"Mrs. Salihu Nanahawa", title:"Headmistress"}],
     teachers: [
-      {id:"T001", pin:"1234", name:"Uncle Ebenezer", phone:"0803 100 0001", class:"Primary 3", subjects:["English Language","Mathematics"],dob:"1988-02-14",started:"2015-09-14",position:"Class Teacher",quals:"NCE (English)",about:"The friendly voice of Primary 3. Uncle Ebenezer loves turning stories into lessons, and has taught at Treasure since our very first year."},
-      {id:"T002", pin:"1234", name:"Aunty Rafatu",   phone:"0803 100 0002", class:"Primary 1", subjects:["Mathematics","Basic Science"],dob:"1992-06-21",started:"2017-01-09",position:"Class Teacher",quals:"NCE (Primary Education)",about:"Patient and playful - she gives our Primary 1 pupils the strongest possible start in reading and numbers."},
-      {id:"T003", pin:"1234", name:"Aunty Rachel",   phone:"0803 100 0003", class:"Nursery 2", subjects:["Literacy","Numeracy","Phonics"],dob:"1990-11-03",started:"2016-09-12",position:"Class Teacher",quals:"NCE (Early Childhood)",about:"Our phonics champion - Nursery 2 pupils leave her class sounding out new words all by themselves."},
-      {id:"T004", pin:"1234", name:"Aunty Nanahawa", phone:"0803 100 0004", class:"Pre-Nursery", subjects:["Literacy","Numeracy","Rhymes & Songs"],dob:"1995-08-30",started:"2018-09-10",position:"Class Teacher",quals:"NCE (Early Childhood)",about:"Gentle hands and a warm heart - she cares for our youngest Treasures in Pre-Nursery."},
-      {id:"T005", pin:"1234", name:"Mr. Tunde Bakare (demo)", phone:"0803 999 0000", class:"Primary 4", subjects:["English Language","Social Studies"],dob:"1985-09-16",started:"2019-09-16",position:"Class Teacher",quals:"B.Ed (Social Studies)",about:"Brings history and maps alive for Primary 4 with debates and little field trips."},
-      {id:"T006", pin:"1234", name:"Mrs. Ngozi Obi (demo)",   phone:"0803 222 3333", class:"Creche",    subjects:["Rhymes & Songs","Social Habits"],dob:"1993-12-09",started:"2020-01-13",position:"Class Teacher",quals:"NCE",about:"Known for the calmest creche corner in Kogi State - songs, naps and happy babies."},
-      {id:"T007", pin:"1234", name:"Mrs Salihu Nanahawa", phone:"0803 100 0007", class:"Nursery 1", subjects:["Literacy","Numeracy","Phonics"],dob:"1991-05-22",started:"2015-09-14",position:"Class Teacher",quals:"NCE (Early Childhood)",about:"With Treasure from day one - her Nursery 1 classroom is where the music never stops."}
+      /* 25 Sept 2026: the owner asked for exactly four demo logins -
+         Headmistress, one teacher, one parent with a single child, one
+         parent with two. This is the one demo teacher: a real teacher from
+         the staff wall, with the PIN the login page advertises. */
+      {id:"T001", pin:"1234", name:"Shaibu Memunat", phone:"0803 100 0001", class:"Primary 1", subjects:[], dob:"", started:"", position:"Class Teacher", quals:"ND Animal Science (2012)", about:"What she does best is animal science - the care and keeping of living things - and her Primary 1 class learns gentleness alongside their letters."}
     ],
     formerTeachers: FORMER_SEED,
     staffWall: STAFF_WALL_SEED,
     graduates: GRADS_SEED,
     pupils: [
-      {id:"P001", adm:"TA/2023/001", pin:"1234", password:"1234", name:"Adaeze Okafor",   gender:"Female", class:"Primary 1", dob:"2019-03-12", parent:"Mrs. Okafor",  phone:"0805 111 2222"},
-      {id:"P002", adm:"TA/2023/002", pin:"1234", password:"1234", name:"Emeka Nwosu",    gender:"Male",   class:"Primary 1", dob:"2019-07-08", parent:"Mr. Nwosu",    phone:"0805 333 4444"},
-      {id:"P003", adm:"TA/2023/003", pin:"1234", password:null, name:"Fatima Bello",       gender:"Female", class:"Primary 1", dob:"2018-11-20", parent:"Alh. Bello",   phone:"0805 555 6666"},
-      {id:"P004", adm:"TA/2024/004", pin:"1234", password:null, name:"David Adeyemi",   gender:"Male",   class:"Primary 1", dob:"2019-01-30", parent:"Mrs. Adeyemi", phone:"0805 777 8888"},
-      {id:"P005", adm:"TA/2023/005", pin:"1234", password:null, name:"Grace Eze",      gender:"Female", class:"Primary 2", dob:"2018-05-14", parent:"Mrs. Eze",     phone:"0805 999 0000"},
-      {id:"P006", adm:"TA/2024/006", pin:"1234", password:null, name:"Ibrahim Musa",     gender:"Male",   class:"Primary 2", dob:"2018-09-02", parent:"Mr. Musa",     phone:"0805 222 3333"},
-      {id:"P007", adm:"TA/2024/007", pin:"1234", password:null, name:"Hannah Peters",   gender:"Female", class:"Primary 2", dob:"2018-02-25", parent:"Mrs. Peters",  phone:"0805 444 5555"},
-      {id:"P008", adm:"TA/2024/008", pin:"1234", password:"1234", name:"Daniel Okoro",   gender:"Male",   class:"Nursery 2", dob:"2021-06-11", parent:"Mrs. Okoro",   phone:"0805 666 7777"},
-      {id:"P009", adm:"TA/2024/009", pin:"1234", password:null, name:"Esther Balogun",  gender:"Female", class:"Nursery 2", dob:"2021-04-19", parent:"Mr. Balogun",  phone:"0805 888 9999"},
-      {id:"P010", adm:"TA/2025/010", pin:"1234", password:null, name:"Femi Adebayo",      gender:"Male",   class:"Nursery 2", dob:"2021-10-05", parent:"Mrs. Adebayo", phone:"0805 000 1111"},
-      {id:"P011", adm:"TA/2025/011", pin:"1234", password:null, name:"Aisha Sule",   gender:"Female", class:"Pre-Nursery", dob:"2022-08-17", parent:"Mrs. Sule",    phone:"0805 123 1234"},
-      {id:"P012", adm:"TA/2025/012", pin:"1234", password:null, name:"Joshua Tari",      gender:"Male",   class:"Pre-Nursery", dob:"2022-12-01", parent:"Mr. Tari",     phone:"0805 456 4566"},
-      {id:"P013", adm:"TA/2025/013", pin:"1234", password:null, name:"Kemi Ogunleye",    gender:"Female", class:"Primary 4", dob:"2016-03-22", parent:"Mrs. Ogunleye",phone:"0805 789 7890"},
-      {id:"P014", adm:"TA/2025/014", pin:"1234", password:null, name:"Peter Udo",      gender:"Male",   class:"Primary 4", dob:"2016-07-09", parent:"Mr. Udo",      phone:"0805 321 3210"},
-      {id:"P015", adm:"TA/2026/015", pin:"1234", password:null, name:"Zara Ali",   gender:"Female", class:"Creche",    dob:"2024-05-20", parent:"Mrs. Ali",     phone:"0805 654 6543"},
-      {id:"P016", adm:"TA/2026/016", pin:"1234", password:null, name:"Tobi Alabi",      gender:"Male",   class:"Creche",    dob:"2024-09-11", parent:"Mr. Alabi",    phone:"0805 987 9876"},
-      {id:"P017", adm:"TA/2026/017", pin:"1234", password:null, name:"Majebi Benita", gender:"Female", class:"Primary 3", dob:"", parent:"Mrs. Benita", phone:"0805 100 0017"}
+      /* Demo household A: Mrs. Okafor, one child. */
+      {id:"P001", adm:"TA/2023/001", pin:"1234", password:"1234", name:"Adaeze Okafor", gender:"Female", class:"Primary 1", dob:"2019-03-12", parent:"Mrs. Okafor", phone:"0805 111 2222"},
+      /* Demo household B: Mr. Nwosu, two children sharing one login phone -
+         the pupil portal shows the child switcher for this household. */
+      {id:"P002", adm:"TA/2023/002", pin:"1234", password:"1234", name:"Emeka Nwosu", gender:"Male", class:"Primary 1", dob:"2019-07-08", parent:"Mr. Nwosu", phone:"0805 333 4444"},
+      {id:"P003", adm:"TA/2023/003", pin:"1234", password:"1234", name:"Ada Nwosu", gender:"Female", class:"Nursery 1", dob:"2021-02-14", parent:"Mr. Nwosu", phone:"0805 333 4444"}
     ],
     duty: [
-      {day:"Monday",    teachers:["T001","T003"]},
-      {day:"Tuesday",   teachers:["T002","T004"]},
-      {day:"Wednesday", teachers:["T005","T006"]},
-      {day:"Thursday",  teachers:["T001","T005"]},
-      {day:"Friday",    teachers:["T003","T002"]}
+      {day:"Monday",    teachers:["T001"]},
+      {day:"Tuesday",   teachers:[]},
+      {day:"Wednesday", teachers:[]},
+      {day:"Thursday",  teachers:["T001"]},
+      {day:"Friday",    teachers:[]}
     ],
     results: [],
     attendance: [],
-    applications: [
-      {id:"AP1", pupilName:"Olivia Eze", dob:"2020-02-14", gender:"Female", classApply:"Nursery 1", parent:"Mrs. Eze", phone:"0807 111 0000", date:"2026-09-10", status:"Pending"},
-      {id:"AP2", pupilName:"Samuel Danjuma", dob:"2017-12-03", gender:"Male", classApply:"Primary 3", parent:"Mr. Danjuma", phone:"0807 222 0000", date:"2026-09-12", status:"Pending"}
-    ],
+    applications: [],
     promotions: [
       {id:"PR1", badge:"Admissions Open", title:"2026/2027 Admission Is On", text:"Creche, Pre-Nursery, Nursery and Primary forms are out. Give your child the Treasure Academy advantage — limited seats per class.", cta:"Apply Now", link:"portal/login.html?mode=register", color:"sun"},
       {id:"PR2", badge:"Parent Portal", title:"Check Results From Your Phone", text:"No more waiting. Report cards, attendance and school notices are now online for all parents.", cta:"Login to Portal", link:"portal/login.html", color:"sky"},
@@ -333,14 +322,13 @@ function seedDB(){
     });
     return {id:"R"+(db.seq.result++), pupilId, class:cls, term:db.school.term, session:db.school.session, scores, status, updatedAt:new Date().toISOString()};
   };
-  ["P001","P002","P003","P004"].forEach((pid,i)=> db.results.push(mk(pid,"Primary 1", i*3, "Published")));
-  ["P008","P009"].forEach((pid,i)=> db.results.push(mk(pid,"Nursery 2", i*5+2, "Submitted")));
+  ["P001","P002"].forEach((pid,i)=> db.results.push(mk(pid,"Primary 1", i*3, "Published")));
   const d = new Date();
   for(let k=5;k>=1;k--){
     const dt = new Date(d); dt.setDate(d.getDate()-k);
     if([0,6].includes(dt.getDay())) continue;
     const recs = {};
-    ["P001","P002","P003","P004"].forEach(pid=>{ recs[pid] = Math.random()>0.12 ? "P" : "A"; });
+    ["P001","P002"].forEach(pid=>{ recs[pid] = Math.random()>0.12 ? "P" : "A"; });
     db.attendance.push({date: dt.toISOString().slice(0,10), class:"Primary 1", records:recs});
   }
   return db;
@@ -436,7 +424,22 @@ const DB = {
     if(!db.ptaAttend||Array.isArray(db.ptaAttend)) db.ptaAttend = {};
     if(!db.bdayWishes) db.bdayWishes = {};
     if(!db.school.gradDate) db.school.gradDate = "2027-07-23";
-    if(!(db.teachers||[]).some(t=>t.class==="Nursery 1")) db.teachers.push({id:"T007",pin:"1234",name:"Mrs Salihu Nanahawa",phone:"-",class:"Nursery 1",subjects:["Literacy","Numeracy","Phonics"],dob:"1991-05-22"});
+    /* 25 September 2026 - the owner asked for exactly four demo logins:
+       Headmistress, one teacher, one parent with a single child, one parent
+       with two. Demo accounts seeded before that date are retired here, once
+       per device; real accounts created through the portal carry other IDs
+       and are never touched. */
+    if(!db.demoAccountsV2){
+      db.teachers=(db.teachers||[]).filter(t=>!/^T00[1-9]$/.test(t.id));
+      db.teachers.unshift(seedDB().teachers[0]);
+      db.pupils=(db.pupils||[]).filter(p=>!/^P0(0[1-9]|1[0-7])$/.test(p.id));
+      (seedDB().pupils||[]).forEach(function(f){ db.pupils.push(f); });
+      db.duty=(db.duty||[]).map(function(d){
+        return {day:d.day, teachers:(d.teachers||[]).filter(function(id){return id==="T001";})};
+      });
+      db.applications=(db.applications||[]).filter(function(a){return a.id!=="AP1"&&a.id!=="AP2";});
+      db.demoAccountsV2=1;
+    }
     if(db.seq.rcpt==null) db.seq.rcpt = 0;
     (db.registrations||[]).forEach(r=>{ if(r.payment&&r.payment.status==="Paid"&&!r.payment.receipt){ db.seq.rcpt++; r.payment.receipt="TA/"+new Date().getFullYear()+"/"+String(db.seq.rcpt).padStart(4,"0"); } });
     /* retire school-bus content (no buses anymore) + backfill story extras */

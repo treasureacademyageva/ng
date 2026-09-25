@@ -38,7 +38,7 @@ function loadPage(page, query, seedFn) {
 {
   const { window: w, errors, run } = loadPage('index.html');
   const html = w.document.body.innerHTML;
-  const seq = ['stats-band', 'id="admissions"', 'aboutPrev', 'programs', 'promotions', 'newsSteps', 'gallery', 'spotlight', 'testimonials'];
+  const seq = ['stats-band', 'id="admissions"', 'aboutPrev', 'programs', 'promotions', 'calCount', 'newsGrid', 'gallery', 'spotlight', 'testimonials'];
   const pos = seq.map(s => html.indexOf(s));
   ok('homepage order correct', pos.every((p, i) => p > 0 && (i === 0 || p > pos[i - 1])), pos.join(','));
   ok('duplicate Campus Gallery removed', !html.includes('Campus Gallery'));

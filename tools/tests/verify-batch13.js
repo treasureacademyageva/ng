@@ -97,7 +97,7 @@ function loadPage(page, session, seedFn) {
   ok('admissions faq 6', a.window.document.querySelectorAll('#admFaq .faq-item').length === 6);
   a.run('document.querySelector("#admFaq .faq-q").click();');
   ok('faq opens', a.window.document.querySelector('#admFaq .faq-item').classList.contains('open'));
-  ok('landing countdown bar removed', !fs.readFileSync(SITE + '/index.html', 'utf8').includes('id="calCount"'));
+  ok('landing countdown bar restored (owner review, 25 Sept 2026)', fs.readFileSync(SITE + '/index.html', 'utf8').includes('id="calCount"'));
   const tmr = new Date(); tmr.setDate(tmr.getDate() + 1);
   const t = loadPage('index.html', null, win => {
     const db = win.__DB.load();
@@ -113,7 +113,7 @@ function loadPage(page, session, seedFn) {
     const db = win.__DB.load();
     db.teachers.forEach(x => { x.dob = '1990-01-01'; });
     db.teachers[0].dob = today; db.teachers[0].name = 'Today Star';
-    db.teachers[1].dob = fut.toISOString().slice(0, 10); db.teachers[1].name = 'Future Star';
+    db.pupils[0].dob = fut.toISOString().slice(0, 10); db.pupils[0].name = 'Future Star';
     db.school.headDob = '1980-06-01';
     win.__DB.save(db);
   });

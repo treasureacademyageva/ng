@@ -48,7 +48,7 @@ ok('grid css + responsive', corp.includes('.staff-grid3{display:grid;grid-templa
 ok('former section markup', alumni.includes('id="formerGrid"') && alumni.includes('Our Former Teachers') && alumni.includes('positions they held'));
 ok('profile modal markup', alumni.includes('id="tpBg"') && alumni.includes('id="tpBox"') && alumni.includes('closeTP()'));
 ok('store: former seed + migration', store.includes('if(!db.formerTeachers) db.formerTeachers = FORMER_SEED;'));
-ok('store: public wall holds real filing names', store.includes('id:"W05", name:"Tahab Oyiza Zainab"') && store.includes('quals:"B.Agric Crop Science (2020)"'));
+ok('store: public wall holds real filing names', store.includes('id:"W05", name:"Tahab Oyiza Zainab"') && store.includes('quals:"B.Agric (2020)"'));
 ok('cards clickable', alumni.includes('staff-click') && alumni.includes("onclick=\"openTP('${t.id}')\"") && alumni.includes("onclick=\"openTP('${f.id}')\""));
 ok('public wall carries no voting buttons', !alumni.includes('data-vote') && !alumni.includes('event.stopPropagation();voteTeacher'));
 ok('admin form: profile fields', ['id="tStart"', 'id="tPos"', 'id="tQual"', 'id="tAbout"'].every(a => adminHtml.includes(a)) && adminHtml.includes('started:document.getElementById("tStart").value'));
@@ -56,7 +56,7 @@ ok('admin form: profile fields', ['id="tStart"', 'id="tPos"', 'id="tQual"', 'id=
 /* ---------- B. live: grid + profiles ---------- */
 const al = loadPage('alumni.html');
 const cards = [...al.window.document.querySelectorAll('#teamGrid .team-card')];
-ok('10 real staff blocks on wall', cards.length === 10, 'got ' + cards.length);
+ok('11 real staff blocks on wall', cards.length === 11, 'got ' + cards.length);
 ok('card shows position', cards[0] && cards[0].textContent.includes('Class Teacher'));
 const fcards = [...al.window.document.querySelectorAll('#formerGrid .team-card')];
 ok('no former cards with empty seed', fcards.length === 0, 'got ' + fcards.length);
@@ -66,7 +66,7 @@ al.run("teacherProfile('W01');");
 let box = al.window.document.getElementById('tpBox').textContent;
 ok('profile opens for teacher', al.window.document.getElementById('tpBox').style.display === '' && box.includes('Idris Ibrahim'));
 ok('started line hidden when no date stored', !box.includes('Started teaching here'));
-ok('profile shows quals + about + subjects', box.includes('HND') && box.includes('maths desk') && box.includes('Computer Science'));
+ok('profile shows quals + about + subject taught', box.includes('HND') && box.includes('What he does best') && box.includes('Computer Science') && box.includes('Mathematics'));
 al.run("closeTP(); teacherProfile('FT1');");
 box = al.window.document.getElementById('tpBox').textContent;
 ok('unknown profile id stays hidden', al.window.document.getElementById('tpBox').style.display === 'none');
@@ -74,12 +74,12 @@ ok('alumni loads clean', al.errors.length === 0, al.errors.join(' || ').slice(0,
 
 /* ---------- C. live: admin edit persists profile ---------- */
 const adm = loadPage('portal/admin.html', ADMIN);
-adm.run('openTeacherModal("T002");');
+adm.run('openTeacherModal("T001");');
 adm.window.document.getElementById('tPos').value = 'Class Teacher & Maths Lead';
 adm.window.document.getElementById('tStart').value = '2017-01-09';
 adm.window.document.getElementById('tAbout').value = 'Leads our maths team.';
-adm.run('saveTeacher("T002");');
-ok('admin saves teacher profile', adm.run('var t=DB.load().teachers.find(x=>x.id==="T002"); t.position') === 'Class Teacher & Maths Lead' && adm.run('DB.load().teachers.find(x=>x.id==="T002").about') === 'Leads our maths team.');
+adm.run('saveTeacher("T001");');
+ok('admin saves teacher profile', adm.run('var t=DB.load().teachers.find(x=>x.id==="T001"); t.position') === 'Class Teacher & Maths Lead' && adm.run('DB.load().teachers.find(x=>x.id==="T001").about') === 'Leads our maths team.');
 ok('admin loads clean', adm.errors.length === 0, adm.errors.join(' || ').slice(0, 140));
 
 /* ---------- D. versions ---------- */

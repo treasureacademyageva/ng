@@ -321,7 +321,7 @@ def build():
                         break
     if wall:
         people = re.findall(
-            r'name:"([^"]+)",\s*class:"([^"]*)",\s*position:"([^"]*)",\s*quals:"([^"]*)"',
+            r'name:"([^"]+)",(?:\s*gender:"[^"]*",)?\s*class:"([^"]*)",\s*position:"([^"]*)",\s*quals:"([^"]*)"',
             wall)
         if people:
             lines = []
