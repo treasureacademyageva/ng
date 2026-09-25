@@ -38,7 +38,7 @@ function loadPage(page, query, seedFn) {
 {
   const { window: w, errors, run } = loadPage('index.html');
   const html = w.document.body.innerHTML;
-  const seq = ['aboutPrev', 'stats-band', 'programs', 'admissions', 'promotions', 'newsSlider', 'gallery', 'spotlight', 'testimonials'];
+  const seq = ['stats-band', 'id="admissions"', 'aboutPrev', 'programs', 'promotions', 'newsSteps', 'gallery', 'spotlight', 'testimonials'];
   const pos = seq.map(s => html.indexOf(s));
   ok('homepage order correct', pos.every((p, i) => p > 0 && (i === 0 || p > pos[i - 1])), pos.join(','));
   ok('duplicate Campus Gallery removed', !html.includes('Campus Gallery'));
@@ -60,7 +60,6 @@ function loadPage(page, query, seedFn) {
     db.testimonials.unshift({ id: 'TMX', name: 'Real Parent', role: 'Parent, Primary 2', text: 'Live testimonial text', stars: 4, status: 'Approved', date: t });
     win.__DB.save(db);
   });
-  ok('countdown shows HAPPENING NOW', [0,6].includes(new Date().getDay()) ? w.document.getElementById('calCount').textContent.includes('resumes back on Monday') : w.document.getElementById('calCount').textContent.includes('Happening now'));
   const rail = w.document.getElementById('testiRail');
   ok('real-time approved testimonial appears', rail.textContent.includes('Live testimonial text') && rail.textContent.includes('Parent, Primary 2'));
   ok('4-star rendering', rail.textContent.includes('★★★★☆'));

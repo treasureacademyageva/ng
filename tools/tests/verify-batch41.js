@@ -53,7 +53,7 @@ ok('CE 2023 set data', store.includes('MAJEBI, TREASURE ONONO') && store.include
 const gradCount = (store.match(/class:"Graduated"/g) || []).length;
 ok('39 graduates seeded', gradCount === 39, 'got ' + gradCount);
 ok('partner strip markup', sitejs.includes('class="foot-partners"') && sitejs.includes('Approved &amp; Registered With') && sitejs.includes('BS/OKN/141'));
-ok('five badge files referenced', ['badge-kogi.png', 'badge-kogimoe.png', 'badge-napps.webp', 'badge-nysc.png', 'badge-cee.png'].every(b => sitejs.includes('assets/img/partners/' + b)));
+ok('three badge files referenced, kogi+cee retired', ['badge-kogimoe.png', 'badge-napps.webp', 'badge-nysc.png'].every(b => sitejs.includes('assets/img/partners/' + b)) && !sitejs.includes('badge-kogi.png"') && !sitejs.includes('badge-cee.png"'));
 ok('badge files on disk', ['badge-kogi.png', 'badge-kogimoe.png', 'badge-napps.webp', 'badge-nysc.png', 'badge-cee.png', 'class-feature.jpg'].every(b => fs.existsSync(SITE + '/assets/img/partners/' + b) || fs.existsSync(SITE + '/assets/img/' + b)));
 ok('acc css', corp.includes('.foot-partners{') && corp.includes('.acc-logos img{') && corp.includes('.staff-collage{'));
 ok('alumni: collage + search + feature', alumni.includes('id="staffCollage"') && alumni.includes('id="staffQ"') && alumni.includes('A Day in Our Class') && alumni.includes('class-feature.jpg'));
@@ -61,7 +61,7 @@ ok('alumni: grad cards clickable', alumni.includes("onclick=\"gradProfile('${p.i
 ok('alumni: teacher alias kept', alumni.includes('window.teacherProfile=function(id){ openTP(id); };'));
 ok('coc teacher: button + view + modal', teacherHtml.includes('data-view="code">Code of Conduct') && teacherHtml.includes('id="v-code"') && teacherHtml.includes('id="cocBg"') && teacherHtml.includes('acceptCoC'));
 ok('coc admin: button + view + modal', adminHtml.includes('data-view="code">Code of Conduct') && adminHtml.includes('id="v-code"') && adminHtml.includes('school.cocA'));
-ok('coc rules faithful to staff paper, numbered 1-20', teacherHtml.includes('resumes 7:30am') && teacherHtml.includes('movement book') && teacherHtml.includes('association/union') && adminHtml.includes('day-care class') && (teacherHtml.match(/<li style="margin-bottom:9px">/g)||[]).length >= 20 && sitejs.includes('href="https://www.nappsng.org/"') && sitejs.includes('href="https://www.nysc.gov.ng/"') && sitejs.includes('href="https://kogistate.gov.ng/"'));
+ok('coc rules faithful to staff paper, numbered 1-20', teacherHtml.includes('resumes 7:30am') && teacherHtml.includes('movement book') && teacherHtml.includes('association/union') && adminHtml.includes('day-care class') && (teacherHtml.match(/<li style="margin-bottom:9px">/g)||[]).length >= 20 && sitejs.includes('href="https://www.nappsng.org/"') && sitejs.includes('href="https://www.nysc.gov.ng/"') && sitejs.includes('href="https://moest.kogistate.gov.ng/"'));
 
 /* ---------- B. live: alumni ---------- */
 const al = loadPage('alumni.html');

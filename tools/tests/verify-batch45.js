@@ -60,7 +60,7 @@ ok('seed is idempotent',    /on conflict/i.test(seed));
 /* Real data only. */
 ok('seed uses the real session',  /2026\/2027/.test(seed) && /First Term/.test(seed));
 ok('seed keeps all five term dates',
-   ['2026-09-22', '2026-10-01', '2026-10-29', '2026-12-10', '2026-12-18']
+   ['2026-09-14', '2026-10-01', '2026-10-29', '2026-12-10', '2026-12-18']
      .every(d => seed.includes(d)));
 ok('seed does not invent demo staff',
    !/Tunde Bakare'/.test(seed) && !/Ngozi Obi'/.test(seed));
@@ -240,7 +240,7 @@ ok('toast vetoes a false success',
 const site = read('assets/js/site.js');
 ok('admission deadline survives past resumption',
    /resAny/.test(read('assets/js/chat-core.js')) &&
-   /Admission deadline/.test(read('assets/js/chat-core.js')));
+   /Deadline/.test(read('assets/js/chat-core.js')));
 
 /* -------------------------------------------------------------- auth ---- */
 

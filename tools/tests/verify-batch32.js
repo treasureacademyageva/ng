@@ -41,9 +41,11 @@ function loadPage(page, session, url, pre) {
 }
 
 /* ---------- A. word of the week ---------- */
-const idx = loadPage('index.html');
-const wow = idx.window.document.getElementById('wowCard');
-ok('wow card rendered', !!wow && wow.textContent.includes('Word of the Week') && wow.textContent.includes('Meaning:') && wow.textContent.includes('Use it:'));
+const idxSrc = fs.readFileSync(SITE + '/index.html', 'utf8');
+ok('wow moved off the landing page', !idxSrc.includes('id="wowCard"'));
+const pup = loadPage('portal/pupil.html', { role: 'pupil', refId: 'P001', name: 'Test Pupil' });
+const wow = pup.window.document.getElementById('wowCard');
+ok('wow card rendered for pupils', !!wow && wow.textContent.includes('Word of the Week') && wow.textContent.includes('Meaning:') && wow.textContent.includes('Use it:'));
 const WEEK = Math.floor(Date.now() / 6048e5);
 const m = sitejs.match(/WOW_WORDS=\[([\s\S]*?)\];\nfunction renderWOW/);
 const words = [...m[1].matchAll(/\["([A-Za-z]+)"/g)].map(x => x[1]);
@@ -51,7 +53,7 @@ ok('word matches week rotation', wow.textContent.includes(words[WEEK % words.len
 ok('word list healthy (24+ words)', words.length >= 24, 'n=' + words.length);
 ok('wow css tokens + dark', corp.includes('.wow-card{') && corp.includes('[data-theme="dark"] .wow-word{color:#F5C242}'));
 ok('wow boots site-wide', sitejs.includes('bootSafe(()=>renderWOW())'));
-ok('page clean', idx.errors.length === 0, idx.errors.join(' || ').slice(0, 140));
+ok('page clean', pup.errors.length === 0, pup.errors.join(' || ').slice(0, 140));
 
 /* ---------- B. absent/late WhatsApp notify ---------- */
 const tch = loadPage('portal/teacher.html', TEACHER);

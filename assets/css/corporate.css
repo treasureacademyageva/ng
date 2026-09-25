@@ -1300,3 +1300,40 @@ h1,h2,h3{text-wrap:balance}
 .sec-head{max-width:70ch}
 body{line-height:1.55}
 #siteLoader img{image-rendering:auto}
+
+
+/* ==========================================================================
+   Landing + navigation polish — owner review, 24 September 2026.
+   One uniform box for every navigation item (Menu included), a smaller
+   search / night-switch, a bigger crest, the stats travelling with the
+   hero image as one group, shorter program cards, taller Difference
+   cards, and the news date filter dressed like its sibling filter.
+   ========================================================================== */
+.nav-links a.nl{display:inline-flex;align-items:center;justify-content:center;gap:7px;min-width:106px;height:44px;padding:0 12px;border-radius:12px;box-sizing:border-box}
+.nav-links a.nl svg{width:16px;height:16px;flex:none}
+.nav-links a.nl span{font-size:.88rem;line-height:1}
+.nav-links a.nl-cta{background:var(--mint-soft);color:#0E5A2E;font-weight:800}
+.nav-links a.nl-cta::after{display:none}
+.nav-links a.nl-cta:hover{background:#DCEFE2}
+.nav-links .nav-burger{min-width:106px;height:44px;border-radius:12px}
+.theme-btn{width:34px;height:34px}
+.theme-btn svg{width:15px;height:15px}
+.mark-img{width:60px;height:60px}
+.hero-art{display:flex;flex-direction:column;gap:16px}
+.hero-art .stats-band{margin:0;border-radius:18px;padding:24px 26px;display:grid;grid-template-columns:repeat(4,1fr);gap:12px 18px;box-shadow:0 18px 44px rgba(0,0,0,.25)}
+.hero-art .stat{text-align:center}
+.step .num.num-date{width:auto;min-width:44px;padding:0 12px;font-size:.85rem;border-radius:999px}
+.prog-grid .prog{padding:0 0 16px}
+.prog-grid .prog h3{margin:12px 16px 4px}
+.prog-grid .prog .ages{margin:0 16px}
+.prog-grid .prog ul{margin:10px 16px 12px}
+.prog-grid .prog .btn{margin:0 16px}
+.feat-grid .feat{padding:30px 26px;min-height:300px;display:flex;flex-direction:column}
+.vid-grid .gal{display:flex;flex-direction:column}
+.vid-grid .video-shell{flex:1;display:flex;flex-direction:column;justify-content:center}
+.vid-grid .video-shell iframe{width:100%}
+.filter-bar input[type="date"]{font-family:var(--font-body);padding:9px 14px;border:1px solid var(--line);border-radius:9px;background:#fff;color:var(--ink)}
+@media (max-width:640px){
+  .hero-art .stats-band{grid-template-columns:repeat(2,1fr);padding:18px}
+  .nav-links a.nl,.nav-links .nav-burger{min-width:0;height:40px;padding:0 10px}
+}

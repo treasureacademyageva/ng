@@ -115,16 +115,12 @@ const dstr = off => { const d = new Date(); d.setDate(d.getDate() + off); return
 /* ---- index structure ---- */
 {
   const src = fs.readFileSync(SITE + '/index.html', 'utf8');
-  const order = ['CAMPUS TOUR', 'EXCURSION VIDEOS', 'HEADMISTRESS', 'id="testimonials"'].map(s => src.indexOf(s));
-  ok('index order campus>videos>hm>testi', order.every(x => x > 0) && order[0] < order[1] && order[1] < order[2] && order[2] < order[3]);
-  ok('cta merged once', (src.match(/cta-band/g) || []).length === 1);
-  const calPos = src.indexOf('id="calCount"'), newsPos = src.indexOf('id="news"'), promoPos = src.indexOf('PROMOTIONS');
-  ok('calCount between promo+news', promoPos < calPos && calPos < newsPos);
+  const order = ['id="admissions"', 'id="aboutPrev"', 'id="programs"', 'id="promotions"', 'id="news"', 'id="gallery"', 'id="videos"', 'HEADMISTRESS', 'id="testimonials"'].map(m => src.indexOf(m));
+  ok('index order adm-top>about>programs>promos>news>gallery>videos>hm>testi', order.every(x => x > 0) && order.every((x, i) => i === 0 || order[i - 1] < x), order.join(','));
+  ok('three cta bands (admissions, promos, news)', (src.match(/cta-band/g) || []).length === 3);
+  ok('landing countdown removed', !src.includes('id="calCount"'));
+  ok('videos grouped like gallery', src.includes('vid-grid') && src.includes('id="videos"') && !src.includes('CAMPUS TOUR'));
   ok('see all reviews link', src.includes('href="testimonials.html">See All Reviews'));
-  const { window: w } = loadPage('index.html');
-  const dow = new Date().getDay();
-  if (dow === 0 || dow === 6) ok('weekend calCount', w.document.getElementById('calCount').textContent.includes('resumes back on Monday'));
-  else ok('weekday calCount', !w.document.getElementById('calCount').textContent.includes('resumes back on Monday'));
 }
 
 /* ---- news page ---- */

@@ -89,7 +89,7 @@ const ADMIN = { role: 'admin', refId: 'HEAD001', name: 'Mrs. Salihu Nanahawa' };
   ok('emergency shows when on', !!on.window.document.getElementById('emgBanner') && on.window.document.getElementById('emgBanner').textContent.includes('TEST ALERT'));
   const off = loadPage('index.html');
   ok('emergency hidden when off', !off.window.document.getElementById('emgBanner'));
-  ok('quick-strip links uniform', off.window.document.querySelector('.quick-strip').innerHTML.includes('uniform.html'));
+  ok('uniform link lives in the drawer', fs.readFileSync(SITE + '/assets/js/auth-ui.js', 'utf8').includes('uniform.html'));
 }
 /* admin: settings + extras + reminders + parts */
 {

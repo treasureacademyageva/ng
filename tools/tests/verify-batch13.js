@@ -97,10 +97,7 @@ function loadPage(page, session, seedFn) {
   ok('admissions faq 6', a.window.document.querySelectorAll('#admFaq .faq-item').length === 6);
   a.run('document.querySelector("#admFaq .faq-q").click();');
   ok('faq opens', a.window.document.querySelector('#admFaq .faq-item').classList.contains('open'));
-  const i = loadPage('index.html', null, win => { const db = win.__DB.load(); db.calendar = []; win.__DB.save(db); });
-  ok('countdown falls to exams', [0,6].includes(new Date().getDay()) ? i.window.document.getElementById('calCount').textContent.includes('resumes back on Monday') : i.window.document.getElementById('calCount').innerHTML.includes('exams.html'), i.window.document.getElementById('calCount').textContent.slice(0, 80));
-  const d = loadPage('index.html');
-  ok('countdown prefers nearest calendar', [0,6].includes(new Date().getDay()) ? d.window.document.getElementById('calCount').textContent.includes('resumes back on Monday') : d.window.document.getElementById('calCount').innerHTML.includes('calendar.html'));
+  ok('landing countdown bar removed', !fs.readFileSync(SITE + '/index.html', 'utf8').includes('id="calCount"'));
   const tmr = new Date(); tmr.setDate(tmr.getDate() + 1);
   const t = loadPage('index.html', null, win => {
     const db = win.__DB.load();
@@ -126,8 +123,8 @@ function loadPage(page, session, seedFn) {
   (function walk(dd) { for (const f of fs.readdirSync(dd)) { const p = path.join(dd, f); if (fs.statSync(p).isDirectory()) walk(p); else if (f.endsWith('.html')) pages.push(p); } })(SITE);
   const stale = pages.filter(p => { const s = fs.readFileSync(p, 'utf8'); return [...s.matchAll(/(?:href|src)="((?:\.\.\/)?assets\/[^"]+\.(?:css|js))"/g)].some(m => !m[1].includes('?v=20260916-13')); });
   ok('cache-bust v13 everywhere', stale.length === 0, stale.slice(0, 3).join(','));
-  ok('misc clean', a.errors.length === 0 && i.errors.length === 0 && d.errors.length === 0 && t.errors.length === 0 && b.errors.length === 0,
-    a.errors.concat(i.errors, d.errors, t.errors, b.errors).join(' || ').slice(0, 300));
+  ok('misc clean', a.errors.length === 0 && t.errors.length === 0 && b.errors.length === 0,
+    a.errors.concat(t.errors, b.errors).join(' || ').slice(0, 300));
 }
 
 console.log(`\n==== BATCH13: ${pass} passed, ${fail} failed ====`);

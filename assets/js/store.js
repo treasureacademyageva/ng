@@ -166,9 +166,9 @@ function seedDB(){
     ],
     practiceAttempts: [],
     calendar: [
-      {id:"C1", date:"2026-09-22", title:"Resumption — First Term 2026/2027", desc:"All pupils resume. New admissions close two weeks after resumption."},
+      {id:"C1", date:"2026-09-14", title:"Resumption — First Term 2026/2027", desc:"All pupils resume. Admissions stay open for the first seven weeks of term."},
       {id:"C2", date:"2026-10-01", title:"Independence Day Holiday", desc:"No school — public holiday."},
-      {id:"C3", date:"2026-10-29", title:"Mid-Term Break", desc:"Half-term break begins."},
+      {id:"C3", date:"2026-10-29", title:"Mid-Term Break", desc:"Half-term break — no school Thursday and Friday."},
       {id:"C4", date:"2026-12-10", title:"First Term Examinations", desc:"Examinations begin for all classes."},
       {id:"C5", date:"2026-12-18", title:"Closing & Carol Service", desc:"End of first term. Merry Christmas!"}
     ],
@@ -455,6 +455,20 @@ const DB = {
     if(db.school.emergency.end===undefined) db.school.emergency.end="";
     if(!db.timetables) db.timetables = {};
     if(!db.calendar) db.calendar = seedDB().calendar;
+    /* 24 Sep 2026 - the owner corrected the First Term 2026/2027 dates:
+       resumption is 14 September (not the 22nd), admissions run for the
+       first seven weeks of term, and the mid-term break is the Thursday
+       AND Friday of week 7. Browsers that already hold the previous seed
+       in localStorage get repaired in place, idempotently. */
+    (db.calendar||[]).forEach(function(c){
+      if(c.id==="C1" && c.date==="2026-09-22"){
+        c.date="2026-09-14";
+        c.desc="All pupils resume. Admissions stay open for the first seven weeks of term.";
+      }
+      if(c.id==="C3" && c.date==="2026-10-29" && /Half-term break begins/.test(c.desc||"")){
+        c.desc="Half-term break — no school Thursday and Friday.";
+      }
+    });
     /* Prune only genuinely stale events. This used to delete everything before
        today on every load, so the term calendar shrank as the term progressed
        and the printed calendar lost its earlier entries. Keep the current

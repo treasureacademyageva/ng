@@ -44,7 +44,7 @@ const ADMIN = { role: 'admin', refId: 'HEAD001', name: 'x' };
   ok('footer even spacing', css.includes('.foot-main{gap:32px;margin-bottom:20px'));
   const { window: w } = loadPage('index.html');
   const f = w.document.getElementById('siteFooter').innerHTML;
-  ok('footer contact kept centered', f.includes('foot-contact-row') && f.includes('foot-center'));
+  ok('footer contact left-aligned', f.includes('foot-contact-row') && !f.includes('foot-contact foot-center'));
   ok('footer human copy', f.includes('Ageva, Okene. Discipline, character'));
 }
 
