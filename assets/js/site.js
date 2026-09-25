@@ -21,16 +21,25 @@ const Theme = {
     const setTC=th=>{ let m=document.querySelector('meta[name="theme-color"]'); if(!m){ m=document.createElement("meta"); m.name="theme-color"; document.head.appendChild(m); } m.content=th==="dark"?"#0C1B14":th==="dark-hc"?"#05080D":"#0B7A37"; };
     setTC(t);
     document.querySelectorAll(".theme-btn").forEach(b=>{
-      b.innerHTML = t==="light" ? ICON_MOON : ICON_SUN;
-      b.title = t==="light" ? "Switch to night" : t==="dark" ? "Switch to high-contrast night" : "Switch to daytime";
+      /* The search button borrows the theme-btn class for its sizing, and the
+         header pill carries its own sun+knob markup driven by CSS - neither
+         may have its innerHTML swapped. */
+      if(b.id==="searchBtn")return;
+      const pill=b.classList.contains("theme-pill");
+      if(!pill){
+        b.innerHTML = t==="light" ? ICON_MOON : ICON_SUN;
+        b.title = t==="light" ? "Switch to night" : t==="dark" ? "Switch to high-contrast night" : "Switch to daytime";
+      }
       b.onclick = ()=>{
         /* batch30: day -> night -> high-contrast night -> day (tap moon again for even deeper dark) */
         const cur = document.documentElement.dataset.theme||"light";
         const nt = cur==="light" ? "dark" : cur==="dark" ? "dark-hc" : "light";
         document.documentElement.dataset.theme = nt; setTC(nt);
         localStorage.setItem("treasure_theme", nt);
-        b.innerHTML = nt==="light" ? ICON_MOON : ICON_SUN;
-        b.title = nt==="light" ? "Switch to night" : nt==="dark" ? "Switch to high-contrast night" : "Switch to daytime";
+        if(!pill){
+          b.innerHTML = nt==="light" ? ICON_MOON : ICON_SUN;
+          b.title = nt==="light" ? "Switch to night" : nt==="dark" ? "Switch to high-contrast night" : "Switch to daytime";
+        }
         try{ U.toast(nt==="dark-hc"?"High-contrast night on \u2014 tap again for day.":nt==="dark"?"Night mode on \u2014 tap again for high contrast.":"Day mode on."); }catch(e){}
       };
     });
@@ -158,21 +167,27 @@ const Search={
  }
 };
 /* ---------------- NAV + FOOTER ---------------- */
+/* The header template: icon-over-label items that never hide. Contact Us
+   lives in the More drawer, and the Login/Register card sits after a wide
+   gap (it is outside #mainNav in the page HTML, so it survives this
+   rewrite). The More button markup is emitted here too so its place in the
+   row is stable; auth-ui.js skips its own burger when one already exists. */
 const NAV_ITEMS=[
-  {id:"home",label:"Home",href:"index.html"},
-  {id:"news",label:"News/Event",href:"news.html"},
-  {id:"about",label:"About Us",href:"about.html"},
-  {id:"contact",label:"Contact Us",href:"contact.html"},
-  {id:"login",label:"Login",href:"portal/login.html",cta:true}
+  {id:"home",label:"Home",href:"index.html",
+   icon:'<svg viewBox="0 0 24 24" width="28" height="28" fill="currentColor" aria-hidden="true"><path d="M12 3 3 10.2V20a1.4 1.4 0 0 0 1.4 1.4h5V15h5.2v6.4h5A1.4 1.4 0 0 0 21 20v-9.8L12 3Z"/></svg>'},
+  {id:"news",label:"News/Event",href:"news.html",
+   icon:'<svg viewBox="0 0 24 24" width="28" height="28" fill="currentColor" aria-hidden="true"><path d="M4 4.5A1.5 1.5 0 0 1 5.5 3h11A1.5 1.5 0 0 1 18 4.5V19a2 2 0 0 0 2-2V7.6h1V17a3.4 3.4 0 0 1-3.4 3.4H6.6A2.6 2.6 0 0 1 4 17.8V4.5Z"/><rect x="6.2" y="5.6" width="9.6" height="4.4" rx="0.8" fill="var(--hd-front,#fff)"/><rect x="6.2" y="12" width="9.6" height="1.8" rx="0.9" fill="var(--hd-front,#fff)"/><rect x="6.2" y="15.4" width="6.6" height="1.8" rx="0.9" fill="var(--hd-front,#fff)"/></svg>'},
+  {id:"about",label:"About Us",href:"about.html",
+   icon:'<svg viewBox="0 0 24 24" width="28" height="28" fill="currentColor" aria-hidden="true"><circle cx="12" cy="12" r="9.4"/><circle cx="12" cy="7.6" r="1.35" fill="var(--hd-front,#fff)"/><rect x="10.7" y="10.4" width="2.6" height="7" rx="1.3" fill="var(--hd-front,#fff)"/></svg>'}
 ];
+const NAV_BURGER='<button type="button" class="hd-item nav-burger" id="taBurger" aria-label="Open menu" aria-haspopup="dialog"><span class="ic"><svg viewBox="0 0 24 24" width="28" height="28" fill="currentColor" aria-hidden="true"><rect x="3.4" y="3.4" width="7.6" height="7.6" rx="2.2"/><rect x="13" y="3.4" width="7.6" height="7.6" rx="2.2"/><rect x="3.4" y="13" width="7.6" height="7.6" rx="2.2"/><rect x="13" y="13" width="7.6" height="7.6" rx="3.8"/></svg></span><span class="lbl">More</span></button>';
 /* explore-bar removed 2026-09-15: single clean nav; footer keeps PTA/Alumni/Birthdays links */
 function renderNav(current){
   const box = document.getElementById("mainNav");
   if(!box) return;
   box.innerHTML = NAV_ITEMS.map(n=>
-    n.cta ? `<a href="${n.href}" class="btn btn-mint btn-sm nav-cta">Login/Register</a>`
-          : `<a href="${n.href}" class="${n.id===current?"on":""}" ${n.id===current?'aria-current="page"':""}>${n.label}</a>`
-  ).join("");
+    `<a class="hd-item${n.id===current?" on":""}" href="${n.href}" ${n.id===current?'aria-current="page"':""}><span class="ic">${n.icon}</span><span class="lbl">${n.label}</span></a>`
+  ).join("") + NAV_BURGER;
 }
 function renderFooter(){
   const box = document.getElementById("siteFooter");
@@ -303,7 +318,7 @@ function initTopBtn(){
   const onScroll=()=>{
     const f=document.getElementById("siteFooter");
     const atBottom=f?(f.getBoundingClientRect().top<innerHeight):((innerHeight+scrollY)>document.body.scrollHeight-120);
-    b.classList.toggle("show",!!atBottom);
+    b.classList.add("show"); /* owner: always visible, right side */
     document.body.classList.toggle("at-bottom",!!atBottom);
   };
   addEventListener("scroll",onScroll,{passive:true}); onScroll();
@@ -844,6 +859,11 @@ function bootWidgets(){
 }
 document.addEventListener("DOMContentLoaded", ()=>{
   bootSafe(()=>Theme.init());
+    /* The header's More button opens the navigation drawer. Delegated on
+       the document so it keeps working when renderNav() rewrites #mainNav. */
+    bootSafe(function(){ document.addEventListener("click",function(e){
+      var mb=e.target&&e.target.closest?e.target.closest("#taBurger"):null;
+      if(mb&&window.TAAuth&&window.TAAuth.drawer)window.TAAuth.drawer(); }); });
   bootSafe(()=>Search.init());
   bootSafe(()=>injectSchool());
   const pg = Site.page;

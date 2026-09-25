@@ -1,0 +1,131 @@
+{
+  "asked": 5639,
+  "cores": 5611,
+  "variants": 299,
+  "byFamily": {
+    "fees": {
+      "pass": 508,
+      "abstain": 0,
+      "wrong": 0,
+      "dead": 0,
+      "n": 508
+    },
+    "transport": {
+      "pass": 120,
+      "abstain": 0,
+      "wrong": 0,
+      "dead": 0,
+      "n": 120
+    },
+    "calendar": {
+      "pass": 288,
+      "abstain": 0,
+      "wrong": 0,
+      "dead": 0,
+      "n": 288
+    },
+    "staff": {
+      "pass": 252,
+      "abstain": 0,
+      "wrong": 0,
+      "dead": 0,
+      "n": 252
+    },
+    "shop": {
+      "pass": 420,
+      "abstain": 0,
+      "wrong": 0,
+      "dead": 0,
+      "n": 420
+    },
+    "docs": {
+      "pass": 2057,
+      "abstain": 1048,
+      "wrong": 315,
+      "dead": 0,
+      "n": 3420
+    },
+    "greet": {
+      "pass": 195,
+      "abstain": 0,
+      "wrong": 0,
+      "dead": 0,
+      "n": 195
+    },
+    "identity": {
+      "pass": 60,
+      "abstain": 0,
+      "wrong": 0,
+      "dead": 0,
+      "n": 60
+    },
+    "thanks": {
+      "pass": 10,
+      "abstain": 0,
+      "wrong": 0,
+      "dead": 0,
+      "n": 10
+    },
+    "bye": {
+      "pass": 12,
+      "abstain": 0,
+      "wrong": 0,
+      "dead": 0,
+      "n": 12
+    },
+    "smalltalk": {
+      "pass": 12,
+      "abstain": 0,
+      "wrong": 0,
+      "dead": 0,
+      "n": 12
+    },
+    "refuse": {
+      "pass": 212,
+      "abstain": 0,
+      "wrong": 0,
+      "dead": 0,
+      "n": 212
+    },
+    "portal": {
+      "pass": 56,
+      "abstain": 0,
+      "wrong": 0,
+      "dead": 0,
+      "n": 56
+    },
+    "context": {
+      "pass": 40,
+      "abstain": 0,
+      "wrong": 0,
+      "dead": 0,
+      "n": 40
+    },
+    "salvage": {
+      "pass": 34,
+      "abstain": 0,
+      "wrong": 0,
+      "dead": 0,
+      "n": 34
+    }
+  },
+  "byLevel": {
+    "0": {
+      "pass": null,
+      "abstain": null,
+      "wrong": null,
+      "dead": null,
+      "n": null
+    },
+    "1": {
+      "pass": null,
+      "abstain": null,
+      "wrong": null,
+      "dead": null,
+      "n": null
+    },
+    "2": {},
+    "3": {}
+  },
+  "generatedAt": "2026-09-25T07:14:06.658Z"
+}

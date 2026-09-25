@@ -191,7 +191,9 @@
         this.stat("asked", q);
         this.stat("answered", q, 1);
         this.pending = { kind: "feedback", question: q, title: live.source || "Live school data" };
-        return { type: "answer", html: live.html, source: live.source,
+        return { type: live.type || "answer", html: live.html,
+                 source: live.source, action: live.action || null,
+                 chips: live.chips || null,
                  confidence: 1, feedback: true };
       }
 
@@ -206,7 +208,25 @@
                             "volunteer at the school")
                    .replace(/\bgraduates?\b/g, "alumni");
       }
-      var res = global.TARag
+      /* A price or money question about nothing in the school - "bitcoin
+         price today", "how do i make money online" - has no answer in the
+         school's records, and matching it to the fees FAQ would be a
+         confident lie. Such questions skip retrieval and meet the honest
+         not-school-stuff path below. */
+      var priceGuard = (/\b(how much|price|cost|money|naira|dollar)\b/.test(ragQ) &&
+        !/\b(fees?|schools?|terms?|classes?|creches?|nurseries|nursery|primary|playgroups?|pre[- ]?nursery|uniforms?|sportswear|transports?|buses?|bus|shops?|textbooks?|books?|forms?|admissions?|pta|exams?|lessons?|foods?|meals?|feedings?|feeds?|lunch)\b/.test(ragQ) &&
+        !/\b(adavi|okene|ageva)\b/.test(ragQ)) ||
+        /\b(betting|gambl\w+|casino|lottery|jackpot)\b/.test(ragQ) ||
+        /\bbest\b[^.?!]{0,24}\b(phone|laptop|tv|car|network|data plan)\b/.test(ragQ) ||
+        /\btime\b[^.?!]{0,24}\b(in|at)\b[^.?!]{0,24}\b(london|lagos|abuja|new york|america|uk|usa|ghana|tokyo|paris|dubai|china|india|canada|germany|spain|italy|kenya|south africa)\b/.test(ragQ) ||
+        (/\b(who|what) (is|was|are|were) (the |a |an )?(governor|president|vice president|minister|senator|speaker|king|queen|oba|emir|sultan|mayor)\b/.test(ragQ) &&
+         !/\b(school|treasure|academy)\b/.test(ragQ)) ||
+        /\bwho (owns|founded|started|created|runs) (amazon|google|microsoft|apple|facebook|twitter|tesla|whatsapp|instagram|youtube)\b/.test(ragQ) ||
+        /\bopen (a |an )?bank account\b/.test(ragQ) ||
+        /\bdefine\b/.test(ragQ) ||
+        (/\brecommend\b/.test(ragQ) &&
+         !/\b(school|academy|treasure|class|teacher|subject)\b/.test(ragQ));
+      var res = global.TARag && !priceGuard
         ? global.TARag.answer(ragQ)
         : { band: "none", confidence: 0 };
       this.stat("asked", q);
@@ -313,11 +333,22 @@
         (ent.klass || ent.subject || ent.thing) && !ent.intent;
 
       if ((isFragment || bareEntity) && this.topic) {
+        /* A fragment that names a person ("and the headmistress?") is a
+           whole new question about that person - carrying the old topic
+           would answer the previous person again. */
+        if (isFragment &&
+            /\b(headmistress|founder|proprietor|proprietress|bursar|principal)\b/.test(clean)) {
+          return raw;
+        }
         var carried = this.topic + " " + raw;
         /* Remember the new subject but keep the old intent. */
         if (ent && ent.klass) this.topicClass = ent.klass;
         return carried;
       }
+
+      /* Any question that names a class remembers it, so a follow-up
+         "what does he teach?" knows which class is being discussed. */
+      if (ent && ent.klass) this.topicClass = ent.klass;
 
       /* A full question - remember what it was about for next time. The
          fee table has a transport section, so a transport fee question must
@@ -609,10 +640,57 @@
                  source: "School hours" };
       }
 
+      /* A named shop item answers with its own price - "how much is the
+         mathematics textbook" is a shop question, not a fee question, so
+         it runs before the fee branches. Most of the item's name must
+         appear, so "english textbook" still finds "English Language
+         Textbook". */
+      if (/\b(how much|price|cost|buy|sell)\b/.test(s) && !/\bfees?\b/.test(s)) {
+        /* Uniform words belong to the uniform price list - unless the
+           question names a shop item in full ("Full Uniform Set"), which
+           the uniform list does not carry. */
+        var uniWord = /\b(uniform|shirt|skirt|cardigan|sandal|beret|sock|sportswear|jersey|kit)\b/.test(s);
+        var shopPool = db.shopItems || db.shop || [];
+        var shopHit = null;
+        shopPool.forEach(function (x) {
+          if (!x || !x.name || shopHit) return;
+          var toks = String(x.name).toLowerCase().split(/[^a-z0-9]+/)
+                        .filter(function (w) { return w.length > 2; });
+          if (!toks.length) return;
+          var matched = toks.filter(function (w) { return s.indexOf(w) >= 0; });
+          if (matched.length >=
+              (toks.length < 2 ? 1 : Math.max(2, toks.length - 1)) &&
+              (!uniWord || matched.length >= 2)) shopHit = x;
+        });
+        /* "how much is the notebook" names no full item - accept the one
+           item whose distinctive first word appears, but only when it is
+           unambiguous, and never when the question names a class: "how
+           much is creche" is a fee question, not the Creche Care Pack. */
+        if (!shopHit && !uniWord && !ent.klass &&
+            !/\b(creche|nursery|primary|playgroup|pre[- ]?nursery|class)\b/.test(s)) {
+          var shopCands = shopPool.filter(function (x) {
+            if (!x || !x.name) return false;
+            var toks = String(x.name).toLowerCase().split(/[^a-z0-9]+/)
+                          .filter(function (w) { return w.length > 2; });
+            return toks.length && toks[0].length > 5 && s.indexOf(toks[0]) >= 0;
+          });
+          if (shopCands.length === 1) shopHit = shopCands[0];
+        }
+        if (shopHit) {
+          return { html: "<b>" + esc(shopHit.name) + "</b> is <b>" +
+                         naira(shopHit.price) + "</b> in the school shop." +
+                         "<br><br>Ask the office on " + WHATSAPP + " to confirm " +
+                         "it is in stock today.<br>" +
+                         "<a class=\"chat-link\" href=\"shop.html\">Open the Shop page</a>",
+                   source: "School shop" };
+        }
+      }
+
       /* The school shop. When the live catalogue has loaded its prices are
          quoted; otherwise the honest answer is where the list lives. */
       if (/\bshop\b/.test(s) && !/portal/.test(s)) {
-        var shopItems = (db.shop || []).filter(function (x) { return x.name; });
+        var shopItems = (db.shopItems || db.shop || [])
+                            .filter(function (x) { return x.name; });
         if (shopItems.length) {
           return { html: "<b>In the school shop:</b><br>" +
                          shopItems.slice(0, 8).map(function (x) {
@@ -737,8 +815,24 @@
          they live and how the login works - exactly as the Login page
          states it: pupils without a password are set up automatically,
          staff use Staff ID + PIN. */
-      if (/\b(staff chat|mark (the )?register|enter (the )?(results?|scores?)|submit (the )?(results?|scores?)|approve (a |an )?(pupil|parent|registration|account)|verify (a |an )?(pupil|parent|guardian|registration)|verification ?queue|set (the )?(new )?fees|send (a )?notification|broadcast|post (an? )?(event|news|notice)|duty( roster)?|see (the )?notices|view (the )?notices|class register|see (my |the )?class fees)\b/.test(s)) {
-        var adminSide = /\b(approve|verif\w+|verification queue|set (the )?(new )?fees|broadcast|notification|admin|headmistress|post (an? )?(event|news|notice))\b/.test(s);
+      /* "My attendance", "my timetable", "my homework" - the family's own
+         record. It lives in the portal behind their login, so a guest gets
+         the honest pointer to the login rather than a guessed answer. */
+      if (!session() &&
+          /\bmy (attendance|timetable|homework|results?|report card|fees|balance|payment claim|claim)\b/.test(s) &&
+          !/\b(write|do my|finish|complete)\b/.test(s)) {
+        this.stat("login_required", q);
+        return { type: "needs-login",
+                 html: "That information is tied to your own account, so I " +
+                       "need you to be logged in before I can show it.<br><br>" +
+                       "The <b>Parent / Pupil Portal</b> is where it lives once " +
+                       "you are in - attendance, timetable, homework and " +
+                       "results are all in its sidebar.",
+                 action: { label: "Log in / Register", kind: "login" },
+                 chips: ["Something else"] };
+      }
+      if (/\b(staff chat|mark (the )?register|enter (the )?(results?|scores?)|submit (the )?(results?|scores?)|approve (a |an )?(pupils?|parents?|registrations?|accounts?|guardians?)|verify (a |an )?(pupils?|parents?|guardians?|registrations?|accounts?)|verification ?queue|set (the )?(new )?fees|update (the )?fees|send (a )?notification|broadcast|post (an? )?(event|news|notice)|duty( roster)?|see (the )?notices|view (the )?notices|class register|see (my |the )?class fees)\b/.test(s)) {
+        var adminSide = /\b(approve|verif\w+|verification queue|set (the )?(new )?fees|update (the )?fees|broadcast|notification|admin|headmistress|post (an? )?(event|news|notice))\b/.test(s);
         return adminSide
           ? { html: "That is done in the <b>Admin Console</b> (portal/admin.html) - " +
                     "approvals and verification, fee updates, staff chat, notices " +
@@ -948,7 +1042,13 @@
          the activities the class pages actually list. */
       if ((ent.intent === "activity" ||
           /\b(show ?(and|&) ?tell|trip|trips|outing)\b/.test(s)) &&
-          !/\bevents?\b[^.?!]{0,30}\b(coming|next|upcoming|this term|soon)\b|\b(coming|upcoming|any) events?\b|(whats|what.s) happening/.test(s)) {
+          !/\bbetting|gambl\w+|casino|lottery|jackpot\b/.test(s) &&
+          /* dated event families are the calendar's to answer, not
+             the class-activities list */
+          !/\b(inter[- ]?house|sports? day|sports trials|trials|graduation|prize ?giving)\b/.test(s) &&
+          !/\b(england|premier league|epl|champions league|la liga|world cup|best in)\b/.test(s) &&
+          !/\bevents?\b[^.?!]{0,30}\b(coming|next|upcoming|this term|soon)\b|\b(coming|upcoming|any) events?\b|(whats|what.s) happening/.test(s) &&
+          !/\b(when|what date|which date|which day|date of)\b[^.?!]{0,30}\b(excursion|trip|outing)\b|\b(excursion|trip|outing)\b[^.?!]{0,30}\b(when|what date|which date|which day|date of)\b/.test(s)) {
         var byClass = {};
         (db.classPages || []).forEach(function (c) {
           (c.activities || []).forEach(function (a) {
@@ -1006,7 +1106,8 @@
       /* What parents say. The testimonials page is painted by JavaScript, so
          there is no prose to scrape - the reviews live in the database and are
          read from there, approved ones only. */
-      if (ent.intent === "testimonial") {
+      if (ent.intent === "testimonial" &&
+          !/\b(movie|film|song|album|restaurant|hotel|game|series)\b/.test(s)) {
         var approved = (db.testimonials || []).filter(function (t) {
           return t.approved !== false && (t.text || t.message || t.body);
         });
@@ -1173,7 +1274,8 @@
       }
 
       /* What to bring. Straight from the admissions page list. */
-      if (ent.intent === "documents") {
+      if (ent.intent === "documents" &&
+          !/\bdefine|editing|edit my|photoshop\b/.test(s)) {
         return { html: "<b>What to bring to the school office</b><br>" +
                        "&bull; Birth certificate (photocopy)<br>" +
                        "&bull; 2 passport photographs<br>" +
@@ -1199,7 +1301,8 @@
                  source: "Receipts" };
       }
 
-      if (ent.intent === "trackapp") {
+      if (ent.intent === "trackapp" &&
+          !/\b(package|parcel|jumia|konga|delivery)\b/.test(s)) {
         return { html: "You can check an application yourself: on the " +
                        "<b>Admissions</b> page, enter the <b>phone number you " +
                        "used during registration</b> and it shows the current " +
@@ -1268,7 +1371,8 @@
                  source: "Login help" };
       }
 
-      if (ent.intent === "location") {
+      if (ent.intent === "location" &&
+          !/\b(to|from) (lagos|abuja|london|dubai|new york|kano|ilorin|port harcourt|benin city|kaduna)\b/.test(s)) {
         return { html: "Treasure Academy is at <b>Ageva, Okene, Kogi State</b>." +
                        "<br><br>The office is open <b>Monday to Friday, 7:30am " +
                        "to 3:00pm</b>, and you are welcome to call in. The " +
@@ -1347,7 +1451,8 @@
                  source: "School day" };
       }
 
-      if (ent.intent === "founder") {
+      if (ent.intent === "founder" &&
+          !/\b(amazon|google|microsoft|apple|facebook|twitter|tesla|whatsapp|instagram|youtube|nigeria|africa|the world)\b/.test(s)) {
         return { html: "Treasure Academy was founded in <b>2015</b> by " +
                        "<b>Shaibu Sidikat Ruth</b>, a mother and trained " +
                        "teacher, who wanted the children of Ageva to have a " +
@@ -1613,7 +1718,8 @@
       }
 
       /* Term dates, straight from the calendar. */
-      if (/\binter[- ]?house\b|\bsports? day\b|\bwhen\b[^.?!]{0,24}\bsports?\b|\bresumption|resume|term date|calendar|deadline|closing date|last day|cut off|cut-off|when.*(start|begin|open)\b|\bindependence|mid[- ]?term|\bcarol|prize ?giving|closing (day|date|ceremony)|\b(events?|program(me)?s?)\b[^.?!]{0,30}\b(coming|next|upcoming|this term|soon)\b|\b(coming|upcoming|any) events?\b|(whats|what.s|wats) happening( this term)?\b|end of (the )?term|term (ends?|finishes?|closes?|close|finish)|\bschool (ends?|finishes?|closes?)\b[^.?!]{0,25}\bterm\b|\bterm\b[^.?!]{0,25}\bschool (ends?|finishes?|closes?)\b|\bwhats new\b|\blatest news\b|\bany news\b|\bgraduation\b/.test(s)) {
+      if (/\binter[- ]?house\b|\bsports? day\b|\bwhen\b[^.?!]{0,24}\bsports?\b|\bresumption|resume|term date|calendar|deadline|closing date|last day|cut off|cut-off|when.*(start|begin|open)\b|\bindependence|mid[- ]?term|\bcarol|prize ?giving|closing (day|date|ceremony)|\b(events?|program(me)?s?)\b[^.?!]{0,30}\b(coming|next|upcoming|this term|soon)\b|\b(coming|upcoming|any) events?\b|(whats|what.s|wats) happening( this term)?\b|end of (the )?term|term (ends?|finishes?|closes?|close|finish)|\bschool (ends?|finishes?|closes?)\b[^.?!]{0,25}\bterm\b|\bterm\b[^.?!]{0,25}\bschool (ends?|finishes?|closes?)\b|\bwhats new\b|\blatest news\b|\bany news\b|\bexcursion\b|\bsports? trials?\b|\btrials\b|when[^.?!]{0,24}\bclosing\b(?![^.?!]{0,12}\btime\b)|\bclosing\b(?![^.?!]{0,12}\btime\b)(?=[^.?!]{0,6}$)|\bclosing\b[^.?!]{0,24}\b(date|when)\b|when[^.?!]{0,24}\bexaminations?\b|\bexaminations?\b[^.?!]{0,30}\b(date|day)\b|\b(date|day)\b[^.?!]{0,30}\bexaminations?\b|\b(first|mid|end of) term exams?\b|\bgraduation\b/.test(s) &&
+          !/\bnigeria\b[^.?!]{0,40}\bindependence\b|\bindependence\b[^.?!]{0,40}\bnigeria\b/.test(s)) {
         var cal = (db.calendar || []).slice().sort(function (a, b) {
           return String(a.date).localeCompare(String(b.date));
         });
@@ -1681,6 +1787,70 @@
                      source: "School news" };
           }
         }
+        /* Any event the person actually names answers itself, past or
+           future: "when is resumption" must find the resumption line even
+           though that date has passed. A token nearer the end of the
+           question wins, so a follow-up "and the sports trials?" is about
+           the trials, not about the event the last question named. */
+        var allCal = cal.concat((db.newsEvents || []).filter(function (n) {
+          return n.type === "event" && n.date;
+        }).map(function (n) { return { title: n.title, date: n.date }; }));
+        var bestEv = null, bestPos = -1, bestFuture = false;
+        for (var ac = 0; ac < allCal.length; ac++) {
+          var toks = String(allCal[ac].title || "").toLowerCase()
+                       .split(/[^a-z]+/).filter(function (w) {
+                         return w.length > 3 &&
+                           !/^(first|second|third|term|school|academy|day|service|celebration|holiday|party)$/.test(w);
+                       });
+          if (!toks.length) continue;
+          var hitPos = -1;
+          for (var tk = 0; tk < toks.length; tk++) {
+            var at = s.lastIndexOf(toks[tk]);
+            if (at < 0 && /s$/.test(toks[tk])) {
+              at = s.lastIndexOf(toks[tk].replace(/s$/, ""));
+            }
+            if (at < 0) {
+              /* "when do we resume" must find "Resumption": a word that
+                 shares the first five letters with the token counts
+                 ("resum..." is the common stem of both spellings). */
+              var ws = s.split(" ");
+              for (var wi = 0; wi < ws.length; wi++) {
+                if (ws[wi].length >= 4 &&
+                    (toks[tk].indexOf(ws[wi]) === 0 ||
+                     toks[tk].slice(0, 5) === ws[wi].slice(0, 5))) {
+                  at = s.lastIndexOf(ws[wi]); break;
+                }
+              }
+            }
+            if (at > hitPos) hitPos = at;
+          }
+          if (hitPos < 0) continue;
+          var future = String(allCal[ac].date) >= isoNow;
+          if (!bestEv || hitPos > bestPos ||
+              (hitPos === bestPos && future && !bestFuture)) {
+            bestEv = allCal[ac]; bestPos = hitPos; bestFuture = future;
+          }
+        }
+        if (bestEv) {
+          var pastEv = String(bestEv.date) < isoNow;
+          /* Admissions run for the first seven weeks of term, so the
+             resumption line is also where the deadline is worked out. */
+          var resTail = "";
+          if (/resump/i.test(bestEv.title || "")) {
+            var rdd = new Date(String(bestEv.date) + "T12:00:00");
+            rdd.setDate(rdd.getDate() + 46);
+            resTail = "<br><br>Admissions run for the first <b>seven " +
+                      "weeks</b> of term - the deadline is <b>" +
+                      pretty(rdd.toISOString().slice(0, 10)) + "</b>.";
+          }
+          return { html: "<b>" + esc(bestEv.title) + "</b> " +
+                         (pastEv ? "was on " : "is on ") +
+                         pretty(bestEv.date) + "." +
+                         (bestEv.desc ? "<br><br>" + esc(bestEv.desc) : "") +
+                         resTail,
+                   source: "School calendar" };
+        }
+
         /* A named event answers itself: "when is independence day" is a
            question about one line of the calendar, not the next line. */
         var namedRe = /independence/.test(s) ? /independence/i
@@ -1757,13 +1927,53 @@
                  source: "School calendar" };
       }
 
+      /* Follow-up: the class was just named - "what does he teach?" must
+         answer the subject, not start the whole lookup again. */
+      if ((/\bwhat (does|do) (he|she|they|it)\b[^.?!]*\bteach/.test(s) ||
+           /\bwhich subject(s)? (does|do) (he|she|they|it)\b/.test(s)) &&
+          this.topicClass) {
+        var fwall = [];
+        for (var fw = 0; fw < (db.staffWall || []).length; fw++) {
+          var fwx = db.staffWall[fw];
+          if (fwx.name && !/\(demo\)/i.test(fwx.name) &&
+              String(fwx.class || "").toLowerCase() === this.topicClass) {
+            fwall.push(fwx);
+          }
+        }
+        if (fwall.length) {
+          var subj = [];
+          for (var fs = 0; fs < fwall.length; fs++) {
+            var pos = String(fwall[fs].position || "");
+            if (pos && !/^class teacher$/i.test(pos)) {
+              subj.push(pos.replace(/\s*teacher\s*$/i, "").trim());
+            }
+          }
+          if (subj.length) {
+            return { html: "<b>" + esc(fwall[0].name) + "</b> teaches <b>" +
+                           esc(subj.join(" and ")) + "</b> for <b>" +
+                           esc(this.topicClass) + "</b>.<br><br>The Subjects " +
+                           "page has the full subject list.",
+                     source: "Staff list" };
+          }
+          return { html: "<b>" + esc(fwall[0].name) + "</b> is the class " +
+                         "teacher for <b>" + esc(this.topicClass) + "</b>. " +
+                         "The subjects each teacher takes are not listed " +
+                         "separately - the <b>Subjects</b> page has the " +
+                         "full list.",
+                   source: "Staff list" };
+        }
+      }
+
       /* Who teaches a class.
 
          Two lists exist. db.teachers is the login roster and still carries
          retired demo rows marked "(demo)"; db.staffWall is the real staff the
          school publishes, with qualifications. Prefer the staff wall, and
          never read out a demo name to a parent. */
-      if (/\b(who|which teacher|class teacher)\b/.test(s) && /\bteach|teacher\b/.test(s)) {
+      if ((/\b(who|which teacher|class teacher)\b/.test(s) ||
+           (/\bteaches?\b/.test(s) &&
+            !/\b(talk|speak|chat|call|contact|see|meet|reach|phone)\b/.test(s))) &&
+          /\bteach|teacher|handles?|takes?\b/.test(s)) {
         var real = (db.staffWall || []).filter(function (x) {
           return x.name && !/\(demo\)/i.test(x.name);
         });
@@ -1772,6 +1982,15 @@
         });
         var pool = real.length ? real : roster;
         var wantCls = ent.klass;
+        /* A carried question can mention two classes ("teaches nursery
+           and primary 6") - the one the person JUST named, the last one
+           written, is the one they mean. */
+        var lastAt = -1;
+        pool.forEach(function (x) {
+          var c = String(x.class || "").toLowerCase();
+          var at = c ? s.lastIndexOf(c) : -1;
+          if (at > lastAt) { lastAt = at; wantCls = c; }
+        });
 
         for (var t = 0; t < pool.length; t++) {
           var cls = String(pool[t].class || pool[t].className || "").toLowerCase();
@@ -1800,7 +2019,9 @@
       }
 
       /* Phone and WhatsApp. */
-      if (/\b(call|phone|number|whatsapp|reach|speak to|talk to)\b/.test(s)) {
+      if (/\b(call|phone|number|whatsapp|reach|speak to|talk to)\b/.test(s) &&
+          !/\b(best|buy|new|repair|broken|screen|charge|charging|android|iphone|brand|model|price|invented|created|group|download|install|update)\b/.test(s) &&
+          !/\bwho (made|created|invented)\b/.test(s)) {
         return { html: "You can reach the school on <b>" + WHATSAPP + "</b> " +
                        "(WhatsApp or call).<br><br>For anything that can wait, " +
                        "the message form on the <b>Contact</b> page replies by email.",
@@ -1937,23 +2158,38 @@
       var words = s ? s.split(" ").filter(Boolean) : [];
       if (!s || words.length > 10) return null;
       var kind = null, rest = "";
+      /* The repair pipeline rewrites words it does not know - "dance"
+         becomes "danke" - so personal questions are also tested against
+         the raw text. */
+      var raw = String(q).toLowerCase().replace(/[^a-z0-9\s]/g, " ")
+                           .replace(/\s+/g, " ").trim();
+      var ps = (raw + " " + s).trim();
       if (/^(who|what) (are|r|is) (you|u)\b/.test(s)) {
         kind = "who"; rest = s.replace(/^(who|what) (are|r) (you|u)\b/, "");
-      } else if (/\b(your name|what should i call you|who is this|who be this|who am i talking to)\b/.test(s) && words.length <= 8) {
-        kind = "who"; rest = s.replace(/.*(your name|call you|who is this|who be this|talking to).*/, "");
+      } else if (/\b(your name|what should i call you|who is this|who be this|who am i talking to|what are you called|introduce yourself|tell me about yourself|who do you work for|do you work for the school|treasure bot)\b/.test(s) && words.length <= 8) {
+        kind = "who"; rest = s.replace(/.*(your name|call you|who is this|who be this|talking to|called|introduce yourself|yourself|work for|treasure bot).*/, "");
       } else if (/^(what|which) (can|could|would) you (do|help|say|tell|offer)\b/.test(s) ||
                  /^what (do|does) you (do|know|have)\b/.test(s) ||
                  /\b(whats|what is|wats|what s) your (purpose|job|role|function)\b/.test(s) ||
                  /^how (can|do|will) you help\b/.test(s) ||
+                 /^why are you here\b/.test(s) ||
+                 /^(can|could) you help( me| us)?\b/.test(s) ||
                  /^what are you (here )?for\b/.test(s) ||
-                 /^(please |kindly |pls |plz )?(help|help me|menu|options|commands|what should i ask)$/.test(s)) {
+                 /^(please |kindly |pls |plz )?(help|help me|menu|options|commands|what should i ask( you)?)$/.test(s)) {
         kind = "can";
         rest = s.replace(/.*\byour (purpose|job|role|function)\b/, "")
-               .replace(/^(what|which|how|whats|wats)\b.*\b(you|your)\b/, "");
-      } else if (/\bare you (a |an )?(bot|robot|human|real|person|alive|chat ?gpt|ai|machine|computer|program)\b/.test(s)) {
+               .replace(/^(what|which|how|why|whats|wats)\b.*\b(you|your|here)\b/, "");
+      } else if (/\bare you (a |an |the )?(bot|robot|human|real|person|alive|chat ?gpt|ai|machine|computer|program|headmistress|principal|teacher|owner|bursar|proprietor|proprietress|student|pupil|staff)\b/.test(s)) {
         kind = "bot"; rest = s.replace(/\bare you.*$/, "");
       } else if (/\bwho (made|built|created|designed|trained|programmed|developed) you\b/.test(s)) {
         kind = "made"; rest = "";
+      } else if (/\byour (favourite|favorite)s?\b/.test(ps) ||
+                 /\b(do|can) you (dance|danke|sing|using|swim|cook|drive|sleep|eat|joke|laugh|dream|cry)\b/.test(ps) ||
+                 /\bdo you (like|love|enjoy)\b/.test(ps) ||
+                 /^how old are you\b/.test(ps) ||
+                 /\bare you (married|single|a boy|a girl)\b/.test(ps) ||
+                 /\byour (girlfriend|boyfriend|wife|husband|age|birthday)\b/.test(ps)) {
+        kind = "personal"; rest = "";
       }
       if (!kind) return null;
       var meat = rest.replace(/\b(me|my|us|our|please|pls|plz|sir|ma|madam|for|with|about|now|today|o|oo|so|then|please)\b/g, " ").trim();
@@ -1976,6 +2212,16 @@
                        "school's own assistant. I am not ChatGPT; I only answer " +
                        "from Treasure Academy's own pages and records, and I " +
                        "would rather say I do not know than guess.",
+                 chips: this.suggestions() };
+      }
+      if (kind === "personal") {
+        return { type: "smalltalk",
+                 html: "I am <b>Treasure Bot</b> - I do not eat, sleep, dance " +
+                       "or grow older, and I have no favourite food. The one " +
+                       "subject I know deeply is Treasure Academy itself: " +
+                       "fees, admissions, results, transport, the calendar.<br><br>" +
+                       "Ask me any of those - or call the office on <b>" +
+                       WHATSAPP + "</b> for everything else.",
                  chips: this.suggestions() };
       }
       if (kind === "made") {
