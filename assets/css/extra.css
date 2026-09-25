@@ -459,3 +459,10 @@ a.class-card h3{margin:0 0 6px}
 .flip-scene.flipped .flip-front{position:absolute;inset:0;pointer-events:none;visibility:hidden}
 .flip-scene.flipped .flip-back{position:relative}
 @media(max-height:760px){.auth-wrap{align-items:flex-start}}
+
+/* Graduation gallery (alumni.html): square photographs keep their full
+   frame - a fixed 170px strip would crop heads and feet in group shots.
+   Two columns on phones so each photo stays big enough to read. */
+.grad-gal .gal img{height:auto;aspect-ratio:1/1;object-fit:cover}
+.grad-gal .gal{cursor:pointer}
+@media(max-width:680px){.grad-gal{grid-template-columns:repeat(2,1fr)}}

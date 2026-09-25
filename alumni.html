@@ -30,10 +30,10 @@
 <meta name="geo.region" content="NG-KO">
 <meta name="geo.placename" content="Ageva, Okene, Kogi State">
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://treasureacademyageva.vercel.app/"}, {"@type": "ListItem", "position": 2, "name": "Alumni &amp; Graduates", "item": "https://treasureacademyageva.vercel.app/alumni.html"}]}</script>
-<!-- seo:end --><link rel="stylesheet" href="assets/css/main.css?v=20260925-3-61">
-<link rel="stylesheet" href="assets/css/extra.css?v=20260925-3-61">
-<link rel="stylesheet" href="assets/css/corporate.css?v=20260925-3-61">
-<link rel="stylesheet" href="assets/css/motion.css?v=20260925-3-61"><link rel="stylesheet" href="assets/css/glass.css?v=20260925-3-61"><noscript><style>#siteLoader{display:none!important}</style></noscript>
+<!-- seo:end --><link rel="stylesheet" href="assets/css/main.css?v=20260925-4-61">
+<link rel="stylesheet" href="assets/css/extra.css?v=20260925-4-61">
+<link rel="stylesheet" href="assets/css/corporate.css?v=20260925-4-61">
+<link rel="stylesheet" href="assets/css/motion.css?v=20260925-4-61"><link rel="stylesheet" href="assets/css/glass.css?v=20260925-4-61"><noscript><style>#siteLoader{display:none!important}</style></noscript>
 <script defer src="/_vercel/insights/script.js"></script>
 <!-- treasure-seo -->
 <meta name="theme-color" content="#0E5A2E">
@@ -123,6 +123,9 @@
   <div id="gradWall"></div>
   </div>
 
+  <div class="sec-head clip-up" id="grad-gallery" style="margin-top:34px"><span class="sec-tag">Graduation Gallery</span><h2>Graduation <span class="hl">Photographs</span></h2><p>Moments from our graduation ceremonies &mdash; tap any photo to view it full size.</p></div>
+  <div class="gal-grid grad-gal" id="gradGallery"></div>
+
   <div class="sec-head clip-up" style="margin-top:34px"><span class="sec-tag">Where Are They Now?</span><h2>Alumni Spotlight</h2><p>Success stories from our old pupils — search the wall or pick a set.</p></div>
   <div class="track-card clip-up" style="max-width:680px;margin:0 auto 14px;display:flex;gap:10px;flex-wrap:wrap;align-items:flex-end">
     <div class="field" style="flex:1;min-width:180px;margin:0"><label>Search the wall</label><input id="alumQ" placeholder="Name, school or story..."></div>
@@ -147,13 +150,13 @@
 </div></section>
 <footer id="siteFooter"></footer>
 <div id="toast"></div>
-<script src="assets/js/store.js?v=20260925-3-61"></script><script defer src="assets/js/db-live.js?v=20260925-3-61"></script>
-<script src="assets/js/sync.js?v=20260925-3-61"></script>
-<script src="assets/js/site.js?v=20260925-3-61"></script>
-<script defer src="assets/js/chat-entities.js?v=20260925-3-61"></script>
-<script defer src="assets/js/chat-rag.js?v=20260925-3-61"></script>
-<script defer src="assets/js/chat-core.js?v=20260925-3-61"></script>
-<script defer src="assets/js/chat-ui.js?v=20260925-3-61"></script><script defer src="assets/js/auth-ui.js?v=20260925-3-61"></script>
+<script src="assets/js/store.js?v=20260925-4-61"></script><script defer src="assets/js/db-live.js?v=20260925-4-61"></script>
+<script src="assets/js/sync.js?v=20260925-4-61"></script>
+<script src="assets/js/site.js?v=20260925-4-61"></script>
+<script defer src="assets/js/chat-entities.js?v=20260925-4-61"></script>
+<script defer src="assets/js/chat-rag.js?v=20260925-4-61"></script>
+<script defer src="assets/js/chat-core.js?v=20260925-4-61"></script>
+<script defer src="assets/js/chat-ui.js?v=20260925-4-61"></script><script defer src="assets/js/auth-ui.js?v=20260925-4-61"></script>
 <script>
 (function(){
   const db = DB.load();
@@ -295,6 +298,38 @@ window.voteTeacher=function(id){
   try{ localStorage.setItem(key,id); }catch(e){}
 }; /* legacy hook: still counts toward the headmistress' Teacher of the Term tally; no public UI */
 window.closeTP=function(){ document.getElementById("tpBg").style.display="none"; document.getElementById("tpBox").style.display="none"; };
+
+/* ------------------------------------------------- graduation gallery
+   Photographs supplied by the school office (Sept 2026), re-encoded small
+   with camera metadata stripped. Captions stay neutral until the office
+   tells us the set and year each photo belongs to - relabel by editing
+   the pairs below. Tap a photo for the lightbox (site.js). */
+window.GRAD_PHOTOS=[
+  ["assets/img/graduates/grad-01.jpg","Graduation Photo 1"],
+  ["assets/img/graduates/grad-02.jpg","Graduation Photo 2"],
+  ["assets/img/graduates/grad-03.jpg","Graduation Photo 3"],
+  ["assets/img/graduates/grad-04.jpg","Graduation Photo 4"],
+  ["assets/img/graduates/grad-05.jpg","Graduation Photo 5"],
+  ["assets/img/graduates/grad-06.jpg","Graduation Photo 6"],
+  ["assets/img/graduates/grad-07.jpg","Graduation Photo 7"],
+  ["assets/img/graduates/grad-08.jpg","Graduation Photo 8"],
+  ["assets/img/graduates/grad-09.jpg","Graduation Photo 9"],
+  ["assets/img/graduates/grad-10.jpg","Graduation Photo 10"],
+  ["assets/img/graduates/grad-11.jpg","Graduation Photo 11"],
+  ["assets/img/graduates/grad-12.jpg","Graduation Photo 12"]
+];
+window._gradLB=window.GRAD_PHOTOS.map(function(p){return {src:p[0],cap:p[1]};});
+/* site.js keeps Lightbox as a script-scope binding (same as news.html's
+   openLB), so the tiles call this wrapper rather than the const directly. */
+window.openGradLB=function(i){ Lightbox.open(window._gradLB,i); };
+(function(){
+  var el=document.getElementById("gradGallery"); if(!el) return;
+  el.innerHTML=window.GRAD_PHOTOS.map(function(g,i){
+    return '<div class="gal clip-up" onclick="openGradLB('+i+')" role="button" tabindex="0" aria-label="'+g[1]+' - open full size" onkeydown="if(event.key===\'Enter\'||event.key===\' \'){event.preventDefault();openGradLB('+i+');}">'+
+      '<img src="'+g[0]+'" alt="'+g[1]+'" width="1200" height="1200" loading="lazy" decoding="async">'+
+      '<div class="cap">'+g[1]+'</div></div>';
+  }).join("");
+})();
 </script>
 </body>
 </html>
