@@ -19,17 +19,20 @@ fi
 
 shopt -s nullglob
 mapfile -t batches < <(printf '%s\n' verify-batch*.js | sed -E 's/verify-batch([0-9]+)\.js/\1 &/' | sort -n | cut -d' ' -f2)
+mapfile -t named < <(printf '%s\n' verify-*.js | grep -v '^verify-batch' | grep -v '\.test\.js$' | sort)
 extras=( *.test.js )
 
 tot=0
 failed=()
-for f in "${batches[@]}" "${extras[@]}"; do
+for f in "${batches[@]}" "${named[@]}" "${extras[@]}"; do
   out=$(node "$f" 2>&1); rc=$?
-  line=$(echo "$out" | grep -oE "[0-9]+ passed, [0-9]+ failed" | tail -1)
+  line=$(echo "$out" | grep -oE "[0-9]+ passed, [0-9]+ (failed|wrong)" | tail -1)
   n=$(echo "$line" | awk '{print $1}')
   nf=$(echo "$line" | awk '{print $3}')
   tot=$((tot + ${n:-0}))
-  if [ "$rc" -ne 0 ] || [ -z "$line" ] || [ "${nf:-1}" -ne 0 ]; then
+  # "wrong" is the stress exam's budget wording: exit 0 means the
+  # accuracy budget was met, so the runner honours the suite verdict
+  if [ "$rc" -ne 0 ] || [ -z "$line" ] || { [ "${nf:-1}" -ne 0 ] && ! echo "$line" | grep -q wrong; }; then
     failed+=("$f")
     printf "%-24s %s\n" "$f" "${line:-CRASH}"
     echo "$out" | grep -E "^FAIL" | head -5 | sed 's/^/      /'
@@ -39,7 +42,7 @@ for f in "${batches[@]}" "${extras[@]}"; do
 done
 
 echo "---------------------------------------------"
-echo "TOTAL: $tot checks passed across $(( ${#batches[@]} + ${#extras[@]} )) suites"
+echo "TOTAL: $tot checks passed across $(( ${#batches[@]} + ${#named[@]} + ${#extras[@]} )) suites"
 if [ ${#failed[@]} -ne 0 ]; then
   echo "Failing suites: ${failed[*]}"
   exit 1

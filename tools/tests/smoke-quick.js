@@ -24,13 +24,14 @@ function load(page, query = '') {
 }
 let w = load('news.html');
 console.log('vidHead display:', JSON.stringify(w.document.getElementById('vidHead').style.display), '(want "none")');
-console.log('m-tag count:', w.document.querySelectorAll('.m-tag').length, '(want 8 story covers)');
-console.log('m-dl count:', w.document.querySelectorAll('.m-dl').length, '(want 18)');
-w = load('story.html', '?id=NE7');
-console.log('NE7 thumbs:', w.document.querySelectorAll('.story-thumbs img').length, '(want 4)');
-console.log('NE7 Download btn:', w.document.querySelector('.story-body').textContent.includes('Download'), '(want true)');
+console.log('m-tag count:', w.document.querySelectorAll('.m-tag').length, '(want 6: 5 real stories + video placeholder)');
+console.log('m-dl count:', w.document.querySelectorAll('.m-dl').length, '(want 15: 5 real stories)');
+w = load('story.html', '?id=NEG5');
+console.log('NEG5 title:', w.document.title.includes('5th Graduation Ceremony'), '(want true)');
+console.log('NEG5 Download btn:', w.document.querySelector('.story-body').textContent.includes('Download'), '(want true)');
+console.log('NEG5 story paragraphs kept:', /white-space:pre-line/.test(require('fs').readFileSync('assets/css/extra.css','utf8')), '(want true)');
 w = load('index.html');
-console.log('promo titles:', [...w.document.querySelectorAll('#promoSteps h3')].map(e => e.textContent).join(' | '));
+console.log('promo titles:', [...w.document.querySelectorAll('#promoGrid .promo-card h3')].map(e => e.textContent).join(' | '));
 console.log('theme-btn on index:', w.document.querySelectorAll('.theme-btn').length, '(want 1)');
 w = load('news.html');
 console.log('theme-btn on news:', w.document.querySelectorAll('.theme-btn').length, '(want 0)');

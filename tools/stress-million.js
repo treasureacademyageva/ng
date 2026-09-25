@@ -341,10 +341,10 @@ function evCore(title, date) {
  ["what are your school hours", "and resumption date?", ["September|October|resumption"]],
  ["who made you", "and who is the headmistress?", ["Salihu Nanahawa"]],
  ["how do i register my child", "what of the fees?", ["30,000|25,000|35,000"]],
- ["when is graduation", "and interhouse sports?", ["September|20 September"]],
+ ["when is graduation", "and interhouse sports?", ["Inter-House Sports|not been dated"]],
  ["how much is nursery 1", "and nursery 2?", ["25,000"]],
  ["who teaches primary 3", "what does he teach?", ["Primary 3"]],
- ["when is the excursion", "and the sports trials?", ["September"]]
+ ["when is the excursion", "and the sports trials?", ["Inter-House Sports|not been dated"]]
 ].forEach(function (pair) {
   ["", "please "].forEach(function (d) {
     push(d + pair[1], "context", pair[2], "context", "parent", pair[0]);
@@ -367,7 +367,7 @@ function evCore(title, date) {
  ["when is visiting day", ["visit|open|do not have"]],
  ["can i pay school fees in installments", ["installment|transfer|office"]],
  ["is there a school canteen", ["canteen|lunch|kitchen|meals"]],
- ["tell me a story", ["story|journey|2015|founded"]],
+ ["tell me a story", ["story|journey|2016|founded"]],
  ["best secondary school in nigeria", ["common entrance|passed|secondary"]]
 ].forEach(function (row) {
   ["", "please "].forEach(function (d) { push(d + row[0], "salvage", row[1], "salvage"); });

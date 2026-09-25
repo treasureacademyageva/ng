@@ -39,8 +39,8 @@ const html = read('alumni.html');
 ok('gallery section present', /id="grad-gallery"/.test(html) && /Graduation Gallery/.test(html));
 ok('gallery grid container present', /id="gradGallery"/.test(html));
 ok('12 photos referenced', (html.match(/graduates\/grad-\d\d\.jpg/g) || []).length >= 12);
-ok('neutral captions, no invented year',
-   /Graduation Photo 1"/.test(html) && !/Graduation Photo 1[^"]*202\d/.test(html));
+ok('captions name the five ceremonies with their years',
+   /1st Graduation Ceremony \u2014 2017"/.test(html) && /5th Graduation Ceremony \u2014 2021"/.test(html));
 ok('lightbox wiring present', /window\.openGradLB=function\(i\)\{ Lightbox\.open\(window\._gradLB,i\); \}/.test(html));
 ok('keyboard can open a photo (role/aria + Enter)', /role="button" tabindex="0"/.test(html));
 ok('square-crop CSS present', /\.grad-gal \.gal img\{height:auto;aspect-ratio:1\/1/.test(read('assets/css/extra.css')));
@@ -87,7 +87,7 @@ try {
   const src4 = lb && lb.querySelector('.lb-img') && lb.querySelector('.lb-img').getAttribute('src');
   ok('lightbox opens with the tapped photo', !!lb && /grad-04\.jpg$/.test(src4 || ''), String(src4));
   const cap4 = lb && lb.querySelector('.lb-cap') && lb.querySelector('.lb-cap').textContent;
-  ok('lightbox shows the caption', cap4 === 'Graduation Photo 4', String(cap4));
+  ok('lightbox shows the caption', cap4 === '4th Graduation Ceremony \u2014 2020', String(cap4));
 } catch (e) { ok('lightbox opens with the tapped photo', false, e.message); }
 
 console.log('\n==== GALLERY: ' + pass + ' passed, ' + fail + ' failed ====');

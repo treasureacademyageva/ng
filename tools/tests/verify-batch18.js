@@ -141,8 +141,10 @@ function finish() {
 
 /* ---------- #7 volunteers per event ---------- */
 {
-  const { window: w, run } = loadPage('volunteer.html');
-  ok('event picker lists events', w.document.getElementById('volEvent').innerHTML.includes('Inter-House'));
+  const seedEv = 'var d=DB.load(); d.newsEvents.push({id:"NEX",type:"event",title:"Open Day Fair",date:new Date(Date.now()+14*864e5).toISOString().slice(0,10),image:"",videoUrl:"",views:0,likes:0,images:[],text:"x",story:"x"}); DB.save(d);';
+  const { window: w, run } = loadPage('volunteer.html', null, null, seedEv);
+  ok('event picker lists upcoming events', w.document.getElementById('volEvent').innerHTML.includes('Open Day Fair'));
+  ok('event picker hides past events', !w.document.getElementById('volEvent').innerHTML.includes('Graduation'));
   run('document.getElementById("volName").value="V Test"; document.getElementById("volPhone").value="0801"; saveVol();');
   ok('signup stores event', (run('DB.load().volunteers.length') || 0) >= 1);
 }

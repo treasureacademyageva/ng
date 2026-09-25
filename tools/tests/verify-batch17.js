@@ -84,7 +84,7 @@ const PUPIL = { role: 'pupil', refId: 'P001', name: 'x' };
 
 /* ---------- #7 story listen ---------- */
 {
-  const { window: w, run } = loadPage('story.html', null, 'http://localhost/story.html?id=NE1');
+  const { window: w, run } = loadPage('story.html', null, 'http://localhost/story.html?id=NEG1');
   ok('story: Listen button', w.document.getElementById('storyBox').innerHTML.includes('listenStory()'));
   let t = true; try { run('listenStory();'); } catch (e) { t = false; }
   ok('story: listen runs', t);

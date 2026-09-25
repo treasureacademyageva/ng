@@ -592,7 +592,7 @@
                  source: "School day" };
       }
       if (/\b(registered|accredit\w*|approved by|government|licence\w*|license\w*|ministry)\b/.test(s)) {
-        return { html: "Treasure Academy has operated in Ageva since <b>2015</b> " +
+        return { html: "Treasure Academy has operated in Ageva since <b>2016</b> " +
                        "and has been on its own permanent site since 2018, " +
                        "running Creche through Primary 6.<br><br>" +
                        "Registration and accreditation papers are not published " +
@@ -1395,7 +1395,7 @@
         var nClasses = (db.classPages || []).length ||
                        Object.keys(school.fees || {}).length;
         return { html: "<b>Treasure Academy, Ageva</b> is a private school in " +
-                       "Ageva, Okene, Kogi State, founded in <b>2015</b> by " +
+                       "Ageva, Okene, Kogi State, founded in <b>2016</b> by " +
                        "Shaibu Sidikat Ruth and run today by headmistress " +
                        "<b>Mrs. Salihu Nanahawa</b>.<br><br>" +
                        "It covers " + (nClasses ? "<b>" + nClasses + "</b> classes " : "") +
@@ -1415,7 +1415,7 @@
                        "the school day to day.<br><br>" +
                        "The school was founded and is owned by " +
                        "<b>Shaibu Sidikat Ruth</b>, Founder and Proprietress, " +
-                       "who started it in 2015.<br><br>" +
+                       "who started it in 2016.<br><br>" +
                        "Either can be reached through the school office on <b>" +
                        WHATSAPP + "</b>.",
                  source: "About" };
@@ -1460,7 +1460,7 @@
 
       if (ent.intent === "founder" &&
           !/\b(amazon|google|microsoft|apple|facebook|twitter|tesla|whatsapp|instagram|youtube|nigeria|africa|the world)\b/.test(s)) {
-        return { html: "Treasure Academy was founded in <b>2015</b> by " +
+        return { html: "Treasure Academy was founded in <b>2016</b> by " +
                        "<b>Shaibu Sidikat Ruth</b>, a mother and trained " +
                        "teacher, who wanted the children of Ageva to have a " +
                        "school that feels like home and teaches like the very " +
@@ -1489,7 +1489,7 @@
 
       if (ent.intent === "history") {
         return { html: "<b>The journey so far</b><br>" +
-                       "<b>2015</b> - Founded by Shaibu Sidikat Ruth: a handful " +
+                       "<b>2016</b> - Founded by Shaibu Sidikat Ruth: a handful " +
                        "of pupils, a few teachers, one big dream.<br>" +
                        "<b>2018</b> - Moved to a permanent site in Ageva with " +
                        "bigger classrooms and a playground.<br>" +
@@ -1698,7 +1698,7 @@
                        "by number.<br>" +
                        "&bull; <b>Creche to Primary 6</b> on one site - no moving your " +
                        "child mid-way.<br>" +
-                       "&bull; Founded in <b>2015</b> by Shaibu Sidikat Ruth, a mother " +
+                       "&bull; Founded in <b>2016</b> by Shaibu Sidikat Ruth, a mother " +
                        "and trained teacher, and on its own permanent site since " +
                        "year three.<br>" +
                        "&bull; <b>Common Entrance practice</b> built into Primary 6.<br>" +
@@ -1725,7 +1725,7 @@
       }
 
       /* Term dates, straight from the calendar. */
-      if (/\binter[- ]?house\b|\bsports? day\b|\bwhen\b[^.?!]{0,24}\bsports?\b|\bresumption|resume|term date|calendar|deadline|closing date|last day|cut off|cut-off|when.*(start|begin|open)\b|\bindependence|mid[- ]?term|\bcarol|prize ?giving|closing (day|date|ceremony)|\b(events?|program(me)?s?)\b[^.?!]{0,30}\b(coming|next|upcoming|this term|soon)\b|\b(coming|upcoming|any) events?\b|(whats|what.s|wats) happening( this term)?\b|end of (the )?term|term (ends?|finishes?|closes?|close|finish)|\bschool (ends?|finishes?|closes?)\b[^.?!]{0,25}\bterm\b|\bterm\b[^.?!]{0,25}\bschool (ends?|finishes?|closes?)\b|\bwhats new\b|\blatest news\b|\bany news\b|\bexcursion\b|\bsports? trials?\b|\btrials\b|when[^.?!]{0,24}\bclosing\b(?![^.?!]{0,12}\btime\b)|\bclosing\b(?![^.?!]{0,12}\btime\b)(?=[^.?!]{0,6}$)|\bclosing\b[^.?!]{0,24}\b(date|when)\b|when[^.?!]{0,24}\bexaminations?\b|\bexaminations?\b[^.?!]{0,30}\b(date|day)\b|\b(date|day)\b[^.?!]{0,30}\bexaminations?\b|\b(first|mid|end of) term exams?\b|\bgraduation\b/.test(s) &&
+      if (/\binter[- ]?house\b|\bsports? day\b|\bwhen\b[^.?!]{0,24}\bsports?\b|\bresumption|resume|term date|calendar|deadline|closing date|last day|cut off|cut-off|when.*(start|begin|open)\b|\bindependence|mid[- ]?term|\bcarol|prize ?giving|closing (day|date|ceremony)|\b(events?|program(me)?s?)\b[^.?!]{0,30}\b(coming|next|upcoming|this term|soon)\b|\b(coming|upcoming|any) events?\b|(whats|what.s|wats) happening( this term)?\b|end of (the )?term|term (ends?|finishes?|closes?|close|finish)|\bschool (ends?|finishes?|closes?)\b[^.?!]{0,25}\bterm\b|\bterm\b[^.?!]{0,25}\bschool (ends?|finishes?|closes?)\b|\bwhats new\b|\blatest news\b|\bany news\b|\bexcursion\b|\bsports? trials?\b|\btrials\b|when[^.?!]{0,24}\bclosing\b(?![^.?!]{0,12}\btime\b)|\bclosing\b(?![^.?!]{0,12}\btime\b)(?=[^.?!]{0,6}$)|\bclosing\b[^.?!]{0,24}\b(date|when)\b|when[^.?!]{0,24}\bexaminations?\b|\bexaminations?\b[^.?!]{0,30}\b(date|day)\b|\b(date|day)\b[^.?!]{0,30}\bexaminations?\b|\b(first|mid|end of) term exams?\b|graduat(?!es?\b)/.test(s) &&
           !/\bnigeria\b[^.?!]{0,40}\bindependence\b|\bindependence\b[^.?!]{0,40}\bnigeria\b/.test(s)) {
         var cal = (db.calendar || []).slice().sort(function (a, b) {
           return String(a.date).localeCompare(String(b.date));
@@ -1751,10 +1751,24 @@
            calendar line, so this lookup reads both lists. A date already
            past is reported honestly in the past tense, and the competition
            date itself is never invented. */
+        /* "when is the excursion" and an elliptical "and the sports
+           trials?" belong here too: a when-question about a thing that
+           has no dated event deserves an honest no-date answer, not the
+           next unrelated calendar line. */
+        var ellipt = /^\s*(and|what of|how about|also)\b/.test(s);
+        var whenQ = /\bwhen\b|what date|which day/.test(s);
+        /* the context layer merges a fragment onto its topic, so
+           "excursion and the sports trials?" carries no "when" and no
+           leading "and" - the fragment shape sits mid-question instead */
+        var carried = /\b(and|what of|how about|also)\s+\S/.test(s);
         if (!/fee|pay|cost|much|price/.test(s) &&
             (/\binter[- ]?house\b|\bsports? day\b/.test(s) ||
-             (/\bwhen\b/.test(s) && /\bsports?\b/.test(s)) ||
-             /\bgraduation\b/.test(s))) {
+             (whenQ && /\bsports?\b/.test(s)) ||
+             /* the stem survives typos ("graduatin") that the exact word
+                does not; bare "graduate(s)" stays with the results answers */
+             /graduat(?!es?\b)/.test(s) ||
+             (/\bexcursion\b/.test(s) && (whenQ || ellipt || carried)) ||
+             ((ellipt || carried) && /\bsports?\b/.test(s)))) {
           var newsCal = (db.newsEvents || []).filter(function (n) {
             return n.type === "event" && n.date;
           }).map(function (n) {
@@ -1764,18 +1778,51 @@
              the family asked about decides which events are in the race.
              Prize-giving day keeps its calendar answer (Closing & Carol),
              so it is deliberately not routed here. */
-          var evRe = /\bgraduation\b/.test(s) &&
+          var evRe = /graduat(?!es?\b)/.test(s) &&
                      !/\binter[- ]?house\b|\bsports? day\b/.test(s)
-            ? /graduat/i : /inter[- ]?house|sports/i;
+            ? /graduat/i : /inter[- ]?house|sports|excursion/i;
           var pool = cal.concat(newsCal).filter(function (c) {
             return evRe.test(c.title || "");
           }).sort(function (a, b) {
             return String(a.date).localeCompare(String(b.date));
           });
+          /* a numbered ceremony ("the 2nd graduation") answers itself,
+             not the latest one on the list */
+          var ordM = s.match(/\b(1st|2nd|3rd|4th|5th|6th|first|second|third|fourth|fifth|sixth)\b/);
+          if (ordM) {
+            var ordMap = { "1st":"1st", "first":"1st", "2nd":"2nd", "second":"2nd",
+                           "3rd":"3rd", "third":"3rd", "4th":"4th", "fourth":"4th",
+                           "5th":"5th", "fifth":"5th", "6th":"6th", "sixth":"6th" };
+            var want = ordMap[ordM[1]];
+            var named = pool.filter(function (c) {
+              return new RegExp("^" + want, "i").test(String(c.title || "").trim());
+            });
+            if (named.length) pool = named;
+          }
           var future = pool.filter(function (c) {
             return String(c.date) >= isoNow;
           })[0];
           var ev = future || pool[pool.length - 1];
+          var sportsQ = /inter[- ]?house|sports? day/.test(s) ||
+                        /\bsports\b/.test(s);
+          var excQ = /\bexcursion\b/.test(s);
+          /* nothing dated: say so honestly instead of answering an
+             event the family never asked about. Excursions keep the
+             when-shape guard so "does primary 5 do excursions" still
+             reaches the class page answer. */
+          if (!ev && (sportsQ || (excQ && (whenQ || ellipt || carried)))) {
+            return { html: (excQ && !sportsQ)
+                      ? "The next <b>school excursion</b> has not been " +
+                        "dated yet - it will be announced on the News and " +
+                        "Calendar pages, or ask the office on <b>" +
+                        WHATSAPP + "</b>."
+                      : "We hold <b>Inter-House Sports</b> at Treasure " +
+                        "Academy. The next competition has not been dated " +
+                        "yet - it will be announced on the News and " +
+                        "Calendar pages, or ask the office on <b>" +
+                        WHATSAPP + "</b>.",
+                     source: "School news" };
+          }
           if (ev) {
             if (future) {
               return { html: "<b>" + esc(ev.title) + "</b> is on " +
@@ -1784,7 +1831,9 @@
                        source: "School news" };
             }
             var evNext = /graduat/i.test(ev.title || "")
-              ? "The next " + esc(ev.title)
+              ? (/^\d+(st|nd|rd|th)\b/.test(ev.title)
+                   ? "The next graduation ceremony"
+                   : "The next " + esc(ev.title))
               : "The main Inter-House Sports competition";
             return { html: "<b>" + esc(ev.title) + "</b> held on " +
                            pretty(ev.date) + ". " + evNext +

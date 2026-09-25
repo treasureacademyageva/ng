@@ -453,7 +453,7 @@ def build():
          "enrol enroll admit accept intake beginner first time", "admissions.html", False),
         ("fact:why-us", "Why Parents Choose Treasure Academy",
          "Small classes so every child is known by name. Creche through to "
-         "Primary 6 on one permanent site. Founded in 2015 by Shaibu Sidikat "
+         "Primary 6 on one permanent site. Founded in 2016 by Shaibu Sidikat "
          "Ruth, a mother and trained teacher, and on its own site since the "
          "third year. Common Entrance practice built into Primary 6. "
          "Supervised school transport on three routes. Results, attendance and "

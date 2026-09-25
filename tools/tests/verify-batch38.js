@@ -70,7 +70,7 @@ ok('alumni loads clean', al.errors.length === 0, al.errors.join(' || ').slice(0,
 const ab = loadPage('about.html');
 ok('about loads clean', ab.errors.length === 0, ab.errors.join(' || ').slice(0, 140));
 ok('about CTA is alumni#staff link', !!ab.window.document.querySelector('a[href="alumni.html#staff"]'));
-ok('about still has history + founder', ab.window.document.body.textContent.includes('2015') && ab.window.document.body.textContent.includes('Shaibu Sidikat Ruth'));
+ok('about still has history + founder', ab.window.document.body.textContent.includes('2016') && ab.window.document.body.textContent.includes('Shaibu Sidikat Ruth'));
 
 /* ---------- C. versions ---------- */
 let stale = 0;
