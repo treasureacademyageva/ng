@@ -22,7 +22,7 @@ begin;
 -- Current session and term
 -- ----------------------------------------------------------------------------
 insert into sessions (name, term, starts_on, ends_on, is_current)
-values ('2026/2027', 'First Term', date '2026-09-22', date '2026-12-18', true)
+values ('2026/2027', 'First Term', date '2026-09-14', date '2026-12-18', true)
 on conflict (name, term) do update
   set starts_on  = excluded.starts_on,
       ends_on    = excluded.ends_on,
@@ -38,13 +38,13 @@ select s.id, v.title, v.description, v.event_date, v.kind
   from sessions s
   cross join (values
     ('Resumption — First Term 2026/2027',
-     'All pupils resume. New admissions close two weeks after resumption.',
-     date '2026-09-22', 'resumption'),
+     'All pupils resume. Admissions stay open for the first seven weeks of term.',
+     date '2026-09-14', 'resumption'),
     ('Independence Day Holiday',
      'No school — public holiday.',
      date '2026-10-01', 'holiday'),
     ('Mid-Term Break',
-     'Half-term break begins.',
+     'Half-term break — no school Thursday and Friday.',
      date '2026-10-29', 'break'),
     ('First Term Examinations',
      'Examinations begin for all classes.',
@@ -62,8 +62,8 @@ on conflict (title, event_date) do nothing;
 -- the deadline disappear from the site the moment resumption passed.
 -- ----------------------------------------------------------------------------
 insert into admission_windows (session_id, opens_on, deadline_on, is_open, note)
-select s.id, date '2026-09-22', date '2026-10-06', true,
-       'New admissions close two weeks after resumption.'
+select s.id, date '2026-09-14', date '2026-10-30', true,
+       'New admissions close seven weeks after resumption.'
   from sessions s
  where s.name = '2026/2027' and s.term = 'First Term'
 on conflict do nothing;

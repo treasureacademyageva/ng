@@ -30,7 +30,7 @@ w = load('story.html', '?id=NE7');
 console.log('NE7 thumbs:', w.document.querySelectorAll('.story-thumbs img').length, '(want 4)');
 console.log('NE7 Download btn:', w.document.querySelector('.story-body').textContent.includes('Download'), '(want true)');
 w = load('index.html');
-console.log('promo titles:', [...w.document.querySelectorAll('#promoTrack h3')].map(e => e.textContent).join(' | '));
+console.log('promo titles:', [...w.document.querySelectorAll('#promoSteps h3')].map(e => e.textContent).join(' | '));
 console.log('theme-btn on index:', w.document.querySelectorAll('.theme-btn').length, '(want 1)');
 w = load('news.html');
 console.log('theme-btn on news:', w.document.querySelectorAll('.theme-btn').length, '(want 0)');

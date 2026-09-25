@@ -56,7 +56,8 @@ const PUPIL = { role: 'pupil', refId: 'P001', name: 'x' };
   ok('teacher full includes', tch.includes('extra.css') && tch.includes('corporate.css') && tch.includes('site.js'));
   ok('clock hidden on portals', fs.readFileSync(SITE + '/assets/css/corporate.css', 'utf8').includes('.portal-body #clockWidget'));
   ok('transport+volunteer pages exist', fs.existsSync(SITE + '/transport.html') && fs.existsSync(SITE + '/volunteer.html'));
-  ok('quick-strip links new pages', fs.readFileSync(SITE + '/index.html', 'utf8').includes('transport.html') && fs.readFileSync(SITE + '/index.html', 'utf8').includes('volunteer.html'));
+  const drawerSrc = fs.readFileSync(SITE + '/assets/js/auth-ui.js', 'utf8');
+  ok('drawer links new pages', drawerSrc.includes('transport.html') && drawerSrc.includes('volunteer.html'));
   const born = fs.readFileSync(SITE + '/birthdays.html', 'utf8');
   ok('birthday song wired', born.includes('playBday') && born.includes('Play Birthday Song'));
 }

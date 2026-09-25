@@ -243,7 +243,7 @@ create trigger trg_applications_updated before update on applications
   for each row execute function set_updated_at();
 
 -- The admissions deadline is its own row. It used to be derived as
--- "resumption + 14 days", so it silently vanished the moment resumption
+-- "resumption + 14 days" (now seven weeks), so it silently vanished the moment resumption
 -- passed and parents asking mid-term got no answer at all.
 create table if not exists admission_windows (
   id           uuid primary key default gen_random_uuid(),

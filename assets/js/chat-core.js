@@ -1290,7 +1290,7 @@
                        "It covers " + (nClasses ? "<b>" + nClasses + "</b> classes " : "") +
                        "from <b>Creche</b> at six months right through to " +
                        "<b>Primary 6</b>, on its own permanent site since 2018, " +
-                       "with a computer room, library, playground and an online " +
+                       "with a computer room, a playground and an online " +
                        "portal where parents check results.<br><br>" +
                        "In 2024 every Primary 6 pupil passed the Common " +
                        "Entrance.<br><br>" +
@@ -1381,7 +1381,7 @@
                        "of pupils, a few teachers, one big dream.<br>" +
                        "<b>2018</b> - Moved to a permanent site in Ageva with " +
                        "bigger classrooms and a playground.<br>" +
-                       "<b>2021</b> - Computer room and library opened; the " +
+                       "<b>2021</b> - Computer room opened; the " +
                        "coding club began for Primary pupils.<br>" +
                        "<b>2024</b> - 100% Common Entrance pass; all Primary 6 " +
                        "pupils entered top secondary schools.<br>" +
@@ -1394,7 +1394,6 @@
         /* Answer about the specific thing asked for, the same rule used for
            lost property: name it, then give the rest. */
         var have = {
-          "library": "a <b>library</b>, opened in 2021 - pupils borrow books home",
           "computer": "a <b>computer room</b>, opened in 2021, with a coding club for Primary pupils",
           "playground": "a <b>playground</b>, on the permanent site since 2018",
           "classroom": "bright <b>classrooms</b> on the school's own permanent site",
@@ -1402,17 +1401,36 @@
           "sick": "a <b>sick bay</b> for minor injuries, with parents called straight away"
         };
         var askedFor = null;
-        if (/\blibrar/.test(s)) askedFor = "library";
-        else if (/\bcomputer|ict|coding|lab\b/.test(s)) askedFor = "computer";
+        if (/\bcomputer|ict|coding|lab\b/.test(s)) askedFor = "computer";
         else if (/\bplay ?ground|play area\b/.test(s)) askedFor = "playground";
         else if (/\bsick|clinic|nurse|first aid\b/.test(s)) askedFor = "sick";
 
         /* Things the school does not have. Saying so plainly is better than a
            vague answer that leaves a parent assuming. */
+        /* The school reads and does science practicals, but it has no
+           library and no science laboratory - the owner said so plainly,
+           so the bot says so plainly too. */
+        if (/\bscience (lab|laboratory)|laborator/.test(s)) {
+          return { html: "Science at Treasure Academy is taught with " +
+                         "<b>plenty of practicals</b> - but there is no " +
+                         "separate science laboratory.<br><br>What the " +
+                         "school does have: a computer room, a playground " +
+                         "and an online portal for parents.",
+                   source: "About" };
+        }
+        if (/\blibrar/.test(s)) {
+          return { html: "Treasure Academy does not have a <b>library</b>. " +
+                         "Reading is served by the <b>Reading Corner</b> - " +
+                         "a reading programme where pupils log the books " +
+                         "they finish and climb the leaderboard.<br><br>" +
+                         "What the school does have: a computer room, a " +
+                         "playground and an online portal for parents.",
+                   source: "About" };
+        }
         if (/\bswimming|pool\b/.test(s)) {
           return { html: "There is no <b>swimming pool</b> - Treasure Academy " +
                          "does not offer swimming.<br><br>What the school does " +
-                         "have: a computer room, a library, a playground and a " +
+                         "have: a computer room, science practicals, a playground and a " +
                          "sick bay, all on its own permanent site.<br><br>" +
                          "If that matters for your decision, the office can talk " +
                          "you through the school day on <b>" + WHATSAPP + "</b>.",
@@ -1426,10 +1444,10 @@
                    source: "About" };
         }
 
-        var all = "a <b>computer room</b> and <b>library</b> (both since 2021, " +
-                  "with a coding club), a <b>playground</b>, classrooms on the " +
-                  "school's own permanent site, a <b>sick bay</b>, and an " +
-                  "<b>online portal</b> for parents.";
+        var all = "a <b>computer room</b> (since 2021, with a coding club), " +
+                  "hands-on <b>science practicals</b>, a <b>playground</b>, " +
+                  "classrooms on the school's own permanent site, a " +
+                  "<b>sick bay</b>, and an <b>online portal</b> for parents.";
         if (askedFor) {
           return { html: "Yes - the school has " + have[askedFor] + ".<br><br>" +
                          "Altogether: " + all,
@@ -1697,7 +1715,9 @@
         }
         var iso0 = new Date().toISOString().slice(0, 10);
         var soon = cal.filter(function (c) { return String(c.date) >= iso0; })[0];
-        /* The admission deadline is resumption + 14 days. The upcoming list
+        /* Admissions run for the first seven weeks of term, so the
+           deadline is the Friday of week 7 - resumption + 46 days when
+           resumption is a Monday. The upcoming list
            only holds future events, so once term starts resumption drops out
            and the deadline used to vanish for parents asking mid-term. Fall
            back to the whole calendar so the date is still quoted, and report
@@ -1710,10 +1730,11 @@
         var tail = "<br><br>Ask the office about the admission deadline for this term.";
         if (resAny) {
           var dd = new Date(String(resAny.date) + "T12:00:00");
-          dd.setDate(dd.getDate() + 14);
+          dd.setDate(dd.getDate() + 46);
           var dIso = dd.toISOString().slice(0, 10);
           var left = Math.round((dd - new Date()) / 86400000);
-          tail = "<br><br>Admission deadline: <b>" + pretty(dIso) + "</b> (" +
+          tail = "<br><br>Admissions run for the first <b>seven weeks</b> " +
+                 "of term. Deadline: <b>" + pretty(dIso) + "</b> (" +
                  (left < 0 ? "closed" : left === 0 ? "closes today" : left + " days left") + ").";
         }
         if (soon) {

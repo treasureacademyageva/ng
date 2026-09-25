@@ -48,8 +48,8 @@ const ADMIN = { role: 'admin', refId: 'HEAD001', name: 'Mrs. Salihu Nanahawa' };
   ok('birthday bell shows celebrant', w.document.getElementById('bdayBell').textContent.includes('Mr. Tunde Bakare'));
   const sz = w.document.getElementById('starsZone');
   ok('stars: staff + pupil cards', sz.children.length === 2 && sz.textContent.includes('Idris Ibrahim') && sz.textContent.includes('Adaeze Okonkwo'));
-  ok('quick links to new pages', ['homework.html', 'lost-found.html', 'photo-day.html'].every(h => w.document.body.innerHTML.includes(h)));
-  ok('quick-strip links new pages', w.document.querySelector('.quick-strip').innerHTML.includes('photo-day.html'));
+  const drawerSrc = fs.readFileSync(SITE + '/assets/js/auth-ui.js', 'utf8');
+  ok('quick links live in the drawer', ['homework.html', 'lost-found.html', 'photo-day.html'].every(h => drawerSrc.includes(h)));
   ok('no errors', errors.length === 0, errors.join(' || ').slice(0, 200));
 }
 {

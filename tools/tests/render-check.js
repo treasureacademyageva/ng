@@ -30,7 +30,7 @@ try {
 window.document.dispatchEvent(new window.Event('DOMContentLoaded', { bubbles: true }));
 setTimeout(() => {
   const q = id => window.document.getElementById(id);
-  ['masonry', 'neList', 'videoRail', 'vidHead', 'vidWrap', 'monthFilter', 'promoTrack', 'newsTrack',
+  ['masonry', 'neList', 'videoRail', 'vidHead', 'vidWrap', 'monthFilter', 'promoSteps', 'newsSteps',
    'storyBox', 'relatedGrid', 'cmtList', 'likeCount', 'likeBtn', 'cmtCount', 'storyHero',
    'chatFab', 'chatPanel', 'clockWidget', 'mainNav', 'siteFooter', 'genCard'].forEach(id => {
     const el = q(id);
