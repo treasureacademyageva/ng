@@ -1337,3 +1337,59 @@ body{line-height:1.55}
   .hero-art .stats-band{grid-template-columns:repeat(2,1fr);padding:18px}
   .nav-links a.nl,.nav-links .nav-burger{min-width:0;height:40px;padding:0 10px}
 }
+
+
+/* ==========================================================================
+   Header — the owner's two-card template (24 September 2026): a back card
+   revealed through a corner cutout holding the theme pill (and search), a
+   front card with the brand row, a divider, and icon-over-label navigation.
+   Portals keep their own navbar; these rules are scoped to .hd-* markup.
+   ========================================================================== */
+.hd-stack{--hd-front:#FFFFFF;--hd-back:#E3EAF3;--hd-ink:#1B2B22;--hd-dim:#5D6570;--hd-line:#E3E6EC;position:relative;margin:14px 0 6px}
+[data-theme="dark"] .hd-stack{--hd-front:#1C1C1E;--hd-back:#121215;--hd-ink:#F2F2F2;--hd-dim:#9A9AA2;--hd-line:#333338}
+[data-theme="dark-hc"] .hd-stack{--hd-front:#0E1620;--hd-back:#080D14;--hd-ink:#FFFFFF;--hd-dim:#B7C4D4;--hd-line:#3D5166}
+.hd-back{position:absolute;inset:0;background:var(--hd-back);border-radius:26px;transition:background .3s ease}
+.hd-back .hd-tools{position:absolute;top:8px;right:10px;z-index:3;display:flex;align-items:center;gap:8px;margin:0}
+.hd-front{position:relative;z-index:1;background:var(--hd-front);border-radius:26px;transition:background .3s ease;box-shadow:0 10px 30px rgba(14,59,33,.10)}
+.hd-cutout{position:absolute;top:0;right:0;width:152px;height:52px;background:var(--hd-back);border-top-right-radius:26px;border-bottom-left-radius:24px;transition:background .3s ease;pointer-events:none}
+.hd-cutout::before,.hd-cutout::after{content:"";position:absolute;width:22px;height:22px;background:radial-gradient(circle 22px at 0 100%,transparent 21px,var(--hd-back) 21.7px);pointer-events:none;transition:background .3s ease}
+.hd-cutout::before{top:0;left:-22px}
+.hd-cutout::after{right:0;bottom:-22px}
+.hd-brand-row{display:flex;align-items:center;padding:18px 168px 16px 22px}
+.hd-brand{display:flex;align-items:center;gap:12px;text-decoration:none;color:var(--hd-ink);flex-shrink:0}
+.logo-badge{width:46px;height:46px;border-radius:12px;object-fit:cover;flex-shrink:0;border:1.5px solid rgba(201,162,39,.55);box-shadow:0 3px 10px rgba(14,59,33,.16);background:#fff}
+.hd-brand-text{line-height:1.2}
+.hd-name{font-family:var(--font-head);font-size:1.05rem;font-weight:800;letter-spacing:.2px;color:var(--hd-ink)}
+.hd-tag{display:block;font-size:.72rem;color:var(--hd-dim);font-weight:600;letter-spacing:.4px}
+.hd-divider{height:1px;background:var(--hd-line);margin:0 20px;transition:background .3s ease}
+.hd-nav{display:flex;align-items:stretch;padding:14px 14px 16px 8px;flex-wrap:wrap;gap:4px 0}
+#mainNav{display:contents}
+.hd-nav .hd-item{display:flex;flex-direction:column;align-items:center;gap:8px;background:none;border:none;cursor:pointer;text-decoration:none;font-family:inherit;padding:2px 6px;color:var(--hd-ink);min-width:86px}
+.hd-nav .hd-item .ic{display:flex;align-items:center;justify-content:center;height:30px;color:var(--green,#177A3F);transition:transform .2s ease}
+[data-theme="dark"] .hd-nav .hd-item .ic,[data-theme="dark-hc"] .hd-nav .hd-item .ic{color:#7BD89F}
+.hd-nav .hd-item .lbl{font-size:.9rem;font-weight:600;letter-spacing:.1px}
+.hd-nav .hd-item:hover .ic{transform:translateY(-2px)}
+.hd-nav .hd-item:hover{opacity:.85}
+.hd-nav .hd-item.on .lbl{color:var(--green,#177A3F);font-weight:800}
+.hd-login{margin-left:44px;padding-right:10px}
+/* the theme pill that sits in the cutout */
+.hd-tools .theme-btn{width:34px;height:34px;border-radius:50%}
+.hd-tools .theme-pill{width:74px;height:36px;border-radius:20px;border:none;position:relative;display:flex;align-items:center;padding:0 6px;background:#DFE5EE;color:#8E8E93;box-shadow:none;flex-shrink:0}
+.hd-tools .theme-pill .pill-knob{position:absolute;top:3px;right:41px;width:30px;height:30px;border-radius:50%;background:#FFFFFF;display:flex;align-items:center;justify-content:center;color:#4C4093;box-shadow:0 2px 6px rgba(0,0,0,.25);transition:right .25s ease,background .25s ease}
+[data-theme="dark"] .hd-tools .theme-pill,[data-theme="dark-hc"] .hd-tools .theme-pill{background:#2C2C2E}
+[data-theme="dark"] .hd-tools .theme-pill .pill-knob,[data-theme="dark-hc"] .hd-tools .theme-pill .pill-knob{right:3px;background:#1C1C1E;color:#B9B9FF}
+/* the navbar becomes a transparent host so the card floats on the page */
+body:not(.portal-body) .navbar{position:static;background:transparent;border-bottom:none;box-shadow:none;backdrop-filter:none;-webkit-backdrop-filter:none}
+body:not(.portal-body) .navbar .container{flex-wrap:nowrap}
+[data-theme="dark"] body:not(.portal-body) .navbar,[data-theme="dark-hc"] body:not(.portal-body) .navbar{background:transparent}
+@media (max-width:900px){.hd-brand-row{padding:16px 158px 14px 16px}}
+@media (max-width:560px){
+  .hd-brand-row{padding:14px 154px 12px 14px}
+  .hd-name{font-size:.95rem}
+  .logo-badge{width:40px;height:40px}
+  .hd-login{margin-left:16px;padding-right:4px}
+  .hd-nav .hd-item{min-width:70px;gap:6px;padding:2px 2px}
+  .hd-nav .hd-item .lbl{font-size:.78rem}
+  .hd-nav .hd-item .ic{height:26px}
+  .hd-nav .hd-item .ic svg{width:24px;height:24px}
+}

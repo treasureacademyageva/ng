@@ -96,6 +96,8 @@
     ["how are u", "en", "wellness"], ["how r u", "en", "wellness"],
     ["hope you are fine", "en", "wellness"], ["hope you re fine", "en", "wellness"],
     ["hope all is well", "en", "wellness"], ["how body", "pcm", "wellness"], ["how was your day", "en", "wellness"],
+    ["how is your day going", "en", "wellness"],
+    ["how is your day", "en", "wellness"],
     ["how you dey", "pcm", "wellness"], ["wetin dey", "pcm", "casual"],
     ["sannu", "hausa", "hello"], ["sannu da zuwa", "hausa", "hello"],
     ["barka da zuwa", "hausa", "hello"], ["barka da asuba", "hausa", "hello"],
@@ -137,13 +139,20 @@
   /* Courtesy. Also answered, not ignored - and not fed into retrieval. */
   var THANKS = ["thank you very much", "thank you so much", "thanks a lot",
     "much appreciated", "thank you", "thank u", "thanks", "thankx", "thanx",
-    "thx", "tanks", "nice one", "well done", "good job", "god bless you",
+    "thx", "tanks", "nice one", "well done", "good job", "keep it up",
+    "good work", "great work", "you are doing well", "you are doing great",
+    "you do well", "you tried", "you try", "keep going", "you are the best",
+    "you too much", "we appreciate you", "i appreciate", "i appreciate it",
+    "god bless you",
     "na gode", "e se", "ese", "imela", "dalu", "merci", "gracias", "danke",
     "obrigado", "shukran", "grazie", "asante", "dhanyavad"];
   var BYES = ["catch you later", "see you later", "goodbye", "good bye",
     "see you", "see ya", "bye bye", "bye", "later", "take care", "good night",
     "o dabo", "au revoir", "adios", "arrivederci", "sayonara", "kwaheri",
-    "maa ko salaama", "o daabo"];
+    "maa ko salaama", "o daabo",
+    "i am leaving", "am leaving", "i have to go", "i got to go",
+    "got to go", "i must go", "i need to go", "gotta go", "i dey go",
+    "i wan go", "i am off", "am off"];
 
   /* Words that can follow a greeting without turning it into a question. */
   var FILLERS = { "please": 1, "pls": 1, "kindly": 1, "abeg": 1, "oo": 1,
@@ -153,7 +162,7 @@
     "everybody": 1, "people": 1, "baba": 1, "aunty": 1, "uncle": 1,
     "bro": 1, "bros": 1, "sis": 1, "ooo": 1, "na": 1, "naa": 1, "nah": 1,
     "today": 1, "now": 1, "too": 1, "yea": 1, "yeah": 1, "jare": 1, "sha": 1,
-    "sef": 1, "wetin": 1, "concern": 1, "name": 1 };
+    "sef": 1, "wetin": 1, "concern": 1, "name": 1, "bot": 1, "tomorrow": 1 };
 
   /* The question words, and what each one is asking for. When a question
      misses everything else, its WH word still tells us what SHAPE of answer
@@ -612,21 +621,21 @@
   /* What the person is trying to DO. Checked in order, so the most specific
      phrasing wins over a bare topic word. */
   var INTENTS = [
-    ["lost", /\b(lost|lose|losing|missing|misplace[d]?|left behind|can'?t find|cannot find|find my|found any|anyone (found|seen)|has anyone)\b/],
+    ["lost", /\b(lost|losing|missing|misplace[d]?|left behind|can'?t find|cannot find|find my|found any|anyone (found|seen)|has anyone|lose (my|his|her|their|the|a|it|anything))\b/],
     ["staffcount", /\bclass size|\bhow (big|large|many)\b[^.?!]{0,20}\bclass\b|\bpupils? per class\b|\bchildren per class\b/],
     ["classlist", /\b(what classes|which classes|what levels|what grades|classes do you (have|offer)|do you have (a )?(creche|nursery|primary)|take babies|accept babies|youngest|age (do you|range|group)|from what age|how young|how old[^.?!]{0,25}\b(creche|nursery|primary|class|child|children|pupil|baby|admit)|how old must)\b|\b(\d+|six|three|two|four|five)[ -]?(month|year)s?[ -]?old\b|\bcheapest|most affordable|lowest fee\b/],
     ["classinfo", /\b(what (happens|do they do|is taught|do you do)|tell me about|what is|describe|activities|learn|is there|do they have|does .* have)\b[^.?!]{0,35}\b(creche|cr[eè]che|pre[- ]?nursery|nursery|primary|class)\b|\b(creche|pre[- ]?nursery|nursery [12]|primary [1-6])\b[^.?!]{0,20}\b(like|about|learn|do|activit|taught|cover)\b/],
     ["elearning", /\b(e[- ]?learning|elearning|online learning|online class|cbt|practice question|practice test|mock|revision|portal work|how does the portal)\b/],
     ["activity", /\b(club|clubs|excursion|excursions|debate|quiz|reading club|coding|extra[- ]?curricular|after school|activit\w*|show ?(and|&) ?tell|trip|trips|outing)\b/],
     ["homework", /\b(homework|home work|assignment|assignments|after school work|holiday work)\b(?![^.?!]*\b(for me|write|do it|answer)\b)/],
-    ["testimonial", /\b(testimonial|testimonials|review|reviews|what do parents say|parents say|feedback from parent|recommend|rating|opinion)\b/],
-    ["curriculum", /\b(subject|subjects|curriculum|syllabus|what do you teach|do you teach|is .* taught|lesson|lessons|topics?)\b/],
+    ["testimonial", /\b(testimonial|testimonials|review|reviews|what do parents say|parents say|feedback from parent|recommend (the|this|us|your|treasure)|rating|opinion)\b/],
+    ["curriculum", /\b(subject|subjects|curriculum|syllabus|what do you teach|do you teach|is .* taught|lesson|lessons|topics?|do you (do|offer|have) (french|arabic|music|spanish|english|mathematics|science|phonics|coding|computer))\b/],
     ["multichild", /\b(more than one child|two children|second child|another child|both (my )?children|siblings?|all my children|same account)\b/],
     ["notpublished", /\b(refund\w*|instal?ment\w*|part payment|pay in bits|spread the payment|interview (parents|the parent)|entrance exam|entry test|assessment test)\b|\bcannot afford|can'?t afford\b/],
     ["whotomeet", /\bwho (do|will|should) i (meet|see|talk to|speak to)\b|\bwho (attends to|receives) (visitors|parents)\b/],
     ["transfer", /\b(transfer\w*|moving from|coming from another|changing school|switch school|mid[- ]?term entry|previous school)\b/],
     ["afterreg", /\bwhat (happens|next|do i do)\b[^.?!]{0,25}\b(after|once|when)\b[^.?!]{0,25}\b(regist\w*|apply|applied|pay|paid|submit)\b|\bnext step\b/],
-    ["documents", /\b(document|documents|paper|papers|requirement|requirements|what do i (need|bring|provide|come with)|birth certificate|passport photo\w*|photo\w*|immunisation|immunization|report card|what (do i|to) bring|what is needed|credential)\b/],
+    ["documents", /\b(document|documents|paper|papers|requirement|requirements|what do i (need|bring|provide|come with)|birth certificate|passport photo\w*|photographs?|photos?|immunisation|immunization|report card|what (do i|to) bring|what is needed|credential)\b/],
     ["receipt", /\b(receipt|teller|proof of payment|payment slip|verify|genuine|authentic|confirm (my )?payment)\b/],
     ["trackapp", /\b(track|status of (my )?(application|admission)|application status|admission status|check (my )?(application|admission))\b|\bhow (do|will) i know\b[^.?!]{0,30}\b(admitted|accepted|got in|successful)\b/],
     ["contactinfo", /\b(contact (you|the school|us)|how (do|can) i (contact|reach|call|message)|phone number|your number|email|e-mail|reach you|get in touch|how (fast|quickly|soon).*(reply|respond)|reply time)\b/],

@@ -50,9 +50,9 @@ const ADMIN = { role: 'admin', refId: 'HEAD001', name: 'x' };
 /* nav + footer */
 {
   const i = loadPage('index.html');
-  const nav = i.window.document.getElementById('mainNav');
+  const nav = i.window.document.getElementById('navLinks') || i.window.document.getElementById('mainNav');
   const labels = [...nav.querySelectorAll('a')].map(a => a.textContent.trim());
-  ok('nav shows all incl current', ['Home', 'News/Event', 'About Us', 'Contact Us', 'Login/Register'].every(l => labels.includes(l)), labels.join(','));
+  ok('nav shows all incl current', ['Home', 'News/Event', 'About Us', 'Login/Register'].every(l => labels.includes(l)) && !!nav.querySelector('#taBurger'), labels.join(','));
   ok('nav highlights current', nav.querySelector('a.on') && nav.querySelector('a.on').textContent.trim() === 'Home');
   const foot = i.window.document.getElementById('siteFooter').textContent;
   ok('footer dropped quick links', !foot.includes('Quick Links') && !foot.includes('Portal Login') && foot.includes('Get Directions') && foot.includes('Follow Us'));
