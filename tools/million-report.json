@@ -1,112 +1,112 @@
 {
-  "asked": 5639,
+  "asked": 1000000,
   "cores": 5611,
   "variants": 299,
   "byFamily": {
     "fees": {
-      "pass": 508,
-      "abstain": 0,
-      "wrong": 0,
+      "pass": 83742,
+      "abstain": 801,
+      "wrong": 1377,
       "dead": 0,
-      "n": 508
+      "n": 85920
     },
     "transport": {
-      "pass": 120,
-      "abstain": 0,
-      "wrong": 0,
+      "pass": 20421,
+      "abstain": 439,
+      "wrong": 620,
       "dead": 0,
-      "n": 120
+      "n": 21480
     },
     "calendar": {
-      "pass": 288,
-      "abstain": 0,
-      "wrong": 0,
+      "pass": 49762,
+      "abstain": 847,
+      "wrong": 943,
       "dead": 0,
-      "n": 288
+      "n": 51552
     },
     "staff": {
-      "pass": 252,
-      "abstain": 0,
-      "wrong": 0,
+      "pass": 42365,
+      "abstain": 864,
+      "wrong": 1879,
       "dead": 0,
-      "n": 252
+      "n": 45108
     },
     "shop": {
-      "pass": 420,
-      "abstain": 0,
-      "wrong": 0,
+      "pass": 68544,
+      "abstain": 3107,
+      "wrong": 3211,
       "dead": 0,
-      "n": 420
+      "n": 74862
     },
     "docs": {
-      "pass": 2057,
-      "abstain": 1048,
-      "wrong": 315,
-      "dead": 0,
-      "n": 3420
+      "pass": 325698,
+      "abstain": 230973,
+      "wrong": 51972,
+      "dead": 117,
+      "n": 608760
     },
     "greet": {
-      "pass": 195,
-      "abstain": 0,
-      "wrong": 0,
+      "pass": 25303,
+      "abstain": 9113,
+      "wrong": 294,
       "dead": 0,
-      "n": 195
+      "n": 34710
     },
     "identity": {
-      "pass": 60,
-      "abstain": 0,
-      "wrong": 0,
+      "pass": 9022,
+      "abstain": 1462,
+      "wrong": 196,
       "dead": 0,
-      "n": 60
+      "n": 10680
     },
     "thanks": {
-      "pass": 10,
-      "abstain": 0,
-      "wrong": 0,
+      "pass": 1192,
+      "abstain": 450,
+      "wrong": 138,
       "dead": 0,
-      "n": 10
+      "n": 1780
     },
     "bye": {
-      "pass": 12,
-      "abstain": 0,
-      "wrong": 0,
+      "pass": 1579,
+      "abstain": 542,
+      "wrong": 15,
       "dead": 0,
-      "n": 12
+      "n": 2136
     },
     "smalltalk": {
-      "pass": 12,
-      "abstain": 0,
-      "wrong": 0,
+      "pass": 1681,
+      "abstain": 446,
+      "wrong": 9,
       "dead": 0,
-      "n": 12
+      "n": 2136
     },
     "refuse": {
-      "pass": 212,
+      "pass": 36935,
       "abstain": 0,
-      "wrong": 0,
+      "wrong": 801,
       "dead": 0,
-      "n": 212
+      "n": 37736
     },
     "portal": {
-      "pass": 56,
-      "abstain": 0,
-      "wrong": 0,
+      "pass": 8543,
+      "abstain": 1338,
+      "wrong": 87,
       "dead": 0,
-      "n": 56
+      "n": 9968
     },
     "context": {
-      "pass": 40,
-      "abstain": 0,
-      "wrong": 0,
+      "pass": 6623,
+      "abstain": 263,
+      "wrong": 234,
       "dead": 0,
-      "n": 40
+      "n": 7120
     },
     "salvage": {
-      "pass": 34,
-      "abstain": 0,
-      "wrong": 0,
+      "pass": 5654,
+      "abstain": 382,
+      "wrong": 16,
       "dead": 0,
-      "n": 34
+      "n": 6052
     }
   },
   "byLevel": {
@@ -124,8 +124,20 @@
       "dead": null,
       "n": null
     },
-    "2": {},
-    "3": {}
+    "2": {
+      "pass": null,
+      "abstain": null,
+      "wrong": null,
+      "dead": null,
+      "n": null
+    },
+    "3": {
+      "pass": null,
+      "abstain": null,
+      "wrong": null,
+      "dead": null,
+      "n": null
+    }
   },
-  "generatedAt": "2026-09-25T07:14:06.658Z"
+  "generatedAt": "2026-09-25T09:50:14.392Z"
 }

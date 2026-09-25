@@ -218,6 +218,13 @@
         !/\b(adavi|okene|ageva)\b/.test(ragQ)) ||
         /\b(betting|gambl\w+|casino|lottery|jackpot)\b/.test(ragQ) ||
         /\bbest\b[^.?!]{0,24}\b(phone|laptop|tv|car|network|data plan)\b/.test(ragQ) ||
+        /* A gadget question in any order - "how do i charge my phone
+           faster", "my phone screen is broken" - is not school business
+           even when retrieval can hear the word "phone" in a contact
+           line. The words are the same ones the phone branch below
+           refuses to answer on, so the two rules can never disagree. */
+        /\b(best|buy|new|repair|broken|screen|charge|charging|android|iphone|brand|model)\b[^.?!]{0,32}\b(phone|laptop|tv|tablet|gadget)\b/.test(ragQ) ||
+        /\b(phone|laptop|tv|tablet|gadget)\b[^.?!]{0,32}\b(best|buy|new|repair|broken|screen|charge|charging|android|iphone|brand|model)\b/.test(ragQ) ||
         /\btime\b[^.?!]{0,24}\b(in|at)\b[^.?!]{0,24}\b(london|lagos|abuja|new york|america|uk|usa|ghana|tokyo|paris|dubai|china|india|canada|germany|spain|italy|kenya|south africa)\b/.test(ragQ) ||
         (/\b(who|what) (is|was|are|were) (the |a |an )?(governor|president|vice president|minister|senator|speaker|king|queen|oba|emir|sultan|mayor)\b/.test(ragQ) &&
          !/\b(school|treasure|academy)\b/.test(ragQ)) ||

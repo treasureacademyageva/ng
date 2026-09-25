@@ -28,8 +28,10 @@ const vm = require("vm");
 const ROOT = path.join(__dirname, "..");
 const read = (p) => fs.readFileSync(path.join(ROOT, p), "utf8");
 const LIMIT = Math.max(1, parseInt(process.argv[2] || "1000000", 10));
-const STATE_FILE = "/tmp/million-state.json";
-const FAILS_FILE = "/tmp/million-fails.jsonl";
+/* MSTATE/MFAILS let several processes examine disjoint index ranges of the
+   same deterministic exam side by side, each with its own checkpoint. */
+const STATE_FILE = process.env.MSTATE || "/tmp/million-state.json";
+const FAILS_FILE = process.env.MFAILS || "/tmp/million-fails.jsonl";
 
 /* ---------------- deterministic randomness ---------------- */
 function hash32(n, salt) {
@@ -67,15 +69,23 @@ const KB = JSON.parse(read("assets/data/kb.json"));
 
 function makeBot() {
   const g = {}; g.window = g;
-  const mk = () => { const s = {}; return {
-    getItem: (k) => (k in s ? s[k] : null),
-    setItem: (k, v) => { s[k] = String(v); },
-    removeItem: (k) => { delete s[k]; } }; };
-  g.localStorage = mk(); g.sessionStorage = mk();
   const db = JSON.parse(SNAPSHOT);
+  /* The live branches only READ the snapshot, so one clone serves every
+   DB.load() call - a fresh JSON round-trip per call is 27% of the exam's
+   wall clock. The 45k determinism diff (old harness vs this one) proved
+   the answers byte-identical. */
+  let dbCache = null;
+  /* The stats histogram grows with every distinct question and is re-read
+   and re-written on each one - quadratic at exam scale, and nothing in an
+   answer ever reads it. The fake store simply declines to keep it. */
+  const mkStore = () => { const s = {}; return {
+    getItem: (k) => (k in s ? s[k] : null),
+    setItem: (k, v) => { if (k === "treasure_chat_stats_v1") return; s[k] = String(v); },
+    removeItem: (k) => { delete s[k]; } }; };
+  g.localStorage = mkStore(); g.sessionStorage = mkStore();
   const run = (f) => new Function("window", "localStorage", "sessionStorage", "DB",
     read(f) + "\nreturn window;")(g, g.localStorage, g.sessionStorage,
-    { load: () => JSON.parse(JSON.stringify(db)), save() {} });
+    { load: () => (dbCache || (dbCache = JSON.parse(JSON.stringify(db)))), save() {} });
   run("assets/js/chat-entities.js");
   run("assets/js/chat-rag.js");
   run("assets/js/chat-core.js");
@@ -505,7 +515,9 @@ for (let i = state.done; i < TOTAL; i++) {
   const bot = persona === "parentlogin" ? LOGGEDIN : GUEST;
   const q = applyVariant(core, i, v);
 
-  bot.topic = null; bot.pending = null;
+  /* topicClass is conversational memory too ("what does he teach?" needs
+     it) - without this reset one question's class bleeds into the next. */
+  bot.topic = null; bot.topicClass = null; bot.pending = null;
   if (core.pre) { bot.respond(core.pre); bot.pending = null; }
   /* every question starts fresh: a leftover feedback prompt from the
      previous core must not swallow the next one */
@@ -563,4 +575,4 @@ Object.keys(fams).sort().forEach(function (f) {
 fs.writeFileSync(path.join(__dirname, "million-report.json"), JSON.stringify({
   asked: TOTAL, cores: CORES.length, variants: VARIANTS.length,
   byFamily: fams, byLevel: lvls, generatedAt: new Date().toISOString() }, null, 2));
-console.log("report: tools/tests/million-report.json | failures: /tmp/million-fails.jsonl");
+console.log("report: tools/million-report.json | failures: " + FAILS_FILE);
