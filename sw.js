@@ -1,5 +1,5 @@
 /* Treasure Academy offline support — key pages keep working without internet */
-const CACHE = 'treasure-v63';
+const CACHE = 'treasure-v64';
 const CORE = [
   'index.html', 'contact.html', 'calendar.html', 'admissions.html', 'news.html',
   '404.html',
