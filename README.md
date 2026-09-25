@@ -45,14 +45,16 @@ Login lives at `portal/login.html` and routes to one of three screens.
 
 | Role | Screen | Demo credentials |
 |---|---|---|
-| Pupil / parent | `portal/pupil.html` | `0805 111 2222` / `1234` |
-| Pupil, no password set | `portal/pupil.html` | `0805 555 6666` |
-| Teacher | `portal/teacher.html` | `0803 100 0001`, PIN `1234` |
 | Headmistress | `portal/admin.html` | `HEAD001`, PIN `1234` |
+| Teacher (Primary 1) | `portal/teacher.html` | `T001` or `0803 100 0001`, PIN `1234` |
+| Parent — one child (Adaeze) | `portal/pupil.html` | `0805 111 2222` / `1234` |
+| Parent — two children (Emeka & Ada) | `portal/pupil.html` | `0805 333 4444` / `1234` |
 
-These are demo accounts for testing. Real staff records are a separate list —
-see the data model section in `docs/MAINTENANCE.md`; the two must never be
-merged.
+These four are the only demo accounts (owner's instruction, 25 Sept 2026) —
+one login per role so each screen can be tested. The parent with two children
+shares one phone number across both pupil records, so the portal shows the
+child switcher. Real accounts have not been added yet; real staff records are
+a separate list — see the data model section in `docs/MAINTENANCE.md`.
 
 ## Data
 

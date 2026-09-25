@@ -30,10 +30,10 @@
 <meta name="geo.region" content="NG-KO">
 <meta name="geo.placename" content="Ageva, Okene, Kogi State">
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "School", "name": "Treasure Academy, Ageva", "alternateName": "Treasure Academy", "slogan": "Our God is able", "description": "A Creche to Primary 6 private school in Ageva, Okene, Kogi State, Nigeria.", "url": "https://treasureacademyageva.vercel.app/", "logo": "https://treasureacademyageva.vercel.app/assets/img/logo.jpg", "image": "https://treasureacademyageva.vercel.app/assets/img/og-cover.png", "telephone": "+234 814 194 378", "email": "treasuregroupofschool@gmail.com", "address": {"@type": "PostalAddress", "streetAddress": "Opposite Morak Pure-Water Factory, Ageva", "addressLocality": "Okene", "addressRegion": "Kogi State", "addressCountry": "NG"}, "areaServed": ["Ageva", "Okene", "Kogi State"], "openingHoursSpecification": [{"@type": "OpeningHoursSpecification", "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"], "opens": "07:00", "closes": "15:00"}], "potentialAction": {"@type": "SearchAction", "target": {"@type": "EntryPoint", "urlTemplate": "https://treasureacademyageva.vercel.app/search.html?q={search_term_string}"}, "query-input": "required name=search_term_string"}}</script>
-<!-- seo:end --><link rel="stylesheet" href="assets/css/main.css?v=20260925-4-61">
-<link rel="stylesheet" href="assets/css/extra.css?v=20260925-4-61">
-<link rel="stylesheet" href="assets/css/corporate.css?v=20260925-4-61">
-<link rel="stylesheet" href="assets/css/motion.css?v=20260925-4-61"><link rel="stylesheet" href="assets/css/glass.css?v=20260925-4-61"><noscript><style>#siteLoader{display:none!important}</style></noscript>
+<!-- seo:end --><link rel="stylesheet" href="assets/css/main.css?v=20260925-5-61">
+<link rel="stylesheet" href="assets/css/extra.css?v=20260925-5-61">
+<link rel="stylesheet" href="assets/css/corporate.css?v=20260925-5-61">
+<link rel="stylesheet" href="assets/css/motion.css?v=20260925-5-61"><link rel="stylesheet" href="assets/css/glass.css?v=20260925-5-61"><noscript><style>#siteLoader{display:none!important}</style></noscript>
 <script defer src="/_vercel/insights/script.js"></script>
 <!-- treasure-seo -->
 <meta name="theme-color" content="#0E5A2E">
@@ -192,24 +192,26 @@
 <!-- PROMOTIONS -->
 <section id="promotions" style="padding-top:20px">
   <div class="container">
-    <div class="cta-band clip-up" style="margin-bottom:22px">
-      <div><h2>Notices &amp; Promotions</h2><p>What the school is telling parents right now — admission news, coaching and e-learning.</p></div>
-      <div class="cta-btns"><a class="btn btn-treasure" href="news.html">All Notices</a></div>
+    <div class="sec-head clip-up">
+      <span class="sec-tag">Promotions</span>
+      <h2>Notices &amp; <span class="hl">Promotions</span></h2>
    </div>
-    <div class="steps" id="promoSteps"></div>
+    <div class="promo-grid" id="promoGrid"></div>
  </div>
 </section>
 
-
+<!-- COUNTDOWN: between notices and news -->
+<section style="padding-top:0;padding-bottom:0"><div class="container"><div id="calCount"></div></div></section>
 
 <!-- NEWS / EVENT -->
 <section id="news" style="padding-top:20px">
   <div class="container">
-    <div class="cta-band clip-up" style="margin-bottom:22px">
-      <div><h2>Latest News</h2><p>News, events and stories from Treasure Academy — straight from the school office.</p></div>
-      <div class="cta-btns"><a class="btn btn-treasure" href="news.html">All News &amp; Events</a></div>
+    <div class="sec-head clip-up">
+      <span class="sec-tag">News &amp; Events</span>
+      <h2>Latest <span class="hl">News</span></h2>
    </div>
-    <div class="steps" id="newsSteps"></div>
+    <div class="ne-grid" id="newsGrid"></div>
+    <div style="text-align:center;margin-top:18px"><a class="btn btn-grape" href="news.html">All News &amp; Events</a></div>
  </div>
 </section>
 
@@ -288,13 +290,13 @@
 <footer id="siteFooter"></footer>
 <div id="toast"></div>
 
-<script src="assets/js/store.js?v=20260925-4-61"></script><script defer src="assets/js/db-live.js?v=20260925-4-61"></script>
-<script src="assets/js/sync.js?v=20260925-4-61"></script>
-<script src="assets/js/site.js?v=20260925-4-61"></script>
-<script defer src="assets/js/chat-entities.js?v=20260925-4-61"></script>
-<script defer src="assets/js/chat-rag.js?v=20260925-4-61"></script>
-<script defer src="assets/js/chat-core.js?v=20260925-4-61"></script>
-<script defer src="assets/js/chat-ui.js?v=20260925-4-61"></script><script defer src="assets/js/auth-ui.js?v=20260925-4-61"></script>
+<script src="assets/js/store.js?v=20260925-5-61"></script><script defer src="assets/js/db-live.js?v=20260925-5-61"></script>
+<script src="assets/js/sync.js?v=20260925-5-61"></script>
+<script src="assets/js/site.js?v=20260925-5-61"></script>
+<script defer src="assets/js/chat-entities.js?v=20260925-5-61"></script>
+<script defer src="assets/js/chat-rag.js?v=20260925-5-61"></script>
+<script defer src="assets/js/chat-core.js?v=20260925-5-61"></script>
+<script defer src="assets/js/chat-ui.js?v=20260925-5-61"></script><script defer src="assets/js/auth-ui.js?v=20260925-5-61"></script>
 <script>
 (function(){
   const db = DB.load()||{};
@@ -304,8 +306,9 @@
     {badge:"Primary 6", title:"Common Entrance Coaching", text:"After-school coaching with a 100% pass record. Give your child the edge.", link:"about.html", cta:"Our Approach", color:"sky"},
     {badge:"E-Learning", title:"Common Entrance Practice Online", text:"Primary 6 pupils can now practise Common Entrance questions online in the portal.", link:"portal/login.html", cta:"Open Portal", color:"sky"}
   ];
-  document.getElementById("promoSteps").innerHTML = promos.map((p,i)=>`
-    <div class="step clip-up"><div class="num">${i+1}</div><span class="chip">${U.esc(p.badge)}</span><h3>${U.esc(p.title)}</h3><p>${U.esc(p.text)}</p>
+  document.getElementById("promoGrid").innerHTML = promos.map(p=>`
+    <div class="promo-card promo-${p.color||"sun"} clip-up">
+      <span class="chip">${U.esc(p.badge)}</span><h3>${U.esc(p.title)}</h3><p>${U.esc(p.text)}</p>
       <a class="btn btn-white btn-sm" href="${U.esc(p.link)}">${U.esc(p.cta)}</a>
    </div>`).join("");
   window.goStory=function(id,link){location.href=link||(id?("story.html?id="+id):"news.html");};
@@ -317,13 +320,21 @@
     {id:"",type:"event",date:"2024-12-04",views:328,image:"assets/img/excursion-railway.jpg",title:"Excursion: Pupils Visit the Railway Station",text:"On 4th December 2024 our pupils embarked on an unforgettable one-day excursion. See the full story on Facebook.",link:"https://www.facebook.com/100093241642093/posts/460838207034230/"},
     {id:"",type:"news",date:"2024-12-04",views:215,image:"assets/img/excursion-shop.jpg",title:"Excursion: Learning Beyond the Classroom",text:"From the factory floor to the train platform \u2014 our thrilling 2024 excursion in pictures.",link:"https://www.facebook.com/100093241642093/posts/460833623701355/"}
   ];}
-  document.getElementById("newsSteps").innerHTML = latest.map(n=>`
-    <div class="step clip-up" style="cursor:pointer" onclick="goStory('${n.id||""}','${n.link||""}')">
-      <div class="num num-date">${U.shortDate(n.date)}</div><h3>${U.esc(n.title)}</h3>
-      <p style="margin:2px 0 8px;font-size:.8rem;color:var(--muted)"><span class="badge ${n.type==="event"?"b-coral":"b-sky"}">${n.type==="event"?"EVENT":"NEWS"}</span> ${n.views||0} views • ${n.likes||0} likes • ${Math.max(1,Math.round(((n.story||n.text||"").split(/\s+/).length)/200))} min read • ${((db.comments||{})[n.id]||[]).length} comments${U.isNew(n.date)?' <span class="tag-new">NEW</span>':""}</p>
-      <p>${U.esc(n.text)}</p>
-      <b style="color:var(--sky)">Read full story →</b>
+  document.getElementById("newsGrid").innerHTML = latest.map(n=>`
+    <div class="ne-card clip-up" style="cursor:pointer" onclick="goStory('${n.id||""}','${n.link||""}')">
+      <img class="thumb" src="${U.esc(n.image||"assets/img/hero-kids.png")}" alt="" loading="lazy" decoding="async" style="aspect-ratio:16/9">
+      <div class="body"><div class="ne-meta"><span class="badge ${n.type==="event"?"b-coral":"b-sky"}">${n.type==="event"?"EVENT":"NEWS"}</span><span>${U.shortDate(n.date)}</span><span>${n.views||0} views</span><span>${n.likes||0} likes</span><span>${Math.max(1,Math.round(((n.story||n.text||"").split(/\s+/).length)/200))} min read</span><span>${((db.comments||{})[n.id]||[]).length} comments</span>${U.isNew(n.date)?'<span class="tag-new">NEW</span>':""}</div>
+      <h3>${U.esc(n.title)}</h3><p>${U.esc(n.text)}</p><b style="color:var(--sky)">Read full story →</b></div>
    </div>`).join("");
+  /* countdown to the next dated thing on the school calendar */
+  try{ const dow=new Date().getDay();
+    if(dow===0||dow===6){ document.getElementById("calCount").innerHTML=`<div class="count-bar"><span class="count-num">--</span><span><b>Weekend</b> — school resumes back on Monday.</span></div>`; }
+    else { const evs=((db.calendar)||[]).filter(c=>c.date>=U.todayStr()).map(c=>({date:c.date,title:c.title,link:"calendar.html"}));
+    const exs=((db.exams)||[]).filter(x=>x.date&&x.date>=U.todayStr()).map(x=>({date:x.date,title:"Exams begin: "+x.subject+" ("+x.time+")",link:"exams.html"}));
+    const all=evs.concat(exs).sort((a,b)=>a.date.localeCompare(b.date));
+    if(all.length){ const e=all[0], dd=Math.round((new Date(e.date+"T12:00:00")-new Date(U.todayStr()+"T12:00:00"))/864e5);
+      document.getElementById("calCount").innerHTML=`<a class="count-bar" href="${e.link}"><span class="count-num">${dd}</span><span>${dd===0?"<b>Happening now:</b> ":"<b>In "+dd+" day"+(dd===1?"":"s")+":</b> "}${U.esc(e.title)}</span><span style="margin-left:auto">→</span></a>`; } }
+  }catch(e){}
   try{ const pw=(db.school||{}).photoWeek||{};
     if(pw.src){ document.getElementById("spotZone").innerHTML=`<div class="sec-head clip-up"><span class="sec-tag">Spotlight</span><h2>Photo of the <span class="hl">Week</span></h2></div><div class="spot-card clip-up"><img src="${U.esc(pw.src)}" alt="" onclick="openSpot()" style="aspect-ratio:16/9;cursor:zoom-in" loading="lazy" decoding="async"><div class="spot-txt"><h3>${U.esc(pw.cap||"Photo of the week")}</h3><p>Captured at Treasure Academy, Ageva.</p>${pw.id?`<a class="btn btn-mint btn-sm" href="story.html?id=${pw.id}">Read the Story</a>`:""}</div></div>`;
       window.openSpot=()=>Lightbox.open([{src:pw.src,cap:pw.cap||"",storyId:pw.id||""}],0); }

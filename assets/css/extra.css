@@ -91,6 +91,18 @@
 .ne-wide .body{justify-content:center;padding:26px !important}
 .ne-wide h3{font-size:1.25rem !important}
 @media(max-width:680px){.ne-wide{flex-direction:column !important}.ne-wide .thumb{width:100%;height:180px;min-height:0}}
+/* Owner review (25 Sept 2026): the homepage news cards are the classic
+   linked story cards - image, badge, meta, title, blurb - side by side in
+   a responsive grid, and promotions return to their coloured cards. */
+.ne-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+@media(max-width:900px){.ne-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:600px){.ne-grid{grid-template-columns:1fr}}
+.promo-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.promo-grid .promo-card{padding:26px 24px;display:flex;flex-direction:column;gap:6px}
+.promo-grid .promo-card h3{font-size:1.18rem;margin:6px 0}
+.promo-grid .promo-card p{font-size:.9rem;margin:0 0 12px}
+.promo-grid .promo-card .btn{align-self:flex-start}
+@media(max-width:900px){.promo-grid{grid-template-columns:1fr}}
 
 /* ---------- Reveal animation ---------- */
 .clip,.clip-up{opacity:0;transform:translateY(28px);transition:opacity .6s ease,transform .6s ease}

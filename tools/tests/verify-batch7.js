@@ -41,7 +41,7 @@ const ADMIN = { role: 'admin', refId: 'HEAD001', name: 'Mrs. Salihu Nanahawa' };
 
 /* homepage: ticker + bday + stars */
 {
-  const { window: w, errors } = loadPage('index.html', null, win => { const db = win.__DB.load(); db.teachers[2].dob = new Date().toISOString().slice(0, 10); db.teachers[2].name = 'Mr. Tunde Bakare'; win.__DB.save(db); });
+  const { window: w, errors } = loadPage('index.html', null, win => { const db = win.__DB.load(); db.teachers[0].dob = new Date().toISOString().slice(0, 10); db.teachers[0].name = 'Mr. Tunde Bakare'; win.__DB.save(db); });
   const tick = w.document.getElementById('newsTicker');
   ok('ticker renders with text', !!tick && tick.textContent.includes('ADMISSION IN PROGRESS'));
   ok('ticker sits after motto', !!tick && tick.previousElementSibling.id === 'mottoRibbon');

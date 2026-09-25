@@ -88,7 +88,7 @@ function loadPage(page, session, seedFn, opts = {}) {
     const db = win.__DB.load();
     db.teachers.forEach(t => { t.dob = '1990-01-01'; });
     const pd = new Date(); pd.setDate(pd.getDate() + 5);
-    db.teachers[1].dob = pd.toISOString().slice(0, 10); db.teachers[1].name = 'Bday Star';
+    db.teachers[0].dob = pd.toISOString().slice(0, 10); db.teachers[0].name = 'Bday Star';
     db.school.headDob = '1980-06-01';
     win.__DB.save(db);
   });

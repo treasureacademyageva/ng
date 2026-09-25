@@ -107,7 +107,7 @@ const PUPIL = { role: 'pupil', refId: 'P001', name: 'x' };
 {
   const { window: w, errors, run } = loadPage('portal/teacher.html', TEACHER, win => {
     const db = win.__DB.load();
-    db.pupils.push({ id: 'P9', adm: 'TA/2026/009', name: 'Sick Test', gender: 'Female', class: 'Primary 3', dob: '2018-01-01', parent: 'P', phone: '1' });
+    db.pupils.push({ id: 'P9', adm: 'TA/2026/009', name: 'Sick Test', gender: 'Female', class: 'Primary 1', dob: '2018-01-01', parent: 'P', phone: '1' });
     win.__DB.save(db);
   });
   ok('remark select filled from bank', [...w.document.getElementById('resRemark').options].some(o => o.text.includes('excellent result')));

@@ -117,8 +117,8 @@ const dstr = off => { const d = new Date(); d.setDate(d.getDate() + off); return
   const src = fs.readFileSync(SITE + '/index.html', 'utf8');
   const order = ['id="admissions"', 'id="aboutPrev"', 'id="programs"', 'id="promotions"', 'id="news"', 'id="gallery"', 'id="videos"', 'HEADMISTRESS', 'id="testimonials"'].map(m => src.indexOf(m));
   ok('index order adm-top>about>programs>promos>news>gallery>videos>hm>testi', order.every(x => x > 0) && order.every((x, i) => i === 0 || order[i - 1] < x), order.join(','));
-  ok('three cta bands (admissions, promos, news)', (src.match(/cta-band/g) || []).length === 3);
-  ok('landing countdown removed', !src.includes('id="calCount"'));
+  ok('one cta band (admissions only - promos and news are card grids again)', (src.match(/cta-band/g) || []).length === 1);
+  ok('landing countdown restored', src.includes('id="calCount"'));
   ok('videos grouped like gallery', src.includes('vid-grid') && src.includes('id="videos"') && !src.includes('CAMPUS TOUR'));
   ok('see all reviews link', src.includes('href="testimonials.html">See All Reviews'));
 }
@@ -148,7 +148,7 @@ const dstr = off => { const d = new Date(); d.setDate(d.getDate() + off); return
     win.__DB.save(db);
   });
   const cards = [...w.document.querySelectorAll('#teamGrid .team-card')].map(c => c.textContent);
-  ok('staff sorted creche first, admin last', cards.length === 10 && cards[0].includes('Creche') && cards[9].includes('Bose Momoh') && cards.join(' ').indexOf('Primary 2') < cards.join(' ').indexOf('Primary 3'), cards.map(c => c.slice(0, 20)).join('|'));
+  ok('staff sorted creche first, admin last', cards.length === 11 && cards[0].includes('Creche') && cards[10].includes('Momoh Bose') && cards.join(' ').indexOf('Primary 2') < cards.join(' ').indexOf('Primary 3'), cards.map(c => c.slice(0, 20)).join('|'));
   ok('about clean', errors.length === 0, errors.join(' || ').slice(0, 250));
 }
 

@@ -85,7 +85,8 @@ const ADMIN = { role: 'admin', refId: 'HEAD001', name: 'x' };
 
 /* ---------- S1 admission letter ---------- */
 {
-  const { window: w, run } = loadPage('portal/admin.html', ADMIN);
+  const { window: w, run } = loadPage('portal/admin.html', ADMIN, null,
+    'var d=DB.load(); d.applications.push({id:"AP1", pupilName:"Olivia Eze", dob:"2020-02-14", gender:"Female", classApply:"Nursery 1", parent:"Mrs. Eze", phone:"0807 111 0000", date:"2026-09-10", status:"Pending"}); DB.save(d);');
   run('approveApp("AP1");');
   run('closeModal(); renderApps();');
   ok('letter button on admitted', w.document.getElementById('appRows').innerHTML.includes("printAdmLetter('AP1')"));

@@ -79,9 +79,10 @@ for (const [page, sess, n] of [['portal/pupil.html', PUPIL, 7], ['portal/teacher
     let sess = null;
     try { sess = w.localStorage.getItem('treasure_session_v1'); } catch (e) {}
     ok('demo tap logs in (session set)', !!sess && sess.includes('P001'), String(sess).slice(0, 80));
-    const { window: w2, run: run2 } = loadPage('portal/login.html');
-    run2('fillDemo("0805 555 6666");');
-    ok('password-less demo routes to create-password', w2.document.getElementById('toast').textContent.includes('no password yet'));
+    const { window: w2, run: run2 } = loadPage('portal/login.html', null, null,
+      'var d=DB.load(); d.pupils.forEach(function(p){ if(p.phone==="0805 333 4444") p.password=null; }); DB.save(d);');
+    run2('fillDemo("0805 333 4444");');
+    ok('password-less login routes to create-password', w2.document.getElementById('toast').textContent.includes('no password yet'));
     finish();
   }, 900);
   return; // finish() continues async below
@@ -204,8 +205,8 @@ function finish() {
 /* ---------- #12 sick-bay push ---------- */
 {
   const t = loadPage('portal/teacher.html', TEACHER);
-  t.run('openSickModal("P017"); document.getElementById("skComp").value="Headache"; saveSick("P017");');
-  const pushed = t.run('DB.load().notices.find(n=>n.toId==="P017")');
+  t.run('openSickModal("P002"); document.getElementById("skComp").value="Headache"; saveSick("P002");');
+  const pushed = t.run('DB.load().notices.find(n=>n.toId==="P002")');
   ok('sick visit pushes parent notice', !!(pushed && pushed.title.includes('Sick-bay')));
 }
 
@@ -254,7 +255,7 @@ function finish() {
   ok('photos render on board', h.window.document.getElementById('hwList').innerHTML.includes('data:image/png'));
   const t = loadPage('portal/teacher.html', TEACHER);
   t.run('document.getElementById("tHwNote").value="Read p1-5"; saveTHW();');
-  ok('teacher posts homework', t.run('DB.load().homework.filter(x=>x.class==="Primary 3").length') > 0);
+  ok('teacher posts homework', t.run('DB.load().homework.filter(x=>x.class==="Primary 1").length') > 0);
   ok('compress helper exists', t.run('typeof U.compressPhotos') === 'function');
 }
 
