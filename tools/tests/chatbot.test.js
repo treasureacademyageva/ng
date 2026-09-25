@@ -243,7 +243,7 @@ const A = harness();
  ["who are your partners", /headmistress|office/i],
  ["i want to bring my son to your school", /Admissions are open|Creche/i],
  ["can i come and see the school", /welcome to visit|Ageva/i],
- ["why should i choose treasure", /Small classes|2015/i],
+ ["why should i choose treasure", /Small classes|2016/i],
  ["is my child safe there", /supervised|named guardian/i]].forEach(function (pair) {
   const html = A.TAChat.respond(pair[0]).html;
   ok('answers the visitor: "' + pair[0] + '"', pair[1].test(html),

@@ -212,14 +212,15 @@ function finish() {
 
 /* ---------- #13 event RSVP ---------- */
 {
-  const { window: w, run } = loadPage('story.html', null, 'http://localhost/story.html?id=NE2');
+  const seedEv = 'var d=DB.load(); d.newsEvents.push({id:"NEX",type:"event",title:"Test Fair",date:new Date(Date.now()+30*864e5).toISOString().slice(0,10),image:"",videoUrl:"",views:0,likes:0,images:[],text:"x",story:"x"}); DB.save(d);';
+  const { window: w, run } = loadPage('story.html', null, 'http://localhost/story.html?id=NEX', seedEv);
   ok('event shows RSVP form', w.document.getElementById('storyBox').innerHTML.includes('Reserve Your Seat'));
   ok('seats-left shown', w.document.getElementById('storyBox').innerHTML.includes('seats left'));
-  run('document.getElementById("rsvName").value="T Parent"; document.getElementById("rsvSeats").value="2"; rsvpEvent("NE2");');
-  ok('RSVP saves with seats', run('DB.load().rsvps.filter(r=>r.eventId==="NE2").length') === 1);
-  run('var d=DB.load(); var ev=d.newsEvents.find(e=>e.id==="NE2"); ev.seats=2; DB.save(d); document.getElementById("rsvName").value="Late"; rsvpEvent("NE2");');
-  ok('overbooking blocked', run('DB.load().rsvps.filter(r=>r.eventId==="NE2").length') === 1);
-  const n = loadPage('news.html', null, null, 'var sd=DB.load(); var ev=sd.newsEvents.find(e=>e.id==="NE2"); ev.seats=50; DB.save(sd);');
+  run('document.getElementById("rsvName").value="T Parent"; document.getElementById("rsvSeats").value="2"; rsvpEvent("NEX");');
+  ok('RSVP saves with seats', run('DB.load().rsvps.filter(r=>r.eventId==="NEX").length') === 1);
+  run('var d=DB.load(); var ev=d.newsEvents.find(e=>e.id==="NEX"); ev.seats=2; DB.save(d); document.getElementById("rsvName").value="Late"; rsvpEvent("NEX");');
+  ok('overbooking blocked', run('DB.load().rsvps.filter(r=>r.eventId==="NEX").length') === 1);
+  const n = loadPage('news.html', null, null, seedEv);
   ok('news shows seats badge', n.window.document.getElementById('neList').innerHTML.includes('seats left'));
 }
 

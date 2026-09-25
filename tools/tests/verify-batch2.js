@@ -76,13 +76,13 @@ function seedCommon(w) {
   run('renderEmergency()');
   const b = w.document.getElementById('emgBanner');
   ok('emergency banner renders with text', !!b && b.textContent.includes('TEST ALERT 123'));
-  run(`Lightbox.open([{src:'a.png',cap:'A'},{src:'b.png',cap:'B',storyId:'NE1'}],0)`);
+  run(`Lightbox.open([{src:'a.png',cap:'A'},{src:'b.png',cap:'B',storyId:'NEG1'}],0)`);
   let lb = w.document.getElementById('lightbox');
   ok('lightbox opens', !!lb && lb.querySelector('.lb-img').getAttribute('src') === 'a.png');
   ok('lightbox counter removed (b14)', !lb.querySelector('.lb-count'));
   run('Lightbox.go(1)');
   lb = w.document.getElementById('lightbox');
-  ok('lightbox next + story link', lb.querySelector('.lb-img').getAttribute('src') === 'b.png' && !!lb.querySelector('a[href="story.html?id=NE1"]'));
+  ok('lightbox next + story link', lb.querySelector('.lb-img').getAttribute('src') === 'b.png' && !!lb.querySelector('a[href="story.html?id=NEG1"]'));
   run('Lightbox.close()');
   ok('lightbox closes', !w.document.getElementById('lightbox'));
   ok('no errors on index interactions', errors.length === 0, errors.join(' || ').slice(0, 200));

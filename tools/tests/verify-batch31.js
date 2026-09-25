@@ -74,7 +74,7 @@ ok('wall unchanged by pending', su.window.document.querySelectorAll('#thanksWall
 const sh = loadPage('search.html', null, 'http://localhost/search.html?q=fees');
 ok('search q prefilled', sh.window.document.getElementById('bigQ').value === 'fees');
 ok('search page results', sh.window.document.getElementById('results').textContent.includes('result') && sh.window.document.getElementById('results').innerHTML.includes('fees.html'));
-ok('search news group works', (function(){ sh.window.document.getElementById('bigQ').value='resumption'; sh.window.runSearch(); return sh.window.document.getElementById('results').innerHTML.includes('story.html'); })());
+ok('search news group works', (function(){ sh.window.document.getElementById('bigQ').value='graduation'; sh.window.runSearch(); return sh.window.document.getElementById('results').innerHTML.includes('story.html'); })());
 ok('search chips render', sh.window.document.querySelectorAll('#chips .chip').length === 10);
 ok('index has new pages', ['careers.html', 'fees.html', 'anthem.html', 'support.html', 'search.html'].every(u => sitejs.includes('"' + u + '"')));
 ok('veil links to full search', sitejs.includes('href="search.html"'));

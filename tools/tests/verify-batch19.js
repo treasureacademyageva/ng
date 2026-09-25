@@ -66,7 +66,7 @@ const ADMIN = { role: 'admin', refId: 'HEAD001', name: 'x' };
   const { window: w, run, errors } = loadPage('news.html');
   const feat = w.document.getElementById('newsFeatured').innerHTML;
   ok('featured renders', feat.includes('news-featured') && feat.includes('LATEST') && feat.includes('Read Full Story'));
-  ok('featured is latest', feat.includes('Mid-Term Excursion')); // latest by date desc
+  ok('featured is latest', feat.includes('5th Graduation Ceremony')); // latest by date desc
   ok('video space always shown', w.document.getElementById('vidWrap').style.display !== 'none');
   ok('tour video placeholder', w.document.getElementById('videoRail').innerHTML.includes('Coming Soon'));
   const css = fs.readFileSync(SITE + '/assets/css/corporate.css', 'utf8');
@@ -77,9 +77,9 @@ const ADMIN = { role: 'admin', refId: 'HEAD001', name: 'x' };
 {
   // real video card when a videoUrl exists
   const { window: w } = loadPage('news.html', null, null,
-    'var d=DB.load(); d.newsEvents.find(n=>n.id==="NE1").videoUrl="https://www.youtube.com/watch?v=abc123"; DB.save(d);');
+    'var d=DB.load(); d.newsEvents.find(n=>n.id==="NEG5").videoUrl="https://www.youtube.com/watch?v=abc123"; DB.save(d);');
   const rail = w.document.getElementById('videoRail').innerHTML;
-  ok('real video card', rail.includes("playVideo('NE1')") && rail.includes('VIDEO'));
+  ok('real video card', rail.includes("playVideo('NEG5')") && rail.includes('VIDEO'));
   ok('video count badge', w.document.getElementById('vidCount').textContent.includes('1 video'));
 }
 

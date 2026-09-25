@@ -126,9 +126,9 @@ FACTS += [
     ("who is in charge of the school", ["salihu nanahawa"], "guest", "people"),
     ("who founded the school", ["shaibu sidikat ruth"], "guest", "people"),
     ("who owns the school", ["shaibu sidikat ruth"], "guest", "people"),
-    ("who started the school", ["shaibu sidikat ruth|2015"], "guest", "people"),
-    ("when was the school established", ["2015"], "guest", "people"),
-    ("when was the school founded", ["2015"], "guest", "people"),
+    ("who started the school", ["shaibu sidikat ruth|2016"], "guest", "people"),
+    ("when was the school established", ["2016"], "guest", "people"),
+    ("when was the school founded", ["2016"], "guest", "people"),
     ("who teaches primary 3", ["idris ibrahim"], "parent", "people"),
     ("who is the teacher for primary 3", ["idris ibrahim"], "parent", "people"),
     ("who teaches nursery 2", ["siyaka bose"], "parent", "people"),
@@ -159,8 +159,8 @@ FACTS += [
     ("are admissions open", ["open"], "newuser", "admissions"),
     ("from what age do you admit children", ["month|age|creche"], "newuser", "admissions"),
     ("how old must a child be for creche", ["month|age|creche"], "newuser", "admissions"),
-    ("is the school registered", ["2015", "ageva"], "newuser", "admissions"),
-    ("is the school government approved", ["2015", "ageva"], "newuser", "admissions"),
+    ("is the school registered", ["2016", "ageva"], "newuser", "admissions"),
+    ("is the school government approved", ["2016", "ageva"], "newuser", "admissions"),
     # uniform / shop
     ("how much is the uniform", ["4,500"], "parent", "uniform"),
     ("uniform price list", ["4,500"], "parent", "uniform"),
@@ -256,8 +256,8 @@ HEAD_QS = [
 
 SALVAGE_QS = [
     ("is mathematics compulsory", ["mathematics is taught"]),
-    ("when is sports day", ["inter-house sports trials.*20 september 2026|do not have that written down|rather not guess"]),
-    ("when is interhouse sports", ["inter-house sports trials.*20 september 2026|do not have that written down|rather not guess"]),
+    ("when is sports day", ["inter-house sports|not been dated"]),
+    ("when is interhouse sports", ["inter-house sports|not been dated"]),
     ("can my child bring a phone to school", ["09063932487"]),
     ("who is the bursar", ["bursary|fee"]),
     ("is there a scholarship", ["scholarship|bursary|fee"]),
@@ -359,8 +359,8 @@ CONTEXT_TRIPLES = [
      "what of okene town?"], "6,000"),
     ("when is the next exam", ["and the pta meeting?", "what about the pta meeting?",
      "what of the pta?"], "pta"),
-    ("when is the next staff birthday", ["and aunty rafatu?", "what about aunty rafatu?",
-     "what of rafatu?"], "21 june"),
+    ("who teaches primary 1", ["and aunty memunat?", "what about aunty memunat?",
+     "what of memunat?"], "memunat|animal science"),
 ]
 
 LOGGEDIN_QS = [
