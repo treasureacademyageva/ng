@@ -1,6 +1,10 @@
 # Data privacy finding — needs the owner's decision
 
-**Status:** open. Found during the batch 45 audit. **Not fixed automatically,
+**Status: decided — the owner reviewed this finding on 25 September 2026 and
+chose to keep the data as it is** (guardian phone numbers and dates of birth
+stay in the public store.js). No change was made. The analysis below is kept
+for the record; if the school ever reconsiders, the two-minute fix described
+here is still exactly right. Found during the batch 45 audit. **Not fixed automatically,
 because the fix deletes real data about real children and that is the owner's
 call, not mine.**
 
