@@ -45,7 +45,9 @@ const PUPIL = { role: 'pupil', refId: 'P001', name: 'x' };
 {
   const path = require('path');
   const pages = [];
-  (function walk(d) { for (const f of fs.readdirSync(d)) { const p = path.join(d, f); if (fs.statSync(p).isDirectory()) walk(p); else if (f.endsWith('.html')) pages.push(p); } })(SITE);
+  /* node_modules holds dev-tool html files (puppeteer's docs) -
+     only the site's own pages belong in this check */
+  (function walk(d) { for (const f of fs.readdirSync(d)) { const p = path.join(d, f); if (fs.statSync(p).isDirectory()) { if (f === 'node_modules' || f === '.git') continue; walk(p); } else if (f.endsWith('.html')) pages.push(p); } })(SITE);
   const noCrit = pages.filter(p => !fs.readFileSync(p, 'utf8').includes('#siteLoader{position:fixed'));
   ok('critical loader CSS on all pages', noCrit.length === 0 && pages.length === 41, `pages=${pages.length} missing=${noCrit.join(',')}`);
   const unv = [];
