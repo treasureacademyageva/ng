@@ -1570,7 +1570,17 @@
                  source: "About" };
       }
 
-      if (ent.intent === "performance") {
+      if (ent.intent === "performance" &&
+          /* "who were the graduates in 2017?", "the graduands of the 4th
+             graduation" and "list of graduates 2020" are about one past
+             set - they belong with the graduation-ceremony answers below,
+             not with the 2024 results. A bare "did my child graduate"
+             (no year, no ordinal) stays right here. */
+          !((/\b201[7-9]\b|\b202[01]\b/.test(s) &&
+             /graduat|graduand|head[- ]?(girl|boy)|\bset\b/.test(s)) ||
+            (/\b(1st|2nd|3rd|4th|5th|first|second|third|fourth|fifth|sixth)\b/.test(s) &&
+             /graduat|graduand/.test(s)) ||
+            /\bgraduands?\b|\bhead[- ]?(girl|boy)s?\b/.test(s))) {
         return { html: "In <b>2024</b> every Primary 6 pupil passed the " +
                        "<b>Common Entrance</b> examination - a 100% pass rate - " +
                        "and all of them went on to top secondary schools.<br><br>" +
@@ -1725,7 +1735,15 @@
       }
 
       /* Term dates, straight from the calendar. */
-      if (/\binter[- ]?house\b|\bsports? day\b|\bwhen\b[^.?!]{0,24}\bsports?\b|\bresumption|resume|term date|calendar|deadline|closing date|last day|cut off|cut-off|when.*(start|begin|open)\b|\bindependence|mid[- ]?term|\bcarol|prize ?giving|closing (day|date|ceremony)|\b(events?|program(me)?s?)\b[^.?!]{0,30}\b(coming|next|upcoming|this term|soon)\b|\b(coming|upcoming|any) events?\b|(whats|what.s|wats) happening( this term)?\b|end of (the )?term|term (ends?|finishes?|closes?|close|finish)|\bschool (ends?|finishes?|closes?)\b[^.?!]{0,25}\bterm\b|\bterm\b[^.?!]{0,25}\bschool (ends?|finishes?|closes?)\b|\bwhats new\b|\blatest news\b|\bany news\b|\bexcursion\b|\bsports? trials?\b|\btrials\b|when[^.?!]{0,24}\bclosing\b(?![^.?!]{0,12}\btime\b)|\bclosing\b(?![^.?!]{0,12}\btime\b)(?=[^.?!]{0,6}$)|\bclosing\b[^.?!]{0,24}\b(date|when)\b|when[^.?!]{0,24}\bexaminations?\b|\bexaminations?\b[^.?!]{0,30}\b(date|day)\b|\b(date|day)\b[^.?!]{0,30}\bexaminations?\b|\b(first|mid|end of) term exams?\b|graduat(?!es?\b)/.test(s) &&
+      if ((/\binter[- ]?house\b|\bsports? day\b|\bwhen\b[^.?!]{0,24}\bsports?\b|\bresumption|resume|term date|calendar|deadline|closing date|last day|cut off|cut-off|when.*(start|begin|open)\b|\bindependence|mid[- ]?term|\bcarol|prize ?giving|closing (day|date|ceremony)|\b(events?|program(me)?s?)\b[^.?!]{0,30}\b(coming|next|upcoming|this term|soon)\b|\b(coming|upcoming|any) events?\b|(whats|what.s|wats) happening( this term)?\b|end of (the )?term|term (ends?|finishes?|closes?|close|finish)|\bschool (ends?|finishes?|closes?)\b[^.?!]{0,25}\bterm\b|\bterm\b[^.?!]{0,25}\bschool (ends?|finishes?|closes?)\b|\bwhats new\b|\blatest news\b|\bany news\b|\bexcursion\b|\bsports? trials?\b|\btrials\b|when[^.?!]{0,24}\bclosing\b(?![^.?!]{0,12}\btime\b)|\bclosing\b(?![^.?!]{0,12}\btime\b)(?=[^.?!]{0,6}$)|\bclosing\b[^.?!]{0,24}\b(date|when)\b|when[^.?!]{0,24}\bexaminations?\b|\bexaminations?\b[^.?!]{0,30}\b(date|day)\b|\b(date|day)\b[^.?!]{0,30}\bexaminations?\b|\b(first|mid|end of) term exams?\b|graduat(?!es?\b)/.test(s) ||
+          /* "who was the head girl of the 1st graduation?" and "graduands
+             of 2017" are news questions too - but only with a ceremony
+             context, so "who is the head boy of the school" (today's pupil
+             leadership) keeps its own answer elsewhere */
+          (/\bhead[- ]?(girl|boy)s?\b|\bgraduands?\b/.test(s) && /graduat|ceremony|\b201[7-9]\b|\b202[01]\b|\b(1st|2nd|3rd|4th|5th|first|second|third|fourth|fifth)\b/.test(s)) ||
+          /* "who were the graduates in 2017?" - a historic ceremony year
+             makes it about that set, not the latest results */
+          (/\bgraduates?\b/.test(s) && /\b201[7-9]\b|\b202[01]\b/.test(s))) &&
           !/\bnigeria\b[^.?!]{0,40}\bindependence\b|\bindependence\b[^.?!]{0,40}\bnigeria\b/.test(s)) {
         var cal = (db.calendar || []).slice().sort(function (a, b) {
           return String(a.date).localeCompare(String(b.date));
@@ -1767,6 +1785,8 @@
              /* the stem survives typos ("graduatin") that the exact word
                 does not; bare "graduate(s)" stays with the results answers */
              /graduat(?!es?\b)/.test(s) ||
+             (/\bhead[- ]?(girl|boy)s?\b|\bgraduands?\b/.test(s) && /graduat|ceremony|\b201[7-9]\b|\b202[01]\b|\b(1st|2nd|3rd|4th|5th|first|second|third|fourth|fifth)\b/.test(s)) ||
+             (/\bgraduates?\b/.test(s) && /\b201[7-9]\b|\b202[01]\b/.test(s)) ||
              (/\bexcursion\b/.test(s) && (whenQ || ellipt || carried)) ||
              ((ellipt || carried) && /\bsports?\b/.test(s)))) {
           var newsCal = (db.newsEvents || []).filter(function (n) {
@@ -1778,7 +1798,9 @@
              the family asked about decides which events are in the race.
              Prize-giving day keeps its calendar answer (Closing & Carol),
              so it is deliberately not routed here. */
-          var evRe = /graduat(?!es?\b)/.test(s) &&
+          var evRe = ((/graduat(?!es?\b)/.test(s) ||
+                       /\bhead[- ]?(girl|boy)s?\b|\bgraduands?\b/.test(s)) ||
+                      (/\bgraduates?\b/.test(s) && /\b201[7-9]\b|\b202[01]\b/.test(s))) &&
                      !/\binter[- ]?house\b|\bsports? day\b/.test(s)
             ? /graduat/i : /inter[- ]?house|sports|excursion/i;
           var pool = cal.concat(newsCal).filter(function (c) {
@@ -1789,6 +1811,12 @@
           /* a numbered ceremony ("the 2nd graduation") answers itself,
              not the latest one on the list */
           var ordM = s.match(/\b(1st|2nd|3rd|4th|5th|6th|first|second|third|fourth|fifth|sixth)\b/);
+          /* "when did graduation start?" / "the school's first ever set" -
+             the beginning is the 1st ceremony */
+          if (!ordM && /graduat/.test(s) &&
+              /\b(start(ed|ing)?s?|began|first ever|earliest|inaugural)\b/.test(s)) {
+            ordM = ["1st", "1st"];
+          }
           if (ordM) {
             var ordMap = { "1st":"1st", "first":"1st", "2nd":"2nd", "second":"2nd",
                            "3rd":"3rd", "third":"3rd", "4th":"4th", "fourth":"4th",
@@ -1799,10 +1827,47 @@
             });
             if (named.length) pool = named;
           }
+          /* a year ("who graduated in 2017?") narrows the pool the same way
+             an ordinal does - but only when that year has a ceremony, so a
+             far-off year never empties the pool */
+          if (!ordM) {
+            /* a follow-up ("and 2018?") carries the old year first and the
+               new one last - the last year is the one being asked about */
+            var yrAll = s.match(/\b(201[5-9]|202[0-9])\b/g);
+            var yrM = yrAll ? yrAll[yrAll.length - 1] : null;
+            if (yrM) {
+              var ypool = pool.filter(function (c) {
+                return String(c.date).indexOf(yrM) === 0;
+              });
+              if (ypool.length) pool = ypool;
+            }
+          }
+          /* a who-question with no set named ("who was the head girl?")
+             prefers the ceremony whose graduands the school has actually
+             published, so the follow-up "and the head boy?" still meets
+             the named set */
+          var whoQ = /\bwho\b|\b(names?|lists?)\b|head[- ]?(girl|boy)|graduands?/.test(s);
+          if (whoQ && pool.length > 1) {
+            var fullByTitle = {};
+            (db.newsEvents || []).forEach(function (n) {
+              if (n.type === "event" && n.date) fullByTitle[n.title + "|" + n.date] = n;
+            });
+            var namedPool = pool.filter(function (c) {
+              var n = fullByTitle[c.title + "|" + c.date];
+              return n && /^\s*\d+\.\s+\S/m.test(String(n.story || ""));
+            });
+            if (namedPool.length && namedPool.length < pool.length) pool = namedPool;
+          }
           var future = pool.filter(function (c) {
             return String(c.date) >= isoNow;
           })[0];
           var ev = future || pool[pool.length - 1];
+          /* follow-up fragments ("and the head boy?", "and 2018?") must
+             stay with the graduation family, even when the question that
+             produced this answer had no ceremony word of its own */
+          if (ev && /graduat/i.test(ev.title || "")) {
+            this.topic = "graduation ceremony";
+          }
           var sportsQ = /inter[- ]?house|sports? day/.test(s) ||
                         /\bsports\b/.test(s);
           var excQ = /\bexcursion\b/.test(s);
@@ -1824,6 +1889,34 @@
                      source: "School news" };
           }
           if (ev) {
+            /* a who-question ("who was the head girl of the 1st
+               graduation?") answers with the graduands the school
+               published - a name that is not in the story is never
+               invented. Sets whose story has no list fall through to the
+               honest office answer below. */
+            if (whoQ && !future && /graduat/i.test(ev.title || "")) {
+              var evFull = (db.newsEvents || []).filter(function (n) {
+                return n.type === "event" && n.date &&
+                       String(n.title) === String(ev.title) &&
+                       String(n.date) === String(ev.date);
+              })[0];
+              var gLines = String((evFull && evFull.story) || "").split("\n")
+                .filter(function (L) { return /^\s*\d+\.\s+\S/.test(L); })
+                .map(function (L) { return L.replace(/^\s*\d+\.\s+/, "").trim(); });
+              if (gLines.length) {
+                return { html: "The graduands of the <b>" + esc(ev.title) +
+                               "</b> (" + pretty(ev.date) + ") were:<br>" +
+                               gLines.map(function (L) { return "\u2022 " + esc(L); }).join("<br>") +
+                               "<br><br>The full story is on our News page.",
+                         source: "School news" };
+              }
+              return { html: "The school has not published the names of " +
+                             "that set's graduands yet. The <b>" + esc(ev.title) +
+                             "</b> held on " + pretty(ev.date) +
+                             " - ask the office on <b>" + WHATSAPP +
+                             "</b> for the list.",
+                       source: "School news" };
+            }
             if (future) {
               return { html: "<b>" + esc(ev.title) + "</b> is on " +
                              pretty(ev.date) + ". Watch the News page " +

@@ -30,10 +30,10 @@
 <meta name="geo.region" content="NG-KO">
 <meta name="geo.placename" content="Ageva, Okene, Kogi State">
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://treasureacademyageva.vercel.app/"}, {"@type": "ListItem", "position": 2, "name": "Alumni &amp; Graduates", "item": "https://treasureacademyageva.vercel.app/alumni.html"}]}</script>
-<!-- seo:end --><link rel="stylesheet" href="assets/css/main.css?v=20260925-6-62">
-<link rel="stylesheet" href="assets/css/extra.css?v=20260925-6-62">
-<link rel="stylesheet" href="assets/css/corporate.css?v=20260925-6-62">
-<link rel="stylesheet" href="assets/css/motion.css?v=20260925-6-62"><link rel="stylesheet" href="assets/css/glass.css?v=20260925-6-62"><noscript><style>#siteLoader{display:none!important}</style></noscript>
+<!-- seo:end --><link rel="stylesheet" href="assets/css/main.css?v=20260926-7-63">
+<link rel="stylesheet" href="assets/css/extra.css?v=20260926-7-63">
+<link rel="stylesheet" href="assets/css/corporate.css?v=20260926-7-63">
+<link rel="stylesheet" href="assets/css/motion.css?v=20260926-7-63"><link rel="stylesheet" href="assets/css/glass.css?v=20260926-7-63"><noscript><style>#siteLoader{display:none!important}</style></noscript>
 <script defer src="/_vercel/insights/script.js"></script>
 <!-- treasure-seo -->
 <meta name="theme-color" content="#0E5A2E">
@@ -123,7 +123,7 @@
   <div id="gradWall"></div>
   </div>
 
-  <div class="sec-head clip-up" id="grad-gallery" style="margin-top:34px"><span class="sec-tag">Graduation Gallery</span><h2>Graduation <span class="hl">Photographs</span></h2><p>Moments from our graduation ceremonies &mdash; tap any photo to view it full size.</p></div>
+  <div class="sec-head clip-up" id="grad-gallery" style="margin-top:34px"><span class="sec-tag">Graduation Gallery</span><h2>Graduation <span class="hl">Photographs</span></h2><p>Moments from our graduation ceremonies &mdash; tap a ceremony photo to meet the set and read its story, or tap any photo to view it full size.</p></div>
   <div class="gal-grid grad-gal" id="gradGallery"></div>
 
   <div class="sec-head clip-up" style="margin-top:34px"><span class="sec-tag">Where Are They Now?</span><h2>Alumni Spotlight</h2><p>Success stories from our old pupils — search the wall or pick a set.</p></div>
@@ -150,13 +150,13 @@
 </div></section>
 <footer id="siteFooter"></footer>
 <div id="toast"></div>
-<script src="assets/js/store.js?v=20260925-6-62"></script><script defer src="assets/js/db-live.js?v=20260925-6-62"></script>
-<script src="assets/js/sync.js?v=20260925-6-62"></script>
-<script src="assets/js/site.js?v=20260925-6-62"></script>
-<script defer src="assets/js/chat-entities.js?v=20260925-6-62"></script>
-<script defer src="assets/js/chat-rag.js?v=20260925-6-62"></script>
-<script defer src="assets/js/chat-core.js?v=20260925-6-62"></script>
-<script defer src="assets/js/chat-ui.js?v=20260925-6-62"></script><script defer src="assets/js/auth-ui.js?v=20260925-6-62"></script>
+<script src="assets/js/store.js?v=20260926-7-63"></script><script defer src="assets/js/db-live.js?v=20260926-7-63"></script>
+<script src="assets/js/sync.js?v=20260926-7-63"></script>
+<script src="assets/js/site.js?v=20260926-7-63"></script>
+<script defer src="assets/js/chat-entities.js?v=20260926-7-63"></script>
+<script defer src="assets/js/chat-rag.js?v=20260926-7-63"></script>
+<script defer src="assets/js/chat-core.js?v=20260926-7-63"></script>
+<script defer src="assets/js/chat-ui.js?v=20260926-7-63"></script><script defer src="assets/js/auth-ui.js?v=20260926-7-63"></script>
 <script>
 (function(){
   const db = DB.load();
@@ -314,20 +314,73 @@ window.GRAD_PHOTOS=[
   ["assets/img/graduates/grad-07.jpg","Common Entrance records — 2024"],
   ["assets/img/graduates/grad-08.jpg","Ministry of Education exam form — 2024"],
   ["assets/img/graduates/grad-09.jpg","Class of 2024 candidates list"],
-  ["assets/img/graduates/grad-10.jpg","School records — handwritten list"],
+  ["assets/img/graduates/grad-10.jpg","2017 Graduation register — handwritten"],
   ["assets/img/graduates/grad-11.jpg","School records — handwritten list"],
   ["assets/img/graduates/grad-12.jpg","School records — handwritten list"]
 ];
-window._gradLB=window.GRAD_PHOTOS.map(function(p){return {src:p[0],cap:p[1]};});
+window.GRAD_SETS={
+  /* The graduands of each ceremony, as supplied by the school office.
+     sex labels (M/F) will be added by the office when provided - the pop-up
+     renders them automatically. */
+  "grad-01.jpg":{newsId:"NEG1",list:[
+    {name:"Jimoh Faridat",role:"Head Girl"},
+    {name:"Aliyu AbdulHakeem"},
+    {name:"Olowolabi Favour"},
+    {name:"Abdulrazak Kamirudeen"},
+    {name:"Rashidat Muhammed"},
+    {name:"MomohJimoh Mutolib",role:"Head Boy"}
+  ],note:"The school\u2019s very first graduate \u2014 one pupil \u2014 completed the school alone in 2016. This 2017 set was the first the school ever celebrated in a full graduation ceremony."},
+  "grad-02.jpg":{newsId:"NEG2"},
+  "grad-03.jpg":{newsId:"NEG3"},
+  "grad-04.jpg":{newsId:"NEG4"},
+  "grad-05.jpg":{newsId:"NEG5"}
+};
+window._gradLB=window.GRAD_PHOTOS.map(function(p){
+  var f=String(p[0]).split("/").pop(), st=window.GRAD_SETS[f];
+  return {src:p[0],cap:p[1],storyId:st?st.newsId:null};
+});
 /* site.js keeps Lightbox as a script-scope binding (same as news.html's
    openLB), so the tiles call this wrapper rather than the const directly. */
 window.openGradLB=function(i){ Lightbox.open(window._gradLB,i); };
+/* Ceremony photos open the "meet the set" pop-up: graduands (with school
+   roles), the note from the school office and the story from the news. */
+window.openGradStory=function(i){
+  var g=window.GRAD_PHOTOS[i]; if(!g) return;
+  var st=window.GRAD_SETS[String(g[0]).split("/").pop()];
+  if(!st){ window.openGradLB(i); return; }
+  var n=null;
+  try{ var db=DB.load(); n=(db.newsEvents||[]).filter(function(x){return x.id===st.newsId;})[0]||null; }catch(e){}
+  var dt=(n&&n.date)?new Date(n.date+"T12:00:00"):null;
+  var when=(dt&&!isNaN(dt.getTime()))?dt.toLocaleDateString("en-GB",{weekday:"long",day:"numeric",month:"long",year:"numeric"}):"";
+  var h='<div style="text-align:center"><img src="'+g[0]+'" alt="'+U.esc(g[1])+'" width="1200" height="1200" style="width:100%;max-width:420px;border-radius:14px;box-shadow:0 8px 24px rgba(14,59,33,.18)" loading="lazy" decoding="async">'
+    +'<h3 style="margin:12px 0 4px">'+U.esc(g[1])+'</h3>'+(when?'<p class="sub" style="margin:0">'+when+'</p>':'')+'</div>';
+  if(st.list&&st.list.length){
+    h+='<p style="margin:14px 0 6px;font-weight:800">The Graduands:</p><ol style="margin:0;padding-left:22px">';
+    st.list.forEach(function(gp){
+      h+='<li style="margin:6px 0;font-size:.95rem">'+U.esc(gp.name)
+        +(gp.role?' <span class="badge" style="background:var(--sun-soft);color:#8a6d1f">'+U.esc(gp.role)+'</span>':'')
+        +(gp.sex?' <span style="color:var(--muted);font-size:.8rem">('+U.esc(gp.sex)+')</span>':'')+'</li>';
+    });
+    h+='</ol>';
+  }
+  if(st.note) h+='<p style="margin:10px 0 0;font-size:.9rem;color:var(--muted)">'+U.esc(st.note)+'</p>';
+  if(n&&n.text) h+='<p style="margin:12px 0 0;font-size:.92rem;border-left:3px solid var(--green,#177A3F);padding-left:10px">'+U.esc(n.text)+'</p>';
+  h+='<div style="text-align:center;margin-top:14px">'
+    +'<a class="btn btn-mint btn-sm" href="story.html?id='+st.newsId+'">Read the full story</a> &nbsp;'
+    +'<button class="btn btn-white btn-sm" onclick="closeTP();openGradLB('+i+')">View photo full size</button> &nbsp;'
+    +'<button class="btn btn-white btn-sm" onclick="closeTP()">Close</button></div>';
+  document.getElementById("tpBox").innerHTML=h;
+  document.getElementById("tpBg").style.display="";
+  document.getElementById("tpBox").style.display="";
+};
 (function(){
   var el=document.getElementById("gradGallery"); if(!el) return;
   el.innerHTML=window.GRAD_PHOTOS.map(function(g,i){
-    return '<div class="gal clip-up" onclick="openGradLB('+i+')" role="button" tabindex="0" aria-label="'+g[1]+' - open full size" onkeydown="if(event.key===\'Enter\'||event.key===\' \'){event.preventDefault();openGradLB('+i+');}">'+
+    var has=!!window.GRAD_SETS[String(g[0]).split("/").pop()];
+    var act=has?("openGradStory("+i+")"):("openGradLB("+i+")");
+    return '<div class="gal clip-up" onclick="'+act+'" role="button" tabindex="0" aria-label="'+g[1]+' - open" onkeydown="if(event.key===\'Enter\'||event.key===\' \'){event.preventDefault();'+act+';}">'+
       '<img src="'+g[0]+'" alt="'+g[1]+'" width="1200" height="1200" loading="lazy" decoding="async">'+
-      '<div class="cap">'+g[1]+'</div></div>';
+      '<div class="cap">'+g[1]+(has?' &middot; <b>meet the set</b>':'')+'</div></div>';
   }).join("");
 })();
 </script>

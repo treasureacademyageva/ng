@@ -66,7 +66,7 @@ function loadPage(page, session, pre) {
     ['NEG2', '2nd Graduation Ceremony', '2018-07-24', 'grad-02.jpg'],
     ['NEG3', '3rd Graduation Ceremony', '2019-08-06', 'grad-03.jpg'],
     ['NEG4', '4th Graduation Ceremony', '2020-08-07', 'grad-04.jpg'],
-    ['NEG5', '5th Graduation Ceremony', '2021-08-17', 'grad-05.jpg']
+    ['NEG5', '5th Graduation Ceremony', '2021-08-12', 'grad-05.jpg']
   ];
   want.forEach((w, i) => {
     const n = data.ne[i] || {};
@@ -149,7 +149,7 @@ function loadPage(page, session, pre) {
   const w5 = mkStory('NEG5');
   const b5 = w5.document.getElementById('storyBox').textContent;
   ok('NEG5 story: exams in the school\'s own name, government-registered centre',
-     /17th August, 2021/.test(b5) && /in the name of the school/.test(b5) && /registered by the concerned government authority/.test(b5));
+     /12th August, 2021/.test(b5) && /in the name of the school/.test(b5) && /registered by the concerned government authority/.test(b5));
   ok('past event shows no seat-reservation form', !w5.document.getElementById('storyBox').innerHTML.includes('Reserve Your Seat'));
 }
 
@@ -179,7 +179,7 @@ function loadPage(page, session, pre) {
   ok('history strip starts at the 1st ceremony (2017)',
      hist.textContent.includes('26 July 2017') && hist.textContent.includes('1st Graduation Ceremony'));
   ok('history strip ends at the 5th ceremony (2021)',
-     hist.textContent.includes('17 August 2021') && hist.textContent.includes('5th Graduation Ceremony'));
+     hist.textContent.includes('12 August 2021') && hist.textContent.includes('5th Graduation Ceremony'));
   ok('history cards link to the stories', hist.innerHTML.includes("story.html?id=NEG1") && hist.innerHTML.includes("story.html?id=NEG5"));
   ok('calendar page has no errors', c.errors.length === 0, c.errors.join('||').slice(0, 120));
 }
@@ -228,11 +228,11 @@ function loadPage(page, session, pre) {
     return String((a && a.html) || '').replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim(); };
   const g1 = ask('when is graduation');
   ok('chat: graduation answers the real 5th ceremony',
-     g1.includes('5th Graduation Ceremony') && g1.includes('17 August 2021') && g1.includes('not been dated'));
+     g1.includes('5th Graduation Ceremony') && g1.includes('12 August 2021') && g1.includes('not been dated'));
   ok('chat: the 1st ceremony answers itself, not the latest',
      ask('when is the 1st graduation ceremony').includes('26 July 2017'));
   ok('chat: latest news lists the real records',
-     ask('what is the latest news').includes('5th Graduation Ceremony') && ask('what is the latest news').includes('17 August 2021'));
+     ask('what is the latest news').includes('5th Graduation Ceremony') && ask('what is the latest news').includes('12 August 2021'));
   ok('chat: founded in 2016', /2016/.test(ask('who founded the school')));
   ok('chat: sports day answered honestly (no invented date)',
      ask('when is sports day').includes('Inter-House Sports') && ask('when is sports day').includes('not been dated'));
@@ -249,8 +249,8 @@ function loadPage(page, session, pre) {
      alumniHtml.includes('Basic 6 Common Entrance register \u2014 2024'));
   ok('volunteer picker only offers upcoming events',
      /n\.date>=U\.todayStr\(\)&&\(!n\.publishAt/.test(volunteerHtml));
-  ok('service worker cache bumped', swjs.includes("'treasure-v68'"));
-  ok('asset version bumped everywhere', !indexHtml.includes('v=20260925-5-61') && indexHtml.includes('v=20260925-6-62'));
+  ok('service worker cache bumped', swjs.includes("'treasure-v69'"));
+  ok('asset version bumped everywhere', !indexHtml.includes('v=20260925-6-62') && indexHtml.includes('v=20260926-7-63'));
 }
 
 /* ---------- H. migration retires the demo feed on old devices ---------- */

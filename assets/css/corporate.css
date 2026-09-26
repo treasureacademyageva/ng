@@ -1403,3 +1403,16 @@ body:not(.portal-body) .navbar .container{width:100%;margin:0;padding:0}
 .hd-stack{margin:0}
 .hd-back,.hd-front{border-radius:0}
 .hd-cutout{border-top-right-radius:0}
+/* ============ OWNER REVIEW (26 Sept 2026): BOTH SIDES touch the edge ============
+   At phone widths the container was still display:flex, so the header card
+   shrank to its content width (it measured 531px wide on a 720px screen):
+   it touched the LEFT edge but stopped short on the RIGHT. Below the desktop
+   sidebar breakpoint the container now lays out as a normal block and the
+   card is stretched to the full width - left edge to right edge. */
+@media(max-width:1099px){
+  body:not(.portal-body) .navbar .container{display:block}
+  body:not(.portal-body) .navbar .container .hd-stack{width:100%}
+  /* nav items now use the full width: main links spread, Login/Register at the right edge */
+  body:not(.portal-body) .navbar .container .hd-nav{justify-content:space-between}
+  body:not(.portal-body) .navbar .container .hd-login{margin-left:0}
+}
