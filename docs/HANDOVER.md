@@ -77,7 +77,7 @@ Real data from owner only (never invent names/dates); WhatsApp 09063932487 only;
 
 ## Batch 49 additions (agent polish & fix pass, 26 Sept 2026 — preview)
 Re-applied on top of owner commit 14959de (which had independently bumped sw->v69 / assets 20260926-7-63).
-- **Canonical host fixed (long-standing SEO bug):** `tools/set-site-host.py https://ng-psi.vercel.app` rewrote 250 refs across 40 files. Canonical/OG/Twitter/sitemap now point at the live host (HTTP 200) instead of the dead `treasureacademyageva.vercel.app` (404). Owner confirmed staying on ng-psi.vercel.app until a custom domain is bought.
+- **Canonical host fixed (long-standing SEO bug):** `tools/set-site-host.py https://treasureacademyageva.vercel.app` rewrote 250 refs across 40 files. Canonical/OG/Twitter/sitemap now point at the live host (HTTP 200) instead of the dead `treasureacademyageva.vercel.app` (404). Owner confirmed staying on ng-psi.vercel.app until a custom domain is bought.
 - **Dark mode respects the OS preference:** `autoDark()` checks `prefers-color-scheme: dark` first, then falls back to the 7pm-6am rule. jsdom has no matchMedia so verify-batch16's 10am/10pm pins still hold.
 - **Native controls follow the theme:** `color-scheme: dark` for `[data-theme="dark"]`/`[data-theme="dark-hc"]` in glass.css.
 - **Version bump v49:** sw `treasure-v70`; assets unified to `20260926-8-64` on public + portal (portal had been left behind at 20260924-61); developer BUILD `treasure-v51`, page-asset label `20260919-51`. verify-batch47 exact-version guard updated to the new strings.
@@ -94,3 +94,9 @@ Re-applied on top of owner commit 14959de (which had independently bumped sw->v6
 ## Batch 49c additions (homepage news leads with admissions, 26 Sept 2026 — preview)
 - **Homepage "latest news" now leads with the fresh Sept 2026 admissions**, not the 2017–2021 graduations. Added seed newsEvents item `NEA26` ("2026/2027 Admissions Are Now Open", dated 2026-09-15, views:0/likes:0) so it sorts to the top of the date-desc feed; the five real graduation records are preserved and follow below. Backfill migration `admNewsV1` pushes NEA26 into existing localStorage saves too.
 - Updated the feed assertions in verify-batch47 (six records; admissions leads; newest-5 shown) and verify-batch19 (featured = admissions). All 55 suites green — 12,270 checks.
+
+
+## Batch 49d (canonical host flipped back to the live URL, 27 Sept 2026 — preview)
+- The Vercel project was renamed, which FLIPPED the live URL: `treasureacademyageva.vercel.app` is now live (HTTP 200) and `ng-psi.vercel.app` now 404s — the reverse of the Batch 49 situation. Verified with live HTTP checks before changing anything.
+- `tools/set-site-host.py https://treasureacademyageva.vercel.app` rewrote 254 references across 42 files (canonical, og:url/og:image, Twitter, JSON-LD url/logo/image + SearchAction, robots.txt Sitemap:, all sitemap.xml <loc>). Live check now 200, no stragglers in code.
+- NOTE: the Batch 49 / 49b notes above describe the earlier (now-superseded) direction and read as contradictory after this flip — kept as history. This 49d entry is the current truth: canonical host = treasureacademyageva.vercel.app.

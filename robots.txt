@@ -3,4 +3,4 @@ Allow: /
 Disallow: /portal/
 Disallow: /developer.html
 
-Sitemap: https://ng-psi.vercel.app/sitemap.xml
+Sitemap: https://treasureacademyageva.vercel.app/sitemap.xml

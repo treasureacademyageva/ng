@@ -94,11 +94,13 @@ admission form, search, story) are ordinary pages that should not rank — they
 keep their canonical and social tags. `PRIVATE` (developer console, 404) must
 not publish their own URL at all: no canonical, no `og:url`, no breadcrumb.
 
-> **Known issue — the canonical host is wrong.** Every page currently names
-> `treasureacademyageva.vercel.app`, which returns 404, while the site is live
-> at `ng-psi.vercel.app`. That tells Google to index a dead URL, so nothing
-> ranks. It needs an owner decision; `docs/CANONICAL-HOST.md` explains the
-> options and `tools/set-site-host.py` performs the switch in one command.
+> **Canonical host — resolved (Batch 49d, 27 Sept 2026).** Every page, plus
+> `robots.txt`, `sitemap.xml`, the manifest and JSON-LD, now names the live host
+> `treasureacademyageva.vercel.app` (HTTP 200). Note the live URL flipped once
+> when the Vercel project was renamed (it was briefly `ng-psi.vercel.app`), so if
+> you rename the project again, re-point everything with
+> `python3 tools/set-site-host.py https://<new-host>` and run the tests.
+> `docs/CANONICAL-HOST.md` explains the mechanism.
 
 ## Deploying
 

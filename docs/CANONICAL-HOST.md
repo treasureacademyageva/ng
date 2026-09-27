@@ -10,19 +10,19 @@ is a one-command fix once the owner picks a host.
 The site is live and healthy at:
 
 ```
-https://ng-psi.vercel.app/          -> 200 OK
+https://treasureacademyageva.vercel.app/          -> 200 OK
 ```
 
 But every page tells Google its real address is somewhere else:
 
 ```html
-<link rel="canonical" href="https://ng-psi.vercel.app/index.html">
+<link rel="canonical" href="https://treasureacademyageva.vercel.app/index.html">
 ```
 
 And that address does not exist:
 
 ```
-$ curl -sI https://ng-psi.vercel.app/
+$ curl -sI https://treasureacademyageva.vercel.app/
 HTTP/2 404
 x-vercel-error: DEPLOYMENT_NOT_FOUND
 ```
@@ -46,7 +46,7 @@ hostname.
 needed:
 
 ```bash
-python3 tools/set-site-host.py https://ng-psi.vercel.app
+python3 tools/set-site-host.py https://treasureacademyageva.vercel.app
 bash tools/run-all-tests.sh
 ```
 

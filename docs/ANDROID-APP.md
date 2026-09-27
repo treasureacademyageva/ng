@@ -76,7 +76,7 @@ dependencies {
 
     <meta-data
         android:name="android.support.customtabs.trusted.DEFAULT_URL"
-        android:value="https://ng-psi.vercel.app/" />
+        android:value="https://treasureacademyageva.vercel.app/" />
 
     <meta-data
         android:name="android.support.customtabs.trusted.STATUS_BAR_COLOR"
