@@ -13,7 +13,7 @@ const Theme = {
     if(pg==="home"){ d.innerHTML='<button class="theme-btn" title="Switch to night">'+ICON_MOON+'</button>'; } c.appendChild(d); } });
     /* mobile nav: two rows, all links visible — no hamburger (2026-09-16) */
 
-    const autoDark=()=>{ const h=new Date().getHours(); return (h>=19||h<6)?"dark":"light"; };
+    const autoDark=()=>{ try{ if(window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches) return "dark"; }catch(e){} const h=new Date().getHours(); return (h>=19||h<6)?"dark":"light"; };
     const storedOv=localStorage.getItem("treasure_theme");
     const t = storedOv || autoDark();
     document.documentElement.dataset.theme = t;

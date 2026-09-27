@@ -16,13 +16,13 @@ https://ng-psi.vercel.app/          -> 200 OK
 But every page tells Google its real address is somewhere else:
 
 ```html
-<link rel="canonical" href="https://treasureacademyageva.vercel.app/index.html">
+<link rel="canonical" href="https://ng-psi.vercel.app/index.html">
 ```
 
 And that address does not exist:
 
 ```
-$ curl -sI https://treasureacademyageva.vercel.app/
+$ curl -sI https://ng-psi.vercel.app/
 HTTP/2 404
 x-vercel-error: DEPLOYMENT_NOT_FOUND
 ```

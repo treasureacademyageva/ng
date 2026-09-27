@@ -73,3 +73,12 @@ Real data from owner only (never invent names/dates); WhatsApp 09063932487 only;
 - Human-studio finish: mono kicker labels, `text-wrap:balance` headlines, 70ch measure on section intros, body line-height 1.55, weight discipline (body 400/500, headings 500/600 only).
 - `.sig` now renders in mono-italic (studio document style) — not a playful script.
 - Files live in assets/fonts/ (5 woff2). Rule holds: any new font must NOT be from Google Fonts or its mirrors; check with the owner before adding type families.
+
+
+## Batch 49 additions (agent polish & fix pass, 26 Sept 2026 — preview)
+Re-applied on top of owner commit 14959de (which had independently bumped sw->v69 / assets 20260926-7-63).
+- **Canonical host fixed (long-standing SEO bug):** `tools/set-site-host.py https://ng-psi.vercel.app` rewrote 250 refs across 40 files. Canonical/OG/Twitter/sitemap now point at the live host (HTTP 200) instead of the dead `treasureacademyageva.vercel.app` (404). Owner confirmed staying on ng-psi.vercel.app until a custom domain is bought.
+- **Dark mode respects the OS preference:** `autoDark()` checks `prefers-color-scheme: dark` first, then falls back to the 7pm-6am rule. jsdom has no matchMedia so verify-batch16's 10am/10pm pins still hold.
+- **Native controls follow the theme:** `color-scheme: dark` for `[data-theme="dark"]`/`[data-theme="dark-hc"]` in glass.css.
+- **Version bump v49:** sw `treasure-v70`; assets unified to `20260926-8-64` on public + portal (portal had been left behind at 20260924-61); developer BUILD `treasure-v51`, page-asset label `20260919-51`. verify-batch47 exact-version guard updated to the new strings.
+- **All 55 suites green — 12,269 checks** (owner's new verify-batch48 included). No content, DOM, fonts, nav or owner decisions changed.
