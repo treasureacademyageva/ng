@@ -61,13 +61,6 @@
             </div></div>
             <p style="text-align:center;margin-top:14px;font-size:.85rem;color:var(--muted)">First time here? Just enter your ID —<br>pupils without a password get setup automatically. Staff use Staff ID + PIN.</p>
             <p style="text-align:center;margin-top:8px;font-weight:600;font-size:.88rem">Not admitted yet? <button type="button" class="link-btn" style="font-size:.9rem" onclick="flip(true)">Register here</button></p>
-            <div class="demo-box"><b>Demo accounts</b> (tap to enter):<br>
-              <button type="button" class="icon-btn" onclick="fillStaff('admin','HEAD001')">Headmistress — HEAD001</button>
-              <button type="button" class="icon-btn" onclick="fillStaff('teacher','T001')">Teacher (Primary 1) — T001</button><br>
-              <button type="button" class="icon-btn" onclick="fillDemo('0805 111 2222')">Parent, one child — 0805 111 2222</button>
-              <button type="button" class="icon-btn" onclick="fillDemo('0805 333 4444')">Parent, two children — 0805 333 4444</button>
-              <div style="margin-top:6px">Password/PIN for all demos: <code>1234</code></div>
-           </div>
           </form>
 
        </div>
@@ -138,15 +131,9 @@
   <div class="auth-side">
     <img class="auth-art" src="../assets/img/login-art.png" alt="Happy pupils learning">
     <div class="side-card" id="genCard">
-      <h3>Password Generator</h3>
-      <p>Enter a phone number from the school system to generate a strong password suggestion based on the pupil's name.</p>
-      <div class="field"><input id="genReg" placeholder="e.g. TAA/P/0001"></div>
-      <div style="display:flex;gap:8px;margin-top:10px">
-        <button class="btn btn-sun btn-sm" style="flex:1" onclick="genSuggest()">Generate</button>
-        <button class="btn btn-white btn-sm" onclick="document.getElementById('genReg').value=document.getElementById('pReg').value">Use login phone</button>
-     </div>
-      <div class="gen-out" id="genOut"></div>
-      <p style="margin-top:10px;margin-bottom:0">Note: this only <b>suggests</b> — the password is set through the secure Create/Reset flow.</p>
+      <h3>Your family's private portal</h3>
+      <p>This is the secure sign-in for Treasure Academy parents and staff. Enter your own phone number or staff ID and password to continue.</p>
+      <p style="margin-bottom:0">First time here? Just enter your ID and you'll be guided to create a password. Forgot it? Use <b>“Forgot password / PIN?”</b> to reset it safely.</p>
    </div>
  </div>
  </div>
@@ -216,15 +203,6 @@
     var msg="Hello "+school+", I forgot my portal password. Name: "+n+". My login number: "+id+". Please help me reset it. Thank you.";
     window.open("https://wa.me/2349063932487?text="+encodeURIComponent(msg),"_blank");
     U.toast("Opening WhatsApp... just press send.");
-  };
-
-  /* side-panel generator */
-  window.genSuggest=()=>{
-    const adm=document.getElementById("genReg").value.trim();
-    const p=Auth.pupilFind(adm), out=document.getElementById("genOut");
-    if(!p){ out.style.display="block"; out.textContent="Phone number not in school system."; return; }
-    out.style.display="block"; out.textContent=U.genPassword(p.name);
-    U.toast("Suggestion ready for "+p.name.split(" ")[0]+".");
   };
 
   /* ---- AUTO-DETECT: reg no in system without password → create-password pops up ---- */

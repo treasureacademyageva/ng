@@ -81,7 +81,7 @@ ORG_LD = {
   "url": SITE + "/",
   "logo": SITE + "/assets/img/logo.jpg",
   "image": SITE + "/assets/img/og-cover.png",
-  "telephone": "+234 814 194 378",
+  "telephone": "+234 814 194 3478",
   "email": "treasuregroupofschool@gmail.com",
   "address": {
     "@type": "PostalAddress",

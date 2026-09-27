@@ -82,3 +82,10 @@ Re-applied on top of owner commit 14959de (which had independently bumped sw->v6
 - **Native controls follow the theme:** `color-scheme: dark` for `[data-theme="dark"]`/`[data-theme="dark-hc"]` in glass.css.
 - **Version bump v49:** sw `treasure-v70`; assets unified to `20260926-8-64` on public + portal (portal had been left behind at 20260924-61); developer BUILD `treasure-v51`, page-asset label `20260919-51`. verify-batch47 exact-version guard updated to the new strings.
 - **All 55 suites green — 12,269 checks** (owner's new verify-batch48 included). No content, DOM, fonts, nav or owner decisions changed.
+
+
+## Batch 49b additions (critical security + contact fixes, 26 Sept 2026 — preview)
+- **SECURITY — demo credentials no longer public.** Removed the `.demo-box` on portal/login.html that advertised Headmistress `HEAD001`/PIN `1234` + parent phones, and removed the "Password Generator" side panel (`genSuggest`) that returned a password suggestion for any pupil from a phone number. The four demo accounts still authenticate (Auth.staffLogin/pupilLogin) and the `fillDemo`/`fillStaff` helpers remain for the test harness, but nothing is shown to the public. verify-batch46 now asserts the credentials are NOT displayed and the generator hole is gone.
+- **Phone number corrected.** `+234 814 194 378` (9 digits) -> `+234 814 194 3478` in SCHOOL_DEFAULTS (store.js), the School JSON-LD (seo-build.py) and every regenerated page.
+- **tel: links now work without JS.** The 39 empty `href="tel:"` links across all pages now carry `tel:+2348141943478` as a static fallback (site.js still overrides from live data). A parent tapping "Call" gets a valid number even before scripts load.
+- All 55 suites green — 12,270 checks.

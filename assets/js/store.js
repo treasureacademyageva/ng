@@ -12,7 +12,7 @@ const SCHOOL_DEFAULTS = {
   levels: "Creche • Pre-Nursery • Nursery • Primary",
   motto: "Our God is able",
   address: "Opposite Morak Pure-Water Factory, Ageva, Kogi State",
-  phone: "+234 814 194 378",
+  phone: "+234 814 194 3478",
   email: "treasuregroupofschool@gmail.com",
   hours: "Mon – Fri • 7:30am – 3:00pm",
   term: "First Term",
