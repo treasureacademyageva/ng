@@ -93,7 +93,7 @@ function seedCommon(w) {
   const { window: w, errors, run } = loadPage('index.html', '', seedCommon);
   const nt = w.document.getElementById('newsGrid').textContent;
   ok('index cards show likes', /likes/.test(nt));
-  ok('index cards show comments', /comments/.test(nt));
+  ok('index cards hide zero comments', !/0 comments/.test(nt));
   ok('single birthday bell at top', !!w.document.getElementById('bdayBell') && !w.document.getElementById('bdayBanner'));
 }
 {

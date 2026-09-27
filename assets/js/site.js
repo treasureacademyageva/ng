@@ -222,7 +222,7 @@ function renderFooter(){
     <div class="acc-logos"><a href="https://moest.kogistate.gov.ng/" target="_blank" rel="noopener noreferrer" title="Kogi State Ministry of Education, Science and Technology — moest.kogistate.gov.ng"><img src="assets/img/partners/badge-kogimoe.png" alt="Kogi State Ministry of Education, Science and Technology"></a><a href="https://www.nappsng.org/" target="_blank" rel="noopener noreferrer" title="NAPPS Nigeria — nappsng.org"><img src="assets/img/partners/badge-napps.webp" alt="NAPPS Nigeria"></a><a href="https://www.nysc.gov.ng/" target="_blank" rel="noopener noreferrer" title="National Youth Service Corps — nysc.gov.ng"><img src="assets/img/partners/badge-nysc.png" alt="National Youth Service Corps"></a></div>
     <p class="acc-note">Approved Common Entrance Examination Centre &middot; Centre No. BS/OKN/141</p>
   </div></div>
-  <div class="foot-bottom"><div class="container foot-center" style="display:flex;gap:14px;align-items:center;justify-content:center;flex-wrap:wrap"><nav class="foot-legal" style="display:flex;gap:14px;flex-wrap:wrap;justify-content:center"><a href="privacy.html">Privacy Policy</a><a href="safeguarding.html">Safeguarding</a></nav><span>\u00A9 ${year} ${U.esc(s.name)}. All Rights Reserved.</span><span id="textSizeBtns" title="Text size"><button type="button" data-fs="s" aria-label="Small text">S</button><button type="button" data-fs="m" aria-label="Normal text" class="on">A</button><button type="button" data-fs="l" aria-label="Large text">L</button></span></div></div>
+  <div class="foot-bottom"><div class="container foot-center" style="display:flex;gap:14px;align-items:center;justify-content:center;flex-wrap:wrap"><nav class="foot-legal" style="display:flex;gap:14px;flex-wrap:wrap;justify-content:center"><a href="privacy.html">Privacy Policy</a><a href="safeguarding.html">Safeguarding</a></nav><span>Treasure Academy Ageva Limited &middot; RC 9634403</span><span>\u00A9 ${year} ${U.esc(s.name)}. All Rights Reserved.</span><span id="textSizeBtns" title="Text size"><button type="button" data-fs="s" aria-label="Small text">S</button><button type="button" data-fs="m" aria-label="Normal text" class="on">A</button><button type="button" data-fs="l" aria-label="Large text">L</button></span></div></div>
   </div>`;
 }
 /* batch30: remember-able text size for weaker eyes */
@@ -582,8 +582,9 @@ function renderTicker(){
   const anchor=document.getElementById("mottoRibbon")||document.querySelector(".navbar");
   if(!anchor)return;
   const html=items.map(x=>`<span>${U.esc(x)}</span>`).join('<span class="tick-sep">•</span>');
-  const half=html+'<span class="tick-sep">•</span>'; /* batch24: two identical halves = seamless -50% loop */
-  anchor.insertAdjacentHTML("afterend",`<div class="ticker" id="newsTicker" role="marquee" aria-label="School announcements"><div class="ticker-inner"><span class="tick-half">${half}</span><span class="tick-half" aria-hidden="true">${half}</span></div></div>`);
+  /* One content run only: the older seamless implementation duplicated every
+     announcement, making the admissions message visibly repeat twice. */
+  anchor.insertAdjacentHTML("afterend",`<div class="ticker" id="newsTicker" role="marquee" aria-label="School announcements"><div class="ticker-inner"><span class="tick-content">${html}</span></div></div>`);
 }
 /* ---------- staff birthday bell (homepage) ---------- */
 function renderBday(){

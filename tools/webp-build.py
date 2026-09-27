@@ -6,14 +6,17 @@ import os, glob
 from PIL import Image
 
 EXCLUDE_PREFIX = ("logo", "icon-", "og-cover", "shop-", "favicon")
-THRESHOLD = 120 * 1024  # only convert files bigger than this
+THRESHOLD = 120 * 1024  # only convert originals bigger than this
+MAX_DIM = 860           # enough for the site's displayed cards/hero at phone and desktop sizes
+QUALITY = 62            # photographic WebPs land around 60–100 KB instead of 140–260 KB
 
 def convert(path):
     im = Image.open(path)
     has_alpha = im.mode in ("RGBA", "LA") or (im.mode == "P" and "transparency" in im.info)
     im = im.convert("RGBA" if has_alpha else "RGB")
+    im.thumbnail((MAX_DIM, MAX_DIM), Image.Resampling.LANCZOS)
     out = os.path.splitext(path)[0] + ".webp"
-    im.save(out, "WEBP", quality=80, method=6)
+    im.save(out, "WEBP", quality=QUALITY, method=6)
     return out
 
 total_before = total_after = 0

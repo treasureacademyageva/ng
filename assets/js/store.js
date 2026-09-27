@@ -806,6 +806,12 @@ const U = {
   },
   shopImg(id){ const M={textbooks:["S01","S02","S03","S04","S05","S06","S08"],workbooks:["S07","S16","S17"],notebooks:["S09","S14","S15"],pens:["S10"],stationery:["S11","S12"],crayons:["S13"],creche:["S18","S19","S20"],uniform:["S21","S25"],sportswear:["S22","S23"],bag:["S24"]};
     for(const k in M){ if(M[k].includes(id)) return "assets/img/shop-"+k+".jpg"; } return ""; },
+  /* Prefer the compressed sibling for known photographic assets rendered from
+     JavaScript. Static HTML keeps its original fallback inside <picture>. */
+  webpAsset(path){
+    const p=String(path||"");
+    return p.replace(/assets\/img\/(hero-school|reading-banner|openday-banner|culture|sports|hero-kids|graduation|homework-banner|library|school-flyer|classroom|photoday-banner|excursion-shop|excursion-railway|lostfound-banner|stage-nursery)\.(?:png|jpe?g)$/i,"assets/img/$1.webp");
+  },
   shopCat(id){ const M={Textbooks:["S01","S02","S03","S04","S05","S06","S08"],Workbooks:["S07","S16","S17"],Notebooks:["S09","S14","S15"],Pens:["S10"],Stationery:["S11","S12"],"Crayons & Art":["S13"],Creche:["S18","S19","S20"],Uniform:["S21","S25"],Sportswear:["S22","S23"],Bags:["S24"]};
     for(const k in M){ if(M[k].includes(id)) return k; } return "Others"; },
   noticeActive(n){ return !n||!n.expiry||n.expiry>=new Date().toISOString().slice(0,10); },

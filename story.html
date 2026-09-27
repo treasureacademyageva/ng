@@ -130,7 +130,7 @@
   const isMp4=U.isMp4(n.videoUrl);
   document.getElementById("storyBox").innerHTML=`
     <div class="ne-meta" style="margin-bottom:12px"><span class="badge ${n.type==="event"?"b-coral":"b-sky"}" style="font-size:.85rem">${n.type==="event"?" EVENT":" NEWS"}</span>
-    <span> ${U.prettyDate(n.date)}</span><span> ${n.views} views</span><span> ${n.likes||0} likes</span><span> ${Math.max(1,Math.round(((n.story||n.text||"").split(/\s+/).length)/200))} min read</span>${U.isNew(n.date)?'<span class="tag-new">NEW</span>':""}</div>
+    <span> ${U.prettyDate(n.date)}</span>${n.views?`<span>${n.views} view${n.views===1?"":"s"}</span>`:""}${n.likes?`<span>${n.likes} like${n.likes===1?"":"s"}</span>`:""}<span> ${Math.max(1,Math.round(((n.story||n.text||"").split(/\s+/).length)/200))} min read</span>${U.isNew(n.date)?'<span class="tag-new">NEW</span>':""}</div>
     <h1 style="font-size:clamp(1.6rem,4vw,2.4rem);margin-bottom:18px">${U.esc(n.title)}</h1>
     ${isMp4?`<div class="video-frame"><video src="${U.esc(n.videoUrl)}" controls playsinline></video></div>`:emb?`<div class="video-frame"><iframe src="${emb}" allowfullscreen title=" video"></iframe></div>`:n.image?`<div class="story-hero clip revealed"><img id="storyHero" style="aspect-ratio:16/9;cursor:zoom-in" onclick="Lightbox.open(window._storyImgs.map(s= alt="">({src:s,cap:window._storyTitle,storyId:window._storyId})),0)" src="${U.esc(n.image)}" alt=""></div>`:""}
     ${(emb||isMp4)&&n.image?`<div class="story-hero"><img id="storyHeroAlt" style="aspect-ratio:16/9;cursor:zoom-in" onclick="Lightbox.open(window._storyImgs.map(s= alt="">({src:s,cap:window._storyTitle,storyId:window._storyId})),0)" src="${U.esc(n.image)}" alt=""></div>`:""}
@@ -180,7 +180,7 @@
   const likedIds=()=>{ try{return JSON.parse(localStorage.getItem("treasure_likes")||"[]");}catch(e){return [];} };
   function paintLike(){ const on=likedIds().includes(n.id);
     document.getElementById("likeBtn").classList.toggle("on",on);
-    document.getElementById("likeCount").textContent=(n.likes||0)+" like"+((n.likes||0)===1?"":"s"); }
+    document.getElementById("likeCount").textContent=n.likes?((n.likes)+" like"+(n.likes===1?"":"s")):"Like this story"; }
   window.toggleLike=()=>{ const L=likedIds(), i=L.indexOf(n.id);
     if(i>=0){ L.splice(i,1); n.likes=Math.max(0,(n.likes||1)-1); } else { L.push(n.id); n.likes=(n.likes||0)+1; }
     try{localStorage.setItem("treasure_likes",JSON.stringify(L));}catch(e){}

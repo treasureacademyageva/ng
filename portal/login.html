@@ -151,7 +151,7 @@
   /* batch24: already logged in? show who + Continue/Logout instead of bouncing away */
   const ex = Auth.get();
   if(ex && ex.role){
-    const dest=ex.role==="admin"?"admin.html":ex.role==="teacher"?"teacher.html":"pupil.html";
+    const dest=ex.role==="admin"?"/portal/admin.html":ex.role==="teacher"?"/portal/teacher.html":"/portal/pupil.html";
     const zc=document.getElementById("sessCard");
     if(zc)zc.innerHTML=`<div class="notice"><span class="dot" style="background:var(--mint)"></span><div style="flex:1">Logged in as <b>${U.esc(ex.name||ex.refId||"")}</b> <span class="badge b-sky">${U.esc(ex.role||"")}</span><br><small style="color:var(--muted)">Signing in as someone else? Logout first.</small></div><div class="row-actions"><a class="icon-btn ok" href="${dest}">Continue</a> <button class="icon-btn" onclick="Auth.logout()">Logout</button></div></div>`;
     const pf=document.getElementById("pupilForm"); if(pf)pf.style.display="none";
@@ -242,7 +242,7 @@
     Auth.set(r.session, document.getElementById("rememberMe").checked);
     openModal(`<div style="text-align:center"><h2>Welcome, ${U.esc(r.session.name.split(" ")[0])}!</h2><p style="color:var(--muted)">Taking you to your dashboard...</p><div class="loading-bar"><i id="loadBar()"></i></div></div>`);
     let w=0; const t=setInterval(()=>{ w+=20; const b=document.getElementById("loadBar()"); if(b)b.style.width=w+"%";
-      if(w>=100){ clearInterval(t); location.href="pupil.html"; } },150);
+      if(w>=100){ clearInterval(t); location.href="/portal/pupil.html"; } },150);
   });
 
 

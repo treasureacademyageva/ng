@@ -103,7 +103,7 @@
   const fmt = n => "NGN " + Number(n||0).toLocaleString("en-NG");
   document.getElementById("uniList").innerHTML = (db.uniform||[]).length
     ? `<div style="overflow-x:auto"><table class="tbl"><thead><tr><th>Item</th><th>Details</th><th style="text-align:right">Price</th></tr></thead><tbody>${(db.uniform||[]).map(u=>`<tr><td><b>${U.esc(u.name)}</b></td><td>${U.esc(u.note||"")}</td><td style="text-align:right"><b>${fmt(u.price)}</b></td></tr>`).join("")}</tbody></table></div>`
-    : '<div class="empty">Price list coming soon.</div>';
+    : '<div class="empty">Uniforms are supplied through the school office after admission. Call <a href="tel:+2348141943478">0814 194 3478</a> for the current size and price list.</div>';
 })();
 </script>
 </body>

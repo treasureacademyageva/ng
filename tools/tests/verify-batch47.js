@@ -81,8 +81,10 @@ function loadPage(page, session, pre) {
   ok('homepage leads with Sept 2026 admissions, then graduations (newest 4, rotating carousel)',
      [...ix.window.document.querySelectorAll('#newsGrid .ne-card h3')].map(e => e.textContent).join('|') ===
      '2026/2027 Admissions Are Now Open|5th Graduation Ceremony|4th Graduation Ceremony|3rd Graduation Ceremony');
-  ok('homepage cards show 0 views / 0 likes (honest)',
-     ix.window.document.querySelector('#newsGrid .ne-card .ne-meta').textContent.includes('0 views'));
+  ok('homepage cards hide empty engagement counters',
+     !ix.window.document.querySelector('#newsGrid .ne-card .ne-meta').textContent.includes('0 views') &&
+     !ix.window.document.querySelector('#newsGrid .ne-card .ne-meta').textContent.includes('0 likes') &&
+     !ix.window.document.querySelector('#newsGrid .ne-card .ne-meta').textContent.includes('0 comments'));
   ok('homepage section renamed for real stories', indexHtml.includes('School <span class="hl">News</span>'));
   ok('index has no errors', ix.errors.length === 0, ix.errors.join('||').slice(0, 120));
 }
@@ -285,6 +287,40 @@ function loadPage(page, session, pre) {
      ['NEG1', 'NEG2', 'NEG3', 'NEG4', 'NEG5'].every(id => after.newsEvents.some(n => n.id === id)));
   ok('migration: demo comments cleaned', Object.keys(after.comments).indexOf('NE1') === -1);
   ok('migration: runs once (flag set)', after.realNewsV1 === 1);
+}
+
+/* ---------- I. launch-blocker cleanup (27 Sept 2026) ---------- */
+{
+  const safeguard = fs.readFileSync(SITE + '/safeguarding.html', 'utf8');
+  const privacy = fs.readFileSync(SITE + '/privacy.html', 'utf8');
+  const login = fs.readFileSync(SITE + '/portal/login.html', 'utf8');
+  const pta = fs.readFileSync(SITE + '/pta.html', 'utf8');
+  const reading = fs.readFileSync(SITE + '/reading.html', 'utf8');
+  const fallbacks = ['uniform.html','exams.html','transport.html','alumni.html','openday.html']
+    .map(f => fs.readFileSync(SITE + '/' + f, 'utf8')).join('\n');
+  const ix = loadPage('index.html');
+  ok('human-visible legal entity + RC in every rendered footer',
+     ix.window.document.getElementById('siteFooter').textContent.includes('Treasure Academy Ageva Limited · RC 9634403'));
+  ok('About has verified Registration & Approvals block',
+     aboutHtml.includes('id="approvals"') && aboutHtml.includes('RC 9634403') && aboutHtml.includes('BS/OKN/141'));
+  ok('no invented Ministry approval number published', !aboutHtml.includes('Ministry approval number'));
+  ok('public policy pages contain no internal todo lists',
+     !/For the school to complete|Still to confirm|TO BE PROVIDED|Still needed:/.test(safeguard + privacy));
+  ok('homepage LCP image is eager + high priority',
+     /hero-school\.jpg[^>]*loading="eager"[^>]*fetchpriority="high"/.test(indexHtml));
+  ok('homepage artifacts removed',
+     !indexHtml.includes('(headmistress controlled) -->') && !indexHtml.includes('count-num">--'));
+  ok('portal pupil destinations are unambiguous absolute paths',
+     login.includes('"/portal/pupil.html"') && !login.includes('location.href="pupil.html"'));
+  ok('listed public pages have honest fallbacks, not Coming soon',
+     !/Price list coming soon|Exam timetable coming soon|Transport routes coming soon|teachers list is coming soon|Next open day date coming soon/.test(fallbacks) &&
+     !/Minutes coming soon/.test(pta) && !/Leaderboard coming soon|\|\|"Coming soon"/.test(reading));
+  ok('news/gallery rendering prefers WebP siblings',
+     indexHtml.includes('U.webpAsset(n.image') && newsHtml.includes('excursion-railway.webp') && newsHtml.includes('U.webpAsset(n.image'));
+  const optimized=['hero-school','culture','sports','hero-kids','graduation','reading-banner','openday-banner','classroom','library'];
+  ok('major WebPs now stay near 60–100 KB', optimized.every(n => fs.statSync(SITE + '/assets/img/' + n + '.webp').size <= 105 * 1024));
+  ok('marquee has one content run, no duplicated half',
+     sitejs.includes('class="tick-content"') && !sitejs.includes('class="tick-half"'));
 }
 
 console.log('\n==== BATCH47: ' + pass + ' passed, ' + fail + ' failed ====');

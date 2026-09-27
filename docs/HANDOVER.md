@@ -159,3 +159,19 @@ STILL TO DO (next): role-gate admin.html so the Assistant Headmistress sees only
 - These exact 8 sections are Headmistress-only and are hidden+disabled for the Assistant, their panels are locked, and the router independently rejects typed hashes/synthetic clicks: Teachers, Duty Roster, WhatsApp, Testimonials, Website Extras, Shop & Orders, Code of Conduct, Settings. The Assistant is not blocked by the Headmistress Code-of-Conduct acceptance modal.
 - Added a real **My Class** section for each leadership account's assigned class. It contains: class stats; editable daily attendance with Present/Absent/Late, pupil notifications and parent WhatsApp links; CA1/CA2/Exam result input with grade/average, draft/submission and approved/published locking; class-scoped homework (optional photos); and a class roster with attendance + result status. Every write is scoped to `teachesClass` from the account record.
 - Tests now cover the exact Assistant visible-section count and restricted list, route guard, no CoC gate, Primary 4 attendance/result/homework writes tagged to ASST001, and Headmistress's full 25-section/Nursery 1 view. Full suite: **55 suites / 12,283 checks green**.
+
+## Batch 49n (launch blockers 1–8 + marquee polish, 27 Sept 2026 — preview)
+Audit cleanup completed without inventing any owner data:
+- Human-visible company identity is now in every rendered footer: **Treasure Academy Ageva Limited · RC 9634403**. About now has a **Registration & Approvals** panel containing the verified CAC number and Common Entrance centre no. BS/OKN/141. No Ministry approval number was guessed or published; add it only when the owner provides it.
+- Removed the internal `[TO BE PROVIDED]`/developer to-do panels from public `safeguarding.html` and `privacy.html` (the email upgrade remains parked internally, not shown to parents).
+- Homepage LCP image is `loading="eager" fetchpriority="high"`; every other reviewed image remains lazy.
+- Fixed the broken `(headmistress controlled) -->` text artifact and removed the visible `--` before Weekend.
+- Portal session/redirect destinations now use explicit `/portal/pupil.html` (and explicit admin/teacher equivalents), eliminating the ambiguous root `pupil.html` 404 path.
+- The pages named in the audit already carry real seed content. Their empty-state copy was changed from “coming soon” to honest, useful guidance (Uniform, Exams, Transport, Staff, Open Day, Reading, PTA minutes) rather than hiding useful populated pages.
+- Zero engagement counters are omitted from homepage/news cards and story metadata; non-zero views/likes/comments still render with singular/plural wording.
+- Rebuilt the 18 approved root photographic WebPs at max 860px, quality 62, method 6. Root WebP payload: **2,777,046 → 1,063,570 bytes (61.7% reduction)**; largest is ~93KB. All 18 validate. `tools/webp-build.py` now reproduces these settings. `shop-*.jpg` remains excluded/untouched.
+- Added `U.webpAsset()` for JS-rendered images; homepage news and news page cards/gallery/lightbox now prefer existing `.webp` siblings. The one gallery photo without a WebP keeps its already-small JPG.
+- The announcement marquee now has one content run and no longer repeats the admissions text twice. CSS animates that single run across the viewport.
+- Tests updated for the non-duplicated ticker, explicit portal link, hidden zero counters, RC/About/policy/LCP/artifact/placeholder/WebP checks. Full suite: **55 suites / 12,294 checks green**.
+
+Still intentionally parked: current-session/news archive restructure; self-hosting Facebook MP4s; `info@` domain email; Ministry approval number until supplied by owner.
