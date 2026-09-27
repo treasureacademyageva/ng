@@ -51,7 +51,7 @@ function seedCommon(w) {
   const t = w.__U;
   ok('U.isNew(today)=true', t.isNew(new Date().toISOString().slice(0, 10)) === true);
   ok('U.isNew(30d ago)=false', t.isNew('2026-08-01') === false);
-  ok('U.isNew(5d future)=true', t.isNew('2026-09-20') === true);
+  ok('U.isNew(5d future)=true', t.isNew(new Date(Date.now() + 5 * 86400000).toISOString().slice(0, 10)) === true);
   const bn = t.bdayNext('1990-09-16');
   ok('U.bdayNext(today)', bn instanceof w.Date && bn.getDate() === 16 && bn.getMonth() === 8);
   ok('U.bdayNext(bad)=null', t.bdayNext('') === null && t.bdayNext('2020-13-40') === null);

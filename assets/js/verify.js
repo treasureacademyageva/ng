@@ -128,7 +128,7 @@
     /* Issue a code for the number the parent is actually using right now.
        Returns the record so the caller can show "we have sent it" - the code
        itself only goes to the developer console. */
-    issue: function (identifier) {
+    issue: function (identifier, method) {
       var d = db();
       if (!d) return { ok: false, reason: "nodb" };
 
@@ -153,8 +153,10 @@
       var rec = {
         id: "otp" + Date.now().toString(36),
         code: code,
+        kind: "parent",
         phone: String(identifier || "").trim(),
         phoneKey: key,
+        method: (method === "sms" ? "sms" : "whatsapp"),
         pupilIds: approved.map(function (p) { return p.id; }),
         pupilNames: approved.map(function (p) { return p.name; }),
         parent: approved[0].parent || "",
@@ -184,7 +186,50 @@
                pupils: rec.pupilNames, expiresAt: rec.expiresAt } };
     },
 
-    /* Check a code against the number it was issued for. */
+    /* Staff (Headmistress / Assistant Headmistress) activate their own login
+       the same way parents do: they pick a password, a one-time code is issued
+       to the developer inbox, and the developer passes it on via WhatsApp/SMS.
+       The row shows the staff phone + method so the developer knows the channel. */
+    issueStaff: function (identifier, method) {
+      var d = db();
+      if (!d) return { ok: false, reason: "nodb" };
+      var key = phoneKey(identifier);
+      var q = String(identifier || "").trim().toUpperCase();
+      var a = (d.admins || []).filter(function (x) {
+        return (String(x.id || "").toUpperCase() === q) ||
+               (key && phoneKey(x.phone) === key);
+      })[0];
+      if (!a) return { ok: false, reason: "notfound" };
+
+      var code = makeCode();
+      var rec = {
+        id: "otp" + Date.now().toString(36),
+        code: code,
+        kind: "staff",
+        idRef: a.id,
+        who: a.title || a.name,
+        staffName: a.name,
+        phone: String(a.phone || identifier || "").trim(),
+        phoneKey: phoneKey(a.phone || identifier),
+        method: (method === "sms" ? "sms" : "whatsapp"),
+        pupilIds: [],
+        pupilNames: [a.title || "Staff account"],
+        parent: a.name || "",
+        classes: a.teachesClass ? [a.teachesClass] : [],
+        issuedAt: Date.now(),
+        expiresAt: Date.now() + OTP_TTL,
+        tries: 0,
+        used: false
+      };
+      var list = readQ();
+      /* One live code per staff account - a new request replaces the old. */
+      list = list.filter(function (x) { return !(x.idRef === a.id && !x.used); });
+      list.push(rec);
+      writeQ(list);
+      return { ok: true, record: { id: rec.id, phone: rec.phone, who: rec.who, method: rec.method } };
+    },
+
+    /* Check a code against the number (or staff ID) it was issued for. */
     check: function (identifier, code) {
       var key = phoneKey(identifier);
       var q = String(identifier || "").trim().toUpperCase();
@@ -197,7 +242,8 @@
         if (x.used) continue;
         var sameNumber = key && x.phoneKey === key;
         var sameId = String(x.phone || "").toUpperCase() === q;
-        if (sameNumber || sameId) { rec = x; break; }
+        var sameRef = x.idRef && String(x.idRef).toUpperCase() === q;
+        if (sameNumber || sameId || sameRef) { rec = x; break; }
       }
       if (!rec) return { ok: false, reason: "nocode" };
       if (now > rec.expiresAt) return { ok: false, reason: "expired" };
@@ -225,6 +271,8 @@
         return {
           id: r.id, code: r.code, phone: r.phone, parent: r.parent,
           pupils: r.pupilNames, classes: r.classes,
+          kind: r.kind || "parent", who: r.who || "",
+          method: r.method === "sms" ? "sms" : "whatsapp",
           issuedAt: r.issuedAt, tries: r.tries,
           state: r.used ? "used" : (now > r.expiresAt ? "expired" : "waiting")
         };

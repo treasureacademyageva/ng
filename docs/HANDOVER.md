@@ -141,3 +141,14 @@ Re-applied on top of owner commit 14959de (which had independently bumped sw->v6
 - Wrapped 16 static <img> tags across 8 pages in <picture><source type="image/webp"> + original <img> fallback (about, homework, index gallery ×9, lost-found, openday, photo-day, reading, uniform). Inner <img> keeps width/height/alt/lazy so seo.test stays green; original PNG/JPG kept as fallback for old browsers.
 - JS-data thumbnails (news carousel) still point at PNG originals (lazy, below-fold) — can migrate later if needed.
 - No single image >1.2MB; all 55 suites, 12,270 checks green.
+
+## Batch 49l (two real leadership accounts + create-password/OTP-to-developer, 27 Sept 2026 — preview)
+CORRECTION of my earlier misread. The only two REAL accounts are the two leadership roles; nobody else gets a login, and the teacher wall stays a display of past/present staff.
+- store.js admins: **HEAD001 = Mrs. Salihu Nanahawa (Headmistress, teaches Nursery 1)** and **ASST001 = Mrs. Abedoh Rafatu (Assistant Headmistress, teaches Primary 4)**. Both ship with NO password/PIN (`pin:null, password:null`) + `adminRole` + `title` + `teachesClass`. Migration `staffAccountsV1` upgrades existing saves (drops the old fixed PIN, adds the assistant).
+- Auth: `staffLogin("admin",…)` now matches by staff ID OR phone and checks a password the user CREATED; returns `{nopassword:true}` on first login. Added `Auth.staffFind()` and `Auth.setStaffPassword()`. Session carries `adminRole`/`title`/`teachesClass`.
+- First-login flow (login.html) reused for staff: pick WhatsApp or SMS → `TAVerify.issue()/issueStaff()` drops the code in the DEVELOPER inbox (no on-screen code anymore) → code verified via `TAVerify.check()` (now also matches staff `idRef`) → `setStaffPassword`.
+- verify.js: `issue()` records `method` + `kind:"parent"`; new `issueStaff()` (kind:"staff", idRef, who, phone, method); `queue()` exposes `method`/`kind`/`who`.
+- developer.html OTP inbox row now shows **"· send via WhatsApp/SMS"** and marks **staff login** rows.
+- Tests updated to the new model (batch8/18/46) + fixed a pre-existing date time-bomb in batch2. Full suite **55 suites / 12,272 checks green**.
+
+STILL TO DO (next): role-gate admin.html so the Assistant Headmistress sees only her agreed sections (headmistress-only: Teachers, Duty Roster, WhatsApp, Testimonials, Website Extras, Shop & Orders, Code of Conduct, Settings); add the "My Class" teacher section on each admin's side (Nursery 1 / Primary 4).

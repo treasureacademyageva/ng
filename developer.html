@@ -588,10 +588,15 @@ pre.view{background:#0A1114;border:1px solid var(--line);border-radius:10px;padd
     if(hint) hint.textContent = live?(live+" waiting to be passed on"):"Nothing waiting.";
     box.innerHTML = rows.length ? rows.map(function(r){
       const tone = r.state==="waiting" ? "#3aa76d" : r.state==="used" ? "#6b7280" : "#c0392b";
+      const chan = r.method==="sms" ? "SMS" : "WhatsApp";
+      const detail = r.kind==="staff"
+        ? esc(r.who||"Staff")+' <span style="color:#0B7A37;font-weight:700">· staff login</span>'
+        : esc((r.pupils||[]).join(", "));
       return '<div class="cs-row" style="border-color:'+tone+'">'+
         '<span><b style="font-size:1.15rem;letter-spacing:.14em">'+esc(r.state==="waiting"?r.code:"••••")+'</b>'+
         ' &nbsp; '+esc(r.phone)+(r.parent?' <small>('+esc(r.parent)+')</small>':'')+
-        '<br><small>'+esc((r.pupils||[]).join(", "))+'</small></span>'+
+        ' <b style="color:#0B7A37">· send via '+chan+'</b>'+
+        '<br><small>'+detail+'</small></span>'+
         '<small>'+esc(r.state)+(r.tries?' · '+r.tries+' tries':'')+' · '+ago(r.issuedAt)+'</small></div>';
     }).join("") : '<div class="cs-empty">No codes requested yet.</div>';
   }

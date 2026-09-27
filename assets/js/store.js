@@ -104,7 +104,15 @@ function seedDB(){
   const school = {...SCHOOL_DEFAULTS};
   const db = {
     school,
-    admins: [{id:"HEAD001", pin:"1234", name:"Mrs. Salihu Nanahawa", title:"Headmistress", phone:"0813 316 7728"}],
+    /* The two real leadership accounts. Neither ships with a password: on first
+       login each one CREATES her own password and confirms it with a one-time
+       code (the code lands in the developer inbox with her phone + WhatsApp/SMS
+       channel, exactly like a parent). Both also teach a class, so each carries
+       a teachesClass used by the "My Class" section on her admin side. */
+    admins: [
+      {id:"HEAD001", adminRole:"headmistress", name:"Mrs. Salihu Nanahawa", title:"Headmistress",           phone:"0813 316 7728", teachesClass:"Nursery 1", pin:null, password:null, activatedAt:null},
+      {id:"ASST001", adminRole:"assistant",    name:"Mrs. Abedoh Rafatu",    title:"Assistant Headmistress", phone:"0706 492 3346", teachesClass:"Primary 4", pin:null, password:null, activatedAt:null}
+    ],
     teachers: [
       /* 25 Sept 2026: the owner asked for exactly four demo logins -
          Headmistress, one teacher, one parent with a single child, one
@@ -439,6 +447,28 @@ const DB = {
       db.applications=(db.applications||[]).filter(function(a){return a.id!=="AP1"&&a.id!=="AP2";});
       db.demoAccountsV2=1;
     }
+    /* 27 September 2026 - the owner registered the two real leadership accounts
+       (Headmistress + Assistant Headmistress). Both drop the old fixed PIN and
+       now create their own password + OTP on first login. Any password already
+       created through the portal is preserved; the old placeholder admin (or a
+       leftover PIN) is repaired in place, once per device. */
+    if(!db.staffAccountsV1){
+      const seedA = seedDB().admins;
+      db.admins = db.admins || [];
+      seedA.forEach(function(sa){
+        var ex = db.admins.filter(function(a){return a.id===sa.id;})[0];
+        if(!ex){ db.admins.push(JSON.parse(JSON.stringify(sa))); }
+        else {
+          ex.adminRole=sa.adminRole; ex.title=sa.title; ex.name=sa.name;
+          ex.phone=sa.phone; ex.teachesClass=sa.teachesClass;
+          delete ex.pin;                              /* fixed PIN is gone */
+          if(ex.password===undefined) ex.password=null;
+          if(ex.activatedAt===undefined) ex.activatedAt=null;
+        }
+      });
+      db.admins = db.admins.filter(function(a){ return seedA.some(function(sa){return sa.id===a.id;}); });
+      db.staffAccountsV1=1;
+    }
     /* 25 September 2026 - the owner supplied the real graduation records
        (2017-2021) as the school's news feed. Demo news items seeded before
        that date are retired here, once per device; anything the school
@@ -548,19 +578,42 @@ const DB = {
 
 /* ---------------- Auth (remember-device sessions) ---------------- */
 const Auth = {
-  staffLogin(role, id, pin){
+  staffLogin(role, id, secret){
     const db = DB.load();
-    id = (id||"").trim().toUpperCase(); pin = (pin||"").trim();
+    const raw=(id||"").trim(), idU=raw.toUpperCase(), key=U.phoneKey(raw); secret=(secret||"");
     if(role==="admin"){
-      const a = db.admins.find(x=>x.id.toUpperCase()===id && x.pin===pin);
-      if(a) return {role, refId:a.id, name:a.name, label:"Headmistress / Admin"};
+      /* Headmistress & Assistant Headmistress: match by staff ID OR phone, then
+         a password THEY created. No password yet → tell the caller to run the
+         create-password + OTP flow (same as a first-time parent). */
+      const a = db.admins.find(x=>x.id.toUpperCase()===idU || (key&&U.phoneKey(x.phone)===key));
+      if(!a) return null;
+      if(!a.password) return {nopassword:true, refId:a.id, name:a.name};
+      if(a.password!==secret) return null;
+      return {role:"admin", refId:a.id, name:a.name, title:a.title||"Headmistress",
+              adminRole:a.adminRole||"headmistress", teachesClass:a.teachesClass||"",
+              label:a.title||"Headmistress / Admin"};
     }
     if(role==="teacher"){
-      const key = U.phoneKey(id);
-      const t = db.teachers.find(x=>((x.id||"").toUpperCase()===id||(key&&U.phoneKey(x.phone)===key)) && x.pin===pin);
+      const pin=secret.trim();
+      const t = db.teachers.find(x=>((x.id||"").toUpperCase()===idU||(key&&U.phoneKey(x.phone)===key)) && x.pin===pin);
       if(t) return {role, refId:t.id, name:t.name, label:"Teacher • "+t.class};
     }
     return null;
+  },
+  /* Find a leadership account by staff ID or phone (used by the login page to
+     decide whether the create-password flow is needed). */
+  staffFind(id){
+    const db = DB.load(), idU=(id||"").trim().toUpperCase(), key=U.phoneKey(id);
+    return db.admins.find(x=>x.id.toUpperCase()===idU || (key&&U.phoneKey(x.phone)===key)) || null;
+  },
+  /* First-login password creation for a leadership account, after the OTP has
+     been confirmed. */
+  setStaffPassword(id, password){
+    const db = DB.load(), idU=(id||"").trim().toUpperCase(), key=U.phoneKey(id);
+    const a = db.admins.find(x=>x.id.toUpperCase()===idU || (key&&U.phoneKey(x.phone)===key));
+    if(!a) return false;
+    a.password=password; a.activatedAt=new Date().toISOString();
+    DB.save(db); return true;
   },
   pupilFind(adm){
     const db = DB.load(), q=(adm||"").trim().toUpperCase(), key=U.phoneKey(adm);
