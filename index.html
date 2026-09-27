@@ -92,7 +92,7 @@
         <a class="btn btn-white" href="portal/login.html">Portal Login</a>
      </div>
    </div>
-    <div class="hero-art"><figure class="hero-figure"><picture><source type="image/webp" srcset="assets/img/hero-school.webp"><img src="assets/img/hero-school.jpg" alt="Treasure Academy school compound" width="1376" height="768" loading="lazy" decoding="async"></picture><figcaption>Treasure Academy main campus — Ageva, Okene</figcaption></figure><div class="stats-band"><div class="stat"><b data-count="200" data-suffix="+">0</b><span>Enrolled Pupils</span></div><div class="stat"><b data-count="15">0</b><span>Qualified Staff</span></div><div class="stat"><b data-count="11" id="yrsBand">0</b><span>Years of Excellence</span></div><div class="stat"><b data-count="100" data-suffix="%">0</b><span>Common Entrance Pass Rate</span></div></div></div>
+    <div class="hero-art"><figure class="hero-figure"><picture><source type="image/webp" srcset="assets/img/hero-school.webp"><img src="assets/img/hero-school.jpg" alt="Treasure Academy school compound" width="1376" height="768" loading="eager" fetchpriority="high" decoding="async"></picture><figcaption>Treasure Academy main campus — Ageva, Okene</figcaption></figure><div class="stats-band"><div class="stat"><b data-count="200" data-suffix="+">0</b><span>Enrolled Pupils</span></div><div class="stat"><b data-count="15">0</b><span>Qualified Staff</span></div><div class="stat"><b data-count="11" id="yrsBand">0</b><span>Years of Excellence</span></div><div class="stat"><b data-count="100" data-suffix="%">0</b><span>Common Entrance Pass Rate</span></div></div></div>
  </div>
 </header>
 
@@ -142,7 +142,7 @@
  </div>
 </section>
 
- (headmistress controlled) -->
+<!-- This-week strip: controlled from the Headmistress portal -->
 <section id="main" style="padding-top:6px;padding-bottom:0"><div class="container"><div id="weekStrip"></div></div></section>
 
 <!-- PROGRAMS -->
@@ -338,8 +338,8 @@
   ];}
   document.getElementById("newsGrid").innerHTML = latest.map(n=>`
     <div class="ne-card clip-up" style="cursor:pointer" onclick="goStory('${n.id||""}','${n.link||""}')">
-      <img class="thumb" src="${U.esc(n.image||"assets/img/hero-kids.png")}" alt="" loading="lazy" decoding="async" style="aspect-ratio:16/9">
-      <div class="body"><div class="ne-meta"><span class="badge ${n.type==="event"?"b-coral":"b-sky"}">${n.type==="event"?"EVENT":"NEWS"}</span><span>${U.shortDate(n.date)}</span><span>${n.views||0} views</span><span>${n.likes||0} likes</span><span>${Math.max(1,Math.round(((n.story||n.text||"").split(/\s+/).length)/200))} min read</span><span>${((db.comments||{})[n.id]||[]).length} comments</span>${U.isNew(n.date)?'<span class="tag-new">NEW</span>':""}</div>
+      <img class="thumb" src="${U.esc(U.webpAsset(n.image||"assets/img/hero-kids.png"))}" alt="" loading="lazy" decoding="async" style="aspect-ratio:16/9">
+      <div class="body"><div class="ne-meta"><span class="badge ${n.type==="event"?"b-coral":"b-sky"}">${n.type==="event"?"EVENT":"NEWS"}</span><span>${U.shortDate(n.date)}</span>${n.views?`<span>${n.views} view${n.views===1?"":"s"}</span>`:""}${n.likes?`<span>${n.likes} like${n.likes===1?"":"s"}</span>`:""}<span>${Math.max(1,Math.round(((n.story||n.text||"").split(/\s+/).length)/200))} min read</span>${((db.comments||{})[n.id]||[]).length?`<span>${((db.comments||{})[n.id]||[]).length} comment${((db.comments||{})[n.id]||[]).length===1?"":"s"}</span>`:""}${U.isNew(n.date)?'<span class="tag-new">NEW</span>':""}</div>
       <h3>${U.esc(n.title)}</h3><p>${U.esc(n.text)}</p><b style="color:var(--sky)">Read full story →</b></div>
    </div>`).join("");
   /* auto-rotating carousel: next fades in as previous fades out; pauses on hover; respects reduced-motion */
@@ -367,7 +367,7 @@
   })();
   /* countdown to the next dated thing on the school calendar */
   try{ const dow=new Date().getDay();
-    if(dow===0||dow===6){ document.getElementById("calCount").innerHTML=`<div class="count-bar"><span class="count-num">--</span><span><b>Weekend</b> — school resumes back on Monday.</span></div>`; }
+    if(dow===0||dow===6){ document.getElementById("calCount").innerHTML=`<div class="count-bar"><span><b>Weekend</b> — school resumes back on Monday.</span></div>`; }
     else { const evs=((db.calendar)||[]).filter(c=>c.date>=U.todayStr()).map(c=>({date:c.date,title:c.title,link:"calendar.html"}));
     const exs=((db.exams)||[]).filter(x=>x.date&&x.date>=U.todayStr()).map(x=>({date:x.date,title:"Exams begin: "+x.subject+" ("+x.time+")",link:"exams.html"}));
     const all=evs.concat(exs).sort((a,b)=>a.date.localeCompare(b.date));

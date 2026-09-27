@@ -112,9 +112,9 @@
   const db = DB.load(), rd = db.reading||{}, bk = rd.book||{}, st = rd.story||{};
   document.getElementById("bookCard").innerHTML = `
     <span class="badge b-sun">Book of the Month</span>
-    <h3 style="margin:10px 0 4px">${U.esc(bk.title||"Coming soon")}</h3>
-    <p class="sub" style="margin:0 0 8px">by ${U.esc(bk.author||"")}</p>
-    <p style="margin:0">${U.esc(bk.why||"")}</p>`;
+    <h3 style="margin:10px 0 4px">${U.esc(bk.title||"Ask Your Class Teacher")}</h3>
+    <p class="sub" style="margin:0 0 8px">${bk.author?"by "+U.esc(bk.author):"The current reading recommendation is available from your class teacher."}</p>
+    <p style="margin:0">${U.esc(bk.why||"Choose an age-appropriate storybook and read a little each day.")}</p>`;
   window.logBook=function(){
     const g=id=>document.getElementById(id).value.trim();
     if(!g("lgName")||!g("lgBook")){U.toast("Child's name and book title are required.");return;}
@@ -131,13 +131,13 @@
   const dbr=DB.load();
   document.getElementById("topCard").innerHTML = [...(dbr.readTop||[])].sort((a,b)=>(b.books||0)-(a.books||0)).slice(0,10).map((r,i)=>`
     <div class="hw-row" style="align-items:center"><div class="avatar" style="background:${i===0?"linear-gradient(135deg,#C9A227,#8a6d1c)":i<3?"linear-gradient(135deg,#0E9A46,#095C2A)":"var(--muted)"};color:#fff;font-weight:800">${i+1}</div>
-      <div style="flex:1"><b>${U.esc(r.name)}</b> — ${U.esc(r.class||"")}</div><span class="badge ${i<3?"b-sun":"b-sky"}">${r.books||0} book(s)</span></div>`).join("") || '<div class="empty">Leaderboard coming soon — keep reading!</div>';
+      <div style="flex:1"><b>${U.esc(r.name)}</b> — ${U.esc(r.class||"")}</div><span class="badge ${i<3?"b-sun":"b-sky"}">${r.books||0} book(s)</span></div>`).join("") || '<div class="empty">No books have been logged yet. Use the form below to record the first one.</div>';
   }
   renderTop();
   document.getElementById("storyCard").innerHTML = `
     <span class="badge b-green">Story of the Week</span>
-    <h3 style="margin:10px 0 4px">${U.esc(st.title||"Coming soon")}</h3>
-    <p style="margin:0">${U.esc(st.text||"")}</p>`;
+    <h3 style="margin:10px 0 4px">${U.esc(st.title||"Read With Your Child")}</h3>
+    <p style="margin:0">${U.esc(st.text||"Choose a short story together, read it aloud and ask your child to tell you what happened.")}</p>`;
 })();
 </script>
 </body>

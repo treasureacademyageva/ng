@@ -155,9 +155,9 @@
     document.getElementById("vidCount").textContent = vids.length ? (vids.length + (vids.length===1?" video":" videos")) : "";
     document.getElementById("videoRail").innerHTML = vids.length ? vids.map((n,i)=>`
       <div class="yt-card is-video clip ${i<4?"revealed":""}" onclick="playVideo('${n.id}')">
-        <div class="yt-thumb"><img src="${U.esc(n.image||"assets/img/hero-kids.png")}" alt="" loading="lazy" decoding="async" style="aspect-ratio:16/9"><div class="play"><span>▶</span></div>
+        <div class="yt-thumb"><img src="${U.esc(U.webpAsset(n.image||"assets/img/hero-kids.png"))}" alt="" loading="lazy" decoding="async" style="aspect-ratio:16/9"><div class="play"><span>▶</span></div>
         <span class="dur">▶ VIDEO</span><span class="m-tag ${n.type==="event"?"b-coral":"b-sky"}">${n.type==="event"?"EVENT":"NEWS"}</span></div>
-        <div class="yt-meta"><div class="yt-avatar"></div><div><b>${U.esc(n.title)}</b> ${U.isNew(n.date)?'<span class="tag-new">NEW</span>':""}<small>${U.esc(db.school.name)} • ${n.views||0} views • ${U.shortDate(n.date)} • <a href="story.html?id=${n.id}" onclick="event.stopPropagation()" style="color:var(--sky);font-weight:700">Full story</a></small></div></div>
+        <div class="yt-meta"><div class="yt-avatar"></div><div><b>${U.esc(n.title)}</b> ${U.isNew(n.date)?'<span class="tag-new">NEW</span>':""}<small>${U.esc(db.school.name)}${n.views?" • "+n.views+" view"+(n.views===1?"":"s"):""} • ${U.shortDate(n.date)} • <a href="story.html?id=${n.id}" onclick="event.stopPropagation()" style="color:var(--sky);font-weight:700">Full story</a></small></div></div>
      </div>`).join("") : `
       <div class="yt-card vid-soon clip revealed" onclick="U.toast('Our school tour video is coming soon!')">
         <div class="yt-thumb soon-thumb"><div class="play"><span>▶</span></div><span class="m-tag b-sky">VIDEO</span></div>
@@ -177,16 +177,16 @@
     m.addEventListener("click",e=>{ if(e.target.id==="videoModal")m.remove(); });
   };
   const GALLERY=[
-    ["assets/img/excursion-railway.jpg","Excursion \u2014 Railway Visit"],
-    ["assets/img/excursion-shop.jpg","Excursion \u2014 Factory Tour"],
+    ["assets/img/excursion-railway.webp","Excursion \u2014 Railway Visit"],
+    ["assets/img/excursion-shop.webp","Excursion \u2014 Factory Tour"],
     ["assets/img/excursion-girls.jpg","Our Pupils on Excursion"],
-    ["assets/img/school-flyer.jpg","Our School Flyer"],
-    ["assets/img/hero-kids.png","Our Happy Pupils"],
-    ["assets/img/classroom.png","Learning Time"],
-    ["assets/img/sports.png","Sports & Play"],
-    ["assets/img/culture.png","Culture Day"],
-    ["assets/img/graduation.png","Graduation Day"],
-    ["assets/img/library.png","Library Time"]
+    ["assets/img/school-flyer.webp","Our School Flyer"],
+    ["assets/img/hero-kids.webp","Our Happy Pupils"],
+    ["assets/img/classroom.webp","Learning Time"],
+    ["assets/img/sports.webp","Sports & Play"],
+    ["assets/img/culture.webp","Culture Day"],
+    ["assets/img/graduation.webp","Graduation Day"],
+    ["assets/img/library.webp","Library Time"]
   ];
   function galHTML(start){
     if(albumF&&albumF!=="life")return "";
@@ -200,10 +200,10 @@
     const list=albumF==="life"?[]:albumF?allf.filter(n=>n.date.startsWith(albumF)):allf;
     const stories=list.filter(n=>n.image).map((n,i)=>`
       <div class="m-item clip ${i<6?"revealed":""}" onclick="openLB(${i})">
-        <img src="${U.esc(n.image)}" alt="" loading="lazy" style="aspect-ratio:16/9"><span class="m-tag ${n.type==="event"?"b-coral":"b-sky"}">${n.type==="event"?"EVENT":"NEWS"}</span><div class="m-cap">${U.isNew(n.date)?'<span class="tag-new">NEW</span> ':''}${U.esc(n.title)}</div><button class="m-dl" title="Download photo" onclick="event.stopPropagation();U.downloadFile('${n.image}','${n.id}.png')">${U.icon("download",17)}</button>
+        <img src="${U.esc(U.webpAsset(n.image))}" alt="" loading="lazy" style="aspect-ratio:16/9"><span class="m-tag ${n.type==="event"?"b-coral":"b-sky"}">${n.type==="event"?"EVENT":"NEWS"}</span><div class="m-cap">${U.isNew(n.date)?'<span class="tag-new">NEW</span> ':''}${U.esc(n.title)}</div><button class="m-dl" title="Download photo" onclick="event.stopPropagation();U.downloadFile('${n.image}','${n.id}.png')">${U.icon("download",17)}</button>
      </div>`).join("");
     const sl=list.filter(n=>n.image);
-    window._lbAll=sl.map(n=>({src:n.image,cap:n.title,storyId:n.id})).concat(GALLERY.map(g=>({src:g[0],cap:g[1]})));
+    window._lbAll=sl.map(n=>({src:U.webpAsset(n.image),cap:n.title,storyId:n.id})).concat(GALLERY.map(g=>({src:g[0],cap:g[1]})));
     document.getElementById("masonry").innerHTML = stories + galHTML(sl.length);
   }
   window.openLB=i=>Lightbox.open(window._lbAll||[],i);
@@ -216,8 +216,8 @@
     document.getElementById("pageHint").textContent=allf.length?("Page "+(page+1)+" of "+pages):"";
     document.getElementById("neList").innerHTML = list.length ? list.map(n=>`
       <div class="ne-row clip revealed" onclick="location.href='story.html?id=${n.id}'">
-        ${n.image?`<img src="${U.esc(n.image)}" alt="" loading="lazy" style="aspect-ratio:16/9">`:""}
-        <div class="txt"><div class="ne-meta"><span class="badge ${n.type==="event"?"b-coral":"b-sky"}">${n.type==="event"?"EVENT":"NEWS"}</span><span>${U.shortDate(n.date)}</span><span>${n.views||0} views</span><span>${n.likes||0} likes</span><span> ${Math.max(1,Math.round(((n.story||n.text||"").split(/\s+/).length)/200))} min read</span>${n.type==="event"&&n.date>=U.todayStr()?(()=>{const t=n.seats||50,k=(db.rsvps||[]).filter(r=>r.eventId===n.id).reduce((a,r)=>a+(+r.seats||1),0);return `<span class="badge ${t-k>0?"b-green":"b-coral"}">${t-k>0?(t-k)+" seats left":"Full"}</span>`;})():""}${U.isNew(n.date)?'<span class="tag-new">NEW</span>':""}</div>
+        ${n.image?`<img src="${U.esc(U.webpAsset(n.image))}" alt="" loading="lazy" style="aspect-ratio:16/9">`:""}
+        <div class="txt"><div class="ne-meta"><span class="badge ${n.type==="event"?"b-coral":"b-sky"}">${n.type==="event"?"EVENT":"NEWS"}</span><span>${U.shortDate(n.date)}</span>${n.views?`<span>${n.views} view${n.views===1?"":"s"}</span>`:""}${n.likes?`<span>${n.likes} like${n.likes===1?"":"s"}</span>`:""}<span> ${Math.max(1,Math.round(((n.story||n.text||"").split(/\s+/).length)/200))} min read</span>${n.type==="event"&&n.date>=U.todayStr()?(()=>{const t=n.seats||50,k=(db.rsvps||[]).filter(r=>r.eventId===n.id).reduce((a,r)=>a+(+r.seats||1),0);return `<span class="badge ${t-k>0?"b-green":"b-coral"}">${t-k>0?(t-k)+" seats left":"Full"}</span>`;})():""}${U.isNew(n.date)?'<span class="tag-new">NEW</span>':""}</div>
         <h3>${U.esc(n.title)}</h3><p>${U.esc(n.text)}</p></div>
         <b style="color:var(--sky);font-size:1.4rem">›</b>
      </div>`).join("") : '<div class="empty">Nothing here yet. Try another filter!</div>';
@@ -228,12 +228,12 @@
     if(!n){ box.innerHTML=""; return; }
     box.innerHTML=`
     <div class="news-featured clip-up revealed" onclick="location.href='story.html?id=${n.id}'">
-      ${n.image?`<img src="${U.esc(n.image)}" alt="" loading="lazy" decoding="async" style="aspect-ratio:16/9">`:`<div class="nf-noimg"></div>`}
+      ${n.image?`<img src="${U.esc(U.webpAsset(n.image))}" alt="" loading="lazy" decoding="async" style="aspect-ratio:16/9">`:`<div class="nf-noimg"></div>`}
       <div class="nf-txt">
         <div><span class="badge b-sun">LATEST</span> <span class="badge ${n.type==="event"?"b-coral":"b-sky"}">${n.type==="event"?"EVENT":"NEWS"}</span>${U.isNew(n.date)?' <span class="tag-new">NEW</span>':""}</div>
         <h2>${U.esc(n.title)}</h2>
         <p>${U.esc(n.text)}</p>
-        <div class="nf-meta"><span>${U.shortDate(n.date)}</span><span>${n.views||0} views</span><span>${n.likes||0} likes</span></div>
+        <div class="nf-meta"><span>${U.shortDate(n.date)}</span>${n.views?`<span>${n.views} view${n.views===1?"":"s"}</span>`:""}${n.likes?`<span>${n.likes} like${n.likes===1?"":"s"}</span>`:""}</div>
         <div><span class="btn btn-mint btn-sm">Read Full Story &rsaquo;</span></div>
       </div>
     </div>`;

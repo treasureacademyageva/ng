@@ -141,3 +141,37 @@ Re-applied on top of owner commit 14959de (which had independently bumped sw->v6
 - Wrapped 16 static <img> tags across 8 pages in <picture><source type="image/webp"> + original <img> fallback (about, homework, index gallery ×9, lost-found, openday, photo-day, reading, uniform). Inner <img> keeps width/height/alt/lazy so seo.test stays green; original PNG/JPG kept as fallback for old browsers.
 - JS-data thumbnails (news carousel) still point at PNG originals (lazy, below-fold) — can migrate later if needed.
 - No single image >1.2MB; all 55 suites, 12,270 checks green.
+
+## Batch 49l (two real leadership accounts + create-password/OTP-to-developer, 27 Sept 2026 — preview)
+CORRECTION of my earlier misread. The only two REAL accounts are the two leadership roles; nobody else gets a login, and the teacher wall stays a display of past/present staff.
+- store.js admins: **HEAD001 = Mrs. Salihu Nanahawa (Headmistress, teaches Nursery 1)** and **ASST001 = Mrs. Abedoh Rafatu (Assistant Headmistress, teaches Primary 4)**. Both ship with NO password/PIN (`pin:null, password:null`) + `adminRole` + `title` + `teachesClass`. Migration `staffAccountsV1` upgrades existing saves (drops the old fixed PIN, adds the assistant).
+- Auth: `staffLogin("admin",…)` now matches by staff ID OR phone and checks a password the user CREATED; returns `{nopassword:true}` on first login. Added `Auth.staffFind()` and `Auth.setStaffPassword()`. Session carries `adminRole`/`title`/`teachesClass`.
+- First-login flow (login.html) reused for staff: pick WhatsApp or SMS → `TAVerify.issue()/issueStaff()` drops the code in the DEVELOPER inbox (no on-screen code anymore) → code verified via `TAVerify.check()` (now also matches staff `idRef`) → `setStaffPassword`.
+- verify.js: `issue()` records `method` + `kind:"parent"`; new `issueStaff()` (kind:"staff", idRef, who, phone, method); `queue()` exposes `method`/`kind`/`who`.
+- developer.html OTP inbox row now shows **"· send via WhatsApp/SMS"** and marks **staff login** rows.
+- Tests updated to the new model (batch8/18/46) + fixed a pre-existing date time-bomb in batch2. Full suite **55 suites / 12,272 checks green**.
+
+STILL TO DO (next): role-gate admin.html so the Assistant Headmistress sees only her agreed sections (headmistress-only: Teachers, Duty Roster, WhatsApp, Testimonials, Website Extras, Shop & Orders, Code of Conduct, Settings); add the "My Class" teacher section on each admin's side (Nursery 1 / Primary 4).
+
+## Batch 49m (leadership role gates + working My Class, 27 Sept 2026 — preview)
+- `portal/admin.html` is now role-aware from the authenticated leadership record (not a hardcoded Headmistress dashboard). The top identity and portal label show **Headmistress / Nursery 1** or **Assistant Headmistress / Primary 4**.
+- Assistant Headmistress keeps the 17 confirmed sections: Overview, My Class, Staff Messages, Verify Pupils, Registrations, Applications, Pupils, Results, Attendance, Promotions, News/Events, Messages, Entrance Qs, Notices, Class Pages, Calendar, Timetable.
+- These exact 8 sections are Headmistress-only and are hidden+disabled for the Assistant, their panels are locked, and the router independently rejects typed hashes/synthetic clicks: Teachers, Duty Roster, WhatsApp, Testimonials, Website Extras, Shop & Orders, Code of Conduct, Settings. The Assistant is not blocked by the Headmistress Code-of-Conduct acceptance modal.
+- Added a real **My Class** section for each leadership account's assigned class. It contains: class stats; editable daily attendance with Present/Absent/Late, pupil notifications and parent WhatsApp links; CA1/CA2/Exam result input with grade/average, draft/submission and approved/published locking; class-scoped homework (optional photos); and a class roster with attendance + result status. Every write is scoped to `teachesClass` from the account record.
+- Tests now cover the exact Assistant visible-section count and restricted list, route guard, no CoC gate, Primary 4 attendance/result/homework writes tagged to ASST001, and Headmistress's full 25-section/Nursery 1 view. Full suite: **55 suites / 12,283 checks green**.
+
+## Batch 49n (launch blockers 1–8 + marquee polish, 27 Sept 2026 — preview)
+Audit cleanup completed without inventing any owner data:
+- Human-visible company identity is now in every rendered footer: **Treasure Academy Ageva Limited · RC 9634403**. About now has a **Registration & Approvals** panel containing the verified CAC number and Common Entrance centre no. BS/OKN/141. No Ministry approval number was guessed or published; add it only when the owner provides it.
+- Removed the internal `[TO BE PROVIDED]`/developer to-do panels from public `safeguarding.html` and `privacy.html` (the email upgrade remains parked internally, not shown to parents).
+- Homepage LCP image is `loading="eager" fetchpriority="high"`; every other reviewed image remains lazy.
+- Fixed the broken `(headmistress controlled) -->` text artifact and removed the visible `--` before Weekend.
+- Portal session/redirect destinations now use explicit `/portal/pupil.html` (and explicit admin/teacher equivalents), eliminating the ambiguous root `pupil.html` 404 path.
+- The pages named in the audit already carry real seed content. Their empty-state copy was changed from “coming soon” to honest, useful guidance (Uniform, Exams, Transport, Staff, Open Day, Reading, PTA minutes) rather than hiding useful populated pages.
+- Zero engagement counters are omitted from homepage/news cards and story metadata; non-zero views/likes/comments still render with singular/plural wording.
+- Rebuilt the 18 approved root photographic WebPs at max 860px, quality 62, method 6. Root WebP payload: **2,777,046 → 1,063,570 bytes (61.7% reduction)**; largest is ~93KB. All 18 validate. `tools/webp-build.py` now reproduces these settings. `shop-*.jpg` remains excluded/untouched.
+- Added `U.webpAsset()` for JS-rendered images; homepage news and news page cards/gallery/lightbox now prefer existing `.webp` siblings. The one gallery photo without a WebP keeps its already-small JPG.
+- The announcement marquee now has one content run and no longer repeats the admissions text twice. CSS animates that single run across the viewport.
+- Tests updated for the non-duplicated ticker, explicit portal link, hidden zero counters, RC/About/policy/LCP/artifact/placeholder/WebP checks. Full suite: **55 suites / 12,294 checks green**.
+
+Still intentionally parked: current-session/news archive restructure; self-hosting Facebook MP4s; `info@` domain email; Ministry approval number until supplied by owner.

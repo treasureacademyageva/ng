@@ -101,7 +101,7 @@
   const db = DB.load();
   document.getElementById("routeList").innerHTML = (db.transportRoutes||[]).length
     ? `<div style="overflow-x:auto"><table class="tbl"><thead><tr><th>Route</th><th>Pickup Point</th><th style="text-align:right">Fee / Term</th></tr></thead><tbody>${(db.transportRoutes||[]).map(r=>`<tr><td><b>${U.esc(r.route)}</b></td><td>${U.esc(r.pickup||"")}</td><td style="text-align:right"><b>${U.naira(r.fee)}</b></td></tr>`).join("")}</tbody></table></div>`
-    : '<div class="empty">Transport routes coming soon — call the school office.</div>';
+    : '<div class="empty">Transport enquiries and current pickup arrangements are handled by the school office. Call <a href="tel:+2348141943478">0814 194 3478</a>.</div>';
 })();
 </script>
 </body>

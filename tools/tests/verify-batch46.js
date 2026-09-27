@@ -62,13 +62,13 @@ const counts = ix.run(`(function(){
   });
 })()`);
 const c = JSON.parse(counts);
-ok('one headmistress login', c.admins === 1);
+ok('two leadership logins (Headmistress + Assistant Headmistress)', c.admins === 2);
 ok('one demo teacher (the real Shaibu Memunat, Primary 1)', c.teachers === 1 && c.teacherName === 'Shaibu Memunat' && c.teacherClass === 'Primary 1');
 ok('retired demo accounts gone (T002-T007, P004-P017)', c.retired === 0);
 ok('parent with one child (P001)', c.pupils >= 1 && ix.run(`DB.load().pupils.filter(p=>p.phone==="0805 111 2222").length`) === 1);
 ok('parent with two children shares one phone', c.household2 === 2 && c.household2kids === 'Emeka Nwosu+Ada Nwosu');
 ok('demo admission applications removed', c.apps === 0);
-ok('all four logins authenticate', ix.run(`Auth.staffLogin("admin","HEAD001","1234")&&Auth.staffLogin("teacher","T001","1234")&&Auth.pupilLogin("0805 111 2222","1234").ok&&Auth.pupilLogin("0805 333 4444","1234").ok`) === true);
+ok('teacher + parent logins authenticate; admins use create-password + OTP', ix.run(`Auth.staffLogin("admin","HEAD001","x").nopassword===true&&Auth.staffLogin("admin","ASST001","x").nopassword===true&&!!Auth.staffLogin("teacher","T001","1234")&&Auth.pupilLogin("0805 111 2222","1234").ok&&Auth.pupilLogin("0805 333 4444","1234").ok`) === true);
 ok('migration retires demo accounts on old saves', ix.run(`(function(){
   const d=DB.load(); d.teachers.push({id:"T006",pin:"1234",name:"old demo"}); d.pupils.push({id:"P014",pin:"1234",name:"old kid"});
   d.demoAccountsV2=undefined; DB.save(d); DB.load();
@@ -94,7 +94,7 @@ ok('11 teachers on the wall', W.length === 11);
 const wantQuals = {
   'Mr Idris Ibrahim': 'HND Computer Science (2017)', 'Mrs Zeenatudeen Uthman': 'B.Agric (2020)',
   'Jimoh Mariam': 'ND Chemistry (2020)', 'Nasirun Yahaya': 'B.Sc Local Govt & Dev. Studies (2014)',
-  'Abedoh Rafatu': '', 'Salihu Oyiza Nanahawa': 'NCE Home Economics (2014)',
+  'Tahab Oyiza Zainab': 'NCE Business Education (2010)', 'Salihu Oyiza Nanahawa': 'NCE Home Economics (2014)',
   'Momoh Bose': 'ND Business Administration (2007)', 'Rebeca Omeiza': 'WASSCE Social Studies (2012)',
   'Siyaka Bose': 'WASSCE Sciences (2012)', 'David O. Esther': 'WASSCE Art (2012)', 'Shaibu Memunat': 'ND Animal Science (2012)'
 };

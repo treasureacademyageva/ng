@@ -102,7 +102,7 @@
   const rows = [...(db.exams||[])].sort((a,b)=>String(a.date).localeCompare(String(b.date))||String(a.time).localeCompare(String(b.time)));
   document.getElementById("exList").innerHTML = rows.length
     ? `<div style="overflow-x:auto"><table class="tbl"><thead><tr><th>Day</th><th>Date</th><th>Time</th><th>Subject</th><th>Classes</th></tr></thead><tbody>${rows.map(e=>`<tr><td><b>${U.esc(e.day)}</b></td><td>${U.prettyDate(e.date)}</td><td>${U.esc(e.time)}</td><td><b>${U.esc(e.subject)}</b></td><td>${U.esc(e.classes||"")}</td></tr>`).join("")}</tbody></table></div>`
-    : '<div class="empty">Exam timetable coming soon.</div>';
+    : '<div class="empty">The school office issues each approved examination timetable. Pupils should arrive before 7:45am on examination days.</div>';
 })();
 </script>
 </body>

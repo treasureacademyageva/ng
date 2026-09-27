@@ -47,7 +47,7 @@ const STAFF_WALL_SEED = [
       {id:"W02", name:"Mrs Zeenatudeen Uthman", gender:"Female", class:"Primary 6", position:"Class Teacher", quals:"B.Agric (2020)", started:null, subjects:[], about:"What she does best is computing, and Primary 6 enjoys her patient, problem-solving style through the Common Entrance season."},
       {id:"W03", name:"Jimoh Mariam", gender:"Female", class:"Primary 2", position:"Class Teacher", quals:"ND Chemistry (2020)", started:null, subjects:[], about:"What she does best is chemistry - careful measuring, clean jotters, small experiments - and Primary 2 learns that same care in every lesson."},
       {id:"W04", name:"Nasirun Yahaya", gender:"Male", class:"Nursery 1", position:"Class Teacher", quals:"B.Sc Local Govt & Dev. Studies (2014)", started:null, subjects:[], about:"What he does best is local government and development studies - how a community is organised and served - and his Nursery 1 pupils learn order and letters without ever being rushed."},
-      {id:"W05", name:"Abedoh Rafatu", gender:"Female", class:"Primary 4", position:"Class Teacher & Nursery 1 Assistant", quals:"", started:null, subjects:[], phone:"0706 492 3346", assists:"Nursery 1", about:"What she does best is lending an extra pair of hands — she teaches Primary 4 and helps out in the Nursery 1 room so the youngest pupils always have a caring adult nearby."},
+      {id:"W05", name:"Tahab Oyiza Zainab", gender:"Female", class:"Primary 4", position:"Class Teacher", quals:"NCE Business Education (2010)", started:null, subjects:[], about:"What she does best is business education - records, trading and thrift - and Primary 4 keeps tidy books and busy hands."},
       {id:"W06", name:"Salihu Oyiza Nanahawa", gender:"Female", class:"Creche", position:"Class Teacher", quals:"NCE Home Economics (2014)", started:null, subjects:[], about:"What she does best is home economics, and it shows in the calmest creche room in town - meals, naps and rhymes always on time."},
       {id:"W07", name:"Rebeca Omeiza", gender:"Female", class:"Primary 5", position:"Class Teacher", quals:"WASSCE Social Studies (2012)", started:null, subjects:[], about:"What she does best is social studies - maps, flags and our town's story - and Primary 5 can narrate Kogi to you by heart."},
       {id:"W08", name:"Siyaka Bose", gender:"Female", class:"Nursery 2", position:"Class Teacher", quals:"WASSCE Sciences (2012)", started:null, subjects:[], about:"What she does best is science, and in Nursery 2 it means little nature walks that turn into big discoveries."},
@@ -104,7 +104,15 @@ function seedDB(){
   const school = {...SCHOOL_DEFAULTS};
   const db = {
     school,
-    admins: [{id:"HEAD001", pin:"1234", name:"Mrs. Salihu Nanahawa", title:"Headmistress", phone:"0813 316 7728"}],
+    /* The two real leadership accounts. Neither ships with a password: on first
+       login each one CREATES her own password and confirms it with a one-time
+       code (the code lands in the developer inbox with her phone + WhatsApp/SMS
+       channel, exactly like a parent). Both also teach a class, so each carries
+       a teachesClass used by the "My Class" section on her admin side. */
+    admins: [
+      {id:"HEAD001", adminRole:"headmistress", name:"Mrs. Salihu Nanahawa", title:"Headmistress",           phone:"0813 316 7728", teachesClass:"Nursery 1", pin:null, password:null, activatedAt:null},
+      {id:"ASST001", adminRole:"assistant",    name:"Mrs. Abedoh Rafatu",    title:"Assistant Headmistress", phone:"0706 492 3346", teachesClass:"Primary 4", pin:null, password:null, activatedAt:null}
+    ],
     teachers: [
       /* 25 Sept 2026: the owner asked for exactly four demo logins -
          Headmistress, one teacher, one parent with a single child, one
@@ -439,6 +447,28 @@ const DB = {
       db.applications=(db.applications||[]).filter(function(a){return a.id!=="AP1"&&a.id!=="AP2";});
       db.demoAccountsV2=1;
     }
+    /* 27 September 2026 - the owner registered the two real leadership accounts
+       (Headmistress + Assistant Headmistress). Both drop the old fixed PIN and
+       now create their own password + OTP on first login. Any password already
+       created through the portal is preserved; the old placeholder admin (or a
+       leftover PIN) is repaired in place, once per device. */
+    if(!db.staffAccountsV1){
+      const seedA = seedDB().admins;
+      db.admins = db.admins || [];
+      seedA.forEach(function(sa){
+        var ex = db.admins.filter(function(a){return a.id===sa.id;})[0];
+        if(!ex){ db.admins.push(JSON.parse(JSON.stringify(sa))); }
+        else {
+          ex.adminRole=sa.adminRole; ex.title=sa.title; ex.name=sa.name;
+          ex.phone=sa.phone; ex.teachesClass=sa.teachesClass;
+          delete ex.pin;                              /* fixed PIN is gone */
+          if(ex.password===undefined) ex.password=null;
+          if(ex.activatedAt===undefined) ex.activatedAt=null;
+        }
+      });
+      db.admins = db.admins.filter(function(a){ return seedA.some(function(sa){return sa.id===a.id;}); });
+      db.staffAccountsV1=1;
+    }
     /* 25 September 2026 - the owner supplied the real graduation records
        (2017-2021) as the school's news feed. Demo news items seeded before
        that date are retired here, once per device; anything the school
@@ -548,19 +578,42 @@ const DB = {
 
 /* ---------------- Auth (remember-device sessions) ---------------- */
 const Auth = {
-  staffLogin(role, id, pin){
+  staffLogin(role, id, secret){
     const db = DB.load();
-    id = (id||"").trim().toUpperCase(); pin = (pin||"").trim();
+    const raw=(id||"").trim(), idU=raw.toUpperCase(), key=U.phoneKey(raw); secret=(secret||"");
     if(role==="admin"){
-      const a = db.admins.find(x=>x.id.toUpperCase()===id && x.pin===pin);
-      if(a) return {role, refId:a.id, name:a.name, label:"Headmistress / Admin"};
+      /* Headmistress & Assistant Headmistress: match by staff ID OR phone, then
+         a password THEY created. No password yet → tell the caller to run the
+         create-password + OTP flow (same as a first-time parent). */
+      const a = db.admins.find(x=>x.id.toUpperCase()===idU || (key&&U.phoneKey(x.phone)===key));
+      if(!a) return null;
+      if(!a.password) return {nopassword:true, refId:a.id, name:a.name};
+      if(a.password!==secret) return null;
+      return {role:"admin", refId:a.id, name:a.name, title:a.title||"Headmistress",
+              adminRole:a.adminRole||"headmistress", teachesClass:a.teachesClass||"",
+              label:a.title||"Headmistress / Admin"};
     }
     if(role==="teacher"){
-      const key = U.phoneKey(id);
-      const t = db.teachers.find(x=>((x.id||"").toUpperCase()===id||(key&&U.phoneKey(x.phone)===key)) && x.pin===pin);
+      const pin=secret.trim();
+      const t = db.teachers.find(x=>((x.id||"").toUpperCase()===idU||(key&&U.phoneKey(x.phone)===key)) && x.pin===pin);
       if(t) return {role, refId:t.id, name:t.name, label:"Teacher • "+t.class};
     }
     return null;
+  },
+  /* Find a leadership account by staff ID or phone (used by the login page to
+     decide whether the create-password flow is needed). */
+  staffFind(id){
+    const db = DB.load(), idU=(id||"").trim().toUpperCase(), key=U.phoneKey(id);
+    return db.admins.find(x=>x.id.toUpperCase()===idU || (key&&U.phoneKey(x.phone)===key)) || null;
+  },
+  /* First-login password creation for a leadership account, after the OTP has
+     been confirmed. */
+  setStaffPassword(id, password){
+    const db = DB.load(), idU=(id||"").trim().toUpperCase(), key=U.phoneKey(id);
+    const a = db.admins.find(x=>x.id.toUpperCase()===idU || (key&&U.phoneKey(x.phone)===key));
+    if(!a) return false;
+    a.password=password; a.activatedAt=new Date().toISOString();
+    DB.save(db); return true;
   },
   pupilFind(adm){
     const db = DB.load(), q=(adm||"").trim().toUpperCase(), key=U.phoneKey(adm);
@@ -753,6 +806,12 @@ const U = {
   },
   shopImg(id){ const M={textbooks:["S01","S02","S03","S04","S05","S06","S08"],workbooks:["S07","S16","S17"],notebooks:["S09","S14","S15"],pens:["S10"],stationery:["S11","S12"],crayons:["S13"],creche:["S18","S19","S20"],uniform:["S21","S25"],sportswear:["S22","S23"],bag:["S24"]};
     for(const k in M){ if(M[k].includes(id)) return "assets/img/shop-"+k+".jpg"; } return ""; },
+  /* Prefer the compressed sibling for known photographic assets rendered from
+     JavaScript. Static HTML keeps its original fallback inside <picture>. */
+  webpAsset(path){
+    const p=String(path||"");
+    return p.replace(/assets\/img\/(hero-school|reading-banner|openday-banner|culture|sports|hero-kids|graduation|homework-banner|library|school-flyer|classroom|photoday-banner|excursion-shop|excursion-railway|lostfound-banner|stage-nursery)\.(?:png|jpe?g)$/i,"assets/img/$1.webp");
+  },
   shopCat(id){ const M={Textbooks:["S01","S02","S03","S04","S05","S06","S08"],Workbooks:["S07","S16","S17"],Notebooks:["S09","S14","S15"],Pens:["S10"],Stationery:["S11","S12"],"Crayons & Art":["S13"],Creche:["S18","S19","S20"],Uniform:["S21","S25"],Sportswear:["S22","S23"],Bags:["S24"]};
     for(const k in M){ if(M[k].includes(id)) return k; } return "Others"; },
   noticeActive(n){ return !n||!n.expiry||n.expiry>=new Date().toISOString().slice(0,10); },

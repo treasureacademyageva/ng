@@ -45,7 +45,7 @@ const ADMIN = { role: 'admin', refId: 'HEAD001', name: 'Mrs. Salihu Nanahawa' };
   const { window: w, run } = loadPage('index.html');
   const t = run('DB.load().teachers.find(t=>t.class==="Primary 1")');
   ok('demo teacher is the real Shaibu Memunat (T001)', t && t.name === 'Shaibu Memunat' && t.id === 'T001' && t.pin === '1234');
-  ok('exactly four demo logins exist', run('DB.load().teachers.length') === 1 && run('DB.load().pupils.length') === 3 && run('DB.load().admins.length') === 1);
+  ok('two real admins + one demo teacher + three demo pupils', run('DB.load().teachers.length') === 1 && run('DB.load().pupils.length') === 3 && run('DB.load().admins.length') === 2);
   run('db=DB.load(); db.teachers=db.teachers.filter(t=>t.id!=="T001"); DB.save(db); DB.load();');
   ok('deleting the demo teacher sticks (the migration is once-only)', run('DB.load().teachers.length') === 0);
   const db = w.__DB.load();

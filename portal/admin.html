@@ -25,7 +25,7 @@
   </div></div>
   <nav class="navbar"><div class="container">
     <a class="logo" aria-label="Treasure Academy — go to homepage" href="../index.html"><img class="mark-img" src="../assets/img/logo.jpg" alt="Treasure Academy logo"></a>
-    <div class="brand-name"><span data-school-name>Treasure Academy</span><small>Headmistress Portal</small></div>
+    <div class="brand-name"><span data-school-name>Treasure Academy</span><small id="adminPortalLabel">Leadership Portal</small></div>
     <div class="nav-links" id="sideNav">
       <div class="qa-strip" aria-label="Quick actions">
         <button class="qa-btn qa-mint" onclick="qaGo('pupils',openPupilModal)" title="Add a new pupil">+ Pupil</button>
@@ -33,6 +33,7 @@
         <button class="qa-btn qa-sky" onclick="qaGo('regs')" title="Mark fees paid">&#10003; Mark Paid</button>
       </div>
       <button data-view="overview" class="on">Overview</button>
+      <button data-view="myclass">My Class <span class="badge b-sky" id="myClassBadge">—</span></button>
       <button data-view="staffchat">Staff Messages <span class="badge b-coral" id="scBadge">0</span></button>
       <button data-view="verify">Verify Pupils <span class="badge b-coral" id="vfCount">0</span></button>
       <button data-view="regs">Registrations <span class="badge b-sun" id="regCount">0</span></button>
@@ -80,6 +81,61 @@
       <div class="panel"><h2>Admission Forms</h2><p class="sub">Paid form sales at a glance</p><div id="formStats"></div></div>
       <div class="panel"><h2>Results Needing Review</h2><p class="sub">Submitted by teachers, waiting for approval</p><div id="pendingResults"></div></div>
    </div>
+
+    <!-- MY CLASS: each leadership account is also a class teacher -->
+    <div class="view-section" id="v-myclass">
+      <div class="panel">
+        <div style="display:flex;gap:14px;align-items:center;justify-content:space-between;flex-wrap:wrap">
+          <div><h2 id="mcHeading">My Class</h2><p class="sub" id="mcSub">Your class-teacher workspace</p></div>
+          <a class="btn btn-white btn-sm" id="mcClassPage" href="../class.html">View Public Class Page</a>
+        </div>
+        <div class="p-grid4" id="mcStats" style="margin-top:14px"></div>
+      </div>
+
+      <div class="panel">
+        <h2>Mark Class Register</h2><p class="sub" id="mcRegSub">Tap Present, Absent or Late for each pupil</p>
+        <div class="toolbar"><input type="date" id="mcRegDate"><button class="btn btn-white btn-sm" onclick="mcMarkAll('P')">All Present</button><span class="spacer"></span><button class="btn btn-mint btn-sm" onclick="mcSaveRegister()">Save Register</button></div>
+        <div id="mcRegSaved"></div>
+        <div style="overflow-x:auto"><table class="tbl"><thead><tr><th>#</th><th>Pupil</th><th>Mark</th></tr></thead><tbody id="mcRegRows"></tbody></table></div>
+        <div id="mcRegAbsent" style="margin-top:14px"></div>
+      </div>
+
+      <div class="panel">
+        <h2>Input Results for My Class</h2><p class="sub">CA1 (20) + CA2 (20) + Exam (60) = 100. Save a draft or submit it for review.</p>
+        <div class="toolbar">
+          <select id="mcResPupil"></select>
+          <select id="mcResTerm"><option>First Term</option><option>Second Term</option><option>Third Term</option></select>
+          <span class="badge b-grey" id="mcResStatus">New</span>
+        </div>
+        <div id="mcResLock"></div>
+        <div style="overflow-x:auto"><table class="tbl"><thead><tr><th>Subject</th><th>CA1 /20</th><th>CA2 /20</th><th>Exam /60</th><th>Total</th><th>Grade</th></tr></thead><tbody id="mcScoreRows"></tbody></table></div>
+        <div class="field" style="max-width:460px;margin-top:12px"><label>Class Teacher's Remark</label><select id="mcResRemark"></select></div>
+        <div style="display:flex;gap:10px;margin-top:16px;flex-wrap:wrap;align-items:center">
+          <button class="btn btn-white btn-sm" onclick="mcSaveScores('Draft')">Save Draft</button>
+          <button class="btn btn-sky btn-sm" onclick="mcSaveScores('Submitted')">Submit for Review</button>
+          <b id="mcAvgLbl" style="margin-left:auto"></b>
+        </div>
+        <div style="margin-top:18px"><h3>Class Submissions</h3><div id="mcSubmissions"></div></div>
+      </div>
+
+      <div class="p-grid2">
+        <div class="panel">
+          <h2>Homework for My Class</h2><p class="sub">Parents read this on the Homework Board.</p>
+          <div class="form-grid">
+            <div class="field"><label>Subject</label><input id="mcHwSubject" placeholder="e.g. Mathematics"></div>
+            <div class="field"><label>Date Given</label><input id="mcHwDate" type="date"></div>
+            <div class="field full"><label>Homework *</label><input id="mcHwNote" placeholder="e.g. Page 42, exercise 3"></div>
+            <div class="field full"><label>Photos (optional, max 3)</label><input id="mcHwPhotos" type="file" accept="image/*" multiple></div>
+          </div>
+          <div style="margin-top:10px"><button class="btn btn-mint btn-sm" onclick="mcSaveHomework()">Post Homework</button></div>
+          <div id="mcHomeworkRows" style="margin-top:12px"></div>
+        </div>
+        <div class="panel">
+          <h2>My Pupils</h2><p class="sub" id="mcPupilSub">Class roster</p>
+          <div id="mcPupilRows"></div>
+        </div>
+      </div>
+    </div>
 
     <!-- REGISTRATIONS -->
     <div class="view-section" id="v-staffchat">
@@ -603,9 +659,9 @@
 <script>
 /* unified portal router: one delegated handler + render-on-navigate + hash restore */
 (function(){
-var T={overview:["Overview","Welcome back! Here is your school at a glance."],regs:["Registrations","Online forms and payments."],apps:["Applications","Admission enquiries."],pupils:["Pupils","Manage all pupils."],teachers:["Teachers","Manage staff."],duty:["Duty Roster","Who is on duty each day."],results:["Results","Review, approve and publish report cards."],attendance:["Attendance","Daily registers."],promos:["Promotions","Promo slider."],newsevents:["News/Events","Videos, gallery and stories."],messages:["Messages","Contact inbox."],whatsapp:["WhatsApp","Chat contacts."],practice:["Entrance Qs","Common Entrance questions."],testimonials:["Testimonials","Website testimonials."],notices:["Notices","Talk to staff and parents."],classpages:["Class Pages","One page per class."],calendar:["Calendar","Term dates and events."],timetable:["Timetable","One grid for the whole school."],extras:["Website Extras","Stars, ticker, homework and more."],shop:["Shop and Orders","Items and pickup orders."],settings:["Settings","School details, term and session."]};
+var T={overview:["Overview","Welcome back! Here is your school at a glance."],myclass:["My Class","Attendance, results, homework and your class roster."],regs:["Registrations","Online forms and payments."],apps:["Applications","Admission enquiries."],pupils:["Pupils","Manage all pupils."],teachers:["Teachers","Manage staff."],duty:["Duty Roster","Who is on duty each day."],results:["Results","Review, approve and publish report cards."],attendance:["Attendance","Daily registers."],promos:["Promotions","Promo slider."],newsevents:["News/Events","Videos, gallery and stories."],messages:["Messages","Contact inbox."],whatsapp:["WhatsApp","Chat contacts."],practice:["Entrance Qs","Common Entrance questions."],testimonials:["Testimonials","Website testimonials."],notices:["Notices","Talk to staff and parents."],classpages:["Class Pages","One page per class."],calendar:["Calendar","Term dates and events."],timetable:["Timetable","One grid for the whole school."],extras:["Website Extras","Stars, ticker, homework and more."],shop:["Shop and Orders","Items and pickup orders."],settings:["Settings","School details, term and session."]};
 function navRender(v){
-  try{ var R={overview:function(){renderOverview();refreshCounts();},verify:function(){renderVerify();},staffchat:function(){renderStaffChat();},regs:function(){renderRegs();},apps:function(){renderApps();renderFormClaims();},pupils:function(){renderPupils();},teachers:function(){renderTeachers();},duty:function(){renderDuty();},results:function(){renderResults();},attendance:function(){renderAttendance();},promos:function(){renderPromos();},newsevents:function(){renderNE();},messages:function(){renderMsgs();},whatsapp:function(){renderWA();},practice:function(){renderPQ();},testimonials:function(){Testimonials.adminList("tmList");},notices:function(){renderNotices();renderMinutesA();},classpages:function(){renderClassPages();},calendar:function(){renderCal();},timetable:function(){renderTT();},extras:function(){renderExtras();},shop:function(){renderShopAdmin();renderRestock();},settings:function(){loadSettings();buildFeesGrid();renderSup();}}; if(R[v])R[v](); }catch(e){ if(window.console&&console.warn)console.warn("view render skipped:",e&&e.message); }
+  try{ var R={overview:function(){renderOverview();refreshCounts();},myclass:function(){renderMyClass();},verify:function(){renderVerify();},staffchat:function(){renderStaffChat();},regs:function(){renderRegs();},apps:function(){renderApps();renderFormClaims();},pupils:function(){renderPupils();},teachers:function(){renderTeachers();},duty:function(){renderDuty();},results:function(){renderResults();},attendance:function(){renderAttendance();},promos:function(){renderPromos();},newsevents:function(){renderNE();},messages:function(){renderMsgs();},whatsapp:function(){renderWA();},practice:function(){renderPQ();},testimonials:function(){Testimonials.adminList("tmList");},notices:function(){renderNotices();renderMinutesA();},classpages:function(){renderClassPages();},calendar:function(){renderCal();},timetable:function(){renderTT();},extras:function(){renderExtras();},shop:function(){renderShopAdmin();renderRestock();},settings:function(){loadSettings();buildFeesGrid();renderSup();}}; if(R[v])R[v](); }catch(e){ if(window.console&&console.warn)console.warn("view render skipped:",e&&e.message); }
 }
 window.navRender=navRender;
 var nav=document.getElementById("sideNav");
@@ -613,6 +669,14 @@ if(nav)nav.addEventListener("click",function(e){
   var b=e.target&&e.target.closest?e.target.closest("button[data-view]"):null;
   if(!b||!nav.contains(b))return;
   var v=b.dataset.view, btns=nav.querySelectorAll("button"), i;
+  /* Navigation is role-gated as well as visually hidden: a typed hash or a
+     synthetic click cannot open a Headmistress-only section for the Assistant. */
+  if(window.adminCanView&&!window.adminCanView(v)){
+    try{U.toast("That section is available to the Headmistress only.");}catch(e0){}
+    var home=nav.querySelector('button[data-view="overview"]');
+    if(home&&home!==b)home.click();
+    return;
+  }
   for(i=0;i<btns.length;i++)btns[i].classList.remove("on");
   b.classList.add("on");
   var secs=document.querySelectorAll(".view-section");
@@ -642,16 +706,43 @@ try{var h=String(location.hash||"").replace(/^#\/?/,""); if(h){var bb=document.q
 const S = Auth.guard("admin");
 if(!S){location.href="login.html";throw new Error("no-session");}
 let db = DB.load();
+const ADMIN_RECORD=(db.admins||[]).find(a=>a.id===S.refId)||{};
+const ADMIN_ROLE=ADMIN_RECORD.adminRole||S.adminRole||(S.refId==="ASST001"?"assistant":"headmistress");
+const ADMIN_TITLE=ADMIN_RECORD.title||S.title||(ADMIN_ROLE==="assistant"?"Assistant Headmistress":"Headmistress");
+const MY_CLASS=ADMIN_RECORD.teachesClass||S.teachesClass||"";
+const HEAD_ONLY_ADMIN_VIEWS=new Set(["teachers","duty","whatsapp","testimonials","extras","shop","code","settings"]);
+window.adminCanView=function(view){ return ADMIN_ROLE!=="assistant"||!HEAD_ONLY_ADMIN_VIEWS.has(view); };
+
 document.getElementById("userName").textContent = S.name;
+document.getElementById("userClass").textContent = ADMIN_TITLE+(MY_CLASS?" / "+MY_CLASS:"");
+document.getElementById("adminPortalLabel").textContent = ADMIN_TITLE+" Portal";
 document.getElementById("userAvatar").textContent = U.initials(S.name);
 document.getElementById("userAvatar").style.background = U.avatarColor(S.name);
 document.getElementById("todayLbl").textContent = U.prettyDate();
 document.querySelectorAll("[data-school-name]").forEach(e=>e.textContent=db.school.name);
 
-const TITLES={overview:["Overview","Welcome back! Here's your school at a glance."],regs:["Registrations","Online 3-step forms + payments."],apps:["Applications","Quick admission enquiries."],pupils:["Pupils","Manage all pupils + login passwords."],teachers:["Teachers","Manage staff and class assignments."],duty:["Duty Roster","Who is on duty each day."],results:["Results","Review, approve & publish report cards."],attendance:["Attendance","Daily registers by teachers."],promos:["Promotions","Landing page promo slider."],newsevents:["News/Events","Videos, gallery & stories."],messages:["Messages","Contact form inbox."],whatsapp:["WhatsApp","Chat contacts + online status."],practice:["Entrance Qs","Upload Common Entrance questions."],testimonials:["Testimonials","Review website testimonials."],notices:["Notices","Talk to staff & parents."],classpages:["Class Pages","One page per class — you control them."],calendar:["Calendar","Term dates & events."],timetable:["Timetable","One grid for the whole school."],extras:["Website Extras","Stars, ticker, homework, photo day & suggestions."],shop:["Shop & Orders","Items, prices & pickup orders."],settings:["Settings","School details, term & session."]};
+const TITLES={overview:["Overview","Welcome back! Here's your school at a glance."],myclass:["My Class",MY_CLASS+" • your class-teacher workspace."],regs:["Registrations","Online 3-step forms + payments."],apps:["Applications","Quick admission enquiries."],pupils:["Pupils","Manage all pupils + login passwords."],teachers:["Teachers","Manage staff and class assignments."],duty:["Duty Roster","Who is on duty each day."],results:["Results","Review, approve & publish report cards."],attendance:["Attendance","Daily registers by teachers."],promos:["Promotions","Landing page promo slider."],newsevents:["News/Events","Videos, gallery & stories."],messages:["Messages","Contact form inbox."],whatsapp:["WhatsApp","Chat contacts + online status."],practice:["Entrance Qs","Upload Common Entrance questions."],testimonials:["Testimonials","Review website testimonials."],notices:["Notices","Talk to staff & parents."],classpages:["Class Pages","One page per class — you control them."],calendar:["Calendar","Term dates & events."],timetable:["Timetable","One grid for the whole school."],extras:["Website Extras","Stars, ticker, homework, photo day & suggestions."],shop:["Shop & Orders","Items, prices & pickup orders."],settings:["Settings","School details, term & session."]};
 
-const NAVICONS={overview:"home",regs:"clipboard",apps:"filetext",pupils:"users",teachers:"user",duty:"calendar",results:"award",attendance:"calcheck",promos:"mega",newsevents:"news",messages:"message",whatsapp:"chat",testimonials:"star",practice:"book",notices:"bell",classpages:"news",calendar:"calcheck",timetable:"calendar",extras:"star",shop:"bag",settings:"gear",code:"filetext"};
+const NAVICONS={overview:"home",myclass:"users",regs:"clipboard",apps:"filetext",pupils:"users",teachers:"user",duty:"calendar",results:"award",attendance:"calcheck",promos:"mega",newsevents:"news",messages:"message",whatsapp:"chat",testimonials:"star",practice:"book",notices:"bell",classpages:"news",calendar:"calcheck",timetable:"calendar",extras:"star",shop:"bag",settings:"gear",code:"filetext"};
 document.querySelectorAll("#sideNav button").forEach(b=>{ b.insertAdjacentHTML("afterbegin",U.icon(NAVICONS[b.dataset.view]||"chev",17)); });
+
+/* Assistant Headmistress: hide the eight management-only sections and mark
+   their panels unavailable. The router above independently enforces the same
+   list so this is not merely cosmetic. */
+(function applyAdminRoleGates(){
+  if(ADMIN_ROLE!=="assistant")return;
+  HEAD_ONLY_ADMIN_VIEWS.forEach(function(view){
+    const b=document.querySelector('#sideNav button[data-view="'+view+'"]');
+    if(b){ b.hidden=true; b.disabled=true; b.setAttribute("aria-hidden","true"); }
+    const s=document.getElementById("v-"+view); if(s){s.hidden=true;s.setAttribute("data-role-locked","true");}
+  });
+  const active=document.querySelector(".view-section.on");
+  if(active&&HEAD_ONLY_ADMIN_VIEWS.has(active.id.replace(/^v-/,""))){
+    active.classList.remove("on");
+    const home=document.querySelector('#sideNav button[data-view="overview"]');
+    if(home)home.click();
+  }
+})();
 
 function openModal(html){ document.getElementById("modalBox").innerHTML=html; document.getElementById("modalBg").classList.add("show"); }
 function closeModal(){ document.getElementById("modalBg").classList.remove("show"); }
@@ -670,7 +761,156 @@ function refreshCounts(){ db=DB.load();
   if(sc) sc.textContent=(db.staffChat||[]).filter(m=>m.fromRole==="teacher"&&!m.read).length;
 }
 
-/* ---- overview ---- */
+/* ---- My Class: leadership accounts also teach one assigned class ---- */
+let mcRegisterKey="", mcRegMarks={};
+function mcClassPupils(d){
+  d=d||DB.load();
+  return (d.pupils||[]).filter(p=>p.class===MY_CLASS&&p.verified!==false&&p.status!=="rejected")
+    .sort((a,b)=>String(a.name||"").localeCompare(String(b.name||""),"en",{sensitivity:"base"}));
+}
+function renderMyClass(){
+  db=DB.load();
+  const pupils=mcClassPupils(db), today=U.todayStr();
+  const marked=(db.attendance||[]).find(a=>a.date===today&&a.class===MY_CLASS);
+  const termResults=(db.results||[]).filter(r=>r.class===MY_CLASS&&r.term===db.school.term&&r.session===db.school.session);
+  const homework=(db.homework||[]).filter(h=>h.class===MY_CLASS);
+  document.getElementById("mcHeading").textContent=MY_CLASS+" — My Class";
+  document.getElementById("mcSub").textContent=ADMIN_TITLE+" • class teacher • "+pupils.length+" pupil"+(pupils.length===1?"":"s");
+  document.getElementById("myClassBadge").textContent=MY_CLASS;
+  document.getElementById("mcClassPage").href="../class.html?class="+encodeURIComponent(MY_CLASS);
+  document.getElementById("mcStats").innerHTML=`
+    <div class="p-stat"><div class="ic" style="background:var(--sun-soft);color:#8A6D1B">${U.icon("users",26)}</div><div><b>${pupils.length}</b><span>Pupils</span></div></div>
+    <div class="p-stat"><div class="ic" style="background:var(--mint-soft);color:#177A3F">${U.icon("clipboard",26)}</div><div><b>${marked?Object.keys(marked.records||{}).length:0}</b><span>Marked Today</span></div></div>
+    <div class="p-stat"><div class="ic" style="background:var(--sky-soft);color:#2563EB">${U.icon("award",26)}</div><div><b>${termResults.length}</b><span>Results Started</span></div></div>
+    <div class="p-stat"><div class="ic" style="background:var(--coral-soft);color:#C43C50">${U.icon("book",26)}</div><div><b>${homework.length}</b><span>Homework Posts</span></div></div>`;
+  const date=document.getElementById("mcRegDate"); if(!date.value)date.value=today;
+  const hwDate=document.getElementById("mcHwDate"); if(!hwDate.value)hwDate.value=today;
+  renderMyClassRegister();
+  mcResultInit();
+  mcRenderScores();
+  mcRenderHomework();
+  mcRenderPupils();
+}
+
+function renderMyClassRegister(){
+  db=DB.load();
+  const dateEl=document.getElementById("mcRegDate"), d=dateEl.value||U.todayStr(), key=MY_CLASS+"|"+d;
+  dateEl.value=d;
+  const pupils=mcClassPupils(db);
+  const saved=(db.attendance||[]).find(a=>a.date===d&&a.class===MY_CLASS);
+  if(mcRegisterKey!==key){ mcRegisterKey=key; mcRegMarks=saved?Object.assign({},saved.records||{}):{}; }
+  pupils.forEach(p=>{if(!mcRegMarks[p.id])mcRegMarks[p.id]="P";});
+  document.getElementById("mcRegSub").textContent=MY_CLASS+" • "+U.prettyDate(d)+" • "+pupils.length+" pupil"+(pupils.length===1?"":"s");
+  document.getElementById("mcRegSaved").innerHTML=saved?'<div class="notice"><span class="dot" style="background:var(--mint)"></span><div>This register is <b>saved</b>. You can change the marks and save again.</div></div>':"";
+  document.getElementById("mcRegRows").innerHTML=pupils.map((p,i)=>`<tr><td>${i+1}</td><td><div style="display:flex;gap:10px;align-items:center"><div class="avatar" style="width:34px;height:34px;flex-basis:34px;background:${U.avatarColor(p.name)};font-size:.8rem">${U.initials(p.name)}</div><b>${U.esc(p.name)}</b></div></td><td><div class="att-btns"><button class="p ${mcRegMarks[p.id]==="P"?"on":""}" onclick="mcSetMark('${p.id}','P')">Present</button><button class="a ${mcRegMarks[p.id]==="A"?"on":""}" onclick="mcSetMark('${p.id}','A')">Absent</button><button class="l ${mcRegMarks[p.id]==="L"?"on":""}" onclick="mcSetMark('${p.id}','L')">Late</button></div></td></tr>`).join("")||'<tr><td colspan="3"><div class="empty">No approved pupils are assigned to this class yet.</div></td></tr>';
+  const away=pupils.filter(p=>mcRegMarks[p.id]!=="P");
+  document.getElementById("mcRegAbsent").innerHTML=away.length?`<h3 style="margin:0 0 8px;font-size:.95rem">Notify parents (${away.length} not present)</h3>`+away.map(p=>{
+    const digits=String(p.phone||"").replace(/\D/g,"").replace(/^0/,"234"), state=mcRegMarks[p.id]==="A"?"ABSENT":"LATE";
+    const msg="Dear Parent, this is "+(db.school.name||"Treasure Academy")+". "+p.name+" of "+MY_CLASS+" was marked "+state+" today ("+U.prettyDate(d)+"). Please confirm with the class teacher. Thank you!";
+    return `<div class="notice"><span class="dot" style="background:${state==="ABSENT"?"var(--coral)":"var(--sun)"}"></span><div style="flex:1"><b>${U.esc(p.name)}</b> <span class="badge ${state==="ABSENT"?"b-coral":"b-sun"}">${state}</span><br><small style="color:var(--muted)">${U.esc(p.phone||"no phone on record")}</small></div>${digits?`<a class="icon-btn ok" target="_blank" rel="noopener" href="https://wa.me/${digits}?text=${encodeURIComponent(msg)}">WhatsApp parent</a>`:""}</div>`;
+  }).join(""):"";
+}
+window.mcSetMark=function(pid,state){ if(!mcClassPupils(DB.load()).some(p=>p.id===pid))return; mcRegMarks[pid]=state; renderMyClassRegister(); };
+window.mcMarkAll=function(state){ mcClassPupils(DB.load()).forEach(p=>mcRegMarks[p.id]=state); renderMyClassRegister(); };
+window.mcSaveRegister=function(){
+  db=DB.load(); const d=document.getElementById("mcRegDate").value||U.todayStr(), pupils=mcClassPupils(db), records={};
+  if(!pupils.length){U.toast("No approved pupils are assigned to "+MY_CLASS+" yet.");return;}
+  pupils.forEach(p=>records[p.id]=mcRegMarks[p.id]||"P");
+  let row=(db.attendance||[]).find(a=>a.date===d&&a.class===MY_CLASS);
+  const edited=!!row; if(row)row.records=records; else (db.attendance=db.attendance||[]).push({date:d,class:MY_CLASS,records});
+  if(window.TANotify)pupils.forEach(p=>TANotify.push(db,{to:p.id,kind:"attendance",title:records[p.id]==="P"?"Marked present":records[p.id]==="L"?"Marked late":"Marked absent",body:U.prettyDate(d)+" — "+MY_CLASS+", recorded by "+S.name+".",tone:records[p.id]==="P"?"good":records[p.id]==="L"?"warn":"bad"}));
+  DB.save(db); renderMyClass(); U.toast(edited?"Register updated — pupils notified.":"Register saved — pupils notified.");
+};
+
+function mcResultInit(){
+  db=DB.load(); const box=document.getElementById("mcResPupil"), keep=box.value;
+  box.innerHTML=mcClassPupils(db).map(p=>`<option value="${p.id}">${U.esc(p.name)} (${U.esc(p.adm||p.id)})</option>`).join("")||'<option value="">No pupils</option>';
+  if(keep&&mcClassPupils(db).some(p=>p.id===keep))box.value=keep;
+  const term=document.getElementById("mcResTerm");
+  if(!mcResultInit.ready){ if(Array.from(term.options).some(o=>o.value===db.school.term))term.value=db.school.term; mcResultInit.ready=true; }
+}
+function mcCurrentResult(){
+  const d=DB.load(), pid=document.getElementById("mcResPupil").value, term=document.getElementById("mcResTerm").value;
+  return (d.results||[]).find(r=>r.pupilId===pid&&r.class===MY_CLASS&&r.term===term&&r.session===d.school.session);
+}
+function mcRenderScores(){
+  db=DB.load(); const r=mcCurrentResult(), locked=!!(r&&(r.status==="Approved"||r.status==="Published"));
+  const status=r?r.status:"New", tones={New:"b-grey",Draft:"b-grey",Submitted:"b-sun",Approved:"b-sky",Published:"b-green"};
+  const st=document.getElementById("mcResStatus"); st.className="badge "+(tones[status]||"b-grey"); st.textContent=status;
+  document.getElementById("mcResLock").innerHTML=locked?`<div class="notice"><span class="dot" style="background:var(--sky)"></span><div>This result is <b>${status}</b> and is locked.</div></div>`:"";
+  document.getElementById("mcScoreRows").innerHTML=subjectsFor(MY_CLASS).map(subject=>{
+    const score=(r&&r.scores&&r.scores[subject])||{ca1:"",ca2:"",exam:""};
+    return `<tr data-subject="${U.esc(subject)}"><td><b>${U.esc(subject)}</b></td><td><input class="mc-score-input" data-part="ca1" type="number" min="0" max="20" value="${score.ca1}" ${locked?"disabled":""}></td><td><input class="mc-score-input" data-part="ca2" type="number" min="0" max="20" value="${score.ca2}" ${locked?"disabled":""}></td><td><input class="mc-score-input" data-part="exam" type="number" min="0" max="60" value="${score.exam}" ${locked?"disabled":""}></td><td><b class="mc-total">—</b></td><td><b class="mc-grade">—</b></td></tr>`;
+  }).join("");
+  document.querySelectorAll(".mc-score-input").forEach(el=>el.addEventListener("input",mcCalcScores));
+  db.commentBank=db.commentBank||[]; const remarks=document.getElementById("mcResRemark"), current=(r&&r.tremark)||"";
+  remarks.innerHTML='<option value="">— No remark —</option>'+db.commentBank.map(c=>`<option ${current===c?"selected":""}>${U.esc(c)}</option>`).join("")+(current&&!db.commentBank.includes(current)?`<option selected>${U.esc(current)}</option>`:"");
+  remarks.disabled=locked; mcCalcScores(); mcRenderSubmissions();
+}
+function mcCalcScores(){
+  let sum=0,count=0;
+  document.querySelectorAll("#mcScoreRows tr[data-subject]").forEach(row=>{
+    const get=part=>row.querySelector('[data-part="'+part+'"]'), ca1=get("ca1"),ca2=get("ca2"),exam=get("exam");
+    const has=[ca1,ca2,exam].some(el=>el&&el.value!==""), total=Math.min(100,(+ca1.value||0)+(+ca2.value||0)+(+exam.value||0));
+    row.querySelector(".mc-total").textContent=has?total:"—"; row.querySelector(".mc-grade").textContent=has?U.grade(total):"—";
+    if(has){sum+=total;count++;}
+  });
+  document.getElementById("mcAvgLbl").textContent=count?"Average: "+(sum/count).toFixed(1)+"%":"";
+}
+window.mcSaveScores=function(status){
+  if(status!=="Draft"&&status!=="Submitted")return;
+  const pid=document.getElementById("mcResPupil").value; if(!pid){U.toast("No pupil selected.");return;}
+  const scores={}; let filled=false, bad=false;
+  document.querySelectorAll("#mcScoreRows tr[data-subject]").forEach(row=>{
+    const val=part=>+(row.querySelector('[data-part="'+part+'"]')||{}).value||0;
+    const ca1=val("ca1"),ca2=val("ca2"),exam=val("exam");
+    if(ca1<0||ca2<0||exam<0||ca1>20||ca2>20||exam>60)bad=true;
+    if(ca1||ca2||exam)filled=true; scores[row.dataset.subject]={ca1,ca2,exam};
+  });
+  if(bad){U.toast("CA scores must be 0–20 and Exam 0–60.");return;}
+  if(!filled){U.toast("Enter at least one score.");return;}
+  db=DB.load(); const term=document.getElementById("mcResTerm").value;
+  let r=(db.results||[]).find(x=>x.pupilId===pid&&x.class===MY_CLASS&&x.term===term&&x.session===db.school.session);
+  if(r&&(r.status==="Approved"||r.status==="Published")){U.toast("This result is locked.");return;}
+  const data={scores,status,tremark:document.getElementById("mcResRemark").value,updatedAt:new Date().toISOString(),teacherId:S.refId,teacherName:S.name};
+  if(r)Object.assign(r,data); else (db.results=db.results||[]).push(Object.assign({id:"R"+(db.seq.result++),pupilId:pid,class:MY_CLASS,term,session:db.school.session},data));
+  DB.save(db); renderMyClass(); U.toast(status==="Submitted"?"Result submitted for review.":"Draft saved.");
+};
+function mcRenderSubmissions(){
+  db=DB.load(); const term=document.getElementById("mcResTerm").value, tones={Draft:"b-grey",Submitted:"b-sun",Approved:"b-sky",Published:"b-green"};
+  const pupils=mcClassPupils(db);
+  document.getElementById("mcSubmissions").innerHTML=pupils.length?`<div style="overflow-x:auto"><table class="tbl"><thead><tr><th>Pupil</th><th>Status</th><th></th></tr></thead><tbody>${pupils.map(p=>{
+    const r=(db.results||[]).find(x=>x.pupilId===p.id&&x.class===MY_CLASS&&x.term===term&&x.session===db.school.session);
+    return `<tr><td><b>${U.esc(p.name)}</b></td><td>${r?`<span class="badge ${tones[r.status]||"b-grey"}">${U.esc(r.status)}</span>`:'<span class="badge b-grey">Not started</span>'}</td><td><button class="icon-btn" onclick="mcOpenResult('${p.id}')">Open</button></td></tr>`;
+  }).join("")}</tbody></table></div>`:'<div class="empty">No pupils are assigned to this class yet.</div>';
+}
+window.mcOpenResult=function(pid){ const box=document.getElementById("mcResPupil"); box.value=pid; mcRenderScores(); box.scrollIntoView({block:"center"}); };
+
+function mcRenderHomework(){
+  db=DB.load(); const list=(db.homework||[]).filter(h=>h.class===MY_CLASS);
+  document.getElementById("mcHomeworkRows").innerHTML=list.map(h=>`<div class="notice"><span class="dot" style="background:var(--sky)"></span><div style="flex:1"><b>${U.esc(h.subject||"General")}</b> — ${U.esc(h.note||"")}<br><small style="color:var(--muted)">${U.esc(h.date||"")}${(h.photos||[]).length?" • "+h.photos.length+" photo(s)":""}</small></div><button class="icon-btn del" onclick="mcDeleteHomework('${h.id}')">Delete</button></div>`).join("")||'<div class="empty">Nothing posted for this class yet.</div>';
+}
+window.mcSaveHomework=function(){
+  const note=document.getElementById("mcHwNote").value.trim(); if(!note){U.toast("Homework text is required.");return;}
+  U.compressPhotos(document.getElementById("mcHwPhotos"),3,function(photos){
+    db=DB.load(); db.homework=db.homework||[];
+    db.homework.unshift({id:"HW"+Date.now(),class:MY_CLASS,subject:document.getElementById("mcHwSubject").value.trim()||"General",note,date:document.getElementById("mcHwDate").value||U.todayStr(),photos,by:S.name});
+    DB.save(db); document.getElementById("mcHwNote").value=""; try{document.getElementById("mcHwPhotos").value="";}catch(e){} renderMyClass(); U.toast("Homework posted for "+MY_CLASS+".");
+  });
+};
+window.mcDeleteHomework=function(id){
+  db=DB.load(); const item=(db.homework||[]).find(h=>String(h.id)===String(id)); if(!item||item.class!==MY_CLASS)return;
+  db.homework=db.homework.filter(h=>String(h.id)!==String(id)); DB.save(db); renderMyClass(); U.toast("Homework deleted.");
+};
+function mcRenderPupils(){
+  db=DB.load(); const pupils=mcClassPupils(db), term=db.school.term;
+  document.getElementById("mcPupilSub").textContent=MY_CLASS+" • "+pupils.length+" pupil"+(pupils.length===1?"":"s");
+  document.getElementById("mcPupilRows").innerHTML=pupils.length?`<div style="overflow-x:auto"><table class="tbl"><thead><tr><th>Pupil</th><th>Admission</th><th>Attendance</th><th>${U.esc(term)} Result</th></tr></thead><tbody>${pupils.map(p=>{
+    const pct=U.attendancePct(db,p.id), r=(db.results||[]).find(x=>x.pupilId===p.id&&x.class===MY_CLASS&&x.term===term&&x.session===db.school.session);
+    return `<tr><td><b>${U.esc(p.name)}</b><br><small style="color:var(--muted)">${U.esc(p.parent||"")}</small></td><td>${U.esc(p.adm||p.id)}</td><td>${pct===null?"—":pct+"%"}</td><td>${r?`<span class="badge ${r.status==="Published"?"b-green":r.status==="Approved"?"b-sky":r.status==="Submitted"?"b-sun":"b-grey"}">${U.esc(r.status)}</span>`:"Not started"}</td></tr>`;
+  }).join("")}</tbody></table></div>`:'<div class="empty">No approved pupils are assigned to this class yet.</div>';
+}
+
 function renderOverview(){
   db=DB.load();
   const marked=db.attendance.filter(a=>a.date===U.todayStr()).reduce((n,a)=>n+Object.keys(a.records).length,0);
@@ -1717,7 +1957,11 @@ function delItem(id){ if(!confirm("Delete this item?"))return; db=DB.load(); db.
 document.getElementById("pupilSearch").addEventListener("input",renderPupils);
 document.getElementById("pupilClassFilter").addEventListener("change",renderPupils);
 document.getElementById("resClassFilter").addEventListener("change",renderResults);
-document.getElementById("resStatusFilter").addEventListener("change",renderResults); pupilFilters(); resFilters(); attInit(); loadSettings();
+document.getElementById("resStatusFilter").addEventListener("change",renderResults);
+document.getElementById("mcRegDate").addEventListener("change",function(){mcRegisterKey="";renderMyClassRegister();});
+document.getElementById("mcResPupil").addEventListener("change",mcRenderScores);
+document.getElementById("mcResTerm").addEventListener("change",mcRenderScores);
+pupilFilters(); resFilters(); attInit(); loadSettings();
 function renderRestock(){
   db=DB.load();
   document.getElementById("rsRows").innerHTML=(db.restock||[]).map(r=>{ const it=(db.shopItems||[]).find(x=>x.id===r.item)||{}; return `<div class="notice"><span class="dot" style="background:var(--sun)"></span><div style="flex:1"><b>${U.esc(it.name||r.item)}</b> — ${U.esc(r.name)} • ${U.esc(r.phone)}<br><small style="color:var(--muted)">${r.date}</small></div><button class="icon-btn del" onclick="delRestock('${r.id}')">×</button></div>`; }).join("")||'<div class="empty">Nobody waiting.</div>';
@@ -1758,7 +2002,7 @@ window.printTT=window.printAllTT=function(){
 };
 window.resetTT=function(){ db=DB.load(); db.timetable=null; DB.save(db); renderTT(); U.toast("Timetable reset to automatic."); };
 function __safe(f){ try{ f(); }catch(e){ console.error("boot step skipped:", e&&e.message); } }
-__safe(()=>{ renderOverview(); }); __safe(()=>{ renderRegs(); }); __safe(()=>{ renderApps(); }); __safe(()=>{ renderPupils(); }); __safe(()=>{ renderTeachers(); }); __safe(()=>{ renderDuty(); }); __safe(()=>{ renderResults(); }); __safe(()=>{ renderBest(); }); __safe(()=>{ renderAttendance(); }); __safe(()=>{ renderPromos(); }); __safe(()=>{ renderNE(); }); __safe(()=>{ renderMsgs(); }); __safe(()=>{ renderWA(); }); __safe(()=>{ renderNotices(); }); __safe(()=>{ renderMinutesA(); }); __safe(()=>{ Testimonials.adminList("tmList"); }); __safe(()=>{ renderPQ(); }); __safe(()=>{ renderClassPages(); }); __safe(()=>{ renderCal(); }); __safe(()=>{ renderTT(); }); __safe(()=>{ renderShopAdmin(); }); __safe(()=>{ renderRestock(); }); __safe(()=>{ renderLF(); }); __safe(()=>{ buildFeesGrid(); }); __safe(()=>{ ntPreview(); }); __safe(()=>{ renderExtras(); }); __safe(()=>{ renderJobApps(); }); __safe(()=>{ renderSupport(); }); __safe(()=>{ IdleLogout.init(); });
+__safe(()=>{ renderOverview(); }); __safe(()=>{ renderMyClass(); }); __safe(()=>{ renderRegs(); }); __safe(()=>{ renderApps(); }); __safe(()=>{ renderPupils(); }); __safe(()=>{ renderTeachers(); }); __safe(()=>{ renderDuty(); }); __safe(()=>{ renderResults(); }); __safe(()=>{ renderBest(); }); __safe(()=>{ renderAttendance(); }); __safe(()=>{ renderPromos(); }); __safe(()=>{ renderNE(); }); __safe(()=>{ renderMsgs(); }); __safe(()=>{ renderWA(); }); __safe(()=>{ renderNotices(); }); __safe(()=>{ renderMinutesA(); }); __safe(()=>{ Testimonials.adminList("tmList"); }); __safe(()=>{ renderPQ(); }); __safe(()=>{ renderClassPages(); }); __safe(()=>{ renderCal(); }); __safe(()=>{ renderTT(); }); __safe(()=>{ renderShopAdmin(); }); __safe(()=>{ renderRestock(); }); __safe(()=>{ renderLF(); }); __safe(()=>{ buildFeesGrid(); }); __safe(()=>{ ntPreview(); }); __safe(()=>{ renderExtras(); }); __safe(()=>{ renderJobApps(); }); __safe(()=>{ renderSupport(); }); __safe(()=>{ IdleLogout.init(); });
 /* ---- website extras ---- */
 function renderPTA(){
   db=DB.load(); db.pta=db.pta||[]; db.ptaLevy=db.ptaLevy||{amount:0};
@@ -2140,9 +2384,12 @@ function pqDel(id){ db=DB.load(); db.practiceQuestions=(db.practiceQuestions||[]
     if(v&&show) show.innerHTML=v.innerHTML;
     var dbs=DB.load();
     document.querySelectorAll(".cocStatus").forEach(function(e){ if(dbs.school.cocA) e.textContent="Accepted by the Headmistress on "+(dbs.school.cocAt||""); });
-    if(dbs.school.cocA!==1){ document.getElementById("cocBg").style.display=""; document.getElementById("cocBox").style.display=""; }
+    /* Code of Conduct management/acceptance is on the confirmed
+       Headmistress-only list; never block the Assistant with this gate. */
+    if(ADMIN_ROLE==="headmistress"&&dbs.school.cocA!==1){ document.getElementById("cocBg").style.display=""; document.getElementById("cocBox").style.display=""; }
   })();
   window.acceptCoC=function(){
+    if(ADMIN_ROLE!=="headmistress"){ U.toast("This setting is available to the Headmistress only."); return; }
     var dbs=DB.load(); dbs.school.cocA=1; dbs.school.cocAt=U.todayStr(); DB.save(dbs);
     document.getElementById("cocBg").style.display="none";
     document.getElementById("cocBox").style.display="none";

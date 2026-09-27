@@ -48,11 +48,11 @@ const filled = { surname: 'KID', first: 'K', reqclass: 'Primary 1', sex: 'Male',
   const pre = 'var d=DB.load(); d.ticker={on:true,text:"Batch24 ticker test"}; DB.save(d);';
   const { window: w } = loadPage('index.html', null, null, pre);
   ok('ticker renders', !!w.document.getElementById('newsTicker'));
-  const halves = w.document.querySelectorAll('#newsTicker .tick-half');
-  ok('seamless halves', halves.length === 2 && halves[0].innerHTML === halves[1].innerHTML, `n=${halves.length}`);
+  const runs = w.document.querySelectorAll('#newsTicker .tick-content');
+  ok('ticker has one non-duplicated content run', runs.length === 1 && !w.document.querySelector('#newsTicker .tick-half'), `n=${runs.length}`);
   ok('30fps frame skip', site.includes('++frame%2'));
   ok('no shadowBlur', !site.includes('shadowBlur'));
-  ok('ticker compositor css', css.includes('will-change:transform') && css.includes('.ticker-inner>.tick-half'));
+  ok('ticker compositor css', css.includes('will-change:transform') && css.includes('.ticker-inner>.tick-content'));
 }
 
 /* ---------- L demo logout ---------- */
@@ -60,7 +60,7 @@ const filled = { surname: 'KID', first: 'K', reqclass: 'Primary 1', sex: 'Male',
   const s = { role: 'pupil', refId: 'P001', name: 'Adaeze Demo' };
   const { window: w } = loadPage('portal/login.html', s);
   const h = w.document.getElementById('sessCard').innerHTML;
-  ok('login session card', h.includes('Adaeze Demo') && h.includes('Continue') && h.includes('Auth.logout()') && h.includes('href="pupil.html"'), h.slice(0, 120));
+  ok('login session card', h.includes('Adaeze Demo') && h.includes('Continue') && h.includes('Auth.logout()') && h.includes('href="/portal/pupil.html"'), h.slice(0, 120));
 }
 {
   const { window: w } = loadPage('portal/login.html');
