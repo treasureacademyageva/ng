@@ -206,7 +206,7 @@
         if (r && r.ok) {
           Auth.set(r.session, true);
           toast("Welcome back, " + (r.session.name || "") + "!");
-          setTimeout(function () { location.href = base() + "portal/pupil.html"; }, 500);
+          setTimeout(function () { location.href = "/portal/pupil.html"; }, 500);
           return;
         }
         if (r && r.reason === "nopassword") {

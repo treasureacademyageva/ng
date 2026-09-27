@@ -1,5 +1,12 @@
 {
   "trailingSlash": false,
+  "redirects": [
+    {
+      "source": "/pupil.html",
+      "destination": "/portal/pupil.html",
+      "permanent": true
+    }
+  ],
   "headers": [
     {
       "source": "/.well-known/assetlinks.json",
