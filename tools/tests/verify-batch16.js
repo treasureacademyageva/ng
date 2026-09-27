@@ -66,26 +66,17 @@ for (const [page, sess, n] of [['portal/pupil.html', PUPIL, 7], ['portal/teacher
   run('document.getElementById("ttWrap").innerHTML="";');
   w2.document.querySelector('#sideNav button[data-view="timetable"]').click();
   ok('render-on-navigate fills view', w2.document.getElementById('ttWrap').innerHTML.includes('<table'));
-  ok('demo buttons wired one-tap', fs.readFileSync(SITE + '/portal/login.html', 'utf8').includes('setTimeout(demoSubmit,350)'));
+  const loginSrc = fs.readFileSync(SITE + '/portal/login.html', 'utf8');
+  ok('demo one-tap helpers removed', !loginSrc.includes('window.fillDemo') && !loginSrc.includes('window.fillStaff') && !loginSrc.includes('window.demoSubmit') && !loginSrc.includes('setTimeout(demoSubmit'));
 }
 
-/* ---------- P1: one-tap demo login ---------- */
+/* ---------- P1: real pupil login still works (demo one-tap removed batch49f) ---------- */
 {
-  // NOTE: jsdom+vm never fires inline onclick attributes (harness limit, real browsers fine),
-  // so demo entry is invoked exactly as the button would invoke it.
-  const { window: w, run } = loadPage('portal/login.html');
-  run('fillDemo("0805 111 2222");');
-  setTimeout(() => {
-    let sess = null;
-    try { sess = w.localStorage.getItem('treasure_session_v1'); } catch (e) {}
-    ok('demo tap logs in (session set)', !!sess && sess.includes('P001'), String(sess).slice(0, 80));
-    const { window: w2, run: run2 } = loadPage('portal/login.html', null, null,
-      'var d=DB.load(); d.pupils.forEach(function(p){ if(p.phone==="0805 333 4444") p.password=null; }); DB.save(d);');
-    run2('fillDemo("0805 333 4444");');
-    ok('password-less login routes to create-password', w2.document.getElementById('toast').textContent.includes('no password yet'));
-    finish();
-  }, 900);
-  return; // finish() continues async below
+  const { run } = loadPage('portal/login.html');
+  ok('pupil phone login works', run('Auth.pupilLogin("0805 111 2222","1234").ok') === true);
+  ok('password-less pupil detected', run('var d=DB.load(); d.pupils.forEach(function(p){ if(p.phone==="0805 333 4444") p.password=null; }); DB.save(d); Auth.pupilLogin("0805 333 4444","1234").reason') === 'nopassword');
+  finish();
+  return; // finish() continues below
 }
 function finish() {
 

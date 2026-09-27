@@ -148,12 +148,12 @@
 <script src="../assets/js/site.js?v=20260926-8-64"></script>
 <script>
 (function(){
-  /* batch24: already logged in? show who + Continue/Logout (demo switching) instead of bouncing away */
+  /* batch24: already logged in? show who + Continue/Logout instead of bouncing away */
   const ex = Auth.get();
   if(ex && ex.role){
     const dest=ex.role==="admin"?"admin.html":ex.role==="teacher"?"teacher.html":"pupil.html";
     const zc=document.getElementById("sessCard");
-    if(zc)zc.innerHTML=`<div class="notice"><span class="dot" style="background:var(--mint)"></span><div style="flex:1">Logged in as <b>${U.esc(ex.name||ex.refId||"")}</b> <span class="badge b-sky">${U.esc(ex.role||"")}</span><br><small style="color:var(--muted)">Trying another demo? Logout first.</small></div><div class="row-actions"><a class="icon-btn ok" href="${dest}">Continue</a> <button class="icon-btn" onclick="Auth.logout()">Logout</button></div></div>`;
+    if(zc)zc.innerHTML=`<div class="notice"><span class="dot" style="background:var(--mint)"></span><div style="flex:1">Logged in as <b>${U.esc(ex.name||ex.refId||"")}</b> <span class="badge b-sky">${U.esc(ex.role||"")}</span><br><small style="color:var(--muted)">Signing in as someone else? Logout first.</small></div><div class="row-actions"><a class="icon-btn ok" href="${dest}">Continue</a> <button class="icon-btn" onclick="Auth.logout()">Logout</button></div></div>`;
     const pf=document.getElementById("pupilForm"); if(pf)pf.style.display="none";
     return;
   }
@@ -183,17 +183,9 @@
   function closeModal(){ document.getElementById("modalBg").classList.remove("show"); }
   document.getElementById("modalBg").addEventListener("click",e=>{ if(e.target.id==="modalBg") closeModal(); });
 
-  window.autoPassTreasure=()=>{ passed.loginTreasure=true;
-    const box=document.getElementById("loginTreasure"); box.classList.add("passed"); box.querySelector(".box").textContent="✓";
-    box.querySelector("span:last-child").textContent="Verified. You may continue."; };
-  window.demoSubmit=()=>{ autoPassTreasure();
-    const f=document.getElementById("pupilForm");
-    if(f.requestSubmit)f.requestSubmit(); else f.dispatchEvent(new Event("submit",{cancelable:true})); };
-  window.fillDemo=adm=>{ document.getElementById("pReg").value=adm;
-    const p=Auth.pupilFind(adm);
-    if(p&&!p.password){ checkRegNo(); U.toast("Demo pupil has no password yet — create one to enter."); return; }
-    document.getElementById("pPass").value="1234"; U.toast("Entering demo portal..."); setTimeout(demoSubmit,350); };
-  window.fillStaff=(role,id)=>{ document.getElementById("pReg").value=id; document.getElementById("pPass").value="1234"; U.toast("Entering staff demo..."); setTimeout(demoSubmit,350); };
+  /* batch49f: removed dead demo helpers (autoPassTreasure/demoSubmit/fillDemo/fillStaff).
+     They were one-tap demo logins with a hardcoded "1234" PIN and a bot-check bypass —
+     called by nothing in the real UI. Human verification uses passTreasure() only. */
   /* batch25: password reset request goes straight to the school WhatsApp line */
   window.toggleFP=function(){ var c=document.getElementById("fpCard"); if(c)c.style.display=(c.style.display==="none"||!c.style.display)?"flex":"none"; };
   window.sendFP=function(){

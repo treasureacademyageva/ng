@@ -67,15 +67,10 @@ const PUPIL = { role: 'pupil', refId: 'P001', name: 'x' };
   ok('login no errors', errors.length === 0, errors.join('||').slice(0, 160));
 }
 {
-  // full submit routing with teacher phone
-  const { window: w, run } = loadPage('portal/login.html');
-  run('fillStaff("teacher","0803 100 0001");');
-  setTimeout(() => {
-    let s = null;
-    try { s = w.localStorage.getItem('treasure_session_v1'); } catch (e) {}
-    ok('staff phone submit routes', !!s && s.includes('T001'), String(s).slice(0, 60));
-    finish();
-  }, 900);
+  // staff phone login resolves to the right staff id (demo one-tap fillStaff removed batch49f)
+  const { run } = loadPage('portal/login.html');
+  ok('staff phone resolves to T001', run('Auth.staffLogin("teacher","0803 100 0001","1234").refId') === 'T001');
+  finish();
   return;
 }
 function finish() {
