@@ -41,20 +41,15 @@ Uniform, Volunteer, Welcome, and a branded 404.
 
 ## Portals
 
-Login lives at `portal/login.html` and routes to one of three screens.
+Login lives at `portal/login.html` and routes to one of three screens:
+Headmistress → `portal/admin.html`, Teacher → `portal/teacher.html`,
+Parent/Pupil → `portal/pupil.html`.
 
-| Role | Screen | Demo credentials |
-|---|---|---|
-| Headmistress | `portal/admin.html` | `HEAD001`, PIN `1234` |
-| Teacher (Primary 1) | `portal/teacher.html` | `T001` or `0803 100 0001`, PIN `1234` |
-| Parent — one child (Adaeze) | `portal/pupil.html` | `0805 111 2222` / `1234` |
-| Parent — two children (Emeka & Ada) | `portal/pupil.html` | `0805 333 4444` / `1234` |
-
-These four are the only demo accounts (owner's instruction, 25 Sept 2026) —
-one login per role so each screen can be tested. The parent with two children
-shares one phone number across both pupil records, so the portal shows the
-child switcher. Real accounts have not been added yet; real staff records are
-a separate list — see the data model section in `docs/MAINTENANCE.md`.
+Staff sign in with a Staff ID + PIN; parents sign in with their phone number
+and a password they set on first use. Credentials are **not** listed in this
+public repository. Account details live only in the app's data store and are
+managed by the Headmistress in **Admin → Settings**. See `docs/MAINTENANCE.md`
+for the data model.
 
 ## Data
 

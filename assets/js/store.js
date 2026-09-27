@@ -104,7 +104,7 @@ function seedDB(){
   const school = {...SCHOOL_DEFAULTS};
   const db = {
     school,
-    admins: [{id:"HEAD001", pin:"1234", name:"Mrs. Salihu Nanahawa", title:"Headmistress"}],
+    admins: [{id:"HEAD001", pin:"1234", name:"Mrs. Salihu Nanahawa", title:"Headmistress", phone:"0813 316 7728"}],
     teachers: [
       /* 25 Sept 2026: the owner asked for exactly four demo logins -
          Headmistress, one teacher, one parent with a single child, one

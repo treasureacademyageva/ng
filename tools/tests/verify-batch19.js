@@ -119,7 +119,7 @@ const ADMIN = { role: 'admin', refId: 'HEAD001', name: 'x' };
   ok('roadmap md removed', !fs.existsSync(SITE + '/moniepoint-payments-plan.md'));
   const rm = fs.readFileSync(SITE + '/README.md', 'utf8');
   ok('roadmap preserved in README', rm.includes('Payments roadmap') && rm.includes('Monnify'));
-  ok('README phone demos', rm.includes('0805 111 2222') && rm.includes('0803 100 0001') && !rm.includes('TA/2023/001'));
+  ok('README omits demo credentials (security)', !rm.includes('0805 111 2222') && !rm.includes('0803 100 0001') && !rm.includes('HEAD001') && !rm.includes('TA/2023/001'));
   ok('logo backup removed', !fs.existsSync('/home/user/logo-backup.jpg'));
 }
 

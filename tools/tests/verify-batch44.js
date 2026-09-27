@@ -68,7 +68,7 @@ for (const f of ['portal/login.html', 'portal/admin.html', 'portal/teacher.html'
   const s = fs.readFileSync(SITE + '/' + f, 'utf8');
   ok(f + ' is noindex', s.includes('robots" content="noindex'));
 }
-ok('index has School JSON-LD', fs.readFileSync(SITE + '/index.html', 'utf8').includes('application/ld+json') && fs.readFileSync(SITE + '/index.html', 'utf8').includes('"@type":"School"') && fs.readFileSync(SITE + '/index.html', 'utf8').includes('Kogi State'));
+ok('index has School JSON-LD', fs.readFileSync(SITE + '/index.html', 'utf8').includes('application/ld+json') && fs.readFileSync(SITE + '/index.html', 'utf8').includes('"@type": "School"') && fs.readFileSync(SITE + '/index.html', 'utf8').includes('Kogi State'));
 
 /* ---------- C. 404 ---------- */
 const e404 = fs.readFileSync(SITE + '/404.html', 'utf8');

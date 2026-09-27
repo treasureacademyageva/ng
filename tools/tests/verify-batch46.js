@@ -81,7 +81,7 @@ ok('login page does NOT publicly display demo credentials',
   !login.includes('class="demo-box"') && !login.includes('HEAD001') &&
   !login.includes('Password/PIN for all demos') && !login.includes('Demo accounts'));
 ok('password-generator hole removed', !login.includes('Password Generator') && !login.includes('genSuggest'));
-ok('README lists the four demo accounts', readme.includes('HEAD001') && readme.includes('0805 111 2222') && readme.includes('0805 333 4444') && readme.includes('T001'));
+ok('README does not leak demo accounts (security)', !readme.includes('HEAD001') && !readme.includes('0805 111 2222') && !readme.includes('0805 333 4444') && !readme.includes('T001'));
 
 /* ---------- B. the real 11-teacher wall (Document D) ---------- */
 const al = loadPage('alumni.html');
