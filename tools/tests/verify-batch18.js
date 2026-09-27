@@ -77,6 +77,32 @@ const PUPIL = { role: 'pupil', refId: 'P001', name: 'x' };
 }
 function finish() {
 
+/* ---------- leadership role-gating + My Class ---------- */
+{
+  const ASST = { role:'admin', refId:'ASST001', name:'Mrs. Abedoh Rafatu' };
+  const seed = 'var d=DB.load(); d.pupils.push({id:"P404",adm:"TA/2026/404",password:"x",name:"Primary Four Test",gender:"Female",class:"Primary 4",parent:"Test Parent",phone:"0801 234 5678"}); DB.save(d);';
+  const a = loadPage('portal/admin.html', ASST, null, seed);
+  const headOnly = ['teachers','duty','whatsapp','testimonials','extras','shop','code','settings'];
+  ok('assistant sees exactly 17 allowed sections', a.window.document.querySelectorAll('#sideNav button[data-view]:not([hidden])').length === 17);
+  ok('all eight Headmistress-only buttons hidden+disabled', headOnly.every(v => { const b=a.window.document.querySelector('#sideNav button[data-view="'+v+'"]'); return b && b.hidden && b.disabled; }));
+  ok('assistant route guard denies Headmistress section', a.run('adminCanView("teachers")') === false && a.run('adminCanView("results")') === true);
+  ok('assistant not blocked by Headmistress code gate', a.window.document.getElementById('cocBox').style.display === 'none');
+  a.window.document.querySelector('#sideNav button[data-view="myclass"]').click();
+  ok('assistant My Class is Primary 4', a.window.document.getElementById('v-myclass').classList.contains('on') && a.window.document.getElementById('mcHeading').textContent.includes('Primary 4'));
+  a.run('mcSetMark("P404","A"); mcSaveRegister();');
+  ok('My Class saves only assigned register', a.run('DB.load().attendance.find(x=>x.class==="Primary 4").records.P404') === 'A');
+  a.run('document.querySelector("#mcScoreRows .mc-score-input[data-part=ca1]").value="10"; mcSaveScores("Submitted");');
+  ok('My Class submits result under leadership teacher', a.run('var r=DB.load().results.find(x=>x.pupilId==="P404"); r.status+"/"+r.teacherId') === 'Submitted/ASST001');
+  a.run('document.getElementById("mcHwNote").value="Read page 4"; mcSaveHomework();');
+  ok('My Class posts class-scoped homework', a.run('DB.load().homework.some(h=>h.class==="Primary 4"&&h.note==="Read page 4"&&h.by==="Mrs. Abedoh Rafatu")') === true);
+  ok('assistant admin page clean', a.errors.length === 0, a.errors.join('||').slice(0,160));
+}
+{
+  const h = loadPage('portal/admin.html', ADMIN);
+  ok('Headmistress retains all 25 sections', h.window.document.querySelectorAll('#sideNav button[data-view]:not([hidden])').length === 25);
+  ok('Headmistress My Class is Nursery 1', h.window.document.getElementById('mcHeading').textContent.includes('Nursery 1'));
+}
+
 /* ---------- #1 fee ring ---------- */
 {
   const { window: w, run, errors } = loadPage('portal/pupil.html', PUPIL, null,

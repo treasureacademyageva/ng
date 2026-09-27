@@ -68,7 +68,7 @@ adm.run('document.getElementById("setFormFee").value="6500"; document.getElement
 ok('saveSettings saves form fee + bank', adm.run('window.__DB.load().school.formFee') === 6500 && adm.run('window.__DB.load().school.bank.name') === 'First Bank');
 ok('identity data untouched by save', adm.run('window.__DB.load().school.name') === 'Treasure Academy, Ageva' && adm.run('window.__DB.load().school.term') === 'First Term');
 ok('settings view renders clean', adm.errors.length === 0, adm.errors.join(' || ').slice(0, 140));
-ok('sideNav now 24 sections (Staff Messages added)', adm.window.document.querySelectorAll('#sideNav button[data-view]').length === 24);
+ok('sideNav now 25 sections (My Class added)', adm.window.document.querySelectorAll('#sideNav button[data-view]').length === 25);
 
 /* ---------- C. versions ---------- */
 let stale = 0;
