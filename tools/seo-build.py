@@ -39,6 +39,8 @@ DESC = {
  "openday.html": "Visit Treasure Academy, Ageva on Open Day — tour the classrooms, meet the teachers and see the school before you enrol.",
  "photo-day.html": "Book a school photograph session for your child at Treasure Academy, Ageva — dates, packages and how to pay.",
  "poster.html": "Full price list for uniforms, books and supplies from the Treasure Academy, Ageva school shop.",
+ "privacy.html": "How Treasure Academy, Ageva collects, uses and protects the personal information of pupils and parents. Your rights and how to contact us about your data.",
+ "safeguarding.html": "Safeguarding and child protection at Treasure Academy, Ageva — how we keep every pupil safe and how parents, pupils and staff can raise a concern.",
  "pta.html": "Parents-Teachers Association of Treasure Academy, Ageva — meeting dates, minutes and how parents can get involved.",
  "reading.html": "The Reading Corner at Treasure Academy, Ageva — book of the week, the reading leaderboard and stories for our pupils.",
  "receipt.html": "Your Treasure Academy, Ageva admission form payment receipt — print it or present it at the school office.",

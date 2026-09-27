@@ -61,9 +61,9 @@ for (const p of PUB) {
   const mark = ['name="description"', 'rel="canonical"', 'og:title', 'og:image', 'twitter:card', 'theme-color', 'manifest'];
   if (!mark.every(m => s.includes(m))) { missing++; console.log('  seo-missing:', p.split('/').pop()); }
 }
-ok('all 35 public pages fully meta-tagged', missing === 0 && PUB.length === 35, 'missing ' + missing + ' of ' + PUB.length);
+ok('all 37 public pages fully meta-tagged', missing === 0 && PUB.length === 37, 'missing ' + missing + ' of ' + PUB.length);
 const uniq = new Set(PUB.map(p => fs.readFileSync(p, 'utf8').match(/name="description" content="([^"]+)"/)[1]));
-ok('descriptions unique per page', uniq.size === 35, 'unique ' + uniq.size);
+ok('descriptions unique per page', uniq.size === 37, 'unique ' + uniq.size);
 for (const f of ['portal/login.html', 'portal/admin.html', 'portal/teacher.html', 'portal/pupil.html']) {
   const s = fs.readFileSync(SITE + '/' + f, 'utf8');
   ok(f + ' is noindex', s.includes('robots" content="noindex'));
