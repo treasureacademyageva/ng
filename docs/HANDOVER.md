@@ -89,3 +89,8 @@ Re-applied on top of owner commit 14959de (which had independently bumped sw->v6
 - **Phone number corrected.** `+234 814 194 378` (9 digits) -> `+234 814 194 3478` in SCHOOL_DEFAULTS (store.js), the School JSON-LD (seo-build.py) and every regenerated page.
 - **tel: links now work without JS.** The 39 empty `href="tel:"` links across all pages now carry `tel:+2348141943478` as a static fallback (site.js still overrides from live data). A parent tapping "Call" gets a valid number even before scripts load.
 - All 55 suites green — 12,270 checks.
+
+
+## Batch 49c additions (homepage news leads with admissions, 26 Sept 2026 — preview)
+- **Homepage "latest news" now leads with the fresh Sept 2026 admissions**, not the 2017–2021 graduations. Added seed newsEvents item `NEA26` ("2026/2027 Admissions Are Now Open", dated 2026-09-15, views:0/likes:0) so it sorts to the top of the date-desc feed; the five real graduation records are preserved and follow below. Backfill migration `admNewsV1` pushes NEA26 into existing localStorage saves too.
+- Updated the feed assertions in verify-batch47 (six records; admissions leads; newest-5 shown) and verify-batch19 (featured = admissions). All 55 suites green — 12,270 checks.

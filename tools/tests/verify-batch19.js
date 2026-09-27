@@ -66,7 +66,7 @@ const ADMIN = { role: 'admin', refId: 'HEAD001', name: 'x' };
   const { window: w, run, errors } = loadPage('news.html');
   const feat = w.document.getElementById('newsFeatured').innerHTML;
   ok('featured renders', feat.includes('news-featured') && feat.includes('LATEST') && feat.includes('Read Full Story'));
-  ok('featured is latest', feat.includes('5th Graduation Ceremony')); // latest by date desc
+  ok('featured is latest', feat.includes('2026/2027 Admissions Are Now Open')); // batch49: fresh Sept 2026 admissions leads the feed
   ok('video space always shown', w.document.getElementById('vidWrap').style.display !== 'none');
   ok('tour video placeholder', w.document.getElementById('videoRail').innerHTML.includes('Coming Soon'));
   const css = fs.readFileSync(SITE + '/assets/css/corporate.css', 'utf8');

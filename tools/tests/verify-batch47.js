@@ -60,7 +60,7 @@ function loadPage(page, session, pre) {
     });
   })()`));
   ok('founding year is 2016 (school history)', data.founded === 2016);
-  ok('exactly five news records', data.ne.length === 5, JSON.stringify(data.ne.length));
+  ok('six news records (5 graduations + Sept 2026 admissions)', data.ne.length === 6, JSON.stringify(data.ne.length));
   const want = [
     ['NEG1', '1st Graduation Ceremony', '2017-07-26', 'grad-01.jpg'],
     ['NEG2', '2nd Graduation Ceremony', '2018-07-24', 'grad-02.jpg'],
@@ -78,9 +78,9 @@ function loadPage(page, session, pre) {
   ok('no demo news items left in the seed', data.demoLeft === 0);
   ok('no seeded demo comments left', data.commentKeys.length === 0, JSON.stringify(data.commentKeys));
   want.forEach(w => ok(`photo exists: ${w[3]}`, fs.existsSync(SITE + '/assets/img/graduates/' + w[3])));
-  ok('homepage shows all five cards',
+  ok('homepage leads with Sept 2026 admissions, then graduations (newest 5)',
      [...ix.window.document.querySelectorAll('#newsGrid .ne-card h3')].map(e => e.textContent).join('|') ===
-     '5th Graduation Ceremony|4th Graduation Ceremony|3rd Graduation Ceremony|2nd Graduation Ceremony|1st Graduation Ceremony');
+     '2026/2027 Admissions Are Now Open|5th Graduation Ceremony|4th Graduation Ceremony|3rd Graduation Ceremony|2nd Graduation Ceremony');
   ok('homepage cards show 0 views / 0 likes (honest)',
      ix.window.document.querySelector('#newsGrid .ne-card .ne-meta').textContent.includes('0 views'));
   ok('homepage section renamed for real stories', indexHtml.includes('School <span class="hl">News</span>'));
@@ -162,7 +162,7 @@ function loadPage(page, session, pre) {
   ok('no seats-left badge on past events', !list.includes('seats left'));
   ok('historic stories are not archived away', !n.window.document.getElementById('neList').innerHTML.includes('Nothing here yet'));
   const feat = n.window.document.getElementById('newsFeatured').textContent;
-  ok('featured story is the 5th ceremony (latest by date)', feat.includes('5th Graduation Ceremony'));
+  ok('featured story is the Sept 2026 admissions (latest by date)', feat.includes('2026/2027 Admissions Are Now Open'));
   ok('archive code exempts historic items', newsHtml.includes('n.date>=cut||n.historic'));
   ok('seats badge gated to upcoming events', /n\.type==="event"&&n\.date>=U\.todayStr\(\)/.test(newsHtml));
   ok('news page has no errors', n.errors.length === 0, n.errors.join('||').slice(0, 120));
