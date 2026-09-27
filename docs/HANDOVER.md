@@ -135,3 +135,9 @@ Re-applied on top of owner commit 14959de (which had independently bumped sw->v6
 - #newsGrid is now a rotating carousel of the latest **4** items (was a static grid of 5). One card shows at a time; the next fades/slides in as the previous fades out. Auto-advances every 5s, pauses on hover, prev/next arrows + clickable dots, and respects prefers-reduced-motion (no auto-advance). Inline <style> so it also works in the single-file preview.
 - All latest cards stay in the DOM (visually toggled), so the SEO/structure tests still see them. Lead card = "2026/2027 Admissions Are Now Open".
 - Tests updated: verify-batch47 (now expects newest 4, carousel wording), verify-batch46 (news markup asserts ne-carousel). 55 suites, 12,270 checks green.
+
+## Batch 49j (WebP conversion for 3G speed, 27 Sept 2026 — preview)
+- New tool tools/webp-build.py: generates .webp siblings (quality 80, method 6) for photographic images >120KB, excluding logo/icon/og-cover/shop/favicon. Ran it → 18 files, 5.7MB → 2.7MB (~3MB / 52% saved).
+- Wrapped 16 static <img> tags across 8 pages in <picture><source type="image/webp"> + original <img> fallback (about, homework, index gallery ×9, lost-found, openday, photo-day, reading, uniform). Inner <img> keeps width/height/alt/lazy so seo.test stays green; original PNG/JPG kept as fallback for old browsers.
+- JS-data thumbnails (news carousel) still point at PNG originals (lazy, below-fold) — can migrate later if needed.
+- No single image >1.2MB; all 55 suites, 12,270 checks green.
