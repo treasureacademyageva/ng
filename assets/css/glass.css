@@ -32,6 +32,9 @@
   --ta-lift: cubic-bezier(.22,.61,.36,1);
 }
 
+/* native controls (scrollbars, date/number pickers, form widgets) follow the theme */
+[data-theme="dark"],[data-theme="dark-hc"]{ color-scheme: dark; }
+
 [data-theme="dark"]{
   --ta-body: #B9B4CC;
   --ta-body-soft: #9C97B2;

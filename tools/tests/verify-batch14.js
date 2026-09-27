@@ -168,7 +168,7 @@ const dstr = off => { const d = new Date(); d.setDate(d.getDate() + off); return
   const src = fs.readFileSync(SITE + '/portal/login.html', 'utf8');
   ok('login +234 x2', (src.match(/\+234<\/span>/g) || []).length === 2);
   ok('login maxlength 10', src.includes('id="rG1Phone" data-phone maxlength="10"'));
-  ok('login phone hints', src.includes('0805 123 4567') && src.includes("fillDemo('0805 111 2222')")); // batch18: phone is the login ID
+  ok('login phone hints', src.includes('0805 123 4567')); // batch18: phone is the login ID
   ok('login alt fixed', src.includes('alt="Happy pupils learning"'));
   const adm = fs.readFileSync(SITE + '/portal/admin.html', 'utf8'), tch = fs.readFileSync(SITE + '/portal/teacher.html', 'utf8');
   const fmt = '"TAA/P/"+String(db.seq.pupil).padStart(4,"0")';

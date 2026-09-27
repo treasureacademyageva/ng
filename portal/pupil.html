@@ -9,9 +9,9 @@
 <link rel="icon" href="../assets/img/logo.jpg">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>My Report Card — Treasure Academy, Ageva</title>
-<link rel="stylesheet" href="../assets/css/main.css?v=20260924-61">
-<link rel="stylesheet" href="../assets/css/extra.css?v=20260924-61">
-<link rel="stylesheet" href="../assets/css/corporate.css?v=20260924-61">
+<link rel="stylesheet" href="../assets/css/main.css?v=20260926-8-64">
+<link rel="stylesheet" href="../assets/css/extra.css?v=20260926-8-64">
+<link rel="stylesheet" href="../assets/css/corporate.css?v=20260926-8-64">
 <noscript><style>#siteLoader{display:none!important}</style></noscript>
 <script defer src="/_vercel/insights/script.js"></script>
 <meta name="robots" content="noindex, nofollow">
@@ -20,7 +20,7 @@
 <div id="siteLoader"><img src="../assets/img/logo.jpg" alt="Treasure Academy"><div class="spin"></div></div>
 <div class="portal-layout">
   <div class="topbar"><div class="container">
-    <div class="tb-contact"><span><b>Admissions</b> <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg><a data-school-phone aria-label="Call the school" href="tel:"></a></span><span class="tb-sep">•</span><span data-school-email></span></div>
+    <div class="tb-contact"><span><b>Admissions</b> <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg><a data-school-phone aria-label="Call the school" href="tel:+2348141943478"></a></span><span class="tb-sep">•</span><span data-school-email></span></div>
     <div class="tb-right"><span class="tb-loc">Ageva, Okene, Kogi State</span><span class="portal-user"><span class="avatar" id="userAvatar">P</span><span><b id="userName">Pupil</b> <small id="userClass">Pupil</small></span></span><a href="../index.html">View Website</a></div>
   </div></div>
   <nav class="navbar"><div class="container">
@@ -163,11 +163,11 @@ if(nav)nav.addEventListener("click",function(e){
 try{var h=String(location.hash||"").replace(/^#\/?/,""); if(h){var bb=document.querySelector('#sideNav button[data-view="'+h+'"]'); if(bb&&!bb.classList.contains("on"))bb.click();}}catch(e7){}
 })();
 </script>
-<script src="../assets/js/store.js?v=20260924-61"></script>
-<script src="../assets/js/notify.js?v=20260924-61"></script>
-<script src="../assets/js/verify.js?v=20260924-61"></script><script defer src="../assets/js/db-live.js?v=20260924-61"></script>
-<script src="../assets/js/sync.js?v=20260924-61"></script>
-<script src="../assets/js/site.js?v=20260924-61"></script>
+<script src="../assets/js/store.js?v=20260926-8-64"></script>
+<script src="../assets/js/notify.js?v=20260926-8-64"></script>
+<script src="../assets/js/verify.js?v=20260926-8-64"></script><script defer src="../assets/js/db-live.js?v=20260926-8-64"></script>
+<script src="../assets/js/sync.js?v=20260926-8-64"></script>
+<script src="../assets/js/site.js?v=20260926-8-64"></script>
 <script>
 const S = Auth.guard("pupil");
 if(!S){location.href="login.html";throw new Error("no-session");}
@@ -179,7 +179,7 @@ document.getElementById("userClass").textContent = P.class;
 document.getElementById("userAvatar").textContent = U.initials(P.name);
 document.getElementById("userAvatar").style.background = U.avatarColor(P.name);
 document.getElementById("todayLbl").textContent = U.prettyDate();
-document.getElementById("callSchBtn").href="tel:"+String((db.school&&db.school.phone)||"").replace(/\s/g,"");
+document.getElementById("callSchBtn").href="tel:+2348141943478"+String((db.school&&db.school.phone)||"").replace(/\s/g,"");
 document.querySelectorAll("[data-school-name]").forEach(e=>e.textContent=db.school.name);
 
 const TITLES={overview:["Hello, "+P.name.split(" ")[0]+"!","Welcome to your report card portal."],results:["My Results",P.class+" • published report cards."],attendance:["Attendance","Your school attendance record."],notices:["Notices","Messages from the school."],fees:["School Fees","Pay by bank transfer, submit your claim."],timetable:["My Timetable","Your weekly class timetable."],lostfound:["Found Items","Report items you find."]};

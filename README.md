@@ -113,7 +113,7 @@ Work lands on the `preview` branch. `main` moves only when the owner says
 
 Four places move together, or the service worker serves stale files:
 `sw.js` cache name, the `?v=` query strings across the HTML, the `BUILD` string
-in `developer.html`, and this file. Current build: **v48**.
+in `developer.html`, and this file. Current build: **v49**.
 
 ## Payments roadmap
 

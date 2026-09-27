@@ -75,9 +75,12 @@ ok('migration retires demo accounts on old saves', ix.run(`(function(){
   const n=DB.load();
   return !n.teachers.some(t=>t.id==="T006") && !n.pupils.some(p=>p.id==="P014") && n.demoAccountsV2===1;
 })()`) === true);
-ok('login page offers exactly the four demos', (login.match(/fillStaff\(|fillDemo\(/g) || []).length === 4 &&
-  login.includes("fillStaff('admin','HEAD001')") && login.includes("fillStaff('teacher','T001')") &&
-  login.includes("fillDemo('0805 111 2222')") && login.includes("fillDemo('0805 333 4444')"));
+// SECURITY (batch49): demo credentials are no longer advertised on the public login page.
+// The four demo accounts still authenticate (asserted above) but their IDs/PINs must not be shown.
+ok('login page does NOT publicly display demo credentials',
+  !login.includes('class="demo-box"') && !login.includes('HEAD001') &&
+  !login.includes('Password/PIN for all demos') && !login.includes('Demo accounts'));
+ok('password-generator hole removed', !login.includes('Password Generator') && !login.includes('genSuggest'));
 ok('README lists the four demo accounts', readme.includes('HEAD001') && readme.includes('0805 111 2222') && readme.includes('0805 333 4444') && readme.includes('T001'));
 
 /* ---------- B. the real 11-teacher wall (Document D) ---------- */
