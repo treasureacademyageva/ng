@@ -41,20 +41,15 @@ Uniform, Volunteer, Welcome, and a branded 404.
 
 ## Portals
 
-Login lives at `portal/login.html` and routes to one of three screens.
+Login lives at `portal/login.html` and routes to one of three screens:
+Headmistress → `portal/admin.html`, Teacher → `portal/teacher.html`,
+Parent/Pupil → `portal/pupil.html`.
 
-| Role | Screen | Demo credentials |
-|---|---|---|
-| Headmistress | `portal/admin.html` | `HEAD001`, PIN `1234` |
-| Teacher (Primary 1) | `portal/teacher.html` | `T001` or `0803 100 0001`, PIN `1234` |
-| Parent — one child (Adaeze) | `portal/pupil.html` | `0805 111 2222` / `1234` |
-| Parent — two children (Emeka & Ada) | `portal/pupil.html` | `0805 333 4444` / `1234` |
-
-These four are the only demo accounts (owner's instruction, 25 Sept 2026) —
-one login per role so each screen can be tested. The parent with two children
-shares one phone number across both pupil records, so the portal shows the
-child switcher. Real accounts have not been added yet; real staff records are
-a separate list — see the data model section in `docs/MAINTENANCE.md`.
+Staff sign in with a Staff ID + PIN; parents sign in with their phone number
+and a password they set on first use. Credentials are **not** listed in this
+public repository. Account details live only in the app's data store and are
+managed by the Headmistress in **Admin → Settings**. See `docs/MAINTENANCE.md`
+for the data model.
 
 ## Data
 
@@ -94,11 +89,13 @@ admission form, search, story) are ordinary pages that should not rank — they
 keep their canonical and social tags. `PRIVATE` (developer console, 404) must
 not publish their own URL at all: no canonical, no `og:url`, no breadcrumb.
 
-> **Known issue — the canonical host is wrong.** Every page currently names
-> `treasureacademyageva.vercel.app`, which returns 404, while the site is live
-> at `ng-psi.vercel.app`. That tells Google to index a dead URL, so nothing
-> ranks. It needs an owner decision; `docs/CANONICAL-HOST.md` explains the
-> options and `tools/set-site-host.py` performs the switch in one command.
+> **Canonical host — resolved (Batch 49d, 27 Sept 2026).** Every page, plus
+> `robots.txt`, `sitemap.xml`, the manifest and JSON-LD, now names the live host
+> `treasureacademyageva.vercel.app` (HTTP 200). Note the live URL flipped once
+> when the Vercel project was renamed (it was briefly `ng-psi.vercel.app`), so if
+> you rename the project again, re-point everything with
+> `python3 tools/set-site-host.py https://<new-host>` and run the tests.
+> `docs/CANONICAL-HOST.md` explains the mechanism.
 
 ## Deploying
 

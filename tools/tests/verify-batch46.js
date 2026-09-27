@@ -81,7 +81,7 @@ ok('login page does NOT publicly display demo credentials',
   !login.includes('class="demo-box"') && !login.includes('HEAD001') &&
   !login.includes('Password/PIN for all demos') && !login.includes('Demo accounts'));
 ok('password-generator hole removed', !login.includes('Password Generator') && !login.includes('genSuggest'));
-ok('README lists the four demo accounts', readme.includes('HEAD001') && readme.includes('0805 111 2222') && readme.includes('0805 333 4444') && readme.includes('T001'));
+ok('README does not leak demo accounts (security)', !readme.includes('HEAD001') && !readme.includes('0805 111 2222') && !readme.includes('0805 333 4444') && !readme.includes('T001'));
 
 /* ---------- B. the real 11-teacher wall (Document D) ---------- */
 const al = loadPage('alumni.html');
@@ -94,7 +94,7 @@ ok('11 teachers on the wall', W.length === 11);
 const wantQuals = {
   'Mr Idris Ibrahim': 'HND Computer Science (2017)', 'Mrs Zeenatudeen Uthman': 'B.Agric (2020)',
   'Jimoh Mariam': 'ND Chemistry (2020)', 'Nasirun Yahaya': 'B.Sc Local Govt & Dev. Studies (2014)',
-  'Tahab Oyiza Zainab': 'NCE Business Education (2010)', 'Salihu Oyiza Nanahawa': 'NCE Home Economics (2014)',
+  'Abedoh Rafatu': '', 'Salihu Oyiza Nanahawa': 'NCE Home Economics (2014)',
   'Momoh Bose': 'ND Business Administration (2007)', 'Rebeca Omeiza': 'WASSCE Social Studies (2012)',
   'Siyaka Bose': 'WASSCE Sciences (2012)', 'David O. Esther': 'WASSCE Art (2012)', 'Shaibu Memunat': 'ND Animal Science (2012)'
 };
@@ -147,7 +147,7 @@ ok('header cards have no outer margins or radius', corp.includes('.hd-stack{marg
 ok('cutout keeps its notch, loses the page-corner radius', corp.includes('.hd-cutout{border-top-right-radius:0}'));
 
 /* ---------- F. homepage: linked news cards side by side + promotions + countdown ---------- */
-ok('news cards are the linked ne-cards in a grid', indexHtml.includes('id="newsGrid"') && indexHtml.includes('class="ne-grid"') && indexHtml.includes("onclick=\"goStory('${n.id||\"\"}','${n.link||\"\"}')\""));
+ok('news cards are the linked ne-cards in a rotating carousel', indexHtml.includes('id="newsGrid"') && indexHtml.includes('class="ne-carousel"') && indexHtml.includes("onclick=\"goStory('${n.id||\"\"}','${n.link||\"\"}')\""));
 ok('news cards carry images again', /newsGrid[\s\S]*img class="thumb"/.test(indexHtml));
 ok('promotions back to their coloured cards', indexHtml.includes('id="promoGrid"') && indexHtml.includes('promo-${p.color||"sun"}') && !indexHtml.includes('promoSteps'));
 ok('admission steps are the only steps left on the homepage', (indexHtml.match(/class="steps"/g) || []).length === 1);

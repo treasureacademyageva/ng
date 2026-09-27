@@ -77,7 +77,7 @@ Real data from owner only (never invent names/dates); WhatsApp 09063932487 only;
 
 ## Batch 49 additions (agent polish & fix pass, 26 Sept 2026 — preview)
 Re-applied on top of owner commit 14959de (which had independently bumped sw->v69 / assets 20260926-7-63).
-- **Canonical host fixed (long-standing SEO bug):** `tools/set-site-host.py https://ng-psi.vercel.app` rewrote 250 refs across 40 files. Canonical/OG/Twitter/sitemap now point at the live host (HTTP 200) instead of the dead `treasureacademyageva.vercel.app` (404). Owner confirmed staying on ng-psi.vercel.app until a custom domain is bought.
+- **Canonical host fixed (long-standing SEO bug):** `tools/set-site-host.py https://treasureacademyageva.vercel.app` rewrote 250 refs across 40 files. Canonical/OG/Twitter/sitemap now point at the live host (HTTP 200) instead of the dead `treasureacademyageva.vercel.app` (404). Owner confirmed staying on ng-psi.vercel.app until a custom domain is bought.
 - **Dark mode respects the OS preference:** `autoDark()` checks `prefers-color-scheme: dark` first, then falls back to the 7pm-6am rule. jsdom has no matchMedia so verify-batch16's 10am/10pm pins still hold.
 - **Native controls follow the theme:** `color-scheme: dark` for `[data-theme="dark"]`/`[data-theme="dark-hc"]` in glass.css.
 - **Version bump v49:** sw `treasure-v70`; assets unified to `20260926-8-64` on public + portal (portal had been left behind at 20260924-61); developer BUILD `treasure-v51`, page-asset label `20260919-51`. verify-batch47 exact-version guard updated to the new strings.
@@ -94,3 +94,50 @@ Re-applied on top of owner commit 14959de (which had independently bumped sw->v6
 ## Batch 49c additions (homepage news leads with admissions, 26 Sept 2026 — preview)
 - **Homepage "latest news" now leads with the fresh Sept 2026 admissions**, not the 2017–2021 graduations. Added seed newsEvents item `NEA26` ("2026/2027 Admissions Are Now Open", dated 2026-09-15, views:0/likes:0) so it sorts to the top of the date-desc feed; the five real graduation records are preserved and follow below. Backfill migration `admNewsV1` pushes NEA26 into existing localStorage saves too.
 - Updated the feed assertions in verify-batch47 (six records; admissions leads; newest-5 shown) and verify-batch19 (featured = admissions). All 55 suites green — 12,270 checks.
+
+
+## Batch 49d (canonical host flipped back to the live URL, 27 Sept 2026 — preview)
+- The Vercel project was renamed, which FLIPPED the live URL: `treasureacademyageva.vercel.app` is now live (HTTP 200) and `ng-psi.vercel.app` now 404s — the reverse of the Batch 49 situation. Verified with live HTTP checks before changing anything.
+- `tools/set-site-host.py https://treasureacademyageva.vercel.app` rewrote 254 references across 42 files (canonical, og:url/og:image, Twitter, JSON-LD url/logo/image + SearchAction, robots.txt Sitemap:, all sitemap.xml <loc>). Live check now 200, no stragglers in code.
+- NOTE: the Batch 49 / 49b notes above describe the earlier (now-superseded) direction and read as contradictory after this flip — kept as history. This 49d entry is the current truth: canonical host = treasureacademyageva.vercel.app.
+
+## Batch 49e (Privacy Policy + Safeguarding pages, 27 Sept 2026 — preview)
+- NEW `privacy.html` and `safeguarding.html`, cloned from the standard page template (loader, skip-link, #main, manifest, chatbot + auth scripts) so all strict suites pass.
+- Content written in plain, parent-friendly English and accurate to how the school actually runs (data collected at enrolment incl. blood group; localStorage/office storage; birthdays staff-only; bank-transfer fees; WhatsApp 09063932487; Call line +234 814 194 3478). Each page ends with a clearly-marked "For the school to complete before going live" box listing exactly what the owner must send (registered name, CAC/RC no., Ministry approval no., official email, DSL name/contact, review date).
+- Wired site-wide: footer now has a Privacy Policy + Safeguarding legal-links row (site.js). DESC entries added to tools/seo-build.py; ran it → canonical/OG/Twitter/breadcrumb generated + both added to sitemap.xml (33 urls).
+- Test pins updated for +2 public pages: verify-batch9/10 (41→43 html), verify-batch29 (tel 39→41; added aria-label to in-content tel links so no icon-only control), verify-batch44 (public pages + unique descriptions 35→37). Full suite: 55 suites, 12,270 checks green.
+- STILL OPEN (owner-blocked): the placeholder items above must be pasted before these pages go live on main.
+
+## Batch 49f (login demo-code removal, 27 Sept 2026 — preview)
+- Removed dead/insecure demo login helpers from portal/login.html: `autoPassTreasure` (bot-check bypass), `demoSubmit`, `fillDemo`, `fillStaff` (one-tap logins with a hardcoded "1234" PIN). Confirmed nothing in the real UI called them — only the test harness did. Real human-verification still uses `passTreasure()`; real login unchanged.
+- Reworded the "already logged in" notice from "Trying another demo? Logout first." to neutral "Signing in as someone else? Logout first."
+- Updated verify-batch16 (assert helpers are gone + test real pupil phone login instead of the removed one-tap) and verify-batch18 (assert staff phone login resolves to T001 via Auth.staffLogin instead of fillStaff). 55 suites, 12,270 checks green.
+- DECISION (kept, not deleted): seed pupils P001–P003 (Adaeze Okafor / Emeka Nwosu / Ada Nwosu — fake demo names, not real PII) were NOT removed. They are the backbone fixture of 17 test suites (auth, results, attendance, rank, testimonials) and the store seed (results L324, attendance L330). Deleting them = a large, risky teardown with little security benefit now that the login UI no longer exposes them. Recommend keeping as the portal demo fixture until the owner supplies real pupils; owner can then replace them.
+- Real staff KEPT per owner: HEAD001 (Mrs. Salihu Nanahawa, Headmistress/admin) and T001 (Shaibu Memunat, Primary 1 teacher). NOTE: both still use default PIN "1234" — owner should set real PINs (cannot be invented).
+
+## Batch 49g (real legal data + SEO/security hardening, 27 Sept 2026 — preview)
+- Headmistress real phone added to HEAD001 seed: 0813 316 7728 (Mrs. Salihu Nanahawa).
+- CAC/legal captured from owner: **Treasure Academy Ageva Limited**, **RC-9634403**, incorporated company, privately held since 2017. Now shown on privacy.html (Who we are), and added to homepage JSON-LD (legalName + identifier RC-9634403 + foundingDate 2017).
+- Structured data: removed a DUPLICATE (conflicting-phone) School JSON-LD block on index.html; enriched the single authoritative School block with legalName/RC/foundingDate/sameAs(Facebook). seo.test still finds School as blocks[0].
+- Privacy + Safeguarding TODO boxes updated: registered name/RC/founding + DSL (Headmistress, 0813 316 7728) now filled; still-needed = Ministry approval no. + official email (privacy) and local emergency contacts + review date (safeguarding).
+- SECURITY/SEO: README.md no longer prints the demo credential table (was publicly indexed on GitHub as the #1 result for the school name and leaked HEAD001/T001/parent phones + PIN 1234). Replaced with a safe note. Tests updated: batch19/46 now assert README does NOT leak creds; batch44 matches the single spaced School block.
+- Search findings (web): live vercel site not yet indexed; GitHub repo currently outranks it; NO competing "Treasure Academy" in Ageva/Okene/Kogi. See owner report for Search Console + repo-privacy recommendations.
+
+## Batch 49h (real staff update — Abedoh Rafatu, 27 Sept 2026 — preview)
+- Owner: Abedoh Rafatu is now the Primary 4 Class Teacher AND the Nursery 1 Assistant (dual role), replacing Tahab Oyiza Zainab. Phone 0706 492 3346.
+- staffWall W05: Tahab Oyiza Zainab → Abedoh Rafatu. gender Female (matches the codebase's existing "Aunty Rafatu" refs), class "Primary 4", position "Class Teacher & Nursery 1 Assistant" (card renders "… - Primary 4"), quals "" (owner to send later), phone stored in record (not rendered publicly), assists:"Nursery 1". About kept in the house "What she does best…" style (required by verify-batch46) and role-based (no invented credentials).
+- Nursery 1 head teacher remains Nasirun Yahaya (W04); Abedoh assists there.
+- Chatbot now answers "who teaches Primary 4?" → Abedoh Rafatu (data-driven from staffWall).
+- Tests updated: verify-batch40 (W05 name pin), verify-batch46 (quals map: Abedoh '' replaces Tahab), verify-ebira (Primary 4 answer). Wall still 11 teachers. 55 suites, 12,270 checks green.
+- OPEN: Abedoh's qualification (blank), and whether she should also get a teacher-portal login (T002) — not added yet to avoid weak-PIN proliferation; her phone is on record if needed.
+
+## Batch 49i (homepage news → auto-rotating carousel, 27 Sept 2026 — preview)
+- #newsGrid is now a rotating carousel of the latest **4** items (was a static grid of 5). One card shows at a time; the next fades/slides in as the previous fades out. Auto-advances every 5s, pauses on hover, prev/next arrows + clickable dots, and respects prefers-reduced-motion (no auto-advance). Inline <style> so it also works in the single-file preview.
+- All latest cards stay in the DOM (visually toggled), so the SEO/structure tests still see them. Lead card = "2026/2027 Admissions Are Now Open".
+- Tests updated: verify-batch47 (now expects newest 4, carousel wording), verify-batch46 (news markup asserts ne-carousel). 55 suites, 12,270 checks green.
+
+## Batch 49j (WebP conversion for 3G speed, 27 Sept 2026 — preview)
+- New tool tools/webp-build.py: generates .webp siblings (quality 80, method 6) for photographic images >120KB, excluding logo/icon/og-cover/shop/favicon. Ran it → 18 files, 5.7MB → 2.7MB (~3MB / 52% saved).
+- Wrapped 16 static <img> tags across 8 pages in <picture><source type="image/webp"> + original <img> fallback (about, homework, index gallery ×9, lost-found, openday, photo-day, reading, uniform). Inner <img> keeps width/height/alt/lazy so seo.test stays green; original PNG/JPG kept as fallback for old browsers.
+- JS-data thumbnails (news carousel) still point at PNG originals (lazy, below-fold) — can migrate later if needed.
+- No single image >1.2MB; all 55 suites, 12,270 checks green.

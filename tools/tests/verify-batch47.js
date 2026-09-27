@@ -78,9 +78,9 @@ function loadPage(page, session, pre) {
   ok('no demo news items left in the seed', data.demoLeft === 0);
   ok('no seeded demo comments left', data.commentKeys.length === 0, JSON.stringify(data.commentKeys));
   want.forEach(w => ok(`photo exists: ${w[3]}`, fs.existsSync(SITE + '/assets/img/graduates/' + w[3])));
-  ok('homepage leads with Sept 2026 admissions, then graduations (newest 5)',
+  ok('homepage leads with Sept 2026 admissions, then graduations (newest 4, rotating carousel)',
      [...ix.window.document.querySelectorAll('#newsGrid .ne-card h3')].map(e => e.textContent).join('|') ===
-     '2026/2027 Admissions Are Now Open|5th Graduation Ceremony|4th Graduation Ceremony|3rd Graduation Ceremony|2nd Graduation Ceremony');
+     '2026/2027 Admissions Are Now Open|5th Graduation Ceremony|4th Graduation Ceremony|3rd Graduation Ceremony');
   ok('homepage cards show 0 views / 0 likes (honest)',
      ix.window.document.querySelector('#newsGrid .ne-card .ne-meta').textContent.includes('0 views'));
   ok('homepage section renamed for real stories', indexHtml.includes('School <span class="hl">News</span>'));
