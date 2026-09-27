@@ -94,7 +94,7 @@ ok('11 teachers on the wall', W.length === 11);
 const wantQuals = {
   'Mr Idris Ibrahim': 'HND Computer Science (2017)', 'Mrs Zeenatudeen Uthman': 'B.Agric (2020)',
   'Jimoh Mariam': 'ND Chemistry (2020)', 'Nasirun Yahaya': 'B.Sc Local Govt & Dev. Studies (2014)',
-  'Tahab Oyiza Zainab': 'NCE Business Education (2010)', 'Salihu Oyiza Nanahawa': 'NCE Home Economics (2014)',
+  'Abedoh Rafatu': '', 'Salihu Oyiza Nanahawa': 'NCE Home Economics (2014)',
   'Momoh Bose': 'ND Business Administration (2007)', 'Rebeca Omeiza': 'WASSCE Social Studies (2012)',
   'Siyaka Bose': 'WASSCE Sciences (2012)', 'David O. Esther': 'WASSCE Art (2012)', 'Shaibu Memunat': 'ND Animal Science (2012)'
 };

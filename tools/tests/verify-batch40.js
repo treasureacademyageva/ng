@@ -48,7 +48,7 @@ ok('grid css + responsive', corp.includes('.staff-grid3{display:grid;grid-templa
 ok('former section markup', alumni.includes('id="formerGrid"') && alumni.includes('Our Former Teachers') && alumni.includes('positions they held'));
 ok('profile modal markup', alumni.includes('id="tpBg"') && alumni.includes('id="tpBox"') && alumni.includes('closeTP()'));
 ok('store: former seed + migration', store.includes('if(!db.formerTeachers) db.formerTeachers = FORMER_SEED;'));
-ok('store: public wall holds real filing names', store.includes('id:"W05", name:"Tahab Oyiza Zainab"') && store.includes('quals:"B.Agric (2020)"'));
+ok('store: public wall holds real filing names', store.includes('id:"W05", name:"Abedoh Rafatu"') && store.includes('quals:"B.Agric (2020)"'));
 ok('cards clickable', alumni.includes('staff-click') && alumni.includes("onclick=\"openTP('${t.id}')\"") && alumni.includes("onclick=\"openTP('${f.id}')\""));
 ok('public wall carries no voting buttons', !alumni.includes('data-vote') && !alumni.includes('event.stopPropagation();voteTeacher'));
 ok('admin form: profile fields', ['id="tStart"', 'id="tPos"', 'id="tQual"', 'id="tAbout"'].every(a => adminHtml.includes(a)) && adminHtml.includes('started:document.getElementById("tStart").value'));

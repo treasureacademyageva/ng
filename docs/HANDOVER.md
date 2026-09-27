@@ -122,3 +122,11 @@ Re-applied on top of owner commit 14959de (which had independently bumped sw->v6
 - Privacy + Safeguarding TODO boxes updated: registered name/RC/founding + DSL (Headmistress, 0813 316 7728) now filled; still-needed = Ministry approval no. + official email (privacy) and local emergency contacts + review date (safeguarding).
 - SECURITY/SEO: README.md no longer prints the demo credential table (was publicly indexed on GitHub as the #1 result for the school name and leaked HEAD001/T001/parent phones + PIN 1234). Replaced with a safe note. Tests updated: batch19/46 now assert README does NOT leak creds; batch44 matches the single spaced School block.
 - Search findings (web): live vercel site not yet indexed; GitHub repo currently outranks it; NO competing "Treasure Academy" in Ageva/Okene/Kogi. See owner report for Search Console + repo-privacy recommendations.
+
+## Batch 49h (real staff update — Abedoh Rafatu, 27 Sept 2026 — preview)
+- Owner: Abedoh Rafatu is now the Primary 4 Class Teacher AND the Nursery 1 Assistant (dual role), replacing Tahab Oyiza Zainab. Phone 0706 492 3346.
+- staffWall W05: Tahab Oyiza Zainab → Abedoh Rafatu. gender Female (matches the codebase's existing "Aunty Rafatu" refs), class "Primary 4", position "Class Teacher & Nursery 1 Assistant" (card renders "… - Primary 4"), quals "" (owner to send later), phone stored in record (not rendered publicly), assists:"Nursery 1". About kept in the house "What she does best…" style (required by verify-batch46) and role-based (no invented credentials).
+- Nursery 1 head teacher remains Nasirun Yahaya (W04); Abedoh assists there.
+- Chatbot now answers "who teaches Primary 4?" → Abedoh Rafatu (data-driven from staffWall).
+- Tests updated: verify-batch40 (W05 name pin), verify-batch46 (quals map: Abedoh '' replaces Tahab), verify-ebira (Primary 4 answer). Wall still 11 teachers. 55 suites, 12,270 checks green.
+- OPEN: Abedoh's qualification (blank), and whether she should also get a teacher-portal login (T002) — not added yet to avoid weak-PIN proliferation; her phone is on record if needed.
