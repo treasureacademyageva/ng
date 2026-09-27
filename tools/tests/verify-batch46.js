@@ -147,7 +147,7 @@ ok('header cards have no outer margins or radius', corp.includes('.hd-stack{marg
 ok('cutout keeps its notch, loses the page-corner radius', corp.includes('.hd-cutout{border-top-right-radius:0}'));
 
 /* ---------- F. homepage: linked news cards side by side + promotions + countdown ---------- */
-ok('news cards are the linked ne-cards in a grid', indexHtml.includes('id="newsGrid"') && indexHtml.includes('class="ne-grid"') && indexHtml.includes("onclick=\"goStory('${n.id||\"\"}','${n.link||\"\"}')\""));
+ok('news cards are the linked ne-cards in a rotating carousel', indexHtml.includes('id="newsGrid"') && indexHtml.includes('class="ne-carousel"') && indexHtml.includes("onclick=\"goStory('${n.id||\"\"}','${n.link||\"\"}')\""));
 ok('news cards carry images again', /newsGrid[\s\S]*img class="thumb"/.test(indexHtml));
 ok('promotions back to their coloured cards', indexHtml.includes('id="promoGrid"') && indexHtml.includes('promo-${p.color||"sun"}') && !indexHtml.includes('promoSteps'));
 ok('admission steps are the only steps left on the homepage', (indexHtml.match(/class="steps"/g) || []).length === 1);

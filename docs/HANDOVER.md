@@ -130,3 +130,8 @@ Re-applied on top of owner commit 14959de (which had independently bumped sw->v6
 - Chatbot now answers "who teaches Primary 4?" → Abedoh Rafatu (data-driven from staffWall).
 - Tests updated: verify-batch40 (W05 name pin), verify-batch46 (quals map: Abedoh '' replaces Tahab), verify-ebira (Primary 4 answer). Wall still 11 teachers. 55 suites, 12,270 checks green.
 - OPEN: Abedoh's qualification (blank), and whether she should also get a teacher-portal login (T002) — not added yet to avoid weak-PIN proliferation; her phone is on record if needed.
+
+## Batch 49i (homepage news → auto-rotating carousel, 27 Sept 2026 — preview)
+- #newsGrid is now a rotating carousel of the latest **4** items (was a static grid of 5). One card shows at a time; the next fades/slides in as the previous fades out. Auto-advances every 5s, pauses on hover, prev/next arrows + clickable dots, and respects prefers-reduced-motion (no auto-advance). Inline <style> so it also works in the single-file preview.
+- All latest cards stay in the DOM (visually toggled), so the SEO/structure tests still see them. Lead card = "2026/2027 Admissions Are Now Open".
+- Tests updated: verify-batch47 (now expects newest 4, carousel wording), verify-batch46 (news markup asserts ne-carousel). 55 suites, 12,270 checks green.
