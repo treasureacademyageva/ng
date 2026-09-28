@@ -294,6 +294,8 @@ function loadPage(page, session, pre) {
   const safeguard = fs.readFileSync(SITE + '/safeguarding.html', 'utf8');
   const privacy = fs.readFileSync(SITE + '/privacy.html', 'utf8');
   const login = fs.readFileSync(SITE + '/portal/login.html', 'utf8');
+  const authUi = fs.readFileSync(SITE + '/assets/js/auth-ui.js', 'utf8');
+  const vercel = JSON.parse(fs.readFileSync(SITE + '/vercel.json', 'utf8'));
   const pta = fs.readFileSync(SITE + '/pta.html', 'utf8');
   const reading = fs.readFileSync(SITE + '/reading.html', 'utf8');
   const fallbacks = ['uniform.html','exams.html','transport.html','alumni.html','openday.html']
@@ -311,7 +313,10 @@ function loadPage(page, session, pre) {
   ok('homepage artifacts removed',
      !indexHtml.includes('(headmistress controlled) -->') && !indexHtml.includes('count-num">--'));
   ok('portal pupil destinations are unambiguous absolute paths',
-     login.includes('"/portal/pupil.html"') && !login.includes('location.href="pupil.html"'));
+     login.includes('"/portal/pupil.html"') && authUi.includes('location.href = "/portal/pupil.html"') &&
+     !login.includes('location.href="pupil.html"'));
+  ok('legacy root /pupil.html permanently redirects to the real dashboard',
+     (vercel.redirects||[]).some(r => r.source==='/pupil.html' && r.destination==='/portal/pupil.html' && r.permanent===true));
   ok('listed public pages have honest fallbacks, not Coming soon',
      !/Price list coming soon|Exam timetable coming soon|Transport routes coming soon|teachers list is coming soon|Next open day date coming soon/.test(fallbacks) &&
      !/Minutes coming soon/.test(pta) && !/Leaderboard coming soon|\|\|"Coming soon"/.test(reading));

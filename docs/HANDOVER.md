@@ -175,3 +175,10 @@ Audit cleanup completed without inventing any owner data:
 - Tests updated for the non-duplicated ticker, explicit portal link, hidden zero counters, RC/About/policy/LCP/artifact/placeholder/WebP checks. Full suite: **55 suites / 12,294 checks green**.
 
 Still intentionally parked: current-session/news archive restructure; self-hosting Facebook MP4s; `info@` domain email; Ministry approval number until supplied by owner.
+
+## Batch 49o (final pupil.html 404 compatibility fix, 27 Sept 2026 — preview)
+- Exhaustive non-test source search found no current UI link to root `pupil.html`; current portal login links were already explicit `/portal/pupil.html`. The remaining 404 is a legacy/stale root URL.
+- `assets/js/auth-ui.js` now also uses the explicit absolute `/portal/pupil.html` destination (no base-path concatenation).
+- `vercel.json` now permanently redirects **`/pupil.html` → `/portal/pupil.html`**, so old bookmarks, cached UI, external audit links and hand-typed legacy URLs can no longer return 404.
+- `vercel.json` parses cleanly; regression asserts both current UI destinations and the permanent compatibility redirect. Full suite: **55 suites / 12,295 checks green**.
+- RC footer, About approvals panel and recompressed/dynamic WebPs were already completed in Batch 49n. Ministry approval number remains intentionally absent until the owner supplies the official document.
