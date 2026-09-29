@@ -3,12 +3,15 @@
    gentle attention cue and the announcement marquee may move. */
 :root{--t-fast:150ms ease;--t-reveal:200ms ease}
 
+/* Content is visible by default. The synchronous theme bootstrap adds .js
+   before CSS paints, allowing reveals only when JavaScript can complete them. */
 .clip,.clip-up{
-  opacity:0;
-  transform:translateY(12px);
+  opacity:1;
+  transform:none;
   transition:opacity var(--t-reveal),transform var(--t-reveal);
 }
-.clip.revealed,.clip-up.revealed{opacity:1;transform:none}
+.js .clip,.js .clip-up{opacity:0;transform:translateY(12px)}
+.js .clip.revealed,.js .clip-up.revealed{opacity:1;transform:none}
 
 /* Hover feedback changes colour, never the target's position or size. */
 a,button,.btn,.icon-action{

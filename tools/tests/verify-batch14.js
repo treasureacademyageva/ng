@@ -68,7 +68,7 @@ const dstr = off => { const d = new Date(); d.setDate(d.getDate() + off); return
   const f = w.document.getElementById('siteFooter').innerHTML;
   ok('footer contact row', f.includes('foot-contact-row') && f.includes('Mon – Fri'));
   ok('footer no creche line', !f.includes('Creche to Primary'));
-  ok('footer no portal btn', !f.includes('portal/login'));
+  ok('footer has a static portal destination', f.includes('portal/login'));
   ok('soonSocial fn', typeof w.soonSocial === 'function' && w.soonSocial('Instagram') === false);
   ok('footer clean', errors.length === 0, errors.join(' || ').slice(0, 250));
 }

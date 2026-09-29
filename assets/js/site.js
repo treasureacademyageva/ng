@@ -78,12 +78,16 @@ const SEARCH_INDEX=[
 ];
 const Search={
  init(){
-  if(!document.getElementById("mainNav")||document.getElementById("searchBtn"))return;
+  if(!document.getElementById("mainNav"))return;
   const row=document.querySelector(".navbar .nav-cta-row"); if(!row)return;
-  const b=document.createElement("button"); b.id="searchBtn"; b.className="icon-action"; b.type="button"; b.title="Search this website"; b.setAttribute("aria-label",b.title);
-  b.innerHTML='<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.8-3.8"/></svg>';
-  b.onclick=()=>this.open();
-  row.insertBefore(b,row.firstChild);
+  let b=document.getElementById("searchBtn");
+  if(!b){
+    b=document.createElement("a"); b.id="searchBtn"; b.className="icon-action"; b.href="search.html"; b.title="Search this website"; b.setAttribute("aria-label",b.title);
+    b.innerHTML='<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.8-3.8"/></svg>';
+    row.insertBefore(b,row.firstChild);
+  }
+  b.onclick=e=>{e.preventDefault();this.open();};
+  if(document.getElementById("searchVeil"))return;
   const v=document.createElement("div"); v.id="searchVeil"; v.className="search-veil";
   v.innerHTML='<div class="search-box"><div class="search-row"><input id="searchInput" placeholder="Search pages, e.g. fees, bus, uniform..." autocomplete="off"><button id="searchX" aria-label="Close">×</button></div><div id="searchRes" class="search-res"></div></div>';
   document.body.appendChild(v);
@@ -169,6 +173,7 @@ const NAV_ITEMS=[
   {id:"about",label:"About",href:"about.html"},
   {id:"admissions",label:"Admissions",href:"admissions.html"},
   {id:"academics",label:"Academics",href:"academics.html"},
+  {id:"fees",label:"Fees",href:"fees.html"},
   {id:"news",label:"News & Events",href:"news.html"},
   {id:"contact",label:"Contact",href:"contact.html"}
 ];
@@ -189,9 +194,10 @@ function renderFooter(){
   <div class="site-footer"><div class="container">
     <div class="foot-main">
       <div class="foot-brand">
-        <a class="logo" href="index.html" style="color:#fff"><span>${U.esc(s.name)}</span></a>
-        <p>"${U.esc(s.motto)}"<br>Creche, Nursery and Primary education in Ageva, Okene. Discipline, character and results since 2015.</p>
-              </div>
+        <a class="logo" href="index.html"><span>${U.esc(s.name)}</span></a>
+        <p>"${U.esc(s.motto)}"<br>Creche, Nursery and Primary education in Ageva, Okene. Discipline, character and results since 2016.</p>
+      </div>
+      <div class="foot-col foot-quick"><h4>Quick Links</h4><nav class="foot-quick-grid" aria-label="Quick links"><a href="calendar.html">Calendar</a><a href="fees.html">Fees</a><a href="uniform.html">Uniform</a><a href="transport.html">Transport</a><a href="pta.html">PTA</a><a href="birthdays.html">Birthdays</a><a href="exams.html">Exams</a><a href="homework.html">Homework</a><a href="elearning.html">E-Learning</a><a href="portal/login.html">Portal</a><a href="support.html">Support</a><a href="careers.html">Careers</a><a href="alumni.html">Alumni</a><a href="shop.html">Shop</a></nav></div>
       <div class="foot-col foot-contact"><h4>Contact</h4>
         <div class="foot-contact-row"><span class="foot-line"><span class="fi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg></span>${U.esc(s.email)}</span><span class="foot-line"><span class="fi"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg></span>${U.esc(s.phone)}</div>
         <p class="foot-hours"> ${U.esc((s.hours||"Mon \u2013 Fri \u2022 7:30am \u2013 3:00pm").replace("4:00pm","3:00pm"))}</p>
@@ -212,7 +218,7 @@ function renderFooter(){
     <div class="acc-logos"><a href="https://moest.kogistate.gov.ng/" target="_blank" rel="noopener noreferrer" title="Kogi State Ministry of Education, Science and Technology — moest.kogistate.gov.ng"><img src="assets/img/partners/badge-kogimoe.png" alt="Kogi State Ministry of Education, Science and Technology"></a><a href="https://www.nappsng.org/" target="_blank" rel="noopener noreferrer" title="NAPPS Nigeria — nappsng.org"><img src="assets/img/partners/badge-napps.webp" alt="NAPPS Nigeria"></a><a href="https://www.nysc.gov.ng/" target="_blank" rel="noopener noreferrer" title="National Youth Service Corps — nysc.gov.ng"><img src="assets/img/partners/badge-nysc.png" alt="National Youth Service Corps"></a></div>
     <p class="acc-note">Approved Common Entrance Examination Centre &middot; Centre No. BS/OKN/141</p>
   </div></div>
-  <div class="foot-bottom"><div class="container foot-center" style="display:flex;gap:14px;align-items:center;justify-content:center;flex-wrap:wrap"><nav class="foot-legal" style="display:flex;gap:14px;flex-wrap:wrap;justify-content:center"><a href="privacy.html">Privacy Policy</a><a href="safeguarding.html">Safeguarding</a></nav><span>Treasure Academy Ageva Limited &middot; RC 9634403</span><span>\u00A9 ${year} ${U.esc(s.name)}. All Rights Reserved.</span><span id="textSizeBtns" title="Text size"><button type="button" data-fs="s" aria-label="Small text">S</button><button type="button" data-fs="m" aria-label="Normal text" class="on">A</button><button type="button" data-fs="l" aria-label="Large text">L</button></span></div></div>
+  <div class="foot-bottom"><div class="container foot-center foot-bottom-row"><nav class="foot-legal"><a href="privacy.html">Privacy Policy</a><a href="safeguarding.html">Safeguarding</a></nav><span>Treasure Academy Ageva Limited &middot; RC 9634403</span><span>\u00A9 ${year} ${U.esc(s.name)}. All Rights Reserved.</span><span id="textSizeBtns" title="Text size"><button type="button" data-fs="s" aria-label="Small text">S</button><button type="button" data-fs="m" aria-label="Normal text" class="on">A</button><button type="button" data-fs="l" aria-label="Large text">L</button></span></div></div>
   </div>`;
 }
 /* batch30: remember-able text size for weaker eyes */

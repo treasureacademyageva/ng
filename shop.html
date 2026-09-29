@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<script src="assets/js/theme-init.js?v=20260928-ui50"></script>
+<script src="assets/js/theme-init.js?v=20260929-ui51"></script>
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
@@ -31,11 +31,11 @@
 <meta name="geo.region" content="NG-KO">
 <meta name="geo.placename" content="Ageva, Okene, Kogi State">
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://treasureacademyageva.vercel.app/"}, {"@type": "ListItem", "position": 2, "name": "School Shop", "item": "https://treasureacademyageva.vercel.app/shop.html"}]}</script>
-<!-- seo:end --><link rel="stylesheet" href="assets/css/main.css?v=20260928-ui50">
-<link rel="stylesheet" href="assets/css/extra.css?v=20260928-ui50">
-<link rel="stylesheet" href="assets/css/glass.css?v=20260928-ui50">
-<link rel="stylesheet" href="assets/css/corporate.css?v=20260928-ui50">
-<link rel="stylesheet" href="assets/css/motion.css?v=20260928-ui50"><noscript><style>#siteLoader{display:none!important}</style></noscript>
+<!-- seo:end --><link rel="stylesheet" href="assets/css/main.css?v=20260929-ui51">
+<link rel="stylesheet" href="assets/css/extra.css?v=20260929-ui51">
+<link rel="stylesheet" href="assets/css/glass.css?v=20260929-ui51">
+<link rel="stylesheet" href="assets/css/corporate.css?v=20260929-ui51">
+<link rel="stylesheet" href="assets/css/motion.css?v=20260929-ui51"><noscript><style>#siteLoader{display:none!important}</style></noscript>
 <script defer src="/_vercel/insights/script.js"></script>
 <!-- treasure-seo -->
 <meta name="theme-color" content="#0E5A2E">
@@ -61,10 +61,11 @@
     </a>
     <div class="site-nav" id="navLinks">
       <div id="mainNav">
-        <a class="nav-link" href="index.html">Home</a><a class="nav-link" href="about.html">About</a><a class="nav-link" href="admissions.html">Admissions</a><a class="nav-link" href="academics.html">Academics</a><a class="nav-link" href="news.html">News &amp; Events</a><a class="nav-link" href="contact.html">Contact</a>
+        <a class="nav-link" href="index.html">Home</a><a class="nav-link" href="about.html">About</a><a class="nav-link" href="admissions.html">Admissions</a><a class="nav-link" href="academics.html">Academics</a><a class="nav-link" href="fees.html">Fees</a><a class="nav-link" href="news.html">News &amp; Events</a><a class="nav-link" href="contact.html">Contact</a>
       </div>
     </div>
     <div class="nav-actions nav-cta-row">
+      <a id="searchBtn" class="icon-action" href="search.html" title="Search this website" aria-label="Search this website"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.8-3.8"/></svg></a>
       <button type="button" class="icon-action theme-btn" title="Switch to night mode" aria-label="Switch to night mode"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4 8.5 8.5 0 1 0 20 14.5z"/></svg></button>
       <a class="btn btn-primary nav-apply" href="portal/login.html?mode=register">Apply</a>
     </div>
@@ -79,33 +80,45 @@
 </div>
 <section id="main"><div class="container">
 <img class="shop-banner" src="assets/img/shop-banner.png" alt="School shop items" width="1584" height="672" loading="lazy" decoding="async">
-<div class="steps" style="margin-bottom:22px">
+<div class="steps u51-005">
   <div class="step"><div class="num">1</div><h3>Pick Items</h3><p>Choose class, tap + and Add to Cart.</p></div>
   <div class="step"><div class="num">2</div><h3>Pay Once</h3><p>Transfer or pay on our POS.</p></div>
   <div class="step"><div class="num">3</div><h3>Collect</h3><p>Show your reference at the office.</p></div>
 </div>
 <div class="class-chips" id="chipBox"></div>
-<div class="toolbar" style="margin-bottom:14px"><input id="shopSearch" placeholder="Search items... e.g. Maths, pen, uniform" style="flex:1;min-width:200px"><button class="icon-btn" id="cartBtn" onclick="openCart()">Cart (<span id="cartBtnCount">0</span>)</button><button class="icon-btn" onclick="openMyOrders()">My Orders</button></div>
+<div class="toolbar u51-087"><input class="u51-088" id="shopSearch" placeholder="Search items... e.g. Maths, pen, uniform"><button class="icon-btn" id="cartBtn" onclick="openCart()">Cart (<span id="cartBtnCount">0</span>)</button><button class="icon-btn" onclick="openMyOrders()">My Orders</button></div>
 <div class="prod-grid" id="prodGrid"></div>
-<div class="cart-bar" id="cartBar" style="display:none">
-  <span id="cartCount" style="font-weight:800">0 items</span>
+<div class="cart-bar u51-068" id="cartBar">
+  <span class="u51-089" id="cartCount">0 items</span>
   <span class="spacer"></span>
   <span class="tot" id="cartTotal">₦0</span>
   <button class="btn btn-sun btn-sm" onclick="openCart()">View Cart & Pay</button>
 </div>
-<div style="text-align:center;margin-top:26px"><a class="btn btn-white" href="contact.html">Questions? Contact the Office</a></div>
+<div class="u51-090"><a class="btn btn-white" href="contact.html">Questions? Contact the Office</a></div>
 </div></section>
-<footer id="siteFooter"></footer>
+<footer id="siteFooter">
+  <div class="site-footer static-site-footer">
+    <div class="container">
+      <div class="static-footer-grid">
+        <div class="static-footer-about"><a class="static-footer-brand" href="index.html">Treasure Academy, Ageva</a><p>Creche, Nursery and Primary education in Ageva, Okene. Discipline, character and results since 2016.</p></div>
+        <div><h3>Parent Essentials</h3><nav class="static-footer-links" aria-label="Parent essentials"><a href="calendar.html">Calendar</a><a href="fees.html">Fees</a><a href="uniform.html">Uniform</a><a href="transport.html">Transport</a><a href="pta.html">PTA</a><a href="birthdays.html">Birthdays</a><a href="exams.html">Exams</a><a href="homework.html">Homework</a><a href="elearning.html">E-Learning</a><a href="portal/login.html">Portal</a></nav></div>
+        <div><h3>School Links</h3><nav class="static-footer-links" aria-label="School links"><a href="support.html">Support</a><a href="careers.html">Careers</a><a href="alumni.html">Alumni</a><a href="shop.html">Shop</a><a href="news.html">News &amp; Events</a><a href="contact.html">Contact</a><a href="privacy.html">Privacy</a><a href="safeguarding.html">Safeguarding</a></nav></div>
+        <div class="static-footer-contact"><h3>Contact</h3><p><a href="tel:+2348141943478">+234 814 194 3478</a><br><a href="https://wa.me/2349063932487">WhatsApp 09063932487</a><br>Opposite Morak Pure-Water Factory, Ageva, Okene, Kogi State</p></div>
+      </div>
+      <div class="static-footer-bottom"><span>Treasure Academy Ageva Limited · RC 9634403</span><span>© 2026 Treasure Academy, Ageva. All Rights Reserved.</span></div>
+    </div>
+  </div>
+</footer>
 <div class="modal-bg" id="modalBg"><div class="modal" id="modalBox"></div></div>
 <div id="printSlip"></div>
 <div id="toast"></div>
-<script src="assets/js/store.js?v=20260928-ui50"></script><script defer src="assets/js/db-live.js?v=20260928-ui50"></script>
-<script src="assets/js/sync.js?v=20260928-ui50"></script>
-<script src="assets/js/site.js?v=20260928-ui50"></script>
-<script defer src="assets/js/chat-entities.js?v=20260928-ui50"></script>
-<script defer src="assets/js/chat-rag.js?v=20260928-ui50"></script>
-<script defer src="assets/js/chat-core.js?v=20260928-ui50"></script>
-<script defer src="assets/js/chat-ui.js?v=20260928-ui50"></script><script defer src="assets/js/auth-ui.js?v=20260928-ui50"></script>
+<script src="assets/js/store.js?v=20260929-ui51"></script><script defer src="assets/js/db-live.js?v=20260929-ui51"></script>
+<script src="assets/js/sync.js?v=20260929-ui51"></script>
+<script src="assets/js/site.js?v=20260929-ui51"></script>
+<script defer src="assets/js/chat-entities.js?v=20260929-ui51"></script>
+<script defer src="assets/js/chat-rag.js?v=20260929-ui51"></script>
+<script defer src="assets/js/chat-core.js?v=20260929-ui51"></script>
+<script defer src="assets/js/chat-ui.js?v=20260929-ui51"></script><script defer src="assets/js/auth-ui.js?v=20260929-ui51"></script>
 <script>
 (function(){
   const pre = new URLSearchParams(location.search).get("class");
@@ -133,14 +146,14 @@
     document.getElementById("prodGrid").innerHTML = list.map(it => {
       const n = qtyOf(it.id);
       return `<div class="prod">
-        ${it.img?`<img class="prod-img" src="${it.img}" alt="" loading="lazy" style="aspect-ratio:16/9">`:`<div class="prod-ico">${U.icon(it.icon || U.autoIcon(it.name), 28)}</div>`}
+        ${it.img?`<img class="prod-img u51-038" width="640" height="360" src="${it.img}" alt="" loading="lazy">`:`<div class="prod-ico">${U.icon(it.icon || U.autoIcon(it.name), 28)}</div>`}
         <b>${U.esc(it.name)}</b>
         <span class="cls">${U.esc(clsLabel(it))}</span>
         <span class="price">${U.naira(it.price)}</span>
-        ${(it.qty==null||it.qty>0)?`<span class="stock">${it.qty==null?"In stock":it.qty+" left"}</span>`:`<span class="stock out">No current quantity</span><small class="backorder">You can still order — you'll get it when new stock arrives.</small><br><button class="btn btn-white btn-sm" style="margin-top:6px" onclick="restockAsk('${it.id}')">Notify Me</button>`}
+        ${(it.qty==null||it.qty>0)?`<span class="stock">${it.qty==null?"In stock":it.qty+" left"}</span>`:`<span class="stock out">No current quantity</span><small class="backorder">You can still order — you'll get it when new stock arrives.</small><br><button class="btn btn-white btn-sm u51-036" onclick="restockAsk('${it.id}')">Notify Me</button>`}
         <div class="qty-row">
           <div class="qty"><button onclick="chQty('${it.id}',-1)" aria-label="less">−</button><b>${n}</b><button onclick="chQty('${it.id}',1)" aria-label="more">+</button></div>
-          <button class="btn btn-mint btn-sm" style="flex:1" onclick="addIt('${it.id}')">Add</button>
+          <button class="btn btn-mint btn-sm u51-063" onclick="addIt('${it.id}')">Add</button>
         </div>
       </div>`; }).join("") || '<div class="empty">No items found. Try another class or search.</div>';
   }
@@ -178,13 +191,13 @@
     const {t} = totals();
     openModal(`<h2>Your Cart</h2><p class="sub">Check items, then pay once</p>
       ${lines.map(x => `<div class="cart-line">
-        ${x.it.img?`<img class="cart-thumb" src="${x.it.img}" alt="" loading="lazy" decoding="async" style="aspect-ratio:16/9">`:`<div class="prod-ico" style="width:40px;height:40px;flex-basis:40px">${U.icon(x.it.icon || "bag", 22)}</div>`}
-        <div style="flex:1"><b>${U.esc(x.it.name)}</b><br><small style="color:var(--muted)">${U.naira(x.it.price)} each${(x.it.qty!=null&&x.n>x.it.qty)?` • <b style="color:#B8860B">only ${x.it.qty} in stock — rest comes later</b>`:""}</small></div>
+        ${x.it.img?`<img class="cart-thumb u51-038" width="640" height="360" src="${x.it.img}" alt="" loading="lazy" decoding="async">`:`<div class="prod-ico u51-091">${U.icon(x.it.icon || "bag", 22)}</div>`}
+        <div class="u51-063"><b>${U.esc(x.it.name)}</b><br><small class="u51-039">${U.naira(x.it.price)} each${(x.it.qty!=null&&x.n>x.it.qty)?` • <b class="u51-092">only ${x.it.qty} in stock — rest comes later</b>`:""}</small></div>
         <div class="qty"><button onclick="chQty('${x.it.id}',-1);openCart()" aria-label="less">−</button><b>${x.n}</b><button onclick="chQty('${x.it.id}',1);openCart()" aria-label="more">+</button></div>
-        <b style="min-width:70px;text-align:right">${U.naira(x.it.price * x.n)}</b>
+        <b class="u51-093">${U.naira(x.it.price * x.n)}</b>
       </div>`).join("")}
-      <div style="display:flex;justify-content:space-between;align-items:center;margin:14px 0"><b>Total to pay:</b><b style="font-size:1.4rem;color:#0E3B21">${U.naira(t)}</b></div>
-      <div style="display:flex;gap:10px"><button class="btn btn-mint" style="flex:1" onclick="openCheckout()">Pay ${U.naira(t)}</button><button class="btn btn-white" onclick="closeModal()">Continue Shopping</button></div>`);
+      <div class="u51-094"><b>Total to pay:</b><b class="u51-095">${U.naira(t)}</b></div>
+      <div class="u51-096"><button class="btn btn-mint u51-063" onclick="openCheckout()">Pay ${U.naira(t)}</button><button class="btn btn-white" onclick="closeModal()">Continue Shopping</button></div>`);
   };
   window.openCheckout = () => {
     const db = DB.load(), {t} = totals();
@@ -200,8 +213,8 @@
           <label class="quiz-opt"><input type="radio" name="oMethod" value="POS at office"><span>POS machine at the school office</span></label>
         </div>
       </div>
-      <div style="margin-top:12px">${U.payAccountsHTML(db)}</div>
-      <div style="display:flex;gap:10px;margin-top:14px"><button class="btn btn-mint" style="flex:1" onclick="placeOrder()">Place Order — ${U.naira(t)}</button><button class="btn btn-white" onclick="openCart()">Back</button></div>`);
+      <div class="u51-097">${U.payAccountsHTML(db)}</div>
+      <div class="u51-098"><button class="btn btn-mint u51-063" onclick="placeOrder()">Place Order — ${U.naira(t)}</button><button class="btn btn-white" onclick="openCart()">Back</button></div>`);
   };
   window.placeOrder = () => {
     const g = id => document.getElementById(id).value.trim();
@@ -219,14 +232,14 @@
     try{ const mine=JSON.parse(localStorage.getItem("treasure_myorders_v1")||"[]"); mine.unshift(id); localStorage.setItem("treasure_myorders_v1",JSON.stringify(mine.slice(0,20))); }catch(e){}
     cart = {}; saveCart(); renderAll();
     const bk = (db.school.bank || {});
-    openModal(`<div style="text-align:center;color:#177A3F">${U.icon("check", 46)}</div>
-      <h2 style="text-align:center">Order received!</h2>
+    openModal(`<div class="u51-099">${U.icon("check", 46)}</div>
+      <h2 class="u51-027">Order received!</h2>
       <div class="ref-big">${id} • ${U.naira(total)}</div>
       ${method === "POS at office"
-        ? `<div class="notice"><span class="dot" style="background:var(--mint)"></span><div>Come to the school office and pay <b>${U.naira(total)}</b> on our <b>POS machine</b>. Tell them order <b>${id}</b>.</div></div>`
-        : `<div class="notice"><span class="dot" style="background:var(--sun)"></span><div>Transfer <b>${U.naira(total)}</b> to:<br><b>${U.esc(bk.name || "—")}</b> • <b>${U.esc(bk.number || "ask office")}</b><br>${U.esc(bk.holder || "")}<br>Write <b>${id}</b> as the narration/description.</div></div>`}
-      <div class="notice"><span class="dot" style="background:var(--sky)"></span><div>Collect your items at the school office <b>from tomorrow</b>. Show this reference: <b>${id}</b>.</div></div>
-      <div style="display:flex;gap:10px;margin-top:14px;flex-wrap:wrap"><button class="btn btn-mint" style="flex:1" onclick="closeModal()">Done</button><button class="btn btn-white" onclick="openReceipt('${id}')">Receipt</button><button class="btn btn-white" onclick="printSlip('${id}')">Print</button></div>`);
+        ? `<div class="notice"><span class="dot u51-075"></span><div>Come to the school office and pay <b>${U.naira(total)}</b> on our <b>POS machine</b>. Tell them order <b>${id}</b>.</div></div>`
+        : `<div class="notice"><span class="dot u51-062"></span><div>Transfer <b>${U.naira(total)}</b> to:<br><b>${U.esc(bk.name || "—")}</b> • <b>${U.esc(bk.number || "ask office")}</b><br>${U.esc(bk.holder || "")}<br>Write <b>${id}</b> as the narration/description.</div></div>`}
+      <div class="notice"><span class="dot u51-100"></span><div>Collect your items at the school office <b>from tomorrow</b>. Show this reference: <b>${id}</b>.</div></div>
+      <div class="u51-101"><button class="btn btn-mint u51-063" onclick="closeModal()">Done</button><button class="btn btn-white" onclick="openReceipt('${id}')">Receipt</button><button class="btn btn-white" onclick="printSlip('${id}')">Print</button></div>`);
   };
   /* ---------- my orders + receipts ---------- */
   const myIds = () => { try{ return JSON.parse(localStorage.getItem("treasure_myorders_v1") || "[]"); }catch(e){ return []; } };
@@ -234,13 +247,13 @@
     const db = DB.load(), mine = myIds();
     const list = (db.orders || []).filter(o => mine.includes(o.id));
     openModal(`<h2>My Orders</h2><p class="sub">Your pickup orders on this phone</p>
-      <div style="display:flex;gap:8px;margin-bottom:12px"><input id="ordFind" inputmode="text" placeholder="Type order ref, e.g. ORD0001" style="flex:1"><button class="btn btn-mint btn-sm" onclick="findOrder()">Find</button></div>
+      <div class="u51-082"><input class="u51-063" id="ordFind" inputmode="text" placeholder="Type order ref, e.g. ORD0001"><button class="btn btn-mint btn-sm" onclick="findOrder()">Find</button></div>
       ${list.length ? list.map(o => `<div class="cart-line">
-        <div style="flex:1"><b>${o.id}</b> • ${U.shortDate(o.date)}<br><small style="color:var(--muted)">${o.items.reduce((a,x)=>a+x.qty,0)} items • ${U.naira(o.total)} • ${U.esc(o.pupil||"")}</small><br>${(()=>{const st=o.status==="Collected"?3:["Paid","Confirmed"].includes(o.status)?2:1;return ["Placed","Paid","Collected"].map((label,n)=>`<span style="font-size:.72rem;font-weight:700;color:${n<st?"var(--mint)":"var(--muted)"}">● ${label}</span>`).join(' <span style="color:var(--muted)">→</span> ');})()}</div>
+        <div class="u51-063"><b>${o.id}</b> • ${U.shortDate(o.date)}<br><small class="u51-039">${o.items.reduce((a,x)=>a+x.qty,0)} items • ${U.naira(o.total)} • ${U.esc(o.pupil||"")}</small><br>${(()=>{const st=o.status==="Collected"?3:["Paid","Confirmed"].includes(o.status)?2:1;return ["Placed","Paid","Collected"].map((label,n)=>`<span style="font-size:.72rem;font-weight:700;color:${n<st?"var(--mint)":"var(--muted)"}">● ${label}</span>`).join(' <span class="u51-039">→</span> ');})()}</div>
         <span class="badge ${o.status==="Collected"?"b-green":o.status==="Paid"?"b-sky":"b-sun"}">${o.status}</span>
         <button class="btn btn-white btn-sm" onclick="openReceipt('${o.id}')">Receipt</button>
       </div>`).join("") : '<div class="empty">No orders yet on this phone. Your orders will appear here after checkout.</div>'}
-      <div style="display:flex;gap:10px;margin-top:14px"><button class="btn btn-white" style="flex:1" onclick="closeModal()">Close</button></div>`);
+      <div class="u51-098"><button class="btn btn-white u51-063" onclick="closeModal()">Close</button></div>`);
   };
   window.findOrder = () => {
     let v = (document.getElementById("ordFind").value || "").trim().toUpperCase();
@@ -274,14 +287,14 @@
   window.openReceipt = id => {
     const o = (DB.load().orders || []).find(x => x.id === id);
     if(!o){ U.toast("Order not found."); return; }
-    openModal(`${slipHTML(o)}<div style="display:flex;gap:10px;margin-top:14px"><button class="btn btn-mint" style="flex:1" onclick="printSlip('${o.id}')">Print Receipt</button><button class="btn btn-white" onclick="copyPickup('${o.id}')">Copy Message</button><button class="btn btn-white" onclick="openMyOrders()">My Orders</button></div>`);
+    openModal(`${slipHTML(o)}<div class="u51-098"><button class="btn btn-mint u51-063" onclick="printSlip('${o.id}')">Print Receipt</button><button class="btn btn-white" onclick="copyPickup('${o.id}')">Copy Message</button><button class="btn btn-white" onclick="openMyOrders()">My Orders</button></div>`);
   };
   window.restockAsk = id => {
     const it = byId(id); if(!it) return;
     openModal(`<h2>Get Notified</h2><p class="sub">${U.esc(it.name)} is out of stock. Leave your number and we will call you when it arrives.</p>
       <div class="form-grid"><div class="field"><label>Your Name *</label><input id="rsName"></div>
       <div class="field"><label>Your Phone *</label><input id="rsPhone" inputmode="tel" placeholder="080..."></div></div>
-      <div style="display:flex;gap:10px;margin-top:14px"><button class="btn btn-mint" style="flex:1" onclick="restockSave('${it.id}')">Notify Me</button><button class="btn btn-white" onclick="closeModal()">Cancel</button></div>`);
+      <div class="u51-098"><button class="btn btn-mint u51-063" onclick="restockSave('${it.id}')">Notify Me</button><button class="btn btn-white" onclick="closeModal()">Cancel</button></div>`);
   };
   window.restockSave = id => {
     const g = x => document.getElementById(x).value.trim();

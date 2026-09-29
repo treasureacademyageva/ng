@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<script src="assets/js/theme-init.js?v=20260928-ui50"></script>
+<script src="assets/js/theme-init.js?v=20260929-ui51"></script>
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
@@ -31,11 +31,11 @@
 <meta name="geo.region" content="NG-KO">
 <meta name="geo.placename" content="Ageva, Okene, Kogi State">
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://treasureacademyageva.vercel.app/"}, {"@type": "ListItem", "position": 2, "name": "Admissions", "item": "https://treasureacademyageva.vercel.app/admissions.html"}]}</script>
-<!-- seo:end --><link rel="stylesheet" href="assets/css/main.css?v=20260928-ui50">
-<link rel="stylesheet" href="assets/css/extra.css?v=20260928-ui50">
-<link rel="stylesheet" href="assets/css/glass.css?v=20260928-ui50">
-<link rel="stylesheet" href="assets/css/corporate.css?v=20260928-ui50">
-<link rel="stylesheet" href="assets/css/motion.css?v=20260928-ui50"><noscript><style>#siteLoader{display:none!important}</style></noscript>
+<!-- seo:end --><link rel="stylesheet" href="assets/css/main.css?v=20260929-ui51">
+<link rel="stylesheet" href="assets/css/extra.css?v=20260929-ui51">
+<link rel="stylesheet" href="assets/css/glass.css?v=20260929-ui51">
+<link rel="stylesheet" href="assets/css/corporate.css?v=20260929-ui51">
+<link rel="stylesheet" href="assets/css/motion.css?v=20260929-ui51"><noscript><style>#siteLoader{display:none!important}</style></noscript>
 <script defer src="/_vercel/insights/script.js"></script>
 <!-- treasure-seo -->
 <meta name="theme-color" content="#0E5A2E">
@@ -61,10 +61,11 @@
     </a>
     <div class="site-nav" id="navLinks">
       <div id="mainNav">
-        <a class="nav-link" href="index.html">Home</a><a class="nav-link" href="about.html">About</a><a class="nav-link" href="admissions.html">Admissions</a><a class="nav-link" href="academics.html">Academics</a><a class="nav-link" href="news.html">News &amp; Events</a><a class="nav-link" href="contact.html">Contact</a>
+        <a class="nav-link" href="index.html">Home</a><a class="nav-link" href="about.html">About</a><a class="nav-link on" href="admissions.html" aria-current="page">Admissions</a><a class="nav-link" href="academics.html">Academics</a><a class="nav-link" href="fees.html">Fees</a><a class="nav-link" href="news.html">News &amp; Events</a><a class="nav-link" href="contact.html">Contact</a>
       </div>
     </div>
     <div class="nav-actions nav-cta-row">
+      <a id="searchBtn" class="icon-action" href="search.html" title="Search this website" aria-label="Search this website"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.8-3.8"/></svg></a>
       <button type="button" class="icon-action theme-btn" title="Switch to night mode" aria-label="Switch to night mode"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4 8.5 8.5 0 1 0 20 14.5z"/></svg></button>
       <a class="btn btn-primary nav-apply" href="portal/login.html?mode=register">Apply</a>
     </div>
@@ -78,22 +79,22 @@
  </div>
 </div>
 <section id="main"><div class="container">
-<div class="track-card clip-up" style="margin:18px 0;border-left:6px solid #C9A227"><h2>New here? Start in 3 easy steps</h2>
+<div class="track-card clip-up u51-102"><h2>New here? Start in 3 easy steps</h2>
 <p class="sub">1. Fill the <b>Ward</b> form &nbsp;•&nbsp; 2. Add <b>Guardian</b> details &nbsp;•&nbsp; 3. Pay by <b>bank transfer</b>, then <b>visit the school within 2 weeks</b> with your receipt to complete admission.</p>
-<div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:10px"><a class="btn btn-mint" href="portal/login.html?mode=register">Start Registration</a><a class="btn btn-white" href="welcome.html">Read the Welcome Pack</a></div></div>
+<div class="u51-103"><a class="btn btn-mint" href="portal/login.html?mode=register">Start Registration</a><a class="btn btn-white" href="welcome.html">Read the Welcome Pack</a></div></div>
 <div id="admDeadline"></div>
-<div class="sec-head clip-up" style="margin-top:8px"><span class="sec-tag">Questions</span><h2>Admission FAQs</h2></div>
+<div class="sec-head clip-up u51-064"><span class="sec-tag">Questions</span><h2>Admission FAQs</h2></div>
 <div id="admFaq"></div>
-<div class="track-card clip-up" id="tracker" style="margin:18px 0">
+<div class="track-card clip-up u51-104" id="tracker">
   <h2>Track Your Application</h2>
   <p class="sub">Enter the phone number you used during registration to see your admission status.</p>
-  <div style="display:flex;gap:8px;flex-wrap:wrap"><input id="trkPhone" inputmode="tel" placeholder="e.g. 0805 123 4567" style="flex:1;min-width:200px"><button class="btn btn-mint" onclick="trackApp()">Check Status</button></div>
+  <div class="u51-105"><input class="u51-088" id="trkPhone" inputmode="tel" placeholder="e.g. 0805 123 4567"><button class="btn btn-mint" onclick="trackApp()">Check Status</button></div>
   <div id="trkOut"></div>
 </div>
-<div class="track-card clip-up" style="margin:18px 0">
+<div class="track-card clip-up u51-104">
   <h2>Verify a Receipt</h2>
   <p class="sub">Got a school-fee or PTA receipt? Enter the receipt number to confirm it is genuine.</p>
-  <div style="display:flex;gap:8px;flex-wrap:wrap"><input id="rcNo" placeholder="e.g. TA/2026/0001" style="flex:1;min-width:200px"><button class="btn btn-sun" onclick="verifyReceipt()">Verify</button></div>
+  <div class="u51-105"><input class="u51-088" id="rcNo" placeholder="e.g. TA/2026/0001"><button class="btn btn-sun" onclick="verifyReceipt()">Verify</button></div>
   <div id="rcOut"></div>
 </div>
 <div class="steps">
@@ -102,27 +103,45 @@
   <div class="step clip-up"><div class="num">3</div><h3>Visit School</h3><p>Come within 2 weeks with documents to finish up.</p></div>
   <div class="step clip-up"><div class="num">4</div><h3>Resumption</h3><p>Get portal login details + start date. Welcome!</p></div>
 </div>
-<div class="split" style="margin-top:26px">
+<div class="split u51-106">
   <div class="clip-up"><h2>Required Documents</h2>
     <ul class="req-list"><li>Birth certificate (photocopy)</li><li>2 passport photographs</li><li>Previous report card (Primary transfers)</li><li>Immunisation record (Creche/Nursery)</li></ul>
     <p class="sub">The school office will confirm the full list for your class.</p></div>
   <div class="clip-up"><h2>Classes Open</h2>
     <p><span class="chip">Creche</span><span class="chip">Pre-Nursery</span><span class="chip">Nursery 1–2</span><span class="chip">Primary 1–6</span></p>
-    <h2 style="margin-top:14px">School Fees (per term)</h2>
+    <h2 class="u51-107">School Fees (per term)</h2>
     <div id="feesTable"></div>
-    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:14px"><a class="btn btn-mint" href="portal/login.html?mode=register">Register Now</a><a class="btn btn-sun" href="admission-form.html">Buy Admission Form</a><a class="btn btn-white" href="contact.html">Contact Us</a></div>
+    <p><a class="text-link" href="fees.html"><b>See the full fees breakdown →</b></a></p>
+    <div class="u51-108"><a class="btn btn-mint" href="portal/login.html?mode=register">Register Now</a><a class="btn btn-sun" href="admission-form.html">Buy Admission Form</a><a class="btn btn-white" href="contact.html">Contact Us</a></div>
  </div>
 </div>
+<div class="ia-section clip-up"><div class="sec-head"><span class="sec-tag">Practical Information</span><h2>Plan for School</h2><p>Check the details families usually need before resumption.</p></div><div class="ia-links">
+  <a class="ia-link" href="fees.html"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/img/icons.svg#ta-note"></use></svg><span><b>School Fees</b><small>Term fees, inclusions and payment guidance</small></span></a>
+  <a class="ia-link" href="uniform.html"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/img/icons.svg#ta-shirt"></use></svg><span><b>Uniform</b><small>Official uniform list and school-office supply</small></span></a>
+  <a class="ia-link" href="transport.html"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/img/icons.svg#ta-bus"></use></svg><span><b>Transport</b><small>Pickup routes and office enquiries</small></span></a>
+</div></div>
 </div></section>
-<footer id="siteFooter"></footer>
+<footer id="siteFooter">
+  <div class="site-footer static-site-footer">
+    <div class="container">
+      <div class="static-footer-grid">
+        <div class="static-footer-about"><a class="static-footer-brand" href="index.html">Treasure Academy, Ageva</a><p>Creche, Nursery and Primary education in Ageva, Okene. Discipline, character and results since 2016.</p></div>
+        <div><h3>Parent Essentials</h3><nav class="static-footer-links" aria-label="Parent essentials"><a href="calendar.html">Calendar</a><a href="fees.html">Fees</a><a href="uniform.html">Uniform</a><a href="transport.html">Transport</a><a href="pta.html">PTA</a><a href="birthdays.html">Birthdays</a><a href="exams.html">Exams</a><a href="homework.html">Homework</a><a href="elearning.html">E-Learning</a><a href="portal/login.html">Portal</a></nav></div>
+        <div><h3>School Links</h3><nav class="static-footer-links" aria-label="School links"><a href="support.html">Support</a><a href="careers.html">Careers</a><a href="alumni.html">Alumni</a><a href="shop.html">Shop</a><a href="news.html">News &amp; Events</a><a href="contact.html">Contact</a><a href="privacy.html">Privacy</a><a href="safeguarding.html">Safeguarding</a></nav></div>
+        <div class="static-footer-contact"><h3>Contact</h3><p><a href="tel:+2348141943478">+234 814 194 3478</a><br><a href="https://wa.me/2349063932487">WhatsApp 09063932487</a><br>Opposite Morak Pure-Water Factory, Ageva, Okene, Kogi State</p></div>
+      </div>
+      <div class="static-footer-bottom"><span>Treasure Academy Ageva Limited · RC 9634403</span><span>© 2026 Treasure Academy, Ageva. All Rights Reserved.</span></div>
+    </div>
+  </div>
+</footer>
 <div id="toast"></div>
-<script src="assets/js/store.js?v=20260928-ui50"></script><script defer src="assets/js/db-live.js?v=20260928-ui50"></script>
-<script src="assets/js/sync.js?v=20260928-ui50"></script>
-<script src="assets/js/site.js?v=20260928-ui50"></script>
-<script defer src="assets/js/chat-entities.js?v=20260928-ui50"></script>
-<script defer src="assets/js/chat-rag.js?v=20260928-ui50"></script>
-<script defer src="assets/js/chat-core.js?v=20260928-ui50"></script>
-<script defer src="assets/js/chat-ui.js?v=20260928-ui50"></script><script defer src="assets/js/auth-ui.js?v=20260928-ui50"></script>
+<script src="assets/js/store.js?v=20260929-ui51"></script><script defer src="assets/js/db-live.js?v=20260929-ui51"></script>
+<script src="assets/js/sync.js?v=20260929-ui51"></script>
+<script src="assets/js/site.js?v=20260929-ui51"></script>
+<script defer src="assets/js/chat-entities.js?v=20260929-ui51"></script>
+<script defer src="assets/js/chat-rag.js?v=20260929-ui51"></script>
+<script defer src="assets/js/chat-core.js?v=20260929-ui51"></script>
+<script defer src="assets/js/chat-ui.js?v=20260929-ui51"></script><script defer src="assets/js/auth-ui.js?v=20260929-ui51"></script>
 <script>
 function normPhone(p){ let d=String(p||"").replace(/\D/g,""); if(d.startsWith("234"))d="0"+d.slice(3); return d; }
 window.verifyReceipt=function(){
@@ -132,21 +151,21 @@ window.verifyReceipt=function(){
   const reg=(db.registrations||[]).find(r=>String(((r.payment||{}).receipt)||"").toLowerCase()===no);
   const pta=(db.pta||[]).find(p=>String(p.receipt||"").toLowerCase()===no);
   if(reg){ const paid=((reg.payment||{}).parts||[]).reduce((a,p)=>a+(+p.amount||0),0)+(+(((reg.payment||{}).claim||{}).amount)||0);
-    out.innerHTML=`<div class="notice" style="margin-top:12px"><span class="dot" style="background:var(--mint)"></span><div><span class="badge b-green">GENUINE RECEIPT</span><br><b>School Fee</b> — ${U.esc(reg.ward.first+" "+reg.ward.surname)} (${U.esc(reg.ward.classApply||"")})<br>Amount recorded: <b>${U.naira(paid)}</b> • Status: <b>${U.esc(reg.payment.status)}</b><br><small style="color:var(--muted)">${U.esc(reg.id)} • ${U.esc(no).toUpperCase()}</small></div></div>`; return; }
-  if(pta){ out.innerHTML=`<div class="notice" style="margin-top:12px"><span class="dot" style="background:var(--mint)"></span><div><span class="badge b-green">GENUINE RECEIPT</span><br><b>PTA Levy</b> — ${U.esc(pta.family||"")} family<br>Amount: <b>${U.naira(pta.amount)}</b> • Date: ${U.esc(pta.date||"")}<br><small style="color:var(--muted)">${U.esc(pta.receipt||"")}</small></div></div>`; return; }
-  out.innerHTML=`<div class="notice" style="margin-top:12px"><span class="dot" style="background:var(--coral)"></span><div><span class="badge b-coral">NOT FOUND</span><br>No receipt with this number. Check the number and try again, or call the school office.</div></div>`;
+    out.innerHTML=`<div class="notice u51-097"><span class="dot u51-075"></span><div><span class="badge b-green">GENUINE RECEIPT</span><br><b>School Fee</b> — ${U.esc(reg.ward.first+" "+reg.ward.surname)} (${U.esc(reg.ward.classApply||"")})<br>Amount recorded: <b>${U.naira(paid)}</b> • Status: <b>${U.esc(reg.payment.status)}</b><br><small class="u51-039">${U.esc(reg.id)} • ${U.esc(no).toUpperCase()}</small></div></div>`; return; }
+  if(pta){ out.innerHTML=`<div class="notice u51-097"><span class="dot u51-075"></span><div><span class="badge b-green">GENUINE RECEIPT</span><br><b>PTA Levy</b> — ${U.esc(pta.family||"")} family<br>Amount: <b>${U.naira(pta.amount)}</b> • Date: ${U.esc(pta.date||"")}<br><small class="u51-039">${U.esc(pta.receipt||"")}</small></div></div>`; return; }
+  out.innerHTML=`<div class="notice u51-097"><span class="dot u51-109"></span><div><span class="badge b-coral">NOT FOUND</span><br>No receipt with this number. Check the number and try again, or call the school office.</div></div>`;
 };
 window.trackApp=function(){
   const v=normPhone(document.getElementById("trkPhone").value);
   const out=document.getElementById("trkOut");
-  if(v.length<10){ out.innerHTML='<div class="notice" style="margin-top:12px"><span class="dot" style="background:var(--coral)"></span><div>Please enter a valid phone number.</div></div>'; return; }
+  if(v.length<10){ out.innerHTML='<div class="notice u51-097"><span class="dot u51-109"></span><div>Please enter a valid phone number.</div></div>'; return; }
   const db=DB.load();
   const hit=o=>{ const vals=[]; const walk=x=>{ if(typeof x==="string")vals.push(x); else if(x&&typeof x==="object")Object.values(x).forEach(walk); }; walk(o||{});
     return vals.some(x=>{ const d=normPhone(x); return d.length>=7&&(d.endsWith(v.slice(-10))||v.endsWith(d.slice(-10))); }); };
   const regs=(db.registrations||[]).filter(r=>hit(r.guardian)||hit(r.ward));
   const apps=(db.applications||[]).filter(a=>hit(a));
-  if(!regs.length&&!apps.length){ out.innerHTML='<div class="notice" style="margin-top:12px"><span class="dot" style="background:var(--coral)"></span><div>No application found for this number. Check the digits or contact the school office.</div></div>'; return; }
-  out.innerHTML='<div style="margin-top:12px">'+regs.map(r=>{
+  if(!regs.length&&!apps.length){ out.innerHTML='<div class="notice u51-097"><span class="dot u51-109"></span><div>No application found for this number. Check the digits or contact the school office.</div></div>'; return; }
+  out.innerHTML='<div class="u51-097">'+regs.map(r=>{
     const w=r.ward||{}, st=r.status||"Pending";
     const bc=st==="Admitted"?"b-green":st==="Expired"?"b-coral":st==="Pending"?"b-sun":"b-sky";
     const dl=(r.expiry&&st==="Pending")?U.daysUntil(r.expiry):null;
@@ -154,11 +173,11 @@ window.trackApp=function(){
       :st==="Expired"?"This application has expired. Please register again or contact the office."
       :(r.payment&&r.payment.status==="Paid")?"Payment received. The school will confirm and admit your child soon."
       :"Complete your fee payment by bank transfer, then come to the school within 2 weeks with your documents.";
-    return `<div class="track-card"><div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap"><b>${U.esc(w.first||"")} ${U.esc(w.surname||"")}</b><span class="badge ${bc}">${U.esc(st)}</span><span style="color:var(--muted);font-size:.85rem">${r.id} • ${U.shortDate(r.date)} • ${U.esc(w.classApply||w.class||"")}</span></div>
-    <div style="margin-top:6px;font-size:.9rem">Payment: <b>${U.esc((r.payment||{}).status||"Unpaid")}</b></div>
-    ${dl===null?"":dl<0?'<div style="margin-top:6px"><span class="badge b-coral">Time expired. Visit the school immediately</span></div>':'<div style="margin-top:6px"><span class="badge '+(dl>3?'b-green':'b-sun')+'">'+dl+' day'+(dl===1?'':'s')+' left to complete registration</span></div>'}
-    <div style="margin-top:6px">${U.esc(step)}</div></div>`;
-  }).join("")+apps.map(a=>`<div class="track-card"><b>${U.esc(a.pupilName||a.name||"Enquiry")}</b> <span style="color:var(--muted);font-size:.85rem">• ${U.esc(a.classApply||a.class||"")} • ${U.shortDate(a.date)}</span><div style="margin-top:6px">Enquiry received. The school office will contact you shortly.</div></div>`).join("")+'</div>';
+    return `<div class="track-card"><div class="u51-110"><b>${U.esc(w.first||"")} ${U.esc(w.surname||"")}</b><span class="badge ${bc}">${U.esc(st)}</span><span class="u51-111">${r.id} • ${U.shortDate(r.date)} • ${U.esc(w.classApply||w.class||"")}</span></div>
+    <div class="u51-112">Payment: <b>${U.esc((r.payment||{}).status||"Unpaid")}</b></div>
+    ${dl===null?"":dl<0?'<div class="u51-036"><span class="badge b-coral">Time expired. Visit the school immediately</span></div>':'<div class="u51-036"><span class="badge '+(dl>3?'b-green':'b-sun')+'">'+dl+' day'+(dl===1?'':'s')+' left to complete registration</span></div>'}
+    <div class="u51-036">${U.esc(step)}</div></div>`;
+  }).join("")+apps.map(a=>`<div class="track-card"><b>${U.esc(a.pupilName||a.name||"Enquiry")}</b> <span class="u51-111">• ${U.esc(a.classApply||a.class||"")} • ${U.shortDate(a.date)}</span><div class="u51-036">Enquiry received. The school office will contact you shortly.</div></div>`).join("")+'</div>';
 };
 try{ const cal=DB.load().calendar||[];
   const res=[...cal].filter(c=>/resump/i.test(c.title||"")).sort((a,b)=>a.date.localeCompare(b.date));
@@ -166,13 +185,13 @@ try{ const cal=DB.load().calendar||[];
   if(next){ const dl=new Date(next.date+"T12:00:00"); dl.setDate(dl.getDate()+46); /* Friday of week 7 */
     const dlStr=dl.toISOString().slice(0,10), dd=U.daysUntil(dlStr);
     document.getElementById("admDeadline").innerHTML=dd>=0
-      ? `<div class="count-bar" style="margin:0 0 18px"><span class="count-num">${dd}</span><span><b>${dd===0?"Registration closes TODAY":dd+" days left"}:</b> new admissions close <b>${U.prettyDate(dlStr)}</b> (7 weeks after resumption).</span></div>`
-      : `<div class="count-bar" style="margin:0 0 18px"><span class="count-num">!</span><span>Registration for this term has <b>closed</b> — contact the school office for late admission.</span></div>`;
+      ? `<div class="count-bar u51-113"><span class="count-num">${dd}</span><span><b>${dd===0?"Registration closes TODAY":dd+" days left"}:</b> new admissions close <b>${U.prettyDate(dlStr)}</b> (7 weeks after resumption).</span></div>`
+      : `<div class="count-bar u51-113"><span class="count-num">!</span><span>Registration for this term has <b>closed</b> — contact the school office for late admission.</span></div>`;
   }
 }catch(e){}
 try{ const f=(DB.load().school||{}).fees||{};
-  const rows=CLASSES.filter(c=>f[c]).map(c=>`<tr><td>${U.esc(c)}</td><td style="text-align:right"><b>${U.naira(f[c])}</b></td></tr>`).join("");
-  document.getElementById("feesTable").innerHTML=rows?`<div style="overflow-x:auto"><table class="tbl"><thead><tr><th>Class</th><th style="text-align:right">Amount</th></tr></thead><tbody>${rows}</tbody></table></div><p class="sub">Pay by bank transfer. Sibling discounts may apply. Ask the office.</p>`:"";
+  const rows=CLASSES.filter(c=>f[c]).map(c=>`<tr><td>${U.esc(c)}</td><td class="u51-114"><b>${U.naira(f[c])}</b></td></tr>`).join("");
+  document.getElementById("feesTable").innerHTML=rows?`<div class="u51-115"><table class="tbl"><thead><tr><th>Class</th><th class="u51-114">Amount</th></tr></thead><tbody>${rows}</tbody></table></div><p class="sub">Pay by bank transfer. Sibling discounts may apply. Ask the office.</p>`:"";
 }catch(e){}
 try{const bk=(DB.load().school||{}).bank||{};if(bk.number){document.getElementById("bankLine").innerHTML="<br> "+U.esc(bk.name)+" • "+U.esc(bk.number);}}catch(e){}
 (function(){

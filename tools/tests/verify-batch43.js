@@ -60,7 +60,7 @@ ok('reduced-motion respect', corp.includes('prefers-reduced-motion: reduce'));
 
 /* ---------- C. alumni architecture ---------- */
 ok('spy nav bar', alumni.includes('id="alumNav"') && alumni.includes('class="spy-bar"') && alumni.includes('href="#graduates"'));
-ok('graduates section id', alumni.includes('class="sec-head clip-up" id="graduates"'));
+ok('graduates section id', /<div[^>]*class="[^"]*sec-head clip-up[^"]*"[^>]*id="graduates"/.test(alumni));
 ok('seg tabs markup', alumni.includes('id="gradTabs"') && alumni.includes('data-seg="all"') && alumni.includes('data-seg="2025"') && alumni.includes('data-seg="2023"'));
 ok('grad panes in render', alumni.includes('data-seg-pane="${U.esc(String(y))}"') && alumni.includes('window.__fxTabsRescan'));
 ok('score teaser on grad cards', alumni.includes('Total ${p.exam.total}/240'));

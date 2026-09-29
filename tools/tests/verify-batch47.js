@@ -251,8 +251,8 @@ function loadPage(page, session, pre) {
      alumniHtml.includes('Basic 6 Common Entrance register \u2014 2024'));
   ok('volunteer picker only offers upcoming events',
      /n\.date>=U\.todayStr\(\)&&\(!n\.publishAt/.test(volunteerHtml));
-  ok('service worker cache bumped', swjs.includes("'treasure-v71'"));
-  ok('asset version bumped everywhere', !indexHtml.includes('v=20260926-8-64') && indexHtml.includes('v=20260928-ui50'));
+  ok('service worker cache bumped', swjs.includes("'treasure-v72'"));
+  ok('asset version bumped everywhere', !indexHtml.includes('v=20260926-8-64') && indexHtml.includes('v=20260929-ui51'));
 }
 
 /* ---------- H. migration retires the demo feed on old devices ---------- */

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<script src="../assets/js/theme-init.js?v=20260928-ui50"></script>
+<script src="../assets/js/theme-init.js?v=20260929-ui51"></script>
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
@@ -10,9 +10,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Login / Register — Treasure Academy, Ageva</title>
 <link rel="icon" href="../assets/img/logo.jpg">
-<link rel="stylesheet" href="../assets/css/main.css?v=20260928-ui50">
-<link rel="stylesheet" href="../assets/css/extra.css?v=20260928-ui50">
-<link rel="stylesheet" href="../assets/css/corporate.css?v=20260928-ui50">
+<link rel="stylesheet" href="../assets/css/main.css?v=20260929-ui51">
+<link rel="stylesheet" href="../assets/css/extra.css?v=20260929-ui51">
+<link rel="stylesheet" href="../assets/css/corporate.css?v=20260929-ui51">
 <style>
 .top-left{position:absolute;top:20px;left:20px;z-index:3;display:flex;gap:10px}
 .field label .caret{display:inline-block;width:2px;height:1em;background:var(--mint);vertical-align:-2px;animation:blink 1s infinite;margin-left:1px}
@@ -36,32 +36,32 @@
       <!-- ============ FRONT: LOGIN ============ -->
       <div class="flip-face flip-front">
         <div class="glass glow-focus" id="loginCard">
-          <div class="auth-logo" style="text-align:center">
+          <div class="auth-logo u51-027">
             <img class="mark-img" src="../assets/img/logo.jpg" alt="Treasure Academy logo">
-            <h1 data-school-name>Treasure Academy</h1>
-            <p>School Portal — Login</p>
+            <h1>School Portal — Login</h1>
+            <p>Secure access for parents, pupils and staff</p>
          </div>
           <div id="sessCard"></div>
           <!-- single unified login: ID routes to pupil / teacher / admin -->
 
           <!-- UNIFIED LOGIN -->
-          <form id="pupilForm" autocomplete="off">
-            <div class="float-field"><input id="pReg" placeholder=" "><label data-tlabel="Phone Number (e.g. 0805 123 4567)"></label></div>
-            <div class="float-field"><input id="pPass" type="password" placeholder=" "><label data-tlabel="Password / PIN"></label><button type="button" class="eye" data-eye="pPass" aria-label="Show or hide password"></button></div>
+          <form id="pupilForm" autocomplete="on">
+            <div class="float-field"><input id="pReg" name="username" autocomplete="username" inputmode="tel" placeholder=" "><label data-tlabel="Phone Number (e.g. 0805 123 4567)"></label></div>
+            <div class="float-field"><input id="pPass" name="password" autocomplete="current-password" type="password" placeholder=" "><label data-tlabel="Password / PIN"></label><button type="button" class="eye" data-eye="pPass" aria-label="Show or hide password"></button></div>
             <div class="remember-row">
               <label><input type="checkbox" id="rememberMe" checked> Remember this device</label>
-              <span style="color:var(--muted);font-size:.78rem">Stays logged in until you logout</span>
+              <span class="u51-059">Stays logged in until you logout</span>
            </div>
-            <div class="treasure-box" id="loginTreasure" onclick="passTreasure('loginTreasure')"><span class="box">✓</span><span>Tap to verify you are human</span></div>
+            <div class="treasure-box" id="loginTreasure" onclick="passTreasure('loginTreasure')"><span class="box"><svg class="svg-check" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="m9.5 16.2-4-4 1.6-1.6 2.4 2.4 7.2-7.2 1.6 1.6z"/></svg></span><span>Tap to verify you are human</span></div>
             <button class="btn btn-mint btn-block" type="submit">Login</button>
-            <div style="display:flex;justify-content:flex-end;margin-top:10px"><button type="button" class="link-btn" onclick="toggleFP()">Forgot password / PIN?</button></div>
-            <div id="fpCard" class="notice" style="display:none;margin-top:10px"><span class="dot" style="background:var(--sun)"></span><div style="flex:1"><b>Reset it on WhatsApp</b><br><small style="color:var(--muted)">We reply with your reset code during school hours.</small>
-              <div class="float-field" style="margin-top:8px"><input id="fpName" placeholder=" "><label>Your name</label></div>
+            <div class="u51-060"><button type="button" class="link-btn" onclick="toggleFP()">Forgot password / PIN?</button></div>
+            <div id="fpCard" class="notice u51-061"><span class="dot u51-062"></span><div class="u51-063"><b>Reset it on WhatsApp</b><br><small class="u51-039">We reply with your reset code during school hours.</small>
+              <div class="float-field u51-064"><input id="fpName" placeholder=" "><label>Your name</label></div>
               <div class="float-field"><input id="fpId" placeholder=" " inputmode="tel"><label>Your login phone / staff ID</label></div>
-              <button type="button" class="btn btn-mint btn-sm" style="margin-top:8px" onclick="sendFP()">Send request on WhatsApp</button>
+              <button type="button" class="btn btn-mint btn-sm u51-064" onclick="sendFP()">Send request on WhatsApp</button>
             </div></div>
-            <p style="text-align:center;margin-top:14px;font-size:.85rem;color:var(--muted)">First time here? Just enter your ID —<br>pupils without a password get setup automatically. Staff use Staff ID + PIN.</p>
-            <p style="text-align:center;margin-top:8px;font-weight:600;font-size:.88rem">Not admitted yet? <button type="button" class="link-btn" style="font-size:.9rem" onclick="flip(true)">Register here</button></p>
+            <p class="u51-065">First time here? Just enter your ID —<br>pupils without a password get setup automatically. Staff use Staff ID + PIN.</p>
+            <p class="u51-066">Not admitted yet? <button type="button" class="link-btn u51-067" onclick="flip(true)">Register here</button></p>
           </form>
 
        </div>
@@ -70,14 +70,14 @@
       <!-- ============ BACK: REGISTRATION ============ -->
       <div class="flip-face flip-back">
         <div class="glass glow-focus" id="regCard">
-          <div class="auth-logo" style="text-align:center">
+          <div class="auth-logo u51-027">
             <img class="mark-img" src="../assets/img/logo.jpg" alt="Treasure Academy logo">
-            <h1>New Registration</h1><p id="wizSub">Step 1 of 3 — Ward Information</p>
+            <h2>New Registration</h2><p id="wizSub">Step 1 of 3 — Ward Information</p>
          </div>
           <div class="wizard-steps"><div class="ws on" id="ws1">1 • Ward</div><div class="ws" id="ws2">2 • Guardian</div><div class="ws" id="ws3">3 • Payment</div></div>
           <div class="wizard-progress"><i id="wizBar"></i></div>
 
-          <form id="regForm" autocomplete="off">
+          <form id="regForm" autocomplete="on">
             <div class="wstep" id="wstep1">
               <div class="form-grid">
                 <div class="field"><label data-tlabel="Surname *"></label><input required id="rSurname" data-alpha></div>
@@ -90,35 +90,35 @@
                 <div class="field"><label data-tlabel="Previous School"></label><input id="rPrev" data-alpha></div>
              </div>
            </div>
-            <div class="wstep" id="wstep2" style="display:none">
+            <div class="wstep u51-068" id="wstep2">
               <div class="form-grid">
                 <div class="field full"><label data-tlabel="Guardian 1 — Full Name *"></label><input required id="rG1Name" data-alpha></div>
-                <div class="field"><label data-tlabel="Guardian 1 Phone *"></label><div style="display:flex;gap:8px;align-items:stretch"><span style="display:inline-flex;align-items:center;padding:0 10px;border:1px solid var(--line);border-radius:10px;background:var(--white);font-weight:800">+234</span><input required id="rG1Phone" data-phone maxlength="10" placeholder="801 234 5678" style="flex:1;min-width:0"><button type="button" class="icon-btn pick-contact" data-for="rG1Phone" title="Pick from phone contacts">Contacts</button></div></div>
+                <div class="field"><label data-tlabel="Guardian 1 Phone *"></label><div class="u51-069"><span class="u51-070">+234</span><input class="u51-071" required id="rG1Phone" data-phone maxlength="10" placeholder="801 234 5678"><button type="button" class="icon-btn pick-contact" data-for="rG1Phone" title="Pick from phone contacts">Contacts</button></div></div>
                 <div class="field"><label data-tlabel="Guardian 1 Gender *"></label><select required id="rG1Gender"><option value="">— Select —</option><option>Female</option><option>Male</option></select></div>
                 <div class="field full"><label data-tlabel="Guardian 2 — Full Name"></label><input id="rG2Name" data-alpha></div>
-                <div class="field"><label data-tlabel="Guardian 2 Phone"></label><div style="display:flex;gap:8px;align-items:stretch"><span style="display:inline-flex;align-items:center;padding:0 10px;border:1px solid var(--line);border-radius:10px;background:var(--white);font-weight:800">+234</span><input id="rG2Phone" data-phone maxlength="10" placeholder="801 234 5678" style="flex:1;min-width:0"><button type="button" class="icon-btn pick-contact" data-for="rG2Phone" title="Pick from phone contacts">Contacts</button></div></div>
+                <div class="field"><label data-tlabel="Guardian 2 Phone"></label><div class="u51-069"><span class="u51-070">+234</span><input class="u51-071" id="rG2Phone" data-phone maxlength="10" placeholder="801 234 5678"><button type="button" class="icon-btn pick-contact" data-for="rG2Phone" title="Pick from phone contacts">Contacts</button></div></div>
                 <div class="field"><label data-tlabel="Guardian 2 Gender"></label><select id="rG2Gender"><option value="">—</option><option>Female</option><option>Male</option></select></div>
                 <div class="field"><label data-tlabel="Relationship to Ward *"></label><select required id="rRel"><option value="">— Select —</option><option>Mother</option><option>Father</option><option>Guardian</option><option>Other</option></select></div>
                 <div class="field"><label data-tlabel="Guardian Email"></label><input type="email" id="rEmail"></div>
                 <div class="field full"><label data-tlabel="Home Address *"></label><input required id="rAddr"></div>
              </div>
            </div>
-            <div class="wstep" id="wstep3" style="display:none">
+            <div class="wstep u51-068" id="wstep3">
                             <div id="bankBox"></div>
               <div class="pay-card sel" id="payLater" onclick="pickPay('later')"><span class="radio"></span><div><b>I Have Transferred Already</b><br><small>Paid to the school account above? Enter your transfer details below for confirmation.</small></div></div>
               <div class="pay-card" id="payNow" onclick="pickPay('now')"><span class="radio"></span><div><b>I Will Pay Within 2 Weeks</b><br><small>Submit now, then transfer to the school account before admission closes.</small></div></div>
-              <div class="form-grid" id="claimBox" style="margin-top:10px">
+              <div class="form-grid u51-024" id="claimBox">
                 <div class="field"><label>Sender Account Name *</label><input id="rSender" data-alpha placeholder="e.g. Musa Ibrahim"></div>
                 <div class="field"><label>Amount Paid (NGN) *</label><input id="rAmount" data-num inputmode="numeric" placeholder="e.g. 25000"></div>
                 <div class="field"><label>Transfer Date</label><input id="rDate" type="date"></div>
                 <div class="field"><label>Bank / Reference / Narration</label><input id="rRef" placeholder="e.g. GTB ...4521 / TAA/P/0001"></div>
              </div>
-              <div class="treasure-box" id="regTreasure" onclick="passTreasure('regTreasure')"><span class="box">✓</span><span>Tap to verify you are human</span></div>
-              <div class="notice"><span class="dot" style="background:var(--sun)"></span><div style="font-size:.84rem">After submitting, please <b>visit the school within 2 weeks</b> to complete admission — or the application will expire.</div></div>
+              <div class="treasure-box" id="regTreasure" onclick="passTreasure('regTreasure')"><span class="box"><svg class="svg-check" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="m9.5 16.2-4-4 1.6-1.6 2.4 2.4 7.2-7.2 1.6 1.6z"/></svg></span><span>Tap to verify you are human</span></div>
+              <div class="notice"><span class="dot u51-062"></span><div class="u51-072">After submitting, please <b>visit the school within 2 weeks</b> to complete admission — or the application will expire.</div></div>
            </div>
             <div class="wizard-nav">
-              <button type="button" class="btn btn-white btn-sm" id="wizBack" onclick="wizGo(curStep-1)" style="visibility:hidden">← Back</button>
-              <span style="flex:1"></span>
+              <button type="button" class="btn btn-white btn-sm u51-073" id="wizBack" onclick="wizGo(curStep-1)">← Back</button>
+              <span class="u51-063"></span>
               <button type="button" class="btn btn-white btn-sm" onclick="flip(false)">Have an account already? Login</button>
               <button type="button" class="btn btn-mint btn-sm" id="wizNext" onclick="wizGo(curStep+1)">Next →</button>
            </div>
@@ -134,19 +134,19 @@
     <div class="side-card" id="genCard">
       <h3>Your family's private portal</h3>
       <p>This is the secure sign-in for Treasure Academy parents and staff. Enter your own phone number or staff ID and password to continue.</p>
-      <p style="margin-bottom:0">First time here? Just enter your ID and you'll be guided to create a password. Forgot it? Use <b>“Forgot password / PIN?”</b> to reset it safely.</p>
+      <p class="u51-025">First time here? Just enter your ID and you'll be guided to create a password. Forgot it? Use <b>“Forgot password / PIN?”</b> to reset it safely.</p>
    </div>
  </div>
  </div>
 </div>
 
-<div class="modal-bg" id="modalBg"><div class="modal" id="modalBox" style="max-width:480px"></div></div>
+<div class="modal-bg" id="modalBg"><div class="modal u51-074" id="modalBox"></div></div>
 <div id="toast"></div>
-<script src="../assets/js/store.js?v=20260928-ui50"></script>
-<script src="../assets/js/notify.js?v=20260928-ui50"></script>
-<script src="../assets/js/verify.js?v=20260928-ui50"></script><script defer src="../assets/js/db-live.js?v=20260928-ui50"></script>
-<script src="../assets/js/sync.js?v=20260928-ui50"></script>
-<script src="../assets/js/site.js?v=20260928-ui50"></script>
+<script src="../assets/js/store.js?v=20260929-ui51"></script>
+<script src="../assets/js/notify.js?v=20260929-ui51"></script>
+<script src="../assets/js/verify.js?v=20260929-ui51"></script><script defer src="../assets/js/db-live.js?v=20260929-ui51"></script>
+<script src="../assets/js/sync.js?v=20260929-ui51"></script>
+<script src="../assets/js/site.js?v=20260929-ui51"></script>
 <script>
 (function(){
   /* batch24: already logged in? show who + Continue/Logout instead of bouncing away */
@@ -154,7 +154,7 @@
   if(ex && ex.role){
     const dest=ex.role==="admin"?"/portal/admin.html":ex.role==="teacher"?"/portal/teacher.html":"/portal/pupil.html";
     const zc=document.getElementById("sessCard");
-    if(zc)zc.innerHTML=`<div class="notice"><span class="dot" style="background:var(--mint)"></span><div style="flex:1">Logged in as <b>${U.esc(ex.name||ex.refId||"")}</b> <span class="badge b-sky">${U.esc(ex.role||"")}</span><br><small style="color:var(--muted)">Signing in as someone else? Logout first.</small></div><div class="row-actions"><a class="icon-btn ok" href="${dest}">Continue</a> <button class="icon-btn" onclick="Auth.logout()">Logout</button></div></div>`;
+    if(zc)zc.innerHTML=`<div class="notice"><span class="dot u51-075"></span><div class="u51-063">Logged in as <b>${U.esc(ex.name||ex.refId||"")}</b> <span class="badge b-sky">${U.esc(ex.role||"")}</span><br><small class="u51-039">Signing in as someone else? Logout first.</small></div><div class="row-actions"><a class="icon-btn ok" href="${dest}">Continue</a> <button class="icon-btn" onclick="Auth.logout()">Logout</button></div></div>`;
     const pf=document.getElementById("pupilForm"); if(pf)pf.style.display="none";
     return;
   }
@@ -176,7 +176,7 @@
 
   const passed={};
   window.passTreasure=id=>{ if(passed[id])return; Treasure.open(()=>{ passed[id]=true;
-    const box=document.getElementById(id); box.classList.add("passed"); box.querySelector(".box").textContent="✓";
+    const box=document.getElementById(id); box.classList.add("passed"); box.querySelector(".box").innerHTML='<svg class="svg-check" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="m9.5 16.2-4-4 1.6-1.6 2.4 2.4 7.2-7.2 1.6 1.6z"/></svg>';
     box.querySelector("span:last-child").textContent="Verified. You may continue."; }); };
 
   function shake(id){ const c=document.getElementById(id); c.classList.remove("shake"); void c.offsetWidth; c.classList.add("shake"); }
@@ -241,7 +241,7 @@
     }
     Auth.rememberSet(document.getElementById("rememberMe").checked?adm:"");
     Auth.set(r.session, document.getElementById("rememberMe").checked);
-    openModal(`<div style="text-align:center"><h2>Welcome, ${U.esc(r.session.name.split(" ")[0])}!</h2><p style="color:var(--muted)">Taking you to your dashboard...</p><div class="loading-bar"><i id="loadBar()"></i></div></div>`);
+    openModal(`<div class="u51-027"><h2>Welcome, ${U.esc(r.session.name.split(" ")[0])}!</h2><p class="u51-039">Taking you to your dashboard...</p><div class="loading-bar"><i id="loadBar()"></i></div></div>`);
     let w=0; const t=setInterval(()=>{ w+=20; const b=document.getElementById("loadBar()"); if(b)b.style.width=w+"%";
       if(w>=100){ clearInterval(t); location.href="/portal/pupil.html"; } },150);
   });
@@ -259,24 +259,24 @@
     otpIsStaff=!!staff;
     const who = staff ? (staff.name+" — "+staff.title) : (p.name+" ("+p.adm+")");
     lastChecked=otpAdm;
-    openModal(`<div style="text-align:center"><h2>Create Password</h2>
-      <p style="color:var(--muted);font-size:.87rem">Hello <b>${U.esc(who)}</b> — let's secure your account.</p></div>
-      <div style="font-size:.85rem;margin:6px 0 4px;color:var(--muted)">Send my one-time code by:</div>
-      <div class="row" style="gap:14px;margin-bottom:10px">
-        <label style="display:flex;align-items:center;gap:6px"><input type="radio" name="otpMethod" value="whatsapp" checked> WhatsApp</label>
-        <label style="display:flex;align-items:center;gap:6px"><input type="radio" name="otpMethod" value="sms"> SMS</label>
+    openModal(`<div class="u51-027"><h2>Create Password</h2>
+      <p class="u51-076">Hello <b>${U.esc(who)}</b> — let's secure your account.</p></div>
+      <div class="u51-077">Send my one-time code by:</div>
+      <div class="row u51-078">
+        <label class="u51-079"><input type="radio" name="otpMethod" value="whatsapp" checked> WhatsApp</label>
+        <label class="u51-079"><input type="radio" name="otpMethod" value="sms"> SMS</label>
       </div>
       <button class="btn btn-sky btn-sm btn-block" onclick="sendCode()">Send Activation Code</button>
-      <div id="otpZone" style="display:none">
-        <p style="text-align:center;font-weight:600;margin:14px 0 0">Enter the 4-digit code the school sends you <span id="demoCode" style="color:var(--coral)"></span></p>
+      <div class="u51-068" id="otpZone">
+        <p class="u51-080">Enter the 4-digit code the school sends you <span class="u51-081" id="demoCode"></span></p>
         <div class="otp-row"><input maxlength="1" inputmode="numeric"><input maxlength="1" inputmode="numeric"><input maxlength="1" inputmode="numeric"><input maxlength="1" inputmode="numeric"></div>
         <div class="float-field"><input id="cPass1" type="password" placeholder=" "><label data-tlabel="New Password (min 4 chars)"></label><button type="button" class="eye" aria-label="Show or hide password" onclick="eyeIn('cPass1',this)"></button></div>
         <div class="float-field"><input id="cPass2" type="password" placeholder=" "><label data-tlabel="Confirm Password"></label><button type="button" class="eye" aria-label="Show or hide password" onclick="eyeIn('cPass2',this)"></button></div>
-        <div style="display:flex;gap:8px;margin-bottom:12px"><button class="btn btn-white btn-sm" style="flex:1" onclick="suggestPw()">Suggest one for me</button></div>
+        <div class="u51-082"><button class="btn btn-white btn-sm u51-063" onclick="suggestPw()">Suggest one for me</button></div>
         <button class="btn btn-mint btn-sm btn-block" onclick="activatePw()">Activate</button>
-        <div id="actLoad" style="display:none"><div class="loading-bar"><i id="actBar"></i></div></div>
+        <div class="u51-068" id="actLoad"><div class="loading-bar"><i id="actBar"></i></div></div>
      </div>
-      <p style="text-align:center;margin-top:12px"><button class="link-btn" onclick="document.getElementById('modalBg').classList.remove('show')">← Back to login</button></p>`);
+      <p class="u51-049"><button class="link-btn" onclick="document.getElementById('modalBg').classList.remove('show')">← Back to login</button></p>`);
   };
   window.suggestPw=()=>{ const p=Auth.pupilFind(otpAdm); const s=U.genPassword(p?p.name:"Treasure");
     document.getElementById("cPass1").value=s; document.getElementById("cPass2").value=s; U.toast("Suggestion filled — you can edit it."); };
@@ -324,18 +324,18 @@
     otpAdm=adm||document.getElementById("pReg").value.trim()||"";
     const p=Auth.pupilFind(otpAdm);
     const needPhone=p&&p.phone&&p.phone.replace(/\D/g,"").length>=7;
-    openModal(`<div style="text-align:center"><h2>Reset Password</h2>
-      <p style="color:var(--muted);font-size:.87rem">Verify it is you, then set a new password for <b>${U.esc(otpAdm||"your account")}</b>.</p></div>
+    openModal(`<div class="u51-027"><h2>Reset Password</h2>
+      <p class="u51-076">Verify it is you, then set a new password for <b>${U.esc(otpAdm||"your account")}</b>.</p></div>
       <div id="fgStep1">
         <div class="float-field"><input id="fReg" placeholder=" " value="${U.esc(otpAdm)}"><label data-tlabel="Phone Number"></label></div>
         ${needPhone?`<div class="float-field"><input id="fPhone" placeholder=" " inputmode="numeric"><label data-tlabel="Parent phone — last 4 digits"></label></div>
-        <p style="font-size:.8rem;color:var(--muted)">Criteria 1 of 2: confirm the parent phone on record (ends with ••••${U.esc(p.phone.replace(/\D/g,"").slice(-4))}).</p>`
-        :`<p style="font-size:.8rem;color:var(--muted)">No parent phone on record — continue with activation code only.</p>`}
-        <div style="display:flex;gap:10px;margin-top:12px"><button class="btn btn-white btn-sm" style="flex:1" onclick="document.getElementById('modalBg').classList.remove('show');document.getElementById('pPass').focus()">Try Again</button>
-        <button class="btn btn-sky btn-sm" style="flex:1" onclick="forgotStep2(${needPhone?1:0})">Continue →</button></div>
+        <p class="u51-083">Criteria 1 of 2: confirm the parent phone on record (ends with ••••${U.esc(p.phone.replace(/\D/g,"").slice(-4))}).</p>`
+        :`<p class="u51-083">No parent phone on record — continue with activation code only.</p>`}
+        <div class="u51-084"><button class="btn btn-white btn-sm u51-063" onclick="document.getElementById('modalBg').classList.remove('show');document.getElementById('pPass').focus()">Try Again</button>
+        <button class="btn btn-sky btn-sm u51-063" onclick="forgotStep2(${needPhone?1:0})">Continue →</button></div>
      </div>
-      <div id="fgStep2" style="display:none">
-        <p style="text-align:center;font-weight:600">Enter the 4-digit code <span id="fDemoCode" style="color:var(--coral)"></span></p>
+      <div class="u51-068" id="fgStep2">
+        <p class="u51-085">Enter the 4-digit code <span class="u51-081" id="fDemoCode"></span></p>
         <div class="otp-row"><input maxlength="1" inputmode="numeric"><input maxlength="1" inputmode="numeric"><input maxlength="1" inputmode="numeric"><input maxlength="1" inputmode="numeric"></div>
         <div class="float-field"><input id="fPass1" type="password" placeholder=" "><label data-tlabel="New Password (min 4 chars)"></label><button type="button" class="eye" aria-label="Show or hide password" onclick="eyeIn('fPass1',this)"></button></div>
         <div class="float-field"><input id="fPass2" type="password" placeholder=" "><label data-tlabel="Confirm Password"></label><button type="button" class="eye" aria-label="Show or hide password" onclick="eyeIn('fPass2',this)"></button></div>
@@ -454,9 +454,9 @@
       payment:(payMethod==="later"?{method:"Bank transfer (claim submitted)",status:"Claimed",claim:{sender:g("rSender"),amount:g("rAmount"),date:g("rDate"),ref:g("rRef")}}:{method:"Bank transfer (not yet paid)",status:"Unpaid",claim:null}),
       date:U.todayStr(),expiry:exp.toISOString().slice(0,10),status:"Pending"};
     d.registrations.unshift(r); DB.save(d);
-    openModal(`<div style="text-align:center"><h2>Registration Received</h2>
-      <div class="notice" style="text-align:left"><span class="dot" style="background:var(--mint)"></span><div>Application ID: <b>${r.id}</b><br>Ward: <b>${U.esc(r.ward.first+" "+r.ward.surname)}</b> → ${U.esc(r.ward.classApply)}<br>Payment: <b>${r.payment.status}</b> (${U.esc(r.payment.method)})${r.payment.status==="Claimed"?`<br>Transfer claim recorded — the school will <b>confirm</b> it shortly and issue your <b>receipt number</b>`:""}</div></div>
-      <div class="notice" style="text-align:left"><span class="dot" style="background:var(--sun)"></span><div>Please <b>visit the school within 2 weeks</b> (before <b>${U.shortDate(r.expiry)}</b>) to complete admission — or this application will <b>expire</b>.</div></div>
+    openModal(`<div class="u51-027"><h2>Registration Received</h2>
+      <div class="notice u51-086"><span class="dot u51-075"></span><div>Application ID: <b>${r.id}</b><br>Ward: <b>${U.esc(r.ward.first+" "+r.ward.surname)}</b> → ${U.esc(r.ward.classApply)}<br>Payment: <b>${r.payment.status}</b> (${U.esc(r.payment.method)})${r.payment.status==="Claimed"?`<br>Transfer claim recorded — the school will <b>confirm</b> it shortly and issue your <b>receipt number</b>`:""}</div></div>
+      <div class="notice u51-086"><span class="dot u51-062"></span><div>Please <b>visit the school within 2 weeks</b> (before <b>${U.shortDate(r.expiry)}</b>) to complete admission — or this application will <b>expire</b>.</div></div>
       <button class="btn btn-mint btn-sm" onclick="document.getElementById('modalBg').classList.remove('show');flip(false)">Done (back to login)</button></div>`);
     document.getElementById("regForm").reset(); wizGo(1);
   }

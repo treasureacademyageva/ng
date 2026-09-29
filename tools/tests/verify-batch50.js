@@ -33,7 +33,7 @@ for(const token of ['--green:#0E5A2E','--gold:#C9A227','--paper:#FFFFFF','--crea
 const publicHeaders=fs.readdirSync(SITE).filter(f=>f.endsWith('.html')&&read(f).includes('class="navbar"'));
 ok('35 public pages use the flat header',publicHeaders.length===35,String(publicHeaders.length));
 ok('no stacked header markup survives',publicHeaders.every(f=>!/(hd-stack|hd-back|hd-front|hd-cutout)/.test(read(f))));
-ok('six familiar nav routes are static fallbacks',publicHeaders.every(f=>['Home','About','Admissions','Academics','News &amp; Events','Contact'].every(x=>read(f).includes('>'+x+'<'))));
+ok('seven familiar nav routes are static fallbacks',publicHeaders.every(f=>['Home','About','Admissions','Academics','Fees','News &amp; Events','Contact'].every(x=>read(f).includes('>'+x+'<'))));
 ok('no public hamburger is mounted',!site.includes('NAV_BURGER')&&!auth.includes('mountBurger();\n    interceptLoginLinks'));
 ok('header actions are fixed 44px with a real gap',/\.icon-action,\.theme-btn\{[^}]*width:44px;height:44px/.test(corp)&&/\.nav-actions\{[^}]*gap:10px/.test(corp));
 ok('tap targets do not move on hover',corp.includes('.theme-btn:hover,.theme-btn:hover svg,.btn:hover,.btn:active{transform:none}'));
@@ -69,7 +69,7 @@ ok('public feature icons use the SVG sprite',index.includes('icons.svg#ta-cap')&
 ok('homepage contains no pictographic emoji',!/[\u{1F300}-\u{1FAFF}]/u.test(index));
 ok('hardcoded white backgrounds are gone',!/(?:background|background-color)\s*:\s*#(?:fff|ffffff)\b/i.test(css+index));
 ok('first visit follows OS theme',site.includes('prefers-color-scheme: dark')&&!site.includes('new Date().getHours()'));
-ok('theme is selected before paint on all versioned pages',fs.readdirSync(SITE).filter(f=>f.endsWith('.html')&&read(f).includes('id="siteLoader"')).every(f=>read(f).includes('assets/js/theme-init.js?v=20260928-ui50')));
+ok('theme is selected before paint on all versioned pages',fs.readdirSync(SITE).filter(f=>f.endsWith('.html')&&read(f).includes('id="siteLoader"')).every(f=>read(f).includes('assets/js/theme-init.js?v=20260929-ui51')));
 ok('copy says News & Events, never News/Event',!/(News\/Event)(?!s)/.test(index+site+auth));
 ok('copy says resumes on Monday',!/(resumes back on Monday)/i.test(index+site)&&(index+site).includes('resumes on Monday'));
 ok('ticker is lost-and-found only',/function renderTicker\(\)/.test(site)&&!site.slice(site.indexOf('function renderTicker()'),site.indexOf('function renderBday()')).includes('newsEvents'));
@@ -78,7 +78,7 @@ ok('ticker is lost-and-found only',/function renderTicker\(\)/.test(site)&&!site
 ok('SEO canonical and School JSON-LD remain',index.includes('https://treasureacademyageva.vercel.app/')&&index.includes('"@type": "School"'));
 ok('school phone and RC remain exact',index.includes('+234 814 194 3478')&&index.includes('"value": "9634403"')&&site.includes('RC 9634403'));
 ok('no Ministry approval number invented',!/(Ministry (?:approval|registration) (?:no|number)\.?\s*[:#]?\s*[A-Z0-9/-]+)/i.test(index+about));
-ok('portal and chatbot assets remain wired',index.includes('chat-core.js?v=20260928-ui50')&&index.includes('auth-ui.js?v=20260928-ui50')&&fs.existsSync(path.join(SITE,'portal/pupil.html')));
+ok('portal and chatbot assets remain wired',index.includes('chat-core.js?v=20260929-ui51')&&index.includes('auth-ui.js?v=20260929-ui51')&&fs.existsSync(path.join(SITE,'portal/pupil.html')));
 ok('pupil compatibility redirect remains',read('vercel.json').includes('"source": "/pupil.html"')&&read('vercel.json').includes('"destination": "/portal/pupil.html"'));
 const runtime=loadPage('index.html');
 ok('redesigned homepage boots without errors',runtime.errors.length===0,runtime.errors.join(' | ').slice(0,180));
