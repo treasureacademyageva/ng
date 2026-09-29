@@ -43,23 +43,26 @@ const ADMIN = { role: 'admin', refId: 'HEAD001', name: 'Mrs. Salihu Nanahawa' };
 {
   const { window: w, errors } = loadPage('index.html', null, win => { const db = win.__DB.load(); db.teachers[0].dob = new Date().toISOString().slice(0, 10); db.teachers[0].name = 'Mr. Tunde Bakare'; win.__DB.save(db); });
   const tick = w.document.getElementById('newsTicker');
-  ok('ticker renders with text', !!tick && tick.textContent.includes('ADMISSION IN PROGRESS'));
+  ok('ticker renders lost-and-found only', !!tick && tick.textContent.includes('Lost & Found'));
   ok('ticker sits after motto', !!tick && tick.previousElementSibling.id === 'mottoRibbon');
-  ok('birthday bell shows celebrant', w.document.getElementById('bdayBell').textContent.includes('Mr. Tunde Bakare'));
-  const sz = w.document.getElementById('starsZone');
-  ok('stars: staff + pupil cards', sz.children.length === 2 && sz.textContent.includes('Idris Ibrahim') && sz.textContent.includes('Adaeze Okonkwo'));
+  ok('birthday and honours widgets moved off homepage', !w.document.getElementById('bdayBell') && !w.document.getElementById('starsZone'));
+  const bd=loadPage('birthdays.html',null,win=>{const db=win.__DB.load();db.teachers[0].dob=new Date().toISOString().slice(0,10);db.teachers[0].name='Mr. Tunde Bakare';win.__DB.save(db);});
+  ok('birthday page shows celebrant',bd.window.document.body.textContent.includes('Mr. Tunde Bakare'));
+  const ab=loadPage('about.html');
+  const sz=ab.window.document.getElementById('aboutHonours');
+  ok('weekly honours moved to About',sz.children.length>=2&&sz.textContent.includes('Idris Ibrahim')&&sz.textContent.includes('Adaeze Okonkwo'));
   const drawerSrc = fs.readFileSync(SITE + '/assets/js/auth-ui.js', 'utf8');
   ok('quick links live in the drawer', ['homework.html', 'lost-found.html', 'photo-day.html'].every(h => drawerSrc.includes(h)));
   ok('no errors', errors.length === 0, errors.join(' || ').slice(0, 200));
 }
 {
   const { window: w } = loadPage('index.html', null, win => {
-    const db = win.__DB.load(); db.ticker.on = false;
+    const db = win.__DB.load(); db.lostfound.forEach(x=>x.claimed=true);
     db.teachers.forEach(t => t.dob = '1990-01-01'); db.school.headDob = '1990-01-02';
     win.__DB.save(db);
   });
-  ok('ticker off hides bar', !w.document.getElementById('newsTicker'));
-  ok('no-birthday hides bell', w.document.getElementById('bdayBell').textContent.trim() === '');
+  ok('no unclaimed lost property hides ticker', !w.document.getElementById('newsTicker'));
+  ok('homepage has no birthday bell', !w.document.getElementById('bdayBell'));
 }
 /* homework */
 {

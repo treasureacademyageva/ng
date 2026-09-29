@@ -51,7 +51,7 @@ for (const p of walk(SITE, []).filter(f => f.endsWith('.html'))) {
 ok('zero icon-only controls left', iconOnly === 0, 'found ' + iconOnly);
 ok('logo labels on 38 pages', logo === 38, 'found ' + logo);
 ok('tel labels on 41 pages', tel === 41, 'found ' + tel);
-ok('homepage sliders replaced by linked card grids (owner review, 25 Sept 2026)', !fs.readFileSync(SITE + '/index.html', 'utf8').includes('aria-label="Previous slide"') && fs.readFileSync(SITE + '/index.html', 'utf8').includes('promoGrid') && fs.readFileSync(SITE + '/index.html', 'utf8').includes('newsGrid') && !fs.readFileSync(SITE + '/index.html', 'utf8').includes('promoSteps'));
+ok('homepage keeps one news carousel and removes promotions', !fs.readFileSync(SITE + '/index.html', 'utf8').includes('promoGrid') && fs.readFileSync(SITE + '/index.html', 'utf8').includes('newsGrid') && !fs.readFileSync(SITE + '/index.html', 'utf8').includes('promoSteps'));
 ok('password eyes labeled', (fs.readFileSync(SITE + '/portal/login.html', 'utf8').match(/aria-label="Show or hide password"/g) || []).length === 5);
 
 /* ---------- C. inline strays tokenized ---------- */
@@ -63,11 +63,11 @@ ok('calendar heading tokenized', cal.includes('color:var(--ink,#000);border-bott
 /* ---------- D. reduced motion ---------- */
 ok('global reduced-motion block', corp.includes('@media (prefers-reduced-motion:reduce)') && corp.includes('.ticker-inner{animation:none}'));
 ok('ticker swipeable when still', corp.includes('.ticker{overflow-x:auto'));
-ok('stars respect stillness', sitejs.includes('prefers-reduced-motion') && sitejs.includes('no drifting sparkles'));
+ok('decorative stars removed', !corp.includes('.twinkle-star') && !sitejs.includes('createStarfield'));
 
 /* ---------- E. heading ornament (strict palette) ---------- */
-ok('sec-head ribbon ornament', corp.includes('.sec-head h2::before') && corp.includes('linear-gradient(180deg,var(--gold,#C9A227),var(--green,#0E5A2E))'));
-ok('ornament dark variant', corp.includes('[data-theme="dark"] .sec-head h2::before{background:linear-gradient(180deg,#E7B94B,#2E9E5B)}'));
+ok('sec-head uses a flat palette ornament', corp.includes('.sec-head h2::before') && corp.includes('background:var(--green-deep)'));
+ok('ornament dark variant', corp.includes('[data-theme="dark"] .sec-head h2::before{background:var(--gold)}'));
 
 /* ---------- F. versions ---------- */
 let stale = 0;

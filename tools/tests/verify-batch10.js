@@ -153,7 +153,7 @@ const PUPIL = { role: 'pupil', refId: 'P001', name: 'x' };
   ok('news page hides scheduled', !n.window.document.body.textContent.includes('HIDDEN FUTURE') && n.window.document.body.textContent.includes('VISIBLE STORY'));
   const i = loadPage('index.html', null, seed);
   ok('index slider hides scheduled', !i.window.document.body.textContent.includes('HIDDEN FUTURE'));
-  ok('index shows photo history', i.window.document.getElementById('spotZone').textContent.includes('Previous weeks'));
+  ok('News page shows photo history', n.window.document.getElementById('spotZone').textContent.includes('Previous weeks'));
   const t = loadPage('transport.html');
   ok('transport lists routes', t.window.document.getElementById('routeList').textContent.includes('Route A'));
   const v = loadPage('volunteer.html');

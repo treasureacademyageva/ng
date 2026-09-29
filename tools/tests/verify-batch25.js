@@ -48,7 +48,7 @@ ok('glass css dark', css.includes('[data-theme="dark"] .auth-card,[data-theme="d
 
 /* ---------- B. portal nav tiles (4 across) ---------- */
 ok('nav 4-across grid', css.includes('#sideNav{flex:1 1 100%;display:grid;grid-template-columns:repeat(4,minmax(0,1fr))'));
-ok('nav tile active style', css.includes('#sideNav button[data-view].on{background:linear-gradient(180deg,#177A3F,#0D5527)'));
+ok('nav tile active style is flat green', css.includes('#sideNav button[data-view].on{background:var(--green-deep)'));
 
 /* ---------- C. logout beside theme switch ---------- */
 for (const f of PORTALS) {

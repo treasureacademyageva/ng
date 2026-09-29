@@ -61,7 +61,7 @@ function loadPage(page, session, seedFn, opts = {}) {
   w.document.querySelector('#sideNav button[data-view="fees"]').click();
   ok('sidebar alive without session', w.document.getElementById('v-fees').classList.contains('on'));
   const css = fs.readFileSync(SITE + '/assets/css/main.css', 'utf8');
-  ok('mobile sidebar above veil', css.includes('z-index:450') && css.includes('.menu-veil{position:fixed;inset:0;background:rgba(20,30,45,.45);z-index:90'));
+  ok('mobile sidebar above veil on the shared z-scale', css.includes('.sidebar{position:fixed;left:0;top:0;z-index:var(--z-chat)') && css.includes('.menu-veil{position:fixed;inset:0;background:rgba(20,30,45,.45);z-index:var(--z-dropdown)'));
   const path = require('path');
   const pages = [];
   (function walk(d) { for (const f of fs.readdirSync(d)) { const p = path.join(d, f); if (fs.statSync(p).isDirectory()) walk(p); else if (f.endsWith('.html')) pages.push(p); } })(SITE);

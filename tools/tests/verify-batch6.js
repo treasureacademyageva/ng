@@ -38,15 +38,15 @@ function loadPage(page, query, seedFn) {
 {
   const { window: w, errors, run } = loadPage('index.html');
   const html = w.document.body.innerHTML;
-  const seq = ['stats-band', 'id="admissions"', 'aboutPrev', 'programs', 'promotions', 'calCount', 'newsGrid', 'gallery', 'spotlight', 'testimonials'];
+  const seq = ['stats-band', 'aboutPrev', 'programs', 'id="why"', 'calCount', 'newsGrid', 'id="gallery"', 'id="testimonials"', 'finalCta'];
   const pos = seq.map(s => html.indexOf(s));
-  ok('homepage order correct', pos.every((p, i) => p > 0 && (i === 0 || p > pos[i - 1])), pos.join(','));
+  ok('eight-section homepage order correct', pos.every((p, i) => p > 0 && (i === 0 || p > pos[i - 1])), pos.join(','));
   ok('duplicate Campus Gallery removed', !html.includes('Campus Gallery'));
   ok('see-all link removed', !html.includes('See all News'));
   ok('discountBanner removed', !html.includes('discountBanner'));
   ok('stats 200+ pupils', html.includes('data-count="200"'));
   const rail = w.document.getElementById('testiRail');
-  ok('testi rail shows real seeds w/ stars', rail.children.length === 3 && rail.textContent.includes('Mrs. Okafor') && rail.textContent.includes('★★★★★') && rail.textContent.includes('Primary 1'));
+  ok('testi rail shows two approved seeds with ratings', rail.children.length === 2 && rail.textContent.includes('★★★★★') && rail.textContent.includes('Parent'));
   const tb = w.document.getElementById('topBtn');
   ok('topBtn exists + shows at bottom', !!tb && tb.classList.contains('show') && w.document.body.classList.contains('at-bottom'));
   ok('contact fabs gone', !w.document.getElementById('contactFabs'));
@@ -83,12 +83,12 @@ function loadPage(page, query, seedFn) {
   const sj = fs.readFileSync(SITE + '/assets/js/site.js', 'utf8');
   ok('renderContactFabs removed', !sj.includes('renderContactFabs'));
   ok('initTopBtn present', sj.includes('initTopBtn') && sj.includes('at-bottom'));
-  ok('fireflies drift+twinkle', sj.includes('innerWidth<640?10:16') && sj.includes('tw')); // batch24: fewer flies on phones (perf)
+  ok('decorative fireflies removed', !sj.includes('starCanvas') && !sj.includes('flies='));
   ok('Discount object removed', !sj.includes('Discount'));
   const css = fs.readFileSync(SITE + '/assets/css/corporate.css', 'utf8');
-  ok('loader logo styled', css.includes('#siteLoader img') && css.includes('border-radius:24px'));
-  ok('steps row + arrows', css.includes('.step:not(:last-child)::after') && css.includes('scroll-snap-type:x mandatory'));
-  ok('gallery 3-col', css.includes('.gal-grid{display:grid;grid-template-columns:repeat(3,1fr)'));
+  ok('loader logo uses the shared radius system', css.includes('#siteLoader img') && css.includes('border-radius:var(--r-lg)'));
+  ok('admission steps are a compact hero strip', css.includes('.hero-admission-strip') && fs.readFileSync(SITE + '/index.html', 'utf8').includes('Admission takes four simple steps'));
+  ok('homepage gallery is one row of four', css.includes('body[data-page="home"] .gal-grid{grid-template-columns:repeat(4,1fr)'));
   ok('testi rail css', css.includes('.testi-rail'));
   ok('anchor scroll-margin', css.includes('scroll-margin-top:130px'));
   const st = fs.readFileSync(SITE + '/assets/js/store.js', 'utf8');

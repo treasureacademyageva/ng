@@ -96,21 +96,22 @@ const dstr = off => { const d = new Date(); d.setDate(d.getDate() + off); return
   }
 }
 
-/* ---- week strip + admin control ---- */
+/* ---- next-event chip + preserved admin control ---- */
 {
   const { window: w, errors } = loadPage('index.html', null, win => {
     const db = win.__DB.load();
-    db.calendar.push({ id: 'C15', date: dstr(2), title: 'Cultural Day', desc: '' });
+    db.calendar = [{ id: 'C15', date: dstr(2), title: 'Cultural Day', desc: '' }];
+    db.exams = [];
     db.weekStrip = { on: true, note: 'Wear native attire!' };
     win.__DB.save(db);
   });
-  const ws = w.document.getElementById('weekStrip').textContent;
-  ok('week strip renders', ws.includes('Cultural Day') && ws.includes('Wear native attire!'));
+  const ws = w.document.getElementById('calCount').textContent;
+  ok('next event chip renders in News', ws.includes('Cultural Day') && !w.document.getElementById('weekStrip'));
   ok('week clean', errors.length === 0, errors.join(' || ').slice(0, 200));
   const off = loadPage('index.html', null, win => {
     const db = win.__DB.load(); db.weekStrip = { on: false, note: '' }; win.__DB.save(db);
   });
-  ok('week strip off', off.window.document.getElementById('weekStrip').textContent.trim() === '');
+  ok('old week strip is absent from homepage', !off.window.document.getElementById('weekStrip'));
   const { window: wa, run } = loadPage('portal/admin.html', ADMIN);
   ok('week admin ui', !!wa.document.getElementById('weekOn') && !!wa.document.getElementById('weekNote'));
   run('document.getElementById("weekOn").value="1"; document.getElementById("weekNote").value="Hi week"; saveWeekStrip();');
@@ -190,14 +191,14 @@ const dstr = off => { const d = new Date(); d.setDate(d.getDate() + off); return
   ok('search has new pages', run('SEARCH_INDEX.some(p=>p.u==="testimonials.html")') && run('SEARCH_INDEX.some(p=>p.u==="class.html")'));
   ok('sw file', fs.existsSync(SITE + '/sw.js') && fs.readFileSync(SITE + '/sw.js', 'utf8').match(/treasure-v\d+/));
   ok('sw registered', site.includes('navigator.serviceWorker.register'));
-  ok('treasure nav css', css.includes('.nav-links a:not(.btn){border:1px solid #D8CFAF') && css.includes('.nav-links a.on::before'));
+  ok('flat public nav css', css.includes('#mainNav{display:flex;align-items:center') && css.includes('.nav-link:hover,.nav-link.on{color:var(--green)'));
   ok('treasure btn css', css.includes('.btn-treasure{'));
   ok('chat css', css.includes('.chat-msg.bot{') && css.includes('.chat-chips button{'));
   ok('strip+progress css', css.includes('.week-strip{') && css.includes('.fee-progress i{'));
-  ok('dark vars', css.includes('[data-theme="dark"]{--cream:#0D141F'));
+  ok('approved dark vars', (fs.readFileSync(SITE + '/assets/css/main.css', 'utf8') + css).includes('--d-bg:#101B28'));
   ok('dark surfaces', css.includes('[data-theme="dark"] .chat-panel') && css.includes('[data-theme="dark"] .tbl td'));
   const idx = fs.readFileSync(SITE + '/index.html', 'utf8');
-  ok('week mount + treasure cta', idx.includes('id="weekStrip"') && idx.includes('btn btn-treasure'));
+  ok('next event merged into News + final primary CTA', idx.includes('id="calCount"') && idx.includes('id="finalCta"') && idx.includes('btn btn-primary'));
   const old = [];
   const walk = d => fs.readdirSync(d, { withFileTypes: true }).forEach(e => {
     const p = d + '/' + e.name;

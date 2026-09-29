@@ -2,16 +2,17 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<script src="../assets/js/theme-init.js?v=20260928-ui50"></script>
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<style>#siteLoader{position:fixed;inset:0;z-index:1200;background:#fff;display:flex;flex-direction:column;gap:14px;align-items:center;justify-content:center;transition:opacity .4s}#siteLoader img{width:84px;height:84px;object-fit:contain}#siteLoader .spin{width:38px;height:38px;border-radius:50%;border:4px solid #FDF6D8;border-top-color:#0B7A37;animation:lspin .8s linear infinite}@keyframes lspin{to{transform:rotate(360deg)}}#siteLoader.done{opacity:0;pointer-events:none}</style>
+<style>#siteLoader{position:fixed;inset:0;z-index:1200;background:var(--paper,#FFFFFF);display:flex;flex-direction:column;gap:14px;align-items:center;justify-content:center;transition:opacity .4s}#siteLoader img{width:84px;height:84px;object-fit:contain}#siteLoader .spin{width:38px;height:38px;border-radius:50%;border:4px solid #FDF6D8;border-top-color:#0B7A37;animation:lspin .8s linear infinite}@keyframes lspin{to{transform:rotate(360deg)}}#siteLoader.done{opacity:0;pointer-events:none}</style>
 <link rel="icon" href="../assets/img/logo.jpg">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Admin Dashboard — Treasure Academy, Ageva</title>
-<link rel="stylesheet" href="../assets/css/main.css?v=20260926-8-64">
-<link rel="stylesheet" href="../assets/css/extra.css?v=20260926-8-64">
-<link rel="stylesheet" href="../assets/css/corporate.css?v=20260926-8-64">
+<link rel="stylesheet" href="../assets/css/main.css?v=20260928-ui50">
+<link rel="stylesheet" href="../assets/css/extra.css?v=20260928-ui50">
+<link rel="stylesheet" href="../assets/css/corporate.css?v=20260928-ui50">
 <noscript><style>#siteLoader{display:none!important}</style></noscript>
 <script defer src="/_vercel/insights/script.js"></script>
 <meta name="robots" content="noindex, nofollow">
@@ -44,7 +45,7 @@
       <button data-view="results">Results</button>
       <button data-view="attendance">Attendance</button>
       <button data-view="promos">Promotions</button>
-      <button data-view="newsevents">News/Events</button>
+      <button data-view="newsevents">News &amp; Events</button>
       <button data-view="messages">Messages <span class="badge b-coral" id="msgCount">0</span></button>
       <button data-view="whatsapp">WhatsApp</button>
       <button data-view="testimonials">Testimonials</button>
@@ -659,7 +660,7 @@
 <script>
 /* unified portal router: one delegated handler + render-on-navigate + hash restore */
 (function(){
-var T={overview:["Overview","Welcome back! Here is your school at a glance."],myclass:["My Class","Attendance, results, homework and your class roster."],regs:["Registrations","Online forms and payments."],apps:["Applications","Admission enquiries."],pupils:["Pupils","Manage all pupils."],teachers:["Teachers","Manage staff."],duty:["Duty Roster","Who is on duty each day."],results:["Results","Review, approve and publish report cards."],attendance:["Attendance","Daily registers."],promos:["Promotions","Promo slider."],newsevents:["News/Events","Videos, gallery and stories."],messages:["Messages","Contact inbox."],whatsapp:["WhatsApp","Chat contacts."],practice:["Entrance Qs","Common Entrance questions."],testimonials:["Testimonials","Website testimonials."],notices:["Notices","Talk to staff and parents."],classpages:["Class Pages","One page per class."],calendar:["Calendar","Term dates and events."],timetable:["Timetable","One grid for the whole school."],extras:["Website Extras","Stars, ticker, homework and more."],shop:["Shop and Orders","Items and pickup orders."],settings:["Settings","School details, term and session."]};
+var T={overview:["Overview","Welcome back! Here is your school at a glance."],myclass:["My Class","Attendance, results, homework and your class roster."],regs:["Registrations","Online forms and payments."],apps:["Applications","Admission enquiries."],pupils:["Pupils","Manage all pupils."],teachers:["Teachers","Manage staff."],duty:["Duty Roster","Who is on duty each day."],results:["Results","Review, approve and publish report cards."],attendance:["Attendance","Daily registers."],promos:["Promotions","Promo slider."],newsevents:["News & Events","Videos, gallery and stories."],messages:["Messages","Contact inbox."],whatsapp:["WhatsApp","Chat contacts."],practice:["Entrance Qs","Common Entrance questions."],testimonials:["Testimonials","Website testimonials."],notices:["Notices","Talk to staff and parents."],classpages:["Class Pages","One page per class."],calendar:["Calendar","Term dates and events."],timetable:["Timetable","One grid for the whole school."],extras:["Website Extras","Stars, ticker, homework and more."],shop:["Shop and Orders","Items and pickup orders."],settings:["Settings","School details, term and session."]};
 function navRender(v){
   try{ var R={overview:function(){renderOverview();refreshCounts();},myclass:function(){renderMyClass();},verify:function(){renderVerify();},staffchat:function(){renderStaffChat();},regs:function(){renderRegs();},apps:function(){renderApps();renderFormClaims();},pupils:function(){renderPupils();},teachers:function(){renderTeachers();},duty:function(){renderDuty();},results:function(){renderResults();},attendance:function(){renderAttendance();},promos:function(){renderPromos();},newsevents:function(){renderNE();},messages:function(){renderMsgs();},whatsapp:function(){renderWA();},practice:function(){renderPQ();},testimonials:function(){Testimonials.adminList("tmList");},notices:function(){renderNotices();renderMinutesA();},classpages:function(){renderClassPages();},calendar:function(){renderCal();},timetable:function(){renderTT();},extras:function(){renderExtras();},shop:function(){renderShopAdmin();renderRestock();},settings:function(){loadSettings();buildFeesGrid();renderSup();}}; if(R[v])R[v](); }catch(e){ if(window.console&&console.warn)console.warn("view render skipped:",e&&e.message); }
 }
@@ -697,11 +698,11 @@ if(nav)nav.addEventListener("click",function(e){
 try{var h=String(location.hash||"").replace(/^#\/?/,""); if(h){var bb=document.querySelector('#sideNav button[data-view="'+h+'"]'); if(bb&&!bb.classList.contains("on"))bb.click();}}catch(e7){}
 })();
 </script>
-<script src="../assets/js/store.js?v=20260926-8-64"></script>
-<script src="../assets/js/notify.js?v=20260926-8-64"></script>
-<script src="../assets/js/verify.js?v=20260926-8-64"></script><script defer src="../assets/js/db-live.js?v=20260926-8-64"></script>
-<script src="../assets/js/sync.js?v=20260926-8-64"></script>
-<script src="../assets/js/site.js?v=20260926-8-64"></script>
+<script src="../assets/js/store.js?v=20260928-ui50"></script>
+<script src="../assets/js/notify.js?v=20260928-ui50"></script>
+<script src="../assets/js/verify.js?v=20260928-ui50"></script><script defer src="../assets/js/db-live.js?v=20260928-ui50"></script>
+<script src="../assets/js/sync.js?v=20260928-ui50"></script>
+<script src="../assets/js/site.js?v=20260928-ui50"></script>
 <script>
 const S = Auth.guard("admin");
 if(!S){location.href="login.html";throw new Error("no-session");}
@@ -721,7 +722,7 @@ document.getElementById("userAvatar").style.background = U.avatarColor(S.name);
 document.getElementById("todayLbl").textContent = U.prettyDate();
 document.querySelectorAll("[data-school-name]").forEach(e=>e.textContent=db.school.name);
 
-const TITLES={overview:["Overview","Welcome back! Here's your school at a glance."],myclass:["My Class",MY_CLASS+" • your class-teacher workspace."],regs:["Registrations","Online 3-step forms + payments."],apps:["Applications","Quick admission enquiries."],pupils:["Pupils","Manage all pupils + login passwords."],teachers:["Teachers","Manage staff and class assignments."],duty:["Duty Roster","Who is on duty each day."],results:["Results","Review, approve & publish report cards."],attendance:["Attendance","Daily registers by teachers."],promos:["Promotions","Landing page promo slider."],newsevents:["News/Events","Videos, gallery & stories."],messages:["Messages","Contact form inbox."],whatsapp:["WhatsApp","Chat contacts + online status."],practice:["Entrance Qs","Upload Common Entrance questions."],testimonials:["Testimonials","Review website testimonials."],notices:["Notices","Talk to staff & parents."],classpages:["Class Pages","One page per class — you control them."],calendar:["Calendar","Term dates & events."],timetable:["Timetable","One grid for the whole school."],extras:["Website Extras","Stars, ticker, homework, photo day & suggestions."],shop:["Shop & Orders","Items, prices & pickup orders."],settings:["Settings","School details, term & session."]};
+const TITLES={overview:["Overview","Welcome back! Here's your school at a glance."],myclass:["My Class",MY_CLASS+" • your class-teacher workspace."],regs:["Registrations","Online 3-step forms + payments."],apps:["Applications","Quick admission enquiries."],pupils:["Pupils","Manage all pupils + login passwords."],teachers:["Teachers","Manage staff and class assignments."],duty:["Duty Roster","Who is on duty each day."],results:["Results","Review, approve & publish report cards."],attendance:["Attendance","Daily registers by teachers."],promos:["Promotions","Landing page promo slider."],newsevents:["News & Events","Videos, gallery & stories."],messages:["Messages","Contact form inbox."],whatsapp:["WhatsApp","Chat contacts + online status."],practice:["Entrance Qs","Upload Common Entrance questions."],testimonials:["Testimonials","Review website testimonials."],notices:["Notices","Talk to staff & parents."],classpages:["Class Pages","One page per class — you control them."],calendar:["Calendar","Term dates & events."],timetable:["Timetable","One grid for the whole school."],extras:["Website Extras","Stars, ticker, homework, photo day & suggestions."],shop:["Shop & Orders","Items, prices & pickup orders."],settings:["Settings","School details, term & session."]};
 
 const NAVICONS={overview:"home",myclass:"users",regs:"clipboard",apps:"filetext",pupils:"users",teachers:"user",duty:"calendar",results:"award",attendance:"calcheck",promos:"mega",newsevents:"news",messages:"message",whatsapp:"chat",testimonials:"star",practice:"book",notices:"bell",classpages:"news",calendar:"calcheck",timetable:"calendar",extras:"star",shop:"bag",settings:"gear",code:"filetext"};
 document.querySelectorAll("#sideNav button").forEach(b=>{ b.insertAdjacentHTML("afterbegin",U.icon(NAVICONS[b.dataset.view]||"chev",17)); });
@@ -1453,7 +1454,7 @@ window.photoFile=function(inp,targetId,prevId){
           cx.fillStyle="#FFFFFF"; cx.fillRect(0,0,cv.width,cv.height);
           cx.drawImage(img,0,0,cv.width,cv.height);
           const fs=Math.max(14,Math.round(cv.width/28));
-          cx.font="700 "+fs+"px Inter,'Segoe UI',sans-serif"; cx.textAlign="right"; cx.textBaseline="bottom";
+          cx.font="700 "+fs+"px 'General Sans',sans-serif"; cx.textAlign="right"; cx.textBaseline="bottom";
           cx.shadowColor="rgba(0,0,0,.45)"; cx.shadowBlur=fs/3;
           cx.fillStyle="rgba(255,255,255,.62)";
           cx.fillText("Treasure Academy",cv.width-fs,cv.height-fs*0.8);

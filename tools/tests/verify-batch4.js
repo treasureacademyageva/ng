@@ -76,8 +76,8 @@ function loadPage(page, query, seedFn) {
   ok('poster groups + prices', p.window.document.getElementById('posterBody').textContent.includes('Textbooks') && p.window.document.getElementById('posterBody').textContent.includes('4,500'));
   const a = loadPage('alumni.html');
   ok('staff strip renders real team (incl. Creche)', a.window.document.getElementById('teamGrid').children.length === 11 && a.window.document.getElementById('teamGrid').textContent.includes('Salihu Oyiza Nanahawa'));
-  const s = loadPage('index.html', '', w => { const db = w.__DB.load(); db.school.photoWeek = { src: 'assets/img/sports.png', cap: 'Sports Day Joy', id: '' }; w.__DB.save(db); });
-  ok('spotlight shows photo of week', s.window.document.getElementById('spotZone').textContent.includes('Sports Day Joy'));
+  const s = loadPage('news.html', '', w => { const db = w.__DB.load(); db.school.photoWeek = { src: 'assets/img/sports.png', cap: 'Sports Day Joy', id: '' }; w.__DB.save(db); });
+  ok('spotlight moved to News and shows photo of week', s.window.document.getElementById('spotZone').textContent.includes('Sports Day Joy'));
   ok('no errors', (c.errors.length + p.errors.length + a.errors.length + s.errors.length) === 0);
 }
 /* expiry filtering on board */
@@ -89,7 +89,7 @@ function loadPage(page, query, seedFn) {
 {
   const t = loadPage('index.html', '', w => { w.localStorage.setItem('treasure_theme', 'dark'); });
   ok('dark theme restored', t.window.document.documentElement.dataset.theme === 'dark');
-  ok('theme-color meta synced', (t.window.document.querySelector('meta[name="theme-color"]') || {}).content === '#0C1B14');
+  ok('theme-color meta synced', (t.window.document.querySelector('meta[name="theme-color"]') || {}).content === '#101B28');
 }
 /* static asserts: portals + CSS */
 {

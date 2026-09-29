@@ -64,9 +64,9 @@ ok('dev page clean', dvNoBio.errors.length === 0, dvNoBio.errors.join(' || ').sl
 
 /* ---------- C. portal sidebar (CSS grid areas; all items kept; no hamburger) ---------- */
 ok('sidebar grid areas', corp.includes('grid-template-areas:"side top" "side main"') && corp.includes('.portal-layout>.navbar{grid-area:side'));
-ok('sidebar rail styling', corp.includes('linear-gradient(180deg,#0E3B21,#0B4A26') && corp.includes('border-right:2px solid var(--gold'));
+ok('sidebar rail uses a flat approved surface', corp.includes('background:var(--green-deep);border-right:2px solid var(--gold'));
 ok('sidebar buttons stacked', corp.includes('#sideNav{flex:1 1 auto;display:flex;flex-direction:column'));
-ok('active = butter edge', corp.includes('#sideNav button[data-view].on{background:linear-gradient(90deg,rgba(247,233,103,.18)') && corp.includes('inset 3px 0 0 var(--butter-deep'));
+ok('active = high-contrast flat surface', corp.includes('#sideNav button[data-view].on{background:var(--paper);color:var(--green-deep);box-shadow:var(--sh-1)'));
 ok('mobile: direct 2-col links, no hamburger', corp.includes('@media(max-width:1099px)') && corp.includes('#sideNav{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))'));
 ok('logout still by theme switch', dh !== null && (fs.readFileSync(SITE + '/portal/admin.html', 'utf8').includes('</button><button class="nav-logout"')));
 const adm = loadPage('portal/admin.html', ADMIN);

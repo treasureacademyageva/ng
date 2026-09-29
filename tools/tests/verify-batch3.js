@@ -117,7 +117,7 @@ function seedReal(w) {
 {
   const idx = fs.readFileSync(SITE + '/index.html', 'utf8');
   ok('3 program arts wired', (idx.match(/prog-art/g) || []).length === 3);
-  ok('5 why icons wired', (idx.match(/why-ic/g) || []).length === 5);
+  ok('3 consolidated why cards use SVG icons', (idx.match(/class="feature-icon"/g) || []).length >= 4 && (idx.match(/#ta-(?:cap|shield|chat)/g) || []).length >= 3);
   const shop = fs.readFileSync(SITE + '/shop.html', 'utf8');
   ok('shop banner wired', shop.includes('shop-banner.png'));
   const login = fs.readFileSync(SITE + '/portal/login.html', 'utf8');

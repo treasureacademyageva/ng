@@ -99,7 +99,7 @@ function loadPage(page, session, seedFn) {
   ok('faq opens', a.window.document.querySelector('#admFaq .faq-item').classList.contains('open'));
   ok('landing countdown bar restored (owner review, 25 Sept 2026)', fs.readFileSync(SITE + '/index.html', 'utf8').includes('id="calCount"'));
   const tmr = new Date(); tmr.setDate(tmr.getDate() + 1);
-  const t = loadPage('index.html', null, win => {
+  const t = loadPage('birthdays.html', null, win => {
     const db = win.__DB.load();
     db.teachers.forEach(x => { x.dob = '1990-01-01'; });
     db.teachers[0].dob = tmr.toISOString().slice(0, 10); db.teachers[0].name = 'Morrow Star';
@@ -109,7 +109,7 @@ function loadPage(page, session, seedFn) {
   ok('countdown says tomorrow', t.window.document.getElementById('bdayCount').textContent.includes('Tomorrow!'), t.window.document.getElementById('bdayCount').textContent.slice(0, 100));
   const today = new Date().toISOString().slice(0, 10);
   const fut = new Date(); fut.setDate(fut.getDate() + 9);
-  const b = loadPage('index.html', null, win => {
+  const b = loadPage('birthdays.html', null, win => {
     const db = win.__DB.load();
     db.teachers.forEach(x => { x.dob = '1990-01-01'; });
     db.teachers[0].dob = today; db.teachers[0].name = 'Today Star';
@@ -117,7 +117,7 @@ function loadPage(page, session, seedFn) {
     db.school.headDob = '1980-06-01';
     win.__DB.save(db);
   });
-  ok('bell + countdown coexist', b.window.document.getElementById('bdayBell').textContent.includes('Today Star') && b.window.document.getElementById('bdayCount').textContent.includes('Future Star'));
+  ok('today celebration + countdown coexist on birthday page', b.window.document.body.textContent.includes('Today Star') && b.window.document.getElementById('bdayCount').textContent.includes('Future Star'));
   const path = require('path');
   const pages = [];
   (function walk(dd) { for (const f of fs.readdirSync(dd)) { const p = path.join(dd, f); if (fs.statSync(p).isDirectory()) walk(p); else if (f.endsWith('.html')) pages.push(p); } })(SITE);

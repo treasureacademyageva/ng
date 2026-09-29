@@ -50,7 +50,7 @@ const filled = { surname: 'KID', first: 'K', reqclass: 'Primary 1', sex: 'Male',
   ok('ticker renders', !!w.document.getElementById('newsTicker'));
   const runs = w.document.querySelectorAll('#newsTicker .tick-content');
   ok('ticker has one non-duplicated content run', runs.length === 1 && !w.document.querySelector('#newsTicker .tick-half'), `n=${runs.length}`);
-  ok('30fps frame skip', site.includes('++frame%2'));
+  ok('decorative night canvas removed', !site.includes('starCanvas') && !site.includes('flies=') && !site.includes('++frame%2'));
   ok('no shadowBlur', !site.includes('shadowBlur'));
   ok('ticker compositor css', css.includes('will-change:transform') && css.includes('.ticker-inner>.tick-content'));
 }

@@ -51,7 +51,7 @@ const m = sitejs.match(/WOW_WORDS=\[([\s\S]*?)\];\nfunction renderWOW/);
 const words = [...m[1].matchAll(/\["([A-Za-z]+)"/g)].map(x => x[1]);
 ok('word matches week rotation', wow.textContent.includes(words[WEEK % words.length]), 'expected ' + words[WEEK % words.length]);
 ok('word list healthy (24+ words)', words.length >= 24, 'n=' + words.length);
-ok('wow css tokens + dark', corp.includes('.wow-card{') && corp.includes('[data-theme="dark"] .wow-word{color:#F5C242}'));
+ok('wow css tokens + dark', corp.includes('.wow-card{') && corp.includes('[data-theme="dark"] .wow-word{color:#C9A227}'));
 ok('wow boots site-wide', sitejs.includes('bootSafe(()=>renderWOW())'));
 ok('page clean', pup.errors.length === 0, pup.errors.join(' || ').slice(0, 140));
 

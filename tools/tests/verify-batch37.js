@@ -60,14 +60,14 @@ ok('watermark guards', admHtml.includes('if(!cx){ use(r.result); return; }') && 
 /* ---------- C. reading mode ---------- */
 const story = fs.readFileSync(SITE + '/story.html', 'utf8');
 ok('read button on story page', story.includes('id="readBtn"') && story.includes("classList.toggle('reading')"));
-ok('reading css', corp.includes('body.reading{display:block}') && corp.includes('body.reading .story-body p{font-size:1.08rem;line-height:2}') && corp.includes('body.reading .topbar,body.reading .navbar'));
+ok('reading css', corp.includes('body.reading{display:block}') && corp.includes('body.reading .story-body p{font-size:var(--fs-base);line-height:2}') && corp.includes('body.reading .topbar,body.reading .navbar'));
 const st = loadPage('story.html', '?id=NE9', null, 'var d=DB.load(); d.newsEvents.unshift({id:"NE9",type:"news",date:U.todayStr(),title:"T",text:"x",image:"assets/img/hero-kids.png",views:0,likes:0}); DB.save(d);');
 ok('story loads clean', st.errors.length === 0, st.errors.join(' || ').slice(0, 160));
 ok('story read button wired + toggles', !!st.window.document.getElementById('readBtn') && st.window.document.getElementById('readBtn').getAttribute('onclick').includes("toggle('reading')") && (() => { st.run("document.body.classList.toggle('reading')"); return st.window.document.body.classList.contains('reading'); })());
 
 /* ---------- D. teacher tour ---------- */
 ok('tour code present', fs.readFileSync(SITE + '/portal/teacher.html', 'utf8').includes('treasure_tour_done') && fs.readFileSync(SITE + '/portal/teacher.html', 'utf8').includes('Step \'+(i+1)+\' of \'+steps.length'));
-ok('tour css', corp.includes('#tourOv{position:fixed') && corp.includes('.tour-hl{outline:3px solid #F7E967'));
+ok('tour css', corp.includes('#tourOv{position:fixed') && corp.includes('.tour-hl{outline:3px solid #E5DCC2'));
 const t1 = loadPage('portal/teacher.html', TEACHER);
 ok('tour shows on first login', !!t1.window.document.getElementById('tourOv') && t1.window.document.getElementById('tourCard').textContent.includes('Step 1 of 3') && t1.window.document.getElementById('tourCard').textContent.includes('Mark Register'));
 t1.window.document.getElementById('tourNext').click();
