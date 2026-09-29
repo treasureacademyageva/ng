@@ -189,8 +189,8 @@ function finish() {
   ok('best score math', ra('var x=U.bestRank(DB.load(),DB.load().school.term,DB.load().school.session).find(r=>r.p.id==="P001"); x.parts.att===20&&x.parts.fees===20&&x.parts.review===10&&x.parts.books===0&&x.parts.res===Math.round(x.avg/100*40)&&x.score===x.parts.att+x.parts.fees+x.parts.review+x.parts.books+x.parts.res') === true);
   ra('crownBest("P001");');
   ok('crown publishes', ra('DB.load().bestStudent.published') === true && ra('DB.load().bestStudent.name') === 'Adaeze Okafor');
-  const ix = loadPage('index.html', null, null, 'var sd=DB.load(); sd.bestStudent={name:"Adaeze Okafor",class:"Primary 1",score:77,parts:{},term:"First Term",session:"s",published:true,date:"x"}; DB.save(sd);');
-  ok('winner on homepage', ix.window.document.getElementById('totZone').innerHTML.includes('Best Student of the Session'));
+  const ix = loadPage('about.html', null, null, 'var sd=DB.load(); sd.bestStudent={name:"Adaeze Okafor",class:"Primary 1",score:77,parts:{},term:"First Term",session:"s",published:true,date:"x"}; DB.save(sd);');
+  ok('winner moved to About weekly honours', ix.window.document.getElementById('aboutHonours').innerHTML.includes('Best Student of the Session'));
 }
 
 /* ---------- #12 sick-bay push ---------- */
@@ -257,16 +257,16 @@ function finish() {
   const before = a.run('(DB.load().teacherVotes||{}).T001||0');
   a.run('voteTeacher("T001");');
   ok('public staff vote counts', a.run('(DB.load().teacherVotes||{}).T001') === before + 1);
-  const ix = loadPage('index.html', null, null, 'var sd=DB.load(); sd.teacherVotes={T001:5}; DB.save(sd);');
-  ok('monthly leader on homepage', ix.window.document.getElementById('totZone').innerHTML.includes('Leading Star'));
+  const ix = loadPage('about.html', null, null, 'var sd=DB.load(); sd.teacherVotes={T001:5}; DB.save(sd);');
+  ok('monthly leader moved to About weekly honours', ix.window.document.getElementById('aboutHonours').innerHTML.includes('Leading Star'));
   const n1 = loadPage('index.html', null, null, 'localStorage.setItem("treasure_theme","dark");');
   ok('stored dark override respected', n1.window.document.documentElement.dataset.theme === 'dark');
   const n2 = loadPage('index.html', null, null, 'localStorage.setItem("treasure_theme","light");');
   ok('stored light override respected', n2.window.document.documentElement.dataset.theme === 'light');
-  const n3 = loadPage('index.html', null, null, 'var __RD=Date; Date=function(){ const d=new __RD(); d.getHours=()=>22; return d; }; Date.now=__RD.now;');
-  ok('auto night at 10pm', n3.window.document.documentElement.dataset.theme === 'dark');
-  const n4 = loadPage('index.html', null, null, 'var __RD=Date; Date=function(){ const d=new __RD(); d.getHours=()=>10; return d; }; Date.now=__RD.now;');
-  ok('auto day at 10am', n4.window.document.documentElement.dataset.theme === 'light');
+  const n3 = loadPage('index.html', null, null, 'window.matchMedia=()=>({matches:true,addEventListener(){},addListener(){}});');
+  ok('first visit respects dark OS preference', n3.window.document.documentElement.dataset.theme === 'dark');
+  const n4 = loadPage('index.html', null, null, 'window.matchMedia=()=>({matches:false,addEventListener(){},addListener(){}});');
+  ok('first visit respects light OS preference', n4.window.document.documentElement.dataset.theme === 'light');
 }
 
 /* ---------- #19 share card + #20 midterm ---------- */

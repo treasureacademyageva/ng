@@ -13,34 +13,28 @@ const Theme = {
     if(pg==="home"){ d.innerHTML='<button class="theme-btn" title="Switch to night">'+ICON_MOON+'</button>'; } c.appendChild(d); } });
     /* mobile nav: two rows, all links visible — no hamburger (2026-09-16) */
 
-    const autoDark=()=>{ try{ if(window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches) return "dark"; }catch(e){} const h=new Date().getHours(); return (h>=19||h<6)?"dark":"light"; };
+    /* Follow the visitor's OS on first visit; an explicit choice always wins. */
+    const autoDark=()=>{ try{ return window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"; }catch(e){ return "light"; } };
     const storedOv=localStorage.getItem("treasure_theme");
     const t = storedOv || autoDark();
     document.documentElement.dataset.theme = t;
-    if(!storedOv){ try{ setInterval(()=>{ if(!localStorage.getItem("treasure_theme")){ document.documentElement.dataset.theme=autoDark(); setTC(document.documentElement.dataset.theme); } },10*60*1000); }catch(e){} }
-    const setTC=th=>{ let m=document.querySelector('meta[name="theme-color"]'); if(!m){ m=document.createElement("meta"); m.name="theme-color"; document.head.appendChild(m); } m.content=th==="dark"?"#0C1B14":th==="dark-hc"?"#05080D":"#0B7A37"; };
+    if(!storedOv&&window.matchMedia){
+      try{ const mq=window.matchMedia("(prefers-color-scheme: dark)"); const follow=()=>{ if(!localStorage.getItem("treasure_theme")){ const next=mq.matches?"dark":"light"; document.documentElement.dataset.theme=next; setTC(next); } }; if(mq.addEventListener)mq.addEventListener("change",follow); }catch(e){}
+    }
+    const setTC=th=>{ let m=document.querySelector('meta[name="theme-color"]'); if(!m){ m=document.createElement("meta"); m.name="theme-color"; document.head.appendChild(m); } m.content=th==="dark"?"#101B28":"#0B7A37"; };
     setTC(t);
     document.querySelectorAll(".theme-btn").forEach(b=>{
-      /* The search button borrows the theme-btn class for its sizing, and the
-         header pill carries its own sun+knob markup driven by CSS - neither
-         may have its innerHTML swapped. */
-      if(b.id==="searchBtn")return;
-      const pill=b.classList.contains("theme-pill");
-      if(!pill){
-        b.innerHTML = t==="light" ? ICON_MOON : ICON_SUN;
-        b.title = t==="light" ? "Switch to night" : t==="dark" ? "Switch to high-contrast night" : "Switch to daytime";
-      }
+      const paint=th=>{
+        b.innerHTML = th==="light" ? ICON_MOON : ICON_SUN;
+        b.title = th==="light" ? "Switch to night mode" : "Switch to daytime";
+        b.setAttribute("aria-label",b.title);
+      };
+      paint(t);
       b.onclick = ()=>{
-        /* batch30: day -> night -> high-contrast night -> day (tap moon again for even deeper dark) */
-        const cur = document.documentElement.dataset.theme||"light";
-        const nt = cur==="light" ? "dark" : cur==="dark" ? "dark-hc" : "light";
-        document.documentElement.dataset.theme = nt; setTC(nt);
-        localStorage.setItem("treasure_theme", nt);
-        if(!pill){
-          b.innerHTML = nt==="light" ? ICON_MOON : ICON_SUN;
-          b.title = nt==="light" ? "Switch to night" : nt==="dark" ? "Switch to high-contrast night" : "Switch to daytime";
-        }
-        try{ U.toast(nt==="dark-hc"?"High-contrast night on \u2014 tap again for day.":nt==="dark"?"Night mode on \u2014 tap again for high contrast.":"Day mode on."); }catch(e){}
+        const nt=(document.documentElement.dataset.theme||"light")==="light"?"dark":"light";
+        document.documentElement.dataset.theme=nt; setTC(nt);
+        localStorage.setItem("treasure_theme",nt); paint(nt);
+        try{ U.toast(nt==="dark"?"Night mode on.":"Day mode on."); }catch(e){}
       };
     });
   }
@@ -86,7 +80,7 @@ const Search={
  init(){
   if(!document.getElementById("mainNav")||document.getElementById("searchBtn"))return;
   const row=document.querySelector(".navbar .nav-cta-row"); if(!row)return;
-  const b=document.createElement("button"); b.id="searchBtn"; b.className="theme-btn"; b.title="Search this website";
+  const b=document.createElement("button"); b.id="searchBtn"; b.className="icon-action"; b.type="button"; b.title="Search this website"; b.setAttribute("aria-label",b.title);
   b.innerHTML='<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.8-3.8"/></svg>';
   b.onclick=()=>this.open();
   row.insertBefore(b,row.firstChild);
@@ -167,27 +161,23 @@ const Search={
  }
 };
 /* ---------------- NAV + FOOTER ---------------- */
-/* The header template: icon-over-label items that never hide. Contact Us
-   lives in the More drawer, and the Login/Register card sits after a wide
-   gap (it is outside #mainNav in the page HTML, so it survives this
-   rewrite). The More button markup is emitted here too so its place in the
-   row is stable; auth-ui.js skips its own burger when one already exists. */
+/* One familiar, flat public navigation: brand left, six core links in the
+   centre, and fixed-size actions at the right. Dedicated pages remain
+   available through search and the footer without crowding the header. */
 const NAV_ITEMS=[
-  {id:"home",label:"Home",href:"index.html",
-   icon:'<svg viewBox="0 0 24 24" width="28" height="28" fill="currentColor" aria-hidden="true"><path d="M12 3 3 10.2V20a1.4 1.4 0 0 0 1.4 1.4h5V15h5.2v6.4h5A1.4 1.4 0 0 0 21 20v-9.8L12 3Z"/></svg>'},
-  {id:"news",label:"News/Event",href:"news.html",
-   icon:'<svg viewBox="0 0 24 24" width="28" height="28" fill="currentColor" aria-hidden="true"><path d="M4 4.5A1.5 1.5 0 0 1 5.5 3h11A1.5 1.5 0 0 1 18 4.5V19a2 2 0 0 0 2-2V7.6h1V17a3.4 3.4 0 0 1-3.4 3.4H6.6A2.6 2.6 0 0 1 4 17.8V4.5Z"/><rect x="6.2" y="5.6" width="9.6" height="4.4" rx="0.8" fill="var(--hd-front,#fff)"/><rect x="6.2" y="12" width="9.6" height="1.8" rx="0.9" fill="var(--hd-front,#fff)"/><rect x="6.2" y="15.4" width="6.6" height="1.8" rx="0.9" fill="var(--hd-front,#fff)"/></svg>'},
-  {id:"about",label:"About Us",href:"about.html",
-   icon:'<svg viewBox="0 0 24 24" width="28" height="28" fill="currentColor" aria-hidden="true"><circle cx="12" cy="12" r="9.4"/><circle cx="12" cy="7.6" r="1.35" fill="var(--hd-front,#fff)"/><rect x="10.7" y="10.4" width="2.6" height="7" rx="1.3" fill="var(--hd-front,#fff)"/></svg>'}
+  {id:"home",label:"Home",href:"index.html"},
+  {id:"about",label:"About",href:"about.html"},
+  {id:"admissions",label:"Admissions",href:"admissions.html"},
+  {id:"academics",label:"Academics",href:"academics.html"},
+  {id:"news",label:"News & Events",href:"news.html"},
+  {id:"contact",label:"Contact",href:"contact.html"}
 ];
-const NAV_BURGER='<button type="button" class="hd-item nav-burger" id="taBurger" aria-label="Open menu" aria-haspopup="dialog"><span class="ic"><svg viewBox="0 0 24 24" width="28" height="28" fill="currentColor" aria-hidden="true"><rect x="3.4" y="3.4" width="7.6" height="7.6" rx="2.2"/><rect x="13" y="3.4" width="7.6" height="7.6" rx="2.2"/><rect x="3.4" y="13" width="7.6" height="7.6" rx="2.2"/><rect x="13" y="13" width="7.6" height="7.6" rx="3.8"/></svg></span><span class="lbl">More</span></button>';
-/* explore-bar removed 2026-09-15: single clean nav; footer keeps PTA/Alumni/Birthdays links */
 function renderNav(current){
-  const box = document.getElementById("mainNav");
-  if(!box) return;
-  box.innerHTML = NAV_ITEMS.map(n=>
-    `<a class="hd-item${n.id===current?" on":""}" href="${n.href}" ${n.id===current?'aria-current="page"':""}><span class="ic">${n.icon}</span><span class="lbl">${n.label}</span></a>`
-  ).join("") + NAV_BURGER;
+  const box=document.getElementById("mainNav");
+  if(!box)return;
+  box.innerHTML=NAV_ITEMS.map(n=>
+    `<a class="nav-link${n.id===current?" on":""}" href="${n.href}" ${n.id===current?'aria-current="page"':""}>${n.label}</a>`
+  ).join("");
 }
 function renderFooter(){
   const box = document.getElementById("siteFooter");
@@ -381,7 +371,7 @@ function makeDraggable(el, handle){
 /* ---------------- ANALOG CLOCK + timetable ---------------- */
 const ClockWidget = {
   schedule(h, m, day){
-    if(day===0||day===6) return ["WEEKEND","Weekend — school resumes back on Monday."];
+    if(day===0||day===6) return ["WEEKEND","Weekend — school resumes on Monday."];
     const t = h + m/60;
     if(t>=7 && t<7.75)  return ["OPENING TIME","School is now open."];
     if(t>=7.75 && t<8)  return ["ASSEMBLY TIME","Morning assembly in progress."];
@@ -571,12 +561,9 @@ function renderMotto(){
 function renderTicker(){
   if(document.getElementById("newsTicker"))return;
   let db={}; try{ db=DB.load(); }catch(e){}
-  const t=db.ticker||{};
-  if(!t.on)return;
   const items=[];
-  if(t.on&&t.text)items.push(t.text);
-  const today=U.todayStr();
-  (db.newsEvents||[]).filter(n=>n.date===today&&(!n.publishAt||n.publishAt<=today)).forEach(n=>items.push(((n.type==="event")?"Event today: ":"News today: ")+n.title+" ("+n.date+")"));
+  /* Keep the moving strip for time-sensitive lost property only. Admissions,
+     events and routine notices already have calmer, dedicated destinations. */
   (db.lostfound||[]).filter(l=>!l.claimed).slice(0,4).forEach(l=>items.push("Lost & Found: "+l.item+" — found "+(l.date||"recently")+". Is it yours?"));
   if(!items.length)return;
   const anchor=document.getElementById("mottoRibbon")||document.querySelector(".navbar");
@@ -798,44 +785,7 @@ const Lightbox = {
   close(){ const m = document.getElementById("lightbox"); if(m) m.remove(); if(this.key){ document.removeEventListener("keydown", this.key); this.key = null; } }
 };
 
-/* ---------------- STARS + FIREFLIES (dark-mode sky) ---------------- */
-const Stars = {
-  init(){
-    if(document.getElementById("starCanvas")) return;
-    const cv=document.createElement("canvas"); cv.id="starCanvas";
-    document.body.appendChild(cv);
-    const ctx=cv.getContext("2d");
-    let W,H,stars=[],flies=[];
-    /* batch24: pre-rendered glow sprite replaces the costly per-frame canvas shadow (the night-mode lag culprit on phones) */
-    const glow=document.createElement("canvas"); glow.width=glow.height=48;
-    const gx=glow.getContext("2d"), grd=gx.createRadialGradient(24,24,2,24,24,24);
-    grd.addColorStop(0,"rgba(255,233,163,1)"); grd.addColorStop(.35,"rgba(255,217,77,.85)"); grd.addColorStop(1,"rgba(255,217,77,0)");
-    gx.fillStyle=grd; gx.fillRect(0,0,48,48);
-    const size=()=>{ W=cv.width=innerWidth; H=cv.height=innerHeight;
-      stars=Array.from({length:Math.min(70,Math.floor(W/18))},()=>({x:Math.random()*W,y:Math.random()*H,r:.6+Math.random()*1.5,p:Math.random()*6.28,s:.5+Math.random()*1.5}));
-      flies=Array.from({length:innerWidth<640?10:16},()=>({x:Math.random()*W,y:Math.random()*H,vx:.15+Math.random()*.35,vy:.1+Math.random()*.3,r:1.4+Math.random()*1.5,p:Math.random()*6.28,q:Math.random()*6.28}));
-    };
-    size(); addEventListener("resize",size);
-    /* batch29: reduced-motion users get stillness — no drifting sparkles */
-    try{ if(window.matchMedia&&matchMedia("(prefers-reduced-motion: reduce)").matches)return; }catch(e){}
-    let frame=0;
-    (function loop(){
-      requestAnimationFrame(loop);
-      if(document.documentElement.dataset.theme!=="dark"||document.hidden) return;
-      if(++frame%2) return; /* batch24: 30fps halves night-mode GPU load so the ticker stays smooth */
-      ctx.clearRect(0,0,W,H);
-      const t=Date.now()/1000;
-      stars.forEach(s=>{ const a=.25+.55*Math.abs(Math.sin(t*s.s+s.p));
-        ctx.globalAlpha=a; ctx.fillStyle="#CFE3FF"; ctx.beginPath(); ctx.arc(s.x,s.y,s.r,0,7); ctx.fill(); });
-      flies.forEach(f=>{ f.x+=f.vx*2; if(f.x>W+12)f.x=-12;
-        const fy=(f.y+t*9*f.vy)%(H+24)-12;
-        const g=.5+.5*Math.sin(t*2+f.p), tw=.55+.45*Math.sin(t*3.2+f.q);
-        ctx.globalAlpha=Math.min(1,(.2+.6*g)*tw+.18);
-        const sz=f.r*9; ctx.drawImage(glow,f.x-sz/2,fy-sz/2,sz,sz); });
-      ctx.globalAlpha=1;
-    })();
-  }
-};
+/* The dark theme stays calm and content-led; no decorative canvas is mounted. */
 
 /* ---------------- INPUT FILTERS (letters-only / numbers-only) ---------------- */
 function initInputFilters(scope){
@@ -857,7 +807,6 @@ function bootWidgets(){
   if(document.body.dataset.widgets==="off") return;
   bootSafe(()=>{ if(window.TAChatUI) TAChatUI.init(); });
   bootSafe(()=>ClockWidget.init());
-  bootSafe(()=>Stars.init());
 }
 document.addEventListener("DOMContentLoaded", ()=>{
   bootSafe(()=>Theme.init());
@@ -896,13 +845,6 @@ setTimeout(bootWidgets, 3000);
   var RM=false; try{ RM=window.matchMedia&&window.matchMedia("(prefers-reduced-motion: reduce)").matches; }catch(e){}
   function ready(fn){ if(document.readyState!=="loading")fn(); else document.addEventListener("DOMContentLoaded",fn); }
   ready(function(){
-    /* button ripple */
-    document.addEventListener("pointerdown",function(e){
-      var b=e.target&&e.target.closest?e.target.closest(".btn"):null; if(!b||RM)return;
-      var r=b.getBoundingClientRect(), d=Math.max(r.width,r.height)*.9, s=document.createElement("span");
-      s.className="fx-ripple"; s.style.cssText="width:"+d+"px;height:"+d+"px;left:"+(e.clientX-r.left-d/2)+"px;top:"+(e.clientY-r.top-d/2)+"px";
-      b.appendChild(s); setTimeout(function(){ s.remove(); },540);
-    });
     /* segmented tabs */
     function bootTabs(){
       document.querySelectorAll(".seg").forEach(function(seg){
@@ -930,18 +872,6 @@ setTimeout(bootWidgets, 3000);
       if(window.IntersectionObserver){ new IntersectionObserver(function(es,o){ es.forEach(function(x){ if(x.isIntersecting){ requestAnimationFrame(step); o.disconnect(); } }); },{threshold:.4}).observe(el); }
       else requestAnimationFrame(step);
     });
-    /* tilt cards */
-    if(!RM){ var canTilt=false; try{ canTilt=window.matchMedia("(hover:hover) and (pointer:fine)").matches; }catch(e){}
-      if(canTilt)document.querySelectorAll(".tilt").forEach(function(c){
-        c.addEventListener("mousemove",function(e){ var r=c.getBoundingClientRect(), x=(e.clientX-r.left)/r.width-.5, y=(e.clientY-r.top)/r.height-.5; c.style.transform="perspective(700px) rotateX("+(-y*4).toFixed(2)+"deg) rotateY("+(x*4).toFixed(2)+"deg) translateY(-3px)"; });
-        c.addEventListener("mouseleave",function(){ c.style.transform=""; });
-      }); }
-    /* staggered entrances */
-    document.querySelectorAll(".stag-grid > *").forEach(function(child,i){ child.classList.add("stag-pre"); child.style.transitionDelay=(Math.min(i,8)*70)+"ms"; });
-    if(window.IntersectionObserver){
-      var io=new IntersectionObserver(function(es){ es.forEach(function(x){ if(x.isIntersecting){ x.target.classList.add("stag-in"); io.unobserve(x.target); } }); },{threshold:.12});
-      document.querySelectorAll(".stag-pre").forEach(function(el){ io.observe(el); });
-    } else document.querySelectorAll(".stag-pre").forEach(function(el){ el.classList.add("stag-in"); });
     /* scrollspy bars */
     document.querySelectorAll(".spy-bar").forEach(function(bar){
       var links=[].slice.call(bar.querySelectorAll("a[href^='#']"));

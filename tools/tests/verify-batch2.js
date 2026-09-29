@@ -94,13 +94,13 @@ function seedCommon(w) {
   const nt = w.document.getElementById('newsGrid').textContent;
   ok('index cards show likes', /likes/.test(nt));
   ok('index cards hide zero comments', !/0 comments/.test(nt));
-  ok('single birthday bell at top', !!w.document.getElementById('bdayBell') && !w.document.getElementById('bdayBanner'));
+  ok('birthday widgets moved off the homepage', !w.document.getElementById('bdayBell') && !w.document.getElementById('bdayBanner'));
 }
 {
-  // birthday logic end-to-end: headmistress birthday today shows in the top bell
+  // birthday logic end-to-end now lives on the dedicated birthday page
   const t = new Date().toISOString().slice(0, 10);
-  const bw = loadPage('index.html', '', win => { const db = win.__DB.load(); db.school.headDob = t; db.teachers.forEach(x => x.dob = '1990-01-01'); win.__DB.save(db); });
-  ok('birthday bell shows headmistress today', bw.window.document.getElementById('bdayBell').textContent.includes('Happy Birthday') && bw.window.document.getElementById('bdayBell').textContent.includes('Headmistress'));
+  const bw = loadPage('birthdays.html', '', win => { const db = win.__DB.load(); db.school.headDob = t; db.teachers.forEach(x => x.dob = '1990-01-01'); win.__DB.save(db); });
+  ok('birthday page shows headmistress today', bw.window.document.body.textContent.includes('BIRTHDAY TODAY') && bw.window.document.body.textContent.includes('Headmistress'));
   ok('no errors', bw.errors.length === 0, bw.errors.join(' || ').slice(0, 200));
 }
 

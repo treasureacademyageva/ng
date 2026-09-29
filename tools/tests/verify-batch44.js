@@ -77,7 +77,7 @@ ok('404 branded + noindex + links out', e404.includes('<h1') && e404.includes('4
 /* ---------- D. fees compare ---------- */
 ok('fees: compare zone + seg tabs', fees.includes('id="feeCompare"') && fees.includes('id="feeTabs"') && fees.includes('data-seg="term"') && fees.includes('data-seg="year"'));
 ok('fees: panes + rows render calls', fees.includes('id="cmpTermRows"') && fees.includes('id="cmpYearRows"') && fees.includes('id="incGrid"') && fees.includes('Per year'));
-ok('fees: css sticky wrap', corp.includes('.cmp-wrap{overflow-x:auto') && corp.includes('.page-hero h1{font-size:clamp'));
+ok('fees: css sticky wrap', corp.includes('.cmp-wrap{overflow-x:auto') && corp.includes('.page-hero h1{font-size:var(--fs-2xl)'));
 
 /* ---------- E. live fees ---------- */
 const f = loadPage('fees.html');

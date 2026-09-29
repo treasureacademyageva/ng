@@ -54,18 +54,12 @@ const ADMIN = { role: 'admin', refId: 'HEAD001', name: 'Mrs. Salihu Nanahawa' };
 }
 /* css static */
 {
-  const css = fs.readFileSync(SITE + '/assets/css/corporate.css', 'utf8');
-  const need = ['[data-theme="dark"] .b-green{background:#123B26;color:#7BD89F}', '[data-theme="dark"] .b-sun',
-    '[data-theme="dark"] .p-stat', '[data-theme="dark"] .hw-row', '[data-theme="dark"] .slot,',
-    '[data-theme="dark"] .star-card', '[data-theme="dark"] .bday-bell', '[data-theme="dark"] .login-card',
-    '[data-theme="dark"] .form-card', '[data-theme="dark"] .mv-card', '[data-theme="dark"] .quote-card',
-    '[data-theme="dark"] .tl-item', '[data-theme="dark"] .pill-date', '[data-theme="dark"] .promo-sun',
-    '[data-theme="dark"] .chat-chips button', '[data-theme="dark"] .icon-btn.ok', '[data-theme="dark"] .stock{',
-    '[data-theme="dark"] .like-btn.on', '.avatar{color:#fff!important',
-    '.hero::before', '.page-hero::after', '.stats-band::before', '.cta-band::before', '.sidebar::after',
-    '@media print', 'color:#203040!important', '.foot-bottom{color:#A7B5AD}'];
+  const css = fs.readFileSync(SITE + '/assets/css/main.css', 'utf8') + fs.readFileSync(SITE + '/assets/css/corporate.css', 'utf8');
+  const need = ['--d-bg:#101B28','--d-surface:#1C2A24','--d-text:#EAF0F6','--d-muted:#9AA7B8','--d-line:#2A3A4E',
+    '[data-theme="dark"],[data-theme="dark-hc"]','--paper:var(--d-surface)','--cream:var(--d-bg)',
+    '[data-theme="dark"] body','@media print{:root{--paper:#FFFFFF'];
   const missing = need.filter(n => !css.includes(n));
-  ok('contrast+background+print css present', missing.length === 0, missing.join(' | ').slice(0, 300));
+  ok('token-based dark contrast and print reset present', missing.length === 0, missing.join(' | ').slice(0, 300));
 }
 /* new pages */
 {

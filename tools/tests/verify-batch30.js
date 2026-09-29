@@ -41,18 +41,18 @@ function loadPage(page, session, url, pre) {
 }
 
 /* ---------- A. CSS: button system + login edge + ring + hc + fontsize ---------- */
-ok('button system block', corp.includes('BATCH 30 (2026-09-20)') && corp.includes('.btn{border-radius:12px}') && corp.includes('.btn:focus-visible'));
+ok('button system block', corp.includes('BATCH 30 (2026-09-20)') && corp.includes('.btn{border-radius:var(--r-md)}') && corp.includes('.btn:focus-visible'));
 ok('login edge alignment', corp.includes('.nav-links .btn{margin-left:14px;margin-right:2px}') && corp.includes('.nav-cta-row{margin-left:10px}'));
-ok('mobile login full row', corp.includes('.nav-links .btn{width:100%;margin:0;border-radius:12px}'));
-ok('progress ring css', corp.includes('conic-gradient(var(--gold,#C9A227) calc(var(--prog,0)*1%)'));
-ok('hc night tokens', corp.includes('[data-theme="dark-hc"]{--cream:#080D14') && corp.includes('[data-theme="dark-hc"] .navbar'));
+ok('mobile login full row', corp.includes('.nav-links .btn{width:100%;margin:0;border-radius:var(--r-md)}'));
+ok('top button stays flat without gradient ring', corp.includes('#topBtn::before{display:none}') && !corp.includes('conic-gradient('));
+ok('approved dark tokens replace the separate high-contrast mode', corp.includes('[data-theme="dark"],[data-theme="dark-hc"]{') && corp.includes('--cream:var(--d-bg)'));
 ok('fontsize rules', corp.includes('html[data-fontsize="s"]') && corp.includes('html[data-fontsize="l"]'));
 
 /* ---------- B. site.js: topBtn everywhere + ring + theme cycle + og + footer preset ---------- */
 ok('topBtn auto-boot', sitejs.includes('__topBtnBooted') && sitejs.includes('bootSafe(()=>initTopBtn())'));
 ok('portals excluded from topBtn boot', sitejs.includes('portal\\/(admin|teacher|pupil)'));
 ok('ring progress wiring', sitejs.includes('setProperty("--prog"'));
-ok('theme 3-state cycle', sitejs.includes('"dark-hc"') && sitejs.includes('Switch to high-contrast night'));
+ok('theme is a clear two-state cycle', !sitejs.includes('"dark-hc"') && sitejs.includes('Switch to daytime'));
 ok('og/favicon injection', sitejs.includes('og:image') && sitejs.includes('icon-512.png') && sitejs.includes('apple-touch-icon') && sitejs.includes('theme-color'));
 ok('footer text-size preset', sitejs.includes('id="textSizeBtns"') && sitejs.includes('treasure_fontsize'));
 
@@ -86,15 +86,14 @@ ok('large text applies + persists', idx.window.document.documentElement.dataset.
 
 const lg = loadPage('portal/login.html', null, null, 'localStorage.setItem("treasure_theme","light");');
 const tb = lg.window.document.querySelector('.theme-btn');
-tb.click(); tb.click(); tb.click();
-ok('theme cycles day-night-hc-day', lg.window.document.documentElement.dataset.theme === 'light');
 tb.click();
+ok('theme reaches dark state', lg.window.document.documentElement.dataset.theme === 'dark');
 tb.click();
-ok('hc state reached', lg.window.document.documentElement.dataset.theme === 'dark-hc');
+ok('theme returns to light state', lg.window.document.documentElement.dataset.theme === 'light');
 ok('login page clean', lg.errors.length === 0, lg.errors.join(' || ').slice(0, 140));
 
-const hc = loadPage('index.html', null, null, 'document.documentElement.dataset.theme="dark-hc"; localStorage.setItem("treasure_theme","dark-hc");');
-ok('high-contrast homepage clean', hc.errors.length === 0, hc.errors.join(' || ').slice(0, 140));
+const hc = loadPage('index.html', null, null, 'document.documentElement.dataset.theme="dark"; localStorage.setItem("treasure_theme","dark");');
+ok('dark homepage clean', hc.errors.length === 0 && hc.window.document.documentElement.dataset.theme === 'dark', hc.errors.join(' || ').slice(0, 140));
 
 /* ---------- F. versions ---------- */
 let stale = 0;

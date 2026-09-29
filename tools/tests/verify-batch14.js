@@ -82,7 +82,7 @@ const dstr = off => { const d = new Date(); d.setDate(d.getDate() + off); return
     win.__DB.save(db);
   });
   const t = w.document.getElementById('newsTicker').textContent;
-  ok('ticker today news', t.includes('News today:') && t.includes('T14 Mango Fair'));
+  ok('ticker excludes routine news', !t.includes('News today:') && !t.includes('T14 Mango Fair'));
   ok('ticker lostfound', t.includes('Lost & Found:') && t.includes('Red lunchbox'));
   ok('ticker clean', errors.length === 0, errors.join(' || ').slice(0, 250));
 }
@@ -115,12 +115,12 @@ const dstr = off => { const d = new Date(); d.setDate(d.getDate() + off); return
 /* ---- index structure ---- */
 {
   const src = fs.readFileSync(SITE + '/index.html', 'utf8');
-  const order = ['id="admissions"', 'id="aboutPrev"', 'id="programs"', 'id="promotions"', 'id="news"', 'id="gallery"', 'id="videos"', 'HEADMISTRESS', 'id="testimonials"'].map(m => src.indexOf(m));
-  ok('index order adm-top>about>programs>promos>news>gallery>videos>hm>testi', order.every(x => x > 0) && order.every((x, i) => i === 0 || order[i - 1] < x), order.join(','));
-  ok('one cta band (admissions only - promos and news are card grids again)', (src.match(/cta-band/g) || []).length === 1);
-  ok('landing countdown restored', src.includes('id="calCount"'));
-  ok('videos grouped like gallery', src.includes('vid-grid') && src.includes('id="videos"') && !src.includes('CAMPUS TOUR'));
-  ok('see all reviews link', src.includes('href="testimonials.html">See All Reviews'));
+  const order = ['id="home"', 'id="aboutPrev"', 'id="programs"', 'id="why"', 'id="news"', 'id="gallery"', 'id="testimonials"', 'id="finalCta"'].map(m => src.indexOf(m));
+  ok('eight-section homepage order', order.every(x => x > 0) && order.every((x, i) => i === 0 || order[i - 1] < x), order.join(','));
+  ok('one final CTA band', (src.match(/class="final-cta/g) || []).length === 1);
+  ok('landing countdown merged into News', src.includes('id="news"') && src.includes('id="calCount"'));
+  ok('videos moved to News page', !src.includes('id="videos"') && fs.readFileSync(SITE + '/news.html', 'utf8').includes('id="videoRail"'));
+  ok('all reviews link retained', src.includes('href="testimonials.html">Read All Parent Reviews'));
 }
 
 /* ---- news page ---- */

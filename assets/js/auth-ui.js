@@ -375,7 +375,7 @@
   /* ---------- navigation drawer ---------- */
   var TOP_LINKS = [
     { href: "index.html",   label: "Home",        icon: "ta-star" },
-    { href: "news.html",    label: "News/Event",  icon: "ta-calendar" },
+    { href: "news.html",    label: "News & Events",  icon: "ta-calendar" },
     { href: "about.html",   label: "About Us",    icon: "ta-book" },
     { href: "contact.html", label: "Contact Us",  icon: "ta-chat" },
     { href: "admissions.html", label: "Admissions", icon: "ta-cap" }
@@ -490,19 +490,16 @@
       var a = e.target && e.target.closest && e.target.closest('a[href*="portal/login.html"]');
       if (!a) return;
       e.preventDefault();
-      openLogin();
+      if (/mode=register/.test(a.getAttribute("href") || "")) openRegister();
+      else openLogin();
     });
   }
 
   function init() {
-    mountBurger();
+    /* The public header now shows the six core routes directly. Do not mount
+       a hamburger: secondary destinations remain available via search and
+       the footer, while login links keep their existing modal behaviour. */
     interceptLoginLinks();
-    /* renderNav() rewrites #mainNav after load, so put the button back. */
-    var nav = document.getElementById("mainNav");
-    if (nav && window.MutationObserver) {
-      new MutationObserver(function () { mountBurger(); })
-        .observe(nav, { childList: true });
-    }
   }
 
   if (document.readyState === "loading") {

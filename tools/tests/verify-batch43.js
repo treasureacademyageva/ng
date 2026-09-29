@@ -41,9 +41,9 @@ function loadPage(page, session, url, pre) {
 }
 
 /* ---------- A. typography (studio-grade, self-hosted) ---------- */
-ok('5 ITF font files on disk (zero Google-catalog fonts)', ['clash-display-500','clash-display-600','general-sans-400','general-sans-500','spline-sans-mono-400'].every(f => fs.existsSync(SITE + '/assets/fonts/' + f + '.woff2')) && !fs.existsSync(SITE + '/assets/fonts/gidole-400-latin.woff2') && !fs.existsSync(SITE + '/assets/fonts/garamond-500-latin.woff2') && !fs.existsSync(SITE + '/assets/fonts/kristi-400-latin.woff2'));
-ok('@font-face declares Clash Display + General Sans + Spline Mono', (corp.match(/@font-face/g) || []).length === 5 && corp.includes('font-family:"Clash Display"') && corp.includes('font-family:"General Sans"') && corp.includes('font-family:"Spline Sans Mono"'));
-ok('tokens rebound to ITF system', corp.includes('--font-head:"Clash Display"') && corp.includes('--font-body:"General Sans"') && corp.includes('--font-mono:"Spline Sans Mono"'));
+ok('four approved font files on disk (zero Google-catalog fonts)', ['clash-display-500','clash-display-600','general-sans-400','general-sans-500'].every(f => fs.existsSync(SITE + '/assets/fonts/' + f + '.woff2')) && !fs.existsSync(SITE + '/assets/fonts/gidole-400-latin.woff2') && !fs.existsSync(SITE + '/assets/fonts/garamond-500-latin.woff2') && !fs.existsSync(SITE + '/assets/fonts/kristi-400-latin.woff2'));
+ok('@font-face declares only Clash Display + General Sans', (corp.match(/@font-face/g) || []).length === 4 && corp.includes('font-family:"Clash Display"') && corp.includes('font-family:"General Sans"') && !corp.includes('font-family:"Spline Sans Mono"'));
+ok('tokens use only the two approved families', corp.includes('--font-head:"Clash Display"') && corp.includes('--font-body:"General Sans"') && corp.includes('--font-mono:var(--font-body)'));
 let g = 0; const pages = [];
 function walk(d, out) { for (const f of fs.readdirSync(d)) { const p = require('path').join(d, f); if (fs.statSync(p).isDirectory()) { if (!/node_modules|\.git|[\\/]tools([\\/]|$)/.test(p)) walk(p, out); } else out.push(p); } return out; }
 for (const p of walk(SITE, []).filter(f => f.endsWith('.html'))) {

@@ -107,7 +107,7 @@ ok('disciplines are NOT parked in the subjects field', al.run(`DB.load().staffWa
 ok('Idris alone carries Mathematics as the subject he teaches', al.run(`(DB.load().staffWall.find(t=>t.name==="Mr Idris Ibrahim").subjects||[]).join()`) === 'Mathematics');
 ok('staff wall grid is the 3-column layout', alumni.includes('class="staff-grid3" id="teamGrid"') && corp.includes('.staff-grid3{display:grid;grid-template-columns:repeat(3,1fr)'));
 const cards = [...al.window.document.querySelectorAll('#teamGrid .team-card')];
-ok('11 cards, name under the avatar, rounded', cards.length === 11 && cards[0].textContent.includes('Salihu Oyiza Nanahawa') && corp.includes('.team-card{background:#fff;border:1px solid var(--line);border-radius:16px'));
+ok('11 cards, name under the avatar, token-rounded', cards.length === 11 && cards[0].textContent.includes('Salihu Oyiza Nanahawa') && corp.includes('.team-card{background:var(--paper);border:1px solid var(--line);border-radius:var(--r-lg)'));
 al.run("openTP('W11');");
 let tp = al.window.document.getElementById('tpBox').textContent;
 ok('popup shows the new About (Shaibu Memunat)', tp.includes('animal science') && tp.includes('ND Animal Science (2012)') && tp.includes('Primary 1'));
@@ -141,23 +141,23 @@ ok('G017 name + phone corrected', g.G017.n === 'ABEDOH, MUDASHIRU ITOPA' && g.G0
 ok('G018 phone corrected', g.G018.p === '08067079263');
 ok('no exam scores invented for the 2023 set', al.run(`DB.load().graduates.filter(x=>x.gradYear===2023&&x.exam).length`) === 0);
 
-/* ---------- E. header fits the space ---------- */
-ok('header container is full-bleed', corp.includes('body:not(.portal-body) .navbar .container{width:100%;margin:0;padding:0}'));
-ok('header cards have no outer margins or radius', corp.includes('.hd-stack{margin:0}') && corp.includes('.hd-back,.hd-front{border-radius:0}'));
-ok('cutout keeps its notch, loses the page-corner radius', corp.includes('.hd-cutout{border-top-right-radius:0}'));
+/* ---------- E. header is a flat single row ---------- */
+ok('header uses a contained flat row', corp.includes('body:not(.portal-body) .navbar .nav-row{') && corp.includes('width:min(1180px,94%)'));
+ok('homepage has no stacked header cards', !indexHtml.includes('hd-stack') && !indexHtml.includes('hd-back') && !indexHtml.includes('hd-front'));
+ok('header actions have fixed non-overlapping geometry', corp.includes('width:44px;height:44px;display:grid;place-items:center') && corp.includes('.nav-actions{display:flex;align-items:center;justify-content:flex-end;gap:10px'));
 
-/* ---------- F. homepage: linked news cards side by side + promotions + countdown ---------- */
+/* ---------- F. homepage: latest-four news carousel + merged countdown ---------- */
 ok('news cards are the linked ne-cards in a rotating carousel', indexHtml.includes('id="newsGrid"') && indexHtml.includes('class="ne-carousel"') && indexHtml.includes("onclick=\"goStory('${n.id||\"\"}','${n.link||\"\"}')\""));
 ok('news cards carry images again', /newsGrid[\s\S]*img class="thumb"/.test(indexHtml));
-ok('promotions back to their coloured cards', indexHtml.includes('id="promoGrid"') && indexHtml.includes('promo-${p.color||"sun"}') && !indexHtml.includes('promoSteps'));
-ok('admission steps are the only steps left on the homepage', (indexHtml.match(/class="steps"/g) || []).length === 1);
-ok('countdown bar restored between notices and news', indexHtml.includes('id="calCount"'));
+ok('promotions removed from homepage but retained in admin data workflow', !indexHtml.includes('id="promoGrid"') && fs.readFileSync(SITE + '/portal/admin.html', 'utf8').includes('renderPromos'));
+ok('admission steps live only on the dedicated Admissions page', !indexHtml.includes('class="steps"') && fs.readFileSync(SITE + '/admissions.html', 'utf8').includes('class="steps"'));
+ok('countdown chip is merged into News', indexHtml.includes('id="news"') && indexHtml.includes('id="calCount"'));
 const hm = loadPage('index.html');
 ok('homepage renders without script errors', hm.errors.length === 0, hm.errors.join(' ; ').slice(0, 160));
 const ncards = hm.window.document.querySelectorAll('#newsGrid .ne-card').length;
-ok('news grid renders the linked cards', ncards >= 3, 'got ' + ncards);
-ok('promo grid renders coloured cards', hm.window.document.querySelectorAll('#promoGrid .promo-card').length >= 3);
-ok('countdown bar fills (weekday)', hm.window.document.getElementById('calCount').innerHTML.includes('count-bar'));
+ok('news carousel renders up to the latest four linked cards', ncards >= 1 && ncards <= 4, 'got ' + ncards);
+ok('promotion grid is absent from the eight-section homepage', !hm.window.document.getElementById('promoGrid'));
+ok('countdown bar fills', hm.window.document.getElementById('calCount').innerHTML.includes('count-bar'));
 
 /* ---------- G. privacy noise retired ---------- */
 const priv = fs.readFileSync(SITE + '/docs/DATA-PRIVACY-FINDING.md', 'utf8');

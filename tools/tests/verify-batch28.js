@@ -54,8 +54,8 @@ ok('placeholder tokenized', corp.includes('::placeholder{color:var(--muted);opac
 ok('demo-box dashed token', main.includes('.demo-box{background:var(--cream);border:1px dashed var(--line)'));
 
 /* ---------- B. emergency banner + coral on palette ---------- */
-ok('emg banner palette red', corp.includes('.emg-banner{position:sticky;top:0;z-index:600;background:#B4232A'));
-ok('btn-coral on palette', corp.includes('#E5485D') && corp.includes('#B4232A') && !corp.includes('#E85D4D'));
+ok('emg banner uses the danger token palette', corp.includes('.emg-banner{position:sticky;top:0;z-index:var(--z-modal);background:#B31E35'));
+ok('legacy btn-coral resolves to danger only', corp.includes('.btn-coral{background:var(--danger)') && !corp.includes('#E5485D') && !corp.includes('#B4232A'));
 const emg = loadPage('index.html', null, null, 'var d=DB.load(); d.school.emergency={on:true,text:"MAINT TEST"}; DB.save(d);');
 ok('emg banner still renders', !!emg.window.document.getElementById('emgBanner') && emg.window.document.getElementById('emgBanner').textContent.includes('MAINT TEST'));
 

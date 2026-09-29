@@ -2,16 +2,17 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<script src="../assets/js/theme-init.js?v=20260928-ui50"></script>
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<style>#siteLoader{position:fixed;inset:0;z-index:1200;background:#fff;display:flex;flex-direction:column;gap:14px;align-items:center;justify-content:center;transition:opacity .4s}#siteLoader img{width:84px;height:84px;object-fit:contain}#siteLoader .spin{width:38px;height:38px;border-radius:50%;border:4px solid #FDF6D8;border-top-color:#0B7A37;animation:lspin .8s linear infinite}@keyframes lspin{to{transform:rotate(360deg)}}#siteLoader.done{opacity:0;pointer-events:none}</style>
+<style>#siteLoader{position:fixed;inset:0;z-index:1200;background:var(--paper,#FFFFFF);display:flex;flex-direction:column;gap:14px;align-items:center;justify-content:center;transition:opacity .4s}#siteLoader img{width:84px;height:84px;object-fit:contain}#siteLoader .spin{width:38px;height:38px;border-radius:50%;border:4px solid #FDF6D8;border-top-color:#0B7A37;animation:lspin .8s linear infinite}@keyframes lspin{to{transform:rotate(360deg)}}#siteLoader.done{opacity:0;pointer-events:none}</style>
 <link rel="icon" href="../assets/img/logo.jpg">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Teacher Dashboard — Treasure Academy, Ageva</title>
-<link rel="stylesheet" href="../assets/css/main.css?v=20260926-8-64">
-<link rel="stylesheet" href="../assets/css/extra.css?v=20260926-8-64">
-<link rel="stylesheet" href="../assets/css/corporate.css?v=20260926-8-64">
+<link rel="stylesheet" href="../assets/css/main.css?v=20260928-ui50">
+<link rel="stylesheet" href="../assets/css/extra.css?v=20260928-ui50">
+<link rel="stylesheet" href="../assets/css/corporate.css?v=20260928-ui50">
 <noscript><style>#siteLoader{display:none!important}</style></noscript>
 <script defer src="/_vercel/insights/script.js"></script>
 <meta name="robots" content="noindex, nofollow">
@@ -246,11 +247,11 @@ if(nav)nav.addEventListener("click",function(e){
 try{var h=String(location.hash||"").replace(/^#\/?/,""); if(h){var bb=document.querySelector('#sideNav button[data-view="'+h+'"]'); if(bb&&!bb.classList.contains("on"))bb.click();}}catch(e7){}
 })();
 </script>
-<script src="../assets/js/store.js?v=20260926-8-64"></script>
-<script src="../assets/js/notify.js?v=20260926-8-64"></script>
-<script src="../assets/js/verify.js?v=20260926-8-64"></script><script defer src="../assets/js/db-live.js?v=20260926-8-64"></script>
-<script src="../assets/js/sync.js?v=20260926-8-64"></script>
-<script src="../assets/js/site.js?v=20260926-8-64"></script>
+<script src="../assets/js/store.js?v=20260928-ui50"></script>
+<script src="../assets/js/notify.js?v=20260928-ui50"></script>
+<script src="../assets/js/verify.js?v=20260928-ui50"></script><script defer src="../assets/js/db-live.js?v=20260928-ui50"></script>
+<script src="../assets/js/sync.js?v=20260928-ui50"></script>
+<script src="../assets/js/site.js?v=20260928-ui50"></script>
 <script>
 const S = Auth.guard("teacher");
 if(!S){location.href="login.html";throw new Error("no-session");}

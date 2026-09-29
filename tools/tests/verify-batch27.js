@@ -40,9 +40,9 @@ function loadPage(page, session, url, pre) {
 /* ---------- A. strict color system present ---------- */
 ok('strict rule documented', css.includes('BATCH 27 (2026-09-20)') && css.includes('THE RULE') && css.includes('never new colors') === false && css.includes('No component may hardcode'));
 ok('day polish tokens', css.includes('::placeholder{color:var(--muted);opacity:1}') && css.includes(':focus-visible{outline:3px solid rgba(201,162,39,.5)'));
-ok('night polish tokens', css.includes('[data-theme="dark"] ::placeholder{color:#7C8B9E}') && css.includes('[data-theme="dark"] ::selection{background:#E7B94B'));
+ok('night polish tokens', css.includes('[data-theme="dark"] ::placeholder{color:#9AA7B8}') && css.includes('[data-theme="dark"] ::selection{background:#C9A227'));
 ok('card hover elevation', css.includes('.mv-card:hover,.team-card:hover,.star-card:hover{transform:translateY(-3px)'));
-ok('empty state themed both', css.includes('.empty{border:1.5px dashed var(--line);border-radius:12px;background:var(--white)}') && css.includes('[data-theme="dark"] .empty{background:#101B28}'));
+ok('empty state themed both', css.includes('.empty{border:1.5px dashed var(--line);border-radius:var(--r-md);background:var(--white)}') && css.includes('[data-theme="dark"] .empty{background:#101B28}'));
 ok('receipt print block', css.includes('@media print{') && css.includes('body[data-page="receipt"] .page-hero'));
 
 /* ---------- B. inline hexes converted to tokens ---------- */

@@ -43,7 +43,7 @@ const ADMIN = { role: 'admin', refId: 'HEAD001', name: 'Mrs. Salihu Nanahawa' };
 /* birthday dedup + loader + banners (static) */
 {
   const idx = fs.readFileSync(SITE + '/index.html', 'utf8');
-  ok('admissions birthday removed, top kept', !idx.includes('bdayBanner') && idx.includes('bdayBell'));
+  ok('birthday widgets moved off homepage', !idx.includes('bdayBanner') && !idx.includes('bdayBell'));
   const pages = fs.readdirSync(SITE).filter(f => f.endsWith('.html')).map(f => SITE + '/' + f)
     .concat(['portal/login.html', 'portal/admin.html', 'portal/teacher.html', 'portal/pupil.html'].map(f => SITE + '/' + f));
   const noLoader = pages.filter(p => !fs.readFileSync(p, 'utf8').includes('id="siteLoader"'));
@@ -72,11 +72,11 @@ const ADMIN = { role: 'admin', refId: 'HEAD001', name: 'Mrs. Salihu Nanahawa' };
 /* teacher of term */
 {
   const d = loadPage('index.html');
-  ok('totZone empty by default', d.window.document.getElementById('totZone').textContent.trim() === '');
-  const s = loadPage('index.html', null, win => { const db = win.__DB.load(); db.teacherOfTerm = { teacherId: 'T002', name: 'Aunty Rafatu', term: 'First Term', session: '2026/2027 Session', votes: 42, date: '2026-09-16' }; win.__DB.save(db); });
-  ok('homepage crowns winner', s.window.document.getElementById('totZone').textContent.includes('Aunty Rafatu'));
+  ok('homepage no longer contains teacher-of-term widget', !d.window.document.getElementById('totZone'));
+  const s = loadPage('about.html', null, win => { const db = win.__DB.load(); db.teacherOfTerm = { teacherId: 'T002', name: 'Aunty Rafatu', term: 'First Term', session: '2026/2027 Session', votes: 42, date: '2026-09-16' }; win.__DB.save(db); });
+  ok('About weekly honours crowns winner', s.window.document.getElementById('aboutHonours').textContent.includes('Aunty Rafatu'));
   const a = loadPage('alumni.html', null, win => { const db = win.__DB.load(); db.teacherOfTerm = { teacherId: 'T002', name: 'Aunty Rafatu', term: 'First Term', session: '2026/2027 Session', votes: 42, date: '2026-09-16' }; win.__DB.save(db); });
-  ok('about shows winner', a.window.document.getElementById('totWin').textContent.includes('Aunty Rafatu'));
+  ok('staff page still shows winner', a.window.document.getElementById('totWin').textContent.includes('Aunty Rafatu'));
 }
 /* admin: exams/holiday/votes/invoice/sms/voice/lfphoto */
 {

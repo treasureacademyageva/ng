@@ -28,6 +28,7 @@ function ok(label, cond, detail) {
 
 const store = read('assets/js/store.js');
 const alumni = read('alumni.html');
+const indexSrc = read('index.html');
 const corporate = read('assets/css/corporate.css');
 const chatCore = read('assets/js/chat-core.js');
 
@@ -135,18 +136,17 @@ try {
     w._gradLB[9].storyId === null);
 } catch (e) { ok('jsdom pop-up exercise', false, e.message); }
 
-/* ------------------------------------------------- D. header both edges */
-ok('header patch: container becomes a block below the sidebar breakpoint',
-  /@media\(max-width:1099px\)\{[\s\S]*?body:not\(\.portal-body\) \.navbar \.container\{display:block\}/.test(corporate));
-ok('header patch: the card is stretched to full width',
-  /@media\(max-width:1099px\)\{[\s\S]*?\.hd-stack\{width:100%\}/.test(corporate));
-ok('header patch: nav items spread across the widened card',
-  /@media\(max-width:1099px\)\{[\s\S]*?\.hd-nav\{justify-content:space-between\}/.test(corporate));
-ok('the 25 Sept edge-to-edge rules are still in place',
-  /body:not\(\.portal-body\) \.navbar \.container\{width:100%;margin:0;padding:0\}/.test(corporate) &&
-  /\.hd-back,\.hd-front\{border-radius:0\}/.test(corporate));
-ok('desktop sidebar layout untouched (>=1100px keeps its own container rules)',
-  /body:not\(\.portal-body\):not\(\[data-page="login"\]\)>\.navbar \.container\{display:flex;flex-direction:column/.test(corporate));
+/* ------------------------------------------------- D. flat responsive header */
+ok('header wraps cleanly below tablet width',
+  /@media\(max-width:980px\)\{[\s\S]*?body:not\(\.portal-body\) \.navbar \.nav-row\{flex-wrap:wrap\}/.test(corporate));
+ok('mobile link row gets the full available width',
+  /\.site-nav\{order:3;flex:1 0 100%;overflow-x:auto/.test(corporate));
+ok('mobile nav remains directly visible and scrollable',
+  /#mainNav\{width:max-content;justify-content:flex-start;gap:20px;margin:auto\}/.test(corporate));
+ok('public header stays contained instead of edge-to-edge cards',
+  /width:min\(1180px,94%\);min-height:72px;display:flex/.test(corporate) && !indexSrc.includes('hd-stack'));
+ok('desktop portal sidebar layout remains available',
+  /\.portal-layout\{display:grid;grid-template-columns:266px minmax\(0,1fr\)/.test(corporate));
 
 /* ------------------------------------------------- E. chat answers */
 function chatHarness() {

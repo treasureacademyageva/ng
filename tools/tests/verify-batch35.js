@@ -64,17 +64,14 @@ ok('toggle removes class', !adm.window.document.body.classList.contains('side-sl
 ok('sideNav counts (25 with My Class)', adm.window.document.querySelectorAll('#sideNav button[data-view]').length === 25);
 ok('admin clean', adm.errors.length === 0, adm.errors.join(' || ').slice(0, 140));
 
-/* ---------- C. public sidebar (landing page included; login excluded; mobile unchanged) ---------- */
-ok('public grid on body', corp.includes('body:not(.portal-body):not([data-page="login"]){') && corp.includes('grid-template-columns:266px minmax(0,1fr)'));
-ok('navbar becomes sticky rail', corp.includes('grid-row:1/span 80') && corp.includes('height:100vh;overflow-y:auto'));
-ok('rail gradient + gold edge', corp.includes('linear-gradient(180deg,#0E3B21,#0B4A26 70%,#09381E)'));
-ok('stacked public links', corp.includes('.nav-links{display:flex;flex-direction:column;align-items:stretch;margin:6px 0 0') === false ? corp.includes(')>.navbar .nav-links{display:flex;flex-direction:column') : true);
-// Placement is now a default (everything goes to column 2, the navbar is
-// pulled back to column 1) rather than a list of element types, so new blocks
-// cannot land under the sidebar. Assert the behaviour, not the old selectors.
-ok('content pushed to column 2', corp.includes(')>.topbar{grid-column:2;grid-row:1}') && corp.includes(')>*{grid-column:2}') && corp.includes(')>.navbar{grid-column:1}'));
-ok('login page excluded', corp.includes(':not([data-page="login"])'));
-ok('portals excluded from public grid', corp.includes('body:not(.portal-body)'));
+/* ---------- C. flat public header (portals retain their desktop sidebars) ---------- */
+ok('public navbar is one sticky horizontal plane', corp.includes('body:not(.portal-body) .navbar{') && corp.includes('position:sticky;top:0;z-index:var(--z-nav)'));
+ok('public nav row is a flex row', corp.includes('body:not(.portal-body) .navbar .nav-row{') && corp.includes('display:flex;align-items:center'));
+ok('header has no gradient', !/gradient\(/.test(corp));
+ok('six public links stay inline', corp.includes('#mainNav{display:flex;align-items:center;justify-content:center'));
+ok('normal public content rhythm restored', corp.includes('body:not(.portal-body) section{padding:var(--s7) 0}'));
+ok('public header excludes portal layouts', corp.includes('body:not(.portal-body) .navbar'));
+ok('portals retain desktop sidebars', corp.includes('.portal-layout{display:grid;grid-template-columns:266px minmax(0,1fr)'));
 ok('mobile keeps direct links (no hamburger)', corp.includes('@media(max-width:760px)') && !corp.includes('display:none}#navLinks') );
 const idx = loadPage('index.html');
 ok('index loads clean', idx.errors.length === 0, idx.errors.join(' || ').slice(0, 140));

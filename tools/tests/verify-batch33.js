@@ -61,36 +61,35 @@ ok('inside count back to 0', dv.window.document.getElementById('dvInside').textC
 ok('dev page clean', dv.errors.length === 0, dv.errors.join(' || ').slice(0, 140));
 
 /* ---------- B. resumption countdown chip ---------- */
-const noDate = loadPage('index.html');
-ok('chip hidden when unset', noDate.window.document.getElementById('resumeChip').innerHTML.trim() === '');
-const fut = loadPage('index.html', null, null, 'var d=DB.load(); d.school.resumeDate="' + new Date(Date.now() + 20 * 864e5).toISOString().slice(0, 10) + '"; DB.save(d);');
+const noDate = loadPage('calendar.html');
+ok('calendar chip hidden when unset', noDate.window.document.getElementById('resumeChip').innerHTML.trim() === '');
+const fut = loadPage('calendar.html', null, null, 'var d=DB.load(); d.school.resumeDate="' + new Date(Date.now() + 20 * 864e5).toISOString().slice(0, 10) + '"; DB.save(d);');
 ok('future date shows countdown', fut.window.document.getElementById('resumeChip').textContent.includes('days to go'));
-const today = loadPage('index.html', null, null, 'var d=DB.load(); d.school.resumeDate=U.todayStr(); DB.save(d);');
+const today = loadPage('calendar.html', null, null, 'var d=DB.load(); d.school.resumeDate=U.todayStr(); DB.save(d);');
 ok('today shows assembly message', today.window.document.getElementById('resumeChip').textContent.includes('resumes today'));
-const past = loadPage('index.html', null, null, 'var d=DB.load(); d.school.resumeDate="' + new Date(Date.now() - 3 * 864e5).toISOString().slice(0, 10) + '"; DB.save(d);');
+const past = loadPage('calendar.html', null, null, 'var d=DB.load(); d.school.resumeDate="' + new Date(Date.now() - 3 * 864e5).toISOString().slice(0, 10) + '"; DB.save(d);');
 ok('recent past shows welcome back', past.window.document.getElementById('resumeChip').textContent.includes('back in session'));
-const stale = loadPage('index.html', null, null, 'var d=DB.load(); d.school.resumeDate="' + new Date(Date.now() - 40 * 864e5).toISOString().slice(0, 10) + '"; DB.save(d);');
+const stale = loadPage('calendar.html', null, null, 'var d=DB.load(); d.school.resumeDate="' + new Date(Date.now() - 40 * 864e5).toISOString().slice(0, 10) + '"; DB.save(d);');
 ok('stale date hides chip', stale.window.document.getElementById('resumeChip').innerHTML.trim() === '');
 const adm = loadPage('portal/admin.html', ADMIN);
 ok('resume setting purged from admin (code-managed)', !adm.window.document.getElementById('setResume'));
 ok('no resume setter anywhere in admin source', !fs.readFileSync(SITE + '/portal/admin.html', 'utf8').includes('setResume'));
 
-/* ---------- C. testimonial spotlight ---------- */
+/* ---------- C. homepage testimonials (maximum two approved reviews) ---------- */
 const spot = loadPage('index.html');
-const spotP = spot.window.document.querySelector('.tm-spot p');
-ok('spotlight shows an approved story', !!spotP && spotP.textContent.length > 20);
-ok('spotlight has stars + link', spot.window.document.querySelector('.tms-stars') !== null && !!spot.window.document.querySelector('.tms-link'));
-const WEEK = Math.floor(Date.now() / 6048e5);
 const approved = spot.run('window.__DB.load().testimonials.filter(t=>t.status==="Approved")');
-ok('rotation matches week', spot.window.document.querySelector('.tm-spot p').textContent.includes(approved[WEEK % approved.length].text.slice(0, 30)));
+const cards = spot.window.document.querySelectorAll('#testiRail .testi-card');
+ok('homepage shows approved reviews only', cards.length > 0 && cards.length <= 2 && [...cards].every((c,i)=>c.textContent.includes(approved[i].text.slice(0,30))));
+ok('testimonial cards have stars + all-reviews link', spot.window.document.querySelector('#testiRail .stars') !== null && !!spot.window.document.querySelector('a[href="testimonials.html"]'));
+ok('maximum-two rule matches the approved data', cards.length === Math.min(2,approved.length));
 const none = loadPage('index.html', null, null, 'var d=DB.load(); d.testimonials=[]; DB.save(d);');
-ok('no approved -> hidden', none.window.document.getElementById('tmSpot').innerHTML.trim() === '');
+ok('no approved -> testimonial section hidden', none.window.document.getElementById('testimonials').hidden === true);
 const pend = loadPage('index.html', null, null, 'var d=DB.load(); d.testimonials=d.testimonials.map(t=>Object.assign(t,{status:"Pending"})); DB.save(d);');
-ok('pending-only -> hidden', pend.window.document.getElementById('tmSpot').innerHTML.trim() === '');
+ok('pending-only -> testimonial section hidden', pend.window.document.getElementById('testimonials').hidden === true);
 
 /* ---------- D. css + versions ---------- */
 ok('chip css tokens + dark', corp.includes('.resume-chip{') && corp.includes('[data-theme="dark"] .resume-chip{'));
-ok('spotlight css + dark stars', corp.includes('.tm-spot{') && corp.includes('[data-theme="dark"] .tms-stars'));
+ok('two-card testimonial grid + dark surface', corp.includes('body[data-page="home"] .testi-rail{display:grid;grid-template-columns:repeat(2,1fr)') && corp.includes('[data-theme="dark"] .testi-card'));
 let staleV = 0;
 function walk(d, out) { for (const f of fs.readdirSync(d)) { const p = require('path').join(d, f); if (fs.statSync(p).isDirectory()) { if (!/node_modules|\.git|[\\/]tools([\\/]|$)/.test(p)) walk(p, out); } else out.push(p); } return out; }
 for (const p of walk(SITE, []).filter(f => f.endsWith('.html'))) {

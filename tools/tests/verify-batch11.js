@@ -52,13 +52,13 @@ const ADMIN = { role: 'admin', refId: 'HEAD001', name: 'x' };
   const i = loadPage('index.html');
   const nav = i.window.document.getElementById('navLinks') || i.window.document.getElementById('mainNav');
   const labels = [...nav.querySelectorAll('a')].map(a => a.textContent.trim());
-  ok('nav shows all incl current', ['Home', 'News/Event', 'About Us', 'Login/Register'].every(l => labels.includes(l)) && !!nav.querySelector('#taBurger'), labels.join(','));
+  ok('flat nav shows six core routes without a hamburger', ['Home', 'About', 'Admissions', 'Academics', 'News & Events', 'Contact'].every(l => labels.includes(l)) && !nav.querySelector('#taBurger'), labels.join(','));
   ok('nav highlights current', nav.querySelector('a.on') && nav.querySelector('a.on').textContent.trim() === 'Home');
   const foot = i.window.document.getElementById('siteFooter').textContent;
   ok('footer dropped quick links', !foot.includes('Quick Links') && !foot.includes('Portal Login') && foot.includes('Get Directions') && foot.includes('Follow Us'));
   ok('footer visit anchor', i.window.document.getElementById('siteFooter').innerHTML.includes('contact.html#visit'));
   const n2 = loadPage('news.html');
-  ok('news page highlights news', n2.window.document.getElementById('mainNav').querySelector('a.on').textContent.trim() === 'News/Event');
+  ok('news page highlights news', n2.window.document.getElementById('mainNav').querySelector('a.on').textContent.trim() === 'News & Events');
   ok('nav/footer pages clean', i.errors.length === 0 && n2.errors.length === 0, i.errors.concat(n2.errors).join(' || ').slice(0, 200));
 }
 
@@ -100,8 +100,15 @@ const ADMIN = { role: 'admin', refId: 'HEAD001', name: 'x' };
     db.school.headDob = '1980-06-01';
     win.__DB.save(db);
   });
-  const bc = i.window.document.getElementById('bdayCount').textContent;
-  ok('countdown shows next birthday', bc.includes('Countdown Star') && bc.includes('5 days'), bc.slice(0, 120));
+  ok('homepage birthday block moved off the homepage', !i.window.document.getElementById('bdayCount'));
+  const bd = loadPage('birthdays.html', null, win => {
+    const db = win.__DB.load();
+    db.teachers.forEach(t => { t.dob = '1990-01-01'; });
+    db.teachers[0].dob = plus(5); db.teachers[0].name = 'Countdown Star';
+    db.school.headDob = '1980-06-01';
+    win.__DB.save(db);
+  });
+  ok('birthday content remains on its dedicated page', bd.window.document.body.textContent.includes('Countdown Star'));
   const ct = loadPage('contact.html');
   ok('directions button present', ct.window.document.body.textContent.includes('Directions From My Location') && typeof ct.window.dirFromHere === 'function');
   ok('visit anchor exists', !!ct.window.document.getElementById('visit'));

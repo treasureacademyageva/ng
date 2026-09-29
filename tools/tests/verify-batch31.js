@@ -80,8 +80,8 @@ ok('index has new pages', ['careers.html', 'fees.html', 'anthem.html', 'support.
 ok('veil links to full search', sitejs.includes('href="search.html"'));
 
 /* ---------- F. greeting strip ---------- */
-const idx = loadPage('index.html');
-ok('greeting strip renders', !!idx.window.document.querySelector('.greet-strip') && idx.window.document.querySelector('.greet-strip').textContent.includes('Nyaase') && idx.window.document.querySelector('.greet-strip').textContent.includes('Sannu da zuwa'));
+const idx = loadPage('about.html');
+ok('greeting strip retained on About', !!idx.window.document.querySelector('.greet-strip') && idx.window.document.querySelector('.greet-strip').textContent.includes('Nyaase') && idx.window.document.querySelector('.greet-strip').textContent.includes('Sannu da zuwa'));
 ok('greeting css tokens', fs.readFileSync(SITE + '/assets/css/corporate.css', 'utf8').includes('.greet-strip .greet{') && fs.readFileSync(SITE + '/assets/css/corporate.css', 'utf8').includes('[data-theme="dark"] .greet-strip .greet'));
 
 /* ---------- G. admin panels ---------- */
