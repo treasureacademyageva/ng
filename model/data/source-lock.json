@@ -1,0 +1,85 @@
+{
+  "manifest_version": 1,
+  "manifest_sha256": "980813a664d27792cdc1a8e365031cfadd32c65bb1332be0d5cd477e5b367e65",
+  "fetched_at": "2026-09-29T22:47:20.792194+00:00",
+  "sources": [
+    {
+      "id": "treasure-public-kb",
+      "kind": "local_json",
+      "status": "local",
+      "license": "owned",
+      "path": "../assets/data/kb.json",
+      "bytes": 60121,
+      "sha256": "6ee01656dde8a6ff69036c60d540a0c69a875f286c6cf1b469d746a3dafb335a"
+    },
+    {
+      "id": "original-foundations",
+      "kind": "generated_local",
+      "status": "local",
+      "license": "owned",
+      "path": "cleaned/original-foundations.txt",
+      "bytes": 91347,
+      "sha256": "49362fde4efa90de9cc91c632e56be85b51a2fab42429e94d079d5aad196b2e9"
+    },
+    {
+      "id": "gutenberg-alice-11",
+      "url": "https://www.gutenberg.org/cache/epub/11/pg11.txt",
+      "license": "US-Public-Domain; Project-Gutenberg-Terms",
+      "bytes": 174311,
+      "sha256": "01b38ea4c710a84bc18d0bd41271a5a1a92b94e97b2812f4dece97d4a694725e",
+      "raw": "data/raw/gutenberg-alice-11.txt",
+      "status": "downloaded"
+    },
+    {
+      "id": "gutenberg-aesop-11339",
+      "url": "https://www.gutenberg.org/cache/epub/11339/pg11339.txt",
+      "license": "US-Public-Domain; Project-Gutenberg-Terms",
+      "bytes": 241779,
+      "sha256": "0a2e7b971b00b76164071563e7e4bfa9cf962118ef67db9259020fc7c3b83602",
+      "raw": "data/raw/gutenberg-aesop-11339.txt",
+      "status": "downloaded"
+    },
+    {
+      "id": "gutenberg-mcguffey-first-14640",
+      "url": "https://www.gutenberg.org/cache/epub/14640/pg14640.txt",
+      "license": "US-Public-Domain; Project-Gutenberg-Terms",
+      "bytes": 63891,
+      "sha256": "1859570d04ea35d76d75dedb03c90b097f88031c34d80b2f63df9104b2f93a07",
+      "raw": "data/raw/gutenberg-mcguffey-first-14640.txt",
+      "status": "downloaded"
+    },
+    {
+      "id": "gutenberg-mcguffey-second-14668",
+      "url": "https://www.gutenberg.org/cache/epub/14668/pg14668.txt",
+      "license": "US-Public-Domain; Project-Gutenberg-Terms",
+      "bytes": 121639,
+      "sha256": "5c9899998fe58ed92b31b59b2d05c0a532a6234a30f0dedbf3e08c86b4e9556f",
+      "raw": "data/raw/gutenberg-mcguffey-second-14668.txt",
+      "status": "downloaded"
+    },
+    {
+      "id": "african-storybook-fatimah-34006",
+      "url": "https://www.africanstorybook.org/read/downloadbook.php?id=34006&a=1&d=0&layout=landscape",
+      "license": "CC-BY-4.0",
+      "bytes": 941435,
+      "sha256": "f04afd6b781526ff1a4ee416578f7e8752b533d94bd94d255b0c5146bb1b1ae4",
+      "raw": "data/raw/african-storybook-fatimah-34006.pdf",
+      "status": "downloaded",
+      "extract_status": "ok-pypdf",
+      "text": "data/licensed/african-storybook-fatimah-34006.txt",
+      "text_sha256": "0242aca8b2b55e95411593dbdca4f87d49ada34099411716ce5ccf0a89409cf5"
+    },
+    {
+      "id": "african-storybook-hausa-47555",
+      "url": "https://www.africanstorybook.org/read/downloadbooklet.php?id=47555&a=1&d=0&layout=booklet",
+      "license": "CC-BY-4.0",
+      "bytes": 1453123,
+      "sha256": "6862ca657b222a3c67f5d1aa5c64a6db3bc6c37273cd767ae7578c7fc73b2a8a",
+      "raw": "data/raw/african-storybook-hausa-47555.pdf",
+      "status": "downloaded",
+      "extract_status": "ok-pypdf",
+      "text": "data/licensed/african-storybook-hausa-47555.txt",
+      "text_sha256": "f90b7e7c01d5a780892aa3c9d40a469025c749a1ec4cfdbf7bc0dd5a52a587c5"
+    }
+  ]
+}

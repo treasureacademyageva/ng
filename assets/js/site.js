@@ -197,16 +197,16 @@ function renderFooter(){
         <a class="logo" href="index.html"><span>${U.esc(s.name)}</span></a>
         <p>"${U.esc(s.motto)}"<br>Creche, Nursery and Primary education in Ageva, Okene. Discipline, character and results since 2016.</p>
       </div>
-      <div class="foot-col foot-quick"><h4>Quick Links</h4><nav class="foot-quick-grid" aria-label="Quick links"><a href="calendar.html">Calendar</a><a href="fees.html">Fees</a><a href="uniform.html">Uniform</a><a href="transport.html">Transport</a><a href="pta.html">PTA</a><a href="birthdays.html">Birthdays</a><a href="exams.html">Exams</a><a href="homework.html">Homework</a><a href="elearning.html">E-Learning</a><a href="portal/login.html">Portal</a><a href="support.html">Support</a><a href="careers.html">Careers</a><a href="alumni.html">Alumni</a><a href="shop.html">Shop</a></nav></div>
-      <div class="foot-col foot-contact"><h4>Contact</h4>
+      <div class="foot-col foot-quick"><h2>Quick Links</h2><nav class="foot-quick-grid" aria-label="Quick links"><a href="calendar.html">Calendar</a><a href="fees.html">Fees</a><a href="uniform.html">Uniform</a><a href="transport.html">Transport</a><a href="pta.html">PTA</a><a href="birthdays.html">Birthdays</a><a href="exams.html">Exams</a><a href="homework.html">Homework</a><a href="elearning.html">E-Learning</a><a href="portal/login.html">Portal</a><a href="support.html">Support</a><a href="careers.html">Careers</a><a href="alumni.html">Alumni</a><a href="shop.html">Shop</a></nav></div>
+      <div class="foot-col foot-contact"><h2>Contact</h2>
         <div class="foot-contact-row"><span class="foot-line"><span class="fi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg></span>${U.esc(s.email)}</span><span class="foot-line"><span class="fi"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg></span>${U.esc(s.phone)}</div>
         <p class="foot-hours"> ${U.esc((s.hours||"Mon \u2013 Fri \u2022 7:30am \u2013 3:00pm").replace("4:00pm","3:00pm"))}</p>
       </div>
-      <div class="foot-col foot-visit"><h4>Visit Us</h4>
+      <div class="foot-col foot-visit"><h2>Visit Us</h2>
         <p><span class="fi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M12 21s7-5.5 7-11a7 7 0 1 0-14 0c0 5.5 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></svg></span>${U.esc(s.address)}</p>
         <a class="btn btn-white btn-sm" href="contact.html#visit">Get Directions</a>
       </div>
-      <div class="foot-col"><h4>Follow Us</h4>
+      <div class="foot-col"><h2>Follow Us</h2>
         <div class="social-3d">
           <a href="https://www.facebook.com/profile.php?id=100093241642093" title="Facebook" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="17" height="17" fill="currentColor"><path d="M13.5 9H16V6h-2.5C11.6 6 10 7.6 10 9.5V11H8v3h2v7h3v-7h2.4l.6-3h-3V9.5c0-.3.2-.5.5-.5z"/></svg></a><a href="#" title="Instagram" onclick="return soonSocial('Instagram')"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="4" width="16" height="16" rx="4.5"/><circle cx="12" cy="12" r="3.6"/><circle cx="16.6" cy="7.4" r="1.2" fill="currentColor" stroke="none"/></svg></a><a href="#" title="X (Twitter)" onclick="return soonSocial('X (Twitter)')"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M4 4l7.1 9.2L4.4 20h2.5l5.3-6 4.2 6H20l-7.4-9.6L19.3 4h-2.5l-4.8 5.5L8.2 4H4z"/></svg></a><a href="#" title="TikTok" onclick="return soonSocial('TikTok')"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 4v9.5a3.5 3.5 0 1 1-3.5-3.5"/><path d="M14 4c.5 2.6 2.1 4.2 4.6 4.4"/></svg></a><a href="#" title="YouTube" onclick="return soonSocial('YouTube')"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="6" width="18" height="12" rx="3.5"/><path d="M10.5 9.5l5 2.5-5 2.5z" fill="currentColor" stroke="none"/></svg></a><a href="contact.html" title="WhatsApp"><svg viewBox="0 0 24 24" width="17" height="17" fill="currentColor"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg></a>
         </div>
@@ -326,6 +326,71 @@ function initTopBtn(){
   if(/portal\/(admin|teacher|pupil)\.html$/.test(location.pathname))return;
   try{ bootSafe(()=>initTopBtn()); }catch(e){ initTopBtn(); }
 })();
+
+/* ---------------- Topbar scroll-collapse ---------------- */
+function initTopbarCollapse(){
+  if(document.body.classList.contains("portal-body"))return;
+  const topbar=document.querySelector(".topbar"), navbar=document.querySelector(".navbar");
+  if(!topbar||!navbar)return;
+  let lastY=0, hidden=false, ticking=false;
+  const measure=()=>document.documentElement.style.setProperty("--topbar-h",topbar.offsetHeight+"px");
+  const setHidden=next=>{
+    if(hidden===next)return;
+    hidden=next;
+    document.body.classList.toggle("topbar-collapsed",hidden);
+    topbar.inert=hidden;
+    topbar.setAttribute("aria-hidden",hidden?"true":"false");
+  };
+  const update=()=>{
+    const y=Math.max(0,window.scrollY||0);
+    if(y<=80)setHidden(false);
+    else if(y>lastY)setHidden(true);
+    else if(y<lastY)setHidden(false);
+    lastY=y;ticking=false;
+  };
+  addEventListener("scroll",()=>{
+    if(!ticking){ticking=true;requestAnimationFrame(update);}
+  },{passive:true});
+  addEventListener("resize",measure,{passive:true});
+  measure();update();
+}
+if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",initTopbarCollapse);else initTopbarCollapse();
+
+/* ---------------- Accessible mobile navigation drawer ---------------- */
+function initMobileNav(){
+  const toggle=document.getElementById("menuToggle"),drawer=document.getElementById("navDrawer"),veil=document.getElementById("navVeil");
+  if(!toggle||!drawer||!veil)return;
+  const mq=window.matchMedia("(max-width: 959px)");
+  const focusable=()=>Array.from(drawer.querySelectorAll('a[href],button:not([disabled]),[tabindex]:not([tabindex="-1"])')).filter(el=>!el.hidden);
+  const close=(returnFocus=true)=>{
+    document.body.classList.remove("nav-open");
+    toggle.setAttribute("aria-expanded","false");toggle.setAttribute("aria-label","Open navigation menu");
+    veil.hidden=true;if(mq.matches)drawer.setAttribute("aria-hidden","true");
+    if(returnFocus)toggle.focus();
+  };
+  const open=()=>{
+    if(!mq.matches)return;
+    document.body.classList.add("nav-open");
+    toggle.setAttribute("aria-expanded","true");toggle.setAttribute("aria-label","Close navigation menu");
+    drawer.setAttribute("aria-hidden","false");veil.hidden=false;
+    const list=focusable();if(list[0])list[0].focus();
+  };
+  toggle.addEventListener("click",()=>toggle.getAttribute("aria-expanded")==="true"?close():open());
+  veil.addEventListener("click",()=>close());
+  drawer.addEventListener("click",e=>{if(e.target.closest("a[href]")&&mq.matches)close(false);});
+  document.addEventListener("keydown",e=>{
+    if(!document.body.classList.contains("nav-open"))return;
+    if(e.key==="Escape"){e.preventDefault();close();return;}
+    if(e.key!=="Tab")return;
+    const list=focusable();if(!list.length){e.preventDefault();toggle.focus();return;}
+    const first=list[0],last=list[list.length-1];
+    if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus();}
+    else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus();}
+  });
+  const sync=()=>{if(!mq.matches){close(false);drawer.removeAttribute("aria-hidden");}else if(!document.body.classList.contains("nav-open"))drawer.setAttribute("aria-hidden","true");};
+  if(mq.addEventListener)mq.addEventListener("change",sync);else mq.addListener(sync);sync();
+}
+if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",initMobileNav);else initMobileNav();
 
 /* ---------------- Reveal on scroll ---------------- */
 function initReveal(){

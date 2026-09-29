@@ -55,8 +55,8 @@ const PUPIL = { role: 'pupil', refId: 'P001', name: 'x' };
   ok('pupil wrong pw', run('Auth.pupilLogin("08051112222","0000").reason') === 'wrongpass');
   ok('pupil unknown phone', run('Auth.pupilLogin("0800 000 0000","1234").reason') === 'notfound');
   ok('old adm still works', run('Auth.pupilLogin("TA/2023/001","1234").ok') === true);
-  ok('teacher phone login', run('!!Auth.staffLogin("teacher","0803 100 0001","1234")') === true);
-  ok('teacher T001 still works', run('!!Auth.staffLogin("teacher","T001","1234")') === true);
+  ok('teacher phone login is disabled', run('Auth.staffLogin("teacher","0803 100 0001","1234")') === null);
+  ok('teacher T001 login is disabled', run('Auth.staffLogin("teacher","T001","1234")') === null);
   ok('admin first login asks to create password', run('Auth.staffLogin("admin","HEAD001","x").nopassword') === true);
   ok('assistant headmistress registered', run('var a=Auth.staffFind("ASST001"); a && a.title') === 'Assistant Headmistress');
   ok('admin activates then logs in', run('Auth.setStaffPassword("HEAD001","secret9"); var s=Auth.staffLogin("admin","HEAD001","secret9"); s && s.adminRole') === 'headmistress');
@@ -69,9 +69,9 @@ const PUPIL = { role: 'pupil', refId: 'P001', name: 'x' };
   ok('login no errors', errors.length === 0, errors.join('||').slice(0, 160));
 }
 {
-  // staff phone login resolves to the right staff id (demo one-tap fillStaff removed batch49f)
+  // Teacher directory entries no longer authenticate; leadership accounts do.
   const { run } = loadPage('portal/login.html');
-  ok('staff phone resolves to T001', run('Auth.staffLogin("teacher","0803 100 0001","1234").refId') === 'T001');
+  ok('staff phone cannot open a teacher session', run('Auth.staffLogin("teacher","0803 100 0001","1234")') === null);
   finish();
   return;
 }

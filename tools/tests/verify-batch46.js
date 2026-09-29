@@ -68,7 +68,7 @@ ok('retired demo accounts gone (T002-T007, P004-P017)', c.retired === 0);
 ok('parent with one child (P001)', c.pupils >= 1 && ix.run(`DB.load().pupils.filter(p=>p.phone==="0805 111 2222").length`) === 1);
 ok('parent with two children shares one phone', c.household2 === 2 && c.household2kids === 'Emeka Nwosu+Ada Nwosu');
 ok('demo admission applications removed', c.apps === 0);
-ok('teacher + parent logins authenticate; admins use create-password + OTP', ix.run(`Auth.staffLogin("admin","HEAD001","x").nopassword===true&&Auth.staffLogin("admin","ASST001","x").nopassword===true&&!!Auth.staffLogin("teacher","T001","1234")&&Auth.pupilLogin("0805 111 2222","1234").ok&&Auth.pupilLogin("0805 333 4444","1234").ok`) === true);
+ok('only leadership + parent logins authenticate; teacher wall login is disabled', ix.run(`Auth.staffLogin("admin","HEAD001","x").nopassword===true&&Auth.staffLogin("admin","ASST001","x").nopassword===true&&Auth.staffLogin("teacher","T001","1234")===null&&Auth.pupilLogin("0805 111 2222","1234").ok&&Auth.pupilLogin("0805 333 4444","1234").ok`) === true);
 ok('migration retires demo accounts on old saves', ix.run(`(function(){
   const d=DB.load(); d.teachers.push({id:"T006",pin:"1234",name:"old demo"}); d.pupils.push({id:"P014",pin:"1234",name:"old kid"});
   d.demoAccountsV2=undefined; DB.save(d); DB.load();
@@ -94,15 +94,15 @@ ok('11 teachers on the wall', W.length === 11);
 const wantQuals = {
   'Mr Idris Ibrahim': 'HND Computer Science (2017)', 'Mrs Zeenatudeen Uthman': 'B.Agric (2020)',
   'Jimoh Mariam': 'ND Chemistry (2020)', 'Nasirun Yahaya': 'B.Sc Local Govt & Dev. Studies (2014)',
-  'Tahab Oyiza Zainab': 'NCE Business Education (2010)', 'Salihu Oyiza Nanahawa': 'NCE Home Economics (2014)',
+  'Abedoh Rafatu': '', 'Salihu Oyiza Nanahawa': 'NCE Home Economics (2014)',
   'Momoh Bose': 'ND Business Administration (2007)', 'Rebeca Omeiza': 'WASSCE Social Studies (2012)',
   'Siyaka Bose': 'WASSCE Sciences (2012)', 'David O. Esther': 'WASSCE Art (2012)', 'Shaibu Memunat': 'ND Animal Science (2012)'
 };
 ok('every qualification exactly as the register issues it',
   W.every(t => wantQuals[t[0]] === t[1]), JSON.stringify(W.filter(t => wantQuals[t[0]] !== t[1])));
 ok('genders recorded from the register', W.find(t => t[0] === 'Nasirun Yahaya')[2] === 'Male' && W.find(t => t[0] === 'David O. Esther')[2] === 'Female');
-ok('About is written from "what they do best", never claimed as a subject taught',
-  W.every(t => t[3] === 'Wha'), 'an About does not open with the house formula');
+ok('About uses the strengths formula or the corrected leadership description',
+  W.every(t => t[3] === 'Wha' || (t[0] === 'Abedoh Rafatu' && t[3] === 'As ')), 'unexpected About opening');
 ok('disciplines are NOT parked in the subjects field', al.run(`DB.load().staffWall.filter(t=>(t.subjects||[]).some(s=>/Computer|Chemistry|Business|Animal|Art|Sciences/.test(s))).length`) <= 1);
 ok('Idris alone carries Mathematics as the subject he teaches', al.run(`(DB.load().staffWall.find(t=>t.name==="Mr Idris Ibrahim").subjects||[]).join()`) === 'Mathematics');
 ok('staff wall grid is the 3-column layout', alumni.includes('class="staff-grid3" id="teamGrid"') && corp.includes('.staff-grid3{display:grid;grid-template-columns:repeat(3,1fr)'));
@@ -132,13 +132,13 @@ const g = JSON.parse(al.run(`(function(){
   return JSON.stringify(G);
 })()`));
 ok('18 graduates in the 2023 set', Object.keys(g).length === 18);
-ok('G003 name + phone corrected', g.G003.n === 'IDRIS, NANA AISHA OZAVIZE' && g.G003.p === '08131385410');
+ok('G003 public name retained and phone scrubbed', g.G003.n === 'IDRIS, NANA AISHA OZAVIZE' && g.G003.p === undefined);
 ok('G007 name corrected', g.G007.n === 'IBRAHIM, NANAH AISHAT ENEYIAMIRE');
-ok('G008/G009 gender + dob corrected', g.G008.g === 'Male' && g.G008.d === '2012-03-25' && g.G009.g === 'Female' && g.G009.d === '2012-06-28' && g.G009.p === '08066076460');
-ok('G010/G012 phones corrected', g.G010.p === '08063354298' && g.G012.p === '08033354298');
+ok('G008/G009 genders retained; DOB and phone scrubbed', g.G008.g === 'Male' && g.G008.d === undefined && g.G009.g === 'Female' && g.G009.d === undefined && g.G009.p === undefined);
+ok('G010/G012 phones scrubbed', g.G010.p === undefined && g.G012.p === undefined);
 ok('G016 gender corrected', g.G016.g === 'Male');
-ok('G017 name + phone corrected', g.G017.n === 'ABEDOH, MUDASHIRU ITOPA' && g.G017.p === '08101871745');
-ok('G018 phone corrected', g.G018.p === '08067079263');
+ok('G017 public name retained and phone scrubbed', g.G017.n === 'ABEDOH, MUDASHIRU ITOPA' && g.G017.p === undefined);
+ok('G018 phone scrubbed', g.G018.p === undefined);
 ok('no exam scores invented for the 2023 set', al.run(`DB.load().graduates.filter(x=>x.gradYear===2023&&x.exam).length`) === 0);
 
 /* ---------- E. header is a flat single row ---------- */

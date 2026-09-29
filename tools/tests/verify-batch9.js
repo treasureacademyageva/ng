@@ -100,7 +100,7 @@ const ADMIN = { role: 'admin', refId: 'HEAD001', name: 'Mrs. Salihu Nanahawa' };
   ok('LF photo stored', w.__DB.load().lostfound[0].photo === 'data:image/jpeg;base64,BBB');
   run('db=DB.load(); db.school.bank={name:"Test Bank",number:"1234567890",holder:"TA"}; db.registrations.push({id:"RI",status:"Pending",ward:{first:"Inv",surname:"Kid",gender:"M",dob:"2020-01-01",classApply:"Primary 1"},guardian:{g1:{name:"G",phone:"080"},g2:{},rel:"Father",email:"",address:"x"},payment:{status:"Unpaid",method:"x"},date:"2026-09-16",expiry:"2026-09-30"}); DB.save(db); renderRegs(); printInvoice("RI");');
   const slip = w.document.getElementById('printSlip').textContent;
-  ok('invoice built', slip.includes('SCHOOL FEES INVOICE') && slip.includes('Test Bank') && slip.includes('1234567890') && slip.includes('Balance Due'));
+  ok('invoice built without browser-supplied bank values', slip.includes('SCHOOL FEES INVOICE') && !slip.includes('Test Bank') && !slip.includes('1234567890') && slip.includes('Balance Due') && slip.includes('+234 814 194 3478'));
   run(`db=DB.load(); db.results.push({id:"RS1",pupilId:"P001",class:"Primary 1",term:"First Term",session:db.school.session,status:"Published",updatedAt:"2026-09-16",scores:{"English Language":{ca1:10,ca2:10,exam:40},"Mathematics":{ca1:9,ca2:9,exam:38}}}); DB.save(db); previewSMS("RS1");`);
   const sms = w.document.getElementById('modalBox').textContent;
   ok('SMS preview shows avg+position', sms.includes('Average:') && sms.includes('Position:') && sms.includes('Adaeze Okafor'), sms.slice(0, 160));

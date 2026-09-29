@@ -16,7 +16,7 @@
     <loc>https://treasureacademyageva.vercel.app/admission-form.html</loc>
     <lastmod>2026-09-29</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://treasureacademyageva.vercel.app/admissions.html</loc>
@@ -163,7 +163,19 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://treasureacademyageva.vercel.app/search.html</loc>
+    <lastmod>2026-09-29</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://treasureacademyageva.vercel.app/shop.html</loc>
+    <lastmod>2026-09-29</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://treasureacademyageva.vercel.app/story.html</loc>
     <lastmod>2026-09-29</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>

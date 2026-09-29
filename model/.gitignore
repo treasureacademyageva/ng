@@ -1,0 +1,17 @@
+data/raw/*
+data/licensed/*
+data/cleaned/*
+data/pretraining/*
+data/instruction/*.jsonl
+data/instruction/*.bin
+data/preference/*.jsonl
+**/__pycache__/
+**/*.pyc
+.pytest_cache/
+checkpoints/*
+runs/*
+exports/*
+!**/.gitkeep
+!data/sources.json
+!data/README.md
+!data/evaluation/*.jsonl

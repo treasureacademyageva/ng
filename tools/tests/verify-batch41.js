@@ -49,7 +49,7 @@ ok('exactly one demo teacher login, real wall', store.includes('name:"Shaibu Mem
 ok('former seed retired to empty', store.includes('const FORMER_SEED = [];'));
 ok('11 public wall entries seeded (Document D)', store.includes('Mr Idris Ibrahim') && store.includes('id:"W10", name:"Momoh Bose"') && store.includes('id:"W11", name:"Shaibu Memunat"'));
 ok('CE 2025 top scorer data', store.includes('ABDULLAHI, FARIDA AHUDOIZA') && store.includes('total:216') && store.includes('BS/OKN/141001'));
-ok('CE 2023 set data', store.includes('MAJEBI, TREASURE ONONO') && store.includes('gradYear:2023') && store.includes('2012-09-14'));
+ok('CE 2023 set keeps public name/year without full DOB', store.includes('MAJEBI, TREASURE ONONO') && store.includes('gradYear:2023') && !store.includes('2012-09-14'));
 const gradCount = (store.match(/class:"Graduated"/g) || []).length;
 ok('39 graduates seeded', gradCount === 39, 'got ' + gradCount);
 ok('partner strip markup', sitejs.includes('class="foot-partners"') && sitejs.includes('Approved &amp; Registered With') && sitejs.includes('BS/OKN/141'));
@@ -74,7 +74,7 @@ ok('both set headings', al.window.document.getElementById('gradWall').textConten
 al.run("gradProfile('GS1');");
 let box = al.window.document.getElementById('tpBox').textContent;
 ok('grad popup: 2025 topper', box.includes('ABDULLAHI') && box.includes('Class of 2025') && box.includes('Total 216/240') && box.includes('BS/OKN/141'));
-ok('grad popup: exam no + dob', box.includes('141001') && box.includes('January 2016'));
+ok('grad popup keeps published exam number but withholds full DOB', box.includes('141001') && !box.includes('January 2016'));
 al.run("closeTP(); gradProfile('G005');");
 box = al.window.document.getElementById('tpBox').textContent;
 ok('grad popup: 2023 pupil no scores invented', box.includes('MAJEBI, TREASURE ONONO') && box.includes('2023') && !box.includes('/240'));

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<script src="assets/js/theme-init.js?v=20260929-ui51"></script>
+<script src="assets/js/theme-init.js?v=20260929-ui53"></script>
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
@@ -31,11 +31,11 @@
 <meta name="geo.region" content="NG-KO">
 <meta name="geo.placename" content="Ageva, Okene, Kogi State">
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://treasureacademyageva.vercel.app/"}, {"@type": "ListItem", "position": 2, "name": "School Shop", "item": "https://treasureacademyageva.vercel.app/shop.html"}]}</script>
-<!-- seo:end --><link rel="stylesheet" href="assets/css/main.css?v=20260929-ui51">
-<link rel="stylesheet" href="assets/css/extra.css?v=20260929-ui51">
-<link rel="stylesheet" href="assets/css/glass.css?v=20260929-ui51">
-<link rel="stylesheet" href="assets/css/corporate.css?v=20260929-ui51">
-<link rel="stylesheet" href="assets/css/motion.css?v=20260929-ui51"><noscript><style>#siteLoader{display:none!important}</style></noscript>
+<!-- seo:end --><link rel="stylesheet" href="assets/css/main.css?v=20260929-ui53">
+<link rel="stylesheet" href="assets/css/extra.css?v=20260929-ui53">
+<link rel="stylesheet" href="assets/css/glass.css?v=20260929-ui53">
+<link rel="stylesheet" href="assets/css/corporate.css?v=20260929-ui53">
+<link rel="stylesheet" href="assets/css/motion.css?v=20260929-ui53"><noscript><style>#siteLoader{display:none!important}</style></noscript>
 <script defer src="/_vercel/insights/script.js"></script>
 <!-- treasure-seo -->
 <meta name="theme-color" content="#0E5A2E">
@@ -49,29 +49,42 @@
 <body data-page="shop" data-assets="assets/">
 <a class="skip-link" href="#main">Skip to content</a>
 <div id="siteLoader"><img src="assets/img/logo.jpg" alt="Treasure Academy" width="397" height="397" fetchpriority="high" decoding="async"><div class="spin"></div></div>
-<div class="topbar"><div class="container">
-  <div class="tb-contact"><span><b>Admissions</b> <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg><a data-school-phone aria-label="Call the school" href="tel:+2348141943478"></a></span><span class="tb-sep">•</span><span data-school-email></span></div>
-  <div class="tb-right"><span>Ageva, Okene, Kogi State</span><a class="portal-link" href="portal/login.html">Portal Login</a></div>
+<div class="topbar"><div class="container topbar-row">
+  <div class="tb-contact">
+    <a class="tb-admissions" href="tel:+2348141943478" aria-label="Admissions +234 814 194 3478"><svg viewBox="0 0 24 24" width="15" height="15" fill="currentColor" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg><span><b>Admissions</b> +234 814 194 3478</span></a>
+    <span class="tb-sep" aria-hidden="true">•</span>
+    <a class="tb-email" href="mailto:treasuregroupofschool@gmail.com">treasuregroupofschool@gmail.com</a>
+  </div>
+  <p class="tb-motto"><em>Our God is able</em></p>
+  <div class="tb-right"><span class="tb-location">Ageva, Okene, Kogi State</span><a class="portal-link" href="portal/login.html">Portal Login</a></div>
 </div></div>
+
 <nav class="navbar" aria-label="Primary navigation">
   <div class="container nav-row">
     <a class="flat-brand" aria-label="Treasure Academy — go to homepage" href="index.html">
-      <img class="logo-badge" src="assets/img/logo.jpg" alt="Treasure Academy logo" width="96" height="96" loading="lazy" decoding="async">
-      <span><strong data-school-name>Treasure Academy, Ageva</strong><small>Creche to Primary 6</small></span>
+      <span class="brand-logo-shell"><img class="logo-badge" src="assets/img/logo.jpg" alt="" width="96" height="96" decoding="async"></span>
+      <span class="brand-copy"><strong>TREASURE ACADEMY</strong><small>Creche <i>·</i> Nursery <i>·</i> Primary <b>—</b> Ageva, Okene</small></span>
     </a>
-    <div class="site-nav" id="navLinks">
+    <div class="site-nav" id="navDrawer" aria-label="Site navigation">
       <div id="mainNav">
         <a class="nav-link" href="index.html">Home</a><a class="nav-link" href="about.html">About</a><a class="nav-link" href="admissions.html">Admissions</a><a class="nav-link" href="academics.html">Academics</a><a class="nav-link" href="fees.html">Fees</a><a class="nav-link" href="news.html">News &amp; Events</a><a class="nav-link" href="contact.html">Contact</a>
+      </div>
+      <div class="drawer-actions">
+        <a class="btn drawer-apply" href="portal/login.html?mode=register">Apply for Admission</a>
+        <a class="drawer-portal" href="portal/login.html">Portal Login</a>
+        <a class="drawer-phone" href="tel:+2348141943478">Call +234 814 194 3478</a>
       </div>
     </div>
     <div class="nav-actions nav-cta-row">
       <a id="searchBtn" class="icon-action" href="search.html" title="Search this website" aria-label="Search this website"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.8-3.8"/></svg></a>
+      <a class="icon-action sticky-portal" href="portal/login.html" title="Portal Login" aria-label="Portal Login"><svg viewBox="0 0 24 24" width="19" height="19" fill="currentColor" aria-hidden="true"><use href="assets/img/icons.svg#ta-shield"></use></svg></a>
       <button type="button" class="icon-action theme-btn" title="Switch to night mode" aria-label="Switch to night mode"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4 8.5 8.5 0 1 0 20 14.5z"/></svg></button>
-      <a class="btn btn-primary nav-apply" href="portal/login.html?mode=register">Apply</a>
+      <a class="btn nav-apply desktop-apply" href="portal/login.html?mode=register">Apply</a>
+      <button class="menu-toggle" id="menuToggle" type="button" aria-expanded="false" aria-controls="navDrawer" aria-label="Open navigation menu"><span></span><span></span><span></span></button>
     </div>
   </div>
 </nav>
-<div class="page-hero">
+<div class="nav-veil" id="navVeil" hidden></div><div class="page-hero">
   <div class="container">
     <span class="sec-tag">Shop</span>
     <h1>School Shop</h1>
@@ -112,13 +125,13 @@
 <div class="modal-bg" id="modalBg"><div class="modal" id="modalBox"></div></div>
 <div id="printSlip"></div>
 <div id="toast"></div>
-<script src="assets/js/store.js?v=20260929-ui51"></script><script defer src="assets/js/db-live.js?v=20260929-ui51"></script>
-<script src="assets/js/sync.js?v=20260929-ui51"></script>
-<script src="assets/js/site.js?v=20260929-ui51"></script>
-<script defer src="assets/js/chat-entities.js?v=20260929-ui51"></script>
-<script defer src="assets/js/chat-rag.js?v=20260929-ui51"></script>
-<script defer src="assets/js/chat-core.js?v=20260929-ui51"></script>
-<script defer src="assets/js/chat-ui.js?v=20260929-ui51"></script><script defer src="assets/js/auth-ui.js?v=20260929-ui51"></script>
+<script src="assets/js/store.js?v=20260929-ui53"></script><script defer src="assets/js/db-live.js?v=20260929-ui53"></script>
+<script src="assets/js/sync.js?v=20260929-ui53"></script>
+<script src="assets/js/site.js?v=20260929-ui53"></script>
+<script defer src="assets/js/chat-entities.js?v=20260929-ui53"></script>
+<script defer src="assets/js/chat-rag.js?v=20260929-ui53"></script>
+<script defer src="assets/js/chat-core.js?v=20260929-ui53"></script>
+<script defer src="assets/js/chat-ui.js?v=20260929-ui53"></script><script defer src="assets/js/auth-ui.js?v=20260929-ui53"></script>
 <script>
 (function(){
   const pre = new URLSearchParams(location.search).get("class");
@@ -202,16 +215,13 @@
   window.openCheckout = () => {
     const db = DB.load(), {t} = totals();
     if(!t){ U.toast("Your cart is empty."); return; }
-    openModal(`<h2>Pay ${U.naira(t)}</h2><p class="sub">Fill this, then pay by transfer or POS</p>
+    openModal(`<h2>Pay ${U.naira(t)}</h2><p class="sub">Fill this, then pay by bank transfer.</p>
       <div class="form-grid">
         <div class="field"><label>Your Name *</label><input id="oName" placeholder="e.g. Mrs. Okafor"></div>
         <div class="field"><label>Your Phone *</label><input id="oPhone" placeholder="e.g. 0805..."></div>
         <div class="field"><label>Pupil Name *</label><input id="oPupil" placeholder="Child collecting items"></div>
         <div class="field"><label>Pupil Class</label><select id="oClass">${CLASSES.map(c=>`<option ${chip===c?"selected":""}>${c}</option>`).join("")}</select></div>
-        <div class="field full"><label>How will you pay? *</label>
-          <label class="quiz-opt"><input type="radio" name="oMethod" value="Bank transfer" checked><span>Bank transfer (from my phone)</span></label>
-          <label class="quiz-opt"><input type="radio" name="oMethod" value="POS at office"><span>POS machine at the school office</span></label>
-        </div>
+        <input type="hidden" name="oMethod" value="Bank transfer">
       </div>
       <div class="u51-097">${U.payAccountsHTML(db)}</div>
       <div class="u51-098"><button class="btn btn-mint u51-063" onclick="placeOrder()">Place Order — ${U.naira(t)}</button><button class="btn btn-white" onclick="openCart()">Back</button></div>`);
@@ -219,7 +229,7 @@
   window.placeOrder = () => {
     const g = id => document.getElementById(id).value.trim();
     if(!g("oName") || !g("oPhone") || !g("oPupil")){ U.toast("Please fill name, phone and pupil."); return; }
-    const method = (document.querySelector('input[name=oMethod]:checked') || {}).value || "Bank transfer";
+    const method = "Bank transfer";
     const db = DB.load();
     const lines = Object.keys(cart).map(id => ({it: byId(id), n: cart[id]})).filter(x => x.it && x.n > 0);
     if(!lines.length){ U.toast("Your cart is empty."); return; }
@@ -231,13 +241,10 @@
     DB.save(db);
     try{ const mine=JSON.parse(localStorage.getItem("treasure_myorders_v1")||"[]"); mine.unshift(id); localStorage.setItem("treasure_myorders_v1",JSON.stringify(mine.slice(0,20))); }catch(e){}
     cart = {}; saveCart(); renderAll();
-    const bk = (db.school.bank || {});
     openModal(`<div class="u51-099">${U.icon("check", 46)}</div>
       <h2 class="u51-027">Order received!</h2>
       <div class="ref-big">${id} • ${U.naira(total)}</div>
-      ${method === "POS at office"
-        ? `<div class="notice"><span class="dot u51-075"></span><div>Come to the school office and pay <b>${U.naira(total)}</b> on our <b>POS machine</b>. Tell them order <b>${id}</b>.</div></div>`
-        : `<div class="notice"><span class="dot u51-062"></span><div>Transfer <b>${U.naira(total)}</b> to:<br><b>${U.esc(bk.name || "—")}</b> • <b>${U.esc(bk.number || "ask office")}</b><br>${U.esc(bk.holder || "")}<br>Write <b>${id}</b> as the narration/description.</div></div>`}
+      <div class="notice"><span class="dot u51-062"></span><div>Transfer <b>${U.naira(total)}</b> only after confirming the current account through Call <b>+234 814 194 3478</b> or verified WhatsApp <b>09063932487</b>. Write <b>${id}</b> as the narration.</div></div>
       <div class="notice"><span class="dot u51-100"></span><div>Collect your items at the school office <b>from tomorrow</b>. Show this reference: <b>${id}</b>.</div></div>
       <div class="u51-101"><button class="btn btn-mint u51-063" onclick="closeModal()">Done</button><button class="btn btn-white" onclick="openReceipt('${id}')">Receipt</button><button class="btn btn-white" onclick="printSlip('${id}')">Print</button></div>`);
   };
@@ -267,7 +274,7 @@
     openReceipt(v);
   };
   function slipHTML(o){
-    const s = DB.load().school, bk = (s.bank || {});
+    const s = DB.load().school;
     return `<div class="slip">
       <div class="slip-head"><b>${U.esc(s.name)}</b><small>${U.esc(s.address)} • ${U.esc(s.phone)}</small></div>
       <h3>ORDER RECEIPT</h3>
@@ -280,7 +287,7 @@
       <table class="slip-tbl items"><thead><tr><th>Item</th><th>Qty</th><th>Price</th><th>Total</th></tr></thead>
       <tbody>${o.items.map(x=>`<tr><td>${U.esc(x.name)}</td><td>${x.qty}</td><td>${U.naira(x.price)}</td><td>${U.naira(x.price*x.qty)}</td></tr>`).join("")}</tbody></table>
       <div class="slip-total">TOTAL: ${U.naira(o.total)}</div>
-      ${o.method!=="POS at office"?`<p class="slip-note">Transfer to <b>${U.esc(bk.name||"—")} • ${U.esc(bk.number||"ask office")}</b> ${U.esc(bk.holder||"")} — write <b>${o.id}</b> as narration.</p>`:`<p class="slip-note">Pay <b>${U.naira(o.total)}</b> on our POS at the school office — mention order <b>${o.id}</b>.</p>`}
+      <p class="slip-note">Before transferring, confirm the current account via Call <b>+234 814 194 3478</b> or verified WhatsApp <b>09063932487</b>. Never use account details sent from another number. Write <b>${o.id}</b> as narration.</p>
       <p class="slip-note">Collect at the school office. "${U.esc(s.motto)}"</p>
     </div>`;
   }
@@ -306,8 +313,8 @@
   window.copyPickup = id => {
     const o = (DB.load().orders || []).find(x => x.id === id);
     if(!o){ U.toast("Order not found."); return; }
-    const s = DB.load().school, bk = (s.bank || {});
-    const msg = s.name + " - ORDER " + o.id + "\nPupil: " + o.pupil + (o.pclass?" ("+o.pclass+")":"") + "\nItems: " + o.items.map(x=>x.qty+"x "+x.name).join(", ") + "\nTotal: " + U.naira(o.total) + "\nPayment: " + o.method + (o.method!=="POS at office"?" to "+(bk.name||"")+" "+(bk.number||"")+" ("+(bk.holder||"")+") - narration: "+o.id:" at school office - mention "+o.id) + "\nCollect at the school office from tomorrow. " + s.motto;
+    const s = DB.load().school;
+    const msg = s.name + " - ORDER " + o.id + "\nPupil: " + o.pupil + (o.pclass?" ("+o.pclass+")":"") + "\nItems: " + o.items.map(x=>x.qty+"x "+x.name).join(", ") + "\nTotal: " + U.naira(o.total) + "\nPayment: Bank transfer after confirming the current account through Call +234 814 194 3478 or verified WhatsApp 09063932487. Narration: " + o.id + "\nCollect at the school office from tomorrow. " + s.motto;
     const done = () => U.toast("Pickup message copied - paste it in WhatsApp.");
     if(navigator.clipboard && navigator.clipboard.writeText){ navigator.clipboard.writeText(msg).then(done).catch(()=>fallbackCopy(msg, done)); }
     else fallbackCopy(msg, done);

@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "main": "render-test.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test:batch53": "node tools/tests/verify-batch53.js",
+    "test:header-browser": "node tools/tests/header-browser.e2e.js"
   },
   "keywords": [],
   "author": "",
@@ -11,5 +12,8 @@
   "description": "",
   "dependencies": {
     "jsdom": "^29.1.1"
+  },
+  "devDependencies": {
+    "playwright": "^1.56.1"
   }
 }
