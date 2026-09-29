@@ -1,4 +1,5 @@
-/* Select the saved or operating-system theme before CSS paints the page. */
+/* Mark enhanced mode before CSS paints, then select the saved/system theme. */
+document.documentElement.classList.add("js");
 try {
   const saved = localStorage.getItem("treasure_theme");
   document.documentElement.dataset.theme = saved ||

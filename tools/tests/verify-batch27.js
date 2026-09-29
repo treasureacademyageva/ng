@@ -51,7 +51,7 @@ const pupil = fs.readFileSync(SITE + '/portal/pupil.html', 'utf8');
 const teacher = fs.readFileSync(SITE + '/portal/teacher.html', 'utf8');
 const admin = fs.readFileSync(SITE + '/portal/admin.html', 'utf8');
 const pta = fs.readFileSync(SITE + '/pta.html', 'utf8');
-ok('login chips tokenized', !login.includes('#F1F4F8') && (login.match(/background:var\(--white\);font-weight:800/g) || []).length === 2);
+ok('login chips tokenized into shared classes', !login.includes('#F1F4F8') && (login.match(/\bstyle\s*=/g) || []).length <= 10 && css.includes('.u51-070{display:inline-flex;align-items:center;padding:0 10px;border:1px solid var(--line);border-radius:var(--r-md);background:var(--white);font-weight:800}'));
 ok('pupil chip + ID card tokenized', !pupil.includes('#F1F4F8') && pupil.includes('background:var(--white);color:var(--ink)') && pupil.includes('border:2px dashed var(--green)'));
 ok('teacher duty highlight tokenized', !teacher.includes('#FFF3D1') && teacher.includes("background:var(--sun-soft)"));
 ok('admin duty highlight tokenized', !admin.includes('#FFF3D1') && admin.includes("background:var(--sun-soft)"));

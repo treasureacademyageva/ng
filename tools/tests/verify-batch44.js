@@ -43,9 +43,9 @@ function loadPage(page, session, url, pre) {
 /* ---------- A. static files ---------- */
 ok('robots.txt rules', (() => { const r = fs.readFileSync(SITE + '/robots.txt', 'utf8'); return r.includes('Disallow: /portal/') && r.includes('Disallow: /developer.html') && /^Sitemap: https:\/\/\S+\/sitemap\.xml$/m.test(r); })());  // host-agnostic: tools/set-site-host.py can move the domain
 const siteMap = fs.readFileSync(SITE + '/sitemap.xml', 'utf8');
-// Private pages (receipt, admission-form, search, story) are noindex and must
-// stay out of the sitemap, so the count is a floor, not a fixed 35.
-ok('sitemap: public urls + index priority', (siteMap.match(/<url>/g) || []).length >= 30 && siteMap.includes('<priority>1.0</priority>') && !/developer\.html|404\.html|receipt\.html|admission-form\.html|search\.html|story\.html/.test(siteMap));
+// The paid admission form is a public, indexable conversion page. Internal
+// utilities (receipt, search and story) remain outside the sitemap.
+ok('sitemap: public urls + index priority', (siteMap.match(/<url>/g) || []).length >= 31 && siteMap.includes('<priority>1.0</priority>') && siteMap.includes('admission-form.html') && !/developer\.html|404\.html|receipt\.html|search\.html|story\.html/.test(siteMap));
 const man = JSON.parse(fs.readFileSync(SITE + '/site.webmanifest', 'utf8'));
 // A maskable icon was added for Android adaptive masks, so icons is >= 3.
 ok('manifest valid PWA', man.name.includes('Treasure Academy') && man.display === 'standalone' && man.theme_color === '#0E5A2E' && man.icons.length >= 2 && man.icons.some(i => (i.purpose || '').includes('maskable')));

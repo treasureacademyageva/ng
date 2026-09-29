@@ -138,7 +138,7 @@ try {
 
 /* ------------------------------------------------- D. flat responsive header */
 ok('header wraps cleanly below tablet width',
-  /@media\(max-width:980px\)\{[\s\S]*?body:not\(\.portal-body\) \.navbar \.nav-row\{flex-wrap:wrap\}/.test(corporate));
+  /@media\(max-width:1100px\)\{[\s\S]*?body:not\(\.portal-body\) \.navbar \.nav-row\{flex-wrap:wrap\}/.test(corporate));
 ok('mobile link row gets the full available width',
   /\.site-nav\{order:3;flex:1 0 100%;overflow-x:auto/.test(corporate));
 ok('mobile nav remains directly visible and scrollable',
@@ -206,7 +206,7 @@ try {
 
 /* ------------------------------------------------- F. kb + sw hygiene */
 const kb = JSON.parse(read('assets/data/kb.json'));
-ok('kb.json rebuilt with 97 docs', (kb.docs || kb).length === 97);
+ok('kb.json rebuilt with public admission form content', (kb.docs || kb).length === 98 && (kb.docs || kb).some(d => d.url === 'admission-form.html'));
 ok('kb still teaches the 2016 founding year',
   read('assets/data/kb.json').includes('2016'));
 const sw = read('sw.js');

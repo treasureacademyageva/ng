@@ -11,7 +11,9 @@
 Static school website + staff/headmistress/pupil portals for **Treasure Academy, Ageva, Okene, Kogi State, Nigeria**.
 Hosted on Vercel (preset "Other", no build command, output `./`, no env vars). Repo: github.com/treasureacademyageva/ng — work goes to the `preview` branch first; merge to `main` only when the owner says "go live". Never push straight to main.
 
-## Current state (batch 50, `?v=20260919-50`, sw `treasure-v50`)
+## Current state (Batch 51 preview, `?v=20260929-ui51`, sw `treasure-v72`)
+Batch 51 is complete on `preview` but is **not released to production**. Production remains the owner-authorized Batch 50 release until a new explicit go-live instruction.
+
 Batch 43 additions (owner-directed): "Treasure Sans" (Sora-based) + "Treasure Serif" (Fraunces-based) self-hosted in `assets/fonts/` — Google Fonts CDN removed from all 40 pages; a real studio-commissioned font can replace those files later with zero code change. Treasure FX layer at end of `site.js`: button ripple, segmented `.seg` tabs with sliding ink (graduates now toggle All/2025/2023), `[data-countup]` animated stat numbers, `.tilt` 3D-hover cards, `.stag-grid` staggered reveals, `.spy-bar` scroll-spy jump nav (alumni has one). Brand motif = `--motif` inline SVG diamond-seed in corporate.css (applied to section tags). Owner is bringing a brand designer's artwork later — drop files in and reference them; no AI/stock imagery permitted per owner.
 - **40 pages**: 36 root + 4 portal (admin/teacher/pupil + login). Page-count pins in verify-batch9/10 = 40.
 - **Accounts vs public display (IMPORTANT, owner demanded b42):**
@@ -182,3 +184,15 @@ Still intentionally parked: current-session/news archive restructure; self-hosti
 - `vercel.json` now permanently redirects **`/pupil.html` → `/portal/pupil.html`**, so old bookmarks, cached UI, external audit links and hand-typed legacy URLs can no longer return 404.
 - `vercel.json` parses cleanly; regression asserts both current UI destinations and the permanent compatibility redirect. Full suite: **55 suites / 12,295 checks green**.
 - RC footer, About approvals panel and recompressed/dynamic WebPs were already completed in Batch 49n. Ministry approval number remains intentionally absent until the owner supplies the official document.
+
+## Batch 51 (site-wide resilient-navigation audit, 29 Sept 2026 — preview)
+- Every standard public header now contains seven real static links in this order: **Home / About / Admissions / Academics / Fees / News & Events / Contact**. The 44px search link is also present in HTML and opens `search.html` without JavaScript; `site.js` progressively enhances that same control into the overlay rather than replacing or duplicating it.
+- All 37 root pages with `#siteFooter` now ship substantive static footer navigation, verified contact details, Privacy/Safeguarding links, and **Treasure Academy Ageva Limited · RC 9634403**. JavaScript enhances this to the richer footer while retaining Quick Links. Birthdays is included so every intended root public page is reachable from the homepage in no more than three static-link clicks.
+- Added the approved information-architecture cross-links: Admissions → Fees/Uniform/Transport; Academics → Exams/Homework/E-Learning; About → Careers/Volunteer/Board/Anthem/Support; News → Calendar/event pages/Poster/Birthdays. `poster.html` is no longer orphaned.
+- The paid public `admission-form.html` is now indexable and included in `sitemap.xml`; receipt/search/story/developer/404 remain outside the sitemap as appropriate.
+- Fees has a visible no-JS fallback that tells parents to confirm the current bank account via the verified school Call line **+234 814 194 3478** or WhatsApp **09063932487**. No bank name, holder or number was invented. Verified live data can still replace the fallback at runtime.
+- Corrected headings on Academics, E-Learning, Welcome, Anthem and portal login. Login now has exactly one H1 (`School Portal — Login`), New Registration is H2, checks use the SVG system, and the username/password fields support password managers.
+- Migrated the targeted static inline styling into reusable `.u51-*` classes and normalized those rules to existing design tokens; genuine content emoji on the audited pages were removed/replaced with sprite icons. Dynamic width/height and state styles were kept where they are data-driven.
+- Reveal animation now follows progressive enhancement: content is visible by default when JavaScript is disabled; the synchronous theme bootstrap adds `.js` before CSS paints so enhanced reveal motion still works when scripts run.
+- Rebuilt `assets/data/kb.json` (**98 documents**), bumped local assets to `20260929-ui51` and the service worker to `treasure-v72`, and added `verify-batch51.js`.
+- Verification: **57 suites / 12,670 checks green**, plus **34 light/no-JS responsive browser checks** and **10 dark-mode/keyboard browser checks**, all passing. Desktop, tablet and 390px mobile layouts were exercised. This work remains on `preview`; do not merge to `main` without explicit owner authorization.

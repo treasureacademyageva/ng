@@ -67,7 +67,7 @@ const ADMIN = { role: 'admin', refId: 'HEAD001', name: 'Mrs. Salihu Nanahawa' };
   ok('holiday clean', h.errors.length === 0, h.errors.join(' || ').slice(0, 200));
   const wl = loadPage('welcome.html');
   ok('welcome 6 steps', wl.window.document.querySelectorAll('.step').length === 6);
-  ok('footer slim, contact intact', !e.window.document.getElementById('siteFooter').textContent.includes('Quick Links') && !e.window.document.getElementById('siteFooter').textContent.includes('Portal Login') && e.window.document.getElementById('siteFooter').textContent.includes('Get Directions') && e.window.document.getElementById('siteFooter').textContent.includes('Follow Us'));
+  ok('footer quick links + contact intact', e.window.document.getElementById('siteFooter').textContent.includes('Quick Links') && e.window.document.getElementById('siteFooter').textContent.includes('Portal') && e.window.document.getElementById('siteFooter').textContent.includes('Get Directions') && e.window.document.getElementById('siteFooter').textContent.includes('Follow Us'));
 }
 /* teacher of term */
 {
