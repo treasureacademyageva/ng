@@ -78,8 +78,8 @@ const noindexed = pages.filter(f => !indexable.includes(f));
   ok('no duplicate description tags', dupDesc.length === 0, dupDesc.join(','));
 
   /* Two different things get conflated here, so keep them apart:
-     - noindex utility pages (receipt, search and story) are real pages that
-       simply should not rank. The public paid admission form is indexable.
+     - the noindex receipt utility is a real page that simply should not rank.
+       Admission, story and search are owner-approved public pages.
      - PRIVATE pages must not publish their own URL at all. developer.html is
        the internal console and batch26 asserts nothing links to it; 404 is an
        error page. Neither gets a canonical, og:url or breadcrumb. */
@@ -181,7 +181,7 @@ const noindexed = pages.filter(f => !indexable.includes(f));
 
 /* ---------- private pages must be noindex ---------- */
 {
-  const mustHide = ['developer.html', 'receipt.html', 'search.html', 'story.html', '404.html'];
+  const mustHide = ['developer.html', 'receipt.html', '404.html'];
   const leaky = mustHide.filter(f => fs.existsSync(path.join(SITE, f)) && !/name="robots" content="noindex/.test(read(f)));
   ok('private pages are noindex', leaky.length === 0, leaky.join(','));
 }
@@ -215,11 +215,11 @@ const noindexed = pages.filter(f => !indexable.includes(f));
   ok('sitemap has urls', locs.length >= 25, String(locs.length));
   ok('sitemap urls absolute https', locs.every(l => l.startsWith('https://')));
   // nothing noindexed should be listed
-  const bad = locs.filter(l => /(developer|receipt|search|story|404)\.html/.test(l));
+  const bad = locs.filter(l => /(developer|receipt|404)\.html/.test(l));
   ok('sitemap excludes private pages', bad.length === 0, bad.join(','));
   // every indexable page should be listed
   const missing = indexable.filter(f => !locs.some(l => l.endsWith('/' + f) || (f === 'index.html' && l.endsWith('/'))))
-                           .filter(f => !/(receipt|search|story)\.html/.test(f));
+                           .filter(f => !/receipt\.html/.test(f));
   ok('sitemap lists every public page', missing.length === 0, missing.join(','));
 
   const rb = read('robots.txt');

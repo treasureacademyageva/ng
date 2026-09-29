@@ -117,7 +117,7 @@ ok("etemeya + transport question answers the fare",
    r.type === "answer" && /5,000/.test(text(r)), text(r).slice(0, 60));
 r = ask("nyene please who teaches primary 4");
 ok("nyene + staff question answers the teacher",
-   r.type === "answer" && /Tahab Oyiza Zainab/i.test(text(r)), text(r).slice(0, 60));
+   r.type === "answer" && /Abedoh Rafatu/i.test(text(r)), text(r).slice(0, 60));
 
 /* -------------------------------------------------- boundary safety */
 r = ask("how much is transport to adavi");

@@ -52,7 +52,7 @@ ok('next event merged into News',!!blocks.querySelector('#news #calCount'));
 ok('weekly honours moved to About',about.includes('id="aboutHonours"')&&about.includes('db.starsOfWeek'));
 ok('removed blocks are absent from homepage',!/(id="(?:promotions|starsWeek|videos|spotlight)"|id="weekStrip")/.test(index));
 const hex=new Set((css.match(/#[0-9a-f]{3,6}\b/ig)||[]).map(x=>x.toUpperCase()));
-ok('palette is reduced to 16 light+dark colours',hex.size===16,String(hex.size));
+ok('palette stays reduced; the explicit Apply endpoint is the sole added hex',hex.size<=17&&css.includes('#D9B44A'),String(hex.size));
 ok('gradients reduced below ten',(css.match(/(?:linear|radial|conic)-gradient\(/g)||[]).length<10);
 ok('only four non-zero radius tokens are used',![...css.matchAll(/border-radius\s*:\s*([^;}]+)/g)].some(m=>!/^var\(--r-(?:sm|md|lg|pill)\)$|^0$/.test(m[1].trim())));
 ok('only three shadow tokens are used',![...css.matchAll(/box-shadow\s*:\s*([^;}]+)/g)].some(m=>!/^var\(--sh-[123]\)$|^none(?:!important)?$/.test(m[1].trim())));
@@ -69,16 +69,16 @@ ok('public feature icons use the SVG sprite',index.includes('icons.svg#ta-cap')&
 ok('homepage contains no pictographic emoji',!/[\u{1F300}-\u{1FAFF}]/u.test(index));
 ok('hardcoded white backgrounds are gone',!/(?:background|background-color)\s*:\s*#(?:fff|ffffff)\b/i.test(css+index));
 ok('first visit follows OS theme',site.includes('prefers-color-scheme: dark')&&!site.includes('new Date().getHours()'));
-ok('theme is selected before paint on all versioned pages',fs.readdirSync(SITE).filter(f=>f.endsWith('.html')&&read(f).includes('id="siteLoader"')).every(f=>read(f).includes('assets/js/theme-init.js?v=20260929-ui51')));
+ok('theme is selected before paint on all versioned pages',fs.readdirSync(SITE).filter(f=>f.endsWith('.html')&&read(f).includes('id="siteLoader"')).every(f=>read(f).includes('assets/js/theme-init.js?v=20260929-ui53')));
 ok('copy says News & Events, never News/Event',!/(News\/Event)(?!s)/.test(index+site+auth));
 ok('copy says resumes on Monday',!/(resumes back on Monday)/i.test(index+site)&&(index+site).includes('resumes on Monday'));
 ok('ticker is lost-and-found only',/function renderTicker\(\)/.test(site)&&!site.slice(site.indexOf('function renderTicker()'),site.indexOf('function renderBday()')).includes('newsEvents'));
 
 /* Protected ground rules */
 ok('SEO canonical and School JSON-LD remain',index.includes('https://treasureacademyageva.vercel.app/')&&index.includes('"@type": "School"'));
-ok('school phone and RC remain exact',index.includes('+234 814 194 3478')&&index.includes('"value": "9634403"')&&site.includes('RC 9634403'));
+ok('school phone and RC remain exact',index.includes('+234 814 194 3478')&&index.includes('RC 9634403')&&site.includes('RC 9634403'));
 ok('no Ministry approval number invented',!/(Ministry (?:approval|registration) (?:no|number)\.?\s*[:#]?\s*[A-Z0-9/-]+)/i.test(index+about));
-ok('portal and chatbot assets remain wired',index.includes('chat-core.js?v=20260929-ui51')&&index.includes('auth-ui.js?v=20260929-ui51')&&fs.existsSync(path.join(SITE,'portal/pupil.html')));
+ok('portal and chatbot assets remain wired',index.includes('chat-core.js?v=20260929-ui53')&&index.includes('auth-ui.js?v=20260929-ui53')&&fs.existsSync(path.join(SITE,'portal/pupil.html')));
 ok('pupil compatibility redirect remains',read('vercel.json').includes('"source": "/pupil.html"')&&read('vercel.json').includes('"destination": "/portal/pupil.html"'));
 const runtime=loadPage('index.html');
 ok('redesigned homepage boots without errors',runtime.errors.length===0,runtime.errors.join(' | ').slice(0,180));

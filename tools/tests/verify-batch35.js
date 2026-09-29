@@ -67,7 +67,7 @@ ok('admin clean', adm.errors.length === 0, adm.errors.join(' || ').slice(0, 140)
 /* ---------- C. flat public header (portals retain their desktop sidebars) ---------- */
 ok('public navbar is one sticky horizontal plane', corp.includes('body:not(.portal-body) .navbar{') && corp.includes('position:sticky;top:0;z-index:var(--z-nav)'));
 ok('public nav row is a flex row', corp.includes('body:not(.portal-body) .navbar .nav-row{') && corp.includes('display:flex;align-items:center'));
-ok('header has no gradient', !/gradient\(/.test(corp));
+ok('only the Apply action may use a header gradient', corp.includes('.nav-actions .nav-apply,.drawer-apply') && !/\.topbar\{[^}]*gradient\(|\.navbar\{[^}]*gradient\(/s.test(corp));
 ok('six public links stay inline', corp.includes('#mainNav{display:flex;align-items:center;justify-content:center'));
 ok('normal public content rhythm restored', corp.includes('body:not(.portal-body) section{padding:var(--s7) 0}'));
 ok('public header excludes portal layouts', corp.includes('body:not(.portal-body) .navbar'));

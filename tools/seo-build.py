@@ -55,8 +55,10 @@ DESC = {
  "welcome.html": "New-parent welcome pack for Treasure Academy, Ageva — school routine, resumption times, uniform and what your child needs.",
 }
 
-# Pages that must never appear in search results or the sitemap.
-NOINDEX = {"developer.html", "receipt.html", "admission-form.html", "search.html", "story.html"}
+# Private/receipt utilities that must never appear in search results or the
+# sitemap. The owner explicitly approved admission-form, story and search as
+# public discoverable pages in Batch 53.
+NOINDEX = {"developer.html", "receipt.html"}
 
 # PRIVATE is stricter than NOINDEX. A noindex utility page (receipt, search) is
 # still a normal page and keeps its canonical and social tags. A private page

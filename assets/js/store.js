@@ -47,7 +47,7 @@ const STAFF_WALL_SEED = [
       {id:"W02", name:"Mrs Zeenatudeen Uthman", gender:"Female", class:"Primary 6", position:"Class Teacher", quals:"B.Agric (2020)", started:null, subjects:[], about:"What she does best is computing, and Primary 6 enjoys her patient, problem-solving style through the Common Entrance season."},
       {id:"W03", name:"Jimoh Mariam", gender:"Female", class:"Primary 2", position:"Class Teacher", quals:"ND Chemistry (2020)", started:null, subjects:[], about:"What she does best is chemistry - careful measuring, clean jotters, small experiments - and Primary 2 learns that same care in every lesson."},
       {id:"W04", name:"Nasirun Yahaya", gender:"Male", class:"Nursery 1", position:"Class Teacher", quals:"B.Sc Local Govt & Dev. Studies (2014)", started:null, subjects:[], about:"What he does best is local government and development studies - how a community is organised and served - and his Nursery 1 pupils learn order and letters without ever being rushed."},
-      {id:"W05", name:"Tahab Oyiza Zainab", gender:"Female", class:"Primary 4", position:"Class Teacher", quals:"NCE Business Education (2010)", started:null, subjects:[], about:"What she does best is business education - records, trading and thrift - and Primary 4 keeps tidy books and busy hands."},
+      {id:"W05", name:"Abedoh Rafatu", gender:"Female", class:"Primary 4", position:"Assistant Headmistress & Primary 4 Teacher", quals:"", started:null, subjects:[], about:"As Assistant Headmistress and Primary 4 teacher, she supports school leadership while guiding her class through independent learning and Common Entrance preparation."},
       {id:"W06", name:"Salihu Oyiza Nanahawa", gender:"Female", class:"Creche", position:"Class Teacher", quals:"NCE Home Economics (2014)", started:null, subjects:[], about:"What she does best is home economics, and it shows in the calmest creche room in town - meals, naps and rhymes always on time."},
       {id:"W07", name:"Rebeca Omeiza", gender:"Female", class:"Primary 5", position:"Class Teacher", quals:"WASSCE Social Studies (2012)", started:null, subjects:[], about:"What she does best is social studies - maps, flags and our town's story - and Primary 5 can narrate Kogi to you by heart."},
       {id:"W08", name:"Siyaka Bose", gender:"Female", class:"Nursery 2", position:"Class Teacher", quals:"WASSCE Sciences (2012)", started:null, subjects:[], about:"What she does best is science, and in Nursery 2 it means little nature walks that turn into big discoveries."},
@@ -56,45 +56,45 @@ const STAFF_WALL_SEED = [
       {id:"W11", name:"Shaibu Memunat", gender:"Female", class:"Primary 1", position:"Class Teacher", quals:"ND Animal Science (2012)", started:null, subjects:[], about:"What she does best is animal science - the care and keeping of living things - and her Primary 1 class learns gentleness alongside their letters."}
 ];
 const GRADS_SEED = [
-      {id:"GS1", adm:"", pin:null, password:null, name:"ABDULLAHI, FARIDA AHUDOIZA", gender:"Female", class:"Graduated", dob:"2016-01-05", parent:"", phone:"08039689663", gradYear:2025, examNo:"BS/OKN/141001", exam:{eng:66,mat:70,gep:80,total:216}, subjects:["ENG","MAT","GEP"]},
-      {id:"GS2", adm:"", pin:null, password:null, name:"ABDULSALAMI, MUFIDAT OZAVIZE", gender:"Female", class:"Graduated", dob:"2015-01-02", parent:"", phone:"08133716280", gradYear:2025, examNo:"BS/OKN/141002", exam:{eng:66,mat:66,gep:78,total:210}, subjects:["ENG","MAT","GEP"]},
-      {id:"GS3", adm:"", pin:null, password:null, name:"ADAMS, ABDULKHALIQ OGIRIMA", gender:"Male", class:"Graduated", dob:"2015-01-19", parent:"", phone:"08032711175", gradYear:2025, examNo:"BS/OKN/141003", exam:{eng:62,mat:76,gep:78,total:216}, subjects:["ENG","MAT","GEP"]},
-      {id:"GS4", adm:"", pin:null, password:null, name:"ADINOYI, FAUZIYAT ONONO", gender:"Female", class:"Graduated", dob:"2014-10-14", parent:"", phone:"08100808775", gradYear:2025, examNo:"BS/OKN/141004", exam:{eng:46,mat:72,gep:82,total:200}, subjects:["ENG","MAT","GEP"]},
-      {id:"GS5", adm:"", pin:null, password:null, name:"ALIYU, ABDULHAKEEM ADEIZA", gender:"Male", class:"Graduated", dob:"2013-02-28", parent:"", phone:"07068251396", gradYear:2025, examNo:"BS/OKN/141005", exam:{eng:38,mat:64,gep:80,total:182}, subjects:["ENG","MAT","GEP"]},
-      {id:"GS6", adm:"", pin:null, password:null, name:"ALIYU, ABDULMUTALIB ADEIZA", gender:"Male", class:"Graduated", dob:"2014-01-05", parent:"", phone:"07068251396", gradYear:2025, examNo:"BS/OKN/141006", exam:{eng:62,mat:60,gep:68,total:190}, subjects:["ENG","MAT","GEP"]},
-      {id:"GS7", adm:"", pin:null, password:null, name:"ALIYU, ABDULQUDUS OGIRIMA", gender:"Male", class:"Graduated", dob:"2015-02-18", parent:"", phone:"08039688812", gradYear:2025, examNo:"BS/OKN/141007", exam:{eng:64,mat:74,gep:66,total:204}, subjects:["ENG","MAT","GEP"]},
-      {id:"GS8", adm:"", pin:null, password:null, name:"ALIYU, AWWAL ADAVIZE", gender:"Male", class:"Graduated", dob:"2014-05-07", parent:"", phone:"08039688812", gradYear:2025, examNo:"BS/OKN/141008", exam:{eng:62,mat:66,gep:72,total:200}, subjects:["ENG","MAT","GEP"]},
-      {id:"GS9", adm:"", pin:null, password:null, name:"AROKE, ZULFADR ONYISA", gender:"Female", class:"Graduated", dob:"2014-01-05", parent:"", phone:"08039689663", gradYear:2025, examNo:"BS/OKN/141009", exam:{eng:60,mat:70,gep:74,total:204}, subjects:["ENG","MAT","GEP"]},
-      {id:"GS10", adm:"", pin:null, password:null, name:"ILYAS, HIKMAH ONONO", gender:"Female", class:"Graduated", dob:"2014-07-12", parent:"", phone:"08077033916", gradYear:2025, examNo:"BS/OKN/141010", exam:{eng:60,mat:50,gep:74,total:184}, subjects:["ENG","MAT","GEP"]},
-      {id:"GS11", adm:"", pin:null, password:null, name:"ISAH, MUHIB ADINOYI", gender:"Male", class:"Graduated", dob:"2013-12-16", parent:"", phone:"08065239116", gradYear:2025, examNo:"BS/OKN/141011", exam:{eng:44,mat:66,gep:72,total:182}, subjects:["ENG","MAT","GEP"]},
-      {id:"GS12", adm:"", pin:null, password:null, name:"ISMAILA, NAIMA IZE", gender:"Female", class:"Graduated", dob:"2014-04-13", parent:"", phone:"07052298989", gradYear:2025, examNo:"BS/OKN/141012", exam:{eng:50,mat:72,gep:86,total:208}, subjects:["ENG","MAT","GEP"]},
-      {id:"GS13", adm:"", pin:null, password:null, name:"ITOFA, SULEIMAN ADAVIZE", gender:"Male", class:"Graduated", dob:"2013-04-25", parent:"", phone:"09165848004", gradYear:2025, examNo:"BS/OKN/141013", exam:{eng:45,mat:55,gep:72,total:172}, subjects:["ENG","MAT","GEP"]},
-      {id:"GS14", adm:"", pin:null, password:null, name:"JIMOH, ABDULHAFIS ADAVIZE", gender:"Male", class:"Graduated", dob:"2012-10-17", parent:"", phone:"07036127073", gradYear:2025, examNo:"BS/OKN/141014", exam:{eng:60,mat:72,gep:86,total:218}, subjects:["ENG","MAT","GEP"]},
-      {id:"GS15", adm:"", pin:null, password:null, name:"KABIRU, MARIAM OYIZA", gender:"Female", class:"Graduated", dob:"2014-05-02", parent:"", phone:"07038438945", gradYear:2025, examNo:"BS/OKN/141015", exam:{eng:58,mat:74,gep:82,total:214}, subjects:["ENG","MAT","GEP"]},
-      {id:"GS16", adm:"", pin:null, password:null, name:"MICHAEL, ESTHER OMOKUWA", gender:"Female", class:"Graduated", dob:"2014-04-25", parent:"", phone:"08169058864", gradYear:2025, examNo:"BS/OKN/141016", exam:{eng:56,mat:72,gep:78,total:206}, subjects:["ENG","MAT","GEP"]},
-      {id:"GS17", adm:"", pin:null, password:null, name:"MOMOHJIMOH, NAFISAT OPEMI", gender:"Female", class:"Graduated", dob:"2015-02-02", parent:"", phone:"07035097281", gradYear:2025, examNo:"BS/OKN/141017", exam:{eng:60,mat:70,gep:82,total:212}, subjects:["ENG","MAT","GEP"]},
-      {id:"GS18", adm:"", pin:null, password:null, name:"MUHAMMED, KAUSARA OYIZA", gender:"Female", class:"Graduated", dob:"2013-11-07", parent:"", phone:"07048479426", gradYear:2025, examNo:"BS/OKN/141018", exam:{eng:62,mat:56,gep:68,total:186}, subjects:["ENG","MAT","GEP"]},
-      {id:"GS19", adm:"", pin:null, password:null, name:"ONIMISI, MUHAMMEDMUSTAPHA ONORUOYIZA", gender:"Male", class:"Graduated", dob:"2012-11-27", parent:"", phone:"09164418447", gradYear:2025, examNo:"BS/OKN/141019", exam:{eng:62,mat:66,gep:58,total:186}, subjects:["ENG","MAT","GEP"]},
-      {id:"GS20", adm:"", pin:null, password:null, name:"TIJANI, HANIFAT ENEHEZAI", gender:"Female", class:"Graduated", dob:"2014-10-16", parent:"", phone:"08131136716", gradYear:2025, examNo:"BS/OKN/141020", exam:{eng:46,mat:62,gep:88,total:196}, subjects:["ENG","MAT","GEP"]},
-      {id:"GS21", adm:"", pin:null, password:null, name:"YUSUF, ZULKANENE ASUKU", gender:"Male", class:"Graduated", dob:"2013-11-06", parent:"", phone:"08068421538", gradYear:2025, examNo:"BS/OKN/141021", exam:{eng:58,mat:68,gep:80,total:206}, subjects:["ENG","MAT","GEP"]},
-      {id:"G001", adm:"", pin:null, password:null, name:"NASIRU, JUMAI OYAMINE", gender:"Female", class:"Graduated", dob:"2012-09-14", parent:"", phone:"09034513026", gradYear:2023, subjects:["ENG","MAT","GEP"]},
-      {id:"G002", adm:"", pin:null, password:null, name:"ADAMS, MUHAMMED HAYYAN ATABA", gender:"Male", class:"Graduated", dob:"2012-12-04", parent:"", phone:"08061793469", gradYear:2023, subjects:["ENG","MAT","GEP"]},
-      {id:"G003", adm:"", pin:null, password:null, name:"IDRIS, NANA AISHA OZAVIZE", gender:"Female", class:"Graduated", dob:"2013-01-20", parent:"", phone:"08131385410", gradYear:2023, subjects:["ENG","MAT","GEP"]},
-      {id:"G004", adm:"", pin:null, password:null, name:"YAKUBU, ABDULWAHEED ADEIZA", gender:"Male", class:"Graduated", dob:"2010-05-16", parent:"", phone:"07030487130", gradYear:2023, subjects:["ENG","MAT","GEP"]},
-      {id:"G005", adm:"", pin:null, password:null, name:"MAJEBI, TREASURE ONONO", gender:"Female", class:"Graduated", dob:"2013-05-05", parent:"", phone:"08141943478", gradYear:2023, subjects:["ENG","MAT","GEP"]},
-      {id:"G006", adm:"", pin:null, password:null, name:"HADI, ROFIYAT OMENEKE", gender:"Female", class:"Graduated", dob:"2012-10-28", parent:"", phone:"09104383331", gradYear:2023, subjects:["ENG","MAT","GEP"]},
-      {id:"G007", adm:"", pin:null, password:null, name:"IBRAHIM, NANAH AISHAT ENEYIAMIRE", gender:"Female", class:"Graduated", dob:"2011-06-28", parent:"", phone:"08066877646", gradYear:2023, subjects:["ENG","MAT","GEP"]},
-      {id:"G008", adm:"", pin:null, password:null, name:"SALIHU, FARIDAT OZOHU", gender:"Male", class:"Graduated", dob:"2012-03-25", parent:"", phone:"08037527952", gradYear:2023, subjects:["ENG","MAT","GEP"]},
-      {id:"G009", adm:"", pin:null, password:null, name:"ABDULRAZAQ, FARID ONIMISI", gender:"Female", class:"Graduated", dob:"2012-06-28", parent:"", phone:"08066076460", gradYear:2023, subjects:["ENG","MAT","GEP"]},
-      {id:"G010", adm:"", pin:null, password:null, name:"AKANDE, HUSSEIN ADEIZA", gender:"Female", class:"Graduated", dob:"2012-07-20", parent:"", phone:"08063354298", gradYear:2023, subjects:["ENG","MAT","GEP"]},
-      {id:"G011", adm:"", pin:null, password:null, name:"AKANDE, HASSAN ADAVIZE", gender:"Male", class:"Graduated", dob:"2012-07-30", parent:"", phone:"08066076460", gradYear:2023, subjects:["ENG","MAT","GEP"]},
-      {id:"G012", adm:"", pin:null, password:null, name:"IBRAHIM, UMIHANI IZE", gender:"Female", class:"Graduated", dob:"2013-02-27", parent:"", phone:"08033354298", gradYear:2023, subjects:["ENG","MAT","GEP"]},
-      {id:"G013", adm:"", pin:null, password:null, name:"ITOPA, RAZAK ADAVIZE", gender:"Male", class:"Graduated", dob:"2010-01-10", parent:"", phone:"07026998170", gradYear:2023, subjects:["ENG","MAT","GEP"]},
-      {id:"G014", adm:"", pin:null, password:null, name:"ATTAHIRU, JEREMIAH ADEIZA", gender:"Male", class:"Graduated", dob:"2011-11-14", parent:"", phone:"08166262948", gradYear:2023, subjects:["ENG","MAT","GEP"]},
-      {id:"G015", adm:"", pin:null, password:null, name:"WAHEED, JOSHUA EIZOHE", gender:"Male", class:"Graduated", dob:"2011-06-06", parent:"", phone:"07033879508", gradYear:2023, subjects:["ENG","MAT","GEP"]},
-      {id:"G016", adm:"", pin:null, password:null, name:"LAMIDI, MULIKAT AHUOYIZA", gender:"Male", class:"Graduated", dob:"2010-07-23", parent:"", phone:"08070780491", gradYear:2023, subjects:["ENG","MAT","GEP"]},
-      {id:"G017", adm:"", pin:null, password:null, name:"ABEDOH, MUDASHIRU ITOPA", gender:"Male", class:"Graduated", dob:"2010-05-16", parent:"", phone:"08101871745", gradYear:2023, subjects:["ENG","MAT","GEP"]},
-      {id:"G018", adm:"", pin:null, password:null, name:"MUHAMMED, JAMIU NEZIF ONORUOYIZA", gender:"Male", class:"Graduated", dob:"2011-11-14", parent:"", phone:"08067079263", gradYear:2023, subjects:["ENG","MAT","GEP"]}
+      {id:"GS1", name:"ABDULLAHI, FARIDA AHUDOIZA", gender:"Female", class:"Graduated", gradYear:2025, examNo:"BS/OKN/141001", exam:{eng:66,mat:70,gep:80,total:216}, subjects:["ENG","MAT","GEP"]},
+      {id:"GS2", name:"ABDULSALAMI, MUFIDAT OZAVIZE", gender:"Female", class:"Graduated", gradYear:2025, examNo:"BS/OKN/141002", exam:{eng:66,mat:66,gep:78,total:210}, subjects:["ENG","MAT","GEP"]},
+      {id:"GS3", name:"ADAMS, ABDULKHALIQ OGIRIMA", gender:"Male", class:"Graduated", gradYear:2025, examNo:"BS/OKN/141003", exam:{eng:62,mat:76,gep:78,total:216}, subjects:["ENG","MAT","GEP"]},
+      {id:"GS4", name:"ADINOYI, FAUZIYAT ONONO", gender:"Female", class:"Graduated", gradYear:2025, examNo:"BS/OKN/141004", exam:{eng:46,mat:72,gep:82,total:200}, subjects:["ENG","MAT","GEP"]},
+      {id:"GS5", name:"ALIYU, ABDULHAKEEM ADEIZA", gender:"Male", class:"Graduated", gradYear:2025, examNo:"BS/OKN/141005", exam:{eng:38,mat:64,gep:80,total:182}, subjects:["ENG","MAT","GEP"]},
+      {id:"GS6", name:"ALIYU, ABDULMUTALIB ADEIZA", gender:"Male", class:"Graduated", gradYear:2025, examNo:"BS/OKN/141006", exam:{eng:62,mat:60,gep:68,total:190}, subjects:["ENG","MAT","GEP"]},
+      {id:"GS7", name:"ALIYU, ABDULQUDUS OGIRIMA", gender:"Male", class:"Graduated", gradYear:2025, examNo:"BS/OKN/141007", exam:{eng:64,mat:74,gep:66,total:204}, subjects:["ENG","MAT","GEP"]},
+      {id:"GS8", name:"ALIYU, AWWAL ADAVIZE", gender:"Male", class:"Graduated", gradYear:2025, examNo:"BS/OKN/141008", exam:{eng:62,mat:66,gep:72,total:200}, subjects:["ENG","MAT","GEP"]},
+      {id:"GS9", name:"AROKE, ZULFADR ONYISA", gender:"Female", class:"Graduated", gradYear:2025, examNo:"BS/OKN/141009", exam:{eng:60,mat:70,gep:74,total:204}, subjects:["ENG","MAT","GEP"]},
+      {id:"GS10", name:"ILYAS, HIKMAH ONONO", gender:"Female", class:"Graduated", gradYear:2025, examNo:"BS/OKN/141010", exam:{eng:60,mat:50,gep:74,total:184}, subjects:["ENG","MAT","GEP"]},
+      {id:"GS11", name:"ISAH, MUHIB ADINOYI", gender:"Male", class:"Graduated", gradYear:2025, examNo:"BS/OKN/141011", exam:{eng:44,mat:66,gep:72,total:182}, subjects:["ENG","MAT","GEP"]},
+      {id:"GS12", name:"ISMAILA, NAIMA IZE", gender:"Female", class:"Graduated", gradYear:2025, examNo:"BS/OKN/141012", exam:{eng:50,mat:72,gep:86,total:208}, subjects:["ENG","MAT","GEP"]},
+      {id:"GS13", name:"ITOFA, SULEIMAN ADAVIZE", gender:"Male", class:"Graduated", gradYear:2025, examNo:"BS/OKN/141013", exam:{eng:45,mat:55,gep:72,total:172}, subjects:["ENG","MAT","GEP"]},
+      {id:"GS14", name:"JIMOH, ABDULHAFIS ADAVIZE", gender:"Male", class:"Graduated", gradYear:2025, examNo:"BS/OKN/141014", exam:{eng:60,mat:72,gep:86,total:218}, subjects:["ENG","MAT","GEP"]},
+      {id:"GS15", name:"KABIRU, MARIAM OYIZA", gender:"Female", class:"Graduated", gradYear:2025, examNo:"BS/OKN/141015", exam:{eng:58,mat:74,gep:82,total:214}, subjects:["ENG","MAT","GEP"]},
+      {id:"GS16", name:"MICHAEL, ESTHER OMOKUWA", gender:"Female", class:"Graduated", gradYear:2025, examNo:"BS/OKN/141016", exam:{eng:56,mat:72,gep:78,total:206}, subjects:["ENG","MAT","GEP"]},
+      {id:"GS17", name:"MOMOHJIMOH, NAFISAT OPEMI", gender:"Female", class:"Graduated", gradYear:2025, examNo:"BS/OKN/141017", exam:{eng:60,mat:70,gep:82,total:212}, subjects:["ENG","MAT","GEP"]},
+      {id:"GS18", name:"MUHAMMED, KAUSARA OYIZA", gender:"Female", class:"Graduated", gradYear:2025, examNo:"BS/OKN/141018", exam:{eng:62,mat:56,gep:68,total:186}, subjects:["ENG","MAT","GEP"]},
+      {id:"GS19", name:"ONIMISI, MUHAMMEDMUSTAPHA ONORUOYIZA", gender:"Male", class:"Graduated", gradYear:2025, examNo:"BS/OKN/141019", exam:{eng:62,mat:66,gep:58,total:186}, subjects:["ENG","MAT","GEP"]},
+      {id:"GS20", name:"TIJANI, HANIFAT ENEHEZAI", gender:"Female", class:"Graduated", gradYear:2025, examNo:"BS/OKN/141020", exam:{eng:46,mat:62,gep:88,total:196}, subjects:["ENG","MAT","GEP"]},
+      {id:"GS21", name:"YUSUF, ZULKANENE ASUKU", gender:"Male", class:"Graduated", gradYear:2025, examNo:"BS/OKN/141021", exam:{eng:58,mat:68,gep:80,total:206}, subjects:["ENG","MAT","GEP"]},
+      {id:"G001", name:"NASIRU, JUMAI OYAMINE", gender:"Female", class:"Graduated", gradYear:2023, subjects:["ENG","MAT","GEP"]},
+      {id:"G002", name:"ADAMS, MUHAMMED HAYYAN ATABA", gender:"Male", class:"Graduated", gradYear:2023, subjects:["ENG","MAT","GEP"]},
+      {id:"G003", name:"IDRIS, NANA AISHA OZAVIZE", gender:"Female", class:"Graduated", gradYear:2023, subjects:["ENG","MAT","GEP"]},
+      {id:"G004", name:"YAKUBU, ABDULWAHEED ADEIZA", gender:"Male", class:"Graduated", gradYear:2023, subjects:["ENG","MAT","GEP"]},
+      {id:"G005", name:"MAJEBI, TREASURE ONONO", gender:"Female", class:"Graduated", gradYear:2023, subjects:["ENG","MAT","GEP"]},
+      {id:"G006", name:"HADI, ROFIYAT OMENEKE", gender:"Female", class:"Graduated", gradYear:2023, subjects:["ENG","MAT","GEP"]},
+      {id:"G007", name:"IBRAHIM, NANAH AISHAT ENEYIAMIRE", gender:"Female", class:"Graduated", gradYear:2023, subjects:["ENG","MAT","GEP"]},
+      {id:"G008", name:"SALIHU, FARIDAT OZOHU", gender:"Male", class:"Graduated", gradYear:2023, subjects:["ENG","MAT","GEP"]},
+      {id:"G009", name:"ABDULRAZAQ, FARID ONIMISI", gender:"Female", class:"Graduated", gradYear:2023, subjects:["ENG","MAT","GEP"]},
+      {id:"G010", name:"AKANDE, HUSSEIN ADEIZA", gender:"Female", class:"Graduated", gradYear:2023, subjects:["ENG","MAT","GEP"]},
+      {id:"G011", name:"AKANDE, HASSAN ADAVIZE", gender:"Male", class:"Graduated", gradYear:2023, subjects:["ENG","MAT","GEP"]},
+      {id:"G012", name:"IBRAHIM, UMIHANI IZE", gender:"Female", class:"Graduated", gradYear:2023, subjects:["ENG","MAT","GEP"]},
+      {id:"G013", name:"ITOPA, RAZAK ADAVIZE", gender:"Male", class:"Graduated", gradYear:2023, subjects:["ENG","MAT","GEP"]},
+      {id:"G014", name:"ATTAHIRU, JEREMIAH ADEIZA", gender:"Male", class:"Graduated", gradYear:2023, subjects:["ENG","MAT","GEP"]},
+      {id:"G015", name:"WAHEED, JOSHUA EIZOHE", gender:"Male", class:"Graduated", gradYear:2023, subjects:["ENG","MAT","GEP"]},
+      {id:"G016", name:"LAMIDI, MULIKAT AHUOYIZA", gender:"Male", class:"Graduated", gradYear:2023, subjects:["ENG","MAT","GEP"]},
+      {id:"G017", name:"ABEDOH, MUDASHIRU ITOPA", gender:"Male", class:"Graduated", gradYear:2023, subjects:["ENG","MAT","GEP"]},
+      {id:"G018", name:"MUHAMMED, JAMIU NEZIF ONORUOYIZA", gender:"Male", class:"Graduated", gradYear:2023, subjects:["ENG","MAT","GEP"]}
 ];
 
 function subjectsFor(cls){ return EARLY_CLASSES.includes(cls) ? SUBJECTS_EARLY : SUBJECTS_PRIMARY; }
@@ -118,7 +118,7 @@ function seedDB(){
          Headmistress, one teacher, one parent with a single child, one
          parent with two. This is the one demo teacher: a real teacher from
          the staff wall, with the PIN the login page advertises. */
-      {id:"T001", pin:"1234", name:"Shaibu Memunat", phone:"0803 100 0001", class:"Primary 1", subjects:[], dob:"", started:"", position:"Class Teacher", quals:"ND Animal Science (2012)", about:"What she does best is animal science - the care and keeping of living things - and her Primary 1 class learns gentleness alongside their letters."}
+      {id:"T001", loginEnabled:false, pin:null, password:null, name:"Shaibu Memunat", phone:"", class:"Primary 1", subjects:[], dob:"", started:"", position:"Class Teacher", quals:"ND Animal Science (2012)", about:"What she does best is animal science - the care and keeping of living things - and her Primary 1 class learns gentleness alongside their letters."}
     ],
     formerTeachers: FORMER_SEED,
     staffWall: STAFF_WALL_SEED,
@@ -401,6 +401,14 @@ const DB = {
       const stray = db.pupils.filter(p=>p.class==="Graduated");
       if(stray.length){ db.graduates=(db.graduates||[]).concat(stray.filter(x=>!(db.graduates||[]).some(g=>g.id===x.id))); db.pupils=db.pupils.filter(p=>p.class!=="Graduated"); }
     }
+    /* Public graduate profiles need names/results, never private contact or
+       authentication fields. Scrub old browser saves as well as fresh seed. */
+    (db.graduates||[]).forEach(function(g){
+      ["adm","pin","password","phone","parent","dob","activatedAt"].forEach(function(k){delete g[k];});
+    });
+    /* Only the two leadership records in db.admins are approved staff logins.
+       Teacher records remain for school operations/birthdays, not accounts. */
+    (db.teachers||[]).forEach(function(t){t.loginEnabled=false;t.pin=null;t.password=null;});
     if(!db.jobApps) db.jobApps = [];
     if(!db.supportPledges) db.supportPledges = [
       {id:"SP1",name:"Blessing O.",amount:20000,msg:"For the library books. Once a Treasure pupil, always Treasure!",date:"2026-09-18",status:"Approved"},
@@ -593,11 +601,9 @@ const Auth = {
               adminRole:a.adminRole||"headmistress", teachesClass:a.teachesClass||"",
               label:a.title||"Headmistress / Admin"};
     }
-    if(role==="teacher"){
-      const pin=secret.trim();
-      const t = db.teachers.find(x=>((x.id||"").toUpperCase()===idU||(key&&U.phoneKey(x.phone)===key)) && x.pin===pin);
-      if(t) return {role, refId:t.id, name:t.name, label:"Teacher • "+t.class};
-    }
+    /* Teacher records are roster/display data, not login accounts. The owner
+       approved only the two leadership accounts above. */
+    if(role==="teacher") return null;
     return null;
   },
   /* Find a leadership account by staff ID or phone (used by the login page to
@@ -946,14 +952,11 @@ const U = {
   total(sc){ return (+sc.ca1||0)+(+sc.ca2||0)+(+sc.exam||0); },
   grade(t){ if(t>=70) return "A"; if(t>=60) return "B"; if(t>=55) return "C"; if(t>=50) return "D"; if(t>=40) return "E"; return "F"; },
   remark(t){ if(t>=70) return "Excellent"; if(t>=60) return "Very Good"; if(t>=55) return "Good"; if(t>=50) return "Fair"; if(t>=40) return "Weak"; return "Fail"; },
-  payAccountsHTML(db){
-    const bk=((db.school||{}).bank||{}), mp=((db.school||{}).moniepoint||{});
-    let h = bk.number
-      ? `<div class="notice"><span class="dot" style="background:var(--sun)"></span><div style="font-size:.85rem">Pay by transfer to:<br><b>${U.esc(bk.name)}</b> • <b>${U.esc(bk.number)}</b><br>${U.esc(bk.holder||"")}</div></div>`
-      : `<div class="notice"><span class="dot" style="background:var(--sun)"></span><div style="font-size:.85rem">Ask the school office for the <b>account details</b>, then pay by bank transfer.</div></div>`;
-    if(mp.account) h += `<div class="notice"><span class="dot" style="background:var(--sky)"></span><div style="font-size:.85rem">Or pay to our Moniepoint account:<br><b>${U.esc(mp.bank||"Moniepoint MFB")}</b> • <b>${U.esc(mp.account)}</b></div></div>`;
-    if(mp.pos) h += `<div class="notice"><span class="dot" style="background:var(--mint)"></span><div style="font-size:.85rem">You can also pay with your card on our <b>POS machine</b> at the school office.</div></div>`;
-    return h;
+  /* Anti-fraud policy: browser/live data must never publish account values.
+     Parents confirm the current bank-transfer destination through the two
+     owner-approved school lines every time. */
+  payAccountsHTML(){
+    return `<div class="fee-static-contact verified-payment-notice"><b>Confirm the current account before transferring</b><p>Call <a href="tel:+2348141943478">+234 814 194 3478</a> or message the verified WhatsApp line <a href="https://wa.me/2349063932487">09063932487</a> for the current bank name, account number and account holder.</p><p>Never transfer to an account sent from any other number.</p></div>`;
   },
   naira(n){ return "\u20A6" + Number(n||0).toLocaleString("en-NG"); },
   toast(msg){

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<script src="../assets/js/theme-init.js?v=20260929-ui51"></script>
+<script src="../assets/js/theme-init.js?v=20260929-ui53"></script>
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
@@ -10,9 +10,9 @@
 <link rel="icon" href="../assets/img/logo.jpg">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Admin Dashboard — Treasure Academy, Ageva</title>
-<link rel="stylesheet" href="../assets/css/main.css?v=20260929-ui51">
-<link rel="stylesheet" href="../assets/css/extra.css?v=20260929-ui51">
-<link rel="stylesheet" href="../assets/css/corporate.css?v=20260929-ui51">
+<link rel="stylesheet" href="../assets/css/main.css?v=20260929-ui53">
+<link rel="stylesheet" href="../assets/css/extra.css?v=20260929-ui53">
+<link rel="stylesheet" href="../assets/css/corporate.css?v=20260929-ui53">
 <noscript><style>#siteLoader{display:none!important}</style></noscript>
 <script defer src="/_vercel/insights/script.js"></script>
 <meta name="robots" content="noindex, nofollow">
@@ -632,17 +632,16 @@
             <div class="form-grid" id="feesGrid"></div>
             <div class="field" style="margin-top:10px;max-width:260px"><label>Admission Form Price (₦)</label><input id="setFormFee" inputmode="numeric"></div>
          </div>
-          <div class="panel" style="margin-top:16px"><h2>Cloud Sync (Supabase)</h2><p class="sub">Same data on every phone. Paste the Project URL + anon key once per device.</p>
+          <div class="panel" style="margin-top:16px"><h2>Public Data Connection (Supabase)</h2><p class="sub">Read-only access to published calendars, fees and school content. This browser never uploads portal passwords, pupil records or payment data.</p>
             <div class="form-grid">
               <div class="field"><label>Project URL</label><input id="supUrl" placeholder="https://xxxx.supabase.co"></div>
               <div class="field"><label>Anon Key</label><input id="supKey" type="password" placeholder="eyJh..."></div>
-              <div class="field"><label>Sync Enabled?</label><select id="supOn"><option value="1">Yes — sync on</option><option value="0">No — this device only</option></select></div>
+              <div class="field"><label>Public Data Enabled?</label><select id="supOn"><option value="1">Yes — read-only</option><option value="0">No — local fallback only</option></select></div>
               <div class="field"><label>Status</label><div id="supStatus" style="font-size:.85rem;font-weight:700">Not set up yet.</div></div>
             </div>
             <div style="margin-top:10px;display:flex;gap:10px;flex-wrap:wrap">
               <button class="btn btn-mint btn-sm" onclick="saveSup()">Save &amp; Test</button>
-              <button class="btn btn-white btn-sm" onclick="pushSup()">Push Now</button>
-              <button class="btn btn-white btn-sm" onclick="pullSup()">Pull Latest</button>
+              <button class="btn btn-white btn-sm" onclick="pullSup()">Refresh Public Data</button>
             </div>
           </div>
           <button class="btn btn-sun btn-sm" onclick="saveSettings()">Save Settings</button>
@@ -698,11 +697,11 @@ if(nav)nav.addEventListener("click",function(e){
 try{var h=String(location.hash||"").replace(/^#\/?/,""); if(h){var bb=document.querySelector('#sideNav button[data-view="'+h+'"]'); if(bb&&!bb.classList.contains("on"))bb.click();}}catch(e7){}
 })();
 </script>
-<script src="../assets/js/store.js?v=20260929-ui51"></script>
-<script src="../assets/js/notify.js?v=20260929-ui51"></script>
-<script src="../assets/js/verify.js?v=20260929-ui51"></script><script defer src="../assets/js/db-live.js?v=20260929-ui51"></script>
-<script src="../assets/js/sync.js?v=20260929-ui51"></script>
-<script src="../assets/js/site.js?v=20260929-ui51"></script>
+<script src="../assets/js/store.js?v=20260929-ui53"></script>
+<script src="../assets/js/notify.js?v=20260929-ui53"></script>
+<script src="../assets/js/verify.js?v=20260929-ui53"></script><script defer src="../assets/js/db-live.js?v=20260929-ui53"></script>
+<script src="../assets/js/sync.js?v=20260929-ui53"></script>
+<script src="../assets/js/site.js?v=20260929-ui53"></script>
 <script>
 const S = Auth.guard("admin");
 if(!S){location.href="login.html";throw new Error("no-session");}
@@ -1142,7 +1141,7 @@ window.copyAllReminders=function(){ db=DB.load();
 window.printInvoice=function(id){
   if(!document.getElementById("printSlip")){ const dv=document.createElement("div"); dv.id="printSlip"; dv.style.display="none"; document.body.appendChild(dv); }
   db=DB.load(); const r=db.registrations.find(x=>x.id===id); if(!r)return;
-  const bk=(db.school.bank||{}), exp=feeExpected(r), paid=feePaidSum(r), bal=feeBalance(r);
+  const exp=feeExpected(r), paid=feePaidSum(r), bal=feeBalance(r);
   document.getElementById("printSlip").innerHTML=`<div class="slip" style="font-family:Arial,sans-serif;max-width:560px;margin:0 auto">
     <div class="slip-head"><b>${U.esc(db.school.name)}</b><small>${U.esc(db.school.address||"")} • ${U.esc(db.school.phone||"")}</small></div>
     <h3>SCHOOL FEES INVOICE</h3>
@@ -1153,7 +1152,7 @@ window.printInvoice=function(id){
     <tr><td>Paid So Far</td><td style="text-align:right"><b>NGN ${paid.toLocaleString("en-NG")}</b></td></tr>
     <tr><td><b>Balance Due</b></td><td style="text-align:right"><b>NGN ${bal.toLocaleString("en-NG")}</b></td></tr>
     <tr><td>Receipt No</td><td style="text-align:right"><b>${U.esc(r.payment.receipt||"To be issued")}</b></td></tr></table>
-    <div class="slip-note">Pay by bank transfer to:<br><b>${U.esc(bk.name||"—")}</b> • <b>${U.esc(bk.number||"Ask the office")}</b><br>${U.esc(bk.holder||"")}</div>
+    <div class="slip-note">Before transferring, confirm the current account via Call <b>+234 814 194 3478</b> or verified WhatsApp <b>09063932487</b>. Never use account details sent from another number.</div>
     <p style="text-align:center;font-size:.8rem">Motto: "${U.esc(db.school.motto)}" • ${U.prettyDate()}</p></div>`;
   document.body.classList.add("printing"); window.print();
   setTimeout(()=>document.body.classList.remove("printing"),800);
@@ -1848,7 +1847,7 @@ function saveSettings(){
   U.toast("Settings saved! Website updated too.");
 }
 
-/* ---- supabase cloud sync ---- */
+/* ---- read-only Supabase public-data connection ---- */
 function renderSup(){
   if(typeof Sync==="undefined")return;
   const c=Sync.getConfig()||{};
@@ -1859,18 +1858,17 @@ function renderSup(){
 }
 function supStatus(msg){
   const el=document.getElementById("supStatus"); if(!el)return;
-  if(typeof Sync==="undefined"){ el.textContent="Sync file not loaded."; return; }
+  if(typeof Sync==="undefined"){ el.textContent="Public data reader not loaded."; return; }
   const s=Sync.status();
-  el.textContent=msg||(s.configured?("ON - last sync: "+(s.lastSync&&s.lastSync!=="never"?s.lastSync.slice(0,16).replace("T"," "):"not yet")):"Not set up yet.");
+  el.textContent=msg||(s.configured?("READ-ONLY - last refresh: "+(s.lastSync&&s.lastSync!=="never"?s.lastSync.slice(0,16).replace("T"," "):"not yet")):"Not set up yet.");
 }
 function saveSup(){
   const ok=Sync.saveConfig(document.getElementById("supUrl").value,document.getElementById("supKey").value,document.getElementById("supOn").value==="1");
   if(!ok){ U.toast("Could not save. Storage blocked?"); return; }
   supStatus("Testing connection...");
-  Sync.test().then(r=>{ supStatus(r.detail); U.toast(r.ok?"Cloud sync connected!":"Connection failed: "+r.detail); });
+  Sync.test().then(r=>{ supStatus(r.detail); U.toast(r.ok?"Read-only public data connected.":"Connection failed: "+r.detail); });
 }
-function pushSup(){ supStatus("Pushing..."); Sync.push().then(r=>{ supStatus(r.error?("Push failed: "+r.error):("Pushed "+r.pushed+" collections just now.")); U.toast(r.error?"Push failed.":"All data pushed to cloud!"); }); }
-function pullSup(){ supStatus("Pulling..."); Sync.pull().then(r=>{ if(r.changed){ U.toast("Fresh data pulled. Refreshing..."); setTimeout(()=>location.reload(),700); } else supStatus(r.error?("Pull failed: "+r.error):"Already up to date."); }); }
+function pullSup(){ supStatus("Refreshing public data..."); Sync.pull().then(r=>{ if(r.changed){ U.toast("Fresh public data loaded. Refreshing..."); setTimeout(()=>location.reload(),700); } else supStatus(r.error?("Refresh failed: "+r.error):"Public data is already up to date."); }); }
 
 /* ---- class pages (headmistress regulates) ---- */
 function renderClassPages(){

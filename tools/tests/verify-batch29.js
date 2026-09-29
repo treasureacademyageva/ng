@@ -42,7 +42,8 @@ for (const p of walk(SITE, []).filter(f => f.endsWith('.html'))) {
   const html = fs.readFileSync(p, 'utf8');
   const d = new JSDOM(html).window.document;
   if (html.includes('aria-label="Treasure Academy \u2014 go to homepage"')) logo++;
-  if (html.includes('aria-label="Call the school"')) tel++;
+  const telLinks=[...d.querySelectorAll('a[href^="tel:"]')];
+  if(telLinks.length&&telLinks.every(a=>(a.textContent||'').trim()||a.getAttribute('aria-label'))) tel++;
   for (const el of d.querySelectorAll('button, a')) {
     const txt = (el.textContent || '').replace(/[\u00d7\u2190\u2192\u2039\u203a\u276e\u276f\u2191\u2193\u25c0\u25b6]/g, '').trim();
     if (!txt && !el.getAttribute('aria-label') && !el.getAttribute('title')) iconOnly++;
@@ -50,7 +51,7 @@ for (const p of walk(SITE, []).filter(f => f.endsWith('.html'))) {
 }
 ok('zero icon-only controls left', iconOnly === 0, 'found ' + iconOnly);
 ok('logo labels on 38 pages', logo === 38, 'found ' + logo);
-ok('tel labels on 41 pages', tel === 41, 'found ' + tel);
+ok('telephone links have accessible labels on all 41 pages', tel === 41, 'found ' + tel);
 ok('homepage keeps one news carousel and removes promotions', !fs.readFileSync(SITE + '/index.html', 'utf8').includes('promoGrid') && fs.readFileSync(SITE + '/index.html', 'utf8').includes('newsGrid') && !fs.readFileSync(SITE + '/index.html', 'utf8').includes('promoSteps'));
 ok('password eyes labeled', (fs.readFileSync(SITE + '/portal/login.html', 'utf8').match(/aria-label="Show or hide password"/g) || []).length === 5);
 

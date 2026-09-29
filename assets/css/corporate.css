@@ -1647,3 +1647,178 @@ body[data-page="home"] .testi-card{min-width:0}
 .u51-139{padding:12px 14px}
 .u51-140{color:#0B7A37}
 .u51-141{margin:4px 0 0;font-size:var(--fs-sm)}
+
+/* ================================================================
+   HEADER & IDENTITY REBUILD — flat topbar + navbar, no overlap layers
+   ================================================================ */
+body:not(.portal-body) .topbar{
+  position:sticky;top:0;z-index:calc(var(--z-nav) + 1);height:44px;min-height:44px;max-height:44px;
+  overflow:hidden;background:var(--green-deep);color:#E5DCC2;border-bottom:2px solid var(--gold);
+  transform:translateY(0);opacity:1;transition:transform 180ms ease,opacity 120ms ease;will-change:transform;
+}
+body:not(.portal-body) .topbar-row{
+  position:relative;width:min(1180px,94%);height:42px;display:grid;
+  grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:center;gap:18px;
+}
+.topbar a{color:var(--gold);text-decoration:none}.topbar a:hover{color:#E5DCC2}
+.tb-contact,.tb-right,.tb-admissions{display:flex;align-items:center}
+.tb-contact{gap:9px;min-width:0;white-space:nowrap}.tb-admissions{gap:6px}.tb-admissions b{color:var(--gold)}
+.tb-email{overflow:hidden;text-overflow:ellipsis}.tb-sep{color:var(--gold)}
+.tb-motto{margin:0;color:var(--gold);font-family:var(--font-head);font-size:var(--fs-sm);font-style:italic;text-align:center;white-space:nowrap}
+.tb-motto::before,.tb-motto::after{content:"";display:inline-block;width:8px;height:8px;margin:0 8px;background:var(--gold);clip-path:polygon(50% 0,60% 40%,100% 50%,60% 60%,50% 100%,40% 60%,0 50%,40% 40%);font-style:normal}
+.tb-right{justify-content:flex-end;gap:12px;white-space:nowrap}
+.topbar .portal-link{
+  height:28px;display:inline-flex;align-items:center;justify-content:center;padding:0 13px;
+  color:var(--gold);background:transparent;border:1px solid var(--gold);border-radius:var(--r-pill);
+  font-family:var(--font-body);font-size:var(--fs-xs);font-weight:700;
+}
+.topbar .portal-link:hover{background:transparent;color:#E5DCC2;border-color:#E5DCC2}
+
+body:not(.portal-body) .navbar{
+  position:sticky;top:44px;z-index:var(--z-nav);transform:translateY(0);
+  background:rgba(255,255,255,.97);border-bottom:1px solid var(--line);box-shadow:var(--sh-1);
+  backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);transition:transform 180ms ease;
+}
+body:not(.portal-body) .navbar .nav-row{
+  width:min(1180px,94%);min-height:76px;display:flex;align-items:center;justify-content:space-between;
+  flex-wrap:nowrap;gap:12px;padding:10px 0;
+}
+.flat-brand{min-width:226px;display:flex;align-items:center;gap:11px;color:var(--ink);text-decoration:none}
+.brand-logo-shell{
+  width:48px;height:48px;flex:0 0 48px;display:grid;place-items:center;padding:3px;
+  border:2px solid var(--gold);border-radius:var(--r-pill);background:var(--green-deep);
+}
+.flat-brand .logo-badge{width:38px;height:38px;border:0;border-radius:var(--r-pill);object-fit:cover;box-shadow:none}
+.brand-copy{display:flex;min-width:0;flex-direction:column;line-height:1.08}
+.flat-brand .brand-copy strong{
+  color:var(--green);font-family:var(--font-head);font-size:var(--fs-sm);font-weight:700;
+  letter-spacing:.05em;white-space:nowrap;
+}
+.flat-brand .brand-copy small{margin-top:5px;color:var(--muted);font-size:var(--fs-xs);white-space:nowrap}
+.flat-brand .brand-copy small i{color:var(--gold);font-style:normal;font-weight:800}.flat-brand .brand-copy small b{color:var(--muted)}
+body:not(.portal-body) .site-nav{display:flex;align-items:center;justify-content:center;min-width:0;flex:1;order:initial;border:0;padding:0;overflow:visible}
+body:not(.portal-body) #mainNav{width:auto;display:flex;align-items:center;justify-content:center;gap:4px;margin:0}
+.nav-link{
+  position:relative;min-height:40px;display:inline-flex;align-items:center;padding:7px 10px;
+  border-radius:var(--r-pill);color:var(--ink);font-size:var(--fs-sm);font-weight:600;text-decoration:none;white-space:nowrap;
+}
+.nav-link:hover{color:var(--green);background:var(--gold-soft)}
+.nav-link.on,.nav-link[aria-current="page"]{color:var(--green);background:transparent}
+.nav-link.on::after,.nav-link[aria-current="page"]::after{
+  content:"";position:absolute;left:50%;bottom:1px;width:22px;height:3px;
+  border-radius:var(--r-pill);background:var(--gold);transform:translateX(-50%);
+}
+.nav-actions{display:flex;align-items:center;justify-content:flex-end;gap:8px;flex:none;margin:0}
+.icon-action,.theme-btn,.menu-toggle{
+  width:44px;height:44px;display:grid;place-items:center;flex:0 0 44px;padding:0;
+  border:1px solid var(--line);border-radius:var(--r-md);background:transparent;color:var(--ink);
+  box-shadow:none;cursor:pointer;text-decoration:none;
+}
+.icon-action:hover,.theme-btn:hover,.menu-toggle:hover{background:var(--gold-soft);color:var(--green);transform:none;box-shadow:none}
+.nav-actions .nav-apply,.drawer-apply{
+  min-height:44px;padding:10px 19px;border:0;border-radius:var(--r-pill);
+  background:linear-gradient(135deg,#D9B44A,var(--gold));color:var(--green-deep);
+  font-family:var(--font-body);font-weight:800;box-shadow:none;
+}
+.nav-actions .nav-apply:hover,.drawer-apply:hover{background:linear-gradient(135deg,#D9B44A,var(--gold));color:var(--green-deep);transform:translateY(-1px)}
+.sticky-portal svg,.menu-toggle span{pointer-events:none}
+.menu-toggle{display:none;position:relative}
+.menu-toggle span{position:absolute;width:20px;height:2px;border-radius:var(--r-pill);background:currentColor;transition:transform 180ms ease,opacity 120ms ease}
+.menu-toggle span:nth-child(1){transform:translateY(-6px)}.menu-toggle span:nth-child(3){transform:translateY(6px)}
+.menu-toggle[aria-expanded="true"] span:nth-child(1){transform:rotate(45deg)}
+.menu-toggle[aria-expanded="true"] span:nth-child(2){opacity:0}
+.menu-toggle[aria-expanded="true"] span:nth-child(3){transform:rotate(-45deg)}
+.drawer-actions{display:none}.nav-veil{display:none}
+
+/* The topbar's layout space stays reserved; only visual transforms move, so
+   the sticky navbar reaches the viewport top without a content jump. */
+body.topbar-collapsed:not(.portal-body) .topbar{max-height:0;transform:translateY(-100%);opacity:0}
+body.topbar-collapsed:not(.portal-body) .navbar{transform:translateY(-44px)}
+
+[data-theme="dark"] body:not(.portal-body) .topbar,[data-theme="dark-hc"] body:not(.portal-body) .topbar{background:var(--green-deep)}
+[data-theme="dark"] body:not(.portal-body) .navbar,[data-theme="dark-hc"] body:not(.portal-body) .navbar{background:var(--d-surface);border-color:var(--d-line)}
+[data-theme="dark"] .flat-brand .brand-copy strong,[data-theme="dark-hc"] .flat-brand .brand-copy strong{color:var(--d-text)}
+[data-theme="dark"] .nav-link,[data-theme="dark"] .icon-action,[data-theme="dark"] .theme-btn,[data-theme="dark"] .menu-toggle,
+[data-theme="dark-hc"] .nav-link,[data-theme="dark-hc"] .icon-action,[data-theme="dark-hc"] .theme-btn,[data-theme="dark-hc"] .menu-toggle{color:var(--d-text)}
+[data-theme="dark"] .nav-link:hover,[data-theme="dark-hc"] .nav-link:hover{color:var(--gold);background:var(--gold-soft)}
+
+.topbar a:focus-visible,.navbar a:focus-visible,.navbar button:focus-visible,.site-nav a:focus-visible{
+  outline:2px solid var(--gold);outline-offset:3px;
+}
+
+@media(min-width:960px) and (max-width:1120px){
+  body:not(.portal-body) .topbar-row{gap:8px}
+  .tb-contact,.tb-right{gap:6px;font-size:var(--fs-xs)}.tb-motto{font-size:var(--fs-xs)}.topbar .portal-link{padding-inline:8px}
+  body:not(.portal-body) .navbar .nav-row{gap:8px}
+  .flat-brand{min-width:180px;gap:8px}.brand-logo-shell{width:44px;height:44px;flex-basis:44px}.flat-brand .logo-badge{width:34px;height:34px}
+  .flat-brand .brand-copy strong{font-size:var(--fs-xs)}.flat-brand .brand-copy small{display:none}
+  body:not(.portal-body) #mainNav{gap:2px}.nav-link{min-height:36px;padding:6px 5px;font-size:var(--fs-xs)}
+  .nav-actions{gap:4px}.icon-action,.theme-btn{width:40px;height:40px;flex-basis:40px}.nav-actions .nav-apply{min-height:40px;padding:8px 11px;font-size:var(--fs-xs)}
+}
+@media(max-width:959px){
+  html.js{overflow-x:clip}
+  body:not(.portal-body) .topbar-row{grid-template-columns:1fr auto;gap:10px}
+  .tb-motto,.tb-email,.tb-location,.tb-contact .tb-sep{display:none}
+  .tb-contact{overflow:hidden}.tb-admissions{font-size:var(--fs-xs)}
+  .topbar .portal-link{padding-inline:10px}
+  body:not(.portal-body) .navbar .nav-row{min-height:70px;gap:8px}
+  .flat-brand{min-width:0;flex:1}.brand-copy{overflow:hidden}.flat-brand .brand-copy small{display:none}
+  .flat-brand .brand-copy strong{font-size:var(--fs-xs);overflow:hidden;text-overflow:ellipsis}
+  .nav-actions{gap:6px}
+  html.js .menu-toggle{display:grid}
+  html.js .desktop-apply,html.js .sticky-portal{display:none}
+  html.js body:not(.portal-body) .site-nav{
+    position:fixed;inset:0 0 0 auto;z-index:calc(var(--z-dropdown) + 1);width:min(86vw,360px);height:100dvh;
+    display:flex;flex-direction:column;align-items:stretch;justify-content:flex-start;padding:84px 22px 22px;
+    overflow-y:auto;background:var(--green-deep);border:0;transform:translateX(105%);
+    visibility:hidden;pointer-events:none;transition:transform 180ms ease,visibility 0s linear 180ms;
+  }
+  html.js body.nav-open .site-nav{transform:translateX(0);visibility:visible;pointer-events:auto;transition:transform 180ms ease}
+  html.js body:not(.portal-body) .site-nav #mainNav{width:100%;display:flex;flex-direction:column;align-items:stretch;gap:2px;margin:0}
+  html.js .site-nav .nav-link{
+    width:100%;min-height:44px;justify-content:flex-start;padding:10px 14px;border-radius:var(--r-sm);
+    color:var(--cream);font-size:var(--fs-base);
+  }
+  html.js .site-nav .nav-link:hover{color:var(--gold);background:rgba(255,255,255,.06)}
+  html.js .site-nav .nav-link.on,html.js .site-nav .nav-link[aria-current="page"]{color:var(--gold);background:rgba(255,255,255,.05)}
+  html.js .site-nav .nav-link.on::after,html.js .site-nav .nav-link[aria-current="page"]::after{
+    left:0;top:6px;bottom:6px;width:4px;height:auto;border-radius:0;transform:none;
+  }
+  html.js .drawer-actions{display:grid;gap:10px;margin-top:auto;padding-top:24px;border-top:1px solid rgba(229,220,194,.24)}
+  .drawer-apply,.drawer-portal,.drawer-phone{width:100%;min-height:44px;display:flex;align-items:center;justify-content:center;text-align:center;text-decoration:none}
+  .drawer-portal{border:1px solid var(--gold);border-radius:var(--r-pill);color:var(--gold);font-weight:700}
+  .drawer-phone{color:var(--cream);font-size:var(--fs-sm)}
+  html.js .nav-veil{position:fixed;inset:0;z-index:var(--z-dropdown);display:block;background:rgba(14,59,33,.58);border:0}
+  html.js .nav-veil[hidden]{display:none}
+  html.js body.nav-open{overflow:hidden}
+  /* A transformed ancestor would capture a fixed descendant. Temporarily
+     neutralise only the navbar transform while its viewport drawer is open. */
+  html.js body.nav-open:not(.portal-body) .navbar{z-index:calc(var(--z-dropdown) + 1);transform:none;backdrop-filter:none;-webkit-backdrop-filter:none}
+  html.js body.nav-open.topbar-collapsed:not(.portal-body) .navbar{top:0}
+  html.js body.nav-open .menu-toggle{position:fixed;top:57px;right:3%;z-index:calc(var(--z-dropdown) + 2);color:var(--cream);border-color:var(--gold)}
+  html.js body.nav-open.topbar-collapsed .menu-toggle{top:13px}
+
+  /* No-JS fallback keeps every static nav destination reachable. */
+  html:not(.js) body:not(.portal-body) .navbar .nav-row{flex-wrap:wrap}
+  html:not(.js) body:not(.portal-body) .site-nav{order:3;flex:1 0 100%;overflow-x:auto;justify-content:flex-start;border-top:1px solid var(--line);padding-top:8px}
+  html:not(.js) body:not(.portal-body) #mainNav{width:max-content;gap:12px}
+}
+@media(max-width:520px){
+  body:not(.portal-body) .navbar .nav-row{width:min(96%,1180px)}
+  .brand-logo-shell{width:44px;height:44px;flex-basis:44px}.flat-brand .logo-badge{width:34px;height:34px}
+  .flat-brand .brand-copy strong{max-width:106px;font-size:var(--fs-xs);letter-spacing:.035em}
+  .tb-admissions span{font-size:var(--fs-xs)}.topbar .portal-link{font-size:var(--fs-xs);padding-inline:8px}
+}
+@media(prefers-reduced-motion:reduce){
+  body:not(.portal-body) .topbar,body:not(.portal-body) .navbar,.menu-toggle span,html.js body:not(.portal-body) .site-nav{transition:none!important}
+}
+
+/* Batch 53 accessibility contrast and semantic-heading companion rules. */
+.hero h1 em{color:var(--green)}
+.hero-figure figcaption{color:var(--ink);opacity:1}
+.gal .cap{color:var(--paper)}
+.count-bar,.count-bar:hover{color:var(--green-deep)}
+.foot-col h2{margin:0 0 12px;color:var(--sun);font-family:var(--font-body);font-size:var(--fs-xs);font-weight:800;letter-spacing:.14em;line-height:1.3;text-transform:uppercase}
+[data-theme="dark"] .hero h1 em,[data-theme="dark-hc"] .hero h1 em{color:var(--gold)}
+.site-footer .foot-brand p,.site-footer .acc-cap,.site-footer .acc-note{color:var(--cream)}
+.site-footer a.btn.btn-white,.site-footer a.btn.btn-white:hover{color:var(--cream)!important;background:transparent;border-color:var(--cream)}

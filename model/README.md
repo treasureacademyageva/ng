@@ -1,0 +1,93 @@
+# Treasure EDU — from-scratch educational language-model lab
+
+This project is intentionally separate from the production Treasure Support assistant. The production bot remains the reliable rules + retrieval + live-data shell. This directory develops a small decoder-only transformer from random weights, measures it, and only later connects a proven checkpoint behind the existing safety layer.
+
+## Honest scope
+
+A one-week CPU experiment can prove the complete learning pipeline; it cannot produce a broad model comparable with commercial assistants. The included milestones are:
+
+1. **Stage 0 / micro:** character tokenizer and 423,936-parameter transformer for short CPU runs.
+2. **Stage 1 / tiny:** 8K subword tokenizer and ~14M parameters; GPU recommended for sustained training.
+3. **Stage 2 / small:** 16K tokenizer and ~35M parameters; multi-day GPU run.
+4. Instruction tuning, safety evaluation, reviewed preference optimisation, retrieval integration and gated production trials.
+
+No pupil records, private chats, credentials, paid textbooks or unlicensed scraped material may enter the corpus.
+
+## Environment
+
+Python 3.11+ is recommended. On a CPU machine, install the CPU PyTorch wheel rather than CUDA packages:
+
+```bash
+python3 -m pip install --index-url https://download.pytorch.org/whl/cpu 'torch>=2.9,<3'
+python3 -m pip install -r requirements.txt
+```
+
+## Character baseline
+
+```bash
+cd model
+python3 scripts/fetch_open_data.py --manifest data/sources.json
+python3 scripts/build_curriculum.py
+python3 scripts/prepare_data.py --config config/micro.json
+python3 src/train.py --config config/micro.json --max-steps 1000
+python3 src/evaluate.py --config config/micro.json --checkpoint checkpoints/micro-char-latest.pt
+python3 src/generate.py --config config/micro.json --checkpoint checkpoints/micro-char-latest.pt --prompt "One means"
+```
+
+## Subword/tiny path
+
+The character preparation creates the cleaned licensed corpus. Then:
+
+```bash
+python3 tokenizer/train_tokenizer.py --config config/tiny.json
+python3 tokenizer/inspect_tokenizer.py --config config/tiny.json "Treasure Academy teaches mathematics in Okene."
+python3 scripts/prepare_data.py --config config/tiny.json
+python3 src/train.py --config config/tiny.json
+```
+
+Benchmark 100 steps on the target GPU before authorising a long run.
+
+## Instruction and preference stages
+
+```bash
+python3 scripts/build_instruction_data.py
+python3 src/train.py --config config/sft-micro.json --init-from checkpoints/micro-char-latest.pt
+python3 src/evaluate_prompts.py --config config/sft-micro.json --checkpoint checkpoints/micro-char-sft-latest.pt --instruction
+```
+
+Only after held-out education, privacy and safety gates pass:
+
+```bash
+python3 src/preference_optimize.py --config config/sft-micro.json --checkpoint checkpoints/micro-char-sft-latest.pt
+```
+
+The first smoke model did **not** pass those gates, so preference optimisation and production integration were not run. See `BASELINE-RESULTS.md`.
+
+## Provenance and exports
+
+The fetcher accepts only manifest entries with an explicit approved licence and records checksums in `data/source-lock.json`. Raw downloads and checkpoints are gitignored; provenance is not.
+
+```bash
+python3 src/export.py --checkpoint checkpoints/micro-char-latest.pt --name treasure-edu-micro
+```
+
+The export is inference-only. Weight distribution still requires a licence review.
+
+## Production boundary
+
+```text
+question → existing privacy/access rules → intent → retrieval/live tools
+         → trained model → output validation → existing chat UI/human handoff
+```
+
+Authentication, permissions, fees, payments, pupil records, OTP, emergency routing and verified school facts remain deterministic. The model never becomes their source of truth.
+
+## Resume protocol
+
+Each run writes `runs/<run-id>/state.json`, metrics JSONL and a checkpoint containing model, optimizer, step, tokenizer hash and data hash. To continue the same run:
+
+```bash
+python3 src/train.py --config config/micro.json --resume checkpoints/micro-char-latest.pt
+```
+
+Stop only at a completed checkpoint. Never assume a background process survives an Arena session.
