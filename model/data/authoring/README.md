@@ -6,6 +6,12 @@ This directory plans school-owned or otherwise expressly licensed original conte
 
 `rights-confirmation.json` records the owner's instruction that Treasure Academy Ageva is the rights holder and may use newly created material internally for model work. It does **not** grant an open licence or permit public corpus distribution. `pilot-balanced-v1-review.csv` is the 96-row hash-bound manifest; its text remains unstarted, private and unapproved.
 
+## NAPPS alignment
+
+The owner confirmed that the school uses the NAPPS syllabus. `napps-alignment-sources.json` records the online evidence and unresolved provenance questions. `napps-primary-english-mathematics-alignment.csv` indexes the newest publicly viewable Primary 1–6 series found: 328 English/Mathematics schedule rows across all classes and terms, last modified 19 December 2025.
+
+The publisher is not NAPPS, and the public NAPPS website does not expose an edition-checkable Primary scheme. The index was cross-checked against the September 2025 Federal Ministry of Education subject structure and NERDC's competency-based implementation strategy. The owner authorised it for original authoring, so rows are `READY_FOR_ORIGINAL_AUTHORING`, but they are not claimed to be NAPPS-issued. The index has no source lesson text and is never training data. See `../../NAPPS-ALIGNMENT.md`.
+
 ## Authoring rules
 
 - Treasure Academy Ageva is recorded as the responsible creator and rights holder, as directed by the owner. Any individual later claiming human authorship must still be named accurately.
@@ -34,6 +40,8 @@ A completed brief or draft still does not authorise training. The final corpus m
 Build and validate the queue and the selected balanced pilot:
 
 ```bash
+python3 scripts/fetch_napps_alignment.py
+python3 scripts/validate_napps_alignment.py
 python3 scripts/build_primary_authoring_queue.py
 python3 scripts/validate_primary_authoring_queue.py
 python3 scripts/build_primary_pilot_manifest.py

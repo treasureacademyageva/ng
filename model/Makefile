@@ -17,6 +17,8 @@ review-packets:
 	$(PYTHON) scripts/build_human_review_packets.py
 	$(PYTHON) scripts/validate_human_reviews.py
 authoring-queue:
+	$(PYTHON) scripts/fetch_napps_alignment.py
+	$(PYTHON) scripts/validate_napps_alignment.py
 	$(PYTHON) scripts/build_primary_authoring_queue.py
 	$(PYTHON) scripts/validate_primary_authoring_queue.py
 	$(PYTHON) scripts/build_primary_pilot_manifest.py
@@ -27,5 +29,6 @@ audit:
 check:
 	$(PYTHON) -m compileall -q src scripts tokenizer
 	$(PYTHON) scripts/validate_human_reviews.py
+	$(PYTHON) scripts/validate_napps_alignment.py
 	$(PYTHON) scripts/validate_primary_authoring_queue.py
 	$(PYTHON) scripts/validate_primary_pilot_manifest.py

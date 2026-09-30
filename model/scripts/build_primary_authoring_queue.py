@@ -181,7 +181,7 @@ def build_rows() -> list[dict[str, str | int]]:
                     **basis,
                     "brief_status": "ASSIGNED",
                     "assigned_author": "Treasure Academy Ageva",
-                    "notes": "Owner selected the school as the responsible organisation; individual human review remains separately required.",
+                    "notes": "Use the owner-authorized public NAPPS-aligned index, cross-checked to the 2025 national structure. Write original text only; the source pages are not training data and human review remains required.",
                 }
                 rows.append(row)
     return rows

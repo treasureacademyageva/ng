@@ -1,0 +1,133 @@
+{
+  "version": 1,
+  "researched_on": "2026-09-30",
+  "scope": "Primary 1-6 English Studies and Mathematics, all three terms",
+  "owner_direction": "Use the current NAPPS syllabus to align original school-owned mathematics and English authoring.",
+  "official_status": {
+    "napps_public_website": "https://napps.com.ng/",
+    "napps_member_portal": "https://napps.ng/",
+    "public_primary_scheme_found_on_official_site": false,
+    "latest_official_edition_verified": false,
+    "required_next_evidence": "A current NAPPS-issued school copy is still required before describing the weekly sequence as NAPPS-issued, but the owner has authorised the cross-checked public series for original lesson planning.",
+    "owner_authorized_public_alignment_for_planning": true
+  },
+  "alignment_policy": {
+    "role": "topic_sequence_reference_for_original_authoring",
+    "copy_source_explanations_or_lessons": false,
+    "training_eligible": false,
+    "owner_authorized_for_original_authoring": true,
+    "requires_school_copy_to_claim_napps_issued": true,
+    "original_school_authored_text_required": true
+  },
+  "public_alignment_sources": [
+    {
+      "id": "web-napps-aligned-primary-1",
+      "primary_class": 1,
+      "url": "https://schemeofwork.com/primary-1-scheme-of-work-unified/",
+      "publisher": "Scheme of Work Publications",
+      "published_at": "2025-11-29T09:00:18+00:00",
+      "modified_at": "2025-12-19T14:50:50+00:00",
+      "claim": "Third-party page claims compliance with the new NERDC curriculum and NAPPS.",
+      "rights_status": "NO_AFFIRMATIVE_TRAINING_LICENCE",
+      "verification_status": "ALIGNED_TO_2025_NATIONAL_STRUCTURE_NOT_NAPPS_ISSUED"
+    },
+    {
+      "id": "web-napps-aligned-primary-2",
+      "primary_class": 2,
+      "url": "https://schemeofwork.com/primary-2-scheme-of-work-unified/",
+      "publisher": "Scheme of Work Publications",
+      "published_at": "2025-11-29T09:55:22+00:00",
+      "modified_at": "2025-12-19T14:49:44+00:00",
+      "claim": "Third-party page claims compliance with the new NERDC curriculum and NAPPS.",
+      "rights_status": "NO_AFFIRMATIVE_TRAINING_LICENCE",
+      "verification_status": "ALIGNED_TO_2025_NATIONAL_STRUCTURE_NOT_NAPPS_ISSUED"
+    },
+    {
+      "id": "web-napps-aligned-primary-3",
+      "primary_class": 3,
+      "url": "https://schemeofwork.com/primary-3-scheme-of-work-unified/",
+      "publisher": "Scheme of Work Publications",
+      "published_at": "2025-11-29T10:27:35+00:00",
+      "modified_at": "2025-12-19T14:50:33+00:00",
+      "claim": "Third-party page claims compliance with the new NERDC curriculum and NAPPS.",
+      "rights_status": "NO_AFFIRMATIVE_TRAINING_LICENCE",
+      "verification_status": "ALIGNED_TO_2025_NATIONAL_STRUCTURE_NOT_NAPPS_ISSUED"
+    },
+    {
+      "id": "web-napps-aligned-primary-4",
+      "primary_class": 4,
+      "url": "https://schemeofwork.com/primary-4-scheme-of-work-unified/",
+      "publisher": "Scheme of Work Publications",
+      "published_at": "2025-11-29T10:36:42+00:00",
+      "modified_at": "2025-12-19T14:49:58+00:00",
+      "claim": "Third-party page claims compliance with the new NERDC curriculum and NAPPS.",
+      "rights_status": "NO_AFFIRMATIVE_TRAINING_LICENCE",
+      "verification_status": "ALIGNED_TO_2025_NATIONAL_STRUCTURE_NOT_NAPPS_ISSUED"
+    },
+    {
+      "id": "web-napps-aligned-primary-5",
+      "primary_class": 5,
+      "url": "https://schemeofwork.com/primary-5-scheme-of-work-unified/",
+      "publisher": "Scheme of Work Publications",
+      "published_at": "2025-11-29T11:01:20+00:00",
+      "modified_at": "2025-12-19T14:50:08+00:00",
+      "claim": "Third-party page claims compliance with the new NERDC curriculum and NAPPS.",
+      "rights_status": "NO_AFFIRMATIVE_TRAINING_LICENCE",
+      "verification_status": "ALIGNED_TO_2025_NATIONAL_STRUCTURE_NOT_NAPPS_ISSUED"
+    },
+    {
+      "id": "web-napps-aligned-primary-6",
+      "primary_class": 6,
+      "url": "https://schemeofwork.com/primary-6-scheme-of-work-unified/",
+      "publisher": "Scheme of Work Publications",
+      "published_at": "2025-11-29T11:20:40+00:00",
+      "modified_at": "2025-12-19T14:48:20+00:00",
+      "claim": "Third-party page claims compliance with the new NERDC curriculum and NAPPS.",
+      "rights_status": "NO_AFFIRMATIVE_TRAINING_LICENCE",
+      "verification_status": "ALIGNED_TO_2025_NATIONAL_STRUCTURE_NOT_NAPPS_ISSUED"
+    }
+  ],
+  "document_candidates": [
+    {
+      "id": "headteacher-napps-primary-1-3",
+      "url": "https://www.headteacher.ng/product/download-the-napps-national-scheme-of-work-for-primary-1-2-3-free/",
+      "coverage": "Primary 1-3, multiple subjects, advertised as NAPPS",
+      "observed_state": "Free download page dated 2025, but file delivery is restricted to the publisher's app.",
+      "acquired": false,
+      "reason_not_acquired": "No access-control bypass; provenance, edition and reuse rights remain unverified."
+    },
+    {
+      "id": "headteacher-napps-primary-4-6",
+      "url": "https://www.headteacher.ng/product/napps-national-scheme-of-work-for-primary-4-6-free-download/",
+      "coverage": "Primary 4-6, multiple subjects, advertised as NAPPS",
+      "observed_state": "Free download page dated 2025, but file delivery is restricted to the publisher's app.",
+      "acquired": false,
+      "reason_not_acquired": "No access-control bypass; provenance, edition and reuse rights remain unverified."
+    },
+    {
+      "id": "edudelight-napps-primary-1-6",
+      "url": "https://edudelight.com.ng/product/napps-scheme-of-work-primary/",
+      "coverage": "Primary 1-6, all three terms, advertised as National Unified NAPPS",
+      "observed_state": "Paid third-party product; page does not establish an open licence or authoritative latest-edition date.",
+      "acquired": false,
+      "reason_not_acquired": "Do not purchase or ingest paid copyrighted material without owner action and explicit model-use rights."
+    }
+  ],
+  "national_curriculum_crosscheck": {
+    "status": "ALIGNED_AT_STRUCTURE_AND_PEDAGOGY_LEVEL",
+    "checked_on": "2026-09-30",
+    "official_fme_release": "https://education.gov.ng/wp-content/uploads/2025/09/FG-OVERHAULS-CURRICULUM.pdf",
+    "official_nerdc_implementation_strategy": "https://www.nerdc.gov.ng/content_manager/Revised%209%20Year%20BEC%20Implementation%20Strategy%203.pdf",
+    "findings": [
+      "The public series was published after the September 2025 federal curriculum release and uses the revised Primary 1-3 and Primary 4-6 subject structures.",
+      "It retains English Studies and Mathematics at both levels and includes the revised Nigerian History and Social and Citizenship Studies structure.",
+      "Its Primary 4-6 structure includes Basic Digital Literacy, Pre-vocational Studies and optional French/Arabic as listed by the Federal Ministry of Education.",
+      "Topic framing includes communication, problem-solving, collaboration, leadership, practical application and digital-era contexts consistent with the official competency-based implementation strategy."
+    ],
+    "limits": [
+      "The official federal sources confirm structure, competencies and phased implementation, not this third-party weekly sequence.",
+      "The pages must not be described as an official NAPPS edition.",
+      "The pages provide alignment headings only and grant no model-training licence."
+    ]
+  }
+}

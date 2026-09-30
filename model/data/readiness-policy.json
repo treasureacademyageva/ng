@@ -30,6 +30,10 @@
     "balanced_pilot_manifest": "data/authoring/pilot-balanced-v1-review.csv",
     "balanced_pilot_required_samples": 96,
     "rights_confirmation": "data/authoring/rights-confirmation.json",
+    "napps_alignment_manifest": "data/authoring/napps-alignment-sources.json",
+    "napps_alignment_index": "data/authoring/napps-primary-english-mathematics-alignment.csv",
+    "napps_public_alignment_authorized_for_planning": true,
+    "napps_official_school_copy_required_to_claim_issued": true,
     "training_approval_is_never_inferred_from_queue_status": true
   },
   "human_review": {

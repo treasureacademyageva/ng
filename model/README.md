@@ -54,6 +54,8 @@ Data expansion now uses a fail-closed candidate and human-review workflow:
 python3 scripts/stage_storybooks_nigeria.py       # ignored staging only; never approval
 python3 scripts/build_human_review_packets.py
 python3 scripts/validate_human_reviews.py
+python3 scripts/fetch_napps_alignment.py
+python3 scripts/validate_napps_alignment.py
 python3 scripts/build_primary_authoring_queue.py
 python3 scripts/validate_primary_authoring_queue.py
 python3 scripts/build_primary_pilot_manifest.py
@@ -62,7 +64,7 @@ python3 scripts/audit_duplicates.py
 python3 scripts/audit_corpus.py
 ```
 
-Candidate material stays outside `sources.json` and training until item-level rights, provenance, content quality and every required human review pass. The original-content authoring queue has 96 Primary 1–6 mathematics and English briefs. The selected balanced pilot has one private, still-unstarted sample per brief; it is a controlled plan with zero approved documents, not training data. See `data/authoring/README.md`.
+Candidate material stays outside `sources.json` and training until item-level rights, provenance, content quality and every required human review pass. The school uses NAPPS, so the authoring workflow now includes a 328-row Primary 1–6 English/Mathematics topic index from the newest public series found. It matches the September 2025 federal subject structure and NERDC competency strategy and is owner-authorized for original authoring. It remains a third-party alignment—not an official NAPPS edition or licensed training source. The original-content queue and balanced pilot still have zero approved documents. See `NAPPS-ALIGNMENT.md` and `data/authoring/README.md`.
 
 ## Held-out evaluation v2
 

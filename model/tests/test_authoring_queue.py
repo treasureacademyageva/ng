@@ -29,6 +29,7 @@ def test_authoring_queue_records_the_owner_selected_organisation():
     data = rows()
     assert all(row["brief_status"] == "ASSIGNED" for row in data)
     assert all(row["assigned_author"] == "Treasure Academy Ageva" for row in data)
+    assert all("NAPPS" in row["notes"] for row in data)
     assert all(len(row["brief_sha256"]) == 64 for row in data)
     assert sum(int(row["pilot_documents"]) for row in data) == 288
     assert sum(int(row["full_target_documents"]) for row in data) == 3_840

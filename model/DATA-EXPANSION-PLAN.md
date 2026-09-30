@@ -55,9 +55,17 @@ The total is **46 staged stories and 58,977 characters**, all with `approved_for
 
 The audit also exposed a Project Gutenberg cleaner defect: footer removal used the pre-header-removal character offset and left licence boilerplate in the old benchmark corpus. The cleaner now recomputes the end marker after removing the header. Future `prepare_data.py` builds use exact and near-duplicate removal and record counts in metadata. The old benchmark token files were deliberately not rebuilt, so their recorded hashes remain verifiable; cleaning takes effect only in a future versioned corpus rebuild.
 
+## NAPPS English and mathematics alignment
+
+The owner confirmed that Treasure Academy Ageva follows the NAPPS syllabus. The newest publicly viewable Primary 1–6 series found was published in November 2025 and modified on 19 December 2025. It claims compliance with the new NERDC curriculum and NAPPS but is hosted by a third party, not NAPPS.
+
+The limited alignment index has 328 week/topic rows covering all 36 class/subject/term combinations; 239 are instructional topics. No explanations, objectives, activities or lesson text were copied. Nine combinations—especially Primary 4—have unusually short public schedules and require comparison with the school's current NAPPS-issued copy.
+
+The official public NAPPS site did not expose an edition-checkable Primary scheme. Two advertised free downloads were app-gated, and one third-party collection was paid; no access controls were bypassed and no paid copyrighted files were ingested. The public series was cross-checked against the Federal Ministry of Education's September 2025 subject structure and NERDC's competency-based implementation strategy. The owner authorised it for original authoring. Rows remain non-training and are not described as NAPPS-issued. See `NAPPS-ALIGNMENT.md`.
+
 ## Original mathematics and English authoring queue
 
-`data/authoring/primary-math-english-briefs.csv` now defines **96 original-content briefs**: eight mathematics and eight English briefs for each of Primary 1–6. The owner assigned all briefs to **Treasure Academy Ageva** as the responsible organisation and selected a balanced first sample: one mathematics/English sample for every brief across Primary 1–6.
+`data/authoring/primary-math-english-briefs.csv` defines **96 original-content briefs**: eight mathematics and eight English briefs for each of Primary 1–6. The owner assigned all briefs to **Treasure Academy Ageva** as the responsible organisation and selected a balanced first sample. The briefs are `ASSIGNED` and must use the cross-checked public NAPPS-aligned sequence while producing entirely original school-owned text.
 
 - Selected first sample: 96 planned private documents, 48 mathematics and 48 English, 16 per class.
 - Broader pilot plan: 288 documents for workflow and quality review.

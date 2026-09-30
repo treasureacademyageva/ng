@@ -174,6 +174,21 @@ def main() -> None:
     pilot_safeguarding_decisions = Counter(row.get("safeguarding_decision", "") for row in pilot_rows)
     pilot_training_approved = sum(row.get("approved_for_training", "").lower() == "true" for row in pilot_rows)
 
+    napps_manifest = load_json(ROOT / authoring_policy["napps_alignment_manifest"])
+    napps_index_path = ROOT / authoring_policy["napps_alignment_index"]
+    napps_rows = []
+    if napps_index_path.exists():
+        with napps_index_path.open(newline="", encoding="utf-8") as handle:
+            napps_rows = list(csv.DictReader(handle))
+    napps_combinations = {
+        (row.get("primary_class", ""), row.get("subject", ""), row.get("term", ""))
+        for row in napps_rows
+    }
+    napps_official_verified = napps_manifest["official_status"]["latest_official_edition_verified"]
+    napps_planning_authorized = authoring_policy["napps_public_alignment_authorized_for_planning"]
+    if not napps_planning_authorized:
+        reasons.append("Primary 1-6 English/Mathematics alignment has not been authorized for original authoring")
+
     max_presented = config["max_steps"] * tokens_per_step
     report = {
         "policy_version": policy["version"],
@@ -204,6 +219,14 @@ def main() -> None:
             "pilot_teacher_decisions": dict(pilot_teacher_decisions),
             "pilot_safeguarding_decisions": dict(pilot_safeguarding_decisions),
             "training_approved_documents": pilot_training_approved,
+            "napps_alignment": {
+                "rows": len(napps_rows),
+                "class_subject_term_combinations": len(napps_combinations),
+                "new_national_structure_crosscheck": napps_manifest["national_curriculum_crosscheck"]["status"],
+                "owner_authorized_for_original_authoring": napps_planning_authorized,
+                "official_napps_issued_copy_verified": napps_official_verified,
+                "training_eligible_rows": sum(row.get("training_eligible") == "true" for row in napps_rows),
+            },
         },
         "human_review": {
             "evaluation_teacher": dict(teacher),
