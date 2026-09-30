@@ -212,7 +212,7 @@ ok('kb still teaches the 2016 founding year',
 const sw = read('sw.js');
 ok('service worker cache bumped past v68', /treasure-v(6[9-9]|[7-9][0-9])/.test(sw), sw.match(/treasure-v\d+/) && sw.match(/treasure-v\d+/)[0]);
 ok('pages reference the new asset version',
-  /v=2026092[6-9]-/.test(read('index.html')), 'asset ?v= string');
+  /v=202609(2[6-9]|30)-/.test(read('index.html')), 'asset ?v= string');
 
 console.log('\n==== BATCH 48: ' + pass + ' passed, ' + fail + ' failed ====');
 process.exit(fail ? 1 : 0);

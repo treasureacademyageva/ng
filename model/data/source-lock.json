@@ -1,7 +1,7 @@
 {
   "manifest_version": 1,
-  "manifest_sha256": "980813a664d27792cdc1a8e365031cfadd32c65bb1332be0d5cd477e5b367e65",
-  "fetched_at": "2026-09-29T22:47:20.792194+00:00",
+  "manifest_sha256": "f741abb63e65411aaf2085dde82a983cc9caced0f6b018bef1809a1f1a052b60",
+  "fetched_at": "2026-09-30T00:00:53.498944+00:00",
   "sources": [
     {
       "id": "treasure-public-kb",
@@ -18,8 +18,8 @@
       "status": "local",
       "license": "owned",
       "path": "cleaned/original-foundations.txt",
-      "bytes": 91347,
-      "sha256": "49362fde4efa90de9cc91c632e56be85b51a2fab42429e94d079d5aad196b2e9"
+      "bytes": 337772,
+      "sha256": "932e44563210026fc00b1998dccf7d7d9a0c4e5a6f92b39e2301b7aea11fbf85"
     },
     {
       "id": "gutenberg-alice-11",
@@ -62,24 +62,58 @@
       "url": "https://www.africanstorybook.org/read/downloadbook.php?id=34006&a=1&d=0&layout=landscape",
       "license": "CC-BY-4.0",
       "bytes": 941435,
-      "sha256": "f04afd6b781526ff1a4ee416578f7e8752b533d94bd94d255b0c5146bb1b1ae4",
+      "sha256": "aa3c29682900d5ab5d6cd3d013c3bda3ba3582a0522524f947de53f858110303",
       "raw": "data/raw/african-storybook-fatimah-34006.pdf",
       "status": "downloaded",
-      "extract_status": "ok-pypdf",
-      "text": "data/licensed/african-storybook-fatimah-34006.txt",
-      "text_sha256": "0242aca8b2b55e95411593dbdca4f87d49ada34099411716ce5ccf0a89409cf5"
+      "extract_status": "curated-reviewed",
+      "text": "data/curated/african-storybook-fatimah-34006.txt",
+      "text_sha256": "fcd4b3faae1ccbe0ab13787ce3dada94f96292059962f33d79c32e8b6d3b21a6"
     },
     {
       "id": "african-storybook-hausa-47555",
       "url": "https://www.africanstorybook.org/read/downloadbooklet.php?id=47555&a=1&d=0&layout=booklet",
       "license": "CC-BY-4.0",
       "bytes": 1453123,
-      "sha256": "6862ca657b222a3c67f5d1aa5c64a6db3bc6c37273cd767ae7578c7fc73b2a8a",
+      "sha256": "bed417239454c24e31d332f244ba8cec9716ef2a5819daccd47803b514e31424",
       "raw": "data/raw/african-storybook-hausa-47555.pdf",
       "status": "downloaded",
-      "extract_status": "ok-pypdf",
-      "text": "data/licensed/african-storybook-hausa-47555.txt",
-      "text_sha256": "f90b7e7c01d5a780892aa3c9d40a469025c749a1ec4cfdbf7bc0dd5a52a587c5"
+      "extract_status": "pdf-extractor-unavailable"
+    },
+    {
+      "id": "siyavula-natural-sciences-grade-4",
+      "url": "https://www.siyavula.com/downloads/books/science/Gr4_NaturalSciences_Learner_Eng_CC-BY.epub",
+      "license": "CC-BY-4.0",
+      "bytes": 40926007,
+      "sha256": "48f0d1027ea9e12abceb1aeca17372c9ddd7357c35e23f0d8c001a0a7901322a",
+      "raw": "data/raw/siyavula-natural-sciences-grade-4.epub",
+      "status": "downloaded",
+      "extract_status": "ok-epub-spine",
+      "text": "data/licensed/siyavula-natural-sciences-grade-4.txt",
+      "text_sha256": "87ff73269d5bc855d28e8b58cfc6ce3605e047b2e2c39bcf8103abc9bdd0be8b"
+    },
+    {
+      "id": "siyavula-natural-sciences-grade-5",
+      "url": "https://www.siyavula.com/downloads/books/science/Gr5_NaturalSciences_Learner_Eng_CC-BY.epub",
+      "license": "CC-BY-4.0",
+      "bytes": 46100488,
+      "sha256": "5019d3898a67e98519cec671ef9487d893ad878bb227da8993199140df2a89f9",
+      "raw": "data/raw/siyavula-natural-sciences-grade-5.epub",
+      "status": "downloaded",
+      "extract_status": "ok-epub-spine",
+      "text": "data/licensed/siyavula-natural-sciences-grade-5.txt",
+      "text_sha256": "83c3e4d7367e42017017b8c047fecec5c21dc9f58005888fa0a1c2568bb71490"
+    },
+    {
+      "id": "siyavula-natural-sciences-grade-6",
+      "url": "https://www.siyavula.com/downloads/books/science/Gr6_NaturalSciences_Learner_Eng_CC-BY.epub",
+      "license": "CC-BY-4.0",
+      "bytes": 31912860,
+      "sha256": "87d28ca7362de99fbf4d70f9b547f5640938adc1e8130f7d6b11ccce77d95264",
+      "raw": "data/raw/siyavula-natural-sciences-grade-6.epub",
+      "status": "downloaded",
+      "extract_status": "ok-epub-spine",
+      "text": "data/licensed/siyavula-natural-sciences-grade-6.txt",
+      "text_sha256": "ca053ea247fc58519437ff833f1cb5b8a91c983118471769fd215b1b6f7704a0"
     }
   ]
 }

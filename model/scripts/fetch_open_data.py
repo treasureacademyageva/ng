@@ -1,9 +1,11 @@
 #!/usr/bin/env python3
 """License-gated corpus fetcher. Downloads only manifest-approved sources."""
 from __future__ import annotations
-import argparse, hashlib, io, json, shutil, subprocess, sys, urllib.request
+import argparse, hashlib, io, json, posixpath, shutil, subprocess, sys, urllib.request, zipfile
 from datetime import datetime, timezone
+from html.parser import HTMLParser
 from pathlib import Path
+from xml.etree import ElementTree as ET
 
 ROOT=Path(__file__).resolve().parents[1]
 APPROVED=("owned","CC0","CC-BY-","CC-BY-SA-","US-Public-Domain")
@@ -20,6 +22,30 @@ def fetch(url:str)->bytes:
         data=r.read(MAX_BYTES+1)
     if len(data)>MAX_BYTES:raise ValueError("source exceeded download cap")
     return data
+
+class _TextExtractor(HTMLParser):
+    blocks={"p","h1","h2","h3","h4","h5","h6","li","td","th","blockquote","div"}
+    def __init__(self):super().__init__();self.parts=[];self.skip=0
+    def handle_starttag(self,tag,attrs):
+        if tag in {"script","style","svg"}:self.skip+=1
+        elif tag in self.blocks and not self.skip:self.parts.append("\n")
+    def handle_endtag(self,tag):
+        if tag in {"script","style","svg"} and self.skip:self.skip-=1
+        elif tag in self.blocks and not self.skip:self.parts.append("\n")
+    def handle_data(self,data):
+        if not self.skip:self.parts.append(data)
+
+def extract_epub(data:bytes)->str:
+    """Extract XHTML in EPUB spine order using only the standard library."""
+    with zipfile.ZipFile(io.BytesIO(data)) as z:
+        container=ET.fromstring(z.read("META-INF/container.xml"));rootfile=next(x for x in container.iter() if x.tag.endswith("rootfile"));opf_name=rootfile.attrib["full-path"]
+        opf=ET.fromstring(z.read(opf_name));items={x.attrib["id"]:x.attrib["href"] for x in opf.iter() if x.tag.endswith("item") and x.attrib.get("media-type") in {"application/xhtml+xml","text/html"}}
+        order=[x.attrib["idref"] for x in opf.iter() if x.tag.endswith("itemref")];base=posixpath.dirname(opf_name);parser=_TextExtractor()
+        for item_id in order:
+            href=items.get(item_id)
+            if href:parser.feed(z.read(posixpath.normpath(posixpath.join(base,href))).decode("utf-8","replace"))
+    lines=[" ".join(line.split()) for line in "".join(parser.parts).splitlines()]
+    return "\n\n".join(line for line in lines if line)+"\n"
 
 def main()->int:
     ap=argparse.ArgumentParser();ap.add_argument("--manifest",default="data/sources.json");ap.add_argument("--strict",action="store_true");args=ap.parse_args()
@@ -40,13 +66,18 @@ def main()->int:
             else:rec["status"]="missing"
             lock["sources"].append(rec);continue
         try:
-            data=fetch(src["url"]);ext=".pdf" if kind=="pdf_text" else ".txt";dest=raw/(src["id"]+ext);dest.write_bytes(data)
+            data=fetch(src["url"]);ext={"pdf_text":".pdf","epub_text":".epub"}.get(kind,".txt");dest=raw/(src["id"]+ext);dest.write_bytes(data)
             rec={"id":src["id"],"url":src["url"],"license":lic,"bytes":len(data),"sha256":sha256(data),"raw":str(dest.relative_to(ROOT)),"status":"downloaded"}
-            if kind=="pdf_text":
+            if kind=="epub_text":
+                out=licensed/(src["id"]+".txt");out.write_text(extract_epub(data),encoding="utf-8")
+                rec.update({"extract_status":"ok-epub-spine","text":str(out.relative_to(ROOT)),"text_sha256":sha256(out.read_bytes())})
+            elif kind=="pdf_text":
                 tool=shutil.which("pdftotext");out=licensed/(src["id"]+".txt");pdf_start=data.find(b"%PDF-")
                 if pdf_start<0:raise ValueError("download did not contain a PDF header")
-                pdf_data=data[pdf_start:]
-                if tool:
+                pdf_data=data[pdf_start:];curated=ROOT/src["curated_path"] if src.get("curated_path") else None
+                if curated and curated.exists():
+                    rec.update({"extract_status":"curated-reviewed","text":str(curated.relative_to(ROOT)),"text_sha256":sha256(curated.read_bytes())})
+                elif tool:
                     clean_pdf=licensed/(src["id"]+".pdf");clean_pdf.write_bytes(pdf_data)
                     subprocess.run([tool,"-layout",str(clean_pdf),str(out)],check=True,stdout=subprocess.PIPE,stderr=subprocess.PIPE);clean_pdf.unlink(missing_ok=True)
                     rec.update({"extract_status":"ok-pdftotext","text":str(out.relative_to(ROOT)),"text_sha256":sha256(out.read_bytes())})

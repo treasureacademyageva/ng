@@ -1,0 +1,21 @@
+/** Batch 54 — final article title reminder, expanded evaluation/corpus tooling and cache cut. */
+const fs=require('fs'),path=require('path'),root=path.resolve(__dirname,'../..');let p=0,f=0;
+const read=x=>fs.readFileSync(path.join(root,x),'utf8');const ok=(n,c)=>{if(c){p++;}else{f++;console.error('FAIL',n)}};
+const pages=fs.readdirSync(root).filter(x=>x.endsWith('.html')).concat(['portal/admin.html','portal/login.html','portal/pupil.html','portal/teacher.html']);
+const js=read('assets/js/site.js');
+ok('tab title reminder installed',js.includes('function initTabTitleSwap()')&&js.includes('document.hidden?"Come Back Soon | Treasure Academy":originalTitle'));
+ok('title listener uses visibilitychange',js.includes('document.addEventListener("visibilitychange"'));
+const css=read('assets/css/corporate.css');
+ok('mobile sticky header is not trapped by body overflow',css.includes('@supports(overflow:clip){body:not(.portal-body){overflow-x:clip}}'));
+ok('compact hero stats suppress the legacy paper veil',css.includes('.hero-art .stats-band::before{display:none}'));
+ok('all HTML pages carry ui54 assets',pages.every(x=>!read(x).includes('20260929-ui53')&&read(x).includes('20260930-ui54')));
+ok('service worker cache advanced',read('sw.js').includes("const CACHE = 'treasure-v75'")&&!read('sw.js').includes('treasure-v74'));
+const cases=read('model/data/evaluation/cases-v2.jsonl').trim().split('\n').map(JSON.parse);
+ok('evaluation v2 has 240 unique held-out cases',cases.length===240&&new Set(cases.map(x=>x.id)).size===240&&cases.every(x=>x.split==='heldout'));
+ok('six explicit routing actions represented',new Set(cases.map(x=>x.expected_action)).size===6);
+ok('evaluation remains human-review gated',cases.every(x=>x.human_teacher_review_required===true));
+const manifest=JSON.parse(read('model/data/sources.json'));const sy=manifest.sources.filter(x=>x.id.startsWith('siyavula-natural-sciences-'));
+ok('three Siyavula primary science sources exact licensed',sy.length===3&&sy.every(x=>x.license==='CC-BY-4.0'&&x.kind==='epub_text'&&x.approved_for_training));
+ok('GPU benchmark fails closed and never authorises long run',read('model/scripts/benchmark_tiny.py').includes('Official GPU benchmark must run exactly 100 optimizer steps.')&&read('model/scripts/benchmark_tiny.py').includes("'long_run_authorised':False"));
+ok('corpus decision blocks long run',read('model/CORPUS-READINESS.md').includes('DO NOT AUTHORISE A LONG 14M-PARAMETER RUN'));
+console.log(`Batch 54: ${p} passed, ${f} failed`);if(f)process.exit(1);
