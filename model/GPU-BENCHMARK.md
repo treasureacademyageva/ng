@@ -6,14 +6,18 @@ A long run is forbidden until an actual CUDA GPU completes exactly 100 optimiser
 
 Use an NVIDIA CUDA instance with at least 8 GB VRAM; 16 GB or more is preferred. The operator must choose and fund the provider, record its advertised hourly price, and keep provider credentials outside this repository.
 
+## Easiest no-cost option
+
+Open the prepared [Google Colab notebook](https://colab.research.google.com/github/treasureacademyageva/treasureacademyageva/blob/preview/model/notebooks/tiny_100_step_colab.ipynb). Choose **Runtime → Change runtime type → T4 GPU**, then **Runtime → Run all**. Colab may require a Google sign-in and GPU availability is not guaranteed, but no provider account or hourly payment is needed. The final cell downloads the JSON report for review.
+
 ## Reproduce the data
 
 ```bash
 cd model
 python3 -m pip install -r requirements.txt
+python3 scripts/build_curriculum.py
 python3 scripts/fetch_open_data.py --strict
 python3 scripts/validate_sources.py
-python3 scripts/build_curriculum.py
 python3 scripts/prepare_data.py --config config/micro.json
 python3 tokenizer/train_tokenizer.py --config config/tiny.json
 python3 scripts/prepare_data.py --config config/tiny.json
