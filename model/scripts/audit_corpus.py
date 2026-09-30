@@ -161,6 +161,18 @@ def main() -> None:
             f"original-content authoring queue subject counts are {dict(authoring_subjects)}; "
             f"required {dict(required_subject_briefs)}"
         )
+    pilot_manifest = ROOT / authoring_policy["balanced_pilot_manifest"]
+    pilot_rows = []
+    if pilot_manifest.exists():
+        with pilot_manifest.open(newline="", encoding="utf-8") as handle:
+            pilot_rows = list(csv.DictReader(handle))
+    required_pilot_samples = authoring_policy["balanced_pilot_required_samples"]
+    if len(pilot_rows) != required_pilot_samples:
+        reasons.append(f"balanced original-content pilot has {len(pilot_rows)}/{required_pilot_samples} required samples")
+    pilot_draft_statuses = Counter(row.get("draft_status", "") for row in pilot_rows)
+    pilot_teacher_decisions = Counter(row.get("teacher_decision", "") for row in pilot_rows)
+    pilot_safeguarding_decisions = Counter(row.get("safeguarding_decision", "") for row in pilot_rows)
+    pilot_training_approved = sum(row.get("approved_for_training", "").lower() == "true" for row in pilot_rows)
 
     max_presented = config["max_steps"] * tokens_per_step
     report = {
@@ -186,7 +198,12 @@ def main() -> None:
             "briefs": len(authoring_rows),
             "subjects": dict(authoring_subjects),
             "statuses": dict(authoring_statuses),
-            "training_approved_documents": 0,
+            "pilot_manifest": authoring_policy["balanced_pilot_manifest"],
+            "pilot_samples": len(pilot_rows),
+            "pilot_draft_statuses": dict(pilot_draft_statuses),
+            "pilot_teacher_decisions": dict(pilot_teacher_decisions),
+            "pilot_safeguarding_decisions": dict(pilot_safeguarding_decisions),
+            "training_approved_documents": pilot_training_approved,
         },
         "human_review": {
             "evaluation_teacher": dict(teacher),

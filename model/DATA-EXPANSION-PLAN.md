@@ -57,15 +57,19 @@ The audit also exposed a Project Gutenberg cleaner defect: footer removal used t
 
 ## Original mathematics and English authoring queue
 
-`data/authoring/primary-math-english-briefs.csv` now defines **96 original-content briefs**: eight mathematics and eight English briefs for each of Primary 1–6. Every brief starts `NOT_STARTED` with no assigned author and no training approval.
+`data/authoring/primary-math-english-briefs.csv` now defines **96 original-content briefs**: eight mathematics and eight English briefs for each of Primary 1–6. The owner assigned all briefs to **Treasure Academy Ageva** as the responsible organisation and selected a balanced first sample: one mathematics/English sample for every brief across Primary 1–6.
 
-- Pilot plan: 288 documents for workflow and quality review.
+- Selected first sample: 96 planned private documents, 48 mathematics and 48 English, 16 per class.
+- Broader pilot plan: 288 documents for workflow and quality review.
 - Full planning target: 3,840 documents and about 1,152,000 words.
 - Coverage tags: `nigerian_primary_mathematics` and `nigerian_english_reading_composition`.
 - Required formats include lessons, worked/model examples, guided practice and independent pupil work.
-- Every future draft must record a named author, creator type, owner licence confirmation, text hash, and separate teacher and safeguarding decisions.
+- `rights-confirmation.json` records school-owned internal model use only, with no open licence or public corpus distribution.
+- Every future draft must record its creator type, rights status, text hash, and separate named teacher and safeguarding decisions.
 
-This queue is a controlled authoring plan, not corpus data. It must not be filled with repetitive synthetic variations, copied curriculum pages or unreviewed assistant output. The queue builder preserves assignments only while the underlying brief hash is unchanged.
+`pilot-balanced-v1-review.csv` is the fail-closed, hash-bound 96-row pilot manifest. Every row is currently `NOT_STARTED`, both reviews are `PENDING`, and `approved_for_training` is false. Because the owner selected internal rather than open rights, draft text must remain in ignored private staging and must not be pushed to the public repository.
+
+This queue is a controlled authoring plan, not corpus data. It must not be filled with repetitive synthetic variations, copied curriculum pages or unreviewed assistant output. Builders preserve assignments and decisions only while the underlying brief hash is unchanged.
 
 ## Human-review packets
 

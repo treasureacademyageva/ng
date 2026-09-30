@@ -25,10 +25,10 @@ def test_primary_authoring_queue_has_balanced_class_coverage():
     )
 
 
-def test_authoring_queue_begins_with_no_training_approval_or_fake_authors():
+def test_authoring_queue_records_the_owner_selected_organisation():
     data = rows()
-    assert all(row["brief_status"] == "NOT_STARTED" for row in data)
-    assert all(not row["assigned_author"] for row in data)
+    assert all(row["brief_status"] == "ASSIGNED" for row in data)
+    assert all(row["assigned_author"] == "Treasure Academy Ageva" for row in data)
     assert all(len(row["brief_sha256"]) == 64 for row in data)
     assert sum(int(row["pilot_documents"]) for row in data) == 288
     assert sum(int(row["full_target_documents"]) for row in data) == 3_840

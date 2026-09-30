@@ -1,0 +1,24 @@
+{
+  "record_version": 1,
+  "recorded_on": "2026-09-30",
+  "rights_holder": "Treasure Academy Ageva",
+  "status": "CONFIRMED_INTERNAL_MODEL_USE",
+  "basis": "Owner directive recorded during the corpus-expansion programme",
+  "covered_material": "New original mathematics and English material created specifically under the primary authoring queue",
+  "permitted_uses": [
+    "internal authoring and review",
+    "internal tokenizer and model training after all review gates pass",
+    "internal evaluation and quality assurance"
+  ],
+  "open_license": null,
+  "public_corpus_distribution_permitted": false,
+  "exclusions": [
+    "third-party curriculum text",
+    "textbooks and exam banks",
+    "pupil or parent records",
+    "private conversations",
+    "existing school documents not separately confirmed"
+  ],
+  "human_review_still_required": true,
+  "training_approval_inferred": false
+}

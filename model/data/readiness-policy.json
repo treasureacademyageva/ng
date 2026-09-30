@@ -27,6 +27,9 @@
       "mathematics": 48,
       "english": 48
     },
+    "balanced_pilot_manifest": "data/authoring/pilot-balanced-v1-review.csv",
+    "balanced_pilot_required_samples": 96,
+    "rights_confirmation": "data/authoring/rights-confirmation.json",
     "training_approval_is_never_inferred_from_queue_status": true
   },
   "human_review": {

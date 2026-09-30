@@ -179,9 +179,9 @@ def build_rows() -> list[dict[str, str | int]]:
                     "brief_id": f"{subject}-p{primary_class}-{number:02d}",
                     "brief_sha256": digest(basis),
                     **basis,
-                    "brief_status": "NOT_STARTED",
-                    "assigned_author": "",
-                    "notes": "",
+                    "brief_status": "ASSIGNED",
+                    "assigned_author": "Treasure Academy Ageva",
+                    "notes": "Owner selected the school as the responsible organisation; individual human review remains separately required.",
                 }
                 rows.append(row)
     return rows
