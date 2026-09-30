@@ -46,7 +46,19 @@ python3 scripts/prepare_data.py --config config/tiny.json
 python3 scripts/audit_corpus.py
 ```
 
-The current corpus audit says **DO NOT AUTHORISE LONG RUN**. A measured 100-step CUDA benchmark may still be run to establish hardware performance, but sustained training remains blocked. Use `scripts/benchmark_tiny.py` and follow `GPU-BENCHMARK.md`; do not call `src/train.py --config config/tiny.json` until a separate written authorisation is recorded.
+The corpus audit says **DO NOT AUTHORISE LONG RUN**. The exact 100-step CUDA benchmark has now been measured; hardware passed, while sample quality and corpus readiness failed. See `BENCHMARK-100-STEP-RESULTS.md` and `DATA-EXPANSION-PLAN.md`. Do not call `src/train.py --config config/tiny.json` until the data gates are corrected, the benchmark is repeated on the final corpus, and a separate written authorisation is recorded.
+
+Data expansion now uses a fail-closed candidate and human-review workflow:
+
+```bash
+python3 scripts/stage_storybooks_nigeria.py       # ignored staging only; never approval
+python3 scripts/build_human_review_packets.py
+python3 scripts/validate_human_reviews.py
+python3 scripts/audit_duplicates.py
+python3 scripts/audit_corpus.py
+```
+
+Candidate material stays outside `sources.json` and training until item-level rights, provenance, content quality and every required human review pass.
 
 ## Held-out evaluation v2
 
@@ -58,7 +70,7 @@ python3 scripts/validate_evaluation_v2.py
 python3 src/evaluate_suite_v2.py --predictions runs/PREDICTIONS.jsonl
 ```
 
-See `EVALUATION-V2.md`. Every case still requires Nigerian teacher/safeguarding review.
+See `EVALUATION-V2.md`. Every case still requires Nigerian teacher and safeguarding review. The two review packets are in `data/reviews/`; the builder preserves signed decisions only while each case hash remains unchanged.
 
 ## Instruction and preference stages
 

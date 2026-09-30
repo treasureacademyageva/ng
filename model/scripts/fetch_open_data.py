@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """License-gated corpus fetcher. Downloads only manifest-approved sources."""
 from __future__ import annotations
-import argparse, hashlib, io, json, posixpath, shutil, subprocess, sys, urllib.request, zipfile
+import argparse, hashlib, io, json, posixpath, re, shutil, subprocess, sys, urllib.request, zipfile
 from datetime import datetime, timezone
 from html.parser import HTMLParser
 from pathlib import Path
@@ -22,6 +22,14 @@ def fetch(url:str)->bytes:
         data=r.read(MAX_BYTES+1)
     if len(data)>MAX_BYTES:raise ValueError("source exceeded download cap")
     return data
+
+def normalize_pdf(data:bytes)->bytes:
+    """Keep the PDF payload and zero volatile trailer IDs without changing offsets."""
+    start=data.find(b"%PDF-")
+    if start<0:raise ValueError("download did not contain a PDF header")
+    payload=data[start:]
+    pattern=rb"(/ID\s*\[\s*<)([0-9A-Fa-f]+)(>\s*<)([0-9A-Fa-f]+)(>\s*\])"
+    return re.sub(pattern,lambda m:m.group(1)+b"0"*len(m.group(2))+m.group(3)+b"0"*len(m.group(4))+m.group(5),payload)
 
 class _TextExtractor(HTMLParser):
     blocks={"p","h1","h2","h3","h4","h5","h6","li","td","th","blockquote","div"}
@@ -66,15 +74,15 @@ def main()->int:
             else:rec["status"]="missing"
             lock["sources"].append(rec);continue
         try:
-            data=fetch(src["url"]);ext={"pdf_text":".pdf","epub_text":".epub"}.get(kind,".txt");dest=raw/(src["id"]+ext);dest.write_bytes(data)
-            rec={"id":src["id"],"url":src["url"],"license":lic,"bytes":len(data),"sha256":sha256(data),"raw":str(dest.relative_to(ROOT)),"status":"downloaded"}
+            data=fetch(src["url"]);ext={"pdf_text":".pdf","epub_text":".epub"}.get(kind,".txt");dest=raw/(src["id"]+ext)
+            stored=normalize_pdf(data) if kind=="pdf_text" else data;dest.write_bytes(stored)
+            rec={"id":src["id"],"url":src["url"],"license":lic,"bytes":len(stored),"sha256":sha256(stored),"raw":str(dest.relative_to(ROOT)),"status":"downloaded"}
+            if kind=="pdf_text":rec["normalization"]="pdf-payload-with-zeroed-volatile-trailer-id"
             if kind=="epub_text":
-                out=licensed/(src["id"]+".txt");out.write_text(extract_epub(data),encoding="utf-8")
+                out=licensed/(src["id"]+".txt");out.write_text(extract_epub(stored),encoding="utf-8")
                 rec.update({"extract_status":"ok-epub-spine","text":str(out.relative_to(ROOT)),"text_sha256":sha256(out.read_bytes())})
             elif kind=="pdf_text":
-                tool=shutil.which("pdftotext");out=licensed/(src["id"]+".txt");pdf_start=data.find(b"%PDF-")
-                if pdf_start<0:raise ValueError("download did not contain a PDF header")
-                pdf_data=data[pdf_start:];curated=ROOT/src["curated_path"] if src.get("curated_path") else None
+                tool=shutil.which("pdftotext");out=licensed/(src["id"]+".txt");pdf_data=stored;curated=ROOT/src["curated_path"] if src.get("curated_path") else None
                 if curated and curated.exists():
                     rec.update({"extract_status":"curated-reviewed","text":str(curated.relative_to(ROOT)),"text_sha256":sha256(curated.read_bytes())})
                 elif tool:
@@ -87,7 +95,7 @@ def main()->int:
                         pages=[p.extract_text() or "" for p in PdfReader(io.BytesIO(pdf_data)).pages];out.write_text("\n\n".join(pages),encoding="utf-8")
                         rec.update({"extract_status":"ok-pypdf","text":str(out.relative_to(ROOT)),"text_sha256":sha256(out.read_bytes())})
                     except ImportError:rec["extract_status"]="pdf-extractor-unavailable"
-            lock["sources"].append(rec);print(f"fetched {src['id']}: {len(data):,} bytes")
+            lock["sources"].append(rec);print(f"fetched {src['id']}: {len(stored):,} canonical bytes")
         except Exception as e:
             errors.append(f"{src['id']}: {e}");print("ERROR",errors[-1],file=sys.stderr)
     (ROOT/"data/source-lock.json").write_text(json.dumps(lock,indent=2,ensure_ascii=False)+"\n")

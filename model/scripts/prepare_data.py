@@ -4,12 +4,14 @@ from __future__ import annotations
 import argparse,hashlib,json,re,unicodedata
 from pathlib import Path
 import numpy as np
+from deduplication import NearDuplicateIndex
 ROOT=Path(__file__).resolve().parents[1]
 def clean_text(s:str)->str:
  s=unicodedata.normalize('NFKC',s).replace('\r\n','\n').replace('\r','\n');s=re.sub(r'https?://\S+','',s);s=re.sub(r'(?m)^\s*\d{7,}\s*$','',s);s=re.sub(r'[ \t]+',' ',s);s=re.sub(r'\n{4,}','\n\n\n',s);return s.strip()
 def strip_gutenberg(s:str)->str:
- a=re.search(r'\*\*\* START OF (?:THE|THIS) PROJECT GUTENBERG EBOOK[^\n]*\*\*\*',s,re.I);b=re.search(r'\*\*\* END OF (?:THE|THIS) PROJECT GUTENBERG EBOOK',s,re.I)
+ a=re.search(r'\*\*\* START OF (?:THE|THIS) PROJECT GUTENBERG EBOOK[^\n]*\*\*\*',s,re.I)
  if a:s=s[a.end():]
+ b=re.search(r'\*\*\* END OF (?:THE|THIS) PROJECT GUTENBERG EBOOK',s,re.I)
  if b:s=s[:b.start()]
  return s
 def hash_bytes(b:bytes)->str:return hashlib.sha256(b).hexdigest()
@@ -41,16 +43,16 @@ def units(text):
   else:out.append(para)
  return out
 def main():
- ap=argparse.ArgumentParser();ap.add_argument('--config',default='config/micro.json');args=ap.parse_args();cfg=json.loads((ROOT/args.config).read_text());manifest=json.loads((ROOT/'data/sources.json').read_text());seen=set();train_docs=[];val_docs=[];provenance=[]
+ ap=argparse.ArgumentParser();ap.add_argument('--config',default='config/micro.json');args=ap.parse_args();cfg=json.loads((ROOT/args.config).read_text());manifest=json.loads((ROOT/'data/sources.json').read_text());deduper=NearDuplicateIndex(threshold=.88,min_words=30);duplicate_counts={'exact':0,'near':0};train_docs=[];val_docs=[];provenance=[]
  for src in manifest['sources']:
   if not src.get('enabled') or not src.get('approved_for_training',src.get('reviewed',False)):continue
   text=source_text(src)
   if not text:continue
   docs=[]
-  for para in units(text):
-   h=hashlib.sha256(para.casefold().encode()).hexdigest()
-   if h in seen:continue
-   seen.add(h);docs.append((h,para))
+  for unit_index,para in enumerate(units(text),1):
+   match=deduper.add_or_match(f"{src['id']}:{unit_index}",para)
+   if match:duplicate_counts[match.kind]+=1;continue
+   h=hashlib.sha256(para.casefold().encode()).hexdigest();docs.append((h,para))
   if not docs:continue
   nval=1 if len(docs)>1 else 0;nval=max(nval,round(len(docs)*.05));val_hashes={h for h,_ in sorted(docs)[:nval]};src_train=[];src_val=[]
   for h,para in docs:(src_val if h in val_hashes else src_train).append(para)
@@ -72,5 +74,5 @@ def main():
  train_ids=encode(train_corpus);val_ids=encode(val_corpus)
  if len(train_ids)<cfg['block_size']+2 or len(val_ids)<cfg['block_size']+2:raise SystemExit('train/validation split is too small for block size')
  train_path=ROOT/cfg['train_data'];val_path=ROOT/cfg['val_data'];train_path.parent.mkdir(parents=True,exist_ok=True);val_path.parent.mkdir(parents=True,exist_ok=True);train_ids.tofile(train_path);val_ids.tofile(val_path)
- meta={'characters':len(train_corpus)+len(val_corpus),'train_characters':len(train_corpus),'val_characters':len(val_corpus),'tokens':int(len(train_ids)+len(val_ids)),'train_tokens':int(len(train_ids)),'val_tokens':int(len(val_ids)),'vocab_size':vocab_size,'split':'deterministic 95/5 document units within every source; exact units do not cross splits','corpus_sha256':hash_bytes(corpus.encode()),'sources':provenance};meta_path.write_text(json.dumps(meta,ensure_ascii=False,indent=2)+'\n');print(json.dumps(meta,indent=2))
+ meta={'characters':len(train_corpus)+len(val_corpus),'train_characters':len(train_corpus),'val_characters':len(val_corpus),'tokens':int(len(train_ids)+len(val_ids)),'train_tokens':int(len(train_ids)),'val_tokens':int(len(val_ids)),'vocab_size':vocab_size,'deduplication':'exact_and_near_duplicate_document_units','deduplication_report':{'threshold':.88,'minimum_words':30,'exact_removed':duplicate_counts['exact'],'near_removed':duplicate_counts['near']},'split':'deterministic 95/5 deduplicated document units within every source; units do not cross splits','corpus_sha256':hash_bytes(corpus.encode()),'sources':provenance};meta_path.write_text(json.dumps(meta,ensure_ascii=False,indent=2)+'\n');print(json.dumps(meta,indent=2))
 if __name__=='__main__':main()

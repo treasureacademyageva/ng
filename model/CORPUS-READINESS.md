@@ -2,6 +2,8 @@
 
 **Decision: DO NOT AUTHORISE A LONG 14M-PARAMETER RUN.**
 
+The required 100-step benchmark was completed on a Tesla T4 on 30 September 2026. Hardware performance passed, but the incoherent generated sample and the corpus findings below failed the authorisation gate. See `BENCHMARK-100-STEP-RESULTS.md`.
+
 The licensed corpus expanded from **570,375** to **1,903,726 characters** (3.34× the previous size). It now includes Siyavula Natural Sciences and Technology Grades 4–6 under CC BY 4.0, plus broader original primary maths, language, comprehension, science and Nigerian social-studies foundations.
 
 After retraining the 8,192-token BPE tokenizer, the deterministic split contains:
@@ -23,6 +25,8 @@ At the configured effective batch of 65,536 tokens per optimiser step, a 100-ste
 - Dedicated reviewed Nigerian social-studies source: **none**
 - Approved Hausa source: **none**; the page-scrambled booklet remains excluded
 
-The expansion is useful, and validation now samples document units from every source without exact unit crossover, but the corpus is neither large enough nor balanced enough for a sustained from-scratch run. Before reconsideration, add substantially more reviewed Nigerian primary language, maths, social studies and stories; keep provenance; retrain the tokenizer; and repeat the audit.
+The expansion is useful, and validation now samples document units from every source without exact unit crossover, but the corpus is neither large enough nor balanced enough for a sustained from-scratch run. Before reconsideration, add substantially more reviewed Nigerian primary language, maths, social studies and stories; keep provenance; perform exact and near-duplicate filtering; retrain the tokenizer; and repeat the audit.
+
+The next phase is defined in `DATA-EXPANSION-PLAN.md` and `data/readiness-policy.json`. It also requires explicit coverage for civic education, local geography and age-appropriate computer studies, plus named teacher and safeguarding approval of all 240 evaluation cases. Candidate sources and ignored staging cannot satisfy a gate until they are deliberately approved in the training manifest.
 
 The reproducible machine-readable audit is produced by `python3 scripts/audit_corpus.py` and is intentionally kept under ignored `runs/`.

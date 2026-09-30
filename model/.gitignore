@@ -1,6 +1,7 @@
 data/raw/*
 data/licensed/*
 data/cleaned/*
+data/staging/*
 data/pretraining/*
 data/instruction/*.jsonl
 data/instruction/*.bin

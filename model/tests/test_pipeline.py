@@ -20,6 +20,12 @@ def test_siyavula_epubs_have_exact_license_and_training_gate():
  assert len(rows)==3
  assert all(s['kind']=='epub_text' and s['license']=='CC-BY-4.0' and s['approved_for_training'] for s in rows)
 
+def test_african_storybook_pdf_locks_are_canonicalized():
+ lock=json.loads((ROOT/'data/source-lock.json').read_text());rows=[s for s in lock['sources'] if s['id'].startswith('african-storybook-')]
+ assert len(rows)==2
+ assert all(s.get('normalization')=='pdf-payload-with-zeroed-volatile-trailer-id' for s in rows)
+ assert all(s['bytes']>100_000 and len(s['sha256'])==64 for s in rows)
+
 def test_retrieval_kb_not_memorised():
  data=json.loads((ROOT/'data/sources.json').read_text())
  kb=next(s for s in data['sources'] if s['id']=='treasure-public-kb')

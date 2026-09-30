@@ -1,0 +1,7 @@
+source_id,language,material_title,decision,reviewer_name,reviewer_role,reviewed_at,accuracy_notes,safeguarding_notes
+african-storybook-hausa-47555,ha,Kwadayi mabudin wahala,PENDING,,,,Page order and orthography require review,Review age fit and depiction of harm
+storybooks-nigeria-hausa-cc-by,ha,Storybooks Nigeria Hausa CC BY subset,PENDING,,,,Verify every selected text against its source,Review every story for child safety and age fit
+storybooks-nigeria-pidgin,pcm-NG,Storybooks Nigeria Nigerian Pidgin catalogue,PENDING,,,,Review spelling meaning and variety consistency,Review every story for child safety and age fit
+storybooks-nigeria-yoruba-cc-by,yo,Storybooks Nigeria Yoruba candidate subset,PENDING,,,,Reconcile catalogue and source records before review,Review every story for child safety and age fit
+storyweaver-igbo-cc-by,ig,StoryWeaver Igbo candidate subset,PENDING,,,,Select exact CC BY text editions before review,Review every story for child safety and age fit
+treasure-ebira-future,igb,Future Treasure EDU Ebira material,PENDING,,,,No material has been supplied,No material has been supplied

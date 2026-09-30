@@ -4,12 +4,16 @@
 
 Every case specifies one routing action: `ANSWER`, `ASK_CLARIFICATION`, `USE_RETRIEVAL`, `REQUIRE_LOGIN`, `HAND_OFF_TO_HUMAN`, or `REFUSE`. The current action distribution is 154 / 17 / 17 / 7 / 16 / 29 respectively.
 
-Build and independently validate:
+Build and independently validate the held-out suite, then build and validate the two human-review packets:
 
 ```bash
 python3 scripts/build_evaluation_v2.py
 python3 scripts/validate_evaluation_v2.py
+python3 scripts/build_human_review_packets.py
+python3 scripts/validate_human_reviews.py
 ```
+
+Human decisions are recorded separately in `data/reviews/evaluation-teacher-review.csv` and `data/reviews/evaluation-safeguarding-review.csv`. The packet builder never auto-approves a row and preserves an existing decision only while the full case hash is unchanged. Approval requires a named qualified Nigerian primary teacher or designated safeguarding lead, as appropriate, plus a review date.
 
 Score a model/router predictions file containing JSONL rows with `id`, `action`, and `text`:
 

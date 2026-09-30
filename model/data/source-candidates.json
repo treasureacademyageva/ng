@@ -1,0 +1,224 @@
+{
+  "version": 1,
+  "checked_at": "2026-09-30",
+  "policy": "A public URL is not a training licence. Candidate material remains outside training until its exact item licence, provenance, content quality and required human reviews all pass.",
+  "candidates": [
+    {
+      "id": "storybooks-nigeria-english-cc-by",
+      "title": "Storybooks Nigeria English catalogue — CC BY subset",
+      "provider": "Global Storybooks / African Storybook",
+      "source_url": "https://global-asp.github.io/storybooks-nigeria/stories/en/",
+      "repository_url": "https://github.com/global-asp/storybooks-nigeria",
+      "license_status": "VERIFIED_PER_ITEM",
+      "observed_license": "20 CC BY 3.0 and 9 CC BY 4.0 items staged; 11 CC BY-NC 3.0 items excluded",
+      "license_evidence_url": "https://github.com/global-asp/asp-source",
+      "intended_coverage_tags": [
+        "english_reading",
+        "licensed_african_stories"
+      ],
+      "languages": [
+        "en"
+      ],
+      "grade_band": "early_primary",
+      "intake_status": "STAGED_FOR_REVIEW",
+      "training_eligible": false,
+      "next_action": "Nigerian primary teacher reviews all 29 staged stories for reading level, cultural fit, factual quality and child safety before any manifest approval.",
+      "notes": "This is an African reading collection delivered through Storybooks Nigeria. It does not by itself satisfy the Nigerian-authored story or Nigerian English composition gates."
+    },
+    {
+      "id": "storybooks-nigeria-pidgin",
+      "title": "Storybooks Nigeria — Nigerian Pidgin catalogue",
+      "provider": "Global Storybooks / African Storybook",
+      "source_url": "https://global-asp.github.io/storybooks-nigeria/stories/pcm/",
+      "repository_url": "https://github.com/global-asp/storybooks-nigeria",
+      "license_status": "VERIFIED_PER_ITEM",
+      "observed_license": "6 CC BY 3.0 and 1 CC BY 4.0 item; no NC item in the seven-story catalogue",
+      "license_evidence_url": "https://global-asp.github.io/storybooks-nigeria/stories/pcm/",
+      "intended_coverage_tags": [
+        "nigerian_reading",
+        "licensed_nigerian_stories"
+      ],
+      "languages": [
+        "pcm-NG"
+      ],
+      "grade_band": "early_primary",
+      "intake_status": "STAGED_FOR_LANGUAGE_AND_CONTENT_REVIEW",
+      "training_eligible": false,
+      "next_action": "A qualified Nigerian Pidgin speaker, Nigerian primary teacher and safeguarding lead review all seven staged texts.",
+      "notes": "Seven commercial-compatible text editions are pinned and staged; none is training-approved."
+    },
+    {
+      "id": "storybooks-nigeria-hausa-cc-by",
+      "title": "Storybooks Nigeria — Hausa CC BY subset",
+      "provider": "Global Storybooks / African Storybook",
+      "source_url": "https://global-asp.github.io/storybooks-nigeria/stories/ha/",
+      "repository_url": "https://github.com/global-asp/asp-source",
+      "license_status": "VERIFIED_PER_ITEM",
+      "observed_license": "4 CC BY items; 2 CC BY-NC items excluded",
+      "license_evidence_url": "https://github.com/global-asp/asp-source",
+      "intended_coverage_tags": [
+        "licensed_nigerian_stories"
+      ],
+      "languages": [
+        "ha"
+      ],
+      "grade_band": "early_primary",
+      "intake_status": "STAGED_FOR_LANGUAGE_AND_CONTENT_REVIEW",
+      "training_eligible": false,
+      "next_action": "A qualified Hausa speaker, Nigerian primary teacher and safeguarding lead review all four staged texts.",
+      "notes": "Four CC BY texts are staged; two CC BY-NC items and the separate page-scrambled Hausa booklet remain excluded."
+    },
+    {
+      "id": "storybooks-nigeria-yoruba-cc-by",
+      "title": "Storybooks Nigeria — Yoruba candidate subset",
+      "provider": "Global Storybooks / African Storybook",
+      "source_url": "https://global-asp.github.io/storybooks-nigeria/stories/yo/",
+      "repository_url": "https://github.com/global-asp/asp-source",
+      "license_status": "VERIFIED_PER_ITEM",
+      "observed_license": "5 CC BY 3.0 and 1 CC BY 4.0 item; 2 CC BY-NC 3.0 items excluded",
+      "license_evidence_url": "https://github.com/global-asp/asp-source",
+      "intended_coverage_tags": [
+        "licensed_nigerian_stories"
+      ],
+      "languages": [
+        "yo"
+      ],
+      "grade_band": "early_primary",
+      "intake_status": "STAGED_FOR_LANGUAGE_AND_CONTENT_REVIEW",
+      "training_eligible": false,
+      "next_action": "A qualified Yoruba speaker, Nigerian primary teacher and safeguarding lead review all six staged texts.",
+      "notes": "Six CC BY texts are pinned and staged; two CC BY-NC items remain excluded."
+    },
+    {
+      "id": "storyweaver-nigerian-languages",
+      "title": "StoryWeaver books in Hausa, Yoruba and Igbo",
+      "provider": "Pratham Books StoryWeaver",
+      "source_url": "https://storyweaver.org.in/en/stories",
+      "license_status": "VERIFY_PER_ITEM",
+      "observed_license": "Story books are generally CC BY 4.0; media can use different terms",
+      "license_evidence_url": "https://storyweaver.org.in/en/terms_and_conditions",
+      "intended_coverage_tags": [
+        "licensed_nigerian_stories"
+      ],
+      "languages": [
+        "ha",
+        "yo",
+        "ig"
+      ],
+      "grade_band": "early_primary",
+      "intake_status": "RESEARCH",
+      "training_eligible": false,
+      "next_action": "Select exact text editions, capture every attribution and licence, exclude audio/video, and obtain a qualified speaker review for each language.",
+      "notes": "No bulk ingestion is authorised."
+    },
+    {
+      "id": "global-digital-library-primary-math",
+      "title": "Global Digital Library primary mathematics",
+      "provider": "Global Digital Library",
+      "source_url": "https://digitallibrary.io/topic/math/",
+      "license_status": "VERIFY_PER_ITEM",
+      "observed_license": "Platform hosts Creative Commons and other open licences; exact resource terms must be retained",
+      "license_evidence_url": "https://digitallibrary.io/about/license/",
+      "intended_coverage_tags": [
+        "primary_mathematics"
+      ],
+      "languages": [
+        "en"
+      ],
+      "grade_band": "primary_1_4",
+      "intake_status": "RESEARCH",
+      "training_eligible": false,
+      "next_action": "Identify downloadable text resources with commercial-compatible licences, then localise examples and obtain Nigerian teacher review without copying incompatible material.",
+      "notes": "Some examples use non-Nigerian currency or contexts and therefore need review; platform-level licensing is not enough."
+    },
+    {
+      "id": "nerdc-primary-curriculum",
+      "title": "Official Nigerian primary curriculum pages and PDFs",
+      "provider": "Nigerian Educational Research and Development Council",
+      "source_url": "https://www.nerdc.gov.ng/content_manager/pri4-6.html",
+      "license_status": "NO_AFFIRMATIVE_TRAINING_LICENCE",
+      "observed_license": "Publicly accessible; no verified open training/reuse licence",
+      "license_evidence_url": "https://www.nerdc.gov.ng/content_manager/pri4-6.html",
+      "intended_coverage_tags": [
+        "curriculum_alignment"
+      ],
+      "languages": [
+        "en-NG"
+      ],
+      "grade_band": "primary_1_6",
+      "intake_status": "ALIGNMENT_ONLY",
+      "training_eligible": false,
+      "next_action": "Use only as a topic checklist unless written reuse permission or an affirmative open licence is obtained.",
+      "notes": "Public accessibility does not grant model-training rights."
+    },
+    {
+      "id": "nigeria-learning-passport",
+      "title": "Nigeria Learning Passport curriculum resources",
+      "provider": "Federal Ministry of Education / UNICEF and partners",
+      "source_url": "https://nigeria.learningpassport.org/",
+      "license_status": "NO_AFFIRMATIVE_TRAINING_LICENCE",
+      "observed_license": "Free learner access; no verified open model-training/reuse licence",
+      "license_evidence_url": "https://nigeria.learningpassport.org/",
+      "intended_coverage_tags": [
+        "curriculum_alignment"
+      ],
+      "languages": [
+        "en-NG",
+        "ha",
+        "yo",
+        "ig"
+      ],
+      "grade_band": "primary_1_6",
+      "intake_status": "ALIGNMENT_ONLY",
+      "training_eligible": false,
+      "next_action": "Seek written permission or item-level open-licence evidence before any extraction.",
+      "notes": "Free access is not equivalent to an open licence."
+    },
+    {
+      "id": "siyavula-nigeria-jss-mathematics",
+      "title": "Siyavula Nigeria NERDC mathematics JSS 1–3",
+      "provider": "Siyavula Education",
+      "source_url": "https://ng.siyavula.com/read",
+      "license_status": "VERIFIED_COLLECTION_OPTIONS",
+      "observed_license": "Unbranded versions CC BY 3.0; branded versions CC BY-ND",
+      "license_evidence_url": "https://ng.siyavula.com/read",
+      "intended_coverage_tags": [
+        "upper_basic_mathematics"
+      ],
+      "languages": [
+        "en-NG"
+      ],
+      "grade_band": "jss_1_3",
+      "intake_status": "OUT_OF_PRIMARY_SCOPE",
+      "training_eligible": false,
+      "next_action": "Do not add to the primary corpus. Reconsider only if the project scope expands, using unbranded CC BY files only.",
+      "notes": "Useful Nigerian material, but it does not satisfy the primary mathematics requirement."
+    },
+    {
+      "id": "treasure-reviewed-original-primary-pack",
+      "title": "Treasure EDU original Nigerian primary curriculum pack",
+      "provider": "Treasure Academy Ageva Limited",
+      "source_url": null,
+      "license_status": "OWNER_CONFIRMATION_REQUIRED",
+      "observed_license": "Proposed school-owned original material",
+      "license_evidence_url": null,
+      "intended_coverage_tags": [
+        "nigerian_primary_mathematics",
+        "nigerian_english_reading_composition",
+        "licensed_nigerian_stories",
+        "nigerian_social_studies",
+        "civic_education",
+        "local_geography",
+        "age_appropriate_computer_studies"
+      ],
+      "languages": [
+        "en-NG"
+      ],
+      "grade_band": "primary_1_6",
+      "intake_status": "AWAITING_OWNER_AND_TEACHER_WORK",
+      "training_eligible": false,
+      "next_action": "Create topic-by-topic original lessons and exercises, record authorship, obtain owner licence confirmation, and require Nigerian teacher plus safeguarding review before approval.",
+      "notes": "This is likely the safest route to substantial Nigerian alignment, but no synthetic or assistant-authored text should be marked human-reviewed."
+    }
+  ]
+}

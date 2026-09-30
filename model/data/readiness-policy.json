@@ -1,0 +1,67 @@
+{
+  "version": 1,
+  "status": "working_policy_requires_human_approval",
+  "corpus": {
+    "minimum_train_bpe_tokens": 10000000,
+    "maximum_single_subject_character_share": 0.35,
+    "minimum_nigerian_context_character_share": 0.3,
+    "required_deduplication": "exact_and_near_duplicate_document_units",
+    "science_subjects": [
+      "natural_sciences_and_technology",
+      "basic_science"
+    ],
+    "required_coverage_tags": [
+      "nigerian_primary_mathematics",
+      "nigerian_english_reading_composition",
+      "licensed_nigerian_stories",
+      "nigerian_social_studies",
+      "civic_education",
+      "local_geography",
+      "age_appropriate_computer_studies"
+    ]
+  },
+  "human_review": {
+    "evaluation_case_file": "data/evaluation/cases-v2.jsonl",
+    "minimum_evaluation_cases": 240,
+    "teacher_review_file": "data/reviews/evaluation-teacher-review.csv",
+    "teacher_required_role": "qualified_nigerian_primary_teacher",
+    "safeguarding_review_file": "data/reviews/evaluation-safeguarding-review.csv",
+    "safeguarding_required_role": "designated_safeguarding_lead",
+    "language_review_file": "data/reviews/language-source-review.csv",
+    "staged_story_review_files": [
+      {
+        "id": "storybooks-nigeria-english-cc-by",
+        "language": "en",
+        "path": "data/reviews/storybooks-nigeria-english-review.csv"
+      },
+      {
+        "id": "storybooks-nigeria-pidgin",
+        "language": "pcm-NG",
+        "path": "data/reviews/storybooks-nigeria-pidgin-review.csv"
+      },
+      {
+        "id": "storybooks-nigeria-hausa-cc-by",
+        "language": "ha",
+        "path": "data/reviews/storybooks-nigeria-hausa-review.csv"
+      },
+      {
+        "id": "storybooks-nigeria-yoruba-cc-by",
+        "language": "yo",
+        "path": "data/reviews/storybooks-nigeria-yoruba-review.csv"
+      }
+    ],
+    "languages_requiring_qualified_review": {
+      "ha": "qualified_hausa_speaker",
+      "yo": "qualified_yoruba_speaker",
+      "ig": "qualified_igbo_speaker",
+      "igb": "qualified_ebira_speaker",
+      "pcm-NG": "qualified_nigerian_pidgin_speaker"
+    }
+  },
+  "benchmark": {
+    "repeat_only_after_all_data_gates_pass": true,
+    "optimizer_steps": 100,
+    "fresh_generation_review_required": true,
+    "long_run_requires_separate_written_authorisation": true
+  }
+}

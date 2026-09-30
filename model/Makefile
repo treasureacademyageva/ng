@@ -11,5 +11,14 @@ smoke:
 	$(PYTHON) src/train.py --config config/micro.json --max-steps 10
 instruction:
 	$(PYTHON) scripts/build_instruction_data.py
+stage-stories:
+	$(PYTHON) scripts/stage_storybooks_nigeria.py
+review-packets:
+	$(PYTHON) scripts/build_human_review_packets.py
+	$(PYTHON) scripts/validate_human_reviews.py
+audit:
+	$(PYTHON) scripts/audit_duplicates.py
+	$(PYTHON) scripts/audit_corpus.py
 check:
 	$(PYTHON) -m compileall -q src scripts tokenizer
+	$(PYTHON) scripts/validate_human_reviews.py

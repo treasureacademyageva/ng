@@ -9,7 +9,15 @@
 - **CC BY 4.0 / African Storybook:** title, creator, illustrator when stated, source and licence are retained. Attribution must accompany redistributed dataset derivatives and any public model release should receive a legal review.
 - **CC BY 4.0 / Siyavula Education:** the unbranded Natural Sciences and Technology Grade 4–6 EPUBs explicitly state CC BY 4.0. Source URLs, checksums and attribution are retained. Their South African CAPS context is useful but does not substitute for Nigerian curriculum review.
 
-The current build has automated source/lock/hash validation plus engineering review. It still requires Nigerian teacher review for curriculum fit, factual nuance and age appropriateness before a sustained run or weight release.
+The current build has automated source/lock/hash validation plus engineering review. African Storybook download responses regenerate a volatile PDF trailer document ID on each request; the fetcher now stores the PDF payload with only that ID zeroed, preserving byte offsets while producing a stable canonical checksum. A two-fetch regression check confirmed identical lock records apart from retrieval time. It still requires Nigerian teacher review for curriculum fit, factual nuance and age appropriateness before a sustained run or weight release.
+
+## Candidate and staging boundary
+
+`data/source-candidates.json` is research inventory, not an allowlist. `data/staging/` is ignored and cannot feed `prepare_data.py`. A candidate enters training only after its exact item licence and attribution are verified, automated screening passes, required human reviews are recorded, and a deliberate manifest change is made.
+
+The Storybooks Nigeria importer pins the site and African Storybook source repositories to immutable commits. It stages 29 English, 7 Nigerian Pidgin, 4 Hausa and 6 Yoruba CC BY stories, while rejecting all 15 discovered CC BY-NC items. Every selected text remains unapproved pending Nigerian primary-teacher and safeguarding review; Nigerian Pidgin, Hausa and Yoruba also require qualified-speaker approval. Catalogue-level openness is never used to override an item's more restrictive licence.
+
+Official NERDC curriculum pages and Nigeria Learning Passport resources are alignment references only unless an affirmative open licence or written permission is obtained. Free public access is not permission to train.
 
 ## Deliberately excluded
 
