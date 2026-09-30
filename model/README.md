@@ -26,9 +26,9 @@ python3 -m pip install -r requirements.txt
 
 ```bash
 cd model
+python3 scripts/build_curriculum.py
 python3 scripts/fetch_open_data.py --manifest data/sources.json --strict
 python3 scripts/validate_sources.py
-python3 scripts/build_curriculum.py
 python3 scripts/prepare_data.py --config config/micro.json
 python3 src/train.py --config config/micro.json --max-steps 1000
 python3 src/evaluate.py --config config/micro.json --checkpoint checkpoints/micro-char-latest.pt
