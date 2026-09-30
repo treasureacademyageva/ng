@@ -55,6 +55,18 @@ The total is **46 staged stories and 58,977 characters**, all with `approved_for
 
 The audit also exposed a Project Gutenberg cleaner defect: footer removal used the pre-header-removal character offset and left licence boilerplate in the old benchmark corpus. The cleaner now recomputes the end marker after removing the header. Future `prepare_data.py` builds use exact and near-duplicate removal and record counts in metadata. The old benchmark token files were deliberately not rebuilt, so their recorded hashes remain verifiable; cleaning takes effect only in a future versioned corpus rebuild.
 
+## Original mathematics and English authoring queue
+
+`data/authoring/primary-math-english-briefs.csv` now defines **96 original-content briefs**: eight mathematics and eight English briefs for each of Primary 1–6. Every brief starts `NOT_STARTED` with no assigned author and no training approval.
+
+- Pilot plan: 288 documents for workflow and quality review.
+- Full planning target: 3,840 documents and about 1,152,000 words.
+- Coverage tags: `nigerian_primary_mathematics` and `nigerian_english_reading_composition`.
+- Required formats include lessons, worked/model examples, guided practice and independent pupil work.
+- Every future draft must record a named author, creator type, owner licence confirmation, text hash, and separate teacher and safeguarding decisions.
+
+This queue is a controlled authoring plan, not corpus data. It must not be filled with repetitive synthetic variations, copied curriculum pages or unreviewed assistant output. The queue builder preserves assignments only while the underlying brief hash is unchanged.
+
 ## Human-review packets
 
 Run:

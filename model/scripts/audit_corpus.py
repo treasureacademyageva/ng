@@ -36,6 +36,7 @@ def main() -> None:
     policy = load_json(ROOT / args.policy)
     manifest = {item["id"]: item for item in load_json(ROOT / "data/sources.json")["sources"]}
     corpus_policy = policy["corpus"]
+    authoring_policy = policy["authoring_plan"]
     human_policy = policy["human_review"]
 
     subjects: Counter[str] = Counter()
@@ -144,6 +145,23 @@ def main() -> None:
                 f"{story_safeguarding['APPROVED']}/{staged_story_count} approved"
             )
 
+    authoring_queue = ROOT / authoring_policy["queue_file"]
+    authoring_rows = []
+    if authoring_queue.exists():
+        with authoring_queue.open(newline="", encoding="utf-8") as handle:
+            authoring_rows = list(csv.DictReader(handle))
+    authoring_subjects = Counter(row.get("subject", "") for row in authoring_rows)
+    authoring_statuses = Counter(row.get("brief_status", "") for row in authoring_rows)
+    required_briefs = authoring_policy["required_briefs"]
+    if len(authoring_rows) != required_briefs:
+        reasons.append(f"original-content authoring queue has {len(authoring_rows)}/{required_briefs} required briefs")
+    required_subject_briefs = Counter(authoring_policy["required_subject_briefs"])
+    if authoring_subjects != required_subject_briefs:
+        reasons.append(
+            f"original-content authoring queue subject counts are {dict(authoring_subjects)}; "
+            f"required {dict(required_subject_briefs)}"
+        )
+
     max_presented = config["max_steps"] * tokens_per_step
     report = {
         "policy_version": policy["version"],
@@ -162,6 +180,13 @@ def main() -> None:
         "deduplication": {
             "observed": observed_deduplication,
             "required": required_deduplication,
+        },
+        "authoring_plan": {
+            "queue": authoring_policy["queue_file"],
+            "briefs": len(authoring_rows),
+            "subjects": dict(authoring_subjects),
+            "statuses": dict(authoring_statuses),
+            "training_approved_documents": 0,
         },
         "human_review": {
             "evaluation_teacher": dict(teacher),

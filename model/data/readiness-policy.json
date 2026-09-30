@@ -20,6 +20,15 @@
       "age_appropriate_computer_studies"
     ]
   },
+  "authoring_plan": {
+    "queue_file": "data/authoring/primary-math-english-briefs.csv",
+    "required_briefs": 96,
+    "required_subject_briefs": {
+      "mathematics": 48,
+      "english": 48
+    },
+    "training_approval_is_never_inferred_from_queue_status": true
+  },
   "human_review": {
     "evaluation_case_file": "data/evaluation/cases-v2.jsonl",
     "minimum_evaluation_cases": 240,

@@ -5,7 +5,8 @@ Every corpus item must have a matching record in `sources.json` with source URL,
 - `raw/`: downloaded originals; immutable and gitignored.
 - `licensed/`: extracted PDF/EPUB text; gitignored. Attribution and exact checksums remain in the manifest/lockfile.
 - `cleaned/`: normalized/deduplicated documents; gitignored.
-- `staging/`: reproducible candidate extractions and duplicate-audit reports awaiting rights/content/human gates; gitignored and never read by training preparation.
+- `staging/`: reproducible candidate extractions, original drafts and duplicate-audit reports awaiting rights/content/human gates; gitignored and never read by training preparation.
+- `authoring/`: committed topic briefs and rules for original school-owned/licensed content; plans are not training data.
 - `reviews/`: committed human-review packets and qualified-language review records; pending is valid, but only complete named approvals can pass the readiness gate.
 - `source-candidates.json`: researched intake queue; never grants training approval.
 - `readiness-policy.json`: machine-readable corpus, balance, review and benchmark gates.
