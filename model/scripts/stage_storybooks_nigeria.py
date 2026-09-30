@@ -136,7 +136,8 @@ def stage_language(site: dict[str, bytes], code: str, settings: dict) -> tuple[l
     accepted = []
     excluded = []
     for story_id in story_ids:
-        page = site[f"stories/{code}/{story_id}/index.html"].decode("utf-8")
+        page_bytes = site[f"stories/{code}/{story_id}/index.html"]
+        page = page_bytes.decode("utf-8")
         family, version = exact_site_license(story_id, page)
         if family != "by":
             excluded.append({
@@ -153,10 +154,14 @@ def stage_language(site: dict[str, bytes], code: str, settings: dict) -> tuple[l
             "license_url": f"https://creativecommons.org/licenses/by/{version}/",
             "storybooks_nigeria_url": f"https://global-asp.github.io/storybooks-nigeria/stories/{code}/{story_id}/",
             "site_commit": SITE_COMMIT,
+            "source_original_sha256": hashlib.sha256(page_bytes).hexdigest(),
+            "site_page_sha256": hashlib.sha256(page_bytes).hexdigest(),
             "review_status": "pending_qualified_language_teacher_and_safeguarding_review",
             "approved_for_training": False,
         })
         record["text_sha256"] = hashlib.sha256(record["text"].encode("utf-8")).hexdigest()
+        record["characters"] = len(record["text"])
+        record["words"] = len(re.findall(r"[^\W_]+(?:['’][^\W_]+)?", record["text"], re.UNICODE))
         accepted.append(record)
     if len(accepted) != settings["accepted"] or len(excluded) != settings["excluded"]:
         raise SystemExit(
@@ -225,6 +230,12 @@ def main() -> None:
 
     site_data = download(SITE_ARCHIVE)
     source_data = download(SOURCE_ARCHIVE)
+    originals = ROOT / "data/staging/originals/storybooks-nigeria"
+    originals.mkdir(parents=True, exist_ok=True)
+    site_archive_path = originals / f"storybooks-nigeria-{SITE_COMMIT}.tar.gz"
+    source_archive_path = originals / f"asp-source-{SOURCE_COMMIT}.tar.gz"
+    site_archive_path.write_bytes(site_data)
+    source_archive_path.write_bytes(source_data)
     site = archive_files(site_data)
     source = archive_files(source_data)
     site_pattern = re.compile(r"^stories/en/(\d{4})/index\.html$")
@@ -238,8 +249,10 @@ def main() -> None:
         matches = [path for path in source if re.fullmatch(rf"en/{story_id}_.+\.md", path)]
         if len(matches) != 1:
             raise SystemExit(f"{story_id}: expected one source markdown file, found {len(matches)}")
-        record = markdown_record(story_id, source[matches[0]].decode("utf-8"))
-        family, version = exact_site_license(story_id, site[f"stories/en/{story_id}/index.html"].decode("utf-8"))
+        source_bytes = source[matches[0]]
+        site_page_bytes = site[f"stories/en/{story_id}/index.html"]
+        record = markdown_record(story_id, source_bytes.decode("utf-8"))
+        family, version = exact_site_license(story_id, site_page_bytes.decode("utf-8"))
         if record["source_license"] == "CC-BY" and family == "by":
             record.update({
                 "document_id": f"storybooks-nigeria-en-{story_id}",
@@ -249,9 +262,13 @@ def main() -> None:
                 "source_markdown_url": f"https://github.com/global-asp/asp-source/blob/{SOURCE_COMMIT}/{matches[0]}",
                 "site_commit": SITE_COMMIT,
                 "source_commit": SOURCE_COMMIT,
+                "source_original_sha256": hashlib.sha256(source_bytes).hexdigest(),
+                "site_page_sha256": hashlib.sha256(site_page_bytes).hexdigest(),
                 "review_status": "pending_nigerian_teacher_and_safeguarding_review",
                 "approved_for_training": False,
                 "text_sha256": hashlib.sha256(record["text"].encode("utf-8")).hexdigest(),
+                "characters": len(record["text"]),
+                "words": len(re.findall(r"[^\W_]+(?:['’][^\W_]+)?", record["text"], re.UNICODE)),
             })
             accepted.append(record)
         else:
@@ -299,7 +316,9 @@ def main() -> None:
         "site_commit": SITE_COMMIT,
         "source_commit": SOURCE_COMMIT,
         "site_archive_sha256": hashlib.sha256(site_data).hexdigest(),
+        "site_archive_path": str(site_archive_path.relative_to(ROOT)),
         "source_archive_sha256": hashlib.sha256(source_data).hexdigest(),
+        "source_archive_path": str(source_archive_path.relative_to(ROOT)),
         "catalogue_items": len(story_ids),
         "staged_cc_by_items": len(accepted),
         "staged_licenses": dict(sorted(Counter(row["license"] for row in accepted).items())),

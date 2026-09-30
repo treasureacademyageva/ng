@@ -40,6 +40,26 @@ The pinned importer maintains four review packets:
 
 A qualified Nigerian primary teacher and the safeguarding lead must each review every story through its `source_url`. Nigerian Pidgin, Hausa and Yoruba additionally require the matching qualified-speaker decision in `language-source-review.csv`. All applicable decisions must be `APPROVED` before a story can be proposed for `sources.json`. A changed story hash resets preserved decisions when staging is rebuilt.
 
+## General candidate intake review
+
+`candidate-intake-review.csv` covers all exact item candidates, including the pinned Storybooks records and the new general-source tranche. Every row is bound to both `original_sha256` and `extracted_sha256`. The packet has five independent tracks:
+
+- licence/provenance review;
+- Nigerian primary-teacher curriculum/content review;
+- safeguarding/privacy review;
+- qualified-language review when applicable; and
+- final approval review.
+
+Generated decisions must remain `PENDING`. A prior decision is preserved only while both hashes still match. Quarantined rows must not be approved until their stated extraction, privacy, duplicate or quality issue is resolved and the item is restaged. Licence, teacher, safeguarding and any required language approval do not themselves change `sources.json`; final manifest promotion is a separate deliberate action.
+
+Rebuild staging evidence and validate the registry with:
+
+```bash
+python3 scripts/stage_open_candidates.py
+python3 scripts/audit_staged_storybooks.py
+python3 scripts/validate_candidate_registry.py
+```
+
 ## Nigerian-language source review
 
 `language-source-review.csv` covers Hausa (`ha`), Yoruba (`yo`), Igbo (`ig`), Ebira (`igb`) and Nigerian Pidgin (`pcm-NG`). A source may not become training-approved until its row is `APPROVED` by a qualified speaker using the exact role below:

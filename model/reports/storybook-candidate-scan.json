@@ -1,0 +1,1387 @@
+{
+  "version": 1,
+  "status": "SCANNED_STAGED_ONLY_NOT_TRAINING_APPROVED",
+  "items": 46,
+  "status_counts": {
+    "QUARANTINED": 4,
+    "STAGED_UNAPPROVED": 42
+  },
+  "privacy_warning_items": 0,
+  "quality_error_items": 1,
+  "leakage_blocked_items": 0,
+  "duplicate_items": 3,
+  "training_approved_items": 0,
+  "results": [
+    {
+      "id": "storybooks-nigeria-en-0001",
+      "status": "STAGED_UNAPPROVED",
+      "quality": {
+        "characters": 378,
+        "words": 79,
+        "replacement_characters": 0,
+        "control_characters": 0,
+        "alphanumeric_character_share": 0.7328042328042328,
+        "errors": []
+      },
+      "privacy": {
+        "status": "NO_PATTERN_DETECTED",
+        "warnings": []
+      },
+      "duplicates": {
+        "input_units": 11,
+        "kept_units": 11,
+        "removed_exact": 0,
+        "removed_near": 0,
+        "matches": []
+      },
+      "leakage": {
+        "method": "exact_normalized_12_word_shingles",
+        "shared_shingles": 0,
+        "samples": [],
+        "blocked": false
+      }
+    },
+    {
+      "id": "storybooks-nigeria-en-0004",
+      "status": "STAGED_UNAPPROVED",
+      "quality": {
+        "characters": 755,
+        "words": 148,
+        "replacement_characters": 0,
+        "control_characters": 0,
+        "alphanumeric_character_share": 0.7708609271523179,
+        "errors": []
+      },
+      "privacy": {
+        "status": "NO_PATTERN_DETECTED",
+        "warnings": []
+      },
+      "duplicates": {
+        "input_units": 8,
+        "kept_units": 8,
+        "removed_exact": 0,
+        "removed_near": 0,
+        "matches": []
+      },
+      "leakage": {
+        "method": "exact_normalized_12_word_shingles",
+        "shared_shingles": 0,
+        "samples": [],
+        "blocked": false
+      }
+    },
+    {
+      "id": "storybooks-nigeria-en-0006",
+      "status": "STAGED_UNAPPROVED",
+      "quality": {
+        "characters": 1405,
+        "words": 285,
+        "replacement_characters": 0,
+        "control_characters": 0,
+        "alphanumeric_character_share": 0.7601423487544484,
+        "errors": []
+      },
+      "privacy": {
+        "status": "NO_PATTERN_DETECTED",
+        "warnings": []
+      },
+      "duplicates": {
+        "input_units": 7,
+        "kept_units": 7,
+        "removed_exact": 0,
+        "removed_near": 0,
+        "matches": []
+      },
+      "leakage": {
+        "method": "exact_normalized_12_word_shingles",
+        "shared_shingles": 0,
+        "samples": [],
+        "blocked": false
+      }
+    },
+    {
+      "id": "storybooks-nigeria-en-0008",
+      "status": "STAGED_UNAPPROVED",
+      "quality": {
+        "characters": 138,
+        "words": 25,
+        "replacement_characters": 0,
+        "control_characters": 0,
+        "alphanumeric_character_share": 0.717391304347826,
+        "errors": []
+      },
+      "privacy": {
+        "status": "NO_PATTERN_DETECTED",
+        "warnings": []
+      },
+      "duplicates": {
+        "input_units": 1,
+        "kept_units": 1,
+        "removed_exact": 0,
+        "removed_near": 0,
+        "matches": []
+      },
+      "leakage": {
+        "method": "exact_normalized_12_word_shingles",
+        "shared_shingles": 0,
+        "samples": [],
+        "blocked": false
+      }
+    },
+    {
+      "id": "storybooks-nigeria-en-0027",
+      "status": "STAGED_UNAPPROVED",
+      "quality": {
+        "characters": 1038,
+        "words": 187,
+        "replacement_characters": 0,
+        "control_characters": 0,
+        "alphanumeric_character_share": 0.7687861271676301,
+        "errors": []
+      },
+      "privacy": {
+        "status": "NO_PATTERN_DETECTED",
+        "warnings": []
+      },
+      "duplicates": {
+        "input_units": 18,
+        "kept_units": 18,
+        "removed_exact": 0,
+        "removed_near": 0,
+        "matches": []
+      },
+      "leakage": {
+        "method": "exact_normalized_12_word_shingles",
+        "shared_shingles": 0,
+        "samples": [],
+        "blocked": false
+      }
+    },
+    {
+      "id": "storybooks-nigeria-en-0052",
+      "status": "STAGED_UNAPPROVED",
+      "quality": {
+        "characters": 4837,
+        "words": 863,
+        "replacement_characters": 0,
+        "control_characters": 0,
+        "alphanumeric_character_share": 0.7777548066983667,
+        "errors": []
+      },
+      "privacy": {
+        "status": "NO_PATTERN_DETECTED",
+        "warnings": []
+      },
+      "duplicates": {
+        "input_units": 16,
+        "kept_units": 16,
+        "removed_exact": 0,
+        "removed_near": 0,
+        "matches": []
+      },
+      "leakage": {
+        "method": "exact_normalized_12_word_shingles",
+        "shared_shingles": 0,
+        "samples": [],
+        "blocked": false
+      }
+    },
+    {
+      "id": "storybooks-nigeria-en-0066",
+      "status": "STAGED_UNAPPROVED",
+      "quality": {
+        "characters": 2007,
+        "words": 390,
+        "replacement_characters": 0,
+        "control_characters": 0,
+        "alphanumeric_character_share": 0.7438963627304435,
+        "errors": []
+      },
+      "privacy": {
+        "status": "NO_PATTERN_DETECTED",
+        "warnings": []
+      },
+      "duplicates": {
+        "input_units": 13,
+        "kept_units": 13,
+        "removed_exact": 0,
+        "removed_near": 0,
+        "matches": []
+      },
+      "leakage": {
+        "method": "exact_normalized_12_word_shingles",
+        "shared_shingles": 0,
+        "samples": [],
+        "blocked": false
+      }
+    },
+    {
+      "id": "storybooks-nigeria-en-0072",
+      "status": "STAGED_UNAPPROVED",
+      "quality": {
+        "characters": 3908,
+        "words": 716,
+        "replacement_characters": 0,
+        "control_characters": 0,
+        "alphanumeric_character_share": 0.776100307062436,
+        "errors": []
+      },
+      "privacy": {
+        "status": "NO_PATTERN_DETECTED",
+        "warnings": []
+      },
+      "duplicates": {
+        "input_units": 30,
+        "kept_units": 30,
+        "removed_exact": 0,
+        "removed_near": 0,
+        "matches": []
+      },
+      "leakage": {
+        "method": "exact_normalized_12_word_shingles",
+        "shared_shingles": 0,
+        "samples": [],
+        "blocked": false
+      }
+    },
+    {
+      "id": "storybooks-nigeria-en-0087",
+      "status": "STAGED_UNAPPROVED",
+      "quality": {
+        "characters": 213,
+        "words": 45,
+        "replacement_characters": 0,
+        "control_characters": 0,
+        "alphanumeric_character_share": 0.7183098591549296,
+        "errors": []
+      },
+      "privacy": {
+        "status": "NO_PATTERN_DETECTED",
+        "warnings": []
+      },
+      "duplicates": {
+        "input_units": 4,
+        "kept_units": 4,
+        "removed_exact": 0,
+        "removed_near": 0,
+        "matches": []
+      },
+      "leakage": {
+        "method": "exact_normalized_12_word_shingles",
+        "shared_shingles": 0,
+        "samples": [],
+        "blocked": false
+      }
+    },
+    {
+      "id": "storybooks-nigeria-en-0089",
+      "status": "STAGED_UNAPPROVED",
+      "quality": {
+        "characters": 903,
+        "words": 163,
+        "replacement_characters": 0,
+        "control_characters": 0,
+        "alphanumeric_character_share": 0.7574750830564784,
+        "errors": []
+      },
+      "privacy": {
+        "status": "NO_PATTERN_DETECTED",
+        "warnings": []
+      },
+      "duplicates": {
+        "input_units": 8,
+        "kept_units": 8,
+        "removed_exact": 0,
+        "removed_near": 0,
+        "matches": []
+      },
+      "leakage": {
+        "method": "exact_normalized_12_word_shingles",
+        "shared_shingles": 0,
+        "samples": [],
+        "blocked": false
+      }
+    },
+    {
+      "id": "storybooks-nigeria-en-0095",
+      "status": "STAGED_UNAPPROVED",
+      "quality": {
+        "characters": 635,
+        "words": 127,
+        "replacement_characters": 0,
+        "control_characters": 0,
+        "alphanumeric_character_share": 0.7244094488188977,
+        "errors": []
+      },
+      "privacy": {
+        "status": "NO_PATTERN_DETECTED",
+        "warnings": []
+      },
+      "duplicates": {
+        "input_units": 12,
+        "kept_units": 12,
+        "removed_exact": 0,
+        "removed_near": 0,
+        "matches": []
+      },
+      "leakage": {
+        "method": "exact_normalized_12_word_shingles",
+        "shared_shingles": 0,
+        "samples": [],
+        "blocked": false
+      }
+    },
+    {
+      "id": "storybooks-nigeria-en-0110",
+      "status": "STAGED_UNAPPROVED",
+      "quality": {
+        "characters": 2246,
+        "words": 412,
+        "replacement_characters": 0,
+        "control_characters": 0,
+        "alphanumeric_character_share": 0.7849510240427426,
+        "errors": []
+      },
+      "privacy": {
+        "status": "NO_PATTERN_DETECTED",
+        "warnings": []
+      },
+      "duplicates": {
+        "input_units": 16,
+        "kept_units": 16,
+        "removed_exact": 0,
+        "removed_near": 0,
+        "matches": []
+      },
+      "leakage": {
+        "method": "exact_normalized_12_word_shingles",
+        "shared_shingles": 0,
+        "samples": [],
+        "blocked": false
+      }
+    },
+    {
+      "id": "storybooks-nigeria-en-0111",
+      "status": "STAGED_UNAPPROVED",
+      "quality": {
+        "characters": 1134,
+        "words": 206,
+        "replacement_characters": 0,
+        "control_characters": 0,
+        "alphanumeric_character_share": 0.7495590828924162,
+        "errors": []
+      },
+      "privacy": {
+        "status": "NO_PATTERN_DETECTED",
+        "warnings": []
+      },
+      "duplicates": {
+        "input_units": 13,
+        "kept_units": 13,
+        "removed_exact": 0,
+        "removed_near": 0,
+        "matches": []
+      },
+      "leakage": {
+        "method": "exact_normalized_12_word_shingles",
+        "shared_shingles": 0,
+        "samples": [],
+        "blocked": false
+      }
+    },
+    {
+      "id": "storybooks-nigeria-en-0141",
+      "status": "STAGED_UNAPPROVED",
+      "quality": {
+        "characters": 1642,
+        "words": 269,
+        "replacement_characters": 0,
+        "control_characters": 0,
+        "alphanumeric_character_share": 0.7965895249695494,
+        "errors": []
+      },
+      "privacy": {
+        "status": "NO_PATTERN_DETECTED",
+        "warnings": []
+      },
+      "duplicates": {
+        "input_units": 14,
+        "kept_units": 14,
+        "removed_exact": 0,
+        "removed_near": 0,
+        "matches": []
+      },
+      "leakage": {
+        "method": "exact_normalized_12_word_shingles",
+        "shared_shingles": 0,
+        "samples": [],
+        "blocked": false
+      }
+    },
+    {
+      "id": "storybooks-nigeria-en-0156",
+      "status": "STAGED_UNAPPROVED",
+      "quality": {
+        "characters": 206,
+        "words": 36,
+        "replacement_characters": 0,
+        "control_characters": 0,
+        "alphanumeric_character_share": 0.7524271844660194,
+        "errors": []
+      },
+      "privacy": {
+        "status": "NO_PATTERN_DETECTED",
+        "warnings": []
+      },
+      "duplicates": {
+        "input_units": 5,
+        "kept_units": 5,
+        "removed_exact": 0,
+        "removed_near": 0,
+        "matches": []
+      },
+      "leakage": {
+        "method": "exact_normalized_12_word_shingles",
+        "shared_shingles": 0,
+        "samples": [],
+        "blocked": false
+      }
+    },
+    {
+      "id": "storybooks-nigeria-en-0158",
+      "status": "STAGED_UNAPPROVED",
+      "quality": {
+        "characters": 2062,
+        "words": 390,
+        "replacement_characters": 0,
+        "control_characters": 0,
+        "alphanumeric_character_share": 0.7681862269641125,
+        "errors": []
+      },
+      "privacy": {
+        "status": "NO_PATTERN_DETECTED",
+        "warnings": []
+      },
+      "duplicates": {
+        "input_units": 10,
+        "kept_units": 10,
+        "removed_exact": 0,
+        "removed_near": 0,
+        "matches": []
+      },
+      "leakage": {
+        "method": "exact_normalized_12_word_shingles",
+        "shared_shingles": 0,
+        "samples": [],
+        "blocked": false
+      }
+    },
+    {
+      "id": "storybooks-nigeria-en-0201",
+      "status": "STAGED_UNAPPROVED",
+      "quality": {
+        "characters": 2654,
+        "words": 487,
+        "replacement_characters": 0,
+        "control_characters": 0,
+        "alphanumeric_character_share": 0.7577241899020347,
+        "errors": []
+      },
+      "privacy": {
+        "status": "NO_PATTERN_DETECTED",
+        "warnings": []
+      },
+      "duplicates": {
+        "input_units": 35,
+        "kept_units": 35,
+        "removed_exact": 0,
+        "removed_near": 0,
+        "matches": []
+      },
+      "leakage": {
+        "method": "exact_normalized_12_word_shingles",
+        "shared_shingles": 0,
+        "samples": [],
+        "blocked": false
+      }
+    },
+    {
+      "id": "storybooks-nigeria-en-0210",
+      "status": "STAGED_UNAPPROVED",
+      "quality": {
+        "characters": 433,
+        "words": 79,
+        "replacement_characters": 0,
+        "control_characters": 0,
+        "alphanumeric_character_share": 0.766743648960739,
+        "errors": []
+      },
+      "privacy": {
+        "status": "NO_PATTERN_DETECTED",
+        "warnings": []
+      },
+      "duplicates": {
+        "input_units": 11,
+        "kept_units": 11,
+        "removed_exact": 0,
+        "removed_near": 0,
+        "matches": []
+      },
+      "leakage": {
+        "method": "exact_normalized_12_word_shingles",
+        "shared_shingles": 0,
+        "samples": [],
+        "blocked": false
+      }
+    },
+    {
+      "id": "storybooks-nigeria-en-0243",
+      "status": "STAGED_UNAPPROVED",
+      "quality": {
+        "characters": 3263,
+        "words": 573,
+        "replacement_characters": 0,
+        "control_characters": 0,
+        "alphanumeric_character_share": 0.788231688630095,
+        "errors": []
+      },
+      "privacy": {
+        "status": "NO_PATTERN_DETECTED",
+        "warnings": []
+      },
+      "duplicates": {
+        "input_units": 33,
+        "kept_units": 33,
+        "removed_exact": 0,
+        "removed_near": 0,
+        "matches": []
+      },
+      "leakage": {
+        "method": "exact_normalized_12_word_shingles",
+        "shared_shingles": 0,
+        "samples": [],
+        "blocked": false
+      }
+    },
+    {
+      "id": "storybooks-nigeria-en-0262",
+      "status": "QUARANTINED",
+      "quality": {
+        "characters": 4460,
+        "words": 836,
+        "replacement_characters": 0,
+        "control_characters": 0,
+        "alphanumeric_character_share": 0.7670403587443946,
+        "errors": []
+      },
+      "privacy": {
+        "status": "NO_PATTERN_DETECTED",
+        "warnings": []
+      },
+      "duplicates": {
+        "input_units": 40,
+        "kept_units": 38,
+        "removed_exact": 2,
+        "removed_near": 0,
+        "matches": [
+          {
+            "duplicate_id": "storybooks-nigeria-en-0262:37",
+            "kept_id": "storybooks-nigeria-en-0262:20",
+            "kind": "exact",
+            "similarity": 1.0,
+            "duplicate_words": 7,
+            "kept_words": 7
+          },
+          {
+            "duplicate_id": "storybooks-nigeria-en-0262:39",
+            "kept_id": "storybooks-nigeria-en-0262:22",
+            "kind": "exact",
+            "similarity": 1.0,
+            "duplicate_words": 6,
+            "kept_words": 6
+          }
+        ]
+      },
+      "leakage": {
+        "method": "exact_normalized_12_word_shingles",
+        "shared_shingles": 0,
+        "samples": [],
+        "blocked": false
+      }
+    },
+    {
+      "id": "storybooks-nigeria-en-0291",
+      "status": "STAGED_UNAPPROVED",
+      "quality": {
+        "characters": 2594,
+        "words": 503,
+        "replacement_characters": 0,
+        "control_characters": 0,
+        "alphanumeric_character_share": 0.7552043176561295,
+        "errors": []
+      },
+      "privacy": {
+        "status": "NO_PATTERN_DETECTED",
+        "warnings": []
+      },
+      "duplicates": {
+        "input_units": 13,
+        "kept_units": 13,
+        "removed_exact": 0,
+        "removed_near": 0,
+        "matches": []
+      },
+      "leakage": {
+        "method": "exact_normalized_12_word_shingles",
+        "shared_shingles": 0,
+        "samples": [],
+        "blocked": false
+      }
+    },
+    {
+      "id": "storybooks-nigeria-en-0294",
+      "status": "STAGED_UNAPPROVED",
+      "quality": {
+        "characters": 2863,
+        "words": 528,
+        "replacement_characters": 0,
+        "control_characters": 0,
+        "alphanumeric_character_share": 0.7670275934334614,
+        "errors": []
+      },
+      "privacy": {
+        "status": "NO_PATTERN_DETECTED",
+        "warnings": []
+      },
+      "duplicates": {
+        "input_units": 26,
+        "kept_units": 26,
+        "removed_exact": 0,
+        "removed_near": 0,
+        "matches": []
+      },
+      "leakage": {
+        "method": "exact_normalized_12_word_shingles",
+        "shared_shingles": 0,
+        "samples": [],
+        "blocked": false
+      }
+    },
+    {
+      "id": "storybooks-nigeria-en-0296",
+      "status": "STAGED_UNAPPROVED",
+      "quality": {
+        "characters": 745,
+        "words": 140,
+        "replacement_characters": 0,
+        "control_characters": 0,
+        "alphanumeric_character_share": 0.7409395973154362,
+        "errors": []
+      },
+      "privacy": {
+        "status": "NO_PATTERN_DETECTED",
+        "warnings": []
+      },
+      "duplicates": {
+        "input_units": 19,
+        "kept_units": 19,
+        "removed_exact": 0,
+        "removed_near": 0,
+        "matches": []
+      },
+      "leakage": {
+        "method": "exact_normalized_12_word_shingles",
+        "shared_shingles": 0,
+        "samples": [],
+        "blocked": false
+      }
+    },
+    {
+      "id": "storybooks-nigeria-en-0302",
+      "status": "STAGED_UNAPPROVED",
+      "quality": {
+        "characters": 130,
+        "words": 21,
+        "replacement_characters": 0,
+        "control_characters": 0,
+        "alphanumeric_character_share": 0.7153846153846154,
+        "errors": []
+      },
+      "privacy": {
+        "status": "NO_PATTERN_DETECTED",
+        "warnings": []
+      },
+      "duplicates": {
+        "input_units": 1,
+        "kept_units": 1,
+        "removed_exact": 0,
+        "removed_near": 0,
+        "matches": []
+      },
+      "leakage": {
+        "method": "exact_normalized_12_word_shingles",
+        "shared_shingles": 0,
+        "samples": [],
+        "blocked": false
+      }
+    },
+    {
+      "id": "storybooks-nigeria-en-0315",
+      "status": "STAGED_UNAPPROVED",
+      "quality": {
+        "characters": 2505,
+        "words": 458,
+        "replacement_characters": 0,
+        "control_characters": 0,
+        "alphanumeric_character_share": 0.7636726546906187,
+        "errors": []
+      },
+      "privacy": {
+        "status": "NO_PATTERN_DETECTED",
+        "warnings": []
+      },
+      "duplicates": {
+        "input_units": 41,
+        "kept_units": 41,
+        "removed_exact": 0,
+        "removed_near": 0,
+        "matches": []
+      },
+      "leakage": {
+        "method": "exact_normalized_12_word_shingles",
+        "shared_shingles": 0,
+        "samples": [],
+        "blocked": false
+      }
+    },
+    {
+      "id": "storybooks-nigeria-en-0324",
+      "status": "STAGED_UNAPPROVED",
+      "quality": {
+        "characters": 2350,
+        "words": 442,
+        "replacement_characters": 0,
+        "control_characters": 0,
+        "alphanumeric_character_share": 0.7804255319148936,
+        "errors": []
+      },
+      "privacy": {
+        "status": "NO_PATTERN_DETECTED",
+        "warnings": []
+      },
+      "duplicates": {
+        "input_units": 16,
+        "kept_units": 16,
+        "removed_exact": 0,
+        "removed_near": 0,
+        "matches": []
+      },
+      "leakage": {
+        "method": "exact_normalized_12_word_shingles",
+        "shared_shingles": 0,
+        "samples": [],
+        "blocked": false
+      }
+    },
+    {
+      "id": "storybooks-nigeria-en-0327",
+      "status": "STAGED_UNAPPROVED",
+      "quality": {
+        "characters": 406,
+        "words": 74,
+        "replacement_characters": 0,
+        "control_characters": 0,
+        "alphanumeric_character_share": 0.7783251231527094,
+        "errors": []
+      },
+      "privacy": {
+        "status": "NO_PATTERN_DETECTED",
+        "warnings": []
+      },
+      "duplicates": {
+        "input_units": 8,
+        "kept_units": 8,
+        "removed_exact": 0,
+        "removed_near": 0,
+        "matches": []
+      },
+      "leakage": {
+        "method": "exact_normalized_12_word_shingles",
+        "shared_shingles": 0,
+        "samples": [],
+        "blocked": false
+      }
+    },
+    {
+      "id": "storybooks-nigeria-en-0337",
+      "status": "STAGED_UNAPPROVED",
+      "quality": {
+        "characters": 684,
+        "words": 135,
+        "replacement_characters": 0,
+        "control_characters": 0,
+        "alphanumeric_character_share": 0.7587719298245614,
+        "errors": []
+      },
+      "privacy": {
+        "status": "NO_PATTERN_DETECTED",
+        "warnings": []
+      },
+      "duplicates": {
+        "input_units": 12,
+        "kept_units": 12,
+        "removed_exact": 0,
+        "removed_near": 0,
+        "matches": []
+      },
+      "leakage": {
+        "method": "exact_normalized_12_word_shingles",
+        "shared_shingles": 0,
+        "samples": [],
+        "blocked": false
+      }
+    },
+    {
+      "id": "storybooks-nigeria-en-0342",
+      "status": "STAGED_UNAPPROVED",
+      "quality": {
+        "characters": 708,
+        "words": 131,
+        "replacement_characters": 0,
+        "control_characters": 0,
+        "alphanumeric_character_share": 0.7288135593220338,
+        "errors": []
+      },
+      "privacy": {
+        "status": "NO_PATTERN_DETECTED",
+        "warnings": []
+      },
+      "duplicates": {
+        "input_units": 15,
+        "kept_units": 15,
+        "removed_exact": 0,
+        "removed_near": 0,
+        "matches": []
+      },
+      "leakage": {
+        "method": "exact_normalized_12_word_shingles",
+        "shared_shingles": 0,
+        "samples": [],
+        "blocked": false
+      }
+    },
+    {
+      "id": "storybooks-nigeria-pcm-0001",
+      "status": "STAGED_UNAPPROVED",
+      "quality": {
+        "characters": 388,
+        "words": 84,
+        "replacement_characters": 0,
+        "control_characters": 0,
+        "alphanumeric_character_share": 0.7268041237113402,
+        "errors": []
+      },
+      "privacy": {
+        "status": "NO_PATTERN_DETECTED",
+        "warnings": []
+      },
+      "duplicates": {
+        "input_units": 9,
+        "kept_units": 9,
+        "removed_exact": 0,
+        "removed_near": 0,
+        "matches": []
+      },
+      "leakage": {
+        "method": "exact_normalized_12_word_shingles",
+        "shared_shingles": 0,
+        "samples": [],
+        "blocked": false
+      }
+    },
+    {
+      "id": "storybooks-nigeria-pcm-0004",
+      "status": "STAGED_UNAPPROVED",
+      "quality": {
+        "characters": 636,
+        "words": 143,
+        "replacement_characters": 0,
+        "control_characters": 0,
+        "alphanumeric_character_share": 0.7452830188679245,
+        "errors": []
+      },
+      "privacy": {
+        "status": "NO_PATTERN_DETECTED",
+        "warnings": []
+      },
+      "duplicates": {
+        "input_units": 8,
+        "kept_units": 8,
+        "removed_exact": 0,
+        "removed_near": 0,
+        "matches": []
+      },
+      "leakage": {
+        "method": "exact_normalized_12_word_shingles",
+        "shared_shingles": 0,
+        "samples": [],
+        "blocked": false
+      }
+    },
+    {
+      "id": "storybooks-nigeria-pcm-0066",
+      "status": "STAGED_UNAPPROVED",
+      "quality": {
+        "characters": 1864,
+        "words": 409,
+        "replacement_characters": 0,
+        "control_characters": 0,
+        "alphanumeric_character_share": 0.726931330472103,
+        "errors": []
+      },
+      "privacy": {
+        "status": "NO_PATTERN_DETECTED",
+        "warnings": []
+      },
+      "duplicates": {
+        "input_units": 13,
+        "kept_units": 13,
+        "removed_exact": 0,
+        "removed_near": 0,
+        "matches": []
+      },
+      "leakage": {
+        "method": "exact_normalized_12_word_shingles",
+        "shared_shingles": 0,
+        "samples": [],
+        "blocked": false
+      }
+    },
+    {
+      "id": "storybooks-nigeria-pcm-0089",
+      "status": "STAGED_UNAPPROVED",
+      "quality": {
+        "characters": 1011,
+        "words": 201,
+        "replacement_characters": 0,
+        "control_characters": 0,
+        "alphanumeric_character_share": 0.7497527200791295,
+        "errors": []
+      },
+      "privacy": {
+        "status": "NO_PATTERN_DETECTED",
+        "warnings": []
+      },
+      "duplicates": {
+        "input_units": 8,
+        "kept_units": 8,
+        "removed_exact": 0,
+        "removed_near": 0,
+        "matches": []
+      },
+      "leakage": {
+        "method": "exact_normalized_12_word_shingles",
+        "shared_shingles": 0,
+        "samples": [],
+        "blocked": false
+      }
+    },
+    {
+      "id": "storybooks-nigeria-pcm-0095",
+      "status": "STAGED_UNAPPROVED",
+      "quality": {
+        "characters": 663,
+        "words": 143,
+        "replacement_characters": 0,
+        "control_characters": 0,
+        "alphanumeric_character_share": 0.7420814479638009,
+        "errors": []
+      },
+      "privacy": {
+        "status": "NO_PATTERN_DETECTED",
+        "warnings": []
+      },
+      "duplicates": {
+        "input_units": 12,
+        "kept_units": 12,
+        "removed_exact": 0,
+        "removed_near": 0,
+        "matches": []
+      },
+      "leakage": {
+        "method": "exact_normalized_12_word_shingles",
+        "shared_shingles": 0,
+        "samples": [],
+        "blocked": false
+      }
+    },
+    {
+      "id": "storybooks-nigeria-pcm-0210",
+      "status": "STAGED_UNAPPROVED",
+      "quality": {
+        "characters": 392,
+        "words": 77,
+        "replacement_characters": 0,
+        "control_characters": 0,
+        "alphanumeric_character_share": 0.7474489795918368,
+        "errors": []
+      },
+      "privacy": {
+        "status": "NO_PATTERN_DETECTED",
+        "warnings": []
+      },
+      "duplicates": {
+        "input_units": 11,
+        "kept_units": 11,
+        "removed_exact": 0,
+        "removed_near": 0,
+        "matches": []
+      },
+      "leakage": {
+        "method": "exact_normalized_12_word_shingles",
+        "shared_shingles": 0,
+        "samples": [],
+        "blocked": false
+      }
+    },
+    {
+      "id": "storybooks-nigeria-pcm-0327",
+      "status": "STAGED_UNAPPROVED",
+      "quality": {
+        "characters": 362,
+        "words": 69,
+        "replacement_characters": 0,
+        "control_characters": 0,
+        "alphanumeric_character_share": 0.7651933701657458,
+        "errors": []
+      },
+      "privacy": {
+        "status": "NO_PATTERN_DETECTED",
+        "warnings": []
+      },
+      "duplicates": {
+        "input_units": 8,
+        "kept_units": 8,
+        "removed_exact": 0,
+        "removed_near": 0,
+        "matches": []
+      },
+      "leakage": {
+        "method": "exact_normalized_12_word_shingles",
+        "shared_shingles": 0,
+        "samples": [],
+        "blocked": false
+      }
+    },
+    {
+      "id": "storybooks-nigeria-ha-0001",
+      "status": "STAGED_UNAPPROVED",
+      "quality": {
+        "characters": 400,
+        "words": 72,
+        "replacement_characters": 0,
+        "control_characters": 0,
+        "alphanumeric_character_share": 0.7725,
+        "errors": []
+      },
+      "privacy": {
+        "status": "NO_PATTERN_DETECTED",
+        "warnings": []
+      },
+      "duplicates": {
+        "input_units": 11,
+        "kept_units": 11,
+        "removed_exact": 0,
+        "removed_near": 0,
+        "matches": []
+      },
+      "leakage": {
+        "method": "exact_normalized_12_word_shingles",
+        "shared_shingles": 0,
+        "samples": [],
+        "blocked": false
+      }
+    },
+    {
+      "id": "storybooks-nigeria-ha-0087",
+      "status": "QUARANTINED",
+      "quality": {
+        "characters": 259,
+        "words": 44,
+        "replacement_characters": 0,
+        "control_characters": 0,
+        "alphanumeric_character_share": 0.7644787644787645,
+        "errors": []
+      },
+      "privacy": {
+        "status": "NO_PATTERN_DETECTED",
+        "warnings": []
+      },
+      "duplicates": {
+        "input_units": 6,
+        "kept_units": 5,
+        "removed_exact": 1,
+        "removed_near": 0,
+        "matches": [
+          {
+            "duplicate_id": "storybooks-nigeria-ha-0087:4",
+            "kept_id": "storybooks-nigeria-ha-0087:2",
+            "kind": "exact",
+            "similarity": 1.0,
+            "duplicate_words": 5,
+            "kept_words": 5
+          }
+        ]
+      },
+      "leakage": {
+        "method": "exact_normalized_12_word_shingles",
+        "shared_shingles": 0,
+        "samples": [],
+        "blocked": false
+      }
+    },
+    {
+      "id": "storybooks-nigeria-ha-0110",
+      "status": "STAGED_UNAPPROVED",
+      "quality": {
+        "characters": 1828,
+        "words": 335,
+        "replacement_characters": 0,
+        "control_characters": 0,
+        "alphanumeric_character_share": 0.787746170678337,
+        "errors": []
+      },
+      "privacy": {
+        "status": "NO_PATTERN_DETECTED",
+        "warnings": []
+      },
+      "duplicates": {
+        "input_units": 12,
+        "kept_units": 12,
+        "removed_exact": 0,
+        "removed_near": 0,
+        "matches": []
+      },
+      "leakage": {
+        "method": "exact_normalized_12_word_shingles",
+        "shared_shingles": 0,
+        "samples": [],
+        "blocked": false
+      }
+    },
+    {
+      "id": "storybooks-nigeria-ha-0327",
+      "status": "STAGED_UNAPPROVED",
+      "quality": {
+        "characters": 375,
+        "words": 71,
+        "replacement_characters": 0,
+        "control_characters": 0,
+        "alphanumeric_character_share": 0.7866666666666666,
+        "errors": []
+      },
+      "privacy": {
+        "status": "NO_PATTERN_DETECTED",
+        "warnings": []
+      },
+      "duplicates": {
+        "input_units": 8,
+        "kept_units": 8,
+        "removed_exact": 0,
+        "removed_near": 0,
+        "matches": []
+      },
+      "leakage": {
+        "method": "exact_normalized_12_word_shingles",
+        "shared_shingles": 0,
+        "samples": [],
+        "blocked": false
+      }
+    },
+    {
+      "id": "storybooks-nigeria-yo-0001",
+      "status": "STAGED_UNAPPROVED",
+      "quality": {
+        "characters": 354,
+        "words": 83,
+        "replacement_characters": 0,
+        "control_characters": 0,
+        "alphanumeric_character_share": 0.6610169491525424,
+        "errors": []
+      },
+      "privacy": {
+        "status": "NO_PATTERN_DETECTED",
+        "warnings": []
+      },
+      "duplicates": {
+        "input_units": 7,
+        "kept_units": 7,
+        "removed_exact": 0,
+        "removed_near": 0,
+        "matches": []
+      },
+      "leakage": {
+        "method": "exact_normalized_12_word_shingles",
+        "shared_shingles": 0,
+        "samples": [],
+        "blocked": false
+      }
+    },
+    {
+      "id": "storybooks-nigeria-yo-0087",
+      "status": "QUARANTINED",
+      "quality": {
+        "characters": 281,
+        "words": 80,
+        "replacement_characters": 0,
+        "control_characters": 0,
+        "alphanumeric_character_share": 0.5622775800711743,
+        "errors": []
+      },
+      "privacy": {
+        "status": "NO_PATTERN_DETECTED",
+        "warnings": []
+      },
+      "duplicates": {
+        "input_units": 7,
+        "kept_units": 6,
+        "removed_exact": 1,
+        "removed_near": 0,
+        "matches": [
+          {
+            "duplicate_id": "storybooks-nigeria-yo-0087:5",
+            "kept_id": "storybooks-nigeria-yo-0087:3",
+            "kind": "exact",
+            "similarity": 1.0,
+            "duplicate_words": 7,
+            "kept_words": 7
+          }
+        ]
+      },
+      "leakage": {
+        "method": "exact_normalized_12_word_shingles",
+        "shared_shingles": 0,
+        "samples": [],
+        "blocked": false
+      }
+    },
+    {
+      "id": "storybooks-nigeria-yo-0110",
+      "status": "STAGED_UNAPPROVED",
+      "quality": {
+        "characters": 2089,
+        "words": 494,
+        "replacement_characters": 0,
+        "control_characters": 0,
+        "alphanumeric_character_share": 0.7103877453326951,
+        "errors": []
+      },
+      "privacy": {
+        "status": "NO_PATTERN_DETECTED",
+        "warnings": []
+      },
+      "duplicates": {
+        "input_units": 12,
+        "kept_units": 12,
+        "removed_exact": 0,
+        "removed_near": 0,
+        "matches": []
+      },
+      "leakage": {
+        "method": "exact_normalized_12_word_shingles",
+        "shared_shingles": 0,
+        "samples": [],
+        "blocked": false
+      }
+    },
+    {
+      "id": "storybooks-nigeria-yo-0141",
+      "status": "STAGED_UNAPPROVED",
+      "quality": {
+        "characters": 343,
+        "words": 90,
+        "replacement_characters": 0,
+        "control_characters": 0,
+        "alphanumeric_character_share": 0.6472303206997084,
+        "errors": []
+      },
+      "privacy": {
+        "status": "NO_PATTERN_DETECTED",
+        "warnings": []
+      },
+      "duplicates": {
+        "input_units": 9,
+        "kept_units": 9,
+        "removed_exact": 0,
+        "removed_near": 0,
+        "matches": []
+      },
+      "leakage": {
+        "method": "exact_normalized_12_word_shingles",
+        "shared_shingles": 0,
+        "samples": [],
+        "blocked": false
+      }
+    },
+    {
+      "id": "storybooks-nigeria-yo-0302",
+      "status": "QUARANTINED",
+      "quality": {
+        "characters": 108,
+        "words": 23,
+        "replacement_characters": 0,
+        "control_characters": 0,
+        "alphanumeric_character_share": 0.6481481481481481,
+        "errors": [
+          "extracted text is too short"
+        ]
+      },
+      "privacy": {
+        "status": "NO_PATTERN_DETECTED",
+        "warnings": []
+      },
+      "duplicates": {
+        "input_units": 1,
+        "kept_units": 1,
+        "removed_exact": 0,
+        "removed_near": 0,
+        "matches": []
+      },
+      "leakage": {
+        "method": "exact_normalized_12_word_shingles",
+        "shared_shingles": 0,
+        "samples": [],
+        "blocked": false
+      }
+    },
+    {
+      "id": "storybooks-nigeria-yo-0327",
+      "status": "STAGED_UNAPPROVED",
+      "quality": {
+        "characters": 322,
+        "words": 78,
+        "replacement_characters": 0,
+        "control_characters": 0,
+        "alphanumeric_character_share": 0.6956521739130435,
+        "errors": []
+      },
+      "privacy": {
+        "status": "NO_PATTERN_DETECTED",
+        "warnings": []
+      },
+      "duplicates": {
+        "input_units": 8,
+        "kept_units": 8,
+        "removed_exact": 0,
+        "removed_near": 0,
+        "matches": []
+      },
+      "leakage": {
+        "method": "exact_normalized_12_word_shingles",
+        "shared_shingles": 0,
+        "samples": [],
+        "blocked": false
+      }
+    }
+  ]
+}

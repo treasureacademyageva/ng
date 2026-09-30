@@ -8,7 +8,8 @@ Every corpus item must have a matching record in `sources.json` with source URL,
 - `staging/`: reproducible candidate extractions, original drafts and duplicate-audit reports awaiting rights/content/human gates; gitignored and never read by training preparation.
 - `authoring/`: committed topic briefs and rules for original school-owned/licensed content; plans are not training data.
 - `reviews/`: committed human-review packets and qualified-language review records; pending is valid, but only complete named approvals can pass the readiness gate.
-- `source-candidates.json`: researched intake queue; never grants training approval.
+- `source-candidates.json`: preserved collection research plus exact item-level identity, provenance, hashes, scans and statuses; never grants training approval.
+- `candidate-intake-policy.json`: exact-URL, host, redirect, size, timeout, MIME, licence, classification, quality and privacy rules for general staging.
 - `readiness-policy.json`: machine-readable corpus, balance, review and benchmark gates.
 - `pretraining/`: deterministic train/validation token files; gitignored.
 - `instruction/`: reviewed conversation JSONL; private records prohibited.

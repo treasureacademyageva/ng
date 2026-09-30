@@ -49,6 +49,22 @@ The reproducible `scripts/stage_storybooks_nigeria.py` importer pins both upstre
 
 The total is **46 staged stories and 58,977 characters**, all with `approved_for_training: false`. English items still need teacher and safeguarding review. Nigerian Pidgin, Hausa and Yoruba also require their qualified-speaker review. These collections do **not** by themselves satisfy the Nigerian-authored stories or Nigerian English composition requirements.
 
+## Exact-item expansion tranche
+
+The registry now preserves the original 10 collection-level research candidates and adds 54 exact item records: the 46 pinned Storybooks items plus eight new exact sources for geography/social studies/civics, computer studies, primary mathematics, English composition/reading and African children’s stories. Every record carries complete identity, provenance, evidence-bound context, language/level, canonical primary and secondary subjects, licence evidence, attribution, statuses, hashes, metrics, privacy/quality findings and duplicate results.
+
+The safe general stager acquired all eight new items. It staged seven and quarantined the Grade 6 mathematics OCR extraction for a phone-like sequence requiring human inspection. The cross-source story scan staged 42 and quarantined four for repeated units or minimum-length failure. Combined current state:
+
+- 49 staged-unapproved items: 720,359 characters, 137,395 words and 180,624 estimated BPE tokens;
+- 5 quarantined items: 183,943 characters, 34,758 words and 46,186 estimated BPE tokens;
+- 54 hash-bound candidate review rows, all decisions pending;
+- 0 candidate items approved for training; and
+- 0 held-out leakage findings, with protected benchmark hashes unchanged.
+
+The approved before/after distribution is unchanged at 1,903,726 characters and 461,013 training BPE tokens. Staged or quarantined material earns no approved progress. See `CORPUS-EXPANSION-REPORT.md` and `reports/corpus-expansion-audit.json`.
+
+The weighted approved-policy completion is **15.31%**. Experimental intake-pipeline readiness is **100.00%**, meaning only that the requested staging controls are implemented and evidenced; it is not corpus readiness, model quality or training authorisation.
+
 ## Duplicate and cleaning audit
 
 `scripts/audit_duplicates.py` now performs deterministic exact matching plus high-overlap five-word-shingle screening. The first audit scanned **13,471 document units and 374,632 words** across the current approved corpus and all 46 staged stories. It found **727 exact and 1 near duplicate**, all inside the already-approved baseline corpus. No staged story overlapped the current corpus or another staged story.

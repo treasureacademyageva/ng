@@ -1,0 +1,543 @@
+{
+  "policy_version": 1,
+  "characters": 1903726,
+  "bpe_tokens": 484586,
+  "train_bpe_tokens": 461013,
+  "minimum_train_bpe_tokens": 10000000,
+  "parameters": 13980672,
+  "train_tokens_per_parameter": 0.032975024376510655,
+  "subjects_characters": {
+    "foundations": 337999,
+    "literature": 144639,
+    "stories_and_morals": 205382,
+    "reading": 128441,
+    "African_story": 489,
+    "natural_sciences_and_technology": 1086536
+  },
+  "largest_subject": {
+    "name": "natural_sciences_and_technology",
+    "share": 0.5707417979268025
+  },
+  "science_share": 0.5707417979268025,
+  "nigerian_context_share": 0.17780289810613503,
+  "coverage_characters": {},
+  "missing_required_coverage": [
+    "nigerian_primary_mathematics",
+    "nigerian_english_reading_composition",
+    "licensed_nigerian_stories",
+    "nigerian_social_studies",
+    "civic_education",
+    "local_geography",
+    "age_appropriate_computer_studies"
+  ],
+  "deduplication": {
+    "observed": "exact_document_units_only",
+    "required": "exact_and_near_duplicate_document_units"
+  },
+  "authoring_plan": {
+    "queue": "data/authoring/primary-math-english-briefs.csv",
+    "briefs": 96,
+    "subjects": {
+      "mathematics": 48,
+      "english": 48
+    },
+    "statuses": {
+      "ASSIGNED": 96
+    },
+    "pilot_manifest": "data/authoring/pilot-balanced-v1-review.csv",
+    "pilot_samples": 96,
+    "pilot_draft_statuses": {
+      "NOT_STARTED": 96
+    },
+    "pilot_teacher_decisions": {
+      "PENDING": 96
+    },
+    "pilot_safeguarding_decisions": {
+      "PENDING": 96
+    },
+    "training_approved_documents": 0,
+    "napps_alignment": {
+      "rows": 328,
+      "class_subject_term_combinations": 36,
+      "new_national_structure_crosscheck": "ALIGNED_AT_STRUCTURE_AND_PEDAGOGY_LEVEL",
+      "owner_authorized_for_original_authoring": true,
+      "official_napps_issued_copy_verified": false,
+      "training_eligible_rows": 0
+    }
+  },
+  "human_review": {
+    "evaluation_teacher": {
+      "PENDING": 240
+    },
+    "evaluation_safeguarding": {
+      "PENDING": 240
+    },
+    "staged_story_collections": {
+      "storybooks-nigeria-english-cc-by": {
+        "language": "en",
+        "teacher": {
+          "PENDING": 29
+        },
+        "safeguarding": {
+          "PENDING": 29
+        }
+      },
+      "storybooks-nigeria-pidgin": {
+        "language": "pcm-NG",
+        "teacher": {
+          "PENDING": 7
+        },
+        "safeguarding": {
+          "PENDING": 7
+        }
+      },
+      "storybooks-nigeria-hausa-cc-by": {
+        "language": "ha",
+        "teacher": {
+          "PENDING": 4
+        },
+        "safeguarding": {
+          "PENDING": 4
+        }
+      },
+      "storybooks-nigeria-yoruba-cc-by": {
+        "language": "yo",
+        "teacher": {
+          "PENDING": 6
+        },
+        "safeguarding": {
+          "PENDING": 6
+        }
+      }
+    },
+    "candidate_item_decisions": {
+      "licence_decision": {
+        "PENDING": 54
+      },
+      "teacher_decision": {
+        "PENDING": 54
+      },
+      "safeguarding_decision": {
+        "PENDING": 54
+      },
+      "language_decision": {
+        "PENDING": 54
+      },
+      "approval_decision": {
+        "PENDING": 54
+      }
+    }
+  },
+  "candidate_corpus_states": {
+    "approved": {
+      "scope": "approved baseline only; candidate registry never contributes here",
+      "items": 9,
+      "characters": 1903726,
+      "bpe_tokens": 484586,
+      "train_bpe_tokens": 461013,
+      "subjects_characters": {
+        "foundations": 337999,
+        "literature": 144639,
+        "stories_and_morals": 205382,
+        "reading": 128441,
+        "African_story": 489,
+        "natural_sciences_and_technology": 1086536
+      },
+      "languages_characters": {
+        "en-NG": 338488,
+        "en": 478462,
+        "en-ZA": 1086536
+      },
+      "nigerian_context_characters": 338488
+    },
+    "staged_unapproved": {
+      "items": 49,
+      "characters": 720359,
+      "words": 137395,
+      "estimated_bpe_tokens": 180624,
+      "subjects_characters": {
+        "age_appropriate_computer_studies": 7491,
+        "english_reading_composition": 365827,
+        "local_geography": 1879,
+        "nigerian_context_childrens_stories": 54325,
+        "primary_mathematics": 290837
+      },
+      "contexts_characters": {
+        "african": 333679,
+        "global": 373318,
+        "nigerian": 12906,
+        "uncertain": 456
+      },
+      "languages_characters": {
+        "en": 418495,
+        "en-ZA": 290837,
+        "ha": 2603,
+        "pcm-NG": 5316,
+        "yo": 3108
+      }
+    },
+    "quarantined": {
+      "items": 5,
+      "characters": 183943,
+      "words": 34758,
+      "estimated_bpe_tokens": 46186,
+      "subjects_characters": {
+        "nigerian_context_childrens_stories": 5108,
+        "primary_mathematics": 178835
+      },
+      "contexts_characters": {
+        "african": 183295,
+        "nigerian": 648
+      },
+      "languages_characters": {
+        "en": 4460,
+        "en-ZA": 178835,
+        "ha": 259,
+        "yo": 389
+      }
+    },
+    "rejected": {
+      "subjects_characters": {},
+      "contexts_characters": {},
+      "languages_characters": {}
+    },
+    "research_collections": {
+      "items": 10,
+      "intake_statuses": {
+        "ALIGNMENT_ONLY": 2,
+        "AWAITING_OWNER_AND_TEACHER_WORK": 1,
+        "OUT_OF_PRIMARY_SCOPE": 1,
+        "RESEARCH": 2,
+        "STAGED_FOR_LANGUAGE_AND_CONTENT_REVIEW": 3,
+        "STAGED_FOR_REVIEW": 1
+      },
+      "license_statuses": {
+        "NO_AFFIRMATIVE_TRAINING_LICENCE": 2,
+        "OWNER_CONFIRMATION_REQUIRED": 1,
+        "VERIFIED_COLLECTION_OPTIONS": 1,
+        "VERIFIED_PER_ITEM": 4,
+        "VERIFY_PER_ITEM": 2
+      }
+    },
+    "before_after_note": "The approved-before and approved-after distributions are identical because no staged candidate is approved. Candidate distributions are shown separately and must not be added to approved progress.",
+    "approved_characters_before": 1903726,
+    "approved_characters_after": 1903726,
+    "approved_train_bpe_tokens_before": 461013,
+    "approved_train_bpe_tokens_after": 461013
+  },
+  "candidate_controls": {
+    "items": 54,
+    "review_rows": 54,
+    "quarantined_items": 5,
+    "privacy_warnings": 1,
+    "heldout_leakage_blocks": 0,
+    "conditional_licence_items": [
+      "wikijunior-africa-nigeria-r4416499",
+      "wikijunior-how-computers-work-r4055667",
+      "gutenberg-beginners-language-41288",
+      "gutenberg-mcguffey-third-14766"
+    ],
+    "benchmark_files_unchanged": true,
+    "training_approved_items": 0
+  },
+  "weighted_completion": {
+    "official_policy_completion_percentage": 15.31,
+    "official_scope": "Approved-corpus and long-run gates only. Staged, quarantined and rejected material earns zero official corpus points.",
+    "official_components": [
+      {
+        "name": "approved_deduplicated_training_token_volume",
+        "weight": 30,
+        "fraction_met": 0.0461013,
+        "points_awarded": 1.383039,
+        "evidence": "461,013/10,000,000 approved BPE training tokens"
+      },
+      {
+        "name": "approved_subject_balance",
+        "weight": 10,
+        "fraction_met": 0.0,
+        "points_awarded": 0.0,
+        "evidence": "largest subject 57.1%; science 57.1%; maximum 35%"
+      },
+      {
+        "name": "approved_nigerian_context",
+        "weight": 10,
+        "fraction_met": 0.5926763270204501,
+        "points_awarded": 5.926763270204502,
+        "evidence": "17.8% approved Nigerian-context characters; target 30%"
+      },
+      {
+        "name": "approved_required_coverage",
+        "weight": 14,
+        "fraction_met": 0.0,
+        "points_awarded": 0.0,
+        "evidence": "0/7 required tags have approved characters"
+      },
+      {
+        "name": "approved_corpus_deduplication",
+        "weight": 8,
+        "fraction_met": 0.0,
+        "points_awarded": 0.0,
+        "evidence": "observed exact_document_units_only; required exact_and_near_duplicate_document_units"
+      },
+      {
+        "name": "approved_source_provenance_and_licensing",
+        "weight": 8,
+        "fraction_met": 1.0,
+        "points_awarded": 8.0,
+        "evidence": "9/9 included sources retain IDs and licences"
+      },
+      {
+        "name": "heldout_teacher_and_safeguarding_review",
+        "weight": 10,
+        "fraction_met": 0.0,
+        "points_awarded": 0.0,
+        "evidence": "teacher 0/240; safeguarding 0/240"
+      },
+      {
+        "name": "candidate_and_original_content_human_review",
+        "weight": 5,
+        "fraction_met": 0.0,
+        "points_awarded": 0.0,
+        "evidence": "candidate approvals 0/54; original pilot training approvals 0/96"
+      },
+      {
+        "name": "separate_written_long_run_authorisation",
+        "weight": 5,
+        "fraction_met": 0.0,
+        "points_awarded": 0.0,
+        "evidence": "No separate owner long-run authorisation exists; policy forbids inference."
+      }
+    ],
+    "experimental_pipeline_readiness_percentage": 100.0,
+    "experimental_scope": "Security, provenance, staging, scanning, review-packet and audit controls; this is not permission to train.",
+    "experimental_components": [
+      {
+        "name": "complete_item_level_schema",
+        "weight": 8,
+        "fraction_met": 1.0,
+        "points_awarded": 8.0,
+        "evidence": "54/54 items have all required fields"
+      },
+      {
+        "name": "seven_priority_areas_represented",
+        "weight": 7,
+        "fraction_met": 1.0,
+        "points_awarded": 7.0,
+        "evidence": "7/7 canonical areas represented"
+      },
+      {
+        "name": "exact_url_and_host_allowlisting",
+        "weight": 8,
+        "fraction_met": 1.0,
+        "points_awarded": 8.0,
+        "evidence": "54/54 items use the general HTTPS host allowlist or the specialised pinned-commit importer"
+      },
+      {
+        "name": "redirect_size_time_type_and_path_controls",
+        "weight": 7,
+        "fraction_met": 1.0,
+        "points_awarded": 7.0,
+        "evidence": "Fail-closed candidate intake policy defines redirect, byte, timeout, MIME and path controls"
+      },
+      {
+        "name": "reproducible_extraction_hashes_and_metrics",
+        "weight": 10,
+        "fraction_met": 1.0,
+        "points_awarded": 10.0,
+        "evidence": "54/54 staged/quarantined items have original/extracted hashes and metrics"
+      },
+      {
+        "name": "quality_and_privacy_scanning",
+        "weight": 8,
+        "fraction_met": 1.0,
+        "points_awarded": 8.0,
+        "evidence": "54/54 staged/quarantined items have quality and privacy results"
+      },
+      {
+        "name": "evidence_bound_context_and_subject_classification",
+        "weight": 7,
+        "fraction_met": 1.0,
+        "points_awarded": 7.0,
+        "evidence": "54/54 items have canonical context evidence and subjects"
+      },
+      {
+        "name": "exact_and_near_duplicate_screening",
+        "weight": 8,
+        "fraction_met": 1.0,
+        "points_awarded": 8.0,
+        "evidence": "54/54 staged/quarantined items have duplicate results"
+      },
+      {
+        "name": "heldout_leakage_and_hash_protection",
+        "weight": 8,
+        "fraction_met": 1.0,
+        "points_awarded": 8.0,
+        "evidence": "54/54 items scanned; protected benchmark hashes unchanged=True"
+      },
+      {
+        "name": "hash_bound_pending_review_packets",
+        "weight": 10,
+        "fraction_met": 1.0,
+        "points_awarded": 10.0,
+        "evidence": "54 hash-bound rows; every generated approval decision pending=True"
+      },
+      {
+        "name": "approved_staged_quarantined_state_audit",
+        "weight": 7,
+        "fraction_met": 1.0,
+        "points_awarded": 7.0,
+        "evidence": "Audit reports approved baseline, staged-unapproved, quarantined and rejected states separately"
+      },
+      {
+        "name": "ignored_staging_boundary",
+        "weight": 3,
+        "fraction_met": 1.0,
+        "points_awarded": 3.0,
+        "evidence": "model/.gitignore contains data/staging/*=True"
+      },
+      {
+        "name": "long_run_gate_remains_closed",
+        "weight": 4,
+        "fraction_met": 1.0,
+        "points_awarded": 4.0,
+        "evidence": "This audit adds candidate blockers and never grants long-run authorisation"
+      },
+      {
+        "name": "experimental_model_disconnected_from_production",
+        "weight": 5,
+        "fraction_met": 1.0,
+        "points_awarded": 5.0,
+        "evidence": "No checkpoint/pretraining path is routed by deployed config or production chatbot=True"
+      }
+    ]
+  },
+  "languages_characters": {
+    "en-NG": 338488,
+    "en": 478462,
+    "en-ZA": 1086536
+  },
+  "sources": [
+    {
+      "id": "original-foundations",
+      "characters": 337999,
+      "share": 0.17754603341027017,
+      "subject": "foundations",
+      "language": "en-NG",
+      "license": "owned",
+      "coverage_tags": [],
+      "nigerian_context": true
+    },
+    {
+      "id": "gutenberg-alice-11",
+      "characters": 144639,
+      "share": 0.07597679497994984,
+      "subject": "literature",
+      "language": "en",
+      "license": "US-Public-Domain; Project-Gutenberg-Terms",
+      "coverage_tags": [],
+      "nigerian_context": false
+    },
+    {
+      "id": "gutenberg-aesop-11339",
+      "characters": 205382,
+      "share": 0.1078842228345886,
+      "subject": "stories_and_morals",
+      "language": "en",
+      "license": "US-Public-Domain; Project-Gutenberg-Terms",
+      "coverage_tags": [],
+      "nigerian_context": false
+    },
+    {
+      "id": "gutenberg-mcguffey-first-14640",
+      "characters": 37544,
+      "share": 0.01972132544284209,
+      "subject": "reading",
+      "language": "en",
+      "license": "US-Public-Domain; Project-Gutenberg-Terms",
+      "coverage_tags": [],
+      "nigerian_context": false
+    },
+    {
+      "id": "gutenberg-mcguffey-second-14668",
+      "characters": 90897,
+      "share": 0.04774689214729431,
+      "subject": "reading",
+      "language": "en",
+      "license": "US-Public-Domain; Project-Gutenberg-Terms",
+      "coverage_tags": [],
+      "nigerian_context": false
+    },
+    {
+      "id": "african-storybook-fatimah-34006",
+      "characters": 489,
+      "share": 0.0002568646958648461,
+      "subject": "African_story",
+      "language": "en-NG",
+      "license": "CC-BY-4.0",
+      "coverage_tags": [],
+      "nigerian_context": true
+    },
+    {
+      "id": "siyavula-natural-sciences-grade-4",
+      "characters": 340289,
+      "share": 0.17874893760971905,
+      "subject": "natural_sciences_and_technology",
+      "language": "en-ZA",
+      "license": "CC-BY-4.0",
+      "coverage_tags": [],
+      "nigerian_context": false
+    },
+    {
+      "id": "siyavula-natural-sciences-grade-5",
+      "characters": 367758,
+      "share": 0.19317800986066272,
+      "subject": "natural_sciences_and_technology",
+      "language": "en-ZA",
+      "license": "CC-BY-4.0",
+      "coverage_tags": [],
+      "nigerian_context": false
+    },
+    {
+      "id": "siyavula-natural-sciences-grade-6",
+      "characters": 378489,
+      "share": 0.19881485045642072,
+      "subject": "natural_sciences_and_technology",
+      "language": "en-ZA",
+      "license": "CC-BY-4.0",
+      "coverage_tags": [],
+      "nigerian_context": false
+    }
+  ],
+  "configured_tokens_per_step": 65536,
+  "corpus_equivalent_passes_in_100_steps": 14.215651185541406,
+  "corpus_equivalent_passes_at_max_steps": 7107.825592770703,
+  "long_run_ready": false,
+  "blocking_reasons": [
+    "fewer than 10,000,000 BPE training tokens after cleaning and deduplication",
+    "subject 'natural_sciences_and_technology' is 57.1%; policy maximum is 35%",
+    "science is 57.1%; policy maximum is 35%",
+    "Nigerian-context sources are 17.8%; policy minimum is 30%",
+    "required reviewed coverage is missing: nigerian_primary_mathematics",
+    "required reviewed coverage is missing: nigerian_english_reading_composition",
+    "required reviewed coverage is missing: licensed_nigerian_stories",
+    "required reviewed coverage is missing: nigerian_social_studies",
+    "required reviewed coverage is missing: civic_education",
+    "required reviewed coverage is missing: local_geography",
+    "required reviewed coverage is missing: age_appropriate_computer_studies",
+    "deduplication is 'exact_document_units_only'; required is 'exact_and_near_duplicate_document_units'",
+    "teacher review incomplete: 0/240 approved",
+    "safeguarding review incomplete: 0/240 approved",
+    "storybooks-nigeria-english-cc-by teacher review incomplete: 0/29 approved",
+    "storybooks-nigeria-english-cc-by safeguarding review incomplete: 0/29 approved",
+    "storybooks-nigeria-pidgin teacher review incomplete: 0/7 approved",
+    "storybooks-nigeria-pidgin safeguarding review incomplete: 0/7 approved",
+    "storybooks-nigeria-hausa-cc-by teacher review incomplete: 0/4 approved",
+    "storybooks-nigeria-hausa-cc-by safeguarding review incomplete: 0/4 approved",
+    "storybooks-nigeria-yoruba-cc-by teacher review incomplete: 0/6 approved",
+    "storybooks-nigeria-yoruba-cc-by safeguarding review incomplete: 0/6 approved",
+    "candidate item approval review incomplete: 0/54 approved",
+    "5 candidate item(s) are quarantined",
+    "4 candidate item(s) require share-alike or jurisdiction review"
+  ],
+  "decision": "DO NOT AUTHORISE LONG RUN"
+}

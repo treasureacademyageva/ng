@@ -1,0 +1,906 @@
+{
+  "version": 1,
+  "status": "STAGING_ONLY_NO_TRAINING_APPROVAL",
+  "policy": "data/candidate-intake-policy.json",
+  "registry": "data/source-candidates.json",
+  "items_attempted": 8,
+  "status_counts": {
+    "QUARANTINED": 1,
+    "STAGED_UNAPPROVED": 7
+  },
+  "protected_benchmark_hashes_before": {
+    "data/evaluation/cases-v2.jsonl": "87dee049cefe21bf1370487b83259ad32ceaf77c097587e04f652ed96349f7d4",
+    "data/evaluation/summary-v2.json": "68c814adae44e5122ff87ac9824ff17503ca2827b070dcab2c3933849d678f70",
+    "results/tiny-gpu-benchmark-t4-20260930.json": "d5109934d8cb57758216d5fab93beb2c825b0973aff608be0649ee285417d883"
+  },
+  "protected_benchmark_hashes_after": {
+    "data/evaluation/cases-v2.jsonl": "87dee049cefe21bf1370487b83259ad32ceaf77c097587e04f652ed96349f7d4",
+    "data/evaluation/summary-v2.json": "68c814adae44e5122ff87ac9824ff17503ca2827b070dcab2c3933849d678f70",
+    "results/tiny-gpu-benchmark-t4-20260930.json": "d5109934d8cb57758216d5fab93beb2c825b0973aff608be0649ee285417d883"
+  },
+  "benchmark_files_unchanged": true,
+  "review_packet": "data/reviews/candidate-intake-review.csv",
+  "duplicate_details": {
+    "path": "data/staging/reports/open-candidate-duplicate-matches.json",
+    "sha256": "353b0228482e9ddf01c60c67c702f17bd04972894ff969fc414f79a0b47f39bd",
+    "items_with_matches": 5
+  },
+  "training_approved_items": 0,
+  "results": [
+    {
+      "id": "wikijunior-africa-nigeria-r4416499",
+      "status": "STAGED_UNAPPROVED",
+      "download": {
+        "requested_url": "https://en.wikibooks.org/w/api.php?action=parse&format=json&prop=text%7Crevid%7Cdisplaytitle&oldid=4416499",
+        "final_url": "https://en.wikibooks.org/w/api.php?action=parse&format=json&prop=text%7Crevid%7Cdisplaytitle&oldid=4416499",
+        "redirects": [],
+        "content_type": "application/json",
+        "bytes": 21548
+      },
+      "extraction": {
+        "method": "mediawiki-pinned-revision-html",
+        "revision": "4416499",
+        "display_title": "<span lang=\"en\" dir=\"ltr\"><span class=\"mw-page-title-namespace\">Wikijunior</span><span class=\"mw-page-title-separator\">:</span><span class=\"mw-page-title-main\">Africa/Nigeria</span></span>"
+      },
+      "hashes": {
+        "original_sha256": "332eda101c6634cd96130dcd18eb14ae400fa0c05909f849688abd6dbd6843a7",
+        "extracted_sha256": "7ce54e6db029335cc59c1985814b56ed590a27b7e9cf6c316433bccf3132589b"
+      },
+      "metrics": {
+        "original_bytes": 21548,
+        "characters": 1879,
+        "words": 319,
+        "estimated_bpe_tokens": 470,
+        "bpe_method": "utf8_bytes_divided_by_4_fallback"
+      },
+      "quality": {
+        "before_deduplication": {
+          "characters": 1879,
+          "words": 319,
+          "replacement_characters": 0,
+          "control_characters": 0,
+          "alphanumeric_character_share": 0.7908461947844598,
+          "errors": []
+        },
+        "after_deduplication": {
+          "characters": 1879,
+          "words": 319,
+          "replacement_characters": 0,
+          "control_characters": 0,
+          "alphanumeric_character_share": 0.7908461947844598,
+          "errors": []
+        }
+      },
+      "privacy": {
+        "status": "NO_PATTERN_DETECTED",
+        "warnings": []
+      },
+      "duplicates": {
+        "input_units": 1,
+        "kept_units": 1,
+        "removed_exact": 0,
+        "removed_near": 0,
+        "matches_count": 0,
+        "match_samples": [],
+        "full_matches_path": "data/staging/reports/open-candidate-duplicate-matches.json"
+      },
+      "leakage": {
+        "method": "exact_normalized_12_word_shingles",
+        "shared_shingles": 0,
+        "samples": [],
+        "blocked": false
+      },
+      "quarantine_reasons": []
+    },
+    {
+      "id": "wikijunior-how-computers-work-r4055667",
+      "status": "STAGED_UNAPPROVED",
+      "download": {
+        "requested_url": "https://en.wikibooks.org/w/api.php?action=parse&format=json&prop=text%7Crevid%7Cdisplaytitle&oldid=4055667",
+        "final_url": "https://en.wikibooks.org/w/api.php?action=parse&format=json&prop=text%7Crevid%7Cdisplaytitle&oldid=4055667",
+        "redirects": [],
+        "content_type": "application/json",
+        "bytes": 19859
+      },
+      "extraction": {
+        "method": "mediawiki-pinned-revision-html",
+        "revision": "4055667",
+        "display_title": "<span lang=\"en\" dir=\"ltr\"><span class=\"mw-page-title-namespace\">Wikijunior</span><span class=\"mw-page-title-separator\">:</span><span class=\"mw-page-title-main\">How Things Work/Computer</span></span>"
+      },
+      "hashes": {
+        "original_sha256": "ab9c0ea77733684814050a6b2c803df460ef518854466c10256a221e469be78a",
+        "extracted_sha256": "15663015ae4fd081033021464ff3ff15a996bf23fa97fb9a0d1a753c97c2ea72"
+      },
+      "metrics": {
+        "original_bytes": 19859,
+        "characters": 7491,
+        "words": 1262,
+        "estimated_bpe_tokens": 1873,
+        "bpe_method": "utf8_bytes_divided_by_4_fallback"
+      },
+      "quality": {
+        "before_deduplication": {
+          "characters": 7491,
+          "words": 1262,
+          "replacement_characters": 0,
+          "control_characters": 0,
+          "alphanumeric_character_share": 0.802162595114137,
+          "errors": []
+        },
+        "after_deduplication": {
+          "characters": 7491,
+          "words": 1262,
+          "replacement_characters": 0,
+          "control_characters": 0,
+          "alphanumeric_character_share": 0.802162595114137,
+          "errors": []
+        }
+      },
+      "privacy": {
+        "status": "NO_PATTERN_DETECTED",
+        "warnings": []
+      },
+      "duplicates": {
+        "input_units": 1,
+        "kept_units": 1,
+        "removed_exact": 0,
+        "removed_near": 0,
+        "matches_count": 0,
+        "match_samples": [],
+        "full_matches_path": "data/staging/reports/open-candidate-duplicate-matches.json"
+      },
+      "leakage": {
+        "method": "exact_normalized_12_word_shingles",
+        "shared_shingles": 0,
+        "samples": [],
+        "blocked": false
+      },
+      "quarantine_reasons": []
+    },
+    {
+      "id": "siyavula-mathematics-grade-4-ost-col11101",
+      "status": "STAGED_UNAPPROVED",
+      "download": {
+        "requested_url": "https://archive.org/download/ost-math-col11101/col11101_djvu.txt",
+        "final_url": "https://ia800103.us.archive.org/11/items/ost-math-col11101/col11101_djvu.txt",
+        "redirects": [
+          {
+            "status": 302,
+            "from": "https://archive.org/download/ost-math-col11101/col11101_djvu.txt",
+            "to": "https://ia800103.us.archive.org/11/items/ost-math-col11101/col11101_djvu.txt"
+          }
+        ],
+        "content_type": "text/plain",
+        "bytes": 199551
+      },
+      "extraction": {
+        "method": "plain-text"
+      },
+      "hashes": {
+        "original_sha256": "cc85e77810226e346cb9780e95a7f9e77b112d3c7640382b8c698067c9e634a4",
+        "extracted_sha256": "a44fba1c3f8d8430219ccef8a2560d933dd4d69bf56a0c910ded35e7426cf3b8"
+      },
+      "metrics": {
+        "original_bytes": 199551,
+        "characters": 138705,
+        "words": 26460,
+        "estimated_bpe_tokens": 34792,
+        "bpe_method": "utf8_bytes_divided_by_4_fallback"
+      },
+      "quality": {
+        "before_deduplication": {
+          "characters": 189119,
+          "words": 35718,
+          "replacement_characters": 0,
+          "control_characters": 0,
+          "alphanumeric_character_share": 0.7180716903113913,
+          "errors": []
+        },
+        "after_deduplication": {
+          "characters": 138705,
+          "words": 26460,
+          "replacement_characters": 0,
+          "control_characters": 0,
+          "alphanumeric_character_share": 0.748898741934321,
+          "errors": []
+        }
+      },
+      "privacy": {
+        "status": "NO_PATTERN_DETECTED",
+        "warnings": []
+      },
+      "duplicates": {
+        "input_units": 1971,
+        "kept_units": 1687,
+        "removed_exact": 284,
+        "removed_near": 0,
+        "matches_count": 284,
+        "match_samples": [
+          {
+            "duplicate_id": "siyavula-mathematics-grade-4-ost-col11101:136",
+            "kept_id": "siyavula-mathematics-grade-4-ost-col11101:76",
+            "kind": "exact",
+            "similarity": 1.0,
+            "duplicate_words": 4,
+            "kept_words": 4
+          },
+          {
+            "duplicate_id": "siyavula-mathematics-grade-4-ost-col11101:141",
+            "kept_id": "siyavula-mathematics-grade-4-ost-col11101:82",
+            "kind": "exact",
+            "similarity": 1.0,
+            "duplicate_words": 7,
+            "kept_words": 7
+          },
+          {
+            "duplicate_id": "siyavula-mathematics-grade-4-ost-col11101:255",
+            "kept_id": "siyavula-mathematics-grade-4-ost-col11101:87",
+            "kind": "exact",
+            "similarity": 1.0,
+            "duplicate_words": 3,
+            "kept_words": 3
+          },
+          {
+            "duplicate_id": "siyavula-mathematics-grade-4-ost-col11101:256",
+            "kept_id": "siyavula-mathematics-grade-4-ost-col11101:88",
+            "kind": "exact",
+            "similarity": 1.0,
+            "duplicate_words": 32,
+            "kept_words": 32
+          },
+          {
+            "duplicate_id": "siyavula-mathematics-grade-4-ost-col11101:257",
+            "kept_id": "siyavula-mathematics-grade-4-ost-col11101:89",
+            "kind": "exact",
+            "similarity": 1.0,
+            "duplicate_words": 3,
+            "kept_words": 3
+          },
+          {
+            "duplicate_id": "siyavula-mathematics-grade-4-ost-col11101:258",
+            "kept_id": "siyavula-mathematics-grade-4-ost-col11101:90",
+            "kind": "exact",
+            "similarity": 1.0,
+            "duplicate_words": 6,
+            "kept_words": 6
+          },
+          {
+            "duplicate_id": "siyavula-mathematics-grade-4-ost-col11101:259",
+            "kept_id": "siyavula-mathematics-grade-4-ost-col11101:91",
+            "kind": "exact",
+            "similarity": 1.0,
+            "duplicate_words": 24,
+            "kept_words": 24
+          },
+          {
+            "duplicate_id": "siyavula-mathematics-grade-4-ost-col11101:260",
+            "kept_id": "siyavula-mathematics-grade-4-ost-col11101:92",
+            "kind": "exact",
+            "similarity": 1.0,
+            "duplicate_words": 16,
+            "kept_words": 16
+          },
+          {
+            "duplicate_id": "siyavula-mathematics-grade-4-ost-col11101:261",
+            "kept_id": "siyavula-mathematics-grade-4-ost-col11101:93",
+            "kind": "exact",
+            "similarity": 1.0,
+            "duplicate_words": 26,
+            "kept_words": 26
+          },
+          {
+            "duplicate_id": "siyavula-mathematics-grade-4-ost-col11101:262",
+            "kept_id": "siyavula-mathematics-grade-4-ost-col11101:94",
+            "kind": "exact",
+            "similarity": 1.0,
+            "duplicate_words": 17,
+            "kept_words": 17
+          }
+        ],
+        "full_matches_path": "data/staging/reports/open-candidate-duplicate-matches.json"
+      },
+      "leakage": {
+        "method": "exact_normalized_12_word_shingles",
+        "shared_shingles": 0,
+        "samples": [],
+        "blocked": false
+      },
+      "quarantine_reasons": []
+    },
+    {
+      "id": "siyavula-mathematics-grade-5-ost-col10994",
+      "status": "STAGED_UNAPPROVED",
+      "download": {
+        "requested_url": "https://archive.org/download/ost-math-col10994/col10994_djvu.txt",
+        "final_url": "https://dn760002.eu.archive.org/0/items/ost-math-col10994/col10994_djvu.txt",
+        "redirects": [
+          {
+            "status": 302,
+            "from": "https://archive.org/download/ost-math-col10994/col10994_djvu.txt",
+            "to": "https://dn760002.eu.archive.org/0/items/ost-math-col10994/col10994_djvu.txt"
+          }
+        ],
+        "content_type": "text/plain",
+        "bytes": 267582
+      },
+      "extraction": {
+        "method": "plain-text"
+      },
+      "hashes": {
+        "original_sha256": "c1a13479682deef3d31a33da9f5bf0c4b5a5fe3ff8c275f0b741f922e78f16db",
+        "extracted_sha256": "950f4dc3ed9246071da3a0f9ea5bf86ce24afd90513e53b37e876d0b3a0ad423"
+      },
+      "metrics": {
+        "original_bytes": 267582,
+        "characters": 152132,
+        "words": 29677,
+        "estimated_bpe_tokens": 38115,
+        "bpe_method": "utf8_bytes_divided_by_4_fallback"
+      },
+      "quality": {
+        "before_deduplication": {
+          "characters": 224065,
+          "words": 44128,
+          "replacement_characters": 0,
+          "control_characters": 0,
+          "alphanumeric_character_share": 0.7157521254992971,
+          "errors": []
+        },
+        "after_deduplication": {
+          "characters": 152132,
+          "words": 29677,
+          "replacement_characters": 0,
+          "control_characters": 0,
+          "alphanumeric_character_share": 0.739246180948124,
+          "errors": []
+        }
+      },
+      "privacy": {
+        "status": "NO_PATTERN_DETECTED",
+        "warnings": []
+      },
+      "duplicates": {
+        "input_units": 2550,
+        "kept_units": 2129,
+        "removed_exact": 414,
+        "removed_near": 7,
+        "matches_count": 421,
+        "match_samples": [
+          {
+            "duplicate_id": "siyavula-mathematics-grade-5-ost-col10994:2",
+            "kept_id": "siyavula-mathematics-grade-4-ost-col11101:2",
+            "kind": "exact",
+            "similarity": 1.0,
+            "duplicate_words": 4,
+            "kept_words": 4
+          },
+          {
+            "duplicate_id": "siyavula-mathematics-grade-5-ost-col10994:3",
+            "kept_id": "siyavula-mathematics-grade-4-ost-col11101:3",
+            "kind": "exact",
+            "similarity": 1.0,
+            "duplicate_words": 18,
+            "kept_words": 18
+          },
+          {
+            "duplicate_id": "siyavula-mathematics-grade-5-ost-col10994:4",
+            "kept_id": "siyavula-mathematics-grade-4-ost-col11101:4",
+            "kind": "exact",
+            "similarity": 1.0,
+            "duplicate_words": 14,
+            "kept_words": 14
+          },
+          {
+            "duplicate_id": "siyavula-mathematics-grade-5-ost-col10994:69",
+            "kept_id": "siyavula-mathematics-grade-5-ost-col10994:54",
+            "kind": "exact",
+            "similarity": 1.0,
+            "duplicate_words": 32,
+            "kept_words": 32
+          },
+          {
+            "duplicate_id": "siyavula-mathematics-grade-5-ost-col10994:100",
+            "kept_id": "siyavula-mathematics-grade-5-ost-col10994:98",
+            "kind": "exact",
+            "similarity": 1.0,
+            "duplicate_words": 7,
+            "kept_words": 7
+          },
+          {
+            "duplicate_id": "siyavula-mathematics-grade-5-ost-col10994:111",
+            "kept_id": "siyavula-mathematics-grade-5-ost-col10994:54",
+            "kind": "exact",
+            "similarity": 1.0,
+            "duplicate_words": 32,
+            "kept_words": 32
+          },
+          {
+            "duplicate_id": "siyavula-mathematics-grade-5-ost-col10994:163",
+            "kept_id": "siyavula-mathematics-grade-5-ost-col10994:54",
+            "kind": "exact",
+            "similarity": 1.0,
+            "duplicate_words": 32,
+            "kept_words": 32
+          },
+          {
+            "duplicate_id": "siyavula-mathematics-grade-5-ost-col10994:164",
+            "kept_id": "siyavula-mathematics-grade-5-ost-col10994:72",
+            "kind": "exact",
+            "similarity": 1.0,
+            "duplicate_words": 24,
+            "kept_words": 24
+          },
+          {
+            "duplicate_id": "siyavula-mathematics-grade-5-ost-col10994:165",
+            "kept_id": "siyavula-mathematics-grade-5-ost-col10994:73",
+            "kind": "exact",
+            "similarity": 1.0,
+            "duplicate_words": 8,
+            "kept_words": 8
+          },
+          {
+            "duplicate_id": "siyavula-mathematics-grade-5-ost-col10994:166",
+            "kept_id": "siyavula-mathematics-grade-5-ost-col10994:112",
+            "kind": "exact",
+            "similarity": 1.0,
+            "duplicate_words": 24,
+            "kept_words": 24
+          }
+        ],
+        "full_matches_path": "data/staging/reports/open-candidate-duplicate-matches.json"
+      },
+      "leakage": {
+        "method": "exact_normalized_12_word_shingles",
+        "shared_shingles": 0,
+        "samples": [],
+        "blocked": false
+      },
+      "quarantine_reasons": []
+    },
+    {
+      "id": "siyavula-mathematics-grade-6-cnx-col11030",
+      "status": "QUARANTINED",
+      "download": {
+        "requested_url": "https://archive.org/download/cnx-org-col11030/mathematics-grade-6_djvu.txt",
+        "final_url": "https://dn760008.eu.archive.org/0/items/cnx-org-col11030/mathematics-grade-6_djvu.txt",
+        "redirects": [
+          {
+            "status": 302,
+            "from": "https://archive.org/download/cnx-org-col11030/mathematics-grade-6_djvu.txt",
+            "to": "https://dn760008.eu.archive.org/0/items/cnx-org-col11030/mathematics-grade-6_djvu.txt"
+          }
+        ],
+        "content_type": "text/plain",
+        "bytes": 374246
+      },
+      "extraction": {
+        "method": "plain-text"
+      },
+      "hashes": {
+        "original_sha256": "3aeaae7f7a90b298be587bb1d00b1729eb212cf91d3b0de35fd8a20496971e52",
+        "extracted_sha256": "ee20e9c0e2598980265dce858e960de0932aba00883847b82de056a9b9cfa5f7"
+      },
+      "metrics": {
+        "original_bytes": 374246,
+        "characters": 178835,
+        "words": 33775,
+        "estimated_bpe_tokens": 44882,
+        "bpe_method": "utf8_bytes_divided_by_4_fallback"
+      },
+      "quality": {
+        "before_deduplication": {
+          "characters": 360074,
+          "words": 62400,
+          "replacement_characters": 0,
+          "control_characters": 0,
+          "alphanumeric_character_share": 0.7541783077922871,
+          "errors": []
+        },
+        "after_deduplication": {
+          "characters": 178835,
+          "words": 33775,
+          "replacement_characters": 0,
+          "control_characters": 0,
+          "alphanumeric_character_share": 0.751692901277714,
+          "errors": []
+        }
+      },
+      "privacy": {
+        "status": "WARNING",
+        "warnings": [
+          {
+            "kind": "international_phone",
+            "offset": 8280,
+            "masked": "+5************47"
+          }
+        ]
+      },
+      "duplicates": {
+        "input_units": 3861,
+        "kept_units": 2524,
+        "removed_exact": 1237,
+        "removed_near": 100,
+        "matches_count": 1337,
+        "match_samples": [
+          {
+            "duplicate_id": "siyavula-mathematics-grade-6-cnx-col11030:7",
+            "kept_id": "siyavula-mathematics-grade-6-cnx-col11030:1",
+            "kind": "exact",
+            "similarity": 1.0,
+            "duplicate_words": 4,
+            "kept_words": 4
+          },
+          {
+            "duplicate_id": "siyavula-mathematics-grade-6-cnx-col11030:15",
+            "kept_id": "siyavula-mathematics-grade-6-cnx-col11030:13",
+            "kind": "exact",
+            "similarity": 1.0,
+            "duplicate_words": 4,
+            "kept_words": 4
+          },
+          {
+            "duplicate_id": "siyavula-mathematics-grade-6-cnx-col11030:21",
+            "kept_id": "siyavula-mathematics-grade-6-cnx-col11030:1",
+            "kind": "exact",
+            "similarity": 1.0,
+            "duplicate_words": 4,
+            "kept_words": 4
+          },
+          {
+            "duplicate_id": "siyavula-mathematics-grade-6-cnx-col11030:25",
+            "kept_id": "siyavula-mathematics-grade-6-cnx-col11030:22",
+            "kind": "exact",
+            "similarity": 1.0,
+            "duplicate_words": 5,
+            "kept_words": 5
+          },
+          {
+            "duplicate_id": "siyavula-mathematics-grade-6-cnx-col11030:26",
+            "kept_id": "siyavula-mathematics-grade-6-cnx-col11030:1",
+            "kind": "exact",
+            "similarity": 1.0,
+            "duplicate_words": 4,
+            "kept_words": 4
+          },
+          {
+            "duplicate_id": "siyavula-mathematics-grade-6-cnx-col11030:28",
+            "kept_id": "siyavula-mathematics-grade-6-cnx-col11030:1",
+            "kind": "exact",
+            "similarity": 1.0,
+            "duplicate_words": 4,
+            "kept_words": 4
+          },
+          {
+            "duplicate_id": "siyavula-mathematics-grade-6-cnx-col11030:32",
+            "kept_id": "siyavula-mathematics-grade-6-cnx-col11030:1",
+            "kind": "exact",
+            "similarity": 1.0,
+            "duplicate_words": 4,
+            "kept_words": 4
+          },
+          {
+            "duplicate_id": "siyavula-mathematics-grade-6-cnx-col11030:33",
+            "kept_id": "siyavula-mathematics-grade-6-cnx-col11030:22",
+            "kind": "exact",
+            "similarity": 1.0,
+            "duplicate_words": 5,
+            "kept_words": 5
+          },
+          {
+            "duplicate_id": "siyavula-mathematics-grade-6-cnx-col11030:34",
+            "kept_id": "siyavula-mathematics-grade-6-cnx-col11030:22",
+            "kind": "exact",
+            "similarity": 1.0,
+            "duplicate_words": 5,
+            "kept_words": 5
+          },
+          {
+            "duplicate_id": "siyavula-mathematics-grade-6-cnx-col11030:35",
+            "kept_id": "siyavula-mathematics-grade-6-cnx-col11030:22",
+            "kind": "exact",
+            "similarity": 1.0,
+            "duplicate_words": 5,
+            "kept_words": 5
+          }
+        ],
+        "full_matches_path": "data/staging/reports/open-candidate-duplicate-matches.json"
+      },
+      "leakage": {
+        "method": "exact_normalized_12_word_shingles",
+        "shared_shingles": 0,
+        "samples": [],
+        "blocked": false
+      },
+      "quarantine_reasons": [
+        "1 potential personal-data pattern(s)"
+      ]
+    },
+    {
+      "id": "gutenberg-beginners-language-41288",
+      "status": "STAGED_UNAPPROVED",
+      "download": {
+        "requested_url": "https://www.gutenberg.org/cache/epub/41288/pg41288.txt",
+        "final_url": "https://www.gutenberg.org/cache/epub/41288/pg41288.txt",
+        "redirects": [],
+        "content_type": "text/plain",
+        "bytes": 266979
+      },
+      "extraction": {
+        "method": "plain-text"
+      },
+      "hashes": {
+        "original_sha256": "133f3afa6e15de4789f589a42c02fc2a3f231595b4ebdb86a5ece2b8ab2f3601",
+        "extracted_sha256": "a67bc3a7e86e3b2ee0c275e3d54e17afe0cf630f09e95386e36a8634ab2a8ecc"
+      },
+      "metrics": {
+        "original_bytes": 266979,
+        "characters": 226205,
+        "words": 42141,
+        "estimated_bpe_tokens": 56554,
+        "bpe_method": "utf8_bytes_divided_by_4_fallback"
+      },
+      "quality": {
+        "before_deduplication": {
+          "characters": 228063,
+          "words": 42392,
+          "replacement_characters": 0,
+          "control_characters": 0,
+          "alphanumeric_character_share": 0.7632189351188049,
+          "errors": []
+        },
+        "after_deduplication": {
+          "characters": 226205,
+          "words": 42141,
+          "replacement_characters": 0,
+          "control_characters": 0,
+          "alphanumeric_character_share": 0.7644835436882473,
+          "errors": []
+        }
+      },
+      "privacy": {
+        "status": "NO_PATTERN_DETECTED",
+        "warnings": []
+      },
+      "duplicates": {
+        "input_units": 1346,
+        "kept_units": 1342,
+        "removed_exact": 4,
+        "removed_near": 0,
+        "matches_count": 4,
+        "match_samples": [
+          {
+            "duplicate_id": "gutenberg-beginners-language-41288:88",
+            "kept_id": "gutenberg-beginners-language-41288:20",
+            "kind": "exact",
+            "similarity": 1.0,
+            "duplicate_words": 7,
+            "kept_words": 7
+          },
+          {
+            "duplicate_id": "gutenberg-beginners-language-41288:416",
+            "kept_id": "gutenberg-beginners-language-41288:414",
+            "kind": "exact",
+            "similarity": 1.0,
+            "duplicate_words": 33,
+            "kept_words": 33
+          },
+          {
+            "duplicate_id": "gutenberg-beginners-language-41288:1078",
+            "kept_id": "gutenberg-beginners-language-41288:1075",
+            "kind": "exact",
+            "similarity": 1.0,
+            "duplicate_words": 5,
+            "kept_words": 5
+          },
+          {
+            "duplicate_id": "gutenberg-beginners-language-41288:1342",
+            "kept_id": "approved:1584",
+            "kind": "exact",
+            "similarity": 1.0,
+            "duplicate_words": 2,
+            "kept_words": 2
+          }
+        ],
+        "full_matches_path": "data/staging/reports/open-candidate-duplicate-matches.json"
+      },
+      "leakage": {
+        "method": "exact_normalized_12_word_shingles",
+        "shared_shingles": 0,
+        "samples": [],
+        "blocked": false
+      },
+      "quarantine_reasons": []
+    },
+    {
+      "id": "gutenberg-mcguffey-third-14766",
+      "status": "STAGED_UNAPPROVED",
+      "download": {
+        "requested_url": "https://www.gutenberg.org/cache/epub/14766/pg14766.txt",
+        "final_url": "https://www.gutenberg.org/cache/epub/14766/pg14766.txt",
+        "redirects": [],
+        "content_type": "text/plain",
+        "bytes": 168191
+      },
+      "extraction": {
+        "method": "plain-text"
+      },
+      "hashes": {
+        "original_sha256": "923d0320d2306b82984a66a7fcff5169b547d820f0bbeb466648db2f8af433f6",
+        "extracted_sha256": "c90d0be65906b8b4a186983e897894b3a44369ff398fdae4dd7cc6e320b41e7c"
+      },
+      "metrics": {
+        "original_bytes": 168191,
+        "characters": 139622,
+        "words": 27208,
+        "estimated_bpe_tokens": 34906,
+        "bpe_method": "utf8_bytes_divided_by_4_fallback"
+      },
+      "quality": {
+        "before_deduplication": {
+          "characters": 143219,
+          "words": 27738,
+          "replacement_characters": 0,
+          "control_characters": 0,
+          "alphanumeric_character_share": 0.7511154246294137,
+          "errors": []
+        },
+        "after_deduplication": {
+          "characters": 139622,
+          "words": 27208,
+          "replacement_characters": 0,
+          "control_characters": 0,
+          "alphanumeric_character_share": 0.7521307530331897,
+          "errors": []
+        }
+      },
+      "privacy": {
+        "status": "NO_PATTERN_DETECTED",
+        "warnings": []
+      },
+      "duplicates": {
+        "input_units": 454,
+        "kept_units": 446,
+        "removed_exact": 8,
+        "removed_near": 0,
+        "matches_count": 8,
+        "match_samples": [
+          {
+            "duplicate_id": "gutenberg-mcguffey-third-14766:1",
+            "kept_id": "approved:1584",
+            "kind": "exact",
+            "similarity": 1.0,
+            "duplicate_words": 2,
+            "kept_words": 2
+          },
+          {
+            "duplicate_id": "gutenberg-mcguffey-third-14766:2",
+            "kept_id": "approved:1585",
+            "kind": "exact",
+            "similarity": 1.0,
+            "duplicate_words": 19,
+            "kept_words": 19
+          },
+          {
+            "duplicate_id": "gutenberg-mcguffey-third-14766:3",
+            "kept_id": "approved:1586",
+            "kind": "exact",
+            "similarity": 1.0,
+            "duplicate_words": 51,
+            "kept_words": 51
+          },
+          {
+            "duplicate_id": "gutenberg-mcguffey-third-14766:7",
+            "kept_id": "approved:2053",
+            "kind": "exact",
+            "similarity": 1.0,
+            "duplicate_words": 11,
+            "kept_words": 11
+          },
+          {
+            "duplicate_id": "gutenberg-mcguffey-third-14766:8",
+            "kept_id": "approved:1588",
+            "kind": "exact",
+            "similarity": 1.0,
+            "duplicate_words": 3,
+            "kept_words": 3
+          },
+          {
+            "duplicate_id": "gutenberg-mcguffey-third-14766:9",
+            "kept_id": "approved:2054",
+            "kind": "exact",
+            "similarity": 1.0,
+            "duplicate_words": 7,
+            "kept_words": 7
+          },
+          {
+            "duplicate_id": "gutenberg-mcguffey-third-14766:14",
+            "kept_id": "approved:2065",
+            "kind": "exact",
+            "similarity": 1.0,
+            "duplicate_words": 5,
+            "kept_words": 5
+          },
+          {
+            "duplicate_id": "gutenberg-mcguffey-third-14766:19",
+            "kept_id": "approved:12172",
+            "kind": "exact",
+            "similarity": 1.0,
+            "duplicate_words": 3,
+            "kept_words": 3
+          }
+        ],
+        "full_matches_path": "data/staging/reports/open-candidate-duplicate-matches.json"
+      },
+      "leakage": {
+        "method": "exact_normalized_12_word_shingles",
+        "shared_shingles": 0,
+        "samples": [],
+        "blocked": false
+      },
+      "quarantine_reasons": []
+    },
+    {
+      "id": "african-storybook-take-me-home-39417",
+      "status": "STAGED_UNAPPROVED",
+      "download": {
+        "requested_url": "https://www.africanstorybook.org/read/downloadbook.php?id=39417&a=1&d=0&layout=landscape",
+        "final_url": "https://www.africanstorybook.org/read/downloadbook.php?id=39417&a=1&d=0&layout=landscape",
+        "redirects": [],
+        "content_type": "application/pdf",
+        "bytes": 33553
+      },
+      "extraction": {
+        "method": "pdf-text"
+      },
+      "hashes": {
+        "original_sha256": "de997c71f836ec2c77b5dd43ea8f25cad2f36ff89785f430e1be63c7f3fe608b",
+        "extracted_sha256": "251e783ad72225726272be05c34500c5666b0bde39e1b9d118aa235f1c3db2d6"
+      },
+      "metrics": {
+        "original_bytes": 33553,
+        "characters": 456,
+        "words": 67,
+        "estimated_bpe_tokens": 114,
+        "bpe_method": "utf8_bytes_divided_by_4_fallback"
+      },
+      "quality": {
+        "before_deduplication": {
+          "characters": 466,
+          "words": 68,
+          "replacement_characters": 0,
+          "control_characters": 0,
+          "alphanumeric_character_share": 0.8133047210300429,
+          "errors": []
+        },
+        "after_deduplication": {
+          "characters": 456,
+          "words": 67,
+          "replacement_characters": 0,
+          "control_characters": 0,
+          "alphanumeric_character_share": 0.8157894736842105,
+          "errors": []
+        }
+      },
+      "privacy": {
+        "status": "NO_PATTERN_DETECTED",
+        "warnings": []
+      },
+      "duplicates": {
+        "input_units": 5,
+        "kept_units": 5,
+        "removed_exact": 0,
+        "removed_near": 0,
+        "matches_count": 0,
+        "match_samples": [],
+        "full_matches_path": "data/staging/reports/open-candidate-duplicate-matches.json"
+      },
+      "leakage": {
+        "method": "exact_normalized_12_word_shingles",
+        "shared_shingles": 0,
+        "samples": [],
+        "blocked": false
+      },
+      "quarantine_reasons": []
+    }
+  ]
+}

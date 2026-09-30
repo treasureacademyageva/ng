@@ -1,0 +1,77 @@
+{
+  "checked_at": "2026-09-30",
+  "branch_scope": "preview",
+  "tests": {
+    "full_model_suite": {
+      "passed": 57,
+      "skipped": 1,
+      "failed": 0
+    },
+    "corpus_expansion_regression_security_readiness": {
+      "specified_tests": 20,
+      "passed": 20,
+      "failed": 0
+    }
+  },
+  "validators": {
+    "validate_sources.py": {
+      "status": "passed",
+      "errors": 0
+    },
+    "validate_human_reviews.py": {
+      "status": "passed",
+      "errors": 0,
+      "human_review_gate_complete": false
+    },
+    "validate_candidate_registry.py": {
+      "status": "passed",
+      "errors": 0,
+      "item_candidates": 54,
+      "training_eligible_items": 0
+    },
+    "validate_evaluation_v2.py": {
+      "status": "passed",
+      "errors": 0,
+      "heldout_cases": 240
+    },
+    "validate_napps_alignment.py": {
+      "status": "passed",
+      "errors": 0,
+      "rows": 328,
+      "official_napps_edition_verified": false,
+      "training_eligible_rows": 0
+    },
+    "validate_primary_authoring_queue.py": {
+      "status": "passed",
+      "errors": 0,
+      "briefs": 96,
+      "training_approved_documents": 0
+    },
+    "validate_primary_pilot_manifest.py": {
+      "status": "passed",
+      "errors": 0,
+      "samples": 96,
+      "training_approved": 0
+    },
+    "validate_benchmark.py": {
+      "status": "passed",
+      "errors": 0,
+      "report_sha256": "d5109934d8cb57758216d5fab93beb2c825b0973aff608be0649ee285417d883",
+      "long_run_authorised": false
+    }
+  },
+  "duplicate_audit": {
+    "documents_scanned": 13471,
+    "words_scanned": 374632,
+    "exact_duplicates": 727,
+    "near_duplicates": 1,
+    "candidate_or_staged_overlap_with_approved": 0
+  },
+  "completion": {
+    "official_policy_completion_percentage": 15.31,
+    "experimental_pipeline_readiness_percentage": 100.0,
+    "long_run_ready": false,
+    "blocking_reasons": 25
+  },
+  "decision": "LONG RUN AUTHORISED: NO"
+}

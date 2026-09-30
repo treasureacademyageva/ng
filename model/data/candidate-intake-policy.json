@@ -1,0 +1,104 @@
+{
+  "version": 1,
+  "status": "fail_closed_experimental_staging_only",
+  "allowed_schemes": [
+    "https"
+  ],
+  "allowed_hosts": [
+    "archive.org",
+    "en.wikibooks.org",
+    "global-asp.github.io",
+    "www.africanstorybook.org",
+    "www.gutenberg.org"
+  ],
+  "allowed_redirect_host_suffixes": [
+    ".ca.archive.org",
+    ".eu.archive.org",
+    ".us.archive.org"
+  ],
+  "max_redirects": 4,
+  "timeout_seconds": 45,
+  "maximum_download_bytes": 10485760,
+  "minimum_extracted_characters": 120,
+  "allowed_content_types": [
+    "application/epub+zip",
+    "application/json",
+    "application/pdf",
+    "application/xhtml+xml",
+    "text/html",
+    "text/plain"
+  ],
+  "allowed_extraction_methods": [
+    "epub-spine-text",
+    "mediawiki-pinned-revision-html",
+    "pdf-text",
+    "plain-text"
+  ],
+  "canonical_primary_subjects": [
+    "nigerian_social_studies",
+    "civic_education",
+    "local_geography",
+    "age_appropriate_computer_studies",
+    "primary_mathematics",
+    "english_reading_composition",
+    "nigerian_context_childrens_stories"
+  ],
+  "context_classes": [
+    "nigerian",
+    "african",
+    "global",
+    "uncertain"
+  ],
+  "commercial_compatible_licenses": [
+    "CC-BY-3.0",
+    "CC-BY-4.0",
+    "CC0-1.0",
+    "PUBLIC-DOMAIN"
+  ],
+  "conditional_licenses": {
+    "CC-BY-SA-3.0": "Share-alike obligations require a documented downstream distribution decision.",
+    "CC-BY-SA-4.0": "Share-alike obligations require a documented downstream distribution decision.",
+    "US-PUBLIC-DOMAIN": "Public-domain status is verified for the United States only; Nigerian-jurisdiction review remains required."
+  },
+  "blocked_license_tokens": [
+    "-NC",
+    "-ND",
+    "ALL-RIGHTS-RESERVED",
+    "UNKNOWN",
+    "UNVERIFIED"
+  ],
+  "languages_requiring_qualified_review": [
+    "ha",
+    "ig",
+    "igb",
+    "pcm-NG",
+    "yo"
+  ],
+  "privacy_patterns": {
+    "email": "\\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,}\\b",
+    "international_phone": "(?<![\\w+])\\+[1-9][\\d ()-]{7,20}\\d(?!\\w)",
+    "nigerian_phone": "(?<!\\d)(?:0|234)[789]\\d{9}(?!\\d)",
+    "bank_account_candidate": "(?<!\\d)\\d{10}(?!\\d)"
+  },
+  "quality_limits": {
+    "maximum_replacement_character_rate": 0.0005,
+    "maximum_control_character_rate": 0.0001,
+    "minimum_alphanumeric_character_share": 0.35,
+    "minimum_word_count": 20
+  },
+  "deduplication": {
+    "near_duplicate_threshold": 0.88,
+    "minimum_words": 30
+  },
+  "protected_benchmark_paths": [
+    "data/evaluation/cases-v2.jsonl",
+    "data/evaluation/summary-v2.json",
+    "results/tiny-gpu-benchmark-t4-20260930.json"
+  ],
+  "production_disconnection": {
+    "deployed_config": "../vercel.json",
+    "experimental_model_root": "model/",
+    "production_chatbot_root": "../ai/",
+    "experimental_model_must_not_be_routed": true
+  }
+}
