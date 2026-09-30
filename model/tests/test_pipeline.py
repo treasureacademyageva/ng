@@ -13,6 +13,12 @@ def test_every_source_has_provenance_and_license():
 def test_unreviewed_language_is_not_training_approved():
  data=json.loads((ROOT/'data/sources.json').read_text())
  assert any(s.get('language')=='ha' and not s.get('reviewed') and not s.get('approved_for_training') for s in data['sources'])
+ assert all(s.get('reviewed') for s in data['sources'] if s.get('approved_for_training'))
+
+def test_siyavula_epubs_have_exact_license_and_training_gate():
+ data=json.loads((ROOT/'data/sources.json').read_text());rows=[s for s in data['sources'] if s['id'].startswith('siyavula-natural-sciences-')]
+ assert len(rows)==3
+ assert all(s['kind']=='epub_text' and s['license']=='CC-BY-4.0' and s['approved_for_training'] for s in rows)
 
 def test_retrieval_kb_not_memorised():
  data=json.loads((ROOT/'data/sources.json').read_text())
@@ -22,6 +28,8 @@ def test_retrieval_kb_not_memorised():
  if not meta_path.exists():pytest.skip('run scripts/prepare_data.py first')
  meta=json.loads(meta_path.read_text())
  assert kb['id'] not in {s['id'] for s in meta['sources']}
+ assert all(s['train_paragraphs']>0 and s['validation_paragraphs']>0 for s in meta['sources'])
+ assert meta['split'].startswith('deterministic 95/5')
 
 def test_deterministic_token_split_is_usable():
  cfg=json.loads((ROOT/'config/micro.json').read_text())

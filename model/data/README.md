@@ -3,7 +3,7 @@
 Every corpus item must have a matching record in `sources.json` with source URL, creator, exact license, permitted use, language, level, subject, retrieval date, checksum and review state.
 
 - `raw/`: downloaded originals; immutable and gitignored.
-- `licensed/`: extracted text with attribution sidecars; gitignored.
+- `licensed/`: extracted PDF/EPUB text; gitignored. Attribution and exact checksums remain in the manifest/lockfile.
 - `cleaned/`: normalized/deduplicated documents; gitignored.
 - `pretraining/`: deterministic train/validation token files; gitignored.
 - `instruction/`: reviewed conversation JSONL; private records prohibited.

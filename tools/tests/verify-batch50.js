@@ -69,7 +69,7 @@ ok('public feature icons use the SVG sprite',index.includes('icons.svg#ta-cap')&
 ok('homepage contains no pictographic emoji',!/[\u{1F300}-\u{1FAFF}]/u.test(index));
 ok('hardcoded white backgrounds are gone',!/(?:background|background-color)\s*:\s*#(?:fff|ffffff)\b/i.test(css+index));
 ok('first visit follows OS theme',site.includes('prefers-color-scheme: dark')&&!site.includes('new Date().getHours()'));
-ok('theme is selected before paint on all versioned pages',fs.readdirSync(SITE).filter(f=>f.endsWith('.html')&&read(f).includes('id="siteLoader"')).every(f=>read(f).includes('assets/js/theme-init.js?v=20260929-ui53')));
+ok('theme is selected before paint on all versioned pages',fs.readdirSync(SITE).filter(f=>f.endsWith('.html')&&read(f).includes('id="siteLoader"')).every(f=>read(f).includes('assets/js/theme-init.js?v=20260930-ui54')));
 ok('copy says News & Events, never News/Event',!/(News\/Event)(?!s)/.test(index+site+auth));
 ok('copy says resumes on Monday',!/(resumes back on Monday)/i.test(index+site)&&(index+site).includes('resumes on Monday'));
 ok('ticker is lost-and-found only',/function renderTicker\(\)/.test(site)&&!site.slice(site.indexOf('function renderTicker()'),site.indexOf('function renderBday()')).includes('newsEvents'));
@@ -78,7 +78,7 @@ ok('ticker is lost-and-found only',/function renderTicker\(\)/.test(site)&&!site
 ok('SEO canonical and School JSON-LD remain',index.includes('https://treasureacademyageva.vercel.app/')&&index.includes('"@type": "School"'));
 ok('school phone and RC remain exact',index.includes('+234 814 194 3478')&&index.includes('RC 9634403')&&site.includes('RC 9634403'));
 ok('no Ministry approval number invented',!/(Ministry (?:approval|registration) (?:no|number)\.?\s*[:#]?\s*[A-Z0-9/-]+)/i.test(index+about));
-ok('portal and chatbot assets remain wired',index.includes('chat-core.js?v=20260929-ui53')&&index.includes('auth-ui.js?v=20260929-ui53')&&fs.existsSync(path.join(SITE,'portal/pupil.html')));
+ok('portal and chatbot assets remain wired',index.includes('chat-core.js?v=20260930-ui54')&&index.includes('auth-ui.js?v=20260930-ui54')&&fs.existsSync(path.join(SITE,'portal/pupil.html')));
 ok('pupil compatibility redirect remains',read('vercel.json').includes('"source": "/pupil.html"')&&read('vercel.json').includes('"destination": "/portal/pupil.html"'));
 const runtime=loadPage('index.html');
 ok('redesigned homepage boots without errors',runtime.errors.length===0,runtime.errors.join(' | ').slice(0,180));

@@ -26,7 +26,8 @@ python3 -m pip install -r requirements.txt
 
 ```bash
 cd model
-python3 scripts/fetch_open_data.py --manifest data/sources.json
+python3 scripts/fetch_open_data.py --manifest data/sources.json --strict
+python3 scripts/validate_sources.py
 python3 scripts/build_curriculum.py
 python3 scripts/prepare_data.py --config config/micro.json
 python3 src/train.py --config config/micro.json --max-steps 1000
@@ -42,10 +43,22 @@ The character preparation creates the cleaned licensed corpus. Then:
 python3 tokenizer/train_tokenizer.py --config config/tiny.json
 python3 tokenizer/inspect_tokenizer.py --config config/tiny.json "Treasure Academy teaches mathematics in Okene."
 python3 scripts/prepare_data.py --config config/tiny.json
-python3 src/train.py --config config/tiny.json
+python3 scripts/audit_corpus.py
 ```
 
-Benchmark 100 steps on the target GPU before authorising a long run.
+The current corpus audit says **DO NOT AUTHORISE LONG RUN**. A measured 100-step CUDA benchmark may still be run to establish hardware performance, but sustained training remains blocked. Use `scripts/benchmark_tiny.py` and follow `GPU-BENCHMARK.md`; do not call `src/train.py --config config/tiny.json` until a separate written authorisation is recorded.
+
+## Held-out evaluation v2
+
+Build and validate the 240-case routing/answer suite before comparing any checkpoint:
+
+```bash
+python3 scripts/build_evaluation_v2.py
+python3 scripts/validate_evaluation_v2.py
+python3 src/evaluate_suite_v2.py --predictions runs/PREDICTIONS.jsonl
+```
+
+See `EVALUATION-V2.md`. Every case still requires Nigerian teacher/safeguarding review.
 
 ## Instruction and preference stages
 

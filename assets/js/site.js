@@ -392,6 +392,15 @@ function initMobileNav(){
 }
 if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",initMobileNav);else initMobileNav();
 
+/* ---------------- Article tab-title reminder ---------------- */
+function initTabTitleSwap(){
+  const originalTitle=document.title;
+  document.addEventListener("visibilitychange",()=>{
+    document.title=document.hidden?"Come Back Soon | Treasure Academy":originalTitle;
+  });
+}
+if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",initTabTitleSwap);else initTabTitleSwap();
+
 /* ---------------- Reveal on scroll ---------------- */
 function initReveal(){
   const io = new IntersectionObserver(es=>es.forEach(en=>{ if(en.isIntersecting){ en.target.classList.add("revealed"); io.unobserve(en.target);} }),{threshold:.1});

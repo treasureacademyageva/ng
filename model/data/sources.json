@@ -120,6 +120,57 @@
       "approved_for_training": false,
       "reviewed": false,
       "review_note": "Booklet extraction order is unreliable; requires a Hausa-speaking editor before training."
+    },
+    {
+      "id": "siyavula-natural-sciences-grade-4",
+      "kind": "epub_text",
+      "url": "https://www.siyavula.com/downloads/books/science/Gr4_NaturalSciences_Learner_Eng_CC-BY.epub",
+      "title": "Natural Sciences and Technology Grade 4",
+      "creator": "Siyavula Education",
+      "license": "CC-BY-4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "attribution": "Natural Sciences and Technology Grade 4, Siyavula Education; CC BY 3.0.",
+      "language": "en-ZA",
+      "level": "primary_4",
+      "subject": "natural_sciences_and_technology",
+      "enabled": true,
+      "approved_for_training": true,
+      "reviewed": true,
+      "review_note": "Modern African primary curriculum source; licence, extraction, topic coverage and automated content scan reviewed. Nigerian teacher curriculum review is still required before a long run."
+    },
+    {
+      "id": "siyavula-natural-sciences-grade-5",
+      "kind": "epub_text",
+      "url": "https://www.siyavula.com/downloads/books/science/Gr5_NaturalSciences_Learner_Eng_CC-BY.epub",
+      "title": "Natural Sciences and Technology Grade 5",
+      "creator": "Siyavula Education",
+      "license": "CC-BY-4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "attribution": "Natural Sciences and Technology Grade 5, Siyavula Education; CC BY 3.0.",
+      "language": "en-ZA",
+      "level": "primary_5",
+      "subject": "natural_sciences_and_technology",
+      "enabled": true,
+      "approved_for_training": true,
+      "reviewed": true,
+      "review_note": "Modern African primary curriculum source; licence, extraction, topic coverage and automated content scan reviewed. Nigerian teacher curriculum review is still required before a long run."
+    },
+    {
+      "id": "siyavula-natural-sciences-grade-6",
+      "kind": "epub_text",
+      "url": "https://www.siyavula.com/downloads/books/science/Gr6_NaturalSciences_Learner_Eng_CC-BY.epub",
+      "title": "Natural Sciences and Technology Grade 6",
+      "creator": "Siyavula Education",
+      "license": "CC-BY-4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "attribution": "Natural Sciences and Technology Grade 6, Siyavula Education; CC BY 3.0.",
+      "language": "en-ZA",
+      "level": "primary_6",
+      "subject": "natural_sciences_and_technology",
+      "enabled": true,
+      "approved_for_training": true,
+      "reviewed": true,
+      "review_note": "Modern African primary curriculum source; licence, extraction, topic coverage and automated content scan reviewed. Nigerian teacher curriculum review is still required before a long run."
     }
   ]
 }

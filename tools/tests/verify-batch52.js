@@ -25,7 +25,7 @@ const site=read('assets/js/site.js'), css=read('assets/css/corporate.css');
 ok('topbar collapse has 80px threshold and direction handling',site.includes('function initTopbarCollapse()')&&site.includes('if(y<=80)setHidden(false)')&&site.includes('else if(y>lastY)setHidden(true)')&&site.includes('else if(y<lastY)setHidden(false)'));
 ok('collapse transforms are <=200ms',css.includes('transition:transform 180ms ease')&&css.includes('body.topbar-collapsed:not(.portal-body) .topbar')&&css.includes('transform:translateY(-100%)')&&css.includes('body.topbar-collapsed:not(.portal-body) .navbar{transform:translateY(-44px)}'));
 ok('hidden topbar leaves navbar accessible',site.includes('topbar.inert=hidden')&&headers.every(f=>read(f).includes('sticky-portal')&&read(f).includes('nav-apply')));
-ok('optional tab-title swap consciously skipped',!site.includes('visibilitychange')&&!site.includes('document.title'));
+ok('optional tab-title reminder is now implemented',site.includes('function initTabTitleSwap()')&&site.includes('visibilitychange')&&site.includes('document.title'));
 ok('no contact modal added',!site.includes('contactModal')&&!site.includes('slide-up contact'));
 
 /* Sitemap policy: owner explicitly approved story and search as public. */
@@ -90,7 +90,7 @@ ok('permissions policy limits sensitive APIs',/camera=\(\)/.test(hm['Permissions
 ok('security review documents browser-auth boundary',read('docs/SECURITY-REVIEW-BATCH52.md').includes('not a server authorization boundary'));
 
 /* Release identifiers and protected assets. */
-ok('all standard headers use ui52',headers.every(f=>read(f).includes('20260929-ui53')));
-ok('service worker cache is v73',read('sw.js').includes("'treasure-v74'"));
+ok('all standard headers use ui52',headers.every(f=>read(f).includes('20260930-ui54')));
+ok('service worker cache is v75',read('sw.js').includes("'treasure-v75'"));
 ok('shop JPEG assets remain',fs.readdirSync(path.join(SITE,'assets/img')).filter(x=>/^shop-.*\.jpg$/.test(x)).length===10);
 console.log(`\n==== BATCH52: ${pass} passed, ${fail} failed ====`);process.exit(fail?1:0);

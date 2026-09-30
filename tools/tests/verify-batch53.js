@@ -31,7 +31,7 @@ ok('reduced motion disables header transitions',/@media\(prefers-reduced-motion:
 ok('passive requestAnimationFrame scroll controller',js.includes('requestAnimationFrame(update)')&&js.includes('{passive:true}')&&js.includes('if(y<=80)setHidden(false)'));
 ok('drawer focus trap + Escape close',js.includes('function initMobileNav()')&&js.includes('e.key==="Escape"')&&js.includes('document.activeElement===first')&&js.includes('document.activeElement===last'));
 ok('drawer veil + body lock state',js.includes('veil.addEventListener("click"')&&js.includes('document.body.classList.add("nav-open")'));
-ok('no optional title swap',!js.includes('visibilitychange')&&!js.includes('document.title'));
+ok('tab-title reminder restores the original title',js.includes('function initTabTitleSwap()')&&js.includes('visibilitychange')&&js.includes('originalTitle'));
 const broadEmoji=/[\u{1F300}-\u{1FAFF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}]/u;
 ok('new header markup has no broad emoji glyphs',headers.every(f=>{const s=read(f),a=s.indexOf('<div class="topbar"'),v=s.indexOf('<div class="nav-veil"',a),z=s.indexOf('</div>',v)+6,h=s.slice(a,z);return !broadEmoji.test(h)}));
 const sm=read('sitemap.xml');ok('story and search are both in sitemap',sm.includes('/story.html</loc>')&&sm.includes('/search.html</loc>'));

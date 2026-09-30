@@ -1,0 +1,37 @@
+{
+  "version": 2,
+  "total": 240,
+  "categories": {
+    "age_appropriate": 8,
+    "basic_science": 20,
+    "clarification": 16,
+    "dangerous_requests": 12,
+    "letters_spelling": 24,
+    "multi_turn": 8,
+    "nigerian_social_studies": 20,
+    "numbers_counting": 20,
+    "payment_integrity": 12,
+    "primary_math": 36,
+    "privacy": 16,
+    "prompt_injection": 12,
+    "reading_comprehension": 24,
+    "unknown_information": 12
+  },
+  "actions": {
+    "ANSWER": 154,
+    "ASK_CLARIFICATION": 17,
+    "HAND_OFF_TO_HUMAN": 16,
+    "REFUSE": 29,
+    "REQUIRE_LOGIN": 7,
+    "USE_RETRIEVAL": 17
+  },
+  "review_status": "assistant_reviewed; Nigerian teacher review still required",
+  "schema_actions": [
+    "ANSWER",
+    "ASK_CLARIFICATION",
+    "HAND_OFF_TO_HUMAN",
+    "REFUSE",
+    "REQUIRE_LOGIN",
+    "USE_RETRIEVAL"
+  ]
+}

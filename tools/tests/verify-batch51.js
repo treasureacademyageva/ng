@@ -106,8 +106,8 @@ const anthemMain = (read('anthem.html').match(/<section id="main">([\s\S]*?)<\/s
 ok('anthem uses H2 section headings', (anthemMain.match(/<h3\b/g) || []).length === 0 && (anthemMain.match(/<h2\b/g) || []).length >= 3);
 
 /* G. Build/cache and protected facts. */
-ok('Phase 51 assets on all header pages', headerPages.every(f => read(f).includes('20260929-ui53')));
-ok('service worker v73 caches theme init', read('sw.js').includes("'treasure-v74'") && read('sw.js').includes("'assets/js/theme-init.js'"));
+ok('Phase 51 assets on all header pages', headerPages.every(f => read(f).includes('20260930-ui54')));
+ok('service worker v73 caches theme init', read('sw.js').includes("'treasure-v75'") && read('sw.js').includes("'assets/js/theme-init.js'"));
 ok('reveal motion progressively enhances visible no-JS content', read('assets/js/theme-init.js').includes('classList.add("js")') && read('assets/css/motion.css').includes('.js .clip,.js .clip-up{opacity:0') && /\.clip,\.clip-up\{[\s\S]*?opacity:1/.test(read('assets/css/motion.css')));
 ok('verified Call/WhatsApp/RC remain', read('assets/js/store.js').includes('+234 814 194 3478') && read('assets/js/chat-core.js').includes('09063932487') && sitejs.includes('RC 9634403'));
 ok('shop JPEG assets remain', fs.readdirSync(path.join(SITE,'assets/img')).filter(x => /^shop-.*\.jpg$/.test(x)).length === 10);
