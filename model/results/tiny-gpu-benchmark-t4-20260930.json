@@ -1,0 +1,55 @@
+{
+  "kind": "GPU",
+  "timestamp": "2026-09-30T00:38:54.334310+00:00",
+  "platform": "Linux-6.6.122+-x86_64-with-glibc2.39",
+  "torch_version": "2.11.0+cu128",
+  "cuda_runtime": "12.8",
+  "cudnn_version": 91900,
+  "provider": "Google Colab Free",
+  "instance": "Colab assigned CUDA GPU",
+  "gpu": {
+    "name": "Tesla T4",
+    "vram_gb": 14.56,
+    "compute_capability": "7.5"
+  },
+  "precision": "bfloat16",
+  "config": "tiny-edu-15m",
+  "parameters": 13980672,
+  "vocab_size": 8192,
+  "dataset": {
+    "train_tokens": 461013,
+    "validation_tokens": 23573,
+    "train_sha256": "1cf4ae3d2336f9dd984f90b9cb1e93dccc8b9b69769876f423405d244ae6aefc",
+    "validation_sha256": "4a82728929396d1dd061890a2f36b3dd7a3d70eada8c0b114d6058cc33e4ba80"
+  },
+  "benchmark": {
+    "steps": 100,
+    "warmup_steps_excluded": 5,
+    "batch_size": 16,
+    "block_size": 512,
+    "gradient_accumulation": 8,
+    "tokens_per_step": 65536,
+    "seconds_per_step": 3.053895085684218,
+    "tokens_per_second": 21459.80728257952,
+    "initial_training_loss": 9.053499221801758,
+    "final_training_loss": 4.881256401538849,
+    "mean_first_10_training_loss": 7.83900437951088,
+    "mean_final_10_training_loss": 4.6828012585639955,
+    "initial_validation_loss": 9.045355606079102,
+    "final_validation_loss": 4.789897727966308,
+    "peak_allocated_vram_gb": 2.999,
+    "peak_reserved_vram_gb": 3.166
+  },
+  "projection": {
+    "target_steps": 50000,
+    "estimated_hours": 42.41520952339192,
+    "hourly_cost_usd": 0.0,
+    "estimated_cost_usd": 0.0
+  },
+  "sample": "A good learner asks of the same.\n\n\n\n\n\nThere are not the Queen will show it\n\n\n\nThe soil. At this Earth.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nThe two own plants.\n\n\nThere could be a way that you must be used to make a table,\nHow we be done\n\n\n\n“No, the same, the two parts, and the Earth.\n\n\n\n\nThis is",
+  "long_run_authorised": false,
+  "notes": [
+    "Benchmark only; it does not authorise a long run.",
+    "Review dataset size, balance, samples and evaluation results before training."
+  ]
+}

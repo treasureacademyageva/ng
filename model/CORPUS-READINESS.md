@@ -2,6 +2,8 @@
 
 **Decision: DO NOT AUTHORISE A LONG 14M-PARAMETER RUN.**
 
+The required 100-step benchmark was completed on a Tesla T4 on 30 September 2026. Hardware performance passed, but the incoherent generated sample and the corpus findings below failed the authorisation gate. See `BENCHMARK-100-STEP-RESULTS.md`.
+
 The licensed corpus expanded from **570,375** to **1,903,726 characters** (3.34× the previous size). It now includes Siyavula Natural Sciences and Technology Grades 4–6 under CC BY 4.0, plus broader original primary maths, language, comprehension, science and Nigerian social-studies foundations.
 
 After retraining the 8,192-token BPE tokenizer, the deterministic split contains:
