@@ -231,7 +231,10 @@ class ReviewHandler(BaseHTTPRequestHandler):
             if not PORTAL.exists():
                 self.send_error_text(HTTPStatus.SERVICE_UNAVAILABLE, "Portal has not been generated")
                 return
-            self.send_bytes(HTTPStatus.OK, PORTAL.read_bytes(), "text/html; charset=utf-8")
+            content = PORTAL.read_text(encoding="utf-8").replace(
+                "</head>", "<script>window.__WORKSPACE_SERVER__=true</script></head>", 1
+            ).encode("utf-8")
+            self.send_bytes(HTTPStatus.OK, content, "text/html; charset=utf-8")
         elif path == "/api/reviews":
             try:
                 with self.configured.state_lock:
