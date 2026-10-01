@@ -1,0 +1,31 @@
+{
+  "version": 1,
+  "recorded_at": "2026-10-01",
+  "authorising_party": "project owner",
+  "authorised_scope": {
+    "purpose": "Password-gated distribution to candidate human reviewers for licence, teacher, safeguarding and legal review.",
+    "public_repository_content": [
+      "Review gateway application code",
+      "AES-256-GCM authenticated ciphertext containing the controlled review package",
+      "Non-secret build and control reports"
+    ],
+    "reviewer_functions": [
+      "Browser-local autosave",
+      "Hash-bound JSON import and export",
+      "Download, copy and device share controls"
+    ],
+    "branch": "preview"
+  },
+  "not_authorised": [
+    "Public plaintext corpus or draft distribution",
+    "Committing or retaining the review passphrase in the repository",
+    "Training use or training approval",
+    "Connecting experimental data or models to website users",
+    "Merging or deploying to main without a separate explicit go-live instruction"
+  ],
+  "control_state": {
+    "human_decisions_imported": 0,
+    "training_approvals_granted": 0,
+    "default_decision": "PENDING"
+  }
+}

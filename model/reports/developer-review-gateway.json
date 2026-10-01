@@ -1,0 +1,28 @@
+{
+  "version": 1,
+  "generated_at": "2026-10-01",
+  "status": "ENCRYPTED_PASSWORD_GATED_REVIEW_PACKAGE_NO_TRAINING_APPROVAL",
+  "owner_authorisation": "Password-gated human review access only; plaintext public corpus distribution remains forbidden.",
+  "authorisation_record": "model/reports/review-gateway-authorisation.json",
+  "gateway": "developer-review.html",
+  "encrypted_payload": "assets/data/review-gateway.enc.json",
+  "encrypted_payload_sha256": "2830b20fc4407ae7bca9e9c78266bb6478531870c8e9bd25f21ade9f7eb90ced",
+  "encrypted_payload_bytes": 1232197,
+  "plaintext_sha256": "f8d533cdb76d1d5b8d358734bb819759f9686862d50b98353b40ce8edfef1732",
+  "plaintext_bytes": 923693,
+  "cipher": "AES-256-GCM",
+  "kdf": "PBKDF2-HMAC-SHA-256",
+  "iterations": 310000,
+  "tracks": {
+    "candidate_licence": 54,
+    "candidate_teacher": 50,
+    "candidate_safeguarding": 50,
+    "pilot_teacher": 96,
+    "pilot_safeguarding": 96,
+    "conditional_legal": 4
+  },
+  "plaintext_committed": false,
+  "passphrase_committed": false,
+  "human_decisions_imported": 0,
+  "training_approvals_granted": 0
+}

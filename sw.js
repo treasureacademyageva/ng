@@ -23,6 +23,11 @@ self.addEventListener('activate', e => {
 self.addEventListener('fetch', e => {
   const url = new URL(e.request.url);
   if (e.request.method !== 'GET' || url.origin !== location.origin) return;
+  /* Never put the encrypted human-review gateway, payload or controller in an
+     offline cache. Review progress belongs only in its explicit localStorage. */
+  if (url.pathname === '/developer-review' || url.pathname === '/developer-review.html' ||
+      url.pathname === '/assets/js/developer-review.js' ||
+      url.pathname === '/assets/data/review-gateway.enc.json') return;
   if (url.pathname.endsWith('.css') || url.pathname.endsWith('.js') || url.pathname.match(/\.(png|jpg|jpeg|svg|webp|ico|woff2)$/)) {
     e.respondWith(caches.match(e.request).then(hit => hit || fetch(e.request).then(res => {
       const copy = res.clone(); caches.open(CACHE).then(c => c.put(e.request, copy)); return res;

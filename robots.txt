@@ -2,5 +2,7 @@ User-agent: *
 Allow: /
 Disallow: /portal/
 Disallow: /developer.html
+Disallow: /developer-review.html
+Disallow: /assets/data/review-gateway.enc.json
 
 Sitemap: https://treasureacademyageva.vercel.app/sitemap.xml
