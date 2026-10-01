@@ -14,7 +14,8 @@ The exact-item candidate intake, automated pre-review, deterministic hold dispos
 - 50 items are staged but unapproved and ready for named human review.
 - 4 items are licence-excluded from training: two CC BY-SA works and two works represented as US public domain by Project Gutenberg.
 - 0 items remain quarantined; five exact hash-bound automated holds were resolved for staging only.
-- 96/96 balanced mathematics/English briefs now have substantive deterministic AI-assisted drafts, each 378–462 words and hash-bound in the pilot manifest.
+- 96/96 balanced mathematics/English briefs have substantive deterministic AI-assisted drafts, each 378–462 words and hash-bound in the pilot manifest.
+- 96/96 drafts passed automated pre-review and are packaged for named teacher/safeguarding review.
 - 0 candidate items and 0 original drafts are training-approved.
 - Teacher, safeguarding, licence and final approval decisions remain pending. No human reviewer identity, decision or legal advice was fabricated.
 - The owner deferred a separate qualified-language-review track for this current experimental corpus only. This is not teacher, safeguarding, licence, legal or training approval.
@@ -100,6 +101,12 @@ The preserved research list still has its original ten collection candidates. It
 The ignored private output is `data/staging/authoring/pilot-v1-drafts.jsonl`. `data/authoring/pilot-balanced-v1-review.csv` records `DRAFTED`, `AI_ASSISTED` and the exact content SHA-256 for all 96 rows. The text is reproducible from the committed generator and briefs. The validator recomputes every deterministic draft hash and checks its target length.
 
 The drafts use fictional, low-risk classroom examples and explicitly avoid live school records and private details. That automated precaution does not replace named Nigerian primary teacher or safeguarding review. All such decisions remain `PENDING`.
+
+### Automated pilot pre-review and handoff
+
+On 1 October 2026, all 96 drafts passed deterministic structure, content-hash, target-length, privacy-pattern, URL, prohibited-source-claim and exact/near-duplicate checks. This adds machine evidence only: 96/96 are ready for named human review, with zero generated teacher, safeguarding or training approvals.
+
+Private read-only workbooks now package 54 candidate licence reviews, 50 candidate teacher reviews, 50 candidate safeguarding reviews, four conditional-rights legal briefs, 96 pilot teacher reviews and 96 pilot safeguarding reviews. The workbooks remain under ignored staging; committed hashes and section counts are in `reports/human-review-handoff.json`. See `HUMAN-REVIEW-HANDOFF.md`.
 
 ## Security and audit controls
 

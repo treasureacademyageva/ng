@@ -15,6 +15,7 @@ ROOT = Path(__file__).resolve().parents[1]
 QUEUE = ROOT / "data/authoring/primary-math-english-briefs.csv"
 RIGHTS = ROOT / "data/authoring/rights-confirmation.json"
 PILOT = ROOT / "data/authoring/pilot-balanced-v1-review.csv"
+PRE_REVIEW = ROOT / "reports/primary-pilot-pre-review.json"
 HEX64 = re.compile(r"^[0-9a-f]{64}$")
 DECISIONS = {"PENDING", "APPROVED", "CHANGES_REQUIRED", "REJECTED"}
 DRAFT_STATUSES = {"NOT_STARTED", "DRAFTED", "REVISED", "REJECTED"}
@@ -96,6 +97,34 @@ def main() -> None:
             errors.append(f"{sample_id}: fully approved record must set approved_for_training true explicitly")
     if len(rows) != len(queue) or set(row.get("brief_id", "") for row in rows) != set(queue):
         errors.append(f"pilot must cover every queue brief exactly once: {len(rows)}/{len(queue)} rows")
+
+    if not PRE_REVIEW.exists():
+        errors.append("automated pilot pre-review report is missing")
+        pre_review = {"results": []}
+    else:
+        pre_review = json.loads(PRE_REVIEW.read_text(encoding="utf-8"))
+    pre_results = pre_review.get("results", [])
+    pre_by_id = {row.get("sample_id"): row for row in pre_results}
+    manifest_by_id = {row.get("sample_id"): row for row in rows}
+    if set(pre_by_id) != set(manifest_by_id) or len(pre_results) != len(rows):
+        errors.append("automated pilot pre-review does not cover every sample exactly once")
+    for sample_id, row in manifest_by_id.items():
+        result = pre_by_id.get(sample_id)
+        if not result:
+            continue
+        if result.get("content_sha256") != row.get("content_sha256"):
+            errors.append(f"{sample_id}: automated pre-review content hash mismatch")
+        if result.get("automated_blockers"):
+            errors.append(f"{sample_id}: automated pre-review blocker remains")
+        if result.get("teacher_review") != "PENDING_NAMED_HUMAN" or result.get("safeguarding_review") != "PENDING_NAMED_HUMAN":
+            errors.append(f"{sample_id}: automated pre-review may not fill human decisions")
+        if result.get("training_approved") is not False:
+            errors.append(f"{sample_id}: automated pre-review may not grant training approval")
+    if pre_review.get("held_by_automated_checks") != 0:
+        errors.append("automated pilot pre-review must have zero unresolved machine blockers")
+    if pre_review.get("training_approved_documents") != 0:
+        errors.append("automated pilot pre-review must grant zero training approvals")
+
     report = {
         "pilot": str(PILOT.relative_to(ROOT)),
         "samples": len(rows),
@@ -106,6 +135,8 @@ def main() -> None:
         "draft_statuses": dict(Counter(row.get("draft_status", "") for row in rows)),
         "teacher_decisions": dict(Counter(row.get("teacher_decision", "") for row in rows)),
         "safeguarding_decisions": dict(Counter(row.get("safeguarding_decision", "") for row in rows)),
+        "automated_pre_review_ready": pre_review.get("ready_for_named_human_review", 0),
+        "automated_pre_review_held": pre_review.get("held_by_automated_checks", 0),
         "training_approved": sum(row.get("approved_for_training", "").lower() == "true" for row in rows),
         "errors": errors,
     }

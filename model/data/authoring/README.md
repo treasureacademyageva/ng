@@ -4,7 +4,7 @@ This directory plans school-owned or otherwise expressly licensed original conte
 
 `primary-math-english-briefs.csv` contains 96 briefs: eight mathematics and eight English briefs for each of Primary 1–6. The owner selected a balanced first sample covering every brief once. The broader pilot target remains three documents per brief; the full planning target is 40 documents per brief. These are planning numbers, not permission to generate repetitive filler.
 
-`rights-confirmation.json` records the owner's instruction that Treasure Academy Ageva is the rights holder and may use newly created material internally for model work. It does **not** grant an open licence or permit public corpus distribution. `pilot-balanced-v1-review.csv` is the 96-row hash-bound manifest. All 96 rows now reference deterministic private `AI_ASSISTED` drafts, while teacher, safeguarding and training decisions remain pending/unapproved.
+`rights-confirmation.json` records the owner's instruction that Treasure Academy Ageva is the rights holder and may use newly created material internally for model work. It does **not** grant an open licence or permit public corpus distribution. `pilot-balanced-v1-review.csv` is the 96-row hash-bound manifest. All 96 rows reference deterministic private `AI_ASSISTED` drafts and have passed automated structure/hash/length/privacy-pattern/URL/source-claim/deduplication checks. Teacher, safeguarding and training decisions remain pending/unapproved.
 
 ## NAPPS alignment
 
@@ -46,7 +46,9 @@ python3 scripts/build_primary_authoring_queue.py
 python3 scripts/validate_primary_authoring_queue.py
 python3 scripts/build_primary_pilot_manifest.py
 python3 scripts/generate_primary_pilot_drafts.py
+python3 scripts/pre_review_primary_pilot.py
 python3 scripts/validate_primary_pilot_manifest.py
+python3 scripts/prepare_human_review_handoff.py
 ```
 
-Because the confirmed right is internal use rather than an open licence, draft text stays in ignored `data/staging/authoring/pilot-v1-drafts.jsonl` and is not pushed to the public repository. The generator makes the private text reproducible from the briefs; only hashes and review metadata belong in the committed pilot manifest.
+Because the confirmed right is internal use rather than an open licence, draft text stays in ignored `data/staging/authoring/pilot-v1-drafts.jsonl` and is not pushed to the public repository. The generator makes the private text reproducible from the briefs; only hashes and review metadata belong in the committed pilot manifest. Read-only reviewer workbooks stay under ignored `data/staging/review-workbooks/`; see `../../HUMAN-REVIEW-HANDOFF.md`.

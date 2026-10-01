@@ -56,6 +56,21 @@
       "PENDING": 96
     },
     "training_approved_documents": 0,
+    "automated_pre_review": {
+      "documents": 96,
+      "ready_for_named_human_review": 96,
+      "held_by_automated_checks": 0,
+      "training_approved_documents": 0
+    },
+    "private_human_review_handoff": {
+      "candidate_licence_reviews_pending": 54,
+      "candidate_teacher_reviews_ready": 50,
+      "candidate_safeguarding_reviews_ready": 50,
+      "conditional_rights_legal_reviews_required": 4,
+      "pilot_teacher_reviews_ready": 96,
+      "pilot_safeguarding_reviews_ready": 96,
+      "human_review_decisions_filled": 0
+    },
     "napps_alignment": {
       "rows": 328,
       "class_subject_term_combinations": 36,

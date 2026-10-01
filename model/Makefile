@@ -27,7 +27,12 @@ authoring-queue:
 	$(PYTHON) scripts/validate_primary_authoring_queue.py
 	$(PYTHON) scripts/build_primary_pilot_manifest.py
 	$(PYTHON) scripts/generate_primary_pilot_drafts.py
+	$(PYTHON) scripts/pre_review_primary_pilot.py
 	$(PYTHON) scripts/validate_primary_pilot_manifest.py
+review-handoff:
+	$(PYTHON) scripts/pre_review_candidates.py
+	$(PYTHON) scripts/pre_review_primary_pilot.py
+	$(PYTHON) scripts/prepare_human_review_handoff.py
 audit:
 	$(PYTHON) scripts/audit_duplicates.py
 	$(PYTHON) scripts/audit_corpus.py

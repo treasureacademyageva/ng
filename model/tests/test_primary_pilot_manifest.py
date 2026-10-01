@@ -49,6 +49,8 @@ def test_independent_pilot_validator_passes():
     report = json.loads(result.stdout)
     assert report["samples"] == 96
     assert report["draft_statuses"] == {"DRAFTED": 96}
+    assert report["automated_pre_review_ready"] == 96
+    assert report["automated_pre_review_held"] == 0
     assert report["training_approved"] == 0
     assert report["errors"] == []
 
@@ -62,3 +64,30 @@ def test_generation_report_records_substantive_private_unapproved_drafts():
     assert report["teacher_approved"] == 0
     assert report["safeguarding_approved"] == 0
     assert report["training_approved"] == 0
+
+
+def test_pilot_automated_pre_review_is_complete_without_human_approval():
+    report = json.loads((ROOT / "reports/primary-pilot-pre-review.json").read_text(encoding="utf-8"))
+    assert report["documents"] == 96
+    assert report["ready_for_named_human_review"] == 96
+    assert report["held_by_automated_checks"] == 0
+    assert report["privacy_pattern_hits"] == 0
+    assert report["unexpected_urls"] == 0
+    assert report["prohibited_alignment_claims"] == 0
+    assert report["exact_or_near_duplicate_documents"] == 0
+    assert report["named_teacher_approvals"] == 0
+    assert report["named_safeguarding_approvals"] == 0
+    assert report["training_approved_documents"] == 0
+
+
+def test_private_human_review_handoff_has_no_generated_decisions():
+    report = json.loads((ROOT / "reports/human-review-handoff.json").read_text(encoding="utf-8"))
+    assert report["candidate_licence_reviews_pending"] == 54
+    assert report["candidate_teacher_reviews_ready"] == 50
+    assert report["candidate_safeguarding_reviews_ready"] == 50
+    assert report["conditional_rights_legal_reviews_required"] == 4
+    assert report["pilot_teacher_reviews_ready"] == 96
+    assert report["pilot_safeguarding_reviews_ready"] == 96
+    assert report["human_review_decisions_filled"] == 0
+    assert report["training_approvals_granted"] == 0
+    assert all(re.fullmatch(r"[0-9a-f]{64}", row["sha256"]) for row in report["workbooks"].values())

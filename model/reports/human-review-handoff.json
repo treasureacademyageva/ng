@@ -1,0 +1,62 @@
+{
+  "version": 1,
+  "generated_at": "2026-10-01",
+  "status": "PRIVATE_READ_ONLY_REVIEW_HANDOFF_HUMAN_DECISIONS_UNCHANGED",
+  "candidate_items": 54,
+  "candidate_licence_reviews_pending": 54,
+  "candidate_teacher_reviews_ready": 50,
+  "candidate_safeguarding_reviews_ready": 50,
+  "conditional_rights_legal_reviews_required": 4,
+  "pilot_teacher_reviews_ready": 96,
+  "pilot_safeguarding_reviews_ready": 96,
+  "human_review_decisions_filled": 0,
+  "training_approvals_granted": 0,
+  "decision_record_files": [
+    "data/reviews/candidate-intake-review.csv",
+    "data/authoring/pilot-balanced-v1-review.csv"
+  ],
+  "workbooks": {
+    "candidate_licence": {
+      "path": "data/staging/review-workbooks/candidate-licence-review.html",
+      "sha256": "c711863505285a6a77a81cd63bf7aa4288865412f4b5753a41477a75ad0c2d81",
+      "bytes": 90924,
+      "sections": 54,
+      "tracked": false
+    },
+    "candidate_teacher": {
+      "path": "data/staging/review-workbooks/candidate-teacher-review.html",
+      "sha256": "a5bf0636d62c375ec461d774624915d30eec044d7f467cd142878e25c26058e2",
+      "bytes": 589440,
+      "sections": 50,
+      "tracked": false
+    },
+    "candidate_safeguarding": {
+      "path": "data/staging/review-workbooks/candidate-safeguarding-review.html",
+      "sha256": "3c4c7b2fa657158b71841a6bf9778da3f547ef2118fec2ca3eae5a9ac4e737f7",
+      "bytes": 589350,
+      "sections": 50,
+      "tracked": false
+    },
+    "pilot_teacher": {
+      "path": "data/staging/review-workbooks/primary-pilot-teacher-review.html",
+      "sha256": "b639dfdd5c30675e83ff0c385b5017ab3f7b45e945711d77c94f7e539846d987",
+      "bytes": 353995,
+      "sections": 96,
+      "tracked": false
+    },
+    "pilot_safeguarding": {
+      "path": "data/staging/review-workbooks/primary-pilot-safeguarding-review.html",
+      "sha256": "50e12bac802862a7abca3140cddd0ba9767d29933c5fa817d715c80e1167a4b9",
+      "bytes": 355349,
+      "sections": 96,
+      "tracked": false
+    },
+    "conditional_rights": {
+      "path": "data/staging/review-workbooks/conditional-rights-legal-brief.html",
+      "sha256": "84b4a7c5f156d9622607dc6aee204235f850e2adfa8f59028bab69abc31c09fe",
+      "bytes": 8902,
+      "sections": 4,
+      "tracked": false
+    }
+  }
+}

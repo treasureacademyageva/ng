@@ -227,6 +227,13 @@ def test_20_long_run_is_closed_and_experimental_model_is_disconnected_from_produ
     assert audit["long_run_ready"] is False
     assert audit["decision"] == "DO NOT AUTHORISE LONG RUN"
     assert audit["candidate_controls"]["training_approved_items"] == 0
+    assert audit["authoring_plan"]["automated_pre_review"] == {
+        "documents": 96,
+        "ready_for_named_human_review": 96,
+        "held_by_automated_checks": 0,
+        "training_approved_documents": 0,
+    }
+    assert audit["authoring_plan"]["private_human_review_handoff"]["human_review_decisions_filled"] == 0
     assert audit["weighted_completion"]["official_policy_completion_percentage"] < 100
     vercel = (REPO / "vercel.json").read_text(encoding="utf-8")
     production = (REPO / "ai/main.py").read_text(encoding="utf-8")

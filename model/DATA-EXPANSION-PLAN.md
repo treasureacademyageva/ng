@@ -115,6 +115,8 @@ The Storybooks staging importer also maintains four collection review packets co
 
 No script auto-approves a row. Valid teacher or safeguarding approval requires a named human, the required role and a review date. Current state is **0/240 evaluation teacher-approved, 0/240 evaluation safeguarding-approved, 0/46 staged stories approved on either content-review track, and 0/96 original drafts approved on either track**. All six optional language-source decisions are also pending; under the current scoped owner policy, that separate language track is deferred rather than a present hard gate.
 
+All 96 original drafts have now passed deterministic machine pre-review, and private read-only reviewer workbooks package the 54 candidate licence rows, 50 staged candidate content rows, four conditional-rights legal holds and 96 original drafts. This improves review readiness but does not reduce any human approval requirement. See `HUMAN-REVIEW-HANDOFF.md` and `reports/human-review-handoff.json`.
+
 ## Candidate findings
 
 The candidate registry records both promising and prohibited uses:

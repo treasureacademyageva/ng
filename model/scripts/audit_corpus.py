@@ -225,6 +225,15 @@ def main() -> None:
     pilot_teacher_decisions = Counter(row.get("teacher_decision", "") for row in pilot_rows)
     pilot_safeguarding_decisions = Counter(row.get("safeguarding_decision", "") for row in pilot_rows)
     pilot_training_approved = sum(row.get("approved_for_training", "").lower() == "true" for row in pilot_rows)
+    pilot_pre_review_path = ROOT / "reports/primary-pilot-pre-review.json"
+    pilot_pre_review = load_json(pilot_pre_review_path) if pilot_pre_review_path.exists() else {}
+    human_handoff_path = ROOT / "reports/human-review-handoff.json"
+    human_handoff = load_json(human_handoff_path) if human_handoff_path.exists() else {}
+    if len(pilot_rows) == required_pilot_samples and pilot_pre_review.get("ready_for_named_human_review") != len(pilot_rows):
+        reasons.append(
+            f"automated original-pilot pre-review incomplete: "
+            f"{pilot_pre_review.get('ready_for_named_human_review', 0)}/{len(pilot_rows)} ready"
+        )
 
     napps_manifest = load_json(ROOT / authoring_policy["napps_alignment_manifest"])
     napps_index_path = ROOT / authoring_policy["napps_alignment_index"]
@@ -441,6 +450,21 @@ def main() -> None:
             "pilot_teacher_decisions": dict(pilot_teacher_decisions),
             "pilot_safeguarding_decisions": dict(pilot_safeguarding_decisions),
             "training_approved_documents": pilot_training_approved,
+            "automated_pre_review": {
+                "documents": pilot_pre_review.get("documents", 0),
+                "ready_for_named_human_review": pilot_pre_review.get("ready_for_named_human_review", 0),
+                "held_by_automated_checks": pilot_pre_review.get("held_by_automated_checks", 0),
+                "training_approved_documents": pilot_pre_review.get("training_approved_documents", 0),
+            },
+            "private_human_review_handoff": {
+                "candidate_licence_reviews_pending": human_handoff.get("candidate_licence_reviews_pending", 0),
+                "candidate_teacher_reviews_ready": human_handoff.get("candidate_teacher_reviews_ready", 0),
+                "candidate_safeguarding_reviews_ready": human_handoff.get("candidate_safeguarding_reviews_ready", 0),
+                "conditional_rights_legal_reviews_required": human_handoff.get("conditional_rights_legal_reviews_required", 0),
+                "pilot_teacher_reviews_ready": human_handoff.get("pilot_teacher_reviews_ready", 0),
+                "pilot_safeguarding_reviews_ready": human_handoff.get("pilot_safeguarding_reviews_ready", 0),
+                "human_review_decisions_filled": human_handoff.get("human_review_decisions_filled", 0),
+            },
             "napps_alignment": {
                 "rows": len(napps_rows),
                 "class_subject_term_combinations": len(napps_combinations),

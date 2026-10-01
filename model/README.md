@@ -65,14 +65,16 @@ python3 scripts/build_primary_authoring_queue.py
 python3 scripts/validate_primary_authoring_queue.py
 python3 scripts/build_primary_pilot_manifest.py
 python3 scripts/generate_primary_pilot_drafts.py     # private AI-assisted drafts; never approval
+python3 scripts/pre_review_primary_pilot.py           # machine checks; never human approval
 python3 scripts/validate_primary_pilot_manifest.py
+python3 scripts/prepare_human_review_handoff.py       # ignored read-only reviewer workbooks
 python3 scripts/audit_duplicates.py
 python3 scripts/audit_corpus.py
 ```
 
 Candidate material stays outside `sources.json` and training until item-level rights, provenance, content quality and every required human review pass. The current item-level audit has 50 staged-unapproved, 4 licence-excluded and 0 quarantined items. Automated pre-review covers all 54 exact items, but every generated human decision remains pending and there are zero training approvals. A separate qualified-language-review track is owner-deferred for this current experimental corpus only; teacher, safeguarding, licence, legal and final training gates remain unchanged. Approved-corpus completion is 15.31%; experimental intake-control readiness is 100.00%, which is not permission to train. See `CORPUS-EXPANSION-REPORT.md` and `reports/corpus-expansion-audit.json`.
 
-The school uses NAPPS, so the authoring workflow includes a 328-row Primary 1–6 English/Mathematics topic index from the newest public series previously found. It matches the September 2025 federal subject structure and NERDC competency strategy and is owner-authorized for original authoring. It remains a third-party alignment—not an official NAPPS edition or licensed training source. The balanced pilot now has 96 hash-bound AI-assisted private drafts, but zero teacher approvals, zero safeguarding approvals and zero training-approved documents. See `NAPPS-ALIGNMENT.md` and `data/authoring/README.md`.
+The school uses NAPPS, so the authoring workflow includes a 328-row Primary 1–6 English/Mathematics topic index from the newest public series previously found. It matches the September 2025 federal subject structure and NERDC competency strategy and is owner-authorized for original authoring. It remains a third-party alignment—not an official NAPPS edition or licensed training source. The balanced pilot has 96 hash-bound AI-assisted private drafts; all 96 passed deterministic machine pre-review and have private teacher/safeguarding workbooks, but there are still zero human or training approvals. See `NAPPS-ALIGNMENT.md`, `HUMAN-REVIEW-HANDOFF.md` and `data/authoring/README.md`.
 
 ## Held-out evaluation v2
 
