@@ -1,5 +1,5 @@
 {
-  "policy_version": 1,
+  "policy_version": 2,
   "characters": 1903726,
   "bpe_tokens": 484586,
   "train_bpe_tokens": 461013,
@@ -47,7 +47,7 @@
     "pilot_manifest": "data/authoring/pilot-balanced-v1-review.csv",
     "pilot_samples": 96,
     "pilot_draft_statuses": {
-      "NOT_STARTED": 96
+      "DRAFTED": 96
     },
     "pilot_teacher_decisions": {
       "PENDING": 96
@@ -151,50 +151,49 @@
       "nigerian_context_characters": 338488
     },
     "staged_unapproved": {
-      "items": 49,
-      "characters": 720359,
-      "words": 137395,
-      "estimated_bpe_tokens": 180624,
+      "items": 50,
+      "characters": 529105,
+      "words": 101223,
+      "estimated_bpe_tokens": 133007,
       "subjects_characters": {
-        "age_appropriate_computer_studies": 7491,
-        "english_reading_composition": 365827,
-        "local_geography": 1879,
-        "nigerian_context_childrens_stories": 54325,
-        "primary_mathematics": 290837
+        "nigerian_context_childrens_stories": 59433,
+        "primary_mathematics": 469672
       },
       "contexts_characters": {
-        "african": 333679,
-        "global": 373318,
-        "nigerian": 12906,
+        "african": 516974,
+        "nigerian": 11675,
         "uncertain": 456
       },
       "languages_characters": {
-        "en": 418495,
-        "en-ZA": 290837,
-        "ha": 2603,
+        "en": 47758,
+        "en-ZA": 469672,
+        "ha": 2862,
         "pcm-NG": 5316,
-        "yo": 3108
+        "yo": 3497
+      }
+    },
+    "licence_excluded": {
+      "items": 4,
+      "characters": 375197,
+      "words": 70930,
+      "estimated_bpe_tokens": 93803,
+      "subjects_characters": {
+        "age_appropriate_computer_studies": 7491,
+        "english_reading_composition": 365827,
+        "local_geography": 1879
+      },
+      "contexts_characters": {
+        "global": 373318,
+        "nigerian": 1879
+      },
+      "languages_characters": {
+        "en": 375197
       }
     },
     "quarantined": {
-      "items": 5,
-      "characters": 183943,
-      "words": 34758,
-      "estimated_bpe_tokens": 46186,
-      "subjects_characters": {
-        "nigerian_context_childrens_stories": 5108,
-        "primary_mathematics": 178835
-      },
-      "contexts_characters": {
-        "african": 183295,
-        "nigerian": 648
-      },
-      "languages_characters": {
-        "en": 4460,
-        "en-ZA": 178835,
-        "ha": 259,
-        "yo": 389
-      }
+      "subjects_characters": {},
+      "contexts_characters": {},
+      "languages_characters": {}
     },
     "rejected": {
       "subjects_characters": {},
@@ -219,7 +218,7 @@
         "VERIFY_PER_ITEM": 2
       }
     },
-    "before_after_note": "The approved-before and approved-after distributions are identical because no staged candidate is approved. Candidate distributions are shown separately and must not be added to approved progress.",
+    "before_after_note": "The approved-before and approved-after distributions are identical because no candidate or original draft is approved. Candidate states are shown separately and must not be added to approved progress.",
     "approved_characters_before": 1903726,
     "approved_characters_after": 1903726,
     "approved_train_bpe_tokens_before": 461013,
@@ -228,8 +227,11 @@
   "candidate_controls": {
     "items": 54,
     "review_rows": 54,
-    "quarantined_items": 5,
-    "privacy_warnings": 1,
+    "quarantined_items": 0,
+    "licence_excluded_items": 4,
+    "automated_holds_resolved_for_staging": 5,
+    "privacy_warnings_detected": 1,
+    "unresolved_privacy_warnings": 0,
     "heldout_leakage_blocks": 0,
     "conditional_licence_items": [
       "wikijunior-africa-nigeria-r4416499",
@@ -237,6 +239,11 @@
       "gutenberg-beginners-language-41288",
       "gutenberg-mcguffey-third-14766"
     ],
+    "language_review_policy": {
+      "status": "OWNER_DEFERRED_FOR_CURRENT_EXPERIMENTAL_CORPUS",
+      "directed_at": "2026-09-30",
+      "scope": "Current staged corpus only; teacher, safeguarding, licence and explicit training approval remain separate."
+    },
     "benchmark_files_unchanged": true,
     "training_approved_items": 0
   },
@@ -344,14 +351,14 @@
         "weight": 10,
         "fraction_met": 1.0,
         "points_awarded": 10.0,
-        "evidence": "54/54 staged/quarantined items have original/extracted hashes and metrics"
+        "evidence": "54/54 reviewable candidate items have original/extracted hashes and metrics"
       },
       {
         "name": "quality_and_privacy_scanning",
         "weight": 8,
         "fraction_met": 1.0,
         "points_awarded": 8.0,
-        "evidence": "54/54 staged/quarantined items have quality and privacy results"
+        "evidence": "54/54 reviewable candidate items have quality and privacy results"
       },
       {
         "name": "evidence_bound_context_and_subject_classification",
@@ -365,7 +372,7 @@
         "weight": 8,
         "fraction_met": 1.0,
         "points_awarded": 8.0,
-        "evidence": "54/54 staged/quarantined items have duplicate results"
+        "evidence": "54/54 reviewable candidate items have duplicate results"
       },
       {
         "name": "heldout_leakage_and_hash_protection",
@@ -382,11 +389,11 @@
         "evidence": "54 hash-bound rows; every generated approval decision pending=True"
       },
       {
-        "name": "approved_staged_quarantined_state_audit",
+        "name": "approved_candidate_state_separation_audit",
         "weight": 7,
         "fraction_met": 1.0,
         "points_awarded": 7.0,
-        "evidence": "Audit reports approved baseline, staged-unapproved, quarantined and rejected states separately"
+        "evidence": "Audit reports approved baseline, staged-unapproved, licence-excluded, quarantined and rejected states separately"
       },
       {
         "name": "ignored_staging_boundary",
@@ -536,8 +543,7 @@
     "storybooks-nigeria-yoruba-cc-by teacher review incomplete: 0/6 approved",
     "storybooks-nigeria-yoruba-cc-by safeguarding review incomplete: 0/6 approved",
     "candidate item approval review incomplete: 0/54 approved",
-    "5 candidate item(s) are quarantined",
-    "4 candidate item(s) require share-alike or jurisdiction review"
+    "4 candidate item(s) remain training-excluded pending share-alike or Nigerian-jurisdiction legal approval"
   ],
   "decision": "DO NOT AUTHORISE LONG RUN"
 }

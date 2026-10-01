@@ -232,3 +232,35 @@ def test_20_long_run_is_closed_and_experimental_model_is_disconnected_from_produ
     production = (REPO / "ai/main.py").read_text(encoding="utf-8")
     assert "model/checkpoints" not in vercel + production
     assert "model/data/pretraining" not in vercel + production
+
+
+def test_21_hash_bound_hold_resolutions_and_licence_exclusions_fail_closed():
+    statuses = {item["id"]: item for item in REGISTRY["items"]}
+    assert sum(item["staging_status"] == "STAGED_UNAPPROVED" for item in statuses.values()) == 50
+    assert sum(item["staging_status"] == "LICENSE_EXCLUDED" for item in statuses.values()) == 4
+    assert sum(item["staging_status"] == "QUARANTINED" for item in statuses.values()) == 0
+    resolved = [item for item in statuses.values() if item.get("automated_hold_resolution")]
+    assert len(resolved) == 5
+    for item in resolved:
+        disposition = item["automated_hold_resolution"]
+        assert item["staging_status"] == "STAGED_UNAPPROVED"
+        assert disposition["original_sha256"] == item["original_sha256"]
+        assert disposition["extracted_sha256"] == item["extracted_sha256"]
+        assert disposition["scope"] == "staging only; no human or training approval"
+    excluded = [item for item in statuses.values() if item["staging_status"] == "LICENSE_EXCLUDED"]
+    assert {item["license"]["identifier"] for item in excluded} == {"CC-BY-SA-4.0", "US-PUBLIC-DOMAIN"}
+    assert all(item["licence_disposition"]["decision"] == "EXCLUDE_FROM_TRAINING" for item in excluded)
+    assert all(item["training_eligible"] is False for item in excluded)
+
+
+def test_22_automated_pre_review_covers_all_items_without_human_impersonation():
+    report = json.loads((ROOT / "reports/candidate-pre-review.json").read_text(encoding="utf-8"))
+    assert report["items"] == 54
+    assert report["ready_for_human_review"] == 50
+    assert report["held_or_excluded"] == 4
+    assert report["language_review_policy"] == "NOT_REQUIRED_CURRENT_OWNER_POLICY"
+    assert report["named_teacher_approvals"] == 0
+    assert report["named_safeguarding_approvals"] == 0
+    assert report["training_approved_items"] == 0
+    assert all(row["teacher_review"] == "PENDING_NAMED_HUMAN" for row in report["results"])
+    assert all(row["safeguarding_review"] == "PENDING_NAMED_HUMAN" for row in report["results"])

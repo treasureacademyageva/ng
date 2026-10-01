@@ -1,10 +1,9 @@
 {
   "version": 1,
-  "status": "SCANNED_STAGED_ONLY_NOT_TRAINING_APPROVED",
+  "status": "POST_SCAN_DISPOSITIONS_RECORDED_NO_TRAINING_APPROVAL",
   "items": 46,
   "status_counts": {
-    "QUARANTINED": 4,
-    "STAGED_UNAPPROVED": 42
+    "STAGED_UNAPPROVED": 46
   },
   "privacy_warning_items": 0,
   "quality_error_items": 1,
@@ -565,7 +564,7 @@
     },
     {
       "id": "storybooks-nigeria-en-0262",
-      "status": "QUARANTINED",
+      "status": "STAGED_UNAPPROVED",
       "quality": {
         "characters": 4460,
         "words": 836,
@@ -607,7 +606,17 @@
         "shared_shingles": 0,
         "samples": [],
         "blocked": false
-      }
+      },
+      "automated_hold_resolution": {
+        "code": "ACCEPT_INTENTIONAL_STORY_REPETITION_FOR_STAGING",
+        "reason": "Repeated dialogue is internal to the source story and is retained as intentional narrative repetition.",
+        "resolved_at": "2026-09-30",
+        "original_sha256": "17cca581cb243f9aee884c7405434c7c0474c4b1a5f3fc435c9652d3e38fd1f6",
+        "extracted_sha256": "a9efa00ae6816367376c4b8ac5a83bdd47923edceca596b6ea9cc11f5f6edb1e",
+        "prior_reason": "exact or near duplicate found",
+        "scope": "staging only; no human or training approval"
+      },
+      "quarantine_reasons": []
     },
     {
       "id": "storybooks-nigeria-en-0291",
@@ -1104,7 +1113,7 @@
     },
     {
       "id": "storybooks-nigeria-ha-0087",
-      "status": "QUARANTINED",
+      "status": "STAGED_UNAPPROVED",
       "quality": {
         "characters": 259,
         "words": 44,
@@ -1138,7 +1147,17 @@
         "shared_shingles": 0,
         "samples": [],
         "blocked": false
-      }
+      },
+      "automated_hold_resolution": {
+        "code": "ACCEPT_EARLY_READER_REFRAIN_FOR_STAGING",
+        "reason": "The repeated question is an intentional early-reader refrain, not corpus padding.",
+        "resolved_at": "2026-09-30",
+        "original_sha256": "d19091b05e35c522ac35eea875ad850cd4ce9d30ae9026ea8f4c3aeab299e89a",
+        "extracted_sha256": "286335a670aedd078ba417474f008deb6a0629bdbf0a33f14fa4fba2850ae5a2",
+        "prior_reason": "exact or near duplicate found",
+        "scope": "staging only; no human or training approval"
+      },
+      "quarantine_reasons": []
     },
     {
       "id": "storybooks-nigeria-ha-0110",
@@ -1229,7 +1248,7 @@
     },
     {
       "id": "storybooks-nigeria-yo-0087",
-      "status": "QUARANTINED",
+      "status": "STAGED_UNAPPROVED",
       "quality": {
         "characters": 281,
         "words": 80,
@@ -1263,7 +1282,17 @@
         "shared_shingles": 0,
         "samples": [],
         "blocked": false
-      }
+      },
+      "automated_hold_resolution": {
+        "code": "ACCEPT_EARLY_READER_REFRAIN_FOR_STAGING",
+        "reason": "The repeated question is an intentional early-reader refrain, not corpus padding.",
+        "resolved_at": "2026-09-30",
+        "original_sha256": "16f41809aa6869691aa3d1a13d4eab549de11d5dad8b03756aa38cb503397631",
+        "extracted_sha256": "22f81c6484fa08b21667fbac251241c9e6949a707c911ca77c687e239384e787",
+        "prior_reason": "exact or near duplicate found",
+        "scope": "staging only; no human or training approval"
+      },
+      "quarantine_reasons": []
     },
     {
       "id": "storybooks-nigeria-yo-0110",
@@ -1325,7 +1354,7 @@
     },
     {
       "id": "storybooks-nigeria-yo-0302",
-      "status": "QUARANTINED",
+      "status": "STAGED_UNAPPROVED",
       "quality": {
         "characters": 108,
         "words": 23,
@@ -1352,7 +1381,17 @@
         "shared_shingles": 0,
         "samples": [],
         "blocked": false
-      }
+      },
+      "automated_hold_resolution": {
+        "code": "ACCEPT_SHORT_EARLY_READER_FOR_STAGING",
+        "reason": "The complete source is a deliberately short beginning reader; short length is retained and still needs teacher/safeguarding review.",
+        "resolved_at": "2026-09-30",
+        "original_sha256": "d15d40529dbc299459a065df00f15ab4911168d4a3a6fec61b3ce6785a7f1f17",
+        "extracted_sha256": "6fc5ca1ff653f9a3aba19d03bd4458bed3e8d55fd8ccc8a64d922cc5c41c3517",
+        "prior_reason": "extracted text is too short",
+        "scope": "staging only; no human or training approval"
+      },
+      "quarantine_reasons": []
     },
     {
       "id": "storybooks-nigeria-yo-0327",
@@ -1383,5 +1422,7 @@
         "blocked": false
       }
     }
-  ]
+  ],
+  "resolved_automated_holds": 4,
+  "licence_excluded_items": 0
 }

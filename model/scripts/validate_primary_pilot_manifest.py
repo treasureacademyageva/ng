@@ -3,10 +3,13 @@
 from __future__ import annotations
 
 import csv
+import hashlib
 import json
 import re
 from collections import Counter
 from pathlib import Path
+
+from generate_primary_pilot_drafts import build_content, words
 
 ROOT = Path(__file__).resolve().parents[1]
 QUEUE = ROOT / "data/authoring/primary-math-english-briefs.csv"
@@ -23,7 +26,9 @@ def read_csv(path: Path) -> list[dict[str, str]]:
 
 
 def main() -> None:
-    queue = {row["brief_id"]: row for row in read_csv(QUEUE)}
+    queue_rows = read_csv(QUEUE)
+    queue = {row["brief_id"]: row for row in queue_rows}
+    queue_index = {row["brief_id"]: index for index, row in enumerate(queue_rows)}
     rows = read_csv(PILOT)
     rights = json.loads(RIGHTS.read_text(encoding="utf-8"))
     errors = []
@@ -59,6 +64,13 @@ def main() -> None:
             errors.append(f"{sample_id}: invalid creator_type {creator_type!r}")
         if draft_status in {"DRAFTED", "REVISED"} and creator_type == "AI_ASSISTED_PLANNED":
             errors.append(f"{sample_id}: completed draft cannot remain AI_ASSISTED_PLANNED")
+        if draft_status == "DRAFTED" and creator_type == "AI_ASSISTED":
+            expected_content = build_content(brief, queue_index[brief_id])
+            expected_hash = hashlib.sha256(expected_content.encode("utf-8")).hexdigest()
+            if content_hash != expected_hash:
+                errors.append(f"{sample_id}: content hash differs from deterministic private draft")
+            if words(expected_content) < int(brief["target_words_per_document"]):
+                errors.append(f"{sample_id}: deterministic private draft is below target words")
         for prefix in ("teacher", "safeguarding"):
             decision = row.get(f"{prefix}_decision", "")
             if decision not in DECISIONS:

@@ -1,5 +1,5 @@
 {
-  "version": 1,
+  "version": 2,
   "status": "fail_closed_experimental_staging_only",
   "allowed_schemes": [
     "https"
@@ -67,13 +67,12 @@
     "UNKNOWN",
     "UNVERIFIED"
   ],
-  "languages_requiring_qualified_review": [
-    "ha",
-    "ig",
-    "igb",
-    "pcm-NG",
-    "yo"
-  ],
+  "languages_requiring_qualified_review": [],
+  "language_review_policy": {
+    "status": "OWNER_DEFERRED_FOR_CURRENT_EXPERIMENTAL_CORPUS",
+    "directed_at": "2026-09-30",
+    "scope": "Current staged corpus only; teacher, safeguarding, licence and explicit training approval remain separate."
+  },
   "privacy_patterns": {
     "email": "\\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,}\\b",
     "international_phone": "(?<![\\w+])\\+[1-9][\\d ()-]{7,20}\\d(?!\\w)",

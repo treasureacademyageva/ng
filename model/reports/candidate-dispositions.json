@@ -1,0 +1,20 @@
+{
+  "version": 1,
+  "status": "DISPOSITIONS_RECORDED_NO_TRAINING_APPROVAL",
+  "staging_holds_resolved": [
+    "storybooks-nigeria-en-0262",
+    "storybooks-nigeria-ha-0087",
+    "storybooks-nigeria-yo-0087",
+    "storybooks-nigeria-yo-0302",
+    "siyavula-mathematics-grade-6-cnx-col11030"
+  ],
+  "licence_excluded_items": [
+    "wikijunior-africa-nigeria-r4416499",
+    "wikijunior-how-computers-work-r4055667",
+    "gutenberg-beginners-language-41288",
+    "gutenberg-mcguffey-third-14766"
+  ],
+  "language_review_policy": "OWNER_DEFERRED_FOR_CURRENT_EXPERIMENTAL_CORPUS",
+  "human_review_decisions_filled": 0,
+  "training_approved_items": 0
+}

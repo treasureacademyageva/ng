@@ -1,12 +1,12 @@
 {
   "version": 1,
-  "status": "STAGING_ONLY_NO_TRAINING_APPROVAL",
+  "status": "POST_SCAN_DISPOSITIONS_RECORDED_NO_TRAINING_APPROVAL",
   "policy": "data/candidate-intake-policy.json",
   "registry": "data/source-candidates.json",
   "items_attempted": 8,
   "status_counts": {
-    "QUARANTINED": 1,
-    "STAGED_UNAPPROVED": 7
+    "LICENSE_EXCLUDED": 4,
+    "STAGED_UNAPPROVED": 4
   },
   "protected_benchmark_hashes_before": {
     "data/evaluation/cases-v2.jsonl": "87dee049cefe21bf1370487b83259ad32ceaf77c097587e04f652ed96349f7d4",
@@ -29,7 +29,7 @@
   "results": [
     {
       "id": "wikijunior-africa-nigeria-r4416499",
-      "status": "STAGED_UNAPPROVED",
+      "status": "LICENSE_EXCLUDED",
       "download": {
         "requested_url": "https://en.wikibooks.org/w/api.php?action=parse&format=json&prop=text%7Crevid%7Cdisplaytitle&oldid=4416499",
         "final_url": "https://en.wikibooks.org/w/api.php?action=parse&format=json&prop=text%7Crevid%7Cdisplaytitle&oldid=4416499",
@@ -90,11 +90,17 @@
         "samples": [],
         "blocked": false
       },
-      "quarantine_reasons": []
+      "quarantine_reasons": [],
+      "licence_disposition": {
+        "decision": "EXCLUDE_FROM_TRAINING",
+        "reason": "Excluded from training because downstream share-alike treatment for model artefacts has not been legally approved.",
+        "decided_at": "2026-09-30",
+        "basis": "fail-closed project policy; not legal advice"
+      }
     },
     {
       "id": "wikijunior-how-computers-work-r4055667",
-      "status": "STAGED_UNAPPROVED",
+      "status": "LICENSE_EXCLUDED",
       "download": {
         "requested_url": "https://en.wikibooks.org/w/api.php?action=parse&format=json&prop=text%7Crevid%7Cdisplaytitle&oldid=4055667",
         "final_url": "https://en.wikibooks.org/w/api.php?action=parse&format=json&prop=text%7Crevid%7Cdisplaytitle&oldid=4055667",
@@ -155,7 +161,13 @@
         "samples": [],
         "blocked": false
       },
-      "quarantine_reasons": []
+      "quarantine_reasons": [],
+      "licence_disposition": {
+        "decision": "EXCLUDE_FROM_TRAINING",
+        "reason": "Excluded from training because downstream share-alike treatment for model artefacts has not been legally approved.",
+        "decided_at": "2026-09-30",
+        "basis": "fail-closed project policy; not legal advice"
+      }
     },
     {
       "id": "siyavula-mathematics-grade-4-ost-col11101",
@@ -459,7 +471,7 @@
     },
     {
       "id": "siyavula-mathematics-grade-6-cnx-col11030",
-      "status": "QUARANTINED",
+      "status": "STAGED_UNAPPROVED",
       "download": {
         "requested_url": "https://archive.org/download/cnx-org-col11030/mathematics-grade-6_djvu.txt",
         "final_url": "https://dn760008.eu.archive.org/0/items/cnx-org-col11030/mathematics-grade-6_djvu.txt",
@@ -611,13 +623,20 @@
         "samples": [],
         "blocked": false
       },
-      "quarantine_reasons": [
-        "1 potential personal-data pattern(s)"
-      ]
+      "quarantine_reasons": [],
+      "automated_hold_resolution": {
+        "code": "PRIVACY_FALSE_POSITIVE_ARITHMETIC_OCR",
+        "reason": "The masked warning is an OCR arithmetic puzzle beginning with a plus sign, not a phone number or personal record.",
+        "resolved_at": "2026-09-30",
+        "original_sha256": "3aeaae7f7a90b298be587bb1d00b1729eb212cf91d3b0de35fd8a20496971e52",
+        "extracted_sha256": "ee20e9c0e2598980265dce858e960de0932aba00883847b82de056a9b9cfa5f7",
+        "prior_reason": "1 potential personal-data pattern(s)",
+        "scope": "staging only; no human or training approval"
+      }
     },
     {
       "id": "gutenberg-beginners-language-41288",
-      "status": "STAGED_UNAPPROVED",
+      "status": "LICENSE_EXCLUDED",
       "download": {
         "requested_url": "https://www.gutenberg.org/cache/epub/41288/pg41288.txt",
         "final_url": "https://www.gutenberg.org/cache/epub/41288/pg41288.txt",
@@ -709,11 +728,17 @@
         "samples": [],
         "blocked": false
       },
-      "quarantine_reasons": []
+      "quarantine_reasons": [],
+      "licence_disposition": {
+        "decision": "EXCLUDE_FROM_TRAINING",
+        "reason": "Excluded from training because Project Gutenberg verifies US public-domain status only and Nigerian-jurisdiction clearance is not recorded.",
+        "decided_at": "2026-09-30",
+        "basis": "fail-closed project policy; not legal advice"
+      }
     },
     {
       "id": "gutenberg-mcguffey-third-14766",
-      "status": "STAGED_UNAPPROVED",
+      "status": "LICENSE_EXCLUDED",
       "download": {
         "requested_url": "https://www.gutenberg.org/cache/epub/14766/pg14766.txt",
         "final_url": "https://www.gutenberg.org/cache/epub/14766/pg14766.txt",
@@ -837,7 +862,13 @@
         "samples": [],
         "blocked": false
       },
-      "quarantine_reasons": []
+      "quarantine_reasons": [],
+      "licence_disposition": {
+        "decision": "EXCLUDE_FROM_TRAINING",
+        "reason": "Excluded from training because Project Gutenberg verifies US public-domain status only and Nigerian-jurisdiction clearance is not recorded.",
+        "decided_at": "2026-09-30",
+        "basis": "fail-closed project policy; not legal advice"
+      }
     },
     {
       "id": "african-storybook-take-me-home-39417",
@@ -902,5 +933,7 @@
       },
       "quarantine_reasons": []
     }
-  ]
+  ],
+  "resolved_automated_holds": 1,
+  "licence_excluded_items": 4
 }

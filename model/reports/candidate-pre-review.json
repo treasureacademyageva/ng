@@ -1,0 +1,997 @@
+{
+  "version": 1,
+  "status": "AUTOMATED_PRE_REVIEW_ONLY_HUMAN_DECISIONS_UNCHANGED",
+  "items": 54,
+  "ready_for_human_review": 50,
+  "held_or_excluded": 4,
+  "licence_prechecks": {
+    "EVIDENCE_COMPLETE": 50,
+    "HOLD_EXCLUDED": 4
+  },
+  "language_review_policy": "NOT_REQUIRED_CURRENT_OWNER_POLICY",
+  "named_teacher_approvals": 0,
+  "named_safeguarding_approvals": 0,
+  "training_approved_items": 0,
+  "results": [
+    {
+      "id": "storybooks-nigeria-en-0001",
+      "hashes": {
+        "original_sha256": "4fbf2cccbea358933c9960229d2fc509cdd26c6e483216be80c6b20afb2e869c",
+        "extracted_sha256": "5e0d33a7d03bad5b3140e6dbe48a8fcba6616f78503b3a80f0b99a78ecbd7d46"
+      },
+      "automated_licence_precheck": "EVIDENCE_COMPLETE",
+      "automated_quality_precheck": "NO_BLOCKER",
+      "automated_privacy_precheck": "NO_BLOCKER",
+      "automated_leakage_precheck": "NO_BLOCKER",
+      "language_review": "NOT_REQUIRED_CURRENT_OWNER_POLICY",
+      "teacher_review": "PENDING_NAMED_HUMAN",
+      "safeguarding_review": "PENDING_NAMED_HUMAN",
+      "final_approval": "PENDING_NAMED_HUMAN",
+      "automated_blockers": [],
+      "ready_for_human_review": true,
+      "training_approved": false
+    },
+    {
+      "id": "storybooks-nigeria-en-0004",
+      "hashes": {
+        "original_sha256": "37a94dc6188d5d1f039e9f0fa0fe4cc3cdcc54c65163cbb92f2c1eeb5dcf3a52",
+        "extracted_sha256": "7e8dfc3afdd6f16218314c880e155d7453bd805ce9fcbd0256d6fb18e1c65167"
+      },
+      "automated_licence_precheck": "EVIDENCE_COMPLETE",
+      "automated_quality_precheck": "NO_BLOCKER",
+      "automated_privacy_precheck": "NO_BLOCKER",
+      "automated_leakage_precheck": "NO_BLOCKER",
+      "language_review": "NOT_REQUIRED_CURRENT_OWNER_POLICY",
+      "teacher_review": "PENDING_NAMED_HUMAN",
+      "safeguarding_review": "PENDING_NAMED_HUMAN",
+      "final_approval": "PENDING_NAMED_HUMAN",
+      "automated_blockers": [],
+      "ready_for_human_review": true,
+      "training_approved": false
+    },
+    {
+      "id": "storybooks-nigeria-en-0006",
+      "hashes": {
+        "original_sha256": "10443df452ac05b0efeeb038168d848e0496129efcf81bb3b173d847c05ba321",
+        "extracted_sha256": "15efc62247a290dc05826ec5849de12ddd605bed45c20b384a5115431397cfbb"
+      },
+      "automated_licence_precheck": "EVIDENCE_COMPLETE",
+      "automated_quality_precheck": "NO_BLOCKER",
+      "automated_privacy_precheck": "NO_BLOCKER",
+      "automated_leakage_precheck": "NO_BLOCKER",
+      "language_review": "NOT_REQUIRED_CURRENT_OWNER_POLICY",
+      "teacher_review": "PENDING_NAMED_HUMAN",
+      "safeguarding_review": "PENDING_NAMED_HUMAN",
+      "final_approval": "PENDING_NAMED_HUMAN",
+      "automated_blockers": [],
+      "ready_for_human_review": true,
+      "training_approved": false
+    },
+    {
+      "id": "storybooks-nigeria-en-0008",
+      "hashes": {
+        "original_sha256": "188eeccc3f8f990fee46ba3f160366764b36d9293ef1406b93cc62df1eccbbc1",
+        "extracted_sha256": "1420400eeda4088fd45dc9993ceb0dd669c188e8a03701d610213226222efa8b"
+      },
+      "automated_licence_precheck": "EVIDENCE_COMPLETE",
+      "automated_quality_precheck": "NO_BLOCKER",
+      "automated_privacy_precheck": "NO_BLOCKER",
+      "automated_leakage_precheck": "NO_BLOCKER",
+      "language_review": "NOT_REQUIRED_CURRENT_OWNER_POLICY",
+      "teacher_review": "PENDING_NAMED_HUMAN",
+      "safeguarding_review": "PENDING_NAMED_HUMAN",
+      "final_approval": "PENDING_NAMED_HUMAN",
+      "automated_blockers": [],
+      "ready_for_human_review": true,
+      "training_approved": false
+    },
+    {
+      "id": "storybooks-nigeria-en-0027",
+      "hashes": {
+        "original_sha256": "a4d058ab621973c179804bef43ff84a75746d4f62c938a9f6be70d99c140b156",
+        "extracted_sha256": "2ab90b99116b4d97e6999fe7dfba24173e454548fc6d24764353b7a731c60572"
+      },
+      "automated_licence_precheck": "EVIDENCE_COMPLETE",
+      "automated_quality_precheck": "NO_BLOCKER",
+      "automated_privacy_precheck": "NO_BLOCKER",
+      "automated_leakage_precheck": "NO_BLOCKER",
+      "language_review": "NOT_REQUIRED_CURRENT_OWNER_POLICY",
+      "teacher_review": "PENDING_NAMED_HUMAN",
+      "safeguarding_review": "PENDING_NAMED_HUMAN",
+      "final_approval": "PENDING_NAMED_HUMAN",
+      "automated_blockers": [],
+      "ready_for_human_review": true,
+      "training_approved": false
+    },
+    {
+      "id": "storybooks-nigeria-en-0052",
+      "hashes": {
+        "original_sha256": "2ce46f86ba37d3be7faa34ca7d05a3a4db7d8048a4832397ae706dbb1610a7a1",
+        "extracted_sha256": "a694e547a00866db751d2a42267f2c78a6ebf81bafcd2acb07d8bcbf3cb6806d"
+      },
+      "automated_licence_precheck": "EVIDENCE_COMPLETE",
+      "automated_quality_precheck": "NO_BLOCKER",
+      "automated_privacy_precheck": "NO_BLOCKER",
+      "automated_leakage_precheck": "NO_BLOCKER",
+      "language_review": "NOT_REQUIRED_CURRENT_OWNER_POLICY",
+      "teacher_review": "PENDING_NAMED_HUMAN",
+      "safeguarding_review": "PENDING_NAMED_HUMAN",
+      "final_approval": "PENDING_NAMED_HUMAN",
+      "automated_blockers": [],
+      "ready_for_human_review": true,
+      "training_approved": false
+    },
+    {
+      "id": "storybooks-nigeria-en-0066",
+      "hashes": {
+        "original_sha256": "11b7199f8c469d4f164be575a6e96dca40d1a4c464538fe85eca5d51d6c1c2f2",
+        "extracted_sha256": "c8330211abfee266a738e71f8b1b6a7e4bc1977883c580a814ad218fe9a16bdc"
+      },
+      "automated_licence_precheck": "EVIDENCE_COMPLETE",
+      "automated_quality_precheck": "NO_BLOCKER",
+      "automated_privacy_precheck": "NO_BLOCKER",
+      "automated_leakage_precheck": "NO_BLOCKER",
+      "language_review": "NOT_REQUIRED_CURRENT_OWNER_POLICY",
+      "teacher_review": "PENDING_NAMED_HUMAN",
+      "safeguarding_review": "PENDING_NAMED_HUMAN",
+      "final_approval": "PENDING_NAMED_HUMAN",
+      "automated_blockers": [],
+      "ready_for_human_review": true,
+      "training_approved": false
+    },
+    {
+      "id": "storybooks-nigeria-en-0072",
+      "hashes": {
+        "original_sha256": "39c45f28a597e105141400632149a8112f2f47caee64003e8473c811c7bc7ec3",
+        "extracted_sha256": "44cb4c2115c7af69a16c90b41e635f39e350c1aea27b67416f1a0f792166e147"
+      },
+      "automated_licence_precheck": "EVIDENCE_COMPLETE",
+      "automated_quality_precheck": "NO_BLOCKER",
+      "automated_privacy_precheck": "NO_BLOCKER",
+      "automated_leakage_precheck": "NO_BLOCKER",
+      "language_review": "NOT_REQUIRED_CURRENT_OWNER_POLICY",
+      "teacher_review": "PENDING_NAMED_HUMAN",
+      "safeguarding_review": "PENDING_NAMED_HUMAN",
+      "final_approval": "PENDING_NAMED_HUMAN",
+      "automated_blockers": [],
+      "ready_for_human_review": true,
+      "training_approved": false
+    },
+    {
+      "id": "storybooks-nigeria-en-0087",
+      "hashes": {
+        "original_sha256": "841e2fb5dfce0ea030dd956be498a97a7d757e5aca189c5ff8930f65cf37ecd2",
+        "extracted_sha256": "30d8fae31de2269b3e5a9ae83b1eecfe9500e7c99fa089b684d58b8425eb07af"
+      },
+      "automated_licence_precheck": "EVIDENCE_COMPLETE",
+      "automated_quality_precheck": "NO_BLOCKER",
+      "automated_privacy_precheck": "NO_BLOCKER",
+      "automated_leakage_precheck": "NO_BLOCKER",
+      "language_review": "NOT_REQUIRED_CURRENT_OWNER_POLICY",
+      "teacher_review": "PENDING_NAMED_HUMAN",
+      "safeguarding_review": "PENDING_NAMED_HUMAN",
+      "final_approval": "PENDING_NAMED_HUMAN",
+      "automated_blockers": [],
+      "ready_for_human_review": true,
+      "training_approved": false
+    },
+    {
+      "id": "storybooks-nigeria-en-0089",
+      "hashes": {
+        "original_sha256": "e4b6404f0f2c52ab2caaf964aa6f866cf4cdd35d9036d019be5fc4cd776942a6",
+        "extracted_sha256": "d8f11a2d66a002372e3613a913ec1cf9cc38f61af590851c07e8d766bd1537a8"
+      },
+      "automated_licence_precheck": "EVIDENCE_COMPLETE",
+      "automated_quality_precheck": "NO_BLOCKER",
+      "automated_privacy_precheck": "NO_BLOCKER",
+      "automated_leakage_precheck": "NO_BLOCKER",
+      "language_review": "NOT_REQUIRED_CURRENT_OWNER_POLICY",
+      "teacher_review": "PENDING_NAMED_HUMAN",
+      "safeguarding_review": "PENDING_NAMED_HUMAN",
+      "final_approval": "PENDING_NAMED_HUMAN",
+      "automated_blockers": [],
+      "ready_for_human_review": true,
+      "training_approved": false
+    },
+    {
+      "id": "storybooks-nigeria-en-0095",
+      "hashes": {
+        "original_sha256": "b8258fbe933abf5521341f8c56b95800e889ef70356b5671819e591f4a94b9c6",
+        "extracted_sha256": "5b930f4a65e5eab2cfc97cd543e65d06f21ed02a6088095416d8dbeb66c3caba"
+      },
+      "automated_licence_precheck": "EVIDENCE_COMPLETE",
+      "automated_quality_precheck": "NO_BLOCKER",
+      "automated_privacy_precheck": "NO_BLOCKER",
+      "automated_leakage_precheck": "NO_BLOCKER",
+      "language_review": "NOT_REQUIRED_CURRENT_OWNER_POLICY",
+      "teacher_review": "PENDING_NAMED_HUMAN",
+      "safeguarding_review": "PENDING_NAMED_HUMAN",
+      "final_approval": "PENDING_NAMED_HUMAN",
+      "automated_blockers": [],
+      "ready_for_human_review": true,
+      "training_approved": false
+    },
+    {
+      "id": "storybooks-nigeria-en-0110",
+      "hashes": {
+        "original_sha256": "26380f8e67773cc1f493d0c2d84c8651e41e7281a6288966709d8e80694ba783",
+        "extracted_sha256": "ec5b6bd37de05eb3a9e885f703fe728d6b5333508ccfd2a6f6e5b51f2609a125"
+      },
+      "automated_licence_precheck": "EVIDENCE_COMPLETE",
+      "automated_quality_precheck": "NO_BLOCKER",
+      "automated_privacy_precheck": "NO_BLOCKER",
+      "automated_leakage_precheck": "NO_BLOCKER",
+      "language_review": "NOT_REQUIRED_CURRENT_OWNER_POLICY",
+      "teacher_review": "PENDING_NAMED_HUMAN",
+      "safeguarding_review": "PENDING_NAMED_HUMAN",
+      "final_approval": "PENDING_NAMED_HUMAN",
+      "automated_blockers": [],
+      "ready_for_human_review": true,
+      "training_approved": false
+    },
+    {
+      "id": "storybooks-nigeria-en-0111",
+      "hashes": {
+        "original_sha256": "9b45e8e999d4e441b3362e14059cc77eae9cc7e59b86542565b2d9585a5bc618",
+        "extracted_sha256": "894948a5b5c41189fa6ad9886be5dab770307816a15641b22c903d4eda06b422"
+      },
+      "automated_licence_precheck": "EVIDENCE_COMPLETE",
+      "automated_quality_precheck": "NO_BLOCKER",
+      "automated_privacy_precheck": "NO_BLOCKER",
+      "automated_leakage_precheck": "NO_BLOCKER",
+      "language_review": "NOT_REQUIRED_CURRENT_OWNER_POLICY",
+      "teacher_review": "PENDING_NAMED_HUMAN",
+      "safeguarding_review": "PENDING_NAMED_HUMAN",
+      "final_approval": "PENDING_NAMED_HUMAN",
+      "automated_blockers": [],
+      "ready_for_human_review": true,
+      "training_approved": false
+    },
+    {
+      "id": "storybooks-nigeria-en-0141",
+      "hashes": {
+        "original_sha256": "d0cff1f6dded6dae3e2ef6c7c73a4aeb9f1a15a825293b033b4d7cb7f796e738",
+        "extracted_sha256": "1d1d672850f73c74eec7ba7c255c3247dd566581a9947354c2de56c07575ec75"
+      },
+      "automated_licence_precheck": "EVIDENCE_COMPLETE",
+      "automated_quality_precheck": "NO_BLOCKER",
+      "automated_privacy_precheck": "NO_BLOCKER",
+      "automated_leakage_precheck": "NO_BLOCKER",
+      "language_review": "NOT_REQUIRED_CURRENT_OWNER_POLICY",
+      "teacher_review": "PENDING_NAMED_HUMAN",
+      "safeguarding_review": "PENDING_NAMED_HUMAN",
+      "final_approval": "PENDING_NAMED_HUMAN",
+      "automated_blockers": [],
+      "ready_for_human_review": true,
+      "training_approved": false
+    },
+    {
+      "id": "storybooks-nigeria-en-0156",
+      "hashes": {
+        "original_sha256": "ce72a0b69846985b9f0818bee8b56a8fd792903ad6aa252cda1d8bdc109af0b6",
+        "extracted_sha256": "094783627d0e3c021bb8089780b73edfb591dda69c4e91c0820172dcde633cbd"
+      },
+      "automated_licence_precheck": "EVIDENCE_COMPLETE",
+      "automated_quality_precheck": "NO_BLOCKER",
+      "automated_privacy_precheck": "NO_BLOCKER",
+      "automated_leakage_precheck": "NO_BLOCKER",
+      "language_review": "NOT_REQUIRED_CURRENT_OWNER_POLICY",
+      "teacher_review": "PENDING_NAMED_HUMAN",
+      "safeguarding_review": "PENDING_NAMED_HUMAN",
+      "final_approval": "PENDING_NAMED_HUMAN",
+      "automated_blockers": [],
+      "ready_for_human_review": true,
+      "training_approved": false
+    },
+    {
+      "id": "storybooks-nigeria-en-0158",
+      "hashes": {
+        "original_sha256": "c387c6682322e33d0a4ca2e0c5fc75fa9c4d3dc583d132d71980115308e7bede",
+        "extracted_sha256": "07a336ca115bc8188d0ad5d98ea94ea2f540dd0365d49a6e939380d7da7737d5"
+      },
+      "automated_licence_precheck": "EVIDENCE_COMPLETE",
+      "automated_quality_precheck": "NO_BLOCKER",
+      "automated_privacy_precheck": "NO_BLOCKER",
+      "automated_leakage_precheck": "NO_BLOCKER",
+      "language_review": "NOT_REQUIRED_CURRENT_OWNER_POLICY",
+      "teacher_review": "PENDING_NAMED_HUMAN",
+      "safeguarding_review": "PENDING_NAMED_HUMAN",
+      "final_approval": "PENDING_NAMED_HUMAN",
+      "automated_blockers": [],
+      "ready_for_human_review": true,
+      "training_approved": false
+    },
+    {
+      "id": "storybooks-nigeria-en-0201",
+      "hashes": {
+        "original_sha256": "62b21da246dfa854c324b2656fd362b1cbc922b05149de0b9cce95460d189dfe",
+        "extracted_sha256": "f4a73d3f7ce8e4101c1a6e1089d176fa59d867b1dcf45d380ac9c4901e85e852"
+      },
+      "automated_licence_precheck": "EVIDENCE_COMPLETE",
+      "automated_quality_precheck": "NO_BLOCKER",
+      "automated_privacy_precheck": "NO_BLOCKER",
+      "automated_leakage_precheck": "NO_BLOCKER",
+      "language_review": "NOT_REQUIRED_CURRENT_OWNER_POLICY",
+      "teacher_review": "PENDING_NAMED_HUMAN",
+      "safeguarding_review": "PENDING_NAMED_HUMAN",
+      "final_approval": "PENDING_NAMED_HUMAN",
+      "automated_blockers": [],
+      "ready_for_human_review": true,
+      "training_approved": false
+    },
+    {
+      "id": "storybooks-nigeria-en-0210",
+      "hashes": {
+        "original_sha256": "059a53b8eafed084ca0339335f7c421ef64e17a068dde07545c9763ccf30a1e1",
+        "extracted_sha256": "7771e2b5250259ebf578d0b852ec8cc5f7d24caffec2f46ac439455457cfff66"
+      },
+      "automated_licence_precheck": "EVIDENCE_COMPLETE",
+      "automated_quality_precheck": "NO_BLOCKER",
+      "automated_privacy_precheck": "NO_BLOCKER",
+      "automated_leakage_precheck": "NO_BLOCKER",
+      "language_review": "NOT_REQUIRED_CURRENT_OWNER_POLICY",
+      "teacher_review": "PENDING_NAMED_HUMAN",
+      "safeguarding_review": "PENDING_NAMED_HUMAN",
+      "final_approval": "PENDING_NAMED_HUMAN",
+      "automated_blockers": [],
+      "ready_for_human_review": true,
+      "training_approved": false
+    },
+    {
+      "id": "storybooks-nigeria-en-0243",
+      "hashes": {
+        "original_sha256": "4dc22bddd286d4b57e0d1b1e74bfa66633f119c111be3f635425ac4c13087325",
+        "extracted_sha256": "6e85e437e036248cf3a4ac3bd35950d813e859a016ed29f6f1315c3f5c3ac2f2"
+      },
+      "automated_licence_precheck": "EVIDENCE_COMPLETE",
+      "automated_quality_precheck": "NO_BLOCKER",
+      "automated_privacy_precheck": "NO_BLOCKER",
+      "automated_leakage_precheck": "NO_BLOCKER",
+      "language_review": "NOT_REQUIRED_CURRENT_OWNER_POLICY",
+      "teacher_review": "PENDING_NAMED_HUMAN",
+      "safeguarding_review": "PENDING_NAMED_HUMAN",
+      "final_approval": "PENDING_NAMED_HUMAN",
+      "automated_blockers": [],
+      "ready_for_human_review": true,
+      "training_approved": false
+    },
+    {
+      "id": "storybooks-nigeria-en-0262",
+      "hashes": {
+        "original_sha256": "17cca581cb243f9aee884c7405434c7c0474c4b1a5f3fc435c9652d3e38fd1f6",
+        "extracted_sha256": "a9efa00ae6816367376c4b8ac5a83bdd47923edceca596b6ea9cc11f5f6edb1e"
+      },
+      "automated_licence_precheck": "EVIDENCE_COMPLETE",
+      "automated_quality_precheck": "NO_BLOCKER",
+      "automated_privacy_precheck": "NO_BLOCKER",
+      "automated_leakage_precheck": "NO_BLOCKER",
+      "language_review": "NOT_REQUIRED_CURRENT_OWNER_POLICY",
+      "teacher_review": "PENDING_NAMED_HUMAN",
+      "safeguarding_review": "PENDING_NAMED_HUMAN",
+      "final_approval": "PENDING_NAMED_HUMAN",
+      "automated_blockers": [],
+      "ready_for_human_review": true,
+      "training_approved": false
+    },
+    {
+      "id": "storybooks-nigeria-en-0291",
+      "hashes": {
+        "original_sha256": "c8426f9435eac1ba0f857f924805429666da755abfca6184689b3d9efb798d6c",
+        "extracted_sha256": "47ef7ee7b8e82fc1f0b396ef70de67822d5e6013ce53904781248cd9e9538e02"
+      },
+      "automated_licence_precheck": "EVIDENCE_COMPLETE",
+      "automated_quality_precheck": "NO_BLOCKER",
+      "automated_privacy_precheck": "NO_BLOCKER",
+      "automated_leakage_precheck": "NO_BLOCKER",
+      "language_review": "NOT_REQUIRED_CURRENT_OWNER_POLICY",
+      "teacher_review": "PENDING_NAMED_HUMAN",
+      "safeguarding_review": "PENDING_NAMED_HUMAN",
+      "final_approval": "PENDING_NAMED_HUMAN",
+      "automated_blockers": [],
+      "ready_for_human_review": true,
+      "training_approved": false
+    },
+    {
+      "id": "storybooks-nigeria-en-0294",
+      "hashes": {
+        "original_sha256": "934f4d98a3112def848096459e3033cbf9a299c2fd53823fc41e39062a991458",
+        "extracted_sha256": "338c5455a8ea3d8beab9e95539a9e4283c8ea1ebf53021bb46033ef1460955d3"
+      },
+      "automated_licence_precheck": "EVIDENCE_COMPLETE",
+      "automated_quality_precheck": "NO_BLOCKER",
+      "automated_privacy_precheck": "NO_BLOCKER",
+      "automated_leakage_precheck": "NO_BLOCKER",
+      "language_review": "NOT_REQUIRED_CURRENT_OWNER_POLICY",
+      "teacher_review": "PENDING_NAMED_HUMAN",
+      "safeguarding_review": "PENDING_NAMED_HUMAN",
+      "final_approval": "PENDING_NAMED_HUMAN",
+      "automated_blockers": [],
+      "ready_for_human_review": true,
+      "training_approved": false
+    },
+    {
+      "id": "storybooks-nigeria-en-0296",
+      "hashes": {
+        "original_sha256": "62e91168e3ec0ecbc2e604baf73c33b1b69ee65848ae5199fc25c6bfcf71efa7",
+        "extracted_sha256": "461f3cb76cf30e0aba44f1df1cad1b4720d573c327fe709b06522560871e0a95"
+      },
+      "automated_licence_precheck": "EVIDENCE_COMPLETE",
+      "automated_quality_precheck": "NO_BLOCKER",
+      "automated_privacy_precheck": "NO_BLOCKER",
+      "automated_leakage_precheck": "NO_BLOCKER",
+      "language_review": "NOT_REQUIRED_CURRENT_OWNER_POLICY",
+      "teacher_review": "PENDING_NAMED_HUMAN",
+      "safeguarding_review": "PENDING_NAMED_HUMAN",
+      "final_approval": "PENDING_NAMED_HUMAN",
+      "automated_blockers": [],
+      "ready_for_human_review": true,
+      "training_approved": false
+    },
+    {
+      "id": "storybooks-nigeria-en-0302",
+      "hashes": {
+        "original_sha256": "8b2eab28d9ae11962f66cfd1fb42459d8b4f6e742ea398e5d96328e4f1ae6e12",
+        "extracted_sha256": "c78a6113e57c694364b17550324544fdae7a370d7cbc8defe1b77c4e341b9bd6"
+      },
+      "automated_licence_precheck": "EVIDENCE_COMPLETE",
+      "automated_quality_precheck": "NO_BLOCKER",
+      "automated_privacy_precheck": "NO_BLOCKER",
+      "automated_leakage_precheck": "NO_BLOCKER",
+      "language_review": "NOT_REQUIRED_CURRENT_OWNER_POLICY",
+      "teacher_review": "PENDING_NAMED_HUMAN",
+      "safeguarding_review": "PENDING_NAMED_HUMAN",
+      "final_approval": "PENDING_NAMED_HUMAN",
+      "automated_blockers": [],
+      "ready_for_human_review": true,
+      "training_approved": false
+    },
+    {
+      "id": "storybooks-nigeria-en-0315",
+      "hashes": {
+        "original_sha256": "19f8c60e2f3ff4399cce4fb617ee0f9ad5c61b13a7c0331a0f9d011ddbca82c7",
+        "extracted_sha256": "0646227c3ca21062a925ab88f384b27fd17c36ae79c4453b8660bdf69ea73de5"
+      },
+      "automated_licence_precheck": "EVIDENCE_COMPLETE",
+      "automated_quality_precheck": "NO_BLOCKER",
+      "automated_privacy_precheck": "NO_BLOCKER",
+      "automated_leakage_precheck": "NO_BLOCKER",
+      "language_review": "NOT_REQUIRED_CURRENT_OWNER_POLICY",
+      "teacher_review": "PENDING_NAMED_HUMAN",
+      "safeguarding_review": "PENDING_NAMED_HUMAN",
+      "final_approval": "PENDING_NAMED_HUMAN",
+      "automated_blockers": [],
+      "ready_for_human_review": true,
+      "training_approved": false
+    },
+    {
+      "id": "storybooks-nigeria-en-0324",
+      "hashes": {
+        "original_sha256": "087cc98065e05f8a09a19afec3423c80206cb621e60f758a8170aeb3f6388982",
+        "extracted_sha256": "24a48aca4d579367c44805fdc432f256e77687e87441f22e1346997360c1c68c"
+      },
+      "automated_licence_precheck": "EVIDENCE_COMPLETE",
+      "automated_quality_precheck": "NO_BLOCKER",
+      "automated_privacy_precheck": "NO_BLOCKER",
+      "automated_leakage_precheck": "NO_BLOCKER",
+      "language_review": "NOT_REQUIRED_CURRENT_OWNER_POLICY",
+      "teacher_review": "PENDING_NAMED_HUMAN",
+      "safeguarding_review": "PENDING_NAMED_HUMAN",
+      "final_approval": "PENDING_NAMED_HUMAN",
+      "automated_blockers": [],
+      "ready_for_human_review": true,
+      "training_approved": false
+    },
+    {
+      "id": "storybooks-nigeria-en-0327",
+      "hashes": {
+        "original_sha256": "b0538593457e44adb0c6b33a3e05c5062930f95c146226dadf250a1e97ca88bb",
+        "extracted_sha256": "95168a8a5a5d2a114b4081b110e2fc968b65e244c0430b7cf5768a03dedcc88b"
+      },
+      "automated_licence_precheck": "EVIDENCE_COMPLETE",
+      "automated_quality_precheck": "NO_BLOCKER",
+      "automated_privacy_precheck": "NO_BLOCKER",
+      "automated_leakage_precheck": "NO_BLOCKER",
+      "language_review": "NOT_REQUIRED_CURRENT_OWNER_POLICY",
+      "teacher_review": "PENDING_NAMED_HUMAN",
+      "safeguarding_review": "PENDING_NAMED_HUMAN",
+      "final_approval": "PENDING_NAMED_HUMAN",
+      "automated_blockers": [],
+      "ready_for_human_review": true,
+      "training_approved": false
+    },
+    {
+      "id": "storybooks-nigeria-en-0337",
+      "hashes": {
+        "original_sha256": "805b0a167d90bcb25e47de2a6296d57c29b42904b02952c422d4c5327a08cfb0",
+        "extracted_sha256": "6b7fb5221f31d0a1b2ac3b60cba2f3fda25231c9ac2144bd259ecb7c5c4ab751"
+      },
+      "automated_licence_precheck": "EVIDENCE_COMPLETE",
+      "automated_quality_precheck": "NO_BLOCKER",
+      "automated_privacy_precheck": "NO_BLOCKER",
+      "automated_leakage_precheck": "NO_BLOCKER",
+      "language_review": "NOT_REQUIRED_CURRENT_OWNER_POLICY",
+      "teacher_review": "PENDING_NAMED_HUMAN",
+      "safeguarding_review": "PENDING_NAMED_HUMAN",
+      "final_approval": "PENDING_NAMED_HUMAN",
+      "automated_blockers": [],
+      "ready_for_human_review": true,
+      "training_approved": false
+    },
+    {
+      "id": "storybooks-nigeria-en-0342",
+      "hashes": {
+        "original_sha256": "09250e771c10a4dd548e9a99427e0a1835b1439e9241e679895abe26dc922d7b",
+        "extracted_sha256": "3c45d1f58408372758db871f18de4150c68497c5d370a04ce7dbe6a0a5b756ae"
+      },
+      "automated_licence_precheck": "EVIDENCE_COMPLETE",
+      "automated_quality_precheck": "NO_BLOCKER",
+      "automated_privacy_precheck": "NO_BLOCKER",
+      "automated_leakage_precheck": "NO_BLOCKER",
+      "language_review": "NOT_REQUIRED_CURRENT_OWNER_POLICY",
+      "teacher_review": "PENDING_NAMED_HUMAN",
+      "safeguarding_review": "PENDING_NAMED_HUMAN",
+      "final_approval": "PENDING_NAMED_HUMAN",
+      "automated_blockers": [],
+      "ready_for_human_review": true,
+      "training_approved": false
+    },
+    {
+      "id": "storybooks-nigeria-pcm-0001",
+      "hashes": {
+        "original_sha256": "ef2a1de39a2c8830238b724fba0e1ea5658f868d14d1b9e5a418637065b29c94",
+        "extracted_sha256": "fa9b5dc144549acf04fd89df0c83990a580b40ea5ebc4ef8b86602fac7cbbb3d"
+      },
+      "automated_licence_precheck": "EVIDENCE_COMPLETE",
+      "automated_quality_precheck": "NO_BLOCKER",
+      "automated_privacy_precheck": "NO_BLOCKER",
+      "automated_leakage_precheck": "NO_BLOCKER",
+      "language_review": "NOT_REQUIRED_CURRENT_OWNER_POLICY",
+      "teacher_review": "PENDING_NAMED_HUMAN",
+      "safeguarding_review": "PENDING_NAMED_HUMAN",
+      "final_approval": "PENDING_NAMED_HUMAN",
+      "automated_blockers": [],
+      "ready_for_human_review": true,
+      "training_approved": false
+    },
+    {
+      "id": "storybooks-nigeria-pcm-0004",
+      "hashes": {
+        "original_sha256": "7be74dcb4119c2f464aa0752f4cd472afb37edcbd1fdd9de7b5ff17c251703c8",
+        "extracted_sha256": "7ddf3fd05dd3310ebbc456a54df60d06cd66c9c4f406a5bdcd64f8267ceb8d1e"
+      },
+      "automated_licence_precheck": "EVIDENCE_COMPLETE",
+      "automated_quality_precheck": "NO_BLOCKER",
+      "automated_privacy_precheck": "NO_BLOCKER",
+      "automated_leakage_precheck": "NO_BLOCKER",
+      "language_review": "NOT_REQUIRED_CURRENT_OWNER_POLICY",
+      "teacher_review": "PENDING_NAMED_HUMAN",
+      "safeguarding_review": "PENDING_NAMED_HUMAN",
+      "final_approval": "PENDING_NAMED_HUMAN",
+      "automated_blockers": [],
+      "ready_for_human_review": true,
+      "training_approved": false
+    },
+    {
+      "id": "storybooks-nigeria-pcm-0066",
+      "hashes": {
+        "original_sha256": "fa46bf0a0b3d1de377305f814296b2d4691e8d368a00bbd3d0a4d2d49229451a",
+        "extracted_sha256": "09b97403f85265505562b743b524cbd013bdd1390aac190789008b940224931f"
+      },
+      "automated_licence_precheck": "EVIDENCE_COMPLETE",
+      "automated_quality_precheck": "NO_BLOCKER",
+      "automated_privacy_precheck": "NO_BLOCKER",
+      "automated_leakage_precheck": "NO_BLOCKER",
+      "language_review": "NOT_REQUIRED_CURRENT_OWNER_POLICY",
+      "teacher_review": "PENDING_NAMED_HUMAN",
+      "safeguarding_review": "PENDING_NAMED_HUMAN",
+      "final_approval": "PENDING_NAMED_HUMAN",
+      "automated_blockers": [],
+      "ready_for_human_review": true,
+      "training_approved": false
+    },
+    {
+      "id": "storybooks-nigeria-pcm-0089",
+      "hashes": {
+        "original_sha256": "7ab59467228a92e4bbf27c2f7f50be0b152177bf8371d9009c5fce5b9e3eac67",
+        "extracted_sha256": "f3e9025d99fd35f8d1da63e8ea209e57fdfeddd815aba426d9e2369b2c44def2"
+      },
+      "automated_licence_precheck": "EVIDENCE_COMPLETE",
+      "automated_quality_precheck": "NO_BLOCKER",
+      "automated_privacy_precheck": "NO_BLOCKER",
+      "automated_leakage_precheck": "NO_BLOCKER",
+      "language_review": "NOT_REQUIRED_CURRENT_OWNER_POLICY",
+      "teacher_review": "PENDING_NAMED_HUMAN",
+      "safeguarding_review": "PENDING_NAMED_HUMAN",
+      "final_approval": "PENDING_NAMED_HUMAN",
+      "automated_blockers": [],
+      "ready_for_human_review": true,
+      "training_approved": false
+    },
+    {
+      "id": "storybooks-nigeria-pcm-0095",
+      "hashes": {
+        "original_sha256": "0cb58bd7e3e30c8b1f4b312bf889aec5d42d7100142e8dc3f46aeeb2cb28aa6b",
+        "extracted_sha256": "373ea2070c67b18812d600071f8954745eb1efb1ed6a00ea9b66d1f88db4d61c"
+      },
+      "automated_licence_precheck": "EVIDENCE_COMPLETE",
+      "automated_quality_precheck": "NO_BLOCKER",
+      "automated_privacy_precheck": "NO_BLOCKER",
+      "automated_leakage_precheck": "NO_BLOCKER",
+      "language_review": "NOT_REQUIRED_CURRENT_OWNER_POLICY",
+      "teacher_review": "PENDING_NAMED_HUMAN",
+      "safeguarding_review": "PENDING_NAMED_HUMAN",
+      "final_approval": "PENDING_NAMED_HUMAN",
+      "automated_blockers": [],
+      "ready_for_human_review": true,
+      "training_approved": false
+    },
+    {
+      "id": "storybooks-nigeria-pcm-0210",
+      "hashes": {
+        "original_sha256": "8eed993d235acd500cc11f410389cf20a4eeda5dcd5335840453f6bd474da833",
+        "extracted_sha256": "411da1db96e1ecd425162749a036e5f8ac1dbae48cabf1aacef3864c6d37b510"
+      },
+      "automated_licence_precheck": "EVIDENCE_COMPLETE",
+      "automated_quality_precheck": "NO_BLOCKER",
+      "automated_privacy_precheck": "NO_BLOCKER",
+      "automated_leakage_precheck": "NO_BLOCKER",
+      "language_review": "NOT_REQUIRED_CURRENT_OWNER_POLICY",
+      "teacher_review": "PENDING_NAMED_HUMAN",
+      "safeguarding_review": "PENDING_NAMED_HUMAN",
+      "final_approval": "PENDING_NAMED_HUMAN",
+      "automated_blockers": [],
+      "ready_for_human_review": true,
+      "training_approved": false
+    },
+    {
+      "id": "storybooks-nigeria-pcm-0327",
+      "hashes": {
+        "original_sha256": "c2f93eaf4e1b2d9fe844a4bbc5f91831273f86294b8206d98a21de6c77c7e927",
+        "extracted_sha256": "4578e890eb9aa3b75df3f07e149095f0bd5cf074f17d12124c958033764ef601"
+      },
+      "automated_licence_precheck": "EVIDENCE_COMPLETE",
+      "automated_quality_precheck": "NO_BLOCKER",
+      "automated_privacy_precheck": "NO_BLOCKER",
+      "automated_leakage_precheck": "NO_BLOCKER",
+      "language_review": "NOT_REQUIRED_CURRENT_OWNER_POLICY",
+      "teacher_review": "PENDING_NAMED_HUMAN",
+      "safeguarding_review": "PENDING_NAMED_HUMAN",
+      "final_approval": "PENDING_NAMED_HUMAN",
+      "automated_blockers": [],
+      "ready_for_human_review": true,
+      "training_approved": false
+    },
+    {
+      "id": "storybooks-nigeria-ha-0001",
+      "hashes": {
+        "original_sha256": "9083e1f5cf9b09e21e3c9306bb77bb9cee06d7bdda2b97d9aba99d14e4b82ae6",
+        "extracted_sha256": "26fcda66bdb11e134914f9d9a9b883f2015b959deb0780e3a0d9c3cafab794dd"
+      },
+      "automated_licence_precheck": "EVIDENCE_COMPLETE",
+      "automated_quality_precheck": "NO_BLOCKER",
+      "automated_privacy_precheck": "NO_BLOCKER",
+      "automated_leakage_precheck": "NO_BLOCKER",
+      "language_review": "NOT_REQUIRED_CURRENT_OWNER_POLICY",
+      "teacher_review": "PENDING_NAMED_HUMAN",
+      "safeguarding_review": "PENDING_NAMED_HUMAN",
+      "final_approval": "PENDING_NAMED_HUMAN",
+      "automated_blockers": [],
+      "ready_for_human_review": true,
+      "training_approved": false
+    },
+    {
+      "id": "storybooks-nigeria-ha-0087",
+      "hashes": {
+        "original_sha256": "d19091b05e35c522ac35eea875ad850cd4ce9d30ae9026ea8f4c3aeab299e89a",
+        "extracted_sha256": "286335a670aedd078ba417474f008deb6a0629bdbf0a33f14fa4fba2850ae5a2"
+      },
+      "automated_licence_precheck": "EVIDENCE_COMPLETE",
+      "automated_quality_precheck": "NO_BLOCKER",
+      "automated_privacy_precheck": "NO_BLOCKER",
+      "automated_leakage_precheck": "NO_BLOCKER",
+      "language_review": "NOT_REQUIRED_CURRENT_OWNER_POLICY",
+      "teacher_review": "PENDING_NAMED_HUMAN",
+      "safeguarding_review": "PENDING_NAMED_HUMAN",
+      "final_approval": "PENDING_NAMED_HUMAN",
+      "automated_blockers": [],
+      "ready_for_human_review": true,
+      "training_approved": false
+    },
+    {
+      "id": "storybooks-nigeria-ha-0110",
+      "hashes": {
+        "original_sha256": "45c33d968f4aeb80cd12be472ea9b41efeb5d409cd157e2a576fd2fb9223486f",
+        "extracted_sha256": "36bb45f765a492540d2667dc180447bb5cad727a3da708dbded03f19a54a54eb"
+      },
+      "automated_licence_precheck": "EVIDENCE_COMPLETE",
+      "automated_quality_precheck": "NO_BLOCKER",
+      "automated_privacy_precheck": "NO_BLOCKER",
+      "automated_leakage_precheck": "NO_BLOCKER",
+      "language_review": "NOT_REQUIRED_CURRENT_OWNER_POLICY",
+      "teacher_review": "PENDING_NAMED_HUMAN",
+      "safeguarding_review": "PENDING_NAMED_HUMAN",
+      "final_approval": "PENDING_NAMED_HUMAN",
+      "automated_blockers": [],
+      "ready_for_human_review": true,
+      "training_approved": false
+    },
+    {
+      "id": "storybooks-nigeria-ha-0327",
+      "hashes": {
+        "original_sha256": "f5fae7d4685dd8303e7476c3157d32b8daeea5bf66cc25f5cc903cf6dd560273",
+        "extracted_sha256": "27dae2f5ad42b439e5104ffd02a808a1d09b4c192927e58f938773159a75590c"
+      },
+      "automated_licence_precheck": "EVIDENCE_COMPLETE",
+      "automated_quality_precheck": "NO_BLOCKER",
+      "automated_privacy_precheck": "NO_BLOCKER",
+      "automated_leakage_precheck": "NO_BLOCKER",
+      "language_review": "NOT_REQUIRED_CURRENT_OWNER_POLICY",
+      "teacher_review": "PENDING_NAMED_HUMAN",
+      "safeguarding_review": "PENDING_NAMED_HUMAN",
+      "final_approval": "PENDING_NAMED_HUMAN",
+      "automated_blockers": [],
+      "ready_for_human_review": true,
+      "training_approved": false
+    },
+    {
+      "id": "storybooks-nigeria-yo-0001",
+      "hashes": {
+        "original_sha256": "9c515af9744698af9457dcc55cdd3968b075bb157aa8a6b8f1e78850311f9ace",
+        "extracted_sha256": "e2eaa38d3f6f19e28d8ae3145073c50ca3d0211a684aaadb2a11f68acdc30a78"
+      },
+      "automated_licence_precheck": "EVIDENCE_COMPLETE",
+      "automated_quality_precheck": "NO_BLOCKER",
+      "automated_privacy_precheck": "NO_BLOCKER",
+      "automated_leakage_precheck": "NO_BLOCKER",
+      "language_review": "NOT_REQUIRED_CURRENT_OWNER_POLICY",
+      "teacher_review": "PENDING_NAMED_HUMAN",
+      "safeguarding_review": "PENDING_NAMED_HUMAN",
+      "final_approval": "PENDING_NAMED_HUMAN",
+      "automated_blockers": [],
+      "ready_for_human_review": true,
+      "training_approved": false
+    },
+    {
+      "id": "storybooks-nigeria-yo-0087",
+      "hashes": {
+        "original_sha256": "16f41809aa6869691aa3d1a13d4eab549de11d5dad8b03756aa38cb503397631",
+        "extracted_sha256": "22f81c6484fa08b21667fbac251241c9e6949a707c911ca77c687e239384e787"
+      },
+      "automated_licence_precheck": "EVIDENCE_COMPLETE",
+      "automated_quality_precheck": "NO_BLOCKER",
+      "automated_privacy_precheck": "NO_BLOCKER",
+      "automated_leakage_precheck": "NO_BLOCKER",
+      "language_review": "NOT_REQUIRED_CURRENT_OWNER_POLICY",
+      "teacher_review": "PENDING_NAMED_HUMAN",
+      "safeguarding_review": "PENDING_NAMED_HUMAN",
+      "final_approval": "PENDING_NAMED_HUMAN",
+      "automated_blockers": [],
+      "ready_for_human_review": true,
+      "training_approved": false
+    },
+    {
+      "id": "storybooks-nigeria-yo-0110",
+      "hashes": {
+        "original_sha256": "4193f247d0eb6b1d51b193d67c16fc3474e2dc85c9c30e4f5063425f361756d6",
+        "extracted_sha256": "9bd843002842162bee4c8481a756f1428d8908b447e2cbf718cde791bcd5e4d4"
+      },
+      "automated_licence_precheck": "EVIDENCE_COMPLETE",
+      "automated_quality_precheck": "NO_BLOCKER",
+      "automated_privacy_precheck": "NO_BLOCKER",
+      "automated_leakage_precheck": "NO_BLOCKER",
+      "language_review": "NOT_REQUIRED_CURRENT_OWNER_POLICY",
+      "teacher_review": "PENDING_NAMED_HUMAN",
+      "safeguarding_review": "PENDING_NAMED_HUMAN",
+      "final_approval": "PENDING_NAMED_HUMAN",
+      "automated_blockers": [],
+      "ready_for_human_review": true,
+      "training_approved": false
+    },
+    {
+      "id": "storybooks-nigeria-yo-0141",
+      "hashes": {
+        "original_sha256": "b2af33691451b2ce0882c0323e1870b4756be0fc58e76fc12de5fbcb5a184a4a",
+        "extracted_sha256": "ab9fc22bba73dde00a584368cbdc78b72b6c155a9959173f7d1a7a1e15fb5d9d"
+      },
+      "automated_licence_precheck": "EVIDENCE_COMPLETE",
+      "automated_quality_precheck": "NO_BLOCKER",
+      "automated_privacy_precheck": "NO_BLOCKER",
+      "automated_leakage_precheck": "NO_BLOCKER",
+      "language_review": "NOT_REQUIRED_CURRENT_OWNER_POLICY",
+      "teacher_review": "PENDING_NAMED_HUMAN",
+      "safeguarding_review": "PENDING_NAMED_HUMAN",
+      "final_approval": "PENDING_NAMED_HUMAN",
+      "automated_blockers": [],
+      "ready_for_human_review": true,
+      "training_approved": false
+    },
+    {
+      "id": "storybooks-nigeria-yo-0302",
+      "hashes": {
+        "original_sha256": "d15d40529dbc299459a065df00f15ab4911168d4a3a6fec61b3ce6785a7f1f17",
+        "extracted_sha256": "6fc5ca1ff653f9a3aba19d03bd4458bed3e8d55fd8ccc8a64d922cc5c41c3517"
+      },
+      "automated_licence_precheck": "EVIDENCE_COMPLETE",
+      "automated_quality_precheck": "NO_BLOCKER",
+      "automated_privacy_precheck": "NO_BLOCKER",
+      "automated_leakage_precheck": "NO_BLOCKER",
+      "language_review": "NOT_REQUIRED_CURRENT_OWNER_POLICY",
+      "teacher_review": "PENDING_NAMED_HUMAN",
+      "safeguarding_review": "PENDING_NAMED_HUMAN",
+      "final_approval": "PENDING_NAMED_HUMAN",
+      "automated_blockers": [],
+      "ready_for_human_review": true,
+      "training_approved": false
+    },
+    {
+      "id": "storybooks-nigeria-yo-0327",
+      "hashes": {
+        "original_sha256": "5b88cf125bc12ab4a5ab84bc0267ec1f6f8496418827fe9e7143718fec0b4c6c",
+        "extracted_sha256": "c24246e1aa58871f68d825fd87dac875cee27b7cd1863eacdd2abdda71d34cfc"
+      },
+      "automated_licence_precheck": "EVIDENCE_COMPLETE",
+      "automated_quality_precheck": "NO_BLOCKER",
+      "automated_privacy_precheck": "NO_BLOCKER",
+      "automated_leakage_precheck": "NO_BLOCKER",
+      "language_review": "NOT_REQUIRED_CURRENT_OWNER_POLICY",
+      "teacher_review": "PENDING_NAMED_HUMAN",
+      "safeguarding_review": "PENDING_NAMED_HUMAN",
+      "final_approval": "PENDING_NAMED_HUMAN",
+      "automated_blockers": [],
+      "ready_for_human_review": true,
+      "training_approved": false
+    },
+    {
+      "id": "wikijunior-africa-nigeria-r4416499",
+      "hashes": {
+        "original_sha256": "332eda101c6634cd96130dcd18eb14ae400fa0c05909f849688abd6dbd6843a7",
+        "extracted_sha256": "7ce54e6db029335cc59c1985814b56ed590a27b7e9cf6c316433bccf3132589b"
+      },
+      "automated_licence_precheck": "HOLD_EXCLUDED",
+      "automated_quality_precheck": "NO_BLOCKER",
+      "automated_privacy_precheck": "NO_BLOCKER",
+      "automated_leakage_precheck": "NO_BLOCKER",
+      "language_review": "NOT_REQUIRED_CURRENT_OWNER_POLICY",
+      "teacher_review": "PENDING_NAMED_HUMAN",
+      "safeguarding_review": "PENDING_NAMED_HUMAN",
+      "final_approval": "PENDING_NAMED_HUMAN",
+      "automated_blockers": [
+        "licence disposition excludes training"
+      ],
+      "ready_for_human_review": false,
+      "training_approved": false
+    },
+    {
+      "id": "wikijunior-how-computers-work-r4055667",
+      "hashes": {
+        "original_sha256": "ab9c0ea77733684814050a6b2c803df460ef518854466c10256a221e469be78a",
+        "extracted_sha256": "15663015ae4fd081033021464ff3ff15a996bf23fa97fb9a0d1a753c97c2ea72"
+      },
+      "automated_licence_precheck": "HOLD_EXCLUDED",
+      "automated_quality_precheck": "NO_BLOCKER",
+      "automated_privacy_precheck": "NO_BLOCKER",
+      "automated_leakage_precheck": "NO_BLOCKER",
+      "language_review": "NOT_REQUIRED_CURRENT_OWNER_POLICY",
+      "teacher_review": "PENDING_NAMED_HUMAN",
+      "safeguarding_review": "PENDING_NAMED_HUMAN",
+      "final_approval": "PENDING_NAMED_HUMAN",
+      "automated_blockers": [
+        "licence disposition excludes training"
+      ],
+      "ready_for_human_review": false,
+      "training_approved": false
+    },
+    {
+      "id": "siyavula-mathematics-grade-4-ost-col11101",
+      "hashes": {
+        "original_sha256": "cc85e77810226e346cb9780e95a7f9e77b112d3c7640382b8c698067c9e634a4",
+        "extracted_sha256": "a44fba1c3f8d8430219ccef8a2560d933dd4d69bf56a0c910ded35e7426cf3b8"
+      },
+      "automated_licence_precheck": "EVIDENCE_COMPLETE",
+      "automated_quality_precheck": "NO_BLOCKER",
+      "automated_privacy_precheck": "NO_BLOCKER",
+      "automated_leakage_precheck": "NO_BLOCKER",
+      "language_review": "NOT_REQUIRED_CURRENT_OWNER_POLICY",
+      "teacher_review": "PENDING_NAMED_HUMAN",
+      "safeguarding_review": "PENDING_NAMED_HUMAN",
+      "final_approval": "PENDING_NAMED_HUMAN",
+      "automated_blockers": [],
+      "ready_for_human_review": true,
+      "training_approved": false
+    },
+    {
+      "id": "siyavula-mathematics-grade-5-ost-col10994",
+      "hashes": {
+        "original_sha256": "c1a13479682deef3d31a33da9f5bf0c4b5a5fe3ff8c275f0b741f922e78f16db",
+        "extracted_sha256": "950f4dc3ed9246071da3a0f9ea5bf86ce24afd90513e53b37e876d0b3a0ad423"
+      },
+      "automated_licence_precheck": "EVIDENCE_COMPLETE",
+      "automated_quality_precheck": "NO_BLOCKER",
+      "automated_privacy_precheck": "NO_BLOCKER",
+      "automated_leakage_precheck": "NO_BLOCKER",
+      "language_review": "NOT_REQUIRED_CURRENT_OWNER_POLICY",
+      "teacher_review": "PENDING_NAMED_HUMAN",
+      "safeguarding_review": "PENDING_NAMED_HUMAN",
+      "final_approval": "PENDING_NAMED_HUMAN",
+      "automated_blockers": [],
+      "ready_for_human_review": true,
+      "training_approved": false
+    },
+    {
+      "id": "siyavula-mathematics-grade-6-cnx-col11030",
+      "hashes": {
+        "original_sha256": "3aeaae7f7a90b298be587bb1d00b1729eb212cf91d3b0de35fd8a20496971e52",
+        "extracted_sha256": "ee20e9c0e2598980265dce858e960de0932aba00883847b82de056a9b9cfa5f7"
+      },
+      "automated_licence_precheck": "EVIDENCE_COMPLETE",
+      "automated_quality_precheck": "NO_BLOCKER",
+      "automated_privacy_precheck": "NO_BLOCKER",
+      "automated_leakage_precheck": "NO_BLOCKER",
+      "language_review": "NOT_REQUIRED_CURRENT_OWNER_POLICY",
+      "teacher_review": "PENDING_NAMED_HUMAN",
+      "safeguarding_review": "PENDING_NAMED_HUMAN",
+      "final_approval": "PENDING_NAMED_HUMAN",
+      "automated_blockers": [],
+      "ready_for_human_review": true,
+      "training_approved": false
+    },
+    {
+      "id": "gutenberg-beginners-language-41288",
+      "hashes": {
+        "original_sha256": "133f3afa6e15de4789f589a42c02fc2a3f231595b4ebdb86a5ece2b8ab2f3601",
+        "extracted_sha256": "a67bc3a7e86e3b2ee0c275e3d54e17afe0cf630f09e95386e36a8634ab2a8ecc"
+      },
+      "automated_licence_precheck": "HOLD_EXCLUDED",
+      "automated_quality_precheck": "NO_BLOCKER",
+      "automated_privacy_precheck": "NO_BLOCKER",
+      "automated_leakage_precheck": "NO_BLOCKER",
+      "language_review": "NOT_REQUIRED_CURRENT_OWNER_POLICY",
+      "teacher_review": "PENDING_NAMED_HUMAN",
+      "safeguarding_review": "PENDING_NAMED_HUMAN",
+      "final_approval": "PENDING_NAMED_HUMAN",
+      "automated_blockers": [
+        "licence disposition excludes training"
+      ],
+      "ready_for_human_review": false,
+      "training_approved": false
+    },
+    {
+      "id": "gutenberg-mcguffey-third-14766",
+      "hashes": {
+        "original_sha256": "923d0320d2306b82984a66a7fcff5169b547d820f0bbeb466648db2f8af433f6",
+        "extracted_sha256": "c90d0be65906b8b4a186983e897894b3a44369ff398fdae4dd7cc6e320b41e7c"
+      },
+      "automated_licence_precheck": "HOLD_EXCLUDED",
+      "automated_quality_precheck": "NO_BLOCKER",
+      "automated_privacy_precheck": "NO_BLOCKER",
+      "automated_leakage_precheck": "NO_BLOCKER",
+      "language_review": "NOT_REQUIRED_CURRENT_OWNER_POLICY",
+      "teacher_review": "PENDING_NAMED_HUMAN",
+      "safeguarding_review": "PENDING_NAMED_HUMAN",
+      "final_approval": "PENDING_NAMED_HUMAN",
+      "automated_blockers": [
+        "licence disposition excludes training"
+      ],
+      "ready_for_human_review": false,
+      "training_approved": false
+    },
+    {
+      "id": "african-storybook-take-me-home-39417",
+      "hashes": {
+        "original_sha256": "de997c71f836ec2c77b5dd43ea8f25cad2f36ff89785f430e1be63c7f3fe608b",
+        "extracted_sha256": "251e783ad72225726272be05c34500c5666b0bde39e1b9d118aa235f1c3db2d6"
+      },
+      "automated_licence_precheck": "EVIDENCE_COMPLETE",
+      "automated_quality_precheck": "NO_BLOCKER",
+      "automated_privacy_precheck": "NO_BLOCKER",
+      "automated_leakage_precheck": "NO_BLOCKER",
+      "language_review": "NOT_REQUIRED_CURRENT_OWNER_POLICY",
+      "teacher_review": "PENDING_NAMED_HUMAN",
+      "safeguarding_review": "PENDING_NAMED_HUMAN",
+      "final_approval": "PENDING_NAMED_HUMAN",
+      "automated_blockers": [],
+      "ready_for_human_review": true,
+      "training_approved": false
+    }
+  ]
+}

@@ -64,7 +64,7 @@ def main() -> None:
             errors.append(f"{item_id}: candidate registry cannot grant training eligibility")
         if item["approval_status"] not in {"NOT_APPROVED", "REJECTED"}:
             errors.append(f"{item_id}: invalid approval status")
-        if item["staging_status"] in {"STAGED_UNAPPROVED", "QUARANTINED"}:
+        if item["staging_status"] in {"STAGED_UNAPPROVED", "LICENSE_EXCLUDED", "QUARANTINED"}:
             if not HEX64.fullmatch(item.get("original_sha256") or ""):
                 errors.append(f"{item_id}: staged original hash missing")
             if not HEX64.fullmatch(item.get("extracted_sha256") or ""):
@@ -76,6 +76,21 @@ def main() -> None:
                 errors.append(f"{item_id}: staged metrics incomplete")
         if item["staging_status"] == "QUARANTINED" and not item.get("rejection_reason"):
             errors.append(f"{item_id}: quarantine reason missing")
+        if item["staging_status"] == "LICENSE_EXCLUDED":
+            if licence.get("identifier") not in policy["conditional_licenses"]:
+                errors.append(f"{item_id}: only conditional licences may use LICENSE_EXCLUDED")
+            if item.get("review_status") != "LICENCE_HOLD" or not item.get("rejection_reason"):
+                errors.append(f"{item_id}: licence exclusion must retain hold and reason")
+            if (item.get("licence_disposition") or {}).get("decision") != "EXCLUDE_FROM_TRAINING":
+                errors.append(f"{item_id}: licence exclusion disposition missing")
+        resolution = item.get("automated_hold_resolution")
+        if resolution:
+            if item["staging_status"] != "STAGED_UNAPPROVED":
+                errors.append(f"{item_id}: resolved hold must remain staged-unapproved")
+            if resolution.get("original_sha256") != item["original_sha256"] or resolution.get("extracted_sha256") != item["extracted_sha256"]:
+                errors.append(f"{item_id}: automated hold resolution is not hash-bound")
+            if resolution.get("scope") != "staging only; no human or training approval":
+                errors.append(f"{item_id}: automated hold resolution scope is invalid")
 
     expected_subjects = set(policy["canonical_primary_subjects"])
     covered_subjects = set(subject_counts)
@@ -98,9 +113,36 @@ def main() -> None:
         item = next(value for value in registry["items"] if value["id"] == row["item_id"])
         if row["original_sha256"] != item["original_sha256"] or row["extracted_sha256"] != item["extracted_sha256"]:
             errors.append(f"{row['item_id']}: review packet hash mismatch")
+        if row.get("staging_status") != item["staging_status"]:
+            errors.append(f"{row['item_id']}: review packet staging status mismatch")
         for field in ("licence_decision", "teacher_decision", "safeguarding_decision", "language_decision", "approval_decision"):
             if row.get(field) != "PENDING":
                 errors.append(f"{row['item_id']}: {field} must remain PENDING in generated packet")
+
+    pre_review_path = ROOT / "reports/candidate-pre-review.json"
+    if not pre_review_path.exists():
+        errors.append("candidate automated pre-review report is missing")
+        pre_review = {"results": []}
+    else:
+        pre_review = json.loads(pre_review_path.read_text(encoding="utf-8"))
+    pre_review_results = pre_review.get("results", [])
+    pre_review_by_id = {row.get("id"): row for row in pre_review_results}
+    if set(pre_review_by_id) != ids or len(pre_review_results) != len(ids):
+        errors.append("candidate automated pre-review does not cover each item exactly once")
+    for item in registry.get("items", []):
+        result = pre_review_by_id.get(item["id"])
+        if not result:
+            continue
+        hashes = result.get("hashes") or {}
+        if hashes.get("original_sha256") != item["original_sha256"] or hashes.get("extracted_sha256") != item["extracted_sha256"]:
+            errors.append(f"{item['id']}: automated pre-review hash mismatch")
+        if result.get("teacher_review") != "PENDING_NAMED_HUMAN" or result.get("safeguarding_review") != "PENDING_NAMED_HUMAN":
+            errors.append(f"{item['id']}: automated pre-review may not fill human reviews")
+        if result.get("final_approval") != "PENDING_NAMED_HUMAN" or result.get("training_approved") is not False:
+            errors.append(f"{item['id']}: automated pre-review may not grant approval")
+        should_hold = item["staging_status"] == "LICENSE_EXCLUDED"
+        if bool(result.get("automated_blockers")) != should_hold:
+            errors.append(f"{item['id']}: automated pre-review blocker state mismatch")
 
     report = {
         "schema": registry.get("schema"),

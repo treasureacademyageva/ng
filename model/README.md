@@ -54,6 +54,8 @@ Data expansion now uses a fail-closed candidate and human-review workflow:
 python3 scripts/stage_storybooks_nigeria.py       # pinned ignored staging; never approval
 python3 scripts/stage_open_candidates.py           # exact-URL general staging; never approval
 python3 scripts/audit_staged_storybooks.py         # quality/privacy/dedup/leakage scans
+python3 scripts/resolve_candidate_holds.py          # exact hash-bound dispositions; never approval
+python3 scripts/pre_review_candidates.py            # machine evidence; human decisions stay pending
 python3 scripts/validate_candidate_registry.py
 python3 scripts/build_human_review_packets.py
 python3 scripts/validate_human_reviews.py
@@ -62,14 +64,15 @@ python3 scripts/validate_napps_alignment.py
 python3 scripts/build_primary_authoring_queue.py
 python3 scripts/validate_primary_authoring_queue.py
 python3 scripts/build_primary_pilot_manifest.py
+python3 scripts/generate_primary_pilot_drafts.py     # private AI-assisted drafts; never approval
 python3 scripts/validate_primary_pilot_manifest.py
 python3 scripts/audit_duplicates.py
 python3 scripts/audit_corpus.py
 ```
 
-Candidate material stays outside `sources.json` and training until item-level rights, provenance, content quality and every required human review pass. The current item-level audit has 49 staged-unapproved and 5 quarantined items, 54 all-pending hash-bound review rows, and zero training approvals. Approved-corpus completion is 15.31%; experimental intake-control readiness is 100.00%, which is not permission to train. See `CORPUS-EXPANSION-REPORT.md` and `reports/corpus-expansion-audit.json`.
+Candidate material stays outside `sources.json` and training until item-level rights, provenance, content quality and every required human review pass. The current item-level audit has 50 staged-unapproved, 4 licence-excluded and 0 quarantined items. Automated pre-review covers all 54 exact items, but every generated human decision remains pending and there are zero training approvals. A separate qualified-language-review track is owner-deferred for this current experimental corpus only; teacher, safeguarding, licence, legal and final training gates remain unchanged. Approved-corpus completion is 15.31%; experimental intake-control readiness is 100.00%, which is not permission to train. See `CORPUS-EXPANSION-REPORT.md` and `reports/corpus-expansion-audit.json`.
 
-The school uses NAPPS, so the authoring workflow now includes a 328-row Primary 1–6 English/Mathematics topic index from the newest public series found. It matches the September 2025 federal subject structure and NERDC competency strategy and is owner-authorized for original authoring. It remains a third-party alignment—not an official NAPPS edition or licensed training source. The original-content queue and balanced pilot still have zero approved documents. See `NAPPS-ALIGNMENT.md` and `data/authoring/README.md`.
+The school uses NAPPS, so the authoring workflow includes a 328-row Primary 1–6 English/Mathematics topic index from the newest public series previously found. It matches the September 2025 federal subject structure and NERDC competency strategy and is owner-authorized for original authoring. It remains a third-party alignment—not an official NAPPS edition or licensed training source. The balanced pilot now has 96 hash-bound AI-assisted private drafts, but zero teacher approvals, zero safeguarding approvals and zero training-approved documents. See `NAPPS-ALIGNMENT.md` and `data/authoring/README.md`.
 
 ## Held-out evaluation v2
 

@@ -34,7 +34,7 @@ These are minimum readiness controls, not a claim that every source or category 
 2. **Verify rights** — record the exact item licence and attribution. Public access alone is insufficient.
 3. **Stage** — extract text to ignored `data/staging/`; staging never means training approval.
 4. **Automated screening** — scan provenance, hashes, extraction quality, private data, exact duplicates and near duplicates.
-5. **Human review** — require Nigerian primary-teacher and safeguarding decisions. Hausa, Yoruba, Igbo and Ebira also require a qualified speaker.
+5. **Human review** — require Nigerian primary-teacher and safeguarding decisions. The owner deferred the separate qualified-language-review track for this current experimental corpus only; this does not waive any other review.
 6. **Approve deliberately** — only then add a source to `sources.json` with explicit coverage tags and review evidence.
 7. **Rebuild** — regenerate document-level train/validation splits and retrain the tokenizer after the full corpus is frozen.
 
@@ -47,21 +47,23 @@ The reproducible `scripts/stage_storybooks_nigeria.py` importer pins both upstre
 - Hausa: 6 checked; 4 CC BY staged; 2 CC BY-NC rejected; 2,862 characters;
 - Yoruba: 8 checked; 6 CC BY staged; 2 CC BY-NC rejected; 3,497 characters.
 
-The total is **46 staged stories and 58,977 characters**, all with `approved_for_training: false`. English items still need teacher and safeguarding review. Nigerian Pidgin, Hausa and Yoruba also require their qualified-speaker review. These collections do **not** by themselves satisfy the Nigerian-authored stories or Nigerian English composition requirements.
+The total is **46 staged stories and 58,977 characters**, all with `approved_for_training: false`. Every item still needs teacher and safeguarding review. Separate qualified-speaker review is owner-deferred for the current experimental corpus, with existing optional review rows retained. These collections do **not** by themselves satisfy the Nigerian-authored stories or Nigerian English composition requirements.
 
 ## Exact-item expansion tranche
 
 The registry now preserves the original 10 collection-level research candidates and adds 54 exact item records: the 46 pinned Storybooks items plus eight new exact sources for geography/social studies/civics, computer studies, primary mathematics, English composition/reading and African children’s stories. Every record carries complete identity, provenance, evidence-bound context, language/level, canonical primary and secondary subjects, licence evidence, attribution, statuses, hashes, metrics, privacy/quality findings and duplicate results.
 
-The safe general stager acquired all eight new items. It staged seven and quarantined the Grade 6 mathematics OCR extraction for a phone-like sequence requiring human inspection. The cross-source story scan staged 42 and quarantined four for repeated units or minimum-length failure. Combined current state:
+The safe general stager acquired all eight new items, and the cross-source story scan covered 46 exact stories. A deterministic follow-up then resolved five hash-bound automated holds for staging only: one OCR arithmetic privacy false positive, three intentional repeated refrains/dialogue cases, and one complete short beginning reader. Four conditional-rights works were fail-closed as licence-excluded. Combined current state:
 
-- 49 staged-unapproved items: 720,359 characters, 137,395 words and 180,624 estimated BPE tokens;
-- 5 quarantined items: 183,943 characters, 34,758 words and 46,186 estimated BPE tokens;
-- 54 hash-bound candidate review rows, all decisions pending;
+- 50 staged-unapproved items: 529,105 characters, 101,223 words and 133,007 estimated BPE tokens;
+- 4 licence-excluded items: 375,197 characters, 70,930 words and 93,803 estimated BPE tokens;
+- 0 quarantined items;
+- 54/54 hash-bound automated pre-reviews, with 50 ready for named human review and 4 held by licence disposition;
+- 54 hash-bound human review rows, with every generated human decision pending;
 - 0 candidate items approved for training; and
 - 0 held-out leakage findings, with protected benchmark hashes unchanged.
 
-The approved before/after distribution is unchanged at 1,903,726 characters and 461,013 training BPE tokens. Staged or quarantined material earns no approved progress. See `CORPUS-EXPANSION-REPORT.md` and `reports/corpus-expansion-audit.json`.
+The approved before/after distribution is unchanged at 1,903,726 characters and 461,013 training BPE tokens. Staged or licence-excluded material earns no approved progress. See `CORPUS-EXPANSION-REPORT.md` and `reports/corpus-expansion-audit.json`.
 
 The weighted approved-policy completion is **15.31%**. Experimental intake-pipeline readiness is **100.00%**, meaning only that the requested staging controls are implemented and evidenced; it is not corpus readiness, model quality or training authorisation.
 
@@ -91,9 +93,9 @@ The official public NAPPS site did not expose an edition-checkable Primary schem
 - `rights-confirmation.json` records school-owned internal model use only, with no open licence or public corpus distribution.
 - Every future draft must record its creator type, rights status, text hash, and separate named teacher and safeguarding decisions.
 
-`pilot-balanced-v1-review.csv` is the fail-closed, hash-bound 96-row pilot manifest. Every row is currently `NOT_STARTED`, both reviews are `PENDING`, and `approved_for_training` is false. Because the owner selected internal rather than open rights, draft text must remain in ignored private staging and must not be pushed to the public repository.
+`pilot-balanced-v1-review.csv` is the fail-closed, hash-bound 96-row pilot manifest. Every row is now `DRAFTED` and `AI_ASSISTED`, both reviews remain `PENDING`, and `approved_for_training` is false. The private deterministic pilot contains 39,730 words; each brief has one substantive 378–462-word draft, and the internal 0.88-threshold exact/near-duplicate screen reports zero matches. Because the owner selected internal rather than open rights, draft text remains in ignored private staging and is not pushed to the public repository. The committed generator can reproduce every manifest hash from the briefs.
 
-This queue is a controlled authoring plan, not corpus data. It must not be filled with repetitive synthetic variations, copied curriculum pages or unreviewed assistant output. Builders preserve assignments and decisions only while the underlying brief hash is unchanged.
+This queue and its unreviewed drafts are not approved corpus data. They must not be expanded with repetitive synthetic variations or copied curriculum pages, and AI-assisted text must not be presented as human-authored or reviewed. Builders preserve assignments and decisions only while the underlying brief/content hashes remain unchanged.
 
 ## Human-review packets
 
@@ -111,13 +113,13 @@ The builder creates separate CSV packets for all 240 held-out cases:
 
 The Storybooks staging importer also maintains four collection review packets covering all 46 staged stories. It preserves completed decisions only while a text hash is unchanged. `data/reviews/language-source-review.csv` separately records qualified-speaker decisions.
 
-No script auto-approves a row. Valid approval requires a named human, the required role and a review date. Current state is **0/240 evaluation teacher-approved, 0/240 evaluation safeguarding-approved, and 0/46 staged stories approved on either content-review track**. All six language-source decisions are also pending. That is expected at programme start and remains a hard blocker.
+No script auto-approves a row. Valid teacher or safeguarding approval requires a named human, the required role and a review date. Current state is **0/240 evaluation teacher-approved, 0/240 evaluation safeguarding-approved, 0/46 staged stories approved on either content-review track, and 0/96 original drafts approved on either track**. All six optional language-source decisions are also pending; under the current scoped owner policy, that separate language track is deferred rather than a present hard gate.
 
 ## Candidate findings
 
 The candidate registry records both promising and prohibited uses:
 
-- Storybooks Nigeria and StoryWeaver: potentially useful story collections, but licences and attribution must be checked per item; Nigerian-language text remains blocked on qualified-speaker review.
+- Storybooks Nigeria and StoryWeaver: potentially useful story collections, but licences and attribution must be checked per item; separate qualified-speaker review is deferred for the current corpus while teacher, safeguarding and final approval remain required.
 - Global Digital Library primary maths: promising open-resource catalogue, but every selected resource needs its own licence record and Nigerian contextual review.
 - NERDC curriculum and Nigeria Learning Passport: useful alignment references; currently not training sources because no affirmative open training/reuse licence has been verified.
 - Siyavula Nigeria mathematics: openly licensed unbranded versions exist, but the current catalogue is JSS 1–3 and therefore does not satisfy the primary requirement.
@@ -128,7 +130,7 @@ The candidate registry records both promising and prohibited uses:
 1. Complete rights and item selection for the staged English stories, then obtain the two required human reviews.
 2. Build Nigerian primary mathematics and Nigerian English/composition packs with recorded authorship and teacher review.
 3. Add reviewed social studies, civic education, local geography and computer studies.
-4. Process Hausa, Yoruba, Igbo and Ebira only through the qualified-speaker queue.
+4. Retain the optional Hausa, Yoruba, Igbo and Ebira speaker-review queue for future use; the owner has deferred it for the current experimental corpus.
 5. Reach the size and balance gates; run exact and near-duplicate checks.
 6. Freeze source versions and hashes, recreate document-level splits, and retrain the tokenizer.
 7. Repeat the exact 100-step GPU benchmark and inspect fresh generations.

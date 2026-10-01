@@ -1,0 +1,28 @@
+{
+  "version": 1,
+  "status": "AI_ASSISTED_PRIVATE_DRAFTS_NOT_TRAINING_APPROVED",
+  "output": "data/staging/authoring/pilot-v1-drafts.jsonl",
+  "output_sha256": "c0c6960a9edc5b59d9739e2e72eff31aa36f916ce55804bfe3d859a34134bbe8",
+  "documents": 96,
+  "subjects": {
+    "mathematics": 48,
+    "english": 48
+  },
+  "classes": {
+    "P1": 16,
+    "P2": 16,
+    "P3": 16,
+    "P4": 16,
+    "P5": 16,
+    "P6": 16
+  },
+  "characters": 247356,
+  "words": 39730,
+  "minimum_document_words": 378,
+  "maximum_document_words": 462,
+  "near_duplicate_threshold": 0.88,
+  "exact_or_near_duplicate_documents": 0,
+  "teacher_approved": 0,
+  "safeguarding_approved": 0,
+  "training_approved": 0
+}

@@ -242,18 +242,24 @@ def main() -> None:
         reasons.append("Primary 1-6 English/Mathematics alignment has not been authorized for original authoring")
 
     staged_unapproved = candidate_distribution(candidate_items, {"STAGED_UNAPPROVED"})
+    licence_excluded = candidate_distribution(candidate_items, {"LICENSE_EXCLUDED"})
     quarantined = candidate_distribution(candidate_items, {"QUARANTINED"})
     rejected = candidate_distribution(candidate_items, {"REJECTED"})
     candidate_decisions = {
         field: dict(review_counts(ROOT / "data/reviews/candidate-intake-review.csv", field))
         for field in ("licence_decision", "teacher_decision", "safeguarding_decision", "language_decision", "approval_decision")
     }
-    candidate_pending = sum(
-        row.get("approval_decision") != "APPROVED" for row in candidate_reviews
-    )
+    candidate_approved = sum(row.get("approval_decision") == "APPROVED" for row in candidate_reviews)
+    candidate_pending = len(candidate_reviews) - candidate_approved
     candidate_quarantined = sum(item.get("staging_status") == "QUARANTINED" for item in candidate_items)
+    candidate_licence_excluded = sum(item.get("staging_status") == "LICENSE_EXCLUDED" for item in candidate_items)
+    candidate_resolved_holds = sum(bool(item.get("automated_hold_resolution")) for item in candidate_items)
     candidate_privacy_warnings = sum(
         len((item.get("privacy") or {}).get("warnings", [])) for item in candidate_items
+    )
+    candidate_unresolved_privacy_warnings = sum(
+        len((item.get("privacy") or {}).get("warnings", []))
+        for item in candidate_items if not item.get("automated_hold_resolution")
     )
     candidate_leakage_blocks = sum(
         bool((item.get("leakage") or {}).get("blocked")) for item in candidate_items
@@ -263,12 +269,15 @@ def main() -> None:
         if item.get("license", {}).get("identifier") in candidate_policy["conditional_licenses"]
     ]
     if candidate_pending:
-        reasons.append(f"candidate item approval review incomplete: 0/{len(candidate_reviews)} approved")
+        reasons.append(
+            f"candidate item approval review incomplete: {candidate_approved}/{len(candidate_reviews)} approved"
+        )
     if candidate_quarantined:
         reasons.append(f"{candidate_quarantined} candidate item(s) are quarantined")
     if conditional_licence_items:
         reasons.append(
-            f"{len(conditional_licence_items)} candidate item(s) require share-alike or jurisdiction review"
+            f"{len(conditional_licence_items)} candidate item(s) remain training-excluded pending "
+            "share-alike or Nigerian-jurisdiction legal approval"
         )
 
     approved_provenance_fraction = (
@@ -350,26 +359,27 @@ def main() -> None:
         )
         for item in candidate_items
     )
-    staged_items = [
-        item for item in candidate_items if item.get("staging_status") in {"STAGED_UNAPPROVED", "QUARANTINED"}
+    reviewable_items = [
+        item for item in candidate_items
+        if item.get("staging_status") in {"STAGED_UNAPPROVED", "LICENSE_EXCLUDED", "QUARANTINED"}
     ]
     extracted_complete = sum(
         len(item.get("original_sha256") or "") == 64
         and len(item.get("extracted_sha256") or "") == 64
         and all((item.get("metrics") or {}).get(field) is not None for field in ("characters", "words", "estimated_bpe_tokens"))
-        for item in staged_items
+        for item in reviewable_items
     )
-    quality_complete = sum(item.get("privacy") is not None and item.get("quality") is not None for item in staged_items)
+    quality_complete = sum(item.get("privacy") is not None and item.get("quality") is not None for item in reviewable_items)
     context_complete = sum(
         item.get("context_class") in candidate_policy["context_classes"]
         and all((item.get("context_evidence") or {}).get(field) for field in ("basis", "evidence_url", "excerpt"))
         for item in candidate_items
     )
-    duplicate_complete = sum(item.get("duplicates") is not None for item in staged_items)
-    leakage_complete = sum(item.get("leakage") is not None for item in staged_items)
+    duplicate_complete = sum(item.get("duplicates") is not None for item in reviewable_items)
+    leakage_complete = sum(item.get("leakage") is not None for item in reviewable_items)
     review_ids = {row.get("item_id") for row in candidate_reviews}
     review_complete = (
-        review_ids == {item["id"] for item in staged_items}
+        review_ids == {item["id"] for item in reviewable_items}
         and all(row.get("approval_decision") == "PENDING" for row in candidate_reviews)
     )
     benchmark_unchanged = bool(candidate_stage_report.get("benchmark_files_unchanged"))
@@ -389,13 +399,13 @@ def main() -> None:
         scored_component("seven_priority_areas_represented", 7, len(covered_candidate_subjects & set(candidate_policy["canonical_primary_subjects"])) / len(candidate_policy["canonical_primary_subjects"]), f"{len(covered_candidate_subjects & set(candidate_policy['canonical_primary_subjects']))}/7 canonical areas represented"),
         scored_component("exact_url_and_host_allowlisting", 8, allowlisted_urls / max(1, len(candidate_items)), f"{allowlisted_urls}/{len(candidate_items)} items use the general HTTPS host allowlist or the specialised pinned-commit importer"),
         scored_component("redirect_size_time_type_and_path_controls", 7, 1.0 if candidate_policy["max_redirects"] and candidate_policy["maximum_download_bytes"] and candidate_policy["timeout_seconds"] else 0.0, "Fail-closed candidate intake policy defines redirect, byte, timeout, MIME and path controls"),
-        scored_component("reproducible_extraction_hashes_and_metrics", 10, extracted_complete / max(1, len(staged_items)), f"{extracted_complete}/{len(staged_items)} staged/quarantined items have original/extracted hashes and metrics"),
-        scored_component("quality_and_privacy_scanning", 8, quality_complete / max(1, len(staged_items)), f"{quality_complete}/{len(staged_items)} staged/quarantined items have quality and privacy results"),
+        scored_component("reproducible_extraction_hashes_and_metrics", 10, extracted_complete / max(1, len(reviewable_items)), f"{extracted_complete}/{len(reviewable_items)} reviewable candidate items have original/extracted hashes and metrics"),
+        scored_component("quality_and_privacy_scanning", 8, quality_complete / max(1, len(reviewable_items)), f"{quality_complete}/{len(reviewable_items)} reviewable candidate items have quality and privacy results"),
         scored_component("evidence_bound_context_and_subject_classification", 7, context_complete / max(1, len(candidate_items)), f"{context_complete}/{len(candidate_items)} items have canonical context evidence and subjects"),
-        scored_component("exact_and_near_duplicate_screening", 8, duplicate_complete / max(1, len(staged_items)), f"{duplicate_complete}/{len(staged_items)} staged/quarantined items have duplicate results"),
-        scored_component("heldout_leakage_and_hash_protection", 8, min(leakage_complete / max(1, len(staged_items)), 1.0 if benchmark_unchanged else 0.0), f"{leakage_complete}/{len(staged_items)} items scanned; protected benchmark hashes unchanged={benchmark_unchanged}"),
+        scored_component("exact_and_near_duplicate_screening", 8, duplicate_complete / max(1, len(reviewable_items)), f"{duplicate_complete}/{len(reviewable_items)} reviewable candidate items have duplicate results"),
+        scored_component("heldout_leakage_and_hash_protection", 8, min(leakage_complete / max(1, len(reviewable_items)), 1.0 if benchmark_unchanged else 0.0), f"{leakage_complete}/{len(reviewable_items)} items scanned; protected benchmark hashes unchanged={benchmark_unchanged}"),
         scored_component("hash_bound_pending_review_packets", 10, 1.0 if review_complete else 0.0, f"{len(candidate_reviews)} hash-bound rows; every generated approval decision pending={review_complete}"),
-        scored_component("approved_staged_quarantined_state_audit", 7, 1.0, "Audit reports approved baseline, staged-unapproved, quarantined and rejected states separately"),
+        scored_component("approved_candidate_state_separation_audit", 7, 1.0, "Audit reports approved baseline, staged-unapproved, licence-excluded, quarantined and rejected states separately"),
         scored_component("ignored_staging_boundary", 3, 1.0 if staging_ignored else 0.0, f"model/.gitignore contains data/staging/*={staging_ignored}"),
         scored_component("long_run_gate_remains_closed", 4, 1.0, "This audit adds candidate blockers and never grants long-run authorisation"),
         scored_component("experimental_model_disconnected_from_production", 5, 1.0 if production_disconnected else 0.0, f"No checkpoint/pretraining path is routed by deployed config or production chatbot={production_disconnected}"),
@@ -458,6 +468,7 @@ def main() -> None:
                 "nigerian_context_characters": nigerian_context_characters,
             },
             "staged_unapproved": staged_unapproved,
+            "licence_excluded": licence_excluded,
             "quarantined": quarantined,
             "rejected": rejected,
             "research_collections": {
@@ -465,7 +476,7 @@ def main() -> None:
                 "intake_statuses": dict(sorted(Counter(item.get("intake_status", "") for item in candidate_registry.get("candidates", [])).items())),
                 "license_statuses": dict(sorted(Counter(item.get("license_status", "") for item in candidate_registry.get("candidates", [])).items())),
             },
-            "before_after_note": "The approved-before and approved-after distributions are identical because no staged candidate is approved. Candidate distributions are shown separately and must not be added to approved progress.",
+            "before_after_note": "The approved-before and approved-after distributions are identical because no candidate or original draft is approved. Candidate states are shown separately and must not be added to approved progress.",
             "approved_characters_before": total_characters,
             "approved_characters_after": total_characters,
             "approved_train_bpe_tokens_before": train_tokens,
@@ -475,9 +486,13 @@ def main() -> None:
             "items": len(candidate_items),
             "review_rows": len(candidate_reviews),
             "quarantined_items": candidate_quarantined,
-            "privacy_warnings": candidate_privacy_warnings,
+            "licence_excluded_items": candidate_licence_excluded,
+            "automated_holds_resolved_for_staging": candidate_resolved_holds,
+            "privacy_warnings_detected": candidate_privacy_warnings,
+            "unresolved_privacy_warnings": candidate_unresolved_privacy_warnings,
             "heldout_leakage_blocks": candidate_leakage_blocks,
             "conditional_licence_items": conditional_licence_items,
+            "language_review_policy": candidate_policy["language_review_policy"],
             "benchmark_files_unchanged": benchmark_unchanged,
             "training_approved_items": sum(bool(item.get("training_eligible")) for item in candidate_items),
         },

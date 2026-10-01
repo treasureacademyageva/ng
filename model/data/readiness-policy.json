@@ -1,5 +1,5 @@
 {
-  "version": 1,
+  "version": 2,
   "status": "working_policy_requires_human_approval",
   "corpus": {
     "minimum_train_bpe_tokens": 10000000,
@@ -66,12 +66,12 @@
         "path": "data/reviews/storybooks-nigeria-yoruba-review.csv"
       }
     ],
-    "languages_requiring_qualified_review": {
-      "ha": "qualified_hausa_speaker",
-      "yo": "qualified_yoruba_speaker",
-      "ig": "qualified_igbo_speaker",
-      "igb": "qualified_ebira_speaker",
-      "pcm-NG": "qualified_nigerian_pidgin_speaker"
+    "languages_requiring_qualified_review": {},
+    "language_review_policy": {
+      "status": "OWNER_DEFERRED_FOR_CURRENT_EXPERIMENTAL_CORPUS",
+      "directed_at": "2026-09-30",
+      "scope": "Current staged corpus only; this does not provide teacher, safeguarding, licence or training approval.",
+      "original_rows_retained_for_future_optional_review": true
     }
   },
   "benchmark": {

@@ -3,8 +3,9 @@
 
 English, Nigerian Pidgin, Hausa and Yoruba are extracted from pinned upstream
 commits. Staging is separate from sources.json and never approves training use.
-Every selected story still needs teacher and safeguarding review; Nigerian
-Pidgin, Hausa and Yoruba additionally remain blocked on qualified speakers.
+Every selected story still needs teacher and safeguarding review. The owner
+has deferred the separate language-review track for the current experimental
+corpus; that direction does not imply content or training approval.
 """
 from __future__ import annotations
 
@@ -156,7 +157,8 @@ def stage_language(site: dict[str, bytes], code: str, settings: dict) -> tuple[l
             "site_commit": SITE_COMMIT,
             "source_original_sha256": hashlib.sha256(page_bytes).hexdigest(),
             "site_page_sha256": hashlib.sha256(page_bytes).hexdigest(),
-            "review_status": "pending_qualified_language_teacher_and_safeguarding_review",
+            "review_status": "pending_teacher_and_safeguarding_review",
+            "language_review_status": "owner_deferred_for_current_experimental_corpus",
             "approved_for_training": False,
         })
         record["text_sha256"] = hashlib.sha256(record["text"].encode("utf-8")).hexdigest()

@@ -2149,10 +2149,10 @@
       "managed_by": "stage_storybooks_nigeria.py",
       "acquisition_status": "ACQUIRED",
       "review_status": "PENDING_HUMAN_REVIEW",
-      "staging_status": "QUARANTINED",
+      "staging_status": "STAGED_UNAPPROVED",
       "approval_status": "NOT_APPROVED",
       "training_eligible": false,
-      "rejection_reason": "exact or near duplicate found",
+      "rejection_reason": null,
       "original_sha256": "17cca581cb243f9aee884c7405434c7c0474c4b1a5f3fc435c9652d3e38fd1f6",
       "extracted_sha256": "a9efa00ae6816367376c4b8ac5a83bdd47923edceca596b6ea9cc11f5f6edb1e",
       "metrics": {
@@ -2219,6 +2219,15 @@
         "original_container": "data/staging/originals/storybooks-nigeria/asp-source-b5c3d5b2266ad936e5f20fa878e839b32b02b4ba.tar.gz",
         "original_member": "en/0262_magozwe.md",
         "extracted_collection": "data/staging/storybooks-nigeria-english-cc-by.jsonl"
+      },
+      "automated_hold_resolution": {
+        "code": "ACCEPT_INTENTIONAL_STORY_REPETITION_FOR_STAGING",
+        "reason": "Repeated dialogue is internal to the source story and is retained as intentional narrative repetition.",
+        "resolved_at": "2026-09-30",
+        "original_sha256": "17cca581cb243f9aee884c7405434c7c0474c4b1a5f3fc435c9652d3e38fd1f6",
+        "extracted_sha256": "a9efa00ae6816367376c4b8ac5a83bdd47923edceca596b6ea9cc11f5f6edb1e",
+        "prior_reason": "exact or near duplicate found",
+        "scope": "staging only; no human or training approval"
       }
     },
     {
@@ -3930,10 +3939,10 @@
       "managed_by": "stage_storybooks_nigeria.py",
       "acquisition_status": "ACQUIRED",
       "review_status": "PENDING_HUMAN_REVIEW",
-      "staging_status": "QUARANTINED",
+      "staging_status": "STAGED_UNAPPROVED",
       "approval_status": "NOT_APPROVED",
       "training_eligible": false,
-      "rejection_reason": "exact or near duplicate found",
+      "rejection_reason": null,
       "original_sha256": "d19091b05e35c522ac35eea875ad850cd4ce9d30ae9026ea8f4c3aeab299e89a",
       "extracted_sha256": "286335a670aedd078ba417474f008deb6a0629bdbf0a33f14fa4fba2850ae5a2",
       "metrics": {
@@ -3992,6 +4001,15 @@
         "original_container": "data/staging/originals/storybooks-nigeria/storybooks-nigeria-dd104b90d4274ebd1395bdbf4d68cc5b7e56c5d4.tar.gz",
         "original_member": "stories/ha/0087/index.html",
         "extracted_collection": "data/staging/storybooks-nigeria-hausa-cc-by.jsonl"
+      },
+      "automated_hold_resolution": {
+        "code": "ACCEPT_EARLY_READER_REFRAIN_FOR_STAGING",
+        "reason": "The repeated question is an intentional early-reader refrain, not corpus padding.",
+        "resolved_at": "2026-09-30",
+        "original_sha256": "d19091b05e35c522ac35eea875ad850cd4ce9d30ae9026ea8f4c3aeab299e89a",
+        "extracted_sha256": "286335a670aedd078ba417474f008deb6a0629bdbf0a33f14fa4fba2850ae5a2",
+        "prior_reason": "exact or near duplicate found",
+        "scope": "staging only; no human or training approval"
       }
     },
     {
@@ -4327,10 +4345,10 @@
       "managed_by": "stage_storybooks_nigeria.py",
       "acquisition_status": "ACQUIRED",
       "review_status": "PENDING_HUMAN_REVIEW",
-      "staging_status": "QUARANTINED",
+      "staging_status": "STAGED_UNAPPROVED",
       "approval_status": "NOT_APPROVED",
       "training_eligible": false,
-      "rejection_reason": "exact or near duplicate found",
+      "rejection_reason": null,
       "original_sha256": "16f41809aa6869691aa3d1a13d4eab549de11d5dad8b03756aa38cb503397631",
       "extracted_sha256": "22f81c6484fa08b21667fbac251241c9e6949a707c911ca77c687e239384e787",
       "metrics": {
@@ -4389,6 +4407,15 @@
         "original_container": "data/staging/originals/storybooks-nigeria/storybooks-nigeria-dd104b90d4274ebd1395bdbf4d68cc5b7e56c5d4.tar.gz",
         "original_member": "stories/yo/0087/index.html",
         "extracted_collection": "data/staging/storybooks-nigeria-yoruba-cc-by.jsonl"
+      },
+      "automated_hold_resolution": {
+        "code": "ACCEPT_EARLY_READER_REFRAIN_FOR_STAGING",
+        "reason": "The repeated question is an intentional early-reader refrain, not corpus padding.",
+        "resolved_at": "2026-09-30",
+        "original_sha256": "16f41809aa6869691aa3d1a13d4eab549de11d5dad8b03756aa38cb503397631",
+        "extracted_sha256": "22f81c6484fa08b21667fbac251241c9e6949a707c911ca77c687e239384e787",
+        "prior_reason": "exact or near duplicate found",
+        "scope": "staging only; no human or training approval"
       }
     },
     {
@@ -4627,10 +4654,10 @@
       "managed_by": "stage_storybooks_nigeria.py",
       "acquisition_status": "ACQUIRED",
       "review_status": "PENDING_HUMAN_REVIEW",
-      "staging_status": "QUARANTINED",
+      "staging_status": "STAGED_UNAPPROVED",
       "approval_status": "NOT_APPROVED",
       "training_eligible": false,
-      "rejection_reason": "extracted text is too short",
+      "rejection_reason": null,
       "original_sha256": "d15d40529dbc299459a065df00f15ab4911168d4a3a6fec61b3ce6785a7f1f17",
       "extracted_sha256": "6fc5ca1ff653f9a3aba19d03bd4458bed3e8d55fd8ccc8a64d922cc5c41c3517",
       "metrics": {
@@ -4682,6 +4709,15 @@
         "original_container": "data/staging/originals/storybooks-nigeria/storybooks-nigeria-dd104b90d4274ebd1395bdbf4d68cc5b7e56c5d4.tar.gz",
         "original_member": "stories/yo/0302/index.html",
         "extracted_collection": "data/staging/storybooks-nigeria-yoruba-cc-by.jsonl"
+      },
+      "automated_hold_resolution": {
+        "code": "ACCEPT_SHORT_EARLY_READER_FOR_STAGING",
+        "reason": "The complete source is a deliberately short beginning reader; short length is retained and still needs teacher/safeguarding review.",
+        "resolved_at": "2026-09-30",
+        "original_sha256": "d15d40529dbc299459a065df00f15ab4911168d4a3a6fec61b3ce6785a7f1f17",
+        "extracted_sha256": "6fc5ca1ff653f9a3aba19d03bd4458bed3e8d55fd8ccc8a64d922cc5c41c3517",
+        "prior_reason": "extracted text is too short",
+        "scope": "staging only; no human or training approval"
       }
     },
     {
@@ -4827,11 +4863,11 @@
       "extraction_method": "mediawiki-pinned-revision-html",
       "managed_by": "stage_open_candidates.py",
       "acquisition_status": "ACQUIRED",
-      "review_status": "PENDING_HUMAN_REVIEW",
-      "staging_status": "STAGED_UNAPPROVED",
+      "review_status": "LICENCE_HOLD",
+      "staging_status": "LICENSE_EXCLUDED",
       "approval_status": "NOT_APPROVED",
       "training_eligible": false,
-      "rejection_reason": null,
+      "rejection_reason": "Excluded from training because downstream share-alike treatment for model artefacts has not been legally approved.",
       "original_sha256": "332eda101c6634cd96130dcd18eb14ae400fa0c05909f849688abd6dbd6843a7",
       "extracted_sha256": "7ce54e6db029335cc59c1985814b56ed590a27b7e9cf6c316433bccf3132589b",
       "metrics": {
@@ -4890,6 +4926,12 @@
         "content_type": "application/json",
         "source_revision": "4416499",
         "licence_evidence_url": "https://en.wikibooks.org/wiki/Wikibooks:Copyrights"
+      },
+      "licence_disposition": {
+        "decision": "EXCLUDE_FROM_TRAINING",
+        "reason": "Excluded from training because downstream share-alike treatment for model artefacts has not been legally approved.",
+        "decided_at": "2026-09-30",
+        "basis": "fail-closed project policy; not legal advice"
       }
     },
     {
@@ -4933,11 +4975,11 @@
       "extraction_method": "mediawiki-pinned-revision-html",
       "managed_by": "stage_open_candidates.py",
       "acquisition_status": "ACQUIRED",
-      "review_status": "PENDING_HUMAN_REVIEW",
-      "staging_status": "STAGED_UNAPPROVED",
+      "review_status": "LICENCE_HOLD",
+      "staging_status": "LICENSE_EXCLUDED",
       "approval_status": "NOT_APPROVED",
       "training_eligible": false,
-      "rejection_reason": null,
+      "rejection_reason": "Excluded from training because downstream share-alike treatment for model artefacts has not been legally approved.",
       "original_sha256": "ab9c0ea77733684814050a6b2c803df460ef518854466c10256a221e469be78a",
       "extracted_sha256": "15663015ae4fd081033021464ff3ff15a996bf23fa97fb9a0d1a753c97c2ea72",
       "metrics": {
@@ -4996,6 +5038,12 @@
         "content_type": "application/json",
         "source_revision": "4055667",
         "licence_evidence_url": "https://en.wikibooks.org/wiki/Wikibooks:Copyrights"
+      },
+      "licence_disposition": {
+        "decision": "EXCLUDE_FROM_TRAINING",
+        "reason": "Excluded from training because downstream share-alike treatment for model artefacts has not been legally approved.",
+        "decided_at": "2026-09-30",
+        "basis": "fail-closed project policy; not legal advice"
       }
     },
     {
@@ -5264,10 +5312,10 @@
       "managed_by": "stage_open_candidates.py",
       "acquisition_status": "ACQUIRED",
       "review_status": "PENDING_HUMAN_REVIEW",
-      "staging_status": "QUARANTINED",
+      "staging_status": "STAGED_UNAPPROVED",
       "approval_status": "NOT_APPROVED",
       "training_eligible": false,
-      "rejection_reason": "1 potential personal-data pattern(s)",
+      "rejection_reason": null,
       "original_sha256": "3aeaae7f7a90b298be587bb1d00b1729eb212cf91d3b0de35fd8a20496971e52",
       "extracted_sha256": "ee20e9c0e2598980265dce858e960de0932aba00883847b82de056a9b9cfa5f7",
       "metrics": {
@@ -5338,6 +5386,15 @@
         "content_type": "text/plain",
         "source_revision": "archive-item-cnx-org-col11030-file-mathematics-grade-6_djvu.txt",
         "licence_evidence_url": "https://archive.org/metadata/cnx-org-col11030"
+      },
+      "automated_hold_resolution": {
+        "code": "PRIVACY_FALSE_POSITIVE_ARITHMETIC_OCR",
+        "reason": "The masked warning is an OCR arithmetic puzzle beginning with a plus sign, not a phone number or personal record.",
+        "resolved_at": "2026-09-30",
+        "original_sha256": "3aeaae7f7a90b298be587bb1d00b1729eb212cf91d3b0de35fd8a20496971e52",
+        "extracted_sha256": "ee20e9c0e2598980265dce858e960de0932aba00883847b82de056a9b9cfa5f7",
+        "prior_reason": "1 potential personal-data pattern(s)",
+        "scope": "staging only; no human or training approval"
       }
     },
     {
@@ -5381,11 +5438,11 @@
       "extraction_method": "plain-text",
       "managed_by": "stage_open_candidates.py",
       "acquisition_status": "ACQUIRED",
-      "review_status": "PENDING_HUMAN_REVIEW",
-      "staging_status": "STAGED_UNAPPROVED",
+      "review_status": "LICENCE_HOLD",
+      "staging_status": "LICENSE_EXCLUDED",
       "approval_status": "NOT_APPROVED",
       "training_eligible": false,
-      "rejection_reason": null,
+      "rejection_reason": "Excluded from training because Project Gutenberg verifies US public-domain status only and Nigerian-jurisdiction clearance is not recorded.",
       "original_sha256": "133f3afa6e15de4789f589a42c02fc2a3f231595b4ebdb86a5ece2b8ab2f3601",
       "extracted_sha256": "a67bc3a7e86e3b2ee0c275e3d54e17afe0cf630f09e95386e36a8634ab2a8ecc",
       "metrics": {
@@ -5444,6 +5501,12 @@
         "content_type": "text/plain",
         "source_revision": "project-gutenberg-41288-updated-2024-10-23",
         "licence_evidence_url": "https://www.gutenberg.org/ebooks/41288"
+      },
+      "licence_disposition": {
+        "decision": "EXCLUDE_FROM_TRAINING",
+        "reason": "Excluded from training because Project Gutenberg verifies US public-domain status only and Nigerian-jurisdiction clearance is not recorded.",
+        "decided_at": "2026-09-30",
+        "basis": "fail-closed project policy; not legal advice"
       }
     },
     {
@@ -5487,11 +5550,11 @@
       "extraction_method": "plain-text",
       "managed_by": "stage_open_candidates.py",
       "acquisition_status": "ACQUIRED",
-      "review_status": "PENDING_HUMAN_REVIEW",
-      "staging_status": "STAGED_UNAPPROVED",
+      "review_status": "LICENCE_HOLD",
+      "staging_status": "LICENSE_EXCLUDED",
       "approval_status": "NOT_APPROVED",
       "training_eligible": false,
-      "rejection_reason": null,
+      "rejection_reason": "Excluded from training because Project Gutenberg verifies US public-domain status only and Nigerian-jurisdiction clearance is not recorded.",
       "original_sha256": "923d0320d2306b82984a66a7fcff5169b547d820f0bbeb466648db2f8af433f6",
       "extracted_sha256": "c90d0be65906b8b4a186983e897894b3a44369ff398fdae4dd7cc6e320b41e7c",
       "metrics": {
@@ -5550,6 +5613,12 @@
         "content_type": "text/plain",
         "source_revision": "project-gutenberg-14766-updated-2024-10-28",
         "licence_evidence_url": "https://www.gutenberg.org/ebooks/14766"
+      },
+      "licence_disposition": {
+        "decision": "EXCLUDE_FROM_TRAINING",
+        "reason": "Excluded from training because Project Gutenberg verifies US public-domain status only and Nigerian-jurisdiction clearance is not recorded.",
+        "decided_at": "2026-09-30",
+        "basis": "fail-closed project policy; not legal advice"
       }
     },
     {
