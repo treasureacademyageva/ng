@@ -91,3 +91,18 @@ def test_private_human_review_handoff_has_no_generated_decisions():
     assert report["human_review_decisions_filled"] == 0
     assert report["training_approvals_granted"] == 0
     assert all(re.fullmatch(r"[0-9a-f]{64}", row["sha256"]) for row in report["workbooks"].values())
+
+
+def test_private_interactive_review_portal_covers_all_tracks_without_importing_decisions():
+    report = json.loads((ROOT / "reports/review-portal.json").read_text(encoding="utf-8"))
+    assert report["tracks"] == {
+        "candidate_licence": 54,
+        "candidate_teacher": 50,
+        "candidate_safeguarding": 50,
+        "pilot_teacher": 96,
+        "pilot_safeguarding": 96,
+        "conditional_legal": 4,
+    }
+    assert re.fullmatch(r"[0-9a-f]{64}", report["sha256"])
+    assert report["human_decisions_imported"] == 0
+    assert report["training_approvals_granted"] == 0

@@ -229,6 +229,8 @@ def main() -> None:
     pilot_pre_review = load_json(pilot_pre_review_path) if pilot_pre_review_path.exists() else {}
     human_handoff_path = ROOT / "reports/human-review-handoff.json"
     human_handoff = load_json(human_handoff_path) if human_handoff_path.exists() else {}
+    review_portal_path = ROOT / "reports/review-portal.json"
+    review_portal = load_json(review_portal_path) if review_portal_path.exists() else {}
     if len(pilot_rows) == required_pilot_samples and pilot_pre_review.get("ready_for_named_human_review") != len(pilot_rows):
         reasons.append(
             f"automated original-pilot pre-review incomplete: "
@@ -464,6 +466,12 @@ def main() -> None:
                 "pilot_teacher_reviews_ready": human_handoff.get("pilot_teacher_reviews_ready", 0),
                 "pilot_safeguarding_reviews_ready": human_handoff.get("pilot_safeguarding_reviews_ready", 0),
                 "human_review_decisions_filled": human_handoff.get("human_review_decisions_filled", 0),
+            },
+            "interactive_review_portal": {
+                "status": review_portal.get("status", "MISSING"),
+                "tracks": review_portal.get("tracks", {}),
+                "human_decisions_imported": review_portal.get("human_decisions_imported", 0),
+                "training_approvals_granted": review_portal.get("training_approvals_granted", 0),
             },
             "napps_alignment": {
                 "rows": len(napps_rows),

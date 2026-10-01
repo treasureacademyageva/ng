@@ -68,6 +68,7 @@ python3 scripts/generate_primary_pilot_drafts.py     # private AI-assisted draft
 python3 scripts/pre_review_primary_pilot.py           # machine checks; never human approval
 python3 scripts/validate_primary_pilot_manifest.py
 python3 scripts/prepare_human_review_handoff.py       # ignored read-only reviewer workbooks
+python3 scripts/build_review_portal.py                 # interactive review/export portal
 python3 scripts/audit_duplicates.py
 python3 scripts/audit_corpus.py
 ```

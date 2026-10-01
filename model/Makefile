@@ -33,6 +33,7 @@ review-handoff:
 	$(PYTHON) scripts/pre_review_candidates.py
 	$(PYTHON) scripts/pre_review_primary_pilot.py
 	$(PYTHON) scripts/prepare_human_review_handoff.py
+	$(PYTHON) scripts/build_review_portal.py
 audit:
 	$(PYTHON) scripts/audit_duplicates.py
 	$(PYTHON) scripts/audit_corpus.py

@@ -106,7 +106,7 @@ The drafts use fictional, low-risk classroom examples and explicitly avoid live 
 
 On 1 October 2026, all 96 drafts passed deterministic structure, content-hash, target-length, privacy-pattern, URL, prohibited-source-claim and exact/near-duplicate checks. This adds machine evidence only: 96/96 are ready for named human review, with zero generated teacher, safeguarding or training approvals.
 
-Private read-only workbooks now package 54 candidate licence reviews, 50 candidate teacher reviews, 50 candidate safeguarding reviews, four conditional-rights legal briefs, 96 pilot teacher reviews and 96 pilot safeguarding reviews. The workbooks remain under ignored staging; committed hashes and section counts are in `reports/human-review-handoff.json`. See `HUMAN-REVIEW-HANDOFF.md`.
+Private read-only workbooks now package 54 candidate licence reviews, 50 candidate teacher reviews, 50 candidate safeguarding reviews, four conditional-rights legal briefs, 96 pilot teacher reviews and 96 pilot safeguarding reviews. The interactive `START-REVIEWING.html` portal adds search, item navigation, local progress and JSON export for all six tracks. These files remain under ignored staging; committed hashes and counts are in `reports/human-review-handoff.json` and `reports/review-portal.json`. See `REVIEW-START-HERE.md` and `HUMAN-REVIEW-HANDOFF.md`.
 
 ## Security and audit controls
 

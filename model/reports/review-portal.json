@@ -1,0 +1,19 @@
+{
+  "version": 1,
+  "generated_at": "2026-10-01",
+  "status": "PRIVATE_INTERACTIVE_PORTAL_REVIEW_DECISIONS_NOT_IMPORTED",
+  "portal": "data/staging/review-workbooks/START-REVIEWING.html",
+  "sha256": "b918a29ffeb97d8a78d1e019cbd24150c4ec7e52f2aa9bf1db2171cf6bfba775",
+  "bytes": 941914,
+  "tracks": {
+    "candidate_licence": 54,
+    "candidate_teacher": 50,
+    "candidate_safeguarding": 50,
+    "pilot_teacher": 96,
+    "pilot_safeguarding": 96,
+    "conditional_legal": 4
+  },
+  "human_decisions_imported": 0,
+  "training_approvals_granted": 0,
+  "instructions": "Export review JSON and attach it in chat for validation and hash-bound import."
+}

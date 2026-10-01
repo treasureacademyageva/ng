@@ -49,6 +49,7 @@ python3 scripts/generate_primary_pilot_drafts.py
 python3 scripts/pre_review_primary_pilot.py
 python3 scripts/validate_primary_pilot_manifest.py
 python3 scripts/prepare_human_review_handoff.py
+python3 scripts/build_review_portal.py
 ```
 
-Because the confirmed right is internal use rather than an open licence, draft text stays in ignored `data/staging/authoring/pilot-v1-drafts.jsonl` and is not pushed to the public repository. The generator makes the private text reproducible from the briefs; only hashes and review metadata belong in the committed pilot manifest. Read-only reviewer workbooks stay under ignored `data/staging/review-workbooks/`; see `../../HUMAN-REVIEW-HANDOFF.md`.
+Because the confirmed right is internal use rather than an open licence, draft text stays in ignored `data/staging/authoring/pilot-v1-drafts.jsonl` and is not pushed to the public repository. The generator makes the private text reproducible from the briefs; only hashes and review metadata belong in the committed pilot manifest. Read-only reviewer workbooks and the interactive `START-REVIEWING.html` portal stay under ignored `data/staging/review-workbooks/`; see `../../REVIEW-START-HERE.md` and `../../HUMAN-REVIEW-HANDOFF.md`.
