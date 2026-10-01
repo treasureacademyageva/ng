@@ -196,3 +196,13 @@ Still intentionally parked: current-session/news archive restructure; self-hosti
 - Reveal animation now follows progressive enhancement: content is visible by default when JavaScript is disabled; the synchronous theme bootstrap adds `.js` before CSS paints so enhanced reveal motion still works when scripts run.
 - Rebuilt `assets/data/kb.json` (**98 documents**), bumped local assets to `20260929-ui51` and the service worker to `treasure-v72`, and added `verify-batch51.js`.
 - Verification: **57 suites / 12,670 checks green**, plus **34 light/no-JS responsive browser checks** and **10 dark-mode/keyboard browser checks**, all passing. Desktop, tablet and 390px mobile layouts were exercised. This work remains on `preview`; do not merge to `main` without explicit owner authorization.
+
+## Experimental corpus review gateway (1 Oct 2026 — preview only)
+- Added hidden/noindex `developer-review.html`, linked from the authenticated developer console but also usable by a candidate reviewer through its direct URL and a separate shared review passphrase.
+- The public repository contains only an AES-256-GCM authenticated ciphertext package. PBKDF2-HMAC-SHA-256 uses a random salt and 310,000 iterations. The passphrase is environment-only at build time and must never be committed.
+- After browser-only decryption, a reviewer can read the complete extracted candidate or original pilot text on content-bearing tracks, record only an allowed decision for the required role and exact item hash, and keep drafts in browser `localStorage`. Reloading requires the passphrase again.
+- JSON download, copy, device-share and strict import are available. Exports remain `trainingApprovalGranted:false`; no human decisions or training approvals were imported by this deployment.
+- Controlled workloads remain exactly 54 candidate-licence, 50 candidate-teacher, 50 candidate-safeguarding, 96 pilot-teacher, 96 pilot-safeguarding and 4 conditional-rights legal records. The default track is the content-bearing 96-item pilot-teacher track.
+- `robots.txt`, page metadata, Vercel `X-Robots-Tag`/`no-store` rules and service-worker exclusions keep the gateway unlisted and out of offline caches. The route remains absent from `sitemap.xml`.
+- Owner authorisation and its explicit exclusions are recorded in `model/reports/review-gateway-authorisation.json`. Public plaintext, training, experimental-model connection and a `main` merge remain unauthorised.
+- Verification: gateway regression **6/6 passed with live decryption**, all model tests **67 passed / 1 skipped**, and repository JavaScript tests passed after bringing the new private page into the SEO contract. This work must stay on `preview` until an explicit owner go-live instruction.
