@@ -34,6 +34,9 @@ review-handoff:
 	$(PYTHON) scripts/pre_review_primary_pilot.py
 	$(PYTHON) scripts/prepare_human_review_handoff.py
 	$(PYTHON) scripts/build_review_portal.py
+serve-review:
+	@test -n "$(REVIEW_ACCESS_CODE)" || (echo "Set REVIEW_ACCESS_CODE" && exit 1)
+	REVIEW_ACCESS_CODE="$(REVIEW_ACCESS_CODE)" $(PYTHON) scripts/serve_review_portal.py --host 0.0.0.0 --port 8765
 audit:
 	$(PYTHON) scripts/audit_duplicates.py
 	$(PYTHON) scripts/audit_corpus.py

@@ -69,6 +69,7 @@ python3 scripts/pre_review_primary_pilot.py           # machine checks; never hu
 python3 scripts/validate_primary_pilot_manifest.py
 python3 scripts/prepare_human_review_handoff.py       # ignored read-only reviewer workbooks
 python3 scripts/build_review_portal.py                 # interactive review/export portal
+REVIEW_ACCESS_CODE='temporary-code' python3 scripts/serve_review_portal.py --host 0.0.0.0 --port 8765
 python3 scripts/audit_duplicates.py
 python3 scripts/audit_corpus.py
 ```

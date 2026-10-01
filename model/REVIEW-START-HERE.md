@@ -69,7 +69,11 @@ Assess CC BY-SA downstream obligations and Nigerian-jurisdiction treatment of US
 
 ## Saving progress
 
-The portal tries to save progress in the browser. The workspace preview may restrict browser storage or downloads, so keep the page open and export frequently. If a button is blocked, select the displayed JSON manually and paste it into chat.
+When opened through the authenticated **Private review portal** live preview, pressing **Save this review** writes the hash-bound record directly to ignored workspace storage. You do not need to copy or download anything; tell the assistant when you finish a batch so it can validate and import it.
+
+The static file-viewer version falls back to browser storage and JSON export. Because the viewer may block browser storage, clipboard access or downloads, prefer the authenticated live preview whenever it is running.
+
+To run the private server again, set a temporary access code and start `scripts/serve_review_portal.py` on an available port. The access code is never committed.
 
 No review in the portal grants final training approval automatically. Changed text receives a new hash and must be reviewed again.
 

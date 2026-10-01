@@ -45,7 +45,7 @@ Generated workbooks are under ignored `data/staging/review-workbooks/`:
 
 They are read-only briefing material. Their SHA-256 values and section counts are committed in `reports/human-review-handoff.json`; the licensed/internal text itself is not committed to the public repository.
 
-For an easier item-by-item workflow, open `data/staging/review-workbooks/START-REVIEWING.html`. It provides search, progress tracking, role confirmation and JSON export/import for all six tracks. Exported JSON must be attached in chat for hash and role validation before repository import. See `REVIEW-START-HERE.md`.
+For an easier item-by-item workflow, open `data/staging/review-workbooks/START-REVIEWING.html`. It provides search, progress tracking, role confirmation and JSON export/import for all six tracks. When served by `scripts/serve_review_portal.py`, each saved review is validated and written directly to private ignored workspace storage, avoiding blocked clipboard/download controls. Static exports still require chat validation before repository import. See `REVIEW-START-HERE.md`.
 
 ## Required recording rules
 
